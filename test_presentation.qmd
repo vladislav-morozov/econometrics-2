@@ -1,0 +1,15 @@
+---
+title: "Habits"
+author: "V1"
+format: revealjs
+---
+
+## Getting up
+
+- Not that easy
+- But we try
+
+## Going to sleep
+
+- Get in bed
+- Even harder

@@ -1,0 +1,12 @@
+project:
+  type: website
+  output-dir: docs/
+
+website:
+  title: "Test"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home 
+      - test_presentation.qmd
+      - test_presentation_2.qmd
