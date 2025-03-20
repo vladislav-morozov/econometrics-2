@@ -1,9 +1,4 @@
-# Title
+# Advanced Econometrics
 
 
-Here I will write magnificent content about econometrics.
-
-Existing lectures
-
-- A
-- B
+This website stores the web versions of the lectures.
