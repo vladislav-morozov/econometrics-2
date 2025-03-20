@@ -1,0 +1,248 @@
+/*-- scss:defaults --*/
+// quarto-scss-analysis-annotation { "origin": "cerulean (builtin theme)" }
+
+$theme: "light" !default;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Roboto+Slab:wght@400;700&display=swap');
+
+//
+// Color system
+//
+
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #868e96 !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black:    #000 !default;
+
+$blue:    #033c73 !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #e83e8c !default;
+$red:     #c71c22 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #dd5600 !default;
+$green:   #73a839 !default;
+$teal:    #20c997 !default;
+$cyan:    #2fa4e7 !default;
+$gold:    #FBEE05 !default;
+
+$primary:       $black !default;
+$secondary:     $gray-100 !default;
+$success:       $green !default;
+$info:          $blue !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $gray-100 !default;
+$dark:          $gray-800 !default;
+ 
+
+$navbar-bg: #141414 !default;
+
+$min-contrast-ratio:   2.75 !default;
+
+// Body
+
+$body-bg:                   $gray-100 !default;
+$body-color:                $gray-900 !default;
+
+// Fonts
+
+$headings-color:         $black !default; 
+
+
+$link-color:                $black !default;
+$link-hover-color:          $link-color !default;
+
+// Dropdowns
+
+$dropdown-link-color:           $body-color !default;
+$dropdown-link-hover-color:     $gold !default;
+$dropdown-link-hover-bg:        $gold !default; 
+$dropdown-link-active-color:    $gold  !default;
+$dropdown-link-active-bg:       $gold  !default;
+$dropdown-header-color:             $gold !default; 
+
+/*-- scss:rules --*/
+
+// Variables
+
+$text-shadow: 0 1px 0 rgba(0, 0, 0, .05) !default;
+
+// Mixins
+
+@mixin btn-shadow($color){
+  @include gradient-y-three-colors(tint-color($color, 16%), $color, 60%, shade-color($color, 6%));
+}
+ 
+// Navbar
+
+
+$navbar-light-color:   $navbar-bg;
+$navbar-dark-color:   $navbar-bg;
+
+
+.navbar {
+  background-color: $navbar-bg;
+  
+  @each $color, $value in $theme-colors {
+    &.bg-#{$color} {
+      @include btn-shadow($value);
+    }
+  }
+}
+
+.navbar {
+  .navbar-brand,
+  .nav-link {
+    color: rgba($white, .9);
+    text-shadow: $text-shadow;
+
+    &:hover {
+      color: $white;
+    }
+  }
+}
+
+
+
+.dropdown-menu {
+  --bs-dropdown-zindex: 1000;
+  --bs-dropdown-min-width: 10rem;
+  --bs-dropdown-padding-x: 0;
+  --bs-dropdown-padding-y: 0.5rem;
+  --bs-dropdown-spacer: 0.125rem;
+  --bs-dropdown-font-size: 1rem;
+  --bs-dropdown-color: #212529;
+  --bs-dropdown-bg: #f8f9fa;
+  --bs-dropdown-border-color: rgba(0, 0, 0, 0.175);
+  --bs-dropdown-border-radius: 0.25rem;
+  --bs-dropdown-border-width: 1px;
+  --bs-dropdown-inner-border-radius: calc(0.25rem - 1px);
+  --bs-dropdown-divider-bg: rgba(0, 0, 0, 0.175);
+  --bs-dropdown-divider-margin-y: 0.5rem;
+  --bs-dropdown-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  --bs-dropdown-link-color: #212529;
+  --bs-dropdown-link-hover-color: #000000;
+  --bs-dropdown-link-hover-bg: #fbee055e;
+  --bs-dropdown-link-active-color: #FBEE05;
+  --bs-dropdown-link-active-bg: #FBEE05;
+  --bs-dropdown-link-disabled-color: rgba(33, 37, 41, 0.5);
+  --bs-dropdown-item-padding-x: 1rem;
+  --bs-dropdown-item-padding-y: 0.25rem;
+  --bs-dropdown-header-color: #FBEE05;
+  --bs-dropdown-header-padding-x: 1rem;
+  --bs-dropdown-header-padding-y: 0.5rem;
+  position: absolute;
+  z-index: var(--bs-dropdown-zindex);
+  display: none;
+  min-width: var(--bs-dropdown-min-width);
+  padding: var(--bs-dropdown-padding-y) var(--bs-dropdown-padding-x);
+  margin: 0;
+  font-size: var(--bs-dropdown-font-size);
+  color: var(--bs-dropdown-color);
+  text-align: left;
+  list-style: none;
+  background-color: var(--bs-dropdown-bg);
+  background-clip: padding-box;
+  border: var(--bs-dropdown-border-width) solid var(--bs-dropdown-border-color);
+  border-radius: var(--bs-dropdown-border-radius)
+}
+
+ 
+// Buttons
+
+.btn {
+  text-shadow: $text-shadow;
+}
+
+.btn-secondary,
+.btn-outline-secondary {
+  color: $gray-700;
+}
+
+@each $color, $value in $theme-colors {
+  .btn-#{$color} {
+    @include btn-shadow($value);
+  }
+}
+
+// Typography
+
+.text-secondary {
+  color: $gray-500 !important;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto Slab', serif;
+}
+
+.bg-primary,
+.bg-success,
+.bg-info,
+.bg-warning,
+.bg-danger,
+.bg-dark {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: $white;
+  }
+}
+
+// Navs
+
+.dropdown-menu {
+  .dropdown-header {
+    color: $gray-600;
+  }
+  a {
+    color: $body-color;
+    text-decoration: underline;
+    text-decoration-color: $gold;
+  }
+}
+
+// Indicators
+
+.badge {
+  &.bg-secondary,
+  &.bg-light {
+    color: $dark;
+  }
+
+
+
+}
+$body-bg: $gold;
+ 
+
+
+body {
+  background-color: $white;
+  color: $gray-700;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+
+a {
+  color: $black;
+  text-decoration: underline;
+  text-decoration-color: $gold;
+}
+
+::selection {
+  background-color: #fefaa4;
+}
+
+// quarto-scss-analysis-annotation { "origin": null }
+
