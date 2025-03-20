@@ -3,10 +3,21 @@ project:
   output-dir: docs/
 
 website:
-  title: "Test"
+  title: "Advanced Econometrics"
   navbar:
+    foreground: white
+    search: true
     left:
       - href: index.qmd
         text: Home 
-      - test_presentation.qmd
-      - test_presentation_2.qmd
+      - text: "Lectures"
+        menu: 
+         - test_presentation.qmd
+         - test_presentation_2.qmd
+
+format:
+  html:
+    include-in-header: themes/mathjax.html
+    theme:
+      dark: [themes/ws_dark.scss, themes/block.scss]  
+      light: [themes/ws_light.scss, themes/block.scss]
