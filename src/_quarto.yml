@@ -1,6 +1,6 @@
 project:
   type: website
-  output-dir: docs/
+  output-dir: ../docs/
 
 website:
   title: "Advanced Econometrics"
@@ -12,12 +12,12 @@ website:
         text: Home 
       - text: "Lectures"
         menu: 
-         - test_presentation.qmd
-         - test_presentation_2.qmd
+         - slides/test_presentation.qmd
+         - slides/test_presentation_2.qmd
 
 format:
   html:
     include-in-header: themes/mathjax.html
     theme:
-      dark: [themes/ws_dark.scss, themes/block.scss]  
       light: [themes/ws_light.scss, themes/block.scss]
+      dark: [themes/ws_dark.scss, themes/block.scss]  

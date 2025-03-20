@@ -1,15 +1,139 @@
 ---
-title: "Habits"
-author: "V1"
-format: revealjs
+title: "Test Presentation"
+subtitle: "A test presentation with some featuers"
+author: Vladislav Morozov
+date: last-modified
+date-format: "DD MMM, YYYY"
+format:
+  revealjs:
+    slide-number: true
+    sc-sb-title: true
+    logo: ../images/svg.svg
+    footer: Test Footer>
+    footer-logo-link: "https://quarto.org"
+    header: Quarto Presentations with beautiful slide decks made by RevealJs
+    theme: ../themes/slides_theme.scss
+slide-level: 3
+filters:
+  - reveal-header 
+embed-resources: true
 ---
 
-## Getting up
+# SECTION
 
-- Not that easy
-- But we try
+## SUBSECTION 
 
-## Going to sleep
+### Hello, There
 
-- Get in bed
-- Even harder
+This presentation shows a few slides made by Quarto and [Reveal.js](https://revealjs.com) along with header logo and header text which are easily embedded by using the Quarto filter `reveal-header`
+
+
+### Slide Backgrounds {background="#43464B"}
+
+This slide is created using the `background` attribute (`{background="#43464B"}`) and as you can see that header text color is different (difference is trivial though) than before.
+
+if you want you can change the color of the header text for slides with `background` attribute using css class `.inverse-header`. For example,
+
+~~~
+.inverse-header {
+  color: #c1c1c1 !important;
+}
+~~~
+
+Here using `!important` is important :p.
+
+::: footer
+Learn more: [Slide Backgrounds](https://quarto.org/docs/presentations/revealjs/#color-backgrounds)
+:::
+
+### Slide Backgrounds {background="#43464B"}
+
+::: header
+
+Slide with bg color #43464B, used in **.inverse-header**
+
+:::
+
+This slide contains a header div, therefore it has a header.
+
+::: footer
+Learn more: [Slide Backgrounds](https://quarto.org/docs/presentations/revealjs/#color-backgrounds)
+:::
+
+## Code
+
+### Executable Code
+
+::: header
+
+Codes with syntax highlighting and line numbers.
+
+:::
+
+```{python}
+#| echo: true
+#| fig-width: 10
+#| fig-height: 4.5
+
+1+1
+```
+
+::: footer
+Learn more: [Executable Code](https://quarto.org/docs/presentations/revealjs/#executable-code)
+:::
+
+
+### Line Highlighting
+
+::: header
+
+Codes with specific line highlighted
+
+:::
+
+``` {.python code-line-numbers="4-5|7|10"}
+#| echo: true
+#| fig-width: 10
+#| fig-height: 4.5
+import numpy as np
+import matplotlib.pyplot as plt
+
+r = np.arange(0, 2, 0.01)
+theta = 2 * np.pi * r
+fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+ax.plot(theta, r)
+ax.set_rticks([0.5, 1, 1.5, 2])
+ax.grid(True)
+plt.show()
+```
+
+
+
+### Code
+
+```{python} 
+import numpy as np
+import matplotlib.pyplot as plt
+
+r = np.arange(0, 2, 0.01)
+theta = 2 * np.pi * r
+fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+ax.plot(theta, r)
+ax.set_rticks([0.5, 1, 1.5, 2])
+ax.grid(True)
+plt.show()
+```
+
+::: footer
+Learn more: [Line Highlighting](https://quarto.org/docs/presentations/revealjs/#line-highlighting)
+:::
+
+
+# Other Section
+
+## Other Subsection
+
+
+### Slide
+
+Slid
