@@ -15,7 +15,8 @@ website:
       - text: "Lectures"
         menu: 
          - slides/test_presentation.qmd
-         - slides/test_presentation_2.qmd
+         - slides/intro.qmd
+         - slides/panel_data.qmd
 
 format:
   html:

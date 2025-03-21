@@ -1,0 +1,59 @@
+---
+title: "Panel Data"
+subtitle: "Linear models?"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    slide-number: true
+    sc-sb-title: true
+    logo: ../themes/favicon.ico
+    footer: Test Footer
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+slide-level: 3
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header 
+embed-resources: true
+include-in-header: ../themes/mathjax.html 
+highlight-style: tango
+---
+
+### This Block
+
+We will do something
+
+### Learning Outcomes
+
+# TYPES OF DATA {background="#014D4E"}
+
+
+### The Three Types of Data
+
+
+# BINARY TREATMENT {background="#014D4E"}
+
+## EVENT STUDIES {background="#43464B"}
+
+### Slide
+
+Complications
+
+## DiD {background="#43464B"}
+
+### Slide
+
+Things happen
+
+# LINEAR MODELS {background="#014D4E"}
+
+## SUBSECTION {background="#43464B"}
+
+### Beyond Binary Treatments
+
+We want
