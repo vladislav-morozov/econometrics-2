@@ -1,0 +1,25 @@
+project:
+  type: website
+  output-dir: ../docs/
+
+html-math-method: mathjax
+
+website:
+  title: "Advanced Econometrics"
+  navbar:
+    foreground: white
+    search: true
+    left:
+      - href: index.qmd
+        text: Home 
+      - text: "Lectures"
+        menu: 
+         - slides/test_presentation.qmd
+         - slides/test_presentation_2.qmd
+
+format:
+  html:
+    include-in-header: themes/mathjax.html
+    theme:
+      light: [themes/ws_light.scss, themes/block.scss]
+      dark: [themes/ws_dark.scss, themes/block.scss]  
