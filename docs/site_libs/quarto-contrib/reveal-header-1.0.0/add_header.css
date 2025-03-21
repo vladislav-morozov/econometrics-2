@@ -1,0 +1,70 @@
+/*@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz@8..60&display=swap');*/
+
+
+:root {
+  --header-font-size: max(10px, 1.4vw);
+  --header-font-color: #898E8B;
+  --header-margin: 0px 0px 0px 0px;
+  /*--header-font-family: 'Source Serif 4', serif;*/
+}
+
+.reveal .reveal-header {
+  top: 0;
+  margin: 3.2px 0px 2px 0px;
+  width: 100%;
+  position: fixed;
+  z-index: 5;
+  /*font-family: var(--header-font-family);*/
+}
+
+.reveal .reveal-header p {
+  color: var(--header-font-color);
+  text-align: center;
+  margin: var(--header-margin);
+  font-size: var(--header-font-size);
+}
+
+.reveal-header .sc-title p,
+.reveal-header .sb-title p {
+  font-size: max(10px, 1.45vw);
+  filter: brightness(0.85);
+}
+
+.reveal-header .sc-title p { float: left; margin-left: 0.5vw}
+.reveal-header .sb-title p { float: right; margin-right: 0.5vw}
+.reveal-header.no-logo .sc-title p {margin-left: 6vw}
+
+
+.reveal .header-logo svg,
+.reveal .header-logo img {
+  margin: var(--header-margin);
+  padding-left: 1vw;
+  padding-top: 5px;
+  height: 100%;
+  width: auto;
+  max-width: max(60px, 10vw);
+  max-height: max(60px, 10vh);
+}
+
+
+
+
+/* .reveal .slides { margin-top: 3vh !important;} */
+.inverse-header { color: #c5d7ce !important;}
+
+
+div.slides section:not(.title-slide):not(#title-slide):not(.stack) {
+  padding-top: 1em;
+}
+
+/* On screens that are 600px or less*/
+@media screen and (max-width: 600px) {
+  .reveal .header-logo img {
+    padding-top: 0px;
+    margin: 0px 0px 5px 0px;
+  }
+
+  .reveal-header .sc-title p { margin-left: 1vw; }
+  .reveal-header.no-logo .sc-title p {margin-left: 2vw; }
+  div.reveal.has-logo div.slide-number { font-size: 10px; }
+}
