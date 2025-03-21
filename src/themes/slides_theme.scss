@@ -1,0 +1,131 @@
+/*-- scss:defaults --*/
+
+// Include theme-specific fonts
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Roboto+Slab:wght@400;700&display=swap');
+
+
+// Override theme settings
+$font-family-sans-serif: "Noto Sans", sans-serif !default;
+$body-color: #333 !default;
+$presentation-h1-font-size: 3em !default;
+$presentation-h2-font-size: 2em !default;
+$presentation-heading-font: "Roboto Slab", sans-serif !default;
+$presentation-heading-color: $body-color !default;  
+$presentation-heading-font-weight: 1000 !default;
+$presentation-heading-text-shadow: 500 !default;
+$body-bg: #ffffff !default;
+$link-color: #045D5D !default;
+$accent: $link-color !default;
+$selection-bg: #ffae00 !default;
+
+$presentation-heading-font-weight: 699 !default; // from settings.scss
+
+$overlayElementBgColor: 0, 0, 0 !default;
+$overlayElementFgColor: 240, 240, 240 !default;
+
+// Change text colors against dark slide backgrounds
+$dark-bg-text-color: #fff !default;
+
+// code 
+$code-color: $accent !default; 
+$code-block-border-color: lighten($link-color, 0%) !default;
+$code-block-bg: transparent !default;
+
+/*-- scss:rules --*/
+
+// Fix links so they are not cut off
+.reveal a {
+  line-height: 1.3em;
+}
+
+/*-- scss:mixins --*/
+
+// Background generator
+@mixin bodyBackground() {
+  @include radial-gradient(#ececec, #ffffff);
+}
+
+
+
+ 
+
+.reveal .slide-logo {
+    height: 25px !important;
+    width: 25px !important;
+    max-width: unset !important;
+    max-height: unset !important;
+  }
+
+
+$presentation-title-slide-text-align: left;
+
+ 
+ // Beamer-style button link environment
+
+.button {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: $accent;
+  border: 1px solid $accent;
+  color: #fff !important;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+}
+
+.button:hover {
+  background-color: $accent;
+  border-color: $accent;
+}
+
+.button::before {
+  content: "▶";
+  margin-right: 5px;
+}
+
+
+// lists
+ 
+// Unordered lists
+
+.reveal ul {
+  // font-weight: 300;
+  font-weight: lighter;
+  padding-left: 16px;
+
+  li::marker {
+    color: mix($accent, white, 70%);
+  }
+}
+
+.reveal ul ul {
+  list-style: none;
+
+  li:before { 
+    color: mix($accent, white, 60%);
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+    margin-right: 0.5em;
+  }
+}
+
+// Ordered lists
+
+.reveal ol {
+  // font-weight: 300;
+  font-weight: lighter;
+  padding-left: 16px;
+
+  li::marker {
+    color: $accent;
+  }
+}

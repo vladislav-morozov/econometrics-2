@@ -2,6 +2,8 @@ project:
   type: website
   output-dir: ../docs/
 
+html-math-method: mathjax
+
 website:
   title: "Advanced Econometrics"
   navbar:

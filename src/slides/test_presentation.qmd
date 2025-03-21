@@ -1,32 +1,35 @@
 ---
 title: "Test Presentation"
-subtitle: "A test presentation with some featuers"
-author: Vladislav Morozov
-date: last-modified
-date-format: "DD MMM, YYYY"
+subtitle: "A test presentation with some features"
+author: Vladislav Morozov  
 format:
   revealjs:
     slide-number: true
     sc-sb-title: true
-    logo: ../images/svg.svg
-    footer: Test Footer>
-    footer-logo-link: "https://quarto.org"
-    header: Quarto Presentations with beautiful slide decks made by RevealJs
+    logo: ../themes/favicon.ico
+    footer: Test Footer
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
     theme: ../themes/slides_theme.scss
 slide-level: 3
+title-slide-attributes:
+    data-background-color: "#045D5D"
 filters:
   - reveal-header 
 embed-resources: true
+include-in-header: ../themes/mathjax.html 
+highlight-style: tango
 ---
 
-# SECTION
+# SECTION {background="#014D4E"}
 
-## SUBSECTION 
+## SUBSECTION {background="#43464B"}
 
-### Hello, There
+### Hello There
 
 This presentation shows a few slides made by Quarto and [Reveal.js](https://revealjs.com) along with header logo and header text which are easily embedded by using the Quarto filter `reveal-header`
 
+- `.button` class provides a Beamer-like button, e.g.
+[[Summary]{.button}](#sec-summary)
 
 ### Slide Backgrounds {background="#43464B"}
 
@@ -48,11 +51,7 @@ Learn more: [Slide Backgrounds](https://quarto.org/docs/presentations/revealjs/#
 
 ### Slide Backgrounds {background="#43464B"}
 
-::: header
 
-Slide with bg color #43464B, used in **.inverse-header**
-
-:::
 
 This slide contains a header div, therefore it has a header.
 
@@ -60,15 +59,27 @@ This slide contains a header div, therefore it has a header.
 Learn more: [Slide Backgrounds](https://quarto.org/docs/presentations/revealjs/#color-backgrounds)
 :::
 
+### Lists
+
+Ordered: 
+
+1. A o
+2. o
+
+
+Other:
+
+- f
+  - subfirst
+  - subsecond 
+- second
+- third
+
+
 ## Code
 
 ### Executable Code
-
-::: header
-
-Codes with syntax highlighting and line numbers.
-
-:::
+ 
 
 ```{python}
 #| echo: true
@@ -84,17 +95,9 @@ Learn more: [Executable Code](https://quarto.org/docs/presentations/revealjs/#ex
 
 
 ### Line Highlighting
+ 
+``` {.python code-line-numbers="4-5|7|10"} 
 
-::: header
-
-Codes with specific line highlighted
-
-:::
-
-``` {.python code-line-numbers="4-5|7|10"}
-#| echo: true
-#| fig-width: 10
-#| fig-height: 4.5
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -109,9 +112,12 @@ plt.show()
 
 
 
-### Code
+### Code with Columns {background="#43464B"}
 
-```{python} 
+```{python}  
+#| echo: true 
+#| output-location: column
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -137,3 +143,21 @@ Learn more: [Line Highlighting](https://quarto.org/docs/presentations/revealjs/#
 ### Slide
 
 Slid
+
+# Math 
+
+## Equations
+
+### Some equations
+
+Outcome is $y_{it}$
+$$
+\E[y_{it}|x_{it}= x] = f(x)
+$$
+
+### Some equations 2 {background="#43464B"}
+
+Outcome is $y_{it}$
+$$
+\E[y_{it}|x_{it}= x] = f(x)
+$$
