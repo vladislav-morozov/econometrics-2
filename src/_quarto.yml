@@ -24,3 +24,5 @@ format:
     theme:
       light: [themes/ws_light.scss, themes/block.scss]
       dark: [themes/ws_dark.scss, themes/block.scss]  
+
+bibliography: eco.bib
