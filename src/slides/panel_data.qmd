@@ -1,18 +1,22 @@
 ---
 title: "Panel Data"
-subtitle: "Linear models?"
+subtitle: "Linear Models for Panel Data"
 author: Vladislav Morozov  
 format:
   revealjs:
+    width: 1150
     slide-number: true
     sc-sb-title: true
+    incremental: true   
     logo: ../themes/favicon.ico
-    footer: Test Footer
+    footer: Panel Data
     footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
     theme: ../themes/slides_theme.scss
     toc: TRUE
     toc-depth: 2
     toc-title: Contents
+    transition: convex
+    transition-speed: fast
 slide-level: 3
 title-slide-attributes:
     data-background-color: "#045D5D"
@@ -30,19 +34,237 @@ We will do something
 
 ### Learning Outcomes
 
+### References
+
+- @Cunningham2021CausalInferenceMixtape
+- @Freyaldenhoven2021VisualizationIdentificationEstimation
+- @Wooldridge2020IntroductoryEconometricsModern
+  
+
 # TYPES OF DATA {background="#014D4E"}
 
 
 ### The Three Types of Data
 
+Most (economic) research today uses panel
+
+
+### Why Panel Data
+
+Key advantage of panel data: several observations of potential outcomes per unit
+
+. . .
+
+::: {.nonincremental}
+- Units with different treatments in different periods: (partially) observe the individual effect
+- Units with no change in treatment: still can be used for learning about changes in other units
+:::
+ 
 
 # BINARY TREATMENT {background="#014D4E"}
 
 ## EVENT STUDIES {background="#43464B"}
+ 
 
-### Slide
 
-Complications
+### Simple Event Study Setting
+
+Begin with the simplest possible panel setting with binary treatment: 
+ 
+- Two periods with $N$ units:
+  - No treatment in period 1.
+  - All units treated in period 2.
+- Data: outcomes $(Y_{i1}, Y_{i2})$.
+
+. . .
+
+Object of interest: "average effect of treatment"
+
+### Simple Estimator — Average Change
+
+Simplest approach: compute average change in $Y_{it}$ across periods
+  $$
+  \widehat{AE}_{ES} = \dfrac{1}{N}\sum_{i=1}^N (Y_{i2}- Y_{i1}).
+  $$ {#eq-causal-event-studies-naive-panel-contrast}
+  
+
+Estimator ([-@eq-causal-event-studies-naive-panel-contrast]) — simplest example of *event study* estimators [see @Freyaldenhoven2021VisualizationIdentificationEstimation;@Miller2023IntroductoryGuideEvent].
+
+### Example Framework {#sec-event-study-example}
+
+Possible empirical framework
+
+- Units $i$: firms that make phones
+- Outcome $Y_{it}$: their stock price
+- Periods:
+  1. One week before Apple announces the iPhone. 
+  2. One week after the announcement
+
+. . .
+
+Effect of interest: change in stock prices due to the announcement of iPhone
+
+
+
+
+### What Does ([-@eq-causal-event-studies-naive-panel-contrast]) Do?
+
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+::: {#prp-event-study-limit}
+
+## Asymptotics for $\widehat{AE}_{ES}$
+
+Let 
+
+::: {.nonincremental}
+- *(Cross-sectional random sampling)*: $(Y_{i1}, Y_{i2})$ be independent and identically distributed (IID)
+- *Finite first moments*: $\E[\abs{Y_{it}}]<\infty$
+:::
+ 
+Then
+$$
+\widehat{AE}_{ES} \xrightarrow{p} \E[Y_{i2} - Y_{i1}].
+$$ 
+:::
+
+</div>
+
+### Causal Framework
+
+
+Is $\E[Y_{i2} - Y_{i1}]$ interesting?
+
+. . .
+
+::: {.callout-important appearance="minimal"}
+
+Need a causal framework to talk about causal effects!
+
+:::
+
+. . .
+
+Work in the familiar potential outcomes framework: 
+
+- $Y_{it}^0$ — outcome for $i$ in period $t$ if *not treated*
+- $Y_{i1}^1$ — outcome for $i$ in period $t$ if *treated*
+- Treatment effect for $i$ in $t$: $Y_{it}^1- Y_{it}^0$
+
+. . .
+
+For short, use $Y_{it}^d$ where $d=0, 1$
+
+
+
+### Limit of ES Estimator and Causality
+
+Potential and *realized* outcomes are connected as
+$$
+Y_{i2} = Y_{i2}^1, \quad Y_{i1} = Y_{i1}^0.
+$$
+
+
+. . .
+
+It follows that
+$$
+\widehat{AE}_{ES} \xrightarrow{p} \E[Y_{i2}^2- Y_{i1}^1].
+$$
+
+::: {.callout-important appearance="minimal"}
+ 
+$\E[Y_{i2}^2- Y_{i1}^1]$ is not necessarily a treatment effect — mixes effect of treatment and effects of time!
+::: 
+
+### Example of Danger
+
+[[Context]{.button}](#sec-event-study-example) Again consider the iPhone example
+
+-  
+  
+
+### Stationarity Assumption
+
+- If potential outcomes are time-invariant:
+  $$
+  Y_{i2}(d) = Y_{i1}(d).
+  $$
+- Then, we obtain:
+  $$
+  \begin{aligned}
+  \widehat{AE}_{ES} & \xrightarrow{p} \E[Y_{i1}(1)- Y_{i1}(0)|D_{i1}=0, D_{i2}=1] \\
+  & =  \E[Y_{i2}(1)- Y_{i2}(0)|D_{i1}=0, D_{i2} =1].
+  \end{aligned}
+  $$
+- Assumption is more plausible for short periods (e.g., financial data).
+
+### Relaxing Stationarity: No Trends on Average
+
+- Instead of strict stationarity, assume:
+  $$
+  \E[Y_{i2}(d)] = \E[Y_{i1}(d)].
+  $$
+- Allows individual variation but requires time-averaged stability.
+
+### Regression Representation
+
+- Estimator ([-@eq-causal-event-studies-naive-panel-contrast]) is an OLS estimator:
+  $$
+  Y_{it} = \beta_0 + \beta_1 D_{t} + u_{it},
+  $$
+  where $D_t=\I\curl{t=2}$.
+
+ 
+
+### Relationship Between Regression and Potential Outcomes
+
+- Assume "no trends" holds.
+- Define:
+  - $\delta_i$ as individual treatment effect.
+  - $\alpha_i = Y_{it}(0)$ as baseline outcome.
+- Potential outcomes:
+  $$
+  Y_{it}(d) = \alpha_i + \delta_i d_{it}.
+  $$
+- Regression model remains valid under these assumptions.
+
+### Extending to Multiple Periods and Adding Covariates
+
+### Expanded Regression
+
+- Suppose $T$ periods, treatment begins at $t_0$.
+- Regression model:
+  $$
+  Y_{it} = \beta_0 +  \sum_{\tau = t_0}^{T} \beta_\tau D_{it} + u_{it}.
+  $$
+- Estimates:
+  $$
+  \hat{\beta}^{OLS} = \dfrac{1}{N} \sum_{i=1}^N (Y_{i\tau} - Y_{i1}).
+  $$
+
+### Dynamic Treatment Effects
+
+- No trends assumption rules out dynamic effects.
+- Relax assumption: impose "no trends" on untreated outcome $Y_{it}(0)$.
+- Under this assumption:
+  $$
+  \dfrac{1}{N} \sum_{i=1}^N (Y_{i\tau} - Y_{i1}) \xrightarrow{p} \E[Y_{i\tau}(1)- Y_{i1}(0)] = \E[Y_{i\tau}(1) - Y_{i\tau}(0)].
+  $$
+- Consistently estimates average effects in period $\tau$.
+
+### Event Study Origins
+
+- Common in financial research.
+- Cited in: [@Freyaldenhoven2021VisualizationIdentificationEstimation;@Miller2023IntroductoryGuideEvent].
+
+### Pretrend Test
+
+- Cannot directly test "no trends" assumption.
+- Can examine pre-treatment period outcomes:
+  - If outcomes change over time, assumption might be problematic.
+
 
 ## DiD {background="#43464B"}
 
@@ -57,3 +279,10 @@ Things happen
 ### Beyond Binary Treatments
 
 We want
+
+
+
+### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
