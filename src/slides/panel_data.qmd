@@ -134,7 +134,7 @@ $$
 ### Causal Framework
 
 
-Is $\E[Y_{i2} - Y_{i1}]$ interesting?
+Is $\E[Y_{i2} - Y_{i1}]$ interesting (=causal)?
 
 . . .
 
@@ -178,57 +178,145 @@ $$
 $\E[Y_{i2}^2- Y_{i1}^1]$ is not necessarily a treatment effect — mixes effect of treatment and effects of time!
 ::: 
 
-### Example of Danger
+### Example
 
-[[Context]{.button}](#sec-event-study-example) Again consider the iPhone example
+[[Context]{.button}](#sec-event-study-example) Again consider the iPhone example. Then 
 
--  
+- $Y_{i2}^1 - Y_{i2}^0$ — treatment effect, change in price *because* of the iPhone announcement
+- $Y_{i2}^0 - Y_{i0}^0$ — change in a world *without* iPhone
   
+. . . 
 
-### Stationarity Assumption
+We see combination of both changes
+$$
+Y_{i2} - Y_{i1} = Y_{i2}^1- Y_{i1}^0 = [Y_{i2}^1- Y_{i2}^0] + [Y_{i2}^0 - Y_{i0}^0]
+$$
 
-- If potential outcomes are time-invariant:
-  $$
-  Y_{i2}(d) = Y_{i1}(d).
-  $$
-- Then, we obtain:
-  $$
-  \begin{aligned}
-  \widehat{AE}_{ES} & \xrightarrow{p} \E[Y_{i1}(1)- Y_{i1}(0)|D_{i1}=0, D_{i2}=1] \\
-  & =  \E[Y_{i2}(1)- Y_{i2}(0)|D_{i1}=0, D_{i2} =1].
-  \end{aligned}
-  $$
-- Assumption is more plausible for short periods (e.g., financial data).
 
-### Relaxing Stationarity: No Trends on Average
 
-- Instead of strict stationarity, assume:
-  $$
-  \E[Y_{i2}(d)] = \E[Y_{i1}(d)].
-  $$
-- Allows individual variation but requires time-averaged stability.
+### Solution: Restrict Changes over Time
 
-### Regression Representation
+Simple solution: rule out changes over time
 
-- Estimator ([-@eq-causal-event-studies-naive-panel-contrast]) is an OLS estimator:
-  $$
-  Y_{it} = \beta_0 + \beta_1 D_{t} + u_{it},
-  $$
-  where $D_t=\I\curl{t=2}$.
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 
+**Assumption**: no variation in potential outcomes
+$$
+Y_{i2}^d= Y_{i1}^d, \quad d=0, 1
+$$ 
  
 
-### Relationship Between Regression and Potential Outcomes
+</div>
 
-- Assume "no trends" holds.
-- Define:
-  - $\delta_i$ as individual treatment effect.
-  - $\alpha_i = Y_{it}(0)$ as baseline outcome.
-- Potential outcomes:
-  $$
-  Y_{it}(d) = \alpha_i + \delta_i d_{it}.
-  $$
-- Regression model remains valid under these assumptions.
+Then $\widehat{AE}_{ES}$ is estimating a *causal* parameter — average effects
+$$
+\begin{aligned}
+\widehat{AE}_{ES} & \xrightarrow{p} \E[Y_{i1}^1- Y_{i1}^0]  =  \E[Y_{i2}^1- Y_{i2}^0]
+\end{aligned}
+$$ 
+
+### Relaxing Time Invariance: No Trends
+
+Time invariance very strict. Why use it if we only work with averages?
+
+. . .
+
+Weaker assumption:
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+**Assumption** (*no trends*):  
+$$
+\E[Y_{i2}^d] = \E[Y_{i1}^d], \quad d=0, 1
+$$
+ 
+
+</div>
+Allows random variation in potential outcomes between times
+
+### Summary so Far
+
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+::: {#prp-event-study-no-trends}
+
+## Causal asymptotics for $\widehat{AE}_{ES}$
+
+Let 
+
+::: {.nonincremental}
+- Assumptions of @prp-event-study-limit hold
+- No trends assumption hold
+:::
+ 
+Then $\widehat{AE}_{ES}$ consistent for causal parameters:
+$$
+\widehat{AE}_{ES} \xrightarrow{p} \E[Y_{i1}^1- Y_{i1}^0]  =  \E[Y_{i2}^1- Y_{i2}^0]
+$$ 
+:::
+
+
+</div>
+
+
+
+### Regression Setting
+
+Can also connect $\widehat{AE}_{ES}$ and OLS 
+
+. . . 
+ 
+Consider regression model
+$$
+\begin{aligned}
+Y_{it} & = \beta_0 + \beta_1 D_{it} + u_{it}, \\
+D_{it} & = \begin{cases}
+1, & t= 1 \\
+0, & t =0
+\end{cases}
+\end{aligned}
+$${#eq-event-study-simple-regression}
+where we simply treat $(Y_{i1}, D_{i1})$ and $(Y_{i2}, D_{i2})$ as separate observations
+
+
+
+### Event Study and OLS
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+::: {#prp-event-study-no-trends}
+
+## $\widehat{AE}_{ES}$ is OLS
+
+For $\beta_1$ of regression  ([-@eq-event-study-simple-regression])
+$$
+\widehat{AE}_{ES} = \hat{\beta}_1^{OLS}
+$$ 
+:::
+
+
+</div> 
+
+1. Can use all results developed for OLS for $\widehat{AE}_{ES}$
+2. Regressing $Y_{it}$ on $D_{it}$ gives a causal parameter
+   - Under no trends
+   - No experiment was necessary
+   
+
+### Event Study and Regression
+
+A way to think about regression in causal settings:
+
+- Write down the regression in terms of parameters of interest: e.g. let
+$$ 
+\beta_0 = \E[Y_{i0}^0], \quad
+\beta_1  =  \E[Y_{i2}^1- Y_{i2}^0] 
+$$
+- Connect regression to potential outcomes: what is $u_{it}$ in terms of potential outcomes?
+ 
+- Check properties of this $u_{it}$. If $u_{it}$ is "nice", apply OLS (or another method)
+
 
 ### Extending to Multiple Periods and Adding Covariates
 
