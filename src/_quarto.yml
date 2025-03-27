@@ -6,6 +6,7 @@ html-math-method: mathjax
 
 website:
   title: "Advanced Econometrics"
+  favicon: themes/favicon.ico
   navbar:
     foreground: white
     search: true
