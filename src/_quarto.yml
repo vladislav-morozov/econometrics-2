@@ -17,6 +17,9 @@ website:
          - slides/test_presentation.qmd
          - slides/intro.qmd
          - slides/panel_data.qmd
+      - text: "Panel Data"
+        menu: 
+         - slides/panel/event-studies.qmd
 
 format:
   html:
