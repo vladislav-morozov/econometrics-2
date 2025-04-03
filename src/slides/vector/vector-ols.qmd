@@ -1,0 +1,60 @@
+---
+title: "Linear Regression in Vector-Matrix Form"
+subtitle: "A Concise and General Approach"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Panel Data I: Event Studies"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header 
+embed-resources: true
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+---
+
+## INTRODUCTION {background="#014D4E"}
+  
+#### Text Text
+
+Slide
+
+## SOMETHING
+
+### SUBSET
+
+#### Text Text
+
+Slide
+
+
+#### Text Text
+
+Slide
+
+
+## SOMETHING ELSE
+
+
+### SFF
+
+
+#### Text Text
+
+Slide
+
