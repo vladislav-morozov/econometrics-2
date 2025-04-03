@@ -19,6 +19,12 @@ $body-bg: #ffffff !default;
 $link-color: #045D5D !default;
 $accent: $link-color !default;
 $selection-bg: #ffae00 !default;
+.title-slide h2 {
+  text-transform: uppercase !important;
+}
+.title-slide h3 {
+  text-transform: uppercase !important;
+}
 
 $presentation-heading-font-weight: 699 !default; // from settings.scss
 
