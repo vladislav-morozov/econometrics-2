@@ -22,6 +22,9 @@ website:
         menu: 
          - slides/panel/event-studies.qmd
 
+execute:
+  freeze: auto  # re-render only when source changes
+
 format:
   html:
     include-in-header: themes/mathjax.html
