@@ -36,13 +36,13 @@ We will do something
 
 ### References
 
-- @Cunningham2021CausalInferenceMixtape
+-
+- Chapter 17 in @Huntington-Klein2025EffectIntroductionResearch: <https://www.theeffectbook.net/ch-EventStudies.html>
 - @Freyaldenhoven2021VisualizationIdentificationEstimation
 - @Wooldridge2020IntroductoryEconometricsModern
   
 
 # TYPES OF DATA {background="#014D4E"}
-
 
 ### The Three Types of Data
 
@@ -313,7 +313,7 @@ $$
 \beta_0 = \E[Y_{i0}^0], \quad
 \beta_1  =  \E[Y_{i2}^1- Y_{i2}^0] 
 $$
-- Connect regression to potential outcomes: what is $u_{it}$ in terms of potential outcomes?
+- Connect regression to potential outcomes: *what is $u_{it}$ in terms of potential outcomes?*
  
 - Check properties of this $u_{it}$. If $u_{it}$ is "nice", apply OLS (or another method)
 

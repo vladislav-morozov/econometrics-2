@@ -34,13 +34,34 @@ highlight-style: tango
 
 ### Learning Outcomes
 
-### References
-
-- @Cunningham2021CausalInferenceMixtape
-- @Freyaldenhoven2021VisualizationIdentificationEstimation
-- @Wooldridge2020IntroductoryEconometricsModern
-  
+### Textbook References
  
+
+::: {.nonincremental}
+
+ 
+- First lecture: none
+- After covering time series event studies: Chapter 17 in @Huntington-Klein2025EffectIntroductionResearch: <https://www.theeffectbook.net/ch-EventStudies.html>
+
+  
+::: 
+
+### Further Reading
+
+
+::: {.nonincremental}
+
+Reference articles:
+
+- @MacKinlay1997EventStudiesEconomics
+- @Freyaldenhoven2021VisualizationIdentificationEstimation
+- @Miller2023IntroductoryGuideEvent
+
+Latter two articles more advanced and modern — how people do it these days.
+
+Also see NBER 2023 Methods Lectures on Linear Panel Event Studies: <https://www.nber.org/conferences/si-2023-methods-lectures-linear-panel-event-studies>
+
+::: 
 
 # TWO PERIODS {background="#014D4E"}
  
@@ -428,6 +449,8 @@ Then $\hat{\beta}_{\tau}$ consistently estimates the average treatment effect in
 :::
 
 
+
+
 </div>
 
 ### Unbiasedness of OLS
@@ -508,7 +531,7 @@ $$
 \widehat{se}(\hat{\beta}_{\tau}) = \sqrt{ \dfrac{\hat{V}}{N} }
 $$
 
-### Inference on Average Effects
+### Inference on Average Effects I
 
 Can now construct confidence intervals and hypothesis tests about $\E[Y_{i \tau}^1 - Y_{i\tau}^0]$. E.g. an asymptotic 95% confidece interval:
 $$
@@ -519,17 +542,46 @@ $$
  z_{1-\alpha/2}= \Phi^{-1}\left(1 - \dfrac{\alpha}{2} \right)
 $$
 
+### Inference on Average Effects II
 
- 
-## TESTING FOR PRETRENDS {background="#43464B"}
- 
+But what if we want to set the *joint* hypothesis
+$$
+H_0: \beta_{\tau} = 0, \quad \tau = t_0, \dots, T
+$$
 
-### Pretrend Test
+. . .
 
-- Cannot directly test "no trends" assumption.
-- Can examine pre-treatment period outcomes:
-  - If outcomes change over time, assumption might be problematic.
+- This $H_0$ is a hypothesis above a *vector* of effects 
+- Need a *joint* asymptotic distribution to write down a test
+
+### Joint Asymptotic Distribution
+
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+::: {#prp-event-study-joint-limit-distribution}
+
+## Joint Asymptotics for Estimated Effects
+
+Let 
+
+::: {.nonincremental} 
+- No trends in the baseline assumption hold 
+- $(Y_{i1}, Y_{i2}, \dots, Y_{iT})$ be IID (over $i$)
+- *Finite second moments*: $\E[Y_{it}^2]<\infty$
+:::
  
+Then there exists some variance-covariance matrix $\bV$ such that
+$$
+\sqrt{N}(\hat{\bbeta} -\bbeta) \Rightarrow N(0, \bV)
+$$ 
+:::
+
+</div>
+
+### Joint Inference on Average Effects
+
+Can use @prp-event-study-joint-limit-distribution to create a Wald test
 
 # EMPIRICAL ILLUSTRATION {background="#014D4E"}
 
