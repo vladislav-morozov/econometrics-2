@@ -42,7 +42,7 @@ highlight-style: tango
  
 - Linear algebra refresher: 
   - Appendix D in @Wooldridge2020IntroductoryEconometricsModern
-  - Easier treatment with more examples: chapter 1-2 in Strang2016IntroductionLinearAlgebra
+  - Easier treatment with more examples: chapter 1-2 in @Strang2016IntroductionLinearAlgebra
   - Quicker discussion: @Kaye1998LinearAlgebra
 - Vector treatment of linear regression: E1 (except E-1a) in @Wooldridge2020IntroductoryEconometricsModern (except E-1a and theorem E.3)
 
@@ -108,7 +108,7 @@ Remember: can always define OLS estimator *even if* $Y_i$ does *not* depend line
 
 Linear regression model 
 $$
-Y_i = \beta_1 + \beta_2 X_{i2}  + \beta_3 X_{i3} + \dots + \beta_k X_{ik} + u_i,
+Y_i = \beta_1 + \beta_2 X_{i2}  + \beta_3 X_{i3} + \dots + \beta_k X_{ik} + U_i,
 $$
 is said to be in *scalar* form.
 
@@ -152,7 +152,7 @@ Scalar representation has downsides:
  
 Yes! The *vector*
 $$
-y_i = \bbeta_i'\bx_i + u_{i}
+y_i = \bbeta_i'\bx_i + U_{i}
 $$
 and *matrix* forms
 $$
@@ -166,19 +166,19 @@ This lecture is about working with these forms and using them to derive the OLS 
 :::
 
 
-## Vector Approach to Multivariate Regression {background="#00100F"} 
+## Vector and Matrix Forms of Regression {background="#00100F"} 
 
 
 
-### Vector and Matrix Representations {background="#43464B"}
+### Vector Form {background="#43464B"}
 
 #### Model
 
 Our model in this lecture:
 $$
 \begin{aligned}
-Y_{i} & = \beta_1 X_{i1} + \dots + \beta_k X_{ik} + u_{i}\\
-&  = \sum_{j=1}^k \beta_k X_{ik} + u_{i}
+Y_{i} & = \beta_1 X_{i1} + \dots + \beta_k X_{ik} + U_{i}\\
+&  = \sum_{j=1}^k \beta_k X_{ik} + U_{i}
 \end{aligned}
 $$
 
@@ -189,14 +189,9 @@ Here $X_{i1}$ may be $X_{i1} = 1$ if you want to include an intercept
 
 
 #### Vector of Covariates and Coefficients
-
-::: {.callout-note appearance="minimal"}
-
-## First problem
-
-Having to write out $X_{i1}, \dots, X_{ik}$ every time
-:::
-
+ 
+Our first problem: having to write out $X_{i1}, \dots, X_{ik}$ every time
+ 
 . . . 
 
 Why not combine the covariates into a single vector $\bX_i$ and coefficients into a vector $\bbeta$? Combine them into column $k$-vectors ($k\times 1$ matrices):
@@ -236,16 +231,224 @@ $\bX'_i$ is read "*$\bX_i$ transpose*".  Sometimes also labeled as $\bX_i^T$.
 
 Need to combine $\bX_i$ and $\bbeta$ to obtain $\sum_{j=1}^k \beta_k X_{ik}$
 
+. . .
+
+Using rules of matrix multiplication, obtain exactly
+$$
+\bX_i'\bbeta = \sum_{j=1}^k \beta_k X_{ik}
+$$
+Note that $\bX_i'\bbeta = \bbeta'\bX_i$ (why?)
+
+
+. . .
+
 ::: {.callout-note appearance="minimal"}
 
-All the vectors in this class are *column* vectors — standard approach. Careful with @Wooldridge2020IntroductoryEconometricsModern: he mixes rows and column vectors to avoid transposes
+Vectors are *column* vectors by default; we will transpose when necessary — standard approach. Careful with @Wooldridge2020IntroductoryEconometricsModern: he mixes rows and column vectors to avoid transposes.  
 :::
 
 
-### General OLS Estimator
+#### Vector Form of Linear Regression
+
+Can now combine $\bX_i'\bbeta$ with $U_i$ to get $Y_i$
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+ 
+::: {#def-vector-ols-vector-form} 
+
+Linear regression model 
+$$
+Y_i = \bX_i'\bbeta + U_i
+$$
+is said to be in *vector* form.
+
+:::
+
+</div>
+
+### Matrix Form {background="#43464B"}
+
+#### Stacking Observations
+
+Vector form — convenient representation of model for *a single observation $i$*:
+$$
+Y_i = \bX_i'\bbeta + U_i
+$$
+
+. . .
+
+What if we want to represent the model for the *whole sample*?
+
+ 
+
+#### Tabular Data Form
+
+Why and how? Think of how we store data, e.g., in `pandas`:
+
+```{python}
+#| echo: true
+#| code-line-numbers: "3" 
+import pandas as pd
+import statsmodels.api as sm
+
+credit_card_df = sm.datasets.ccard.load_pandas().data
+credit_card_df.head(2)
+```
+
+. . .
+
+Each row is an observation $i$, variables stored in different columns — data as a *table*
+
+::: footer
+[Link](https://www.statsmodels.org/stable/datasets/generated/ccard.html){preview-link="true"} to the docs on the `ccard` dataset
+:::
+
+#### Stacking Observations I
+
+(Flat) tabular form 
+
+- Usually convenient in practice
+- Also convenient in theory!
+
+. . . 
+
+To replicate, put outcomes in a *vector* $\bY$:
+$$
+\bY = \begin{pmatrix}
+Y_1\\
+\vdots\\
+Y_N
+\end{pmatrix}
+$$
+
+#### Stacking Observations II
+
+Recall vector form: $Y_i = \bX_i'\bbeta + U_i$. Stacking left hand sides also stacks right hand sides:
+$$
+\begin{pmatrix}
+Y_1\\
+\vdots\\
+Y_k
+\end{pmatrix} = \begin{pmatrix}
+\bX_1'\bbeta + U_1\\
+\vdots \\
+\bX_N'\bbeta + U_N
+\end{pmatrix}
+$$ {#eq-vector-ols-stacked-y}
+Here $N$ is the number of observations (rows) 
+
+#### Matrix of Covariates I
+
+Next, define the $N\times k$ matrix $\bX$ (note: no $i$ index)
+$$
+\bX = \begin{pmatrix}
+\bX_1'\\
+\bX_2'\\
+\vdots\\
+\bX_N'
+\end{pmatrix} = \begin{pmatrix}
+X_{11} & X_{12} & \cdots & X_{1k} \\
+X_{21} & X_{22} & \cdots & X_{2k}\\
+\vdots & \vdots & \ddots & \vdots\\
+X_{N1} & X_{N2} & \cdots & X_{Nk}
+\end{pmatrix}
+$$
+
+#### Matrix of Covariates II 
+
+$\bX$ — precisely a table of covariates:
+
+1. A row is an individual observation: the $i$th row — values of covariates for the $i$ observation (corresponds to $\bX_i$!)
+2. A column is all observations of a given variable: $j$th column is $(X_{1j}, X_{2j}, \dots X_{Nj})$ 
+
+. . .
+
+<div class="bottom-content">
+   
+::: {.callout-note appearance="minimal"}
+
+`statsmodels` often uses the term `exog` for $\bX$. `scikit-learn` simply uses `X`
+:::
+
+</div>
+ 
+#### Vector of Residuals
+
+Define the column vector $\bU$ of residuals through its transpose
+$$
+\bU' = \begin{pmatrix}
+U_1 & U_2 & \dots & U_n
+\end{pmatrix}
+$$ 
+
+::: {.callout-note appearance="minimal"}
+Books and articles often define column vectors using their transposes — this saves vertical space
+:::
+  
+#### Splitting The Right-Hand Side 
+
+Can go back to @eq-vector-ols-stacked-y. Using matrix multiplication rules and $\bU$, can write
+$$
+\begin{pmatrix}
+\bX_1'\bbeta + U_1\\
+\vdots \\
+\bX_N'\bbeta + U_N
+\end{pmatrix} = \begin{pmatrix}
+\bX_1'\bbeta  \\
+\vdots \\
+\bX_N'\bbeta  
+\end{pmatrix} + \bU = \bX\bbeta + \bU
+$$
+
+::: {.callout-note appearance="minimal"}
+Check this! Write out each part of the above equalities in detail
+:::
 
 
-#### Text Text
+#### Matrix Form of Linear Regression
+
+Adding back the left-hand side gives us:
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+ 
+::: {#def-vector-ols-vector-form} 
+
+Linear regression model 
+$$
+\bY = \bX\bbeta + \bU
+$$
+is said to be in *matrix* form. Here $\bX$ is a $N\times k$ matrix, while $\bY, \bbeta, \bU$ are $k$-vectors ($k\times 1$ matrices)
+
+:::
+
+</div>
+
+. . .
+
+Matrix form — combine all sample points into one equation. Solves our third problem: convenient form for computers
+
+## The OLS Estimator {background="#00100F"} 
+
+### Derivation {background="#43464B"}
+
+
+
+
+
+#### Estimation Problem
+
+Our last remaining goal: convenient expression for the OLS estimator
 
 Slide
 
+#### First Order Conditions
+
+::: {.callout-note appearance="minimal"}
+
+You can differentiate with respect to the whole vector $\bbeta$ to get the same result, see [Wikipedia](https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-vector)
+:::
+
+## Recap and Conclusions {background="#00100F"} 
+ 
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
