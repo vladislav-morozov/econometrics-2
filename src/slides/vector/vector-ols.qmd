@@ -74,7 +74,9 @@ where
 
 Ordinary Least Squares (OLS):
 $$
-(\hat{\beta}_1, \hat{\beta}_2, \dots, \hat{\beta}_k) = \argmin_{b_1, b_2, \dots, b_k} \left( Y_i - b_1 - b_2 X_{i2} - \dots - b_k X_{ik}\right)^2
+\begin{aligned}
+(\hat{\beta}_1, \dots, \hat{\beta}_k) = \argmin_{b_1, b_2, \dots, b_k} \sum_{i=1}^N \left( Y_i - b_1 - b_2 X_{i2} - \dots - b_k X_{ik}\right)^2
+\end{aligned}
 $$
 
 . . .
@@ -435,16 +437,163 @@ Matrix form — combine all sample points into one equation. Solves our third pr
 
 #### Estimation Problem
 
-Our last remaining goal: convenient expression for the OLS estimator
+Our last remaining goal: convenient expression for the OLS estimator $\hat{\bbeta}$:
+$$
+\hat{\bbeta} = (\hat{\beta}_1, \hat{\beta}_2, \dots, \hat{\beta}_k)'
+$$ 
+. . . 
 
-Slide
+Recall that $\hat{\bbeta}$ is defined through optimization
+$$
+\hat{\bbeta} = \argmin_{b_1, b_2, \dots, b_k}\sum_{i=1}^N \left( Y_i - \sum_{j=1}^k b_j X_{ij}\right)^2
+$$
 
-#### First Order Conditions
+#### Approach to Optimization
+
+Ojective function is differentiable in $(b_1, \dots, b_k)$
+
+. . .
+
+$\Rightarrow$ our strategy:
+
+1. Differentiate with respect to the arguments. Set the derivative equal to 0 (first order conditions)
+2. Hope that 
+   -. There is a unique solution to the first order conditions
+   -. The solution actually minimizes the function (instead of maximizing or being a saddle point)
+
+#### Derivative With Respect to $b_j$
+
+Derivative with respect to $b_j$ is given by
+$$
+\begin{aligned}
+& \sum_{i=1}^N X_{ij} \left(Y_i - \sum_{l=1}^k b_l X_{il}\right)\\
+& = \sum_{i=1}^N X_{ij} \left(Y_i - \bX_i'\bb\right)
+\end{aligned}
+$$
+
+#### First Order Conditions (FOCs)
+
+Any optimizer $\hat{\bbeta} = (\hat{\beta}_1, \dots, \hat{\beta}_k)$ must satisfy the FOC system
+$$
+\begin{cases}
+\sum_{i=1}^N X_{i1} \left(Y_i - \bX_i'\hat{\bbeta} \right) = 0\\
+\vdots \\
+\sum_{i=1}^N X_{ik} \left(Y_i - \bX_i'\hat{\bbeta} \right) = 0 
+\end{cases}
+$$
+
+In words, all partial derivatives of the objective function must be zero at $\hat{\bbeta}$
+
+#### Normal Equations
+
+Notice that  (check this!) that FOCs can be compactly written as
+$$
+\bX'(\bY - \bX\hat{\bbeta}) = 0
+$$ {#eq-vector-ols-normal-equations}
+
+. . .
+
+
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+ 
+::: {#def-vector-ols-normal-equations} 
+
+ @eq-vector-ols-normal-equations is called the *normal equations*.
+:::
+
+</div>
+ 
+
+
+#### Normal Equations as a Linear System
+
+Can write @eq-vector-ols-normal-equations as
+$$
+(\bX'\bX)\hat{\bbeta} = \bX'\by
+$$
+
+. . .
+ 
+A standard system linear system of equations of the form $\bA\hat{\bbeta} = \bc$ for $\bA = (\bX'\bX)$ and $\bc= \bX'\by$
+
+- $\bX'\bX$ is a $k\times k$ matrix (what are its elements?)
+- System has $k$ unknowns
+
+
+#### Solving the Normal Equations
+
+
+$k$ equations in $k$ unknowns — systems has 1 or infinitely many solutions, depending on rank of $\bX'\bX$
+
+- Maximum rank = unique solution
+- Less than maximum rank = infinitely many solutions
+
+
+. . . 
+
+Recall: if $\bA$ is a square matrix with maximal rank, $\bA^{-1}$ exists
+
+
+#### Vector Formula for OLS Estimator
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+::: {#prp-vector-ols-ols-formula}
+
+## OLS Estimator Formula
+
+Let $\bX'\bX$ have rank $k$. Then $(\bX'\bX)^{-1}$ exists and the OLS estimator is given by
+$$
+\hat{\bbeta} = (\bX'\bX)^{-1}\bX\bY
+$$ 
+:::
+
+</div>
+
+. . .
+
+Exercise: check that the above formula agrees with the simple formula involving sample covariance and variance when $k=2$ and $X_{i1}=1$
+
+### Extra Material  {background="#43464B"}
+
+
+#### Vector and Matrix Forms of Objective Function
+
+Can do the derivation more efficiently:
+$$
+\begin{aligned}
+& \sum_{i=1}^N \left( Y_i -  \sum_{j=1}^k b_j X_{ij}\right)^2 \\
+& = \sum_{i=1}^N \left( Y_i -\bX_i'\bb\right)^2\\
+& = (\bY-\bX\bbeta)'(\bY-\bX\bb) = \bY'\bY - 2\bY'\bX\bb + \bb'\bX'\bX\bb
+\end{aligned}
+$$
+where $\bb=(b_1, \dots, b_k)'$
+
+ 
+
+#### Matrix First Order Conditions
 
 ::: {.callout-note appearance="minimal"}
 
-You can differentiate with respect to the whole vector $\bbeta$ to get the same result, see [Wikipedia](https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-vector)
+You can differentiate with respect to the whole vector $\bbeta$, see [Wikipedia](https://en.wikipedia.org/wiki/Matrix_calculus#Scalar-by-vector) 
 :::
+
+. . . 
+
+Vector form of first order condition
+$$
+\dfrac{\partial (\bY'\bY - 2\bY'\bX\bb + \bb'\bX'\bX\bb)}{\partial \bb} = -2\bX'\bY + 2\bX'\bX\bb
+$$ 
+
+. . .
+
+Setting the derivative equal to zero and rearranging again gives
+$$
+\bX'\bX\hat{\bbeta} = \bX'\by
+$$
+
+ 
 
 ## Recap and Conclusions {background="#00100F"} 
  
