@@ -9,7 +9,7 @@ format:
     sc-sb-title: true
     incremental: true   
     logo: ../../themes/favicon.ico
-    footer: "Panel Data I: Event Studies"
+    footer: "Multivariate Regression I: Vector Approach"
     footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
     theme: ../../themes/slides_theme.scss
     toc: TRUE
@@ -28,30 +28,221 @@ include-in-header: ../../themes/mathjax.html
 highlight-style: tango
 ---
 
-## INTRODUCTION {background="#014D4E"}
+## Introduction {background="#43464B"}
   
-#### Text Text
-
-Slide
-
-## SOMETHING
-
-### SUBSET
-
-#### Text Text
-
-Slide
 
 
-#### Text Text
+#### Learning Outcomes
 
-Slide
+#### Textbook References
+ 
+
+::: {.nonincremental}
+
+ 
+- Linear algebra refresher: 
+  - Appendix D in @Wooldridge2020IntroductoryEconometricsModern
+  - Easier treatment with more examples: chapter 1-2 in Strang2016IntroductionLinearAlgebra
+  - Quicker discussion: @Kaye1998LinearAlgebra
+- Vector treatment of linear regression: E1 (except E-1a) in @Wooldridge2020IntroductoryEconometricsModern (except E-1a and theorem E.3)
 
 
-## SOMETHING ELSE
+  
+::: 
+
+ 
 
 
-### SFF
+## Motivation {background="#00100F"}
+
+### Reminder: Multivariate Regression {background="#43464B"}
+
+#### Reminder: Linear Regression Model
+
+$$
+Y_i = \beta_1 + \beta_2 X_{i2}  + \beta_3 X_{i3} + \dots + \beta_k X_{ik} + U_i,
+$$
+where
+
+- $Y_i$ — outcome or dependent variable
+- $X_{i2}, \dots, X_{ik}$ — regressors, covariates, or independent variables
+- $U_i$ — error, shock, or innovation
+- $\beta_2$ — intercept term
+- $\beta_2, \dots, \beta_k$ — slope parameters
+
+#### Reminder: OLS Estimator
+
+Ordinary Least Squares (OLS):
+$$
+(\hat{\beta}_1, \hat{\beta}_2, \dots, \hat{\beta}_k) = \argmin_{b_1, b_2, \dots, b_k} \left( Y_i - b_1 - b_2 X_{i2} - \dots - b_k X_{ik}\right)^2
+$$
+
+. . .
+
+In words: find coefficients which minimize *sum of squared differences* between $Y_i$ and linear combinations of $1, X_{i2}, \dots, X_{ik}$:
+
+#### Reminder: When is the OLS Estimator Defined?
+
+ 
+OLS estimator well-defined if 
+
+1. No strict multicollinearity
+2. Every $X_{ij}$ varies in sample for $j>1$
+   
+. . .
+
+::: {.callout-important appearance="minimal"}
+
+Remember: can always define OLS estimator *even if* $Y_i$ does *not* depend linearly on covariates. OLS is just a *method*
+
+:::
+
+
+### Scalar Representation and Its Issues {background="#43464B"}
+
+#### Scalar Representation
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+ 
+::: {#def-vector-ols-scalar-form} 
+
+Linear regression model 
+$$
+Y_i = \beta_1 + \beta_2 X_{i2}  + \beta_3 X_{i3} + \dots + \beta_k X_{ik} + u_i,
+$$
+is said to be in *scalar* form.
+
+:::
+
+</div>
+
+"*Scalar*" means 
+
+- No matrices
+- Every covariate is written out individually
+
+
+
+
+#### Pros of Scalar Representation
+
+Scalar representation used only when we care about the individual regressors
+
+. . .
+
+Usual case: when presenting estimated equations. 
+
+. . .
+
+Example: regression of wages on education and experience:
+$$
+\widehat{\log(wage)} = \underset{(0.094)}{0.284} + \underset{(0.032)}{0.092}\times Education + \dots
+$$
+Standard errors in parentheses below the estimates
+
+#### Cons of Scalar Representation
+
+Scalar representation has downsides:
+
+1. Unnecessarily long: if you just have "anonymous" $(X_{i2}, \dots, X_{ik})$, why bother writing them out?
+2. No explicit formula for OLS estimator
+3. Inconvenient to program
+
+#### Is There a Solution?
+ 
+Yes! The *vector*
+$$
+y_i = \bbeta_i'\bx_i + u_{i}
+$$
+and *matrix* forms
+$$
+\bY = \bX\bbeta + \bu 
+$$
+ 
+::: {.callout-note appearance="minimal"}
+
+This lecture is about working with these forms and using them to derive the OLS estimator.
+
+:::
+
+
+## Vector Approach to Multivariate Regression {background="#00100F"} 
+
+
+
+### Vector and Matrix Representations {background="#43464B"}
+
+#### Model
+
+Our model in this lecture:
+$$
+\begin{aligned}
+Y_{i} & = \beta_1 X_{i1} + \dots + \beta_k X_{ik} + u_{i}\\
+&  = \sum_{j=1}^k \beta_k X_{ik} + u_{i}
+\end{aligned}
+$$
+
+. . . 
+
+Here $X_{i1}$ may be $X_{i1} = 1$ if you want to include an intercept
+  
+
+
+#### Vector of Covariates and Coefficients
+
+::: {.callout-note appearance="minimal"}
+
+## First problem
+
+Having to write out $X_{i1}, \dots, X_{ik}$ every time
+:::
+
+. . . 
+
+Why not combine the covariates into a single vector $\bX_i$ and coefficients into a vector $\bbeta$? Combine them into column $k$-vectors ($k\times 1$ matrices):
+
+$$
+\bX_i  = \begin{pmatrix}
+X_{i1} \\
+X_{i2} \\
+\vdots \\
+X_{ik}
+\end{pmatrix}, \quad  \bbeta = \begin{pmatrix}
+\beta_1 \\
+\beta_2 \\
+\vdots \\
+\beta_k
+\end{pmatrix}
+$$
+
+#### Reminder: Transposition
+
+Recall the transposition operator:
+$$
+\bX_i  = \begin{pmatrix}
+X_{i1} \\
+X_{i2} \\
+\vdots \\
+X_{ik}
+\end{pmatrix}, \quad \bX'_i = \begin{pmatrix} X_{i1}, X_{i2}, \dots, X_{ik} \end{pmatrix}
+$$
+$\bX'_i$ is read "*$\bX_i$ transpose*".  Sometimes also labeled as $\bX_i^T$.  
+
+
+
+
+
+#### Combining $\bX_i$ and $\bbeta$
+
+Need to combine $\bX_i$ and $\bbeta$ to obtain $\sum_{j=1}^k \beta_k X_{ik}$
+
+::: {.callout-note appearance="minimal"}
+
+All the vectors in this class are *column* vectors — standard approach. Careful with @Wooldridge2020IntroductoryEconometricsModern: he mixes rows and column vectors to avoid transposes
+:::
+
+
+### General OLS Estimator
 
 
 #### Text Text
