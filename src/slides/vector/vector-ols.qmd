@@ -34,6 +34,15 @@ highlight-style: tango
 
 #### Learning Outcomes
 
+This lecture is about a vector-matrix approach to linear regression
+
+<br>
+
+By the end, you should be able to
+
+- Represent linear regression in scalar, vector, and matrix forms
+- Derive the explicit form of the OLS estimator
+
 #### Textbook References
  
 
@@ -441,6 +450,7 @@ Our last remaining goal: convenient expression for the OLS estimator $\hat{\bbet
 $$
 \hat{\bbeta} = (\hat{\beta}_1, \hat{\beta}_2, \dots, \hat{\beta}_k)'
 $$ 
+
 . . . 
 
 Recall that $\hat{\bbeta}$ is defined through optimization
@@ -596,6 +606,20 @@ $$
  
 
 ## Recap and Conclusions {background="#00100F"} 
+
+#### Recap
+
+In this lecture we
+
+1. Introduced vector and matrix forms of linear regression
+2. Derived the OLS estimator in vector and matrix forms
+xt 
+
+#### Next Questions
+
+1. When is $\bX'\bX$ invertible (=full rank?)
+2. What are the statistical properties of $\hat{\bbeta}$?
+3. How to extend the vector approach to other familiar estimators — such as IV with several covariates and instruments. 
  
 #### References {.allowframebreaks visibility="uncounted"}
 
