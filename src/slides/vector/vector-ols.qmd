@@ -573,8 +573,7 @@ Exercise: check that the above formula agrees with the simple formula involving 
 Can do the derivation more efficiently:
 $$
 \begin{aligned}
-& \sum_{i=1}^N \left( Y_i -  \sum_{j=1}^k b_j X_{ij}\right)^2 \\
-& = \sum_{i=1}^N \left( Y_i -\bX_i'\bb\right)^2\\
+& \sum_{i=1}^N \left( Y_i -  \sum_{j=1}^k b_j X_{ij}\right)^2 = \sum_{i=1}^N \left( Y_i -\bX_i'\bb\right)^2\\
 & = (\bY-\bX\bbeta)'(\bY-\bX\bb) = \bY'\bY - 2\bY'\bX\bb + \bb'\bX'\bX\bb
 \end{aligned}
 $$
@@ -613,11 +612,11 @@ In this lecture we
 
 1. Introduced vector and matrix forms of linear regression
 2. Derived the OLS estimator in vector and matrix forms
-xt 
+
 
 #### Next Questions
 
-1. When is $\bX'\bX$ invertible (=full rank?)
+1. When is $\bX'\bX$ invertible (= full rank?)
 2. What are the statistical properties of $\hat{\bbeta}$?
 3. How to extend the vector approach to other familiar estimators — such as IV with several covariates and instruments. 
  
