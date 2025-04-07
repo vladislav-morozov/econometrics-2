@@ -1,0 +1,46 @@
+---
+title: "Linear Regression in Vector-Matrix Form"
+subtitle: "A Concise and General Approach"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Multivariate Regression I: Vector Approach"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header 
+embed-resources: true
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+---
+
+## Introduction {background="#43464B"}
+  
+
+
+#### Learning Outcomes
+
+This lecture is  
+
+
+## Motivation {background="#00100F"}
+
+### Reminder: Multivariate Regression {background="#43464B"}
+
+#### Reminder: Linear Regression Model
+ 
+1+1
