@@ -53,14 +53,18 @@ By the end, you should be able to
   - Appendix D in @Wooldridge2020IntroductoryEconometricsModern
   - Easier treatment with more examples: chapter 1-2 in @Strang2016IntroductionLinearAlgebra
   - Quicker discussion: @Kaye1998LinearAlgebra
-- Vector treatment of linear regression: E1 (except E-1a) in @Wooldridge2020IntroductoryEconometricsModern (except E-1a and theorem E.3)
+- Vector treatment of linear regression: E1 (except E-1a) in @Wooldridge2020IntroductoryEconometricsModern
 
 
   
 ::: 
 
- 
+```{python}
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+import numpy as np
 
+```
 
 ## Motivation {background="#00100F"}
 
@@ -145,11 +149,15 @@ Usual case: when presenting estimated equations.
 
 . . .
 
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 Example: regression of wages on education and experience:
 $$
 \widehat{\log(wage)} = \underset{(0.094)}{0.284} + \underset{(0.032)}{0.092}\times Education + \dots
 $$
 Standard errors in parentheses below the estimates
+
+</div>
 
 #### Cons of Scalar Representation
 
@@ -201,8 +209,10 @@ Here $X_{i1}$ may be $X_{i1} = 1$ if you want to include an intercept
 
 #### Vector of Covariates and Coefficients
  
-Our first problem: having to write out $X_{i1}, \dots, X_{ik}$ every time
+Our first problem: writing out $X_{i1}, \dots, X_{ik}$ every time
  
+<br>
+
 . . . 
 
 Why not combine the covariates into a single vector $\bX_i$ and coefficients into a vector $\bbeta$? Combine them into column $k$-vectors ($k\times 1$ matrices):
@@ -458,6 +468,9 @@ $$
 \hat{\bbeta} = \argmin_{b_1, b_2, \dots, b_k}\sum_{i=1}^N \left( Y_i - \sum_{j=1}^k b_j X_{ij}\right)^2
 $$
 
+
+
+
 #### Approach to Optimization
 
 Ojective function is differentiable in $(b_1, \dots, b_k)$
@@ -545,6 +558,103 @@ $k$ equations in $k$ unknowns — systems has 1 or infinitely many solutions, de
 Recall: if $\bA$ is a square matrix with maximal rank, $\bA^{-1}$ exists
 
 
+
+#### Objective Function and $\bX'\bX$
+
+```{python} 
+
+# Plotting and DGP constants
+BETA_1 = 0
+BETA_2 = 0
+BG_COLOR = "whitesmoke"
+FIG_HEIGHT = 7
+FIG_RATIO = 2.3
+NUM_OBS = 200
+
+
+# Generate synthetic data
+rng = np.random.default_rng(1)
+X1 = rng.normal(size=NUM_OBS)
+X2 = rng.normal(size=NUM_OBS)
+Y = BETA_1 * X1 + BETA_2 * X2 + 0.1 * np.random.normal(size=NUM_OBS)
+
+
+# Create a grid of coefficients
+b1 = np.linspace(BETA_1 - 1, BETA_1 + 0.6, 250)
+b2 = np.linspace(BETA_2 - 1, BETA_2 + 1, 250)
+B1, B2 = np.meshgrid(b1, b2)
+
+# Plot the surface
+fig = plt.figure(figsize=(FIG_HEIGHT * FIG_RATIO, FIG_HEIGHT))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor('teal')
+fig.patch.set_linewidth(5)
+
+for fig_id in range(1, 3):
+
+    # Define SSR with and without multicollinearity
+    if fig_id == 1:
+        def ssr(b1, b2):
+            return np.mean((Y - (b1 * X1 + b2 * X2)) ** 2)
+        
+        title = "$\\boldsymbol{X}'\\boldsymbol{X}$ invertible"
+    else:
+        def ssr(b1, b2):
+            return np.mean((Y - (b1 * X1 + b2 * X1)) ** 2)
+        title = "$\\boldsymbol{X}'\\boldsymbol{X}$ non-invertible"
+
+    ssr_vec = np.vectorize(ssr)
+
+    # Compute SSR
+    SSR = ssr_vec(B1, B2)
+
+    # Plot SSR on the grid
+    ax = fig.add_subplot(1, 2, fig_id, projection = '3d', computed_zorder=False)
+    ax.plot_surface(
+        B1,
+        B2,
+        SSR,
+        cmap="cividis",
+        alpha=0.9,
+        # edgecolor="ghostwhite",
+        linewidth=0.01,
+        rstride=20,
+        cstride=20,  
+        antialiased=False,
+        shade=False,
+    )
+
+    # Style the axes
+    ax.set_xlabel("$b_1$")
+    ax.set_ylabel("$b_2$") 
+    ax.view_init(elev=25, azim=20, roll=0)
+    ax.xaxis.pane.fill = False
+    ax.yaxis.pane.fill = False
+    ax.zaxis.pane.fill = False
+    ax.set_facecolor(BG_COLOR)
+    ax.xaxis.set_major_locator(ticker.MultipleLocator(0.5))
+    ax.yaxis.set_major_locator(ticker.MultipleLocator(0.5))
+    ax.zaxis.set_major_locator(ticker.MultipleLocator(1))
+    ax.set_title(title, loc='left')
+
+    # Add true point
+    ax.scatter(
+        BETA_1,
+        BETA_2,
+        ssr(BETA_1, BETA_1) + 0,
+        color="gold",
+        s=10,
+        alpha=1,
+        zorder = 100
+    )
+
+fig.subplots_adjust(left=0.2, wspace=0.04)
+plt.show()
+
+```
+
+
+
 #### Vector Formula for OLS Estimator
 
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
@@ -564,6 +674,8 @@ $$
 . . .
 
 Exercise: check that the above formula agrees with the simple formula involving sample covariance and variance when $k=2$ and $X_{i1}=1$
+
+
 
 ### Extra Material  {background="#43464B"}
 
