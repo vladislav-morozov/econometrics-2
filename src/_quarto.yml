@@ -13,11 +13,14 @@ website:
     left:
       - href: index.qmd
         text: Home 
-      - text: "Lectures"
+      - text: "Organizational Matters"
         menu: 
          - slides/test_presentation.qmd
          - slides/intro.qmd
          - slides/panel_data.qmd
+      - text: "Multivariate Regression"
+        menu:
+         - slides/vector/vector-ols.qmd 
       - text: "Panel Data"
         menu: 
          - slides/panel/event-studies.qmd
