@@ -16,7 +16,7 @@ website:
       - text: "Course Info"
         menu:  
          - slides/organizational/intro.qmd 
-      - text: "Multivariate Regression"
+      - text: "Linear Regression II"
         menu:
          - slides/vector/vector-ols.qmd 
       # - text: "Panel Data"

@@ -1,6 +1,6 @@
 ---
-title: "Linear Regression in Vector-Matrix Form"
-subtitle: "A Concise and General Approach"
+title: "Advanced Econometrics"
+subtitle: "Course Introduction and Information"
 author: Vladislav Morozov  
 format:
   revealjs:
@@ -9,7 +9,7 @@ format:
     sc-sb-title: true
     incremental: true   
     logo: ../../themes/favicon.ico
-    footer: "Multivariate Regression I: Vector Approach"
+    footer: "Course Introduction"
     footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
     theme: ../../themes/slides_theme.scss
     toc: TRUE
