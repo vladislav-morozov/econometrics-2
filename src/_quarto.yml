@@ -13,17 +13,15 @@ website:
     left:
       - href: index.qmd
         text: Home 
-      - text: "Organizational Matters"
-        menu: 
-         - slides/test_presentation.qmd
-         - slides/intro.qmd
-         - slides/panel_data.qmd
+      - text: "Course Info"
+        menu:  
+         - slides/organizational/intro.qmd 
       - text: "Multivariate Regression"
         menu:
          - slides/vector/vector-ols.qmd 
-      - text: "Panel Data"
-        menu: 
-         - slides/panel/event-studies.qmd
+      # - text: "Panel Data"
+      #   menu: 
+      #    - slides/panel/event-studies.qmd
 
 execute:
   freeze: auto  # re-render only when source changes
