@@ -20,22 +20,7 @@ website:
         - slides/organizational/intro.qmd  
       - section: "Linear Regression II"
         contents:
-        - slides/vector/vector-ols.qmd 
-  # navbar:
-  #   foreground: white
-  #   search: true
-  #   left:
-  #     - href: index.qmd
-  #       text: Home 
-  #     - text: "Course Info"
-  #       menu:  
-  #        - slides/organizational/intro.qmd 
-  #     - text: "Linear Regression II"
-  #       menu:
-  #        - slides/vector/vector-ols.qmd 
-  #     # - text: "Panel Data"
-  #     #   menu: 
-  #     #    - slides/panel/event-studies.qmd
+        - slides/vector/vector-ols.qmd  
 
 execute:
   freeze: auto  # re-render only when source changes

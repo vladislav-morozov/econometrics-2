@@ -28,7 +28,7 @@ include-in-header: ../../themes/mathjax.html
 highlight-style: tango
 ---
 
-## Introduction {background="#43464B"}
+## Introduction {background="#00100F"}
   
 
 
@@ -481,16 +481,16 @@ $\Rightarrow$ our strategy:
 
 1. Differentiate with respect to the arguments. Set the derivative equal to 0 (first order conditions)
 2. Hope that 
-   -. There is a unique solution to the first order conditions
-   -. The solution actually minimizes the function (instead of maximizing or being a saddle point)
+   - There is a unique solution to the first order conditions
+   - The solution actually minimizes the function (instead of maximizing or being a saddle point)
 
 #### Derivative With Respect to $b_j$
 
 Derivative with respect to $b_j$ is given by
 $$
 \begin{aligned}
-& \sum_{i=1}^N X_{ij} \left(Y_i - \sum_{l=1}^k b_l X_{il}\right)\\
-& = \sum_{i=1}^N X_{ij} \left(Y_i - \bX_i'\bb\right)
+& -2\sum_{i=1}^N X_{ij} \left(Y_i - \sum_{l=1}^k b_l X_{il}\right)\\
+& = -2\sum_{i=1}^N X_{ij} \left(Y_i - \bX_i'\bb\right)
 \end{aligned}
 $$
 
@@ -499,9 +499,9 @@ $$
 Any optimizer $\hat{\bbeta} = (\hat{\beta}_1, \dots, \hat{\beta}_k)$ must satisfy the FOC system
 $$
 \begin{cases}
-\sum_{i=1}^N X_{i1} \left(Y_i - \bX_i'\hat{\bbeta} \right) = 0\\
+-2\sum_{i=1}^N X_{i1} \left(Y_i - \bX_i'\hat{\bbeta} \right) = 0\\
 \vdots \\
-\sum_{i=1}^N X_{ik} \left(Y_i - \bX_i'\hat{\bbeta} \right) = 0 
+-2\sum_{i=1}^N X_{ik} \left(Y_i - \bX_i'\hat{\bbeta} \right) = 0 
 \end{cases}
 $$
 
