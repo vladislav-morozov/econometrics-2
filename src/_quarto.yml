@@ -7,23 +7,35 @@ html-math-method: mathjax
 website:
   title: "Advanced Econometrics"
   favicon: themes/favicon.ico
-  navbar:
-    foreground: white
+  site-url: https://vladislav-morozov.github.io/econometrics-2/
+  repo-url: https://github.com/vladislav-morozov/econometrics-2/
+  repo-subdir: "src" 
+  repo-actions: [edit, issue]
+  sidebar:
+    style: "floating"
     search: true
-    left:
-      - href: index.qmd
-        text: Home 
-      - text: "Organizational Matters"
-        menu: 
-         - slides/test_presentation.qmd
-         - slides/intro.qmd
-         - slides/panel_data.qmd
-      - text: "Multivariate Regression"
-        menu:
-         - slides/vector/vector-ols.qmd 
-      - text: "Panel Data"
-        menu: 
-         - slides/panel/event-studies.qmd
+    contents: 
+      - section: "Course Info"
+        contents:
+        - slides/organizational/intro.qmd  
+      - section: "Linear Regression II"
+        contents:
+        - slides/vector/vector-ols.qmd 
+  # navbar:
+  #   foreground: white
+  #   search: true
+  #   left:
+  #     - href: index.qmd
+  #       text: Home 
+  #     - text: "Course Info"
+  #       menu:  
+  #        - slides/organizational/intro.qmd 
+  #     - text: "Linear Regression II"
+  #       menu:
+  #        - slides/vector/vector-ols.qmd 
+  #     # - text: "Panel Data"
+  #     #   menu: 
+  #     #    - slides/panel/event-studies.qmd
 
 execute:
   freeze: auto  # re-render only when source changes

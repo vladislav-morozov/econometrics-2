@@ -1,0 +1,328 @@
+---
+title: "Course Introduction"
+subtitle: "Advanced Econometrics"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Course Introduction"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header 
+embed-resources: true
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+---
+
+
+
+
+
+
+## Content and Motivation {background="#00100F"}
+
+#### About Me
+ 
+**Instructor**: JProf. Dr. Vladislav Morozov
+
+- Institute of Finance and Statistics
+- Email: <p style="font-family: 'Courier New', Courier, monospace;">morozov@uni-bonn.de</p>
+- I work on practical statistical methods with a focus on unobserved heterogeneity
+
+
+### This Course: Moving Beyond Basics {background="#43464B"}
+
+
+#### Remind: Basic Econometrics
+
+Basic econometrics was mostly about the simple model
+$$
+Y_{i} = \beta_1 + \beta_2 X_i^{(2)} + \dots + \beta_k X_i^{(k)} + U_i
+$$
+where
+
+- Sample — a cross-section: one observation per unit $i$
+- The linear model was causal ($\E[U_i|X_i]=0$ or an instrument was available)
+
+
+#### What is Advanced Econometrics?
+
+In short, advancing in every aspect:
+
+- Working with more data types: time series and panel data
+- More flexible and general models: nonlinearities
+- Introducing prediction
+- Causal perspectives with new data types and nonlinearities
+- More explanations about theory: why things work the way they do
+ 
+
+#### Main Course Blocks
+
+1. More on linear regression and linear IV
+2. Panel data in causal settings
+3. Introduction to forecasting
+4. Time series
+5. Parametric nonlinear models
+
+. . .
+
+May cover more if time allows
+
+#### Should You Attend This Course?
+
+Yes, if 
+
+- If you want to work with data at all: 
+  - Applied micro- or macroeconomics
+  - Data science-adjacent careers
+  - Just for fun
+- If you want to do a master's degree in economics, finance, or data science
+ 
+
+ 
+## Course Logistics {background="#00100F"}
+  
+
+
+### Organization and Evaluations {background="#43464B"}
+
+ 
+#### Meeting Times
+
+Lectures twice a week:
+
+- Wednesdays, Room 0.042, 8:30-10:00
+- Fridays, Lecture Hall N, 8:30-10:00
+
+
+. . .
+
+<br>
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+Any modifications will be announced on eCampus and in class
+
+</div>
+
+
+#### Course Format
+
+Lecture-based course with two kinds of lectures:
+
+- Blended lectures on theory and empirical illustrations
+- Exercise sessions every few lectures based on problem sets
+
+. . .
+
+Active questions encouraged! Also feel free to approach me after/before class or use office hours
+
+
+#### Evaluation
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+Course grade is based on a closed book written exam
+
+</div>
+
+<br>
+
+- Date to be announced by the Examination Office
+- Closed book
+- Preparation: lecture materials and problem sets
+
+### Course Materials {background="#43464B"}
+ 
+
+#### Materials
+
+This course will be based on lectures and slides
+
+<br>
+
+. . . 
+
+Textbooks:
+
+- Course draws on several, none covers everything
+- I gave preference to books available online from authors or through the library
+- Each set of slides — specific references
+
+
+#### General Textbooks and Causal Perspectives
+
+:::: {.columns}
+
+::: {.column width="30%"}
+
+![](/images/book_covers/wooldridge-2020.jpeg)
+
+@Wooldridge2020IntroductoryEconometricsModern
+
+
+:::
+
+::: {.column width="25%"}
+
+![](/images/book_covers/cunningham-2021.jpg)
+
+@Cunningham2021CausalInferenceMixtape
+
+:::
+
+::: {.column width="26%"}
+
+![](/images/book_covers/huntington-klein-2025.jpg)
+
+@Huntington-Klein2025EffectIntroductionResearch
+
+:::
+
+::::
+
+
+#### Resource on Time Series and Prediction
+
+
+:::: {.columns}
+
+::: {.column width="27%"}
+
+![](/images/book_covers/brockwell-2016.jpg)
+
+@Brockwell2016IntroductionTimeSeries
+
+
+:::
+
+::: {.column width="26%"}
+
+![](/images/book_covers/james-2023.jpg)
+
+@James2023IntroductionStatisticalLearning
+
+:::
+
+::: {.column width="30%"}
+
+![](/images/book_covers/wooldridge-2020.jpeg)
+
+@Wooldridge2020IntroductoryEconometricsModern
+
+:::
+
+::::
+
+
+
+#### More Advanced Books
+
+
+:::: {.columns}
+
+::: {.column width="30%"}
+
+![](/images/book_covers/hansen-2022.jpeg)
+
+@Hansen2022Econometrics
+
+:::
+
+::: {.column width="26%"}
+
+![](/images/book_covers/hayashi-2000.jpg)
+
+
+@Hayashi2000Econometrics
+
+:::
+
+::: {.column width="36%"}
+
+<img src="/images/book_covers/hastie-2008.jpeg" alt="drawing" width="260"/>
+ 
+
+@Hastie2009ElementsStatisticalLearning
+
+:::
+
+::::
+
+
+
+#### Some Materials on Python
+
+
+:::: {.columns}
+
+::: {.column width="30%"}
+
+![](/images/book_covers/zingaro-2021.jpg)
+
+@Zingaro2021LearnCodeSolving
+
+
+:::
+
+::: {.column width="30%"}
+
+![](/images/book_covers/lau-2023.jpeg)
+
+@Lau2023LearningDataScience
+
+:::
+
+::: {.column width="30%"}
+
+![](/images/book_covers/heiss-2024.png)
+@Heiss2024UsingPythonIntroductory
+
+:::
+
+::::
+
+
+
+
+
+### Where Does This Course Fit? {background="#43464B"}
+
+#### Other Complementary Courses
+ 
+Course complements other data-oriented courses
+
+. . . 
+
+
+Some other courses: 
+
+- Applied Microeconometrics (JProf. Dr. Aapo Stenhammar)
+- Causal Inference (JProf. Dr. Claudia Noack)
+- Nonparametric Statistics (Dr. Dennis Schroers)
+- Computer-Aided Statistical Analysis (Prof. Dr. Dominik Liebl)
+
+. . .
+
+Low overlap — each class tries to maximize value added
+
+  
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::

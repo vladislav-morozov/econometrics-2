@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Econometrics 2 covers theory and applications of causal inference and forecasting. Topics include linear and nonlinear models, panel data, and time series.">
 
 <title>Advanced Econometrics</title>
 <style>
@@ -40,14 +41,14 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b53751a350365c71b6c909e95f209ed1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-0ab07e97225f742482fcab7cc20bca79.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-3e5c3f0b1947543eaa6ae827461546fe.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-b1f45ae4a132db6dfc08ad19f9a2d34c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-b4434866c09ead725b5c0ae22b4ec6c7.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -394,83 +395,102 @@ ul.task-list li input[type="checkbox"] {
   };
 
 </script>
+ 
+  <style>
+  .slide-deck {
+      border: 3px solid #dee2e6;
+      width: 100%;
+  }
+  </style>
+  
 
 
+<meta property="og:title" content="Advanced Econometrics">
+<meta property="og:description" content="Econometrics 2 covers theory and applications of causal inference and forecasting. Topics include linear and nonlinear models, panel data, and time series.">
+<meta property="og:image" content="https://vladislav-morozov.github.io/econometrics-2/images/ecm-2-header-img.png">
+<meta property="og:site_name" content="Advanced Econometrics">
+<meta property="og:image:alt" content="Advanced Econometrics">
+<meta property="og:image:height" content="612">
+<meta property="og:image:width" content="6144">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-sidebar floating fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Advanced Econometrics</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
-<span class="menu-text">Home</span></a>
-  </li>  
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-organizational-matters" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Organizational Matters</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-organizational-matters">    
-        <li>
-    <a class="dropdown-item" href="./slides/test_presentation.html">
- <span class="dropdown-text">Test Presentation</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./slides/intro.html">
- <span class="dropdown-text">Beans</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./slides/panel_data.html">
- <span class="dropdown-text">Panel Data</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-multivariate-regression" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Multivariate Regression</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-multivariate-regression">    
-        <li>
-    <a class="dropdown-item" href="./slides/vector/vector-ols.html">
- <span class="dropdown-text">Linear Regression in Vector-Matrix Form</span></a>
-  </li>  
-    </ul>
-  </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-panel-data" role="link" data-bs-toggle="dropdown" aria-expanded="false">
- <span class="menu-text">Panel Data</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-panel-data">    
-        <li>
-    <a class="dropdown-item" href="./slides/panel/event-studies.html">
- <span class="dropdown-text">Event Studies</span></a>
-  </li>  
-    </ul>
-  </li>
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
+      Advanced Econometrics
+      </li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Advanced Econometrics</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Course Info</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./slides/organizational/intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Introduction</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Linear Regression II</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./slides/vector/vector-ols.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linear Regression in Vector-Matrix Form</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     
 <!-- main -->
@@ -479,11 +499,106 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="advanced-econometrics" class="level1">
-<h1>Advanced Econometrics</h1>
-<p>This website stores the web versions of the lectures.</p>
+<section id="advanced-econometrics-econometrics-ii" class="level1">
+<h1>Advanced Econometrics (Econometrics II)</h1>
+<p><img src="images/ecm-2-header-img.png" alt="Advanced Econometrics" style="width: 100%;  border-radius: 15px; margin-bottom: 6px;"></p>
+<p>Advanced Econometrics builds on the basic econometrics course in three directions. First, the course discusses a range of practical methods used in economics and business. Second, it addresses both causal inference and forecasting. Third, it offers a deeper discussion of the underlying theory.</p>
+<section id="course-information" class="level2">
+<h2 class="anchored" data-anchor-id="course-information">Course Information</h2>
+<p><strong>Instructor:</strong> Vladislav Morozov<br>
+<strong>Email:</strong> <a href="mailto:morozov@uni-bonn.de">morozov [at] uni-bonn.de</a><br>
+<strong>Office Location:</strong> Adenauerallee 24-42, IFS, Statistics Section<br>
+<strong>Office Hours:</strong> Virtual, by appointment<br>
+<strong>Course Website:</strong> eCampus and this website<br>
+<strong>Lectures:</strong> 8:30-10:00; Wednesdays (Room 0.042), Fridays (Lecture Hall N)<br>
+<strong>Schedule Changes and Holidays</strong>: See eCampus and BASIS</p>
+<p><strong>Level:</strong> Undergraduate<br>
+<strong>Prerequisites:</strong> basic courses in statistics and econometrics</p>
+</section>
+<section id="course-content" class="level2">
+<h2 class="anchored" data-anchor-id="course-content">Course Content</h2>
+<section id="in-slide-form" class="level3">
+<h3 class="anchored" data-anchor-id="in-slide-form">In Slide Form</h3>
+    <p><a href="slides/organizational/intro.html" target="_blank">View slides in full screen</a></p>
+       <div class="ratio ratio-16x9">
+      <iframe class="slide-deck" src="slides/organizational/intro.html" height="500px"></iframe>
+    </div>
+  
+</section>
+<section id="content" class="level3">
+<h3 class="anchored" data-anchor-id="content">Content</h3>
+<p>The course is structured into the following main parts (<em>Subject to modification based on progress</em>):</p>
+<ol type="1">
+<li>A deeper look at linear regression and linear IV:
+<ul>
+<li>A vector-matrix form approach to linear regression.</li>
+<li>Asymptotic theory for the OLS estimator. Wald tests.</li>
+<li>Linear generalized method of moments (GMM).</li>
+</ul></li>
+<li>Panel data in causal settings:
+<ul>
+<li>Event studies.</li>
+<li>Differences-in-differences.</li>
+<li>Two-way fixed effect approaches with multivalued treatment.</li>
+<li>Mean group estimation.</li>
+</ul></li>
+<li>Introduction to forecasting:
+<ul>
+<li>Causal inference vs.&nbsp;forecasting I.</li>
+<li>Notions of forecast optimality.</li>
+<li>Forecasting in cross-sections.</li>
+</ul></li>
+<li>Time series:
+<ul>
+<li>Time series as probabilistic objects and their properties.</li>
+<li>Univariate models: ARIMA(X).</li>
+<li>Multivariate time series: VARIMA(X).</li>
+<li>Elements of causal inference with time series.</li>
+<li>Forecasting with time series vs.&nbsp;forecasting with panel data.</li>
+</ul></li>
+<li>Parametric nonlinear models:
+<ul>
+<li>Beyond linearity: nonlinear regression and nonlinear least squares.</li>
+<li>Discrete outcomes in causal settings.</li>
+<li>Elements of asymptotic theory for nonlinear models.</li>
+<li>Classification as forecasting with discrete outcomes.</li>
+</ul></li>
+</ol>
+<p>Further topics may include quantile and distributional regression, big data, and experimentation in settings with interference.</p>
+<hr>
+</section>
+</section>
+<section id="course-materials" class="level2">
+<h2 class="anchored" data-anchor-id="course-materials">Course Materials</h2>
+<p><strong>Textbooks:</strong> the course draws on several textbooks:</p>
+<ul>
+<li><p>Brockwell, P. J., &amp; Davis, R. A. (2016). Introduction to Time Series and Forecasting. Springer International Publishing.</p></li>
+<li><p>Cunningham, S. (2021). Causal Inference: The Mixtape. Yale University Press.</p></li>
+<li><p>Huntington-Klein, N. (2025). The Effect: An Introduction to Research Design and Causality. Chapman and Hall/CRC.</p></li>
+<li><p>James, G., Witten, D., Hastie, T., Tibshirani, R., &amp; Taylor, J. E. (2023). An Introduction to Statistical Learning: With Applications in Python. Springer.</p></li>
+<li><p>Wooldridge, J. M. (2020). Introductory Econometrics: A Modern Approach (Seventh edition). Cengage.</p></li>
+</ul>
+<p>All books minus Wooldridge are available online (openly or through our university network). The Wooldridge book is available in our library. For specific chapters, please refer to each specific set of slides.</p>
+<hr>
+</section>
+<section id="course-policies" class="level2">
+<h2 class="anchored" data-anchor-id="course-policies">Course Policies</h2>
+<section id="grading-and-evaluation" class="level3">
+<h3 class="anchored" data-anchor-id="grading-and-evaluation">Grading and Evaluation</h3>
+<p>The final grade for this course is based on a 90 minute closed-book written exam. The date of the exam will be announced separately by the Examination Office.</p>
+</section>
+<section id="policies-and-additional-information" class="level3">
+<h3 class="anchored" data-anchor-id="policies-and-additional-information">Policies and Additional Information</h3>
+<p><strong>Attendance and Participation:</strong><br>
+Regular attendance and active participation are strongly encouraged.</p>
+<p><strong>Academic Integrity:</strong><br>
+Students must adhere to the university’s policies on academic integrity and plagiarism. Any violations will be subject to disciplinary action.</p>
+<p><strong>Accommodations:</strong><br>
+If you require any accommodations due to a disability or other circumstances, please contact the relevant office as soon as possible.</p>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -721,7 +836,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/vladislav-morozov\.github\.io\/econometrics-2\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -1053,4 +1168,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/vladislav-morozov/econometrics-2/edit/main/src/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/vladislav-morozov/econometrics-2/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
