@@ -53,7 +53,14 @@ By the end, you should be able to
  
 - Refresher on probability: 
     - Your favorite probability textbook
-    - 
+    - Section B in @Wooldridge2020IntroductoryEconometricsModern
+- Asymptotic theory for the OLS estimator
+    - E4 in @Wooldridge2020IntroductoryEconometricsModern
+    - Or chapter 7 in @Hansen2022Econometrics
+
+  
+::: 
+
 
 ### Motivation {background="#43464B"}
 
@@ -86,10 +93,71 @@ But we cannot
 
 #### Options
 
-- Nonasymptotic/finite-sample analysis based on "high-probability bounds" --- popular  
+- Nonasymptotic/finite-sample analysis based on "high-probability bounds" --- originally more popular in high-dimensional  @Wainwright2019HighDimensionalStatisticsNonAsymptotic
 - Large-sample "approximations" using tools like the central limit theorem(s) --- topic of this lecture
 
 
 
+
+::: footer
+?
+:::
+
+
+
+
+## Consistency {background="#00100F"}
   
-::: 
+### Definitions {background="#43464B"}
+
+#### Convergence in Probability
+
+Recall
+
+### Model-Free Convergence  {background="#43464B"}
+
+#### 
+
+Converges to $\E[\bX_i\bX_i']^{-1}\E[\bX_i\bX_i]$
+
+No "model", no "potential outcomes" --- just correlations
+
+
+
+### Convergence under Exogeneity  {background="#43464B"}
+
+
+
+#### 
+
+Can always say! 
+
+
+$\bbeta + \E[\bX_i\bX_i']\E[\bX_i\bU_i(\bbeta)]$
+
+
+
+Model-free in teh sense that by itself writing $Y_i = \bX_i'\bbeta + \bU_i(\bbeta)$ does not say anything (a bit like writing $5 = X + (5-X)$)
+
+#### 
+
+So let's make the usual assumption
+
+
+
+#### Consistency of the OLS Estimator
+
+Combining the steps together
+$$
+\hat{\bbeta} \xrightarrow{p} \bbeta
+$$
+
+
+
+## Asymptotic Normality {background="#00100F"}
+  
+### Model {background="#43464B"}
+
+####
+
+Model 
