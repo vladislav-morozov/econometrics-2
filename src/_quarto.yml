@@ -21,6 +21,7 @@ website:
       - section: "Linear Regression II"
         contents:
         - slides/vector/vector-ols.qmd  
+        - slides/vector/ols-asymptotics.qmd
 
 execute:
   freeze: auto  # re-render only when source changes
