@@ -139,11 +139,18 @@ $\bbeta + \E[\bX_i\bX_i']\E[\bX_i\bU_i(\bbeta)]$
 
 Model-free in teh sense that by itself writing $Y_i = \bX_i'\bbeta + \bU_i(\bbeta)$ does not say anything (a bit like writing $5 = X + (5-X)$)
 
-#### 
+#### Potential Outcomes Framework
+
+If we want $\bbeta$ to have any causal meaning, we need a casual framework 
 
 So let's make the usual assumption
 
+####
 
+In this class we will maintain SUTVA --- no general equilbrium, "only your known treatment matters"
+
+- Not always true, think about policies which apply to everyone
+- Insert tutoring example
 
 #### Consistency of the OLS Estimator
 
@@ -152,7 +159,42 @@ $$
 \hat{\bbeta} \xrightarrow{p} \bbeta
 $$
 
+#### Discussion
 
+- Work with "sampling" properties of realised values
+- Use the *assumed* structure to connect to causally interpretable paramtesr
+
+#### Orthogonality
+
+Let's think about the proof again
+
+We don't actually need $\E[U_i|\bX_i]=0$
+
+Sufficient to have 
+$$
+\E[\bX_iU_i] = 0
+$$
+This is $k$ conditions now --- one per component of $\bX_i$
+
+#### Consistency Under Orthogonality
+
+Things go through
+
+
+
+#### What Do We Lose Without Strict Exogeneity?
+
+Still can specify the potential outcomes frameworok
+
+But we lose mean interpretation: 
+$$
+\E[Y_i|\bX_i] = \bX_i'\bbeta + \E[U_{it}|\bX_i]
+ $$
+ Now maybe $ \E[U_{it}|\bX_i]$ is not zero. 
+
+
+In finite samples you may have bias!
+Consistency result shows that in the limit you are still estimating the correct thing
 
 ## Asymptotic Normality {background="#00100F"}
   
