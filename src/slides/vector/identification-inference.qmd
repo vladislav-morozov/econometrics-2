@@ -1,6 +1,6 @@
 ---
-title: "Identification and Inference"
-subtitle: "The Two Halves of Statistics"
+title: "Identification, Estimation and Inference"
+subtitle: "The Three Parts of Statistics"
 author: Vladislav Morozov  
 format:
   revealjs:
@@ -9,7 +9,7 @@ format:
     sc-sb-title: true
     incremental: true   
     logo: ../../themes/favicon.ico
-    footer: "Identification and Inference"
+    footer: "Identification, Estimation, and Inference"
     footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
     theme: ../../themes/slides_theme.scss
     toc: TRUE
@@ -36,13 +36,15 @@ highlight-style: tango
 
 #### Learning Outcomes
 
-This lecture is about a 
+This lecture is about the basics of identification, estimation, and inference
 
 <br>
 
 By the end, you should be able to
 
-- R
+- Understand the difference between identification, estimation, and inference
+- Provide a working definition of identification
+- Discuss identification in fully parametric models and the linear model under exogeneity
 
 ```{python}
 import matplotlib.pyplot as plt
@@ -64,12 +66,14 @@ FIG_RATIO = 2.3
 ::: {.nonincremental}
 
  
-- Textbooks:
+- Identification:
     - Section 2.32 in @Hansen2022Econometrics: brief definitions
     - [Chapter 5](https://theeffectbook.net/ch-Identification.html){preview-link="true"} in @Huntington-Klein2025EffectIntroductionResearch: more examples and philosophical points
     - Sections 15.1-15.2 @Wooldridge2020IntroductoryEconometricsModern: IV example
-    
-- (*Advanced*): a *very* expansive dictionary article by @Lewbel2019IdentificationZooMeanings
+    - (*Very advanced*): @Lewbel2019IdentificationZooMeanings
+- Potential outcomes:
+  - Chapter 4 in @Cunningham2021CausalInferenceMixtape: 
+  - *Or* 2.30 in @Hansen2022Econometrics
 
   
 ::: 
@@ -111,6 +115,8 @@ What about the "something"?
 
 . . . 
 
+<br>
+
 Three example questions:
 
 1. Can the parameter be learned at all? 
@@ -122,8 +128,8 @@ Three example questions:
 
 All possible questions can be split into two classes of work: 
 
-1. <span class="highlight">Identification</span>: what could we learn if we had an infinite amount of data? 
-2. <span class="highlight">Estimation and inference</span>: how to "learn" from limited data? 
+1. <span class="highlight">Identification</span>: what could we learn if we had an *infinite* amount of data? 
+2. <span class="highlight">Estimation and inference</span>: how to "learn" from *finite* samples? 
 
 . . .
 
@@ -154,7 +160,7 @@ Let $\theta$ be the "parameter of interest" — something unknown you care about
 
 #### Population Distribution $F_{X, Y}$
 
-Suppose that our data — observations on $(X, Y)$
+Suppose that our data are observations on $(X, Y)$
 
 . . .
 
@@ -210,7 +216,7 @@ Identification: assume that we see the full $F_{X, Y}(x, y)$ -->
 
 ::: {#fig-model}
 ``` tikz  
-%%| fig-cap: Path from parameter $\theta$ to the *implied* data distribution
+%%| fig-cap: Path from parameter $\theta$ to restrictions/implications on the data distribution
 %%| fig-align: center
 \begin{tikzpicture}
  \tikzset{line width=1.5pt, outer sep=0pt,
@@ -230,10 +236,10 @@ Identification: assume that we see the full $F_{X, Y}(x, y)$ -->
 ``` 
 :::
 
-The "model" specifies all or parts of a generating mechanism: 
+The <span class="highlight">model</span> specifies parts of the data generating mechanism: 
 
 - Parts of $F_{X, Y}$ might be unknown even if you know $\theta$
-- Example: linear model with exogeneity say that $\E[Y_i|\bX_i]$ is linear in $\bX_i$, but doesn't say much about the distribution of $\bX_i$ or $Y_i$ beyond that
+- Example: linear model with exogeneity — $\E[Y_i|\bX_i]$ is linear in $\bX_i$. Does not much about the distribution of $\bX_i$ or $Y_i$ beyond that
 
 #### Definition of Identification
 
@@ -250,7 +256,7 @@ Given the
 can $\theta_0$ be uniquely determined?
 
 </div> 
- 
+ Sometimes called <span class="highlight">point identification</span>
 
 ### General Idea {background="#43464B"}
 
@@ -270,10 +276,10 @@ To make idea simpler, a special <span class="highlight">parametric</span> case
 
 #### Example
 
-Consider simple example: 
+Consider a simple example: 
 
-- $Y_i\sim N(\theta_0, 1)$, no $X_i$ (model)
-- Parameter of interest is <span class="highlight">$\theta$</span>
+- <span class="highlight">Model</span>: $Y_i\sim N(\theta_0, 1)$, no $X_i$
+- Parameter of interest is <span class="highlight">$\theta_0$</span>
 
 . . . 
 
@@ -367,7 +373,7 @@ Second definition useful for showing <span class="highlight">non-identification<
 An example: suppose that $Y_i \sim N(\abs{\theta_0}, 1)$:
 
 - If $\theta = 1$, then $Y_i$ should be $N(1, 1)$
-- If $\theta = -1$, then $Y_i$ should be $N(1, 1)$
+- If $\theta = -1$, then $Y_i$ should also be $N(1, 1)$
 
 . . . 
 
@@ -415,73 +421,232 @@ plt.show()
 
 #### Towards a More Complex Example
 
+Previous example — a bit simplistic
+
+- No causal framework
+- Everything is determined by $\theta$
+
+. . . 
+
+<br> 
+
+Let's try a more useful case — a linear causal model
+
 #### Setting: Potential Outcomes
 
+::: {.callout-important appearance="minimal"}
+
+Need a causal framework to talk about causal effects!
+
+:::
+
+. . .
+
+Work in the familiar potential outcomes framework: 
+
+- Unit $i$ has some unobserved characteristic $U_i$
+- There is some "treatment" $\bX_i$ (discrete or continuous)
+- For each possible value $\bx$ of $\bX_i$ the outcome of $i$ would be
 $$
 Y^{\bx}_i = \bx'\bbeta + U_i
 $$
+
+
+
+#### Family of Potential Outcomes and Observed Data
+
+Together potential outcomes form a family $\curl{Y^{\bx}_i}_{\bx}$
+
+. . . 
+
+
+<br>
 
 What we see: realized values of $(Y_i, \bX_i)$. The realized outcomes are determined as 
 $$
 Y_i = Y^{\bX_i}_i
 $$
 
-####
+
+<br>
+
+All other potential outcomes remain <span class="highlight">counterfactual</span>
+
+#### SUTVA
+
+In this class we will assume: 
+
+<br>
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+Potential outcomes of unit $i$ depend only on the treatment of unit $i$
+
+</div>
+
+. . . 
+
+<br>
+
+Called the <span class="highlight">stable unit treatment value assumption</span> (SUTVA) — no interference, no general equilibrium effects, etc. 
+
+#### Causal Effects and Parameter of Interest
+
+Model:
+$$
+Y^{\bx}_i = \bx'\bbeta + U_i
+$$
+Note: $U_i$ does not depend on $\bx$
+
+. . . 
+
+<br>
+
+Causal effect of changing unit $i$ from $\bx_1$ to $\bx_2$ given by $(\bx_1-\bx_2)'\bbeta$. Thus:
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+Sufficient to learn $\bbeta$
+
+</div>
 
 
-#### Motivation 
+#### Model Is Not Fully Parametric
 
-"Identification strategy" refers to imposing some assumptions
+Our assumptions do not fully specify
 
-It is a fundamentally theoretical exercise
+- Distribution of $\bX_i$
+- Distribution of $U_i$
+
+
+. . .
+
+<br>
+
+To identify those, we need $F_{\bX, Y}$ and (for distribution of $U_i$) also $\bbeta$ 
+
+
+#### Identifying $\bbeta$
+ 
+
+
+
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+::: {#prp-vector-id-linear}
+
+Let 
+
+::: {.nonincremental}
+- $\E[\bX_i\bX_i']$ be invertible
+- $\E[\bX_iU_i]=0$
+:::
+ 
+Then $\bbeta$ is identified as 
+$$
+\bbeta = \E[\bX_i\bX_i']^{-1}\E[\bX_iY_i]
+$$
+:::
+
+</div>
+Proof by considering $\E[\bX_iY_i]$
 
 #### Discussion
 
-Identification is the property of the model
-
-Something you do with "sample" arguments
-
-Sometimes you do it with 
-
-@Lewbel2019IdentificationZooMeanings
+Two key assumptions:
 
 
+- Invertibility of $\E[\bX_i\bX_i']$ is a <span class="highlight">variability</span> condition (why?)
+- $\E[\bX_iU_i]=0$ is an <span class="highlight">exogeneity</span> condition
 
+. . . 
 
-@Wooldridge2020IntroductoryEconometricsModern defines identification directly as being able to estimate it consistently
+Together:
 
-- Good definition for practice - if we cannot, then what use is the parameter? 
+- *Identification strategy* means a collection of assumptions that yield identification
+- @prp-vector-id-linear — example of *constructive* identification: expressing $\bbeta$ as a function of $F_{\bX, Y}$
 
+#### Broader Identification Discussion
 
-#### 
+Identification — fundamentally theoretical exercise, always rests on assumptions
 
-Linear model: if not unique, the other models give the same 
+. . . 
 
+<br>
 
+Some other approaches: 
 
+1. Sometimes only non-constructive identification known
+2. @Wooldridge2020IntroductoryEconometricsModern defines $\theta$ to be identified if it can be identified consistently — useful for showing identification of the limit
+ 
 
 
 ## Estimation and Inference {background="#00100F"}
   
 
-#### Broad
-
-fif
-
-Goal of next Lectures
+ 
+ 
+#### Estimators and Goal of Estimation
 
 
-#### Goal of Estimation 
+Let $\theta$ be a parameter of interest and $(X_1, \dots, X_N)$ be the available data — the sample
+ 
+. . .
 
-In prediction, also care: how uncertain are we about our prediction? 
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 
-In prediction, there are two  sources of uncertainty 
+::: {#dfn-vector-id-estimator}
+ 
+Let $\theta$ belong to some space $\S$. An estimator $\hat{\theta}_N$ is a function from $(X_1, \dots, X_N)$ to $\S$:
+$$
+\hat{\theta}_N = g(X_1, \dots, X_n)
+$$
+
+:::
+
+</div>
+
+- Anything you can compute on the data is an estimator
+- Try to find estimators with good properties 
+
+#### Inference
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+Inference is about answering questions about the population based on the finite sample
+
+</div>
+
+. . . 
+
+Example questions:
+
+1. How sure are we that $\hat{\theta}_N$ is close to $\theta$? 
+2. Does $\theta$ satisfy some constraints (equal to 0, positive, etc)?
+3. Do our identification assumptions hold? (e.g. is $\E[\bx_i\bx_i']$ invertible?)
+  
+Relevant both in causal and predictive settings
+ 
 
 ## Recap and Conclusions {background="#00100F"}
   
 #### Recap
 
+In this lecture we
+
+1. Discussed the difference between identification, estimation, and inference
+2. Saw definitions of identification
+3. Reviewed potential outcomes
+4. Discussed identification in the linear model under exogeneity
+
+
+
 #### Next Questions
+
+- Linear model: inference on $\bbeta$ based on the OLS estimator
+  - Quantifying uncertainty
+  - Hypothesis testing
+- Identification in various settings: IV, panel, nonlinear, etc.
 
 
 #### References {.allowframebreaks visibility="uncounted"}
