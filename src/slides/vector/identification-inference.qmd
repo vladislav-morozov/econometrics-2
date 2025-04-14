@@ -1,6 +1,6 @@
 ---
 title: "Identification and Inference"
-subtitle: "Convergence as Sample Size Grows"
+subtitle: "The Two Halves of Statistics"
 author: Vladislav Morozov  
 format:
   revealjs:
@@ -9,7 +9,7 @@ format:
     sc-sb-title: true
     incremental: true   
     logo: ../../themes/favicon.ico
-    footer: "A Deeper Look at Linear Regression: Consistency"
+    footer: "Identification and Inference"
     footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
     theme: ../../themes/slides_theme.scss
     toc: TRUE
@@ -46,17 +46,18 @@ By the end, you should be able to
 
 - R
 
-#### Textbook References
+#### References
  
 
 ::: {.nonincremental}
 
  
-- Identification vs. Inference
-    - Section 2.32 @Hansen2022Econometrics
-    - Chapter 5 in @Huntington-Klein2025EffectIntroductionResearch
-    - Sections 15.1-15.2 @Wooldridge2020IntroductoryEconometricsModern gives a worked example
+- Textbooks:
+    - Section 2.32 in @Hansen2022Econometrics: brief definitions
+    - [Chapter 5](https://theeffectbook.net/ch-Identification.html){preview-link="true"} in @Huntington-Klein2025EffectIntroductionResearch: more examples and philosophical points
+    - Sections 15.1-15.2 @Wooldridge2020IntroductoryEconometricsModern: IV example
     
+- (*Advanced*): a *very* expansive dictionary article by @Lewbel2019IdentificationZooMeanings
 
   
 ::: 
@@ -92,12 +93,19 @@ Which parameter you want depends on the context:
   - Forecast of GDP, ...
   - Whether the patient has a disease ...
   
-#### Identification vs. Estimation
+#### Identification vs. Inference
 
 What about the "something" and the "data"? 
 
 . . . 
 
+
+## Identification and Inference {background="#00100F"}
+  
+### Broad Goals {background="#43464B"}
+
+
+####
 
 Two kinds of statistical work: 
 
@@ -118,6 +126,8 @@ In prediction, there are two  sources of uncertainty
 
 "Identification strategy" refers to imposing some assumptions
 
+It is a fundamentally theoretical exercise
+
 #### 
 
 Identification is the property of the model
@@ -126,8 +136,46 @@ Something you do with "sample" arguments
 
 Sometimes you do it with 
 
+@Lewbel2019IdentificationZooMeanings
+
+
+
 
 @Wooldridge2020IntroductoryEconometricsModern defines identification directly as being able to estimate it consistently
 
 - Good definition for practice - if we cannot, then what use is the parameter? 
-- 
+
+
+#### 
+
+Linear model: if not unique, the other models give the same 
+
+
+#### Non-Identifcation
+
+You have to show an actual example of different values of $\theta$ that give the same observed distribution.
+
+Not sufficient to show that a particular strategy fails
+
+
+### Inference {background="#43464B"}
+
+#### Broad
+
+fif
+
+Goal of next Lectures
+
+
+
+## Recap and Conclusions {background="#00100F"}
+  
+#### Recap
+
+#### Next Questions
+
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
