@@ -44,6 +44,20 @@ By the end, you should be able to
 
 - R
 
+```{python}
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+import numpy as np
+
+
+plt.rcParams["font.family"] = "sans-serif"
+plt.rcParams["font.sans-serif"] = ["Arial"]
+
+FIG_HEIGHT = 7
+FIG_RATIO = 2.3
+```
+
+
 #### References
  
 
@@ -230,9 +244,10 @@ Identification basically asks:
 Given the 
 
 1. The joint distribution $F_{X, Y}$ of the data
-2. "Implications"$(\theta)$ of the model,
+2. Assumptions that the model is true for some $\theta_0$
+3. "Implications"$(\theta_0)$ of the model,
 
-can $\theta$ be uniquely determined?
+can $\theta_0$ be uniquely determined?
 
 </div> 
  
@@ -257,7 +272,7 @@ To make idea simpler, a special <span class="highlight">parametric</span> case
 
 Consider simple example: 
 
-- $Y_i\sim N(\theta, 1)$, no $X_i$ (model)
+- $Y_i\sim N(\theta_0, 1)$, no $X_i$ (model)
 - Parameter of interest is <span class="highlight">$\theta$</span>
 
 . . . 
@@ -266,13 +281,152 @@ Consider simple example:
 
 Implication of the model:
 
-- $F_{Y}$ is a normal distribution with mean $\theta$ and variance 1
-- Known up to $\theta$, can label the distribution as $F_Y(y|\theta)$ 
+- $F_{Y}$ is a normal distribution with mean $\theta_0$ and variance 1
+- Known up to $\theta$, can label the distribution as $F_Y(y|\theta_0)$ 
+ 
+#### Identification of $\theta$
+ 
+
+Let's try our definition of identification:
+
+1. Distribution of the data tells us $\E[Y_i]$
+2. The model tells us that $\E[Y_i]$ must be $\theta_0$
+
+. . . 
+
+Therefore, it must be that 
+$$
+\theta_0 = \E[Y_i]
+$$
+$\theta_0$ uniquely determined as the above function of the distribution of the data
+
+
+#### Another View of Identification
+
+ 
+
+<span class="highlight">Equivalent</span> way to state definition of identification
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+$\theta_0$ is identified if for any $\theta\neq\theta_0$ it holds that
+$$
+F_Y(y|\theta) \neq F_Y(y|\theta_0)
+$$
+
+</div> 
+
+
+<br> 
+
+In words: different $\theta$ give different distributions of observed data
+
+
+#### Visual Example: Difference in Distributions
+
+```{python}
+from scipy.stats import norm
+fig, ax = plt.subplots(1, 1, figsize=(FIG_HEIGHT * FIG_RATIO, FIG_HEIGHT))
+BG_COLOR = "whitesmoke"
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+x = np.linspace(norm.ppf(0.0001), norm.ppf(0.9999), 100)
+ax.plot(
+    x,
+    norm.cdf(x),
+    color = "teal",
+    lw=4,
+    alpha=0.6,
+    label="CDF under $\\theta$",
+)
+ax.plot(
+    x,
+    norm.cdf(x, loc=1),
+    color = "darkorange",
+    linestyle = "--",
+    lw=4,
+    alpha=0.6,
+    label="CDF under $\\theta'$",
+)
+ax.set_xlabel("$y$")
+ax.legend()
+ax.set_facecolor(BG_COLOR)
+plt.show()
+```
  
 
 
+#### Example of Non-Identification
 
-#### Definition
+Second definition useful for showing <span class="highlight">non-identification</span>
+
+. . . 
+
+<br>
+
+An example: suppose that $Y_i \sim N(\abs{\theta_0}, 1)$:
+
+- If $\theta = 1$, then $Y_i$ should be $N(1, 1)$
+- If $\theta = -1$, then $Y_i$ should be $N(1, 1)$
+
+. . . 
+
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+Different $\theta$ give the same distribution = $\theta_0$ not identified if $\theta_0\neq 0$
+
+</div>
+
+#### Visual Illustration: Same Distribution
+
+```{python}
+from scipy.stats import norm
+fig, ax = plt.subplots(1, 1,  figsize=(FIG_HEIGHT * FIG_RATIO, FIG_HEIGHT)) 
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+x = np.linspace(norm.ppf(0.0001), norm.ppf(0.9999), 100)
+ax.plot(
+    x,
+    norm.cdf(x, loc=1),
+    color = "teal",
+    lw=4,
+    linestyle = "-.",
+    alpha=0.6,
+    label="CDF under $\\theta=-1$",
+)
+ax.plot(
+    x,
+    norm.cdf(x, loc=1),
+    color = "darkorange",
+    linestyle = "--",
+    lw=4,
+    alpha=0.6,
+    label="CDF under $\\theta=1$",
+)
+ax.set_xlabel("$y$")
+ax.legend()
+ax.set_facecolor(BG_COLOR)
+plt.show()
+```
+  
+### Identification in Linear Model with Exogeneity {background="#43464B"}
+
+#### Towards a More Complex Example
+
+#### Setting: Potential Outcomes
+
+$$
+Y^{\bx}_i = \bx'\bbeta + U_i
+$$
+
+What we see: realized values of $(Y_i, \bX_i)$. The realized outcomes are determined as 
+$$
+Y_i = Y^{\bX_i}_i
+$$
+
+####
 
 
 #### Motivation 
@@ -281,7 +435,7 @@ Implication of the model:
 
 It is a fundamentally theoretical exercise
 
-#### 
+#### Discussion
 
 Identification is the property of the model
 
@@ -304,11 +458,7 @@ Sometimes you do it with
 Linear model: if not unique, the other models give the same 
 
 
-#### Non-Identifcation
 
-You have to show an actual example of different values of $\theta$ that give the same observed distribution.
-
-Not sufficient to show that a particular strategy fails
 
 
 ## Estimation and Inference {background="#00100F"}
