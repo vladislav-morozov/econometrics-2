@@ -21,7 +21,8 @@ website:
       - section: "Linear Regression II"
         contents:
         - slides/vector/vector-ols.qmd  
-        - slides/vector/ols-asymptotics.qmd
+        - slides/vector/ols-consistency.qmd
+        - slides/vector/ols-limit-distribuiton.qmd
 
 execute:
   freeze: auto  # re-render only when source changes

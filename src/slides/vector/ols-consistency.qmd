@@ -1,6 +1,6 @@
 ---
-title: "Asymptotic Properties of the OLS Estimator"
-subtitle: "Tractable Large-Sample Approximations"
+title: "Consistency of the OLS Estimator"
+subtitle: "Convergence as Sample Size Grows"
 author: Vladislav Morozov  
 format:
   revealjs:
@@ -9,7 +9,7 @@ format:
     sc-sb-title: true
     incremental: true   
     logo: ../../themes/favicon.ico
-    footer: "A Deeper Look at Linear Regression: Asymptotic Properties"
+    footer: "A Deeper Look at Linear Regression: Consistency"
     footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
     theme: ../../themes/slides_theme.scss
     toc: TRUE
@@ -196,10 +196,6 @@ $$
 In finite samples you may have bias!
 Consistency result shows that in the limit you are still estimating the correct thing
 
-## Asymptotic Normality {background="#00100F"}
-  
-### Model {background="#43464B"}
+ 
+#### How Quick is the Convergence? 
 
-####
-
-Model 
