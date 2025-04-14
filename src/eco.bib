@@ -180,6 +180,7 @@
   keywords = {Bioinformatics,Computational intelligence,Data mining,Forecasting,Inference,Machine learning,Methodology,Statistics}
 }
 
+
 @book{James2023IntroductionStatisticalLearning,
   title = {An {{Introduction}} to {{Statistical Learning}}: {{With Applications}} in {{Python}}},
   shorttitle = {An Introduction to Statistical Learning},
@@ -1598,16 +1599,16 @@
 	title = {{Calculus on Normed Vector Spaces}},
 	year = {2012}
 }
-
-@book{Wainwright2019HighDimensionalStatisticsNonAsymptotic,
-  title = {High-{{Dimensional Statistics}}: {{A Non-Asymptotic Viewpoint}}},
-  author = {Wainwright, Martin J.},
-  year = {2019},
-  publisher = {Cambridge University Press},
-  doi = {10.1017/9781108627771},
-  isbn = {978-1-108-62777-1}
+@book{Wainwright2019,
+	author = {Wainwright, Martin J.},
+	doi = {10.1017/9781108627771},
+	isbn = {9781108627771},
+	mendeley-groups = {High-Dimensional/Books},
+	pages = {xviii, 552},
+	publisher = {Cambridge University Press},
+	title = {{High-Dimensional Statistics: A Non-Asymptotic Viewpoint}},
+	year = {2019}
 }
-
 
 @book{Shifrin2004,
 	author = {Shifrin, Theodore},
@@ -2574,6 +2575,16 @@
 	year = {2018}
 }
 
+@unpublished{Cooprider2022,
+	author = {Cooprider, Joseph and Hoderlein, Stefan and Meister, Alexander},
+	doi = {10.2139/ssrn.3545485},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Panel Data/Heterogeneous Panels/Cooprider, Hoderlein, Meister (2022) A Panel Data Estimator for the Distribution and Quantiles of Marginal Effects.pdf:pdf},
+	mendeley-groups = {Panel Data/Nonlinear Panels},
+	pages = {1--52},
+	title = {{A Panel Data Estimator for the Distribution and Quantiles of Marginal Effects in Nonlinear Structural Models with an Application to the Demand for Junk Food}},
+	year = {2022}
+}
+
 @article{Burkhardt2019,
 	abstract = {We estimate the effect of short-term air pollution exposure (PM2.5 and ozone) on several categories of crime, with a particular emphasis on aggressive behavior. To identify this relationship, we combine detailed daily data on crime, air pollution, and weather for an eight-year period across the United States. Our primary identification strategy employs extremely high dimensional fixed effects and we perform a series of robustness checks to address confounding variation between temperature and air pollution. We find a robust positive effect of increased air pollution on violent crimes, and specifically assaults, but no relationship between increases in air pollution and property crimes. The effects are present in and out of the home, at levels well below Ambient Air Pollution Standards, and PM2.5 effects are strongest at lower temperatures. The results suggest that a 10{\%} reduction in daily PM2.5 and ozone could save {\$}1.4 billion in crime costs per year, a previously overlooked cost associated with pollution.},
 	author = {Burkhardt, Jesse and Bayham, Jude and Wilson, Ander and Carter, Ellison and Berman, Jesse D. and O'Dell, Katelyn and Ford, Bonne and Fischer, Emily V. and Pierce, Jeffrey R.},
@@ -2760,21 +2771,37 @@
 	volume = {98},
 	year = {1988}
 }
- 
-@article{Horowitz2011AppliedNonparametricInstrumental,
-  title = {Applied {{Nonparametric Instrumental Variables Estimation}}},
-  author = {Horowitz, Joel L.},
-  year = {2011},
-  journal = {Econometrica},
-  volume = {79},
-  number = {2},
-  pages = {347--394},
-  issn = {0012-9682},
-  doi = {10.3982/ecta8662},
-  abstract = {Instrumental variables are widely used in applied econometrics to achieve identification and carry out estimation and inference in models that contain endogenous explanatory variables. In most applications, the function of interest (e.g., an Engel curve or demand function) is assumed to be known up to finitely many parameters (e.g., a linear model), and instrumental variables are used to identify and estimate these parameters. However, linear and other finite-dimensional parametric models make strong assumptions about the population being modeled that are rarely if ever justified by economic theory or other a priori reasoning and can lead to seriously erroneous conclusions if they are incorrect. This paper explores what can be learned when the function of interest is identified through an instrumental variable but is not assumed to be known up to finitely many parameters. The paper explains the differences between parametric and nonparametric estimators that are important for applied research, describes an easily implemented nonparametric instrumental variables estimator, and presents empirical examples in which nonparametric methods lead to substantive conclusions that are quite different from those obtained using standard, parametric estimators. {\copyright} 2011 The Econometric Society.},
-  file = {D:\Academic Things\Econometrics\Articles\Nonparametric Estimation\Endogeneity\Horowitz (2011) Applied Nonparametric Instrumental Variables Estimation.pdf}
-}
 
+@article{Blundell2003engel,
+	abstract = {This paper applies revealed preference theory to the nonparametric statistical analysis of consumer demand. Knowledge of expansion paths is shown to improve the power of non-parametric tests of revealed preference. The tightest bounds on indifference surfaces and welfare measures are derived using an algorithm for which revealed preference conditions are shown to guarantee convergence. Nonparametric Engel curves are used to estimate expansion paths and provide a stochastic structure within which to examine the consistency of household level data and revealed preference theory. An application is made to a long time series of repeated cross-sections from the Family Expenditure Survey for Britain. The consistency of these data with revealed preference theory is examined. For periods of consistency with revealed preference, tight bounds are placed on true cost of living indices.},
+	author = {Blundell, Richard W. and Browning, Martin and Crawford, Ian A.},
+	doi = {10.1111/1468-0262.00394},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Applied/Engel Curves/Blundell, Browning,  Crawford (2003) Nonparametric Engel Curves and Revealed Preference.pdf:pdf},
+	issn = {00129682},
+	journal = {Econometrica},
+	keywords = {Consumer demands,Nonparametric regression,Revealed preference},
+	mendeley-groups = {Applied (By Field)/Consumption,Applied (By Field)/Consumption/Engel Curves},
+	number = {1},
+	pages = {205--240},
+	title = {{Nonparametric Engel Curves and Revealed preference}},
+	volume = {71},
+	year = {2003}
+}
+@article{Horowitz2011,
+	abstract = {Instrumental variables are widely used in applied econometrics to achieve identification and carry out estimation and inference in models that contain endogenous explanatory variables. In most applications, the function of interest (e.g., an Engel curve or demand function) is assumed to be known up to finitely many parameters (e.g., a linear model), and instrumental variables are used to identify and estimate these parameters. However, linear and other finite-dimensional parametric models make strong assumptions about the population being modeled that are rarely if ever justified by economic theory or other a priori reasoning and can lead to seriously erroneous conclusions if they are incorrect. This paper explores what can be learned when the function of interest is identified through an instrumental variable but is not assumed to be known up to finitely many parameters. The paper explains the differences between parametric and nonparametric estimators that are important for applied research, describes an easily implemented nonparametric instrumental variables estimator, and presents empirical examples in which nonparametric methods lead to substantive conclusions that are quite different from those obtained using standard, parametric estimators. {\textcopyright} 2011 The Econometric Society.},
+	author = {Horowitz, Joel L.},
+	doi = {10.3982/ecta8662},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Nonparametric Estimation/Endogeneity/Horowitz (2011) Applied Nonparametric Instrumental Variables Estimation.pdf:pdf},
+	issn = {0012-9682},
+	journal = {Econometrica},
+	mendeley-groups = {Nonparametric Estimation/Endogeneity,Applied (By Field)/Consumption/Engel Curves},
+	number = {2},
+	pages = {347--394},
+	title = {{Applied Nonparametric Instrumental Variables Estimation}},
+	volume = {79},
+	year = {2011}
+}
+ 
 
 @article{Charnigo2015,
 	abstract = {We propose a new multivariate generalized Cp (MGCp) criterion for tuning parameter selection in nonparametric regression, applicable when there are multiple covariates whose values may be irregularly spaced. Apart from an asymptotically negligible remainder, the MGCp criterion has expected value equal to the sum of squared errors of a fitted derivative (rather than of a fitted mean response). Thus, unlike traditional criteria for tuning parameter selection, MGCp is not prone to undersmoothed derivative estimation. We illustrate a scientific application in a case study that explores the relationship among three measures of liver function. Since recent technological developments hold promise for assessing two of these measures outside of medical and laboratory facilities, better understanding of the aforementioned relationship may allow enhanced monitoring of liver function, especially in developing countries and among persons for whom access to medical and laboratory facilities is limited.},
@@ -2972,49 +2999,32 @@
 	year = {2023}
 }
 
-@article{Blundell2003NonparametricEngelCurves,
-  title = {Nonparametric {{Engel Curves}} and {{Revealed}} Preference},
-  author = {Blundell, Richard W. and Browning, Martin and Crawford, Ian A.},
-  year = {2003},
-  journal = {Econometrica},
-  volume = {71},
-  number = {1},
-  pages = {205--240},
-  issn = {00129682},
-  doi = {10.1111/1468-0262.00394},
-  abstract = {This paper applies revealed preference theory to the nonparametric statistical analysis of consumer demand. Knowledge of expansion paths is shown to improve the power of non-parametric tests of revealed preference. The tightest bounds on indifference surfaces and welfare measures are derived using an algorithm for which revealed preference conditions are shown to guarantee convergence. Nonparametric Engel curves are used to estimate expansion paths and provide a stochastic structure within which to examine the consistency of household level data and revealed preference theory. An application is made to a long time series of repeated cross-sections from the Family Expenditure Survey for Britain. The consistency of these data with revealed preference theory is examined. For periods of consistency with revealed preference, tight bounds are placed on true cost of living indices.},
-  keywords = {Consumer demands,Nonparametric regression,Revealed preference},
-  file = {D:\Academic Things\Econometrics\Articles\Applied\Engel Curves\Blundell, Browning,  Crawford (2003) Nonparametric Engel Curves and Revealed Preference.pdf}
+0@article{Blundell2007engel,
+	abstract = {This paper studies a shape-invariant Engel curve system with endogenous total expenditure, in which the shape-invariant specification involves a common shift parameter for each demographic group in a pooled system of nonparametric Engel curves. We focus on the identification and estimation of both the nonparametric shapes of the Engel curves and the parametric specification of the demographic scaling parameters. The identification condition relates to the bounded completeness and the estimation procedure applies the sieve minimum distance estimation of conditional moment restrictions, allowing for endogeneity. We establish a new root mean squared convergence rate for the nonparametric instrumental variable regression when the endogenous regressor could have unbounded support. Root-n asymptotic normality and semiparametric efficiency of the parametric components are also given under a set of "low-level" sufficient conditions. Our empirical application using the U.K. Family Expenditure Survey shows the importance of adjusting for endogeneity in terms of both the nonparametric curvatures and the demographic parameters of systems of Engel curves. {\textcopyright} The Econometric Society 2007.},
+	author = {Blundell, Richard W. and Chen, Xiaohong and Kristensen, Dennis},
+	doi = {10.1111/j.1468-0262.2007.00808.x},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Applied/Engel Curves/Blundell, Chen, Kristensen (2007) Semi-Nonparametric IV Estimation of Shape-Invariant Engel Curves.pdf:pdf},
+	issn = {00129682},
+	journal = {Econometrica},
+	keywords = {Bounded completeness,Consumer demands,Nonparametric IV,Nonparametric convergence rate,Root-n semiparametric efficiency,Sieve measure of ill-posedness,Sieve minimum distance},
+	mendeley-groups = {Applied (By Field)/Consumption/Engel Curves},
+	number = {6},
+	pages = {1613--1669},
+	title = {{Semi-Nonparametric IV Estimation of Shape-Invariant Engel Curves}},
+	volume = {75},
+	year = {2007}
 }
-
-@article{Blundell2007SemiNonparametricIVEstimation,
-  title = {Semi-{{Nonparametric IV Estimation}} of {{Shape-Invariant Engel Curves}}},
-  author = {Blundell, Richard W. and Chen, Xiaohong and Kristensen, Dennis},
-  year = {2007},
-  journal = {Econometrica},
-  volume = {75},
-  number = {6},
-  pages = {1613--1669},
-  issn = {00129682},
-  doi = {10.1111/j.1468-0262.2007.00808.x},
-  abstract = {This paper studies a shape-invariant Engel curve system with endogenous total expenditure, in which the shape-invariant specification involves a common shift parameter for each demographic group in a pooled system of nonparametric Engel curves. We focus on the identification and estimation of both the nonparametric shapes of the Engel curves and the parametric specification of the demographic scaling parameters. The identification condition relates to the bounded completeness and the estimation procedure applies the sieve minimum distance estimation of conditional moment restrictions, allowing for endogeneity. We establish a new root mean squared convergence rate for the nonparametric instrumental variable regression when the endogenous regressor could have unbounded support. Root-n asymptotic normality and semiparametric efficiency of the parametric components are also given under a set of "low-level" sufficient conditions. Our empirical application using the U.K. Family Expenditure Survey shows the importance of adjusting for endogeneity in terms of both the nonparametric curvatures and the demographic parameters of systems of Engel curves. {\copyright} The Econometric Society 2007.},
-  keywords = {Bounded completeness,Consumer demands,Nonparametric convergence rate,Nonparametric IV,Root-n semiparametric efficiency,Sieve measure of ill-posedness,Sieve minimum distance},
-  file = {D:\Academic Things\Econometrics\Articles\Applied\Engel Curves\Blundell, Chen, Kristensen (2007) Semi-Nonparametric IV Estimation of Shape-Invariant Engel Curves.pdf}
+@article{Newey2001,
+	author = {Newey, Whitney K.},
+	doi = {10.1162/003465301753237704},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Errors in Variables/Newey (2001) Flexible Simulated Moment Estimation of Nonlinear Errors-in-Variables Models.pdf:pdf},
+	journal = {The Review of Economics and Statistics},
+	number = {4},
+	pages = {616--627},
+	title = {{Flexible Simulated Moment Estimation of Nonlinear Errors-in-Variables Models}},
+	volume = {83},
+	year = {2001}
 }
-
-@article{Newey2001FlexibleSimulatedMoment,
-  title = {Flexible {{Simulated Moment Estimation}} of {{Nonlinear Errors-in-Variables Models}}},
-  author = {Newey, Whitney K.},
-  year = {2001},
-  journal = {The Review of Economics and Statistics},
-  volume = {83},
-  number = {4},
-  pages = {616--627},
-  doi = {10.1162/003465301753237704},
-  abstract = {Nonlinear regression with measurement error is important for estimation from microeconomic data. One approach to identification and estimation is a causal model, in which the unobserved true variable is predicted by observable variables. This paper details the estimation of such a model using simulated moments and a flexible disturbance distribution. An estimator of the asymptotic variance is given for parametric models. Also, a semiparametric consistency result is given. The value of the estimator is demonstrated in a Monte Carlo study and an application to estimating Engel Curves.},
-  file = {C:\Users\moren\My Drive\Econometrics Cloud\Articles\Measurement Error\Simulation\Newey - 2001 - Flexible Simulated Moment Estimation of Nonlinear Errors-in-Variables Models.pdf}
-}
-
 
 @article{Hausman1991,
 	abstract = {Methods of estimation of regression coefficients are proposed when the regression function includes a polynomial in a 'true' regressor which is measured with error. Two sources of additional information concerning the unobservable regressor are considered: either an additional indicator of the regressor (itself measured with error) or instrumental variables which characterize the systematic variation in the true regressor. In both cases, estimators are constructed by relating moments involving the unobserved variables to moments of observables; these relations lead to recursion formulae for computation of the regression coefficients and nuisance parameters (e.g., moments of the measurement error). Consistency and asymptotic normality of the estimated coefficients is demonstrated, and consistent estimators of the asymptotic covariant matrices are provided. {\textcopyright} 1991.},
@@ -3119,18 +3129,18 @@
 	year = {2000}
 }
 
-@article{Banks1997QuadraticEngelCurve,
-  title = {Quadratic {{Engel Curve}} and {{Consumer Demand}}},
-  author = {Banks, James and Blundell, Richard W. and Lewbel, Arthur},
-  year = {1997},
-  journal = {Review of Economics and Statistics},
-  volume = {79},
-  number = {4},
-  pages = {527--539},
-  doi = {10.1162/003465397557015},
-  file = {D:\Academic Things\Econometrics\Articles\Applied\Engel Curves\Banks, Blundell, Lewbel (1997) Quadratic Engel Curves and Consumer Demand.pdf}
+@article{Banks1997,
+	author = {Banks, James and Blundell, Richard W. and Lewbel, Arthur},
+	doi = {10.1162/003465397557015},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Applied/Engel Curves/Banks, Blundell, Lewbel (1997) Quadratic Engel Curves and Consumer Demand.pdf:pdf},
+	journal = {Review of Economics and Statistics},
+	mendeley-groups = {Applied (By Field)/Consumption/Engel Curves},
+	number = {4},
+	pages = {527--539},
+	title = {{Quadratic Engel Curve and Consumer Demand}},
+	volume = {79},
+	year = {1997}
 }
-
 
 @article{Wendel1961,
 	author = {Wendel, J. G.},
@@ -4110,64 +4120,67 @@
 	title = {{The Moment Problem}},
 	year = {2017}
 }
+
+ @article{Fox2016,
+ 	abstract = {We explore least squares and likelihood nonparametric mixtures estimators of the joint distribution of random coefficients in structural models. The estimators fix a grid of heterogeneous parameters and estimate only the weights on the grid points, an approach that is computationally attractive compared to alternative nonparametric estimators. We provide conditions under which the estimated distribution function converges to the true distribution in the weak topology on the space of distributions. We verify most of the consistency conditions for three discrete choice models. We also derive the convergence rates of the least squares nonparametric mixtures estimator under additional restrictions. We perform a Monte Carlo study on a dynamic programming model.},
+ 	author = {Fox, Jeremy T. and il Kim, Kyoo and Yang, Chenyu},
+ 	doi = {10.1016/j.jeconom.2016.05.018},
+ 	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Panel Data/Heterogeneous Panels/Cross sections/Fox, Kim, Yang (2016)  A simple nonparametric approach to estimating the distribution of random coefficients in structural models.pdf:pdf},
+ 	issn = {18726895},
+ 	journal = {Journal of Econometrics},
+ 	keywords = {Discrete choices,Dynamic programming,Mixtures,Random coefficients,Sieve estimation},
+ 	mendeley-groups = {Random Coefficients/Nonlinear},
+ 	number = {2},
+ 	pages = {236--254},
+ 	publisher = {Elsevier B.V.},
+ 	title = {{A Simple Nonparametric Approach to Estimating the Distribution of Random Coefficients in Structural Models}},
+ 	volume = {195},
+ 	year = {2016}
+ }
+ @article{Chen2012,
+ 	abstract = {This paper studies nonparametric estimation of conditional moment restrictions in which the generalized residual functions can be nonsmooth in the unknown functions of endogenous variables. This is a nonparametric nonlinear instrumental variables (IV) problem. We propose a class of penalized sieve minimum distance (PSMD) estimators, which are minimizers of a penalized empirical minimum distance criterion over a collection of sieve spaces that are dense in the infinite-dimensional function parameter space. Some of the PSMD procedures use slowly growing finite-dimensional sieves with flexible penalties or without any penalty; others use large dimensional sieves with lower semicompact and/or convex penalties. We establish their consistency and the convergence rates in Banach space norms (such as a sup-norm or a root mean squared norm), allowing for possibly noncompact infinite-dimensional parameter spaces. For both mildly and severely ill-posed nonlinear inverse problems, our convergence rates in Hilbert space norms (such as a root mean squared norm) achieve the known minimax optimal rate for the nonparametric mean IV regression. We illustrate the theory with a nonparametric additive quantile IV regression. We present a simulation study and an empirical application of estimating nonparametric quantile IV Engel curves. {\textcopyright} 2012 The Econometric Society.},
+ 	author = {Chen, Xiaohong and Pouzo, Demian},
+ 	doi = {10.3982/ecta7888},
+ 	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Nonparametric Estimation/Sieve Estimation/Chen, Pouzo (2012) Estimation of Nonparametric Conditional Moment Models With Possibly Nonsmooth Generalized.pdf:pdf},
+ 	issn = {0012-9682},
+ 	journal = {Econometrica},
+ 	mendeley-groups = {Nonparametric Estimation/Nonsmooth},
+ 	number = {1},
+ 	pages = {277--321},
+ 	title = {{Estimation of Nonparametric Conditional Moment Models With Possibly Nonsmooth Generalized Residuals}},
+ 	volume = {80},
+ 	year = {2012}
+ }
  
-@article{Chen2012EstimationNonparametricConditional,
-  title = {Estimation of {{Nonparametric Conditional Moment Models With Possibly Nonsmooth Generalized Residuals}}},
-  author = {Chen, Xiaohong and Pouzo, Demian},
-  year = {2012},
-  journal = {Econometrica},
-  volume = {80},
-  number = {1},
-  pages = {277--321},
-  issn = {0012-9682},
-  doi = {10.3982/ecta7888},
-  abstract = {This paper studies nonparametric estimation of conditional moment restrictions in which the generalized residual functions can be nonsmooth in the unknown functions of endogenous variables. This is a nonparametric nonlinear instrumental variables (IV) problem. We propose a class of penalized sieve minimum distance (PSMD) estimators, which are minimizers of a penalized empirical minimum distance criterion over a collection of sieve spaces that are dense in the infinite-dimensional function parameter space. Some of the PSMD procedures use slowly growing finite-dimensional sieves with flexible penalties or without any penalty; others use large dimensional sieves with lower semicompact and/or convex penalties. We establish their consistency and the convergence rates in Banach space norms (such as a sup-norm or a root mean squared norm), allowing for possibly noncompact infinite-dimensional parameter spaces. For both mildly and severely ill-posed nonlinear inverse problems, our convergence rates in Hilbert space norms (such as a root mean squared norm) achieve the known minimax optimal rate for the nonparametric mean IV regression. We illustrate the theory with a nonparametric additive quantile IV regression. We present a simulation study and an empirical application of estimating nonparametric quantile IV Engel curves. {\copyright} 2012 The Econometric Society.},
-  file = {D:\Academic Things\Econometrics\Articles\Nonparametric Estimation\Sieve Estimation\Chen, Pouzo (2012) Estimation of Nonparametric Conditional Moment Models With Possibly Nonsmooth Generalized.pdf}
+@article{Fox2011,
+	abstract = {We propose a simple mixtures estimator for recovering the joint distribution of parameter heterogeneity in economic models, such as the random coefficients logit. The estimator is based on linear regression subject to linear inequality con-straints, and is robust, easy to program, and computationally attractive compared to alternative estimators for random coefficient models. For complex structural models, one does not need to nest a solution to the economic model during op-timization. We present a Monte Carlo study and an empirical application to dy-namic programming discrete choice with a serially correlated unobserved state variable.},
+	author = {Fox, Jeremy T. and il Kim, Kyoo and Ryan, Stephen P. and Bajari, Patrick},
+	doi = {10.3982/qe49},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Discrete Choice/Multiple/Fox, Kim, Ryan, Bajari (2011) A simple estimator for the distribution of random coefficients.pdf:pdf},
+	issn = {17597323},
+	journal = {Quantitative Economics},
+	mendeley-groups = {Discrete Choice/Multinomial},
+	number = {3},
+	pages = {381--418},
+	title = {{A Simple Estimator for the Distribution of Random Coefficients}},
+	volume = {2},
+	year = {2011}
 }
 
-@article{Fox2011SimpleEstimatorDistribution,
-  title = {A {{Simple Estimator}} for the {{Distribution}} of {{Random Coefficients}}},
-  author = {Fox, Jeremy T. and {il Kim}, Kyoo and Ryan, Stephen P. and Bajari, Patrick},
-  year = {2011},
-  journal = {Quantitative Economics},
-  volume = {2},
-  number = {3},
-  pages = {381--418},
-  issn = {17597323},
-  doi = {10.3982/qe49},
-  abstract = {We propose a simple mixtures estimator for recovering the joint distribution of parameter heterogeneity in economic models, such as the random coefficients logit. The estimator is based on linear regression subject to linear inequality con-straints, and is robust, easy to program, and computationally attractive compared to alternative estimators for random coefficient models. For complex structural models, one does not need to nest a solution to the economic model during op-timization. We present a Monte Carlo study and an empirical application to dy-namic programming discrete choice with a serially correlated unobserved state variable.},
-  file = {D:\Academic Things\Econometrics\Articles\Discrete Choice\Multiple\Fox, Kim, Ryan, Bajari (2011) A simple estimator for the distribution of random coefficients.pdf}
-}
-
-@article{Fox2012RandomCoefficientsLogit,
-  title = {The {{Random Coefficients Logit Model}} Is {{Identified}}},
-  author = {Fox, Jeremy T. and Kim, Kyoo Il and Ryan, Stephen P. and Bajari, Patrick},
-  year = {2012},
-  journal = {Journal of Econometrics},
-  volume = {166},
-  number = {2},
-  pages = {204--212},
-  publisher = {Elsevier B.V.},
-  issn = {03044076},
-  doi = {10.1016/j.jeconom.2011.09.002},
-  abstract = {The random coefficients multinomial choice logit model, also known as the mixed logit, has been widely used in empirical choice analysis for the last thirty years. We prove that the distribution of random coefficients in the multinomial logit model is nonparametrically identified. Our approach requires variation in product characteristics only locally and does not rely on the special regressors with large supports used in related papers. One of our two identification arguments is constructive. Both approaches may be applied to other choice models with random coefficients. {\copyright} 2011 Elsevier B.V. All rights reserved.},
-  file = {D:\Academic Things\Econometrics\Articles\Discrete Choice\Multiple\Fox, Kim, Ryan, Bajari (2011) The random coefficients logit model is identified.pdf}
-}
-
-@article{Fox2016SimpleNonparametricApproach,
-  title = {A {{Simple Nonparametric Approach}} to {{Estimating}} the {{Distribution}} of {{Random Coefficients}} in {{Structural Models}}},
-  author = {Fox, Jeremy T. and {il Kim}, Kyoo and Yang, Chenyu},
-  year = {2016},
-  journal = {Journal of Econometrics},
-  volume = {195},
-  number = {2},
-  pages = {236--254},
-  publisher = {Elsevier B.V.},
-  issn = {18726895},
-  doi = {10.1016/j.jeconom.2016.05.018},
-  abstract = {We explore least squares and likelihood nonparametric mixtures estimators of the joint distribution of random coefficients in structural models. The estimators fix a grid of heterogeneous parameters and estimate only the weights on the grid points, an approach that is computationally attractive compared to alternative nonparametric estimators. We provide conditions under which the estimated distribution function converges to the true distribution in the weak topology on the space of distributions. We verify most of the consistency conditions for three discrete choice models. We also derive the convergence rates of the least squares nonparametric mixtures estimator under additional restrictions. We perform a Monte Carlo study on a dynamic programming model.},
-  keywords = {Discrete choices,Dynamic programming,Mixtures,Random coefficients,Sieve estimation},
-  file = {D:\Academic Things\Econometrics\Articles\Panel Data\Heterogeneous Panels\Cross sections\Fox, Kim, Yang (2016)  A simple nonparametric approach to estimating the distribution of random coefficients in structural models.pdf}
+@article{Fox2012,
+	abstract = {The random coefficients multinomial choice logit model, also known as the mixed logit, has been widely used in empirical choice analysis for the last thirty years. We prove that the distribution of random coefficients in the multinomial logit model is nonparametrically identified. Our approach requires variation in product characteristics only locally and does not rely on the special regressors with large supports used in related papers. One of our two identification arguments is constructive. Both approaches may be applied to other choice models with random coefficients. {\textcopyright} 2011 Elsevier B.V. All rights reserved.},
+	author = {Fox, Jeremy T. and Kim, Kyoo Il and Ryan, Stephen P. and Bajari, Patrick},
+	doi = {10.1016/j.jeconom.2011.09.002},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Discrete Choice/Multiple/Fox, Kim, Ryan, Bajari (2011) The random coefficients logit model is identified.pdf:pdf},
+	issn = {03044076},
+	journal = {Journal of Econometrics},
+	mendeley-groups = {Discrete Choice/Multinomial},
+	number = {2},
+	pages = {204--212},
+	publisher = {Elsevier B.V.},
+	title = {{The Random Coefficients Logit Model is Identified}},
+	volume = {166},
+	year = {2012}
 }
 
 @article{Wallis1986,
@@ -4734,6 +4747,33 @@
 	year = {2018}
 }
 
+@article{Hoderlein2009,
+	author = {Hoderlein, Stefan and Mammen, Enno},
+	doi = {10.1111/j.1368-423X.2008.00273.x},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Nonseparable Models/Hoderlein, Mammen (2007) Identification and estimation of local average derivatives in non-separable models without monotonicity.pdf:pdf},
+	journal = {The Econometrics Journal},
+	mendeley-groups = {Nonseparable Models,Nonparametric Estimation/Local Average Responses},
+	number = {1},
+	pages = {1--25},
+	title = {{Identification and Estimation of Local Average Derivatives in Non-Separable Models Without Monotonicity}},
+	volume = {12},
+	year = {2009}
+}
+
+@article{Hoderlein2007,
+	author = {Hoderlein, Stefan and Mammen, Enno},
+	doi = {10.1111/j.1468-0262.2007.00801.x},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Nonseparable Models/Hoderlein, Mammen (2007) Identification of Marginal Effects in Nonseparable Models without Monotonicity.pdf:pdf},
+	journal = {Econometrica},
+	keywords = {gression,nonparametric,nonparametric instrumental variable,nonseparable model,partial identification,quantile re-,weak axiom},
+	mendeley-groups = {Nonseparable Models,Nonparametric Estimation/Identification},
+	number = {5},
+	pages = {1513--1518},
+	title = {{Identification of Marginal Effects in Nonseparable Models without Monotonicity}},
+	volume = {75},
+	year = {2007}
+}
+
 @article{Beran1992,
 	author = {Beran, Rudolf and Hall, Peter},
 	doi = {10.1214/aos/1176348898},
@@ -5181,37 +5221,21 @@
 	year = {1987}
 }
 
-@article{Altonji2005CrossSectionPanel,
-  title = {Cross {{Section}} and {{Panel Data Estimators}} for {{Nonseparable Models}} with {{Endogenous Regressors}}},
-  author = {Altonji, Joseph G. and Matzkin, Rosa L.},
-  year = {2005},
-  month = jul,
-  journal = {Econometrica},
-  volume = {73},
-  number = {4},
-  pages = {1053--1102},
-  issn = {0012-9682, 1468-0262},
-  doi = {10.1111/j.1468-0262.2005.00609.x},
-  urldate = {2024-10-08},
-  langid = {english},
-  file = {C:\Users\moren\My Drive\Econometrics Cloud\Articles\Panel Data\Nonparametric Analysis\Altonji and Matzkin - 2005 - Cross Section and Panel Data Estimators for Nonseparable Models with Endogenous Regressors.pdf}
+@article{Matzkin2003,
+	abstract = {We present estimators for nonparametric functions that are nonadditive in unobservable random terms. The distributions of the unobservable random terms are assumed to be unknown. We show that when a nonadditive, nonparametric function is strictly monotone in an unobservable random term, and it satisfies some other properties that may be implied by economic theory, such as homogeneity of degree one or separability, the function and the distribution of the unobservable random term are identified. We also present convenient normalizations, to use when the properties of the function, other than strict monotonicity in the unobservable random term, are unknown. The estimators for the nonparametric function and for the distribution of the unobservable random term are shown to be consistent and asymptotically normal. We extend the results to functions that depend on a multivariate random term. The results of a limited simulation study are presented.},
+	author = {Matzkin, Rosa L.},
+	doi = {10.1111/1468-0262.00452},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Nonseparable Models/Matzkin (2003) Nonparametric Estimation of Nonadditive Random Functions.pdf:pdf},
+	issn = {00129682},
+	journal = {Econometrica},
+	keywords = {Conditional distributions,Conditional quantiles,Homogeneity,Monotonicity,Nonadditive random term,Nonparametric estimation,Nonseparable models,Shape restrictions},
+	mendeley-groups = {Nonseparable Models},
+	number = {5},
+	pages = {1339--1375},
+	title = {{Nonparametric Estimation of Nonadditive Random Functions}},
+	volume = {71},
+	year = {2003}
 }
-
-@article{Matzkin2003NonparametricEstimationNonadditive,
-  title = {Nonparametric {{Estimation}} of {{Nonadditive Random Functions}}},
-  author = {Matzkin, Rosa L.},
-  year = {2003},
-  journal = {Econometrica},
-  volume = {71},
-  number = {5},
-  pages = {1339--1375},
-  issn = {00129682},
-  doi = {10.1111/1468-0262.00452},
-  abstract = {We present estimators for nonparametric functions that are nonadditive in unobservable random terms. The distributions of the unobservable random terms are assumed to be unknown. We show that when a nonadditive, nonparametric function is strictly monotone in an unobservable random term, and it satisfies some other properties that may be implied by economic theory, such as homogeneity of degree one or separability, the function and the distribution of the unobservable random term are identified. We also present convenient normalizations, to use when the properties of the function, other than strict monotonicity in the unobservable random term, are unknown. The estimators for the nonparametric function and for the distribution of the unobservable random term are shown to be consistent and asymptotically normal. We extend the results to functions that depend on a multivariate random term. The results of a limited simulation study are presented.},
-  keywords = {Conditional distributions,Conditional quantiles,Homogeneity,Monotonicity,Nonadditive random term,Nonparametric estimation,Nonseparable models,Shape restrictions},
-  file = {C:\Users\moren\My Drive\Econometrics Cloud\Articles\Nonparametric Analysis\Models with Unobservables\Matzkin - 2003 - Nonparametric Estimation of Nonadditive Random Functions.pdf}
-}
-
 
 @article{Newey2003,
 	abstract = {In econometrics there are many occasions where knowledge of the structural relationship among dependent variables is required to answer questions of interest. This paper gives identification and estimation results for nonparametric conditional moment restrictions. We characterize identification of structural functions as completeness of certain conditional distributions, and give sufficient identification conditions for exponential families and discrete variables. We also give a consistent, nonparametric estimator of the structural function. The estimator is nonparametric two-stage least squares based on series approximation, which overcomes an ill-posed inverse problem by placing bounds on integrals of higher-order derivatives.},
@@ -5788,68 +5812,22 @@
 	year = {2009}
 }
 
-@unpublished{Cooprider2022PanelDataEstimator,
-  title = {A {{Panel Data Estimator}} for the {{Distribution}} and {{Quantiles}} of {{Marginal Effects}} in {{Nonlinear Structural Models}} with an {{Application}} to the {{Demand}} for {{Junk Food}}},
-  author = {Cooprider, Joseph and Hoderlein, Stefan and Meister, Alexander},
-  year = {2022},
-  doi = {10.2139/ssrn.3545485},
-  file = {C:\Users\moren\My Drive\Econometrics Cloud\Articles\Nonparametric Analysis\Nonparametric Panel\Cooprider et al. - 2022 - A Panel Data Estimator for the Distribution and Quantiles of Marginal Effects in Nonlinear Structura.pdf}
+@article{Hoderlein2012,
+	abstract = {This paper extends the familiar notion of fixed effects to nonlinear structures with infinite-dimensional unobservables, like preferences. The main result is that a generalized version of differencing identifies local average responses (LARs) in nonseparable structures. In contrast to existing results, this does not require either substantial restrictions on functional form or independence between the persistent unobservables and the explanatory variables of interest, and it requires only two time periods. On the other hand, the results are confined to the subpopulation of "stayers" (Chamberlain, 1982), i.e.; the population for which the explanatory variables do not change over time. We extend the basic framework to include time trends and dynamics in the explanatory variables, and we show how distributional effects as well as average partial effects are identified. Our approach also allows endogeneity in the transitory unobservables. Furthermore, we show that this new identification principle can be applied to well-known objects like the slope coefficient in the semiparametric panel data binary choice model with fixed effects. Finally, we suggest estimators for the local average response and average partial effect, and we analyze their large- and finite-sample behavior. {\textcopyright} 2012 Elsevier B.V. All rights reserved.},
+	author = {Hoderlein, Stefan and White, Halbert},
+	doi = {10.1016/j.jeconom.2012.01.033},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Panel Data/Nonlinear Panels/Hoderlein, White (2012) Nonparametric identification in nonseparable panel data models with generalized fixed effects.pdf:pdf},
+	issn = {03044076},
+	journal = {Journal of Econometrics},
+	keywords = {Binary choice,Identification,Nonseparable models,Panel data,Semiparametric},
+	mendeley-groups = {Panel Data/Nonlinear Panels,Nonseparable Models},
+	number = {2},
+	pages = {300--314},
+	publisher = {Elsevier B.V.},
+	title = {{Nonparametric Identification in Nonseparable Panel Data Models with Generalized Fixed Effects}},
+	volume = {168},
+	year = {2012}
 }
-
-@article{Hoderlein2007IdentificationMarginalEffects,
-  title = {Identification of {{Marginal Effects}} in {{Nonseparable Models}} without {{Monotonicity}}},
-  author = {Hoderlein, Stefan and Mammen, Enno},
-  year = {2007},
-  journal = {Econometrica},
-  volume = {75},
-  number = {5},
-  pages = {1513--1518},
-  doi = {10.1111/j.1468-0262.2007.00801.x},
-  keywords = {gression,nonparametric,nonparametric instrumental variable,nonseparable model,partial identification,quantile re-,weak axiom},
-  file = {C:\Users\moren\My Drive\Econometrics Cloud\Articles\Nonparametric Analysis\Models with Unobservables\Hoderlein and Mammen - 2007 - Identification of Marginal Effects in Nonseparable Models without Monotonicity.pdf}
-}
-
-@article{Hoderlein2009IdentificationEstimationLocal,
-  title = {Identification and {{Estimation}} of {{Local Average Derivatives}} in {{Non-Separable Models Without Monotonicity}}},
-  author = {Hoderlein, Stefan and Mammen, Enno},
-  year = {2009},
-  journal = {The Econometrics Journal},
-  volume = {12},
-  number = {1},
-  pages = {1--25},
-  doi = {10.1111/j.1368-423X.2008.00273.x},
-  file = {D:\Academic Things\Econometrics\Articles\Nonseparable Models\Hoderlein, Mammen (2007) Identification and estimation of local average derivatives in non-separable models without monotonicity.pdf}
-}
-
-@article{Hoderlein2010AnalyzingRandomCoefficient,
-  title = {Analyzing the {{Random Coefficient Model Nonparametrically}}},
-  author = {Hoderlein, Stefan and Klemel{\"a}, Jussi and Mammen, Enno},
-  year = {2010},
-  journal = {Econometric Theory},
-  volume = {26},
-  number = {03},
-  pages = {804--837},
-  doi = {10.1017/S0266466609990119},
-  file = {C:\Users\moren\My Drive\Econometrics Cloud\Articles\Nonparametric Analysis\Distribution Estimation\Deconvolution\Hoderlein et al. - 2010 - Analyzing the Random Coefficient Model Nonparametrically.pdf}
-}
-
-@article{Hoderlein2012NonparametricIdentificationNonseparable,
-  title = {Nonparametric {{Identification}} in {{Nonseparable Panel Data Models With Generalized Fixed Effects}}},
-  author = {Hoderlein, Stefan and White, Halbert},
-  year = {2012},
-  month = jun,
-  journal = {Journal of Econometrics},
-  volume = {168},
-  number = {2},
-  pages = {300--314},
-  issn = {03044076},
-  doi = {10.1016/j.jeconom.2012.01.033},
-  urldate = {2024-10-10},
-  copyright = {https://www.elsevier.com/tdm/userlicense/1.0/},
-  langid = {english},
-  file = {C:\Users\moren\My Drive\Econometrics Cloud\Articles\Panel Data\Nonparametric Analysis\Hoderlein and White - 2012 - Nonparametric Identification in Nonseparable Panel Data Models With Generalized Fixed Effects.pdf}
-}
-
 
 @article{Ahn2018,
 	abstract = {This article considers estimation of the unknown linear index coefficients of a model in which a number of nonparametrically identified reduced form parameters are assumed to be smooth and invertible function of one or more linear indices. The results extend the previous literature by allowing the number of reduced form parameters to exceed the number of indices (i.e., the indices are “overdetermined” by the reduced form parameters. The estimator of the unknown index coefficients (up to scale) is the eigenvector of a matrix (defined in terms of a first-step nonparametric estimator of the reduced form parameters) corresponding to its smallest (in magnitude) eigenvalue. Under suitable conditions, the proposed estimator is shown to be root-n-consistent and asymptotically normal, and under additional restrictions an efficient choice of a “weight matrix” is derived in the overdetermined case.},
@@ -6055,20 +6033,20 @@
 	year = {2019}
 }
 
-@article{Imbens2009IdentificationEstimationTriangular,
-  title = {Identification and {{Estimation}} of {{Triangular Simultaneous Equations Models Without Additivity}}},
-  author = {Imbens, Guido W. and Newey, Whitney K.},
-  year = {2009},
-  journal = {Econometrica},
-  volume = {77},
-  number = {5},
-  pages = {1481--1512},
-  issn = {0012-9682},
-  doi = {10.3982/ecta7108},
-  abstract = {This paper uses control variables to identify and estimate models with nonseparable, multidimensional disturbances. Triangular simultaneous equations models are considered, with instruments and disturbances that are independent and a reduced form that is strictly monotonic in a scalar disturbance. Here it is shown that the conditional cumulative distribution function of the endogenous variable given the instruments is a control variable. Also, for any control variable, identification results are given for quantile, average, and policy effects. Bounds are given when a common support assumption is not satisfied. Estimators of identified objects and bounds are provided, and a demand analysis empirical example is given. [ABSTRACT FROM AUTHOR]},
-  file = {D:\Academic Things\Econometrics\Articles\Nonseparable Models\Imbens, Newey (2009) Identification and Estimation of Triangular Simultaneous Equations Models Without Additivity.pdf}
+@article{Imbens2009,
+	abstract = {This paper uses control variables to identify and estimate models with nonseparable, multidimensional disturbances. Triangular simultaneous equations models are considered, with instruments and disturbances that are independent and a reduced form that is strictly monotonic in a scalar disturbance. Here it is shown that the conditional cumulative distribution function of the endogenous variable given the instruments is a control variable. Also, for any control variable, identification results are given for quantile, average, and policy effects. Bounds are given when a common support assumption is not satisfied. Estimators of identified objects and bounds are provided, and a demand analysis empirical example is given. [ABSTRACT FROM AUTHOR]},
+	author = {Imbens, Guido W. and Newey, Whitney K.},
+	doi = {10.3982/ecta7108},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Nonseparable Models/Imbens, Newey (2009) Identification and Estimation of Triangular Simultaneous Equations Models Without Additivity.pdf:pdf},
+	issn = {0012-9682},
+	journal = {Econometrica},
+	mendeley-groups = {Nonseparable Models},
+	number = {5},
+	pages = {1481--1512},
+	title = {{Identification and Estimation of Triangular Simultaneous Equations Models Without Additivity}},
+	volume = {77},
+	year = {2009}
 }
-
 
 @article{Blundell2004,
 	abstract = {This paper develops and implements semiparametric methods for estimating binary response (binary choice) models with continuous endogenous regressors. It extends existing results on semiparametric estimation in single-index binary response models to the case of endogenous regressors. It develops a control function approach to account for endogeneity in triangular and fully simultaneous binary response models. The proposed estimation method is applied to estimate the income effect in a labour market participation problem using a large micro data-set from the British Family Expenditure Survey. The semiparametric estimator is found to perform well, detecting a significant attenuation bias. The proposed estimator is contrasted to the corresponding probit and linear probability specifications. {\textcopyright} 2004 The Review of Economic Studies Limited.},
@@ -6099,6 +6077,19 @@
 	title = {{Nonparametric identification}}, 
 	volume = {6},
 	year = {2007}
+}
+
+@article{Altonji2005,
+	author = {Altonji, Joseph G. and Matzkin, Rosa L.},
+	doi = {10.1111/j.1468-0262.2005.00609.x},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Panel Data/Nonlinear Panels/Altonji, Matzkin (2005) Cross Section and Panel Data Estimators for Nonseparable Models with Endogenous Regressors.pdf:pdf},
+	journal = {Econometrica},
+	mendeley-groups = {Panel Data/Nonlinear Panels},
+	number = {4},
+	pages = {1053--1102},
+	title = {{Cross Section and Panel Data Estimators for Nonseparable Models with Endogenous Regerssors}},
+	volume = {73},
+	year = {2005}
 }
 
 @article{Imbens1994b,
@@ -6155,21 +6146,24 @@
 	volume = {16},
 	year = {1948}
 }
-
-@article{Chernozhukov2015NonparametricIdentificationPanels,
-  title = {Nonparametric {{Identification}} in {{Panels Using Quantiles}}},
-  author = {Chernozhukov, Victor and {Fern{\'a}ndez-Val}, Iv{\'a}n and Hoderlein, Stefan and Holzmann, Hajo and Newey, Whitney K.},
-  year = {2015},
-  month = oct,
-  journal = {Journal of Econometrics},
-  volume = {188},
-  number = {2},
-  pages = {378--392},
-  issn = {03044076},
-  doi = {10.1016/j.jeconom.2015.03.006},
-  urldate = {2024-10-04},
-  langid = {english},
-  file = {C:\Users\moren\My Drive\Econometrics Cloud\Articles\Panel Data\Nonparametric Analysis\Chernozhukov et al. - 2015 - Nonparametric Identification in Panels Using Quantiles.pdf}
+@article{Chernozhukov2015,
+	abstract = {This paper considers identification and estimation of ceteris paribus effects of continuous regressors in nonseparable panel models with time homogeneity. The effects of interest are derivatives of the average and quantile structural functions of the model. We find that these derivatives are identified with two time periods for "stayers", i.e. for individuals with the same regressor values in two time periods. We show that the identification results carry over to models that allow location and scale time effects. We propose nonparametric series methods and a weighted bootstrap scheme to estimate and make inference on the identified effects. The bootstrap proposed allows inference for function-valued parameters such as quantile effects uniformly over a region of quantile indices and/or regressor values. An empirical application to Engel curve estimation with panel data illustrates the results.},
+	archivePrefix = {arXiv},
+	arxivId = {1312.4094},
+	author = {Chernozhukov, Victor and Fern{\'{a}}ndez-Val, Iv{\'{a}}n and Hoderlein, Stefan and Holzmann, Hajo and Newey, Whitney},
+	doi = {10.1016/j.jeconom.2015.03.006},
+	eprint = {1312.4094},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Panel Data/Nonparametric Stuff/Chernozhukov, Fern{\'{a}}ndez-Val, Hoderlein, Holzmann, Newey (2015) Nonparametric identification in panels using quantiles.pdf:pdf},
+	issn = {18726895},
+	journal = {Journal of Econometrics},
+	keywords = {Average effect,Engel curve,Nonseparable model,Panel data,Quantile effect},
+	mendeley-groups = {Nonparametric Estimation/Nonparametric Panel,Panel Data/Nonlinear Panels,Nonseparable Models},
+	number = {2},
+	pages = {378--392},
+	publisher = {Elsevier B.V.},
+	title = {{Nonparametric Identification in Panels Using Quantiles}}, 
+	volume = {188},
+	year = {2015}
 }
 
 @article{Chernozhukov2013,
@@ -6333,6 +6327,19 @@
 	title = {{Schooling, cognitive ability and health}},
 	volume = {14},
 	year = {2005}
+}
+
+@article{Hoderlein2010,
+	author = {Hoderlein, Stefan and Klemel{\"{a}}, Jussi and Mammen, Enno},
+	doi = {10.1017/S0266466609990119},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Panel Data/Heterogeneous Panels/Hoderlein et al.  (2010) Analyzing RCM Nonparametrically.pdf:pdf},
+	journal = {Econometric Theory},
+	mendeley-groups = {Panel Data/Heterogeneous Panels},
+	number = {03},
+	pages = {804--837},
+	title = {{Analyzing the Random Coefficient Model Nonparametrically}},
+	volume = {26},
+	year = {2010}
 }
 
 @article{Mundlak1978,
@@ -7619,20 +7626,20 @@
 	year = {2018}
 }
 
-@article{Heckman1997MakingMostOut,
-  title = {Making the {{Most}} out of {{Programme Evaluations}} and {{Social Experiments}}: {{Accounting}} for {{Heterogeneity}} in {{Programme Impacts}}},
-  author = {Heckman, James J. and Smith, Jeffrey and Clements, Nancy},
-  year = {1997},
-  journal = {Review of Economic Studies},
-  volume = {64},
-  number = {4},
-  pages = {487--535},
-  issn = {00346527},
-  doi = {10.2307/2971729},
-  abstract = {The conventional approach to social programme evaluation focuses on estimating mean impacts of programmes. Yet many interesting questions regarding the political economy of programmes, the distribution of programme benefits and the option values conferred on programme participants require knowledge of the distribution of impacts, or features of it. This paper presents evidence that heterogeneity in response to programmes is empirically important and that classical probability inequalities are not very informative in producing estimates or bounds on the distribution of programme impacts. We explore two methods for supplementing the information in these inequalities based on assumptions about participant decision-making processes and about the strength in dependence between outcomes in the participation and non-participation states. Dependence is produced as a consequence of rational choice by participants. We test for stochastic rationality among programme participants and present and implement methods for estimating the option values of social programmes.},
-  file = {D:\Academic Things\Econometrics\Articles\Treatment Effects\Heckman, Smith, Clements (1997) Making the most out of programme evaluations and social.pdf}
-}
 
+@article{Heckman1997,
+	abstract = {The conventional approach to social programme evaluation focuses on estimating mean impacts of programmes. Yet many interesting questions regarding the political economy of programmes, the distribution of programme benefits and the option values conferred on programme participants require knowledge of the distribution of impacts, or features of it. This paper presents evidence that heterogeneity in response to programmes is empirically important and that classical probability inequalities are not very informative in producing estimates or bounds on the distribution of programme impacts. We explore two methods for supplementing the information in these inequalities based on assumptions about participant decision-making processes and about the strength in dependence between outcomes in the participation and non-participation states. Dependence is produced as a consequence of rational choice by participants. We test for stochastic rationality among programme participants and present and implement methods for estimating the option values of social programmes.},
+	author = {Heckman, James J. and Smith, Jeffrey and Clements, Nancy},
+	doi = {10.2307/2971729},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Treatment Effects/Heckman, Smith, Clements (1997) Making the most out of programme evaluations and social.pdf:pdf},
+	issn = {00346527},
+	journal = {Review of Economic Studies},
+	mendeley-groups = {Treatment Effects},
+	number = {4},
+	pages = {487--535},
+	title = {{Making the Most out of Programme Evaluations and Social Experiments : Accounting for Heterogeneity in Programme Impacts}},
+	volume = {64},
+	year = {1997}
 }
 
 @article{Makarov1981,
@@ -11981,15 +11988,13 @@
 	volume = {157},
 	year = {2010}
 }
-
-@article{Evdokimov2010IdentificationEstimationNonparametric,
-  title = {Identification and {{Estimation}} of a {{Nonparametric Panel Data Model}} with {{Unobserved Heterogeneity}}},
-  author = {Evdokimov, Kirill},
-  year = {2010},
-  file = {C:\Users\moren\My Drive\Econometrics Cloud\Articles\Panel Data\Nonparametric Analysis\Evdokimov - 2010 - Identification and Estimation of a Nonparametric Panel Data Model with Unobserved Heterogeneity.pdf}
+@article{Evdokimov2010,
+	author = {Evdokimov, Kirill},
+	file = {:D$\backslash$:/Academic Things/Econometrics/Articles/Panel Data/Heterogeneous Panels/Evdokimov (2010) Identification and Estimation of a Nonparametric Panel Data Model with Unobserved Heterogeneity.pdf:pdf},
+	mendeley-groups = {Panel Data/Heterogeneous Panels},
+	title = {{Identification and Estimation of a Nonparametric Panel Data Model with Unobserved Heterogeneity}},
+	year = {2010}
 }
-
-
 @article{Choi2010,
 	author = {Choi, Jay Pil},
 	file = {:C$\backslash$:/Users/moren/AppData/Local/Mendeley Ltd./Mendeley Desktop/Downloaded/Choi - 2010 - TYING IN TWO-SIDED MARKETS WITH MULTI-HOMING.pdf:pdf},

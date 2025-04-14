@@ -4,17 +4,6 @@ project:
 
 html-math-method: mathjax
 
-filters:
-  - diagram  
-  - reveal-header
-diagram:
-  engine:
-    tikz:
-      execpath: pdflatex
-      header-includes:
-        - '\usepackage{adjustbox}'
-        - '\usetikzlibrary{arrows,shapes.arrows,shapes.geometric,shapes.multipart,decorations.pathmorphing,positioning,swigs}' 
-
 website:
   title: "Advanced Econometrics"
   favicon: themes/favicon.ico
@@ -32,9 +21,6 @@ website:
       - section: "Linear Regression II"
         contents:
         - slides/vector/vector-ols.qmd  
-        - slides/vector/identification-inference.qmd
-        - slides/vector/ols-consistency.qmd
-        - slides/vector/ols-limit-distribution.qmd
 
 execute:
   freeze: auto  # re-render only when source changes

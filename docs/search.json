@@ -1,68 +1,24 @@
 [
   {
-    "objectID": "slides/vector/ols-limit-distribution.html#introduction",
-    "href": "slides/vector/ols-limit-distribution.html#introduction",
-    "title": "Limit Distribution of the OLS Estimator",
-    "section": "Introduction",
-    "text": "Introduction",
+    "objectID": "slides/organizational/intro.html#content-and-motivation",
+    "href": "slides/organizational/intro.html#content-and-motivation",
+    "title": "Course Introduction",
+    "section": "Content and Motivation",
+    "text": "Content and Motivation",
     "crumbs": [
-      "Linear Regression II",
-      "Limit Distribution of the OLS Estimator"
+      "Course Info",
+      "Course Introduction"
     ]
   },
   {
-    "objectID": "slides/vector/ols-limit-distribution.html#asymptotic-normality",
-    "href": "slides/vector/ols-limit-distribution.html#asymptotic-normality",
-    "title": "Limit Distribution of the OLS Estimator",
-    "section": "Asymptotic Normality",
-    "text": "Asymptotic Normality",
+    "objectID": "slides/organizational/intro.html#course-logistics",
+    "href": "slides/organizational/intro.html#course-logistics",
+    "title": "Course Introduction",
+    "section": "Course Logistics",
+    "text": "Course Logistics",
     "crumbs": [
-      "Linear Regression II",
-      "Limit Distribution of the OLS Estimator"
-    ]
-  },
-  {
-    "objectID": "slides/vector/identification-inference.html#introduction",
-    "href": "slides/vector/identification-inference.html#introduction",
-    "title": "Identification, Estimation and Inference",
-    "section": "Introduction",
-    "text": "Introduction",
-    "crumbs": [
-      "Linear Regression II",
-      "Identification, Estimation and Inference"
-    ]
-  },
-  {
-    "objectID": "slides/vector/identification-inference.html#identification",
-    "href": "slides/vector/identification-inference.html#identification",
-    "title": "Identification, Estimation and Inference",
-    "section": "Identification",
-    "text": "Identification",
-    "crumbs": [
-      "Linear Regression II",
-      "Identification, Estimation and Inference"
-    ]
-  },
-  {
-    "objectID": "slides/vector/identification-inference.html#estimation-and-inference",
-    "href": "slides/vector/identification-inference.html#estimation-and-inference",
-    "title": "Identification, Estimation and Inference",
-    "section": "Estimation and Inference",
-    "text": "Estimation and Inference",
-    "crumbs": [
-      "Linear Regression II",
-      "Identification, Estimation and Inference"
-    ]
-  },
-  {
-    "objectID": "slides/vector/identification-inference.html#recap-and-conclusions",
-    "href": "slides/vector/identification-inference.html#recap-and-conclusions",
-    "title": "Identification, Estimation and Inference",
-    "section": "Recap and Conclusions",
-    "text": "Recap and Conclusions",
-    "crumbs": [
-      "Linear Regression II",
-      "Identification, Estimation and Inference"
+      "Course Info",
+      "Course Introduction"
     ]
   },
   {
@@ -99,61 +55,6 @@
     "title": "Advanced Econometrics (Econometrics II)",
     "section": "",
     "text": "The final grade for this course is based on a 90 minute closed-book written exam. The date of the exam will be announced separately by the Examination Office.\n\n\n\nAttendance and Participation:\nRegular attendance and active participation are strongly encouraged.\nAcademic Integrity:\nStudents must adhere to the university’s policies on academic integrity and plagiarism. Any violations will be subject to disciplinary action.\nAccommodations:\nIf you require any accommodations due to a disability or other circumstances, please contact the relevant office as soon as possible."
-  },
-  {
-    "objectID": "slides/organizational/intro.html#content-and-motivation",
-    "href": "slides/organizational/intro.html#content-and-motivation",
-    "title": "Course Introduction",
-    "section": "Content and Motivation",
-    "text": "Content and Motivation",
-    "crumbs": [
-      "Course Info",
-      "Course Introduction"
-    ]
-  },
-  {
-    "objectID": "slides/organizational/intro.html#course-logistics",
-    "href": "slides/organizational/intro.html#course-logistics",
-    "title": "Course Introduction",
-    "section": "Course Logistics",
-    "text": "Course Logistics",
-    "crumbs": [
-      "Course Info",
-      "Course Introduction"
-    ]
-  },
-  {
-    "objectID": "slides/vector/ols-consistency.html#introduction",
-    "href": "slides/vector/ols-consistency.html#introduction",
-    "title": "Consistency of the OLS Estimator",
-    "section": "Introduction",
-    "text": "Introduction",
-    "crumbs": [
-      "Linear Regression II",
-      "Consistency of the OLS Estimator"
-    ]
-  },
-  {
-    "objectID": "slides/vector/ols-consistency.html#probability-background",
-    "href": "slides/vector/ols-consistency.html#probability-background",
-    "title": "Consistency of the OLS Estimator",
-    "section": "Probability Background",
-    "text": "Probability Background",
-    "crumbs": [
-      "Linear Regression II",
-      "Consistency of the OLS Estimator"
-    ]
-  },
-  {
-    "objectID": "slides/vector/ols-consistency.html#consistency",
-    "href": "slides/vector/ols-consistency.html#consistency",
-    "title": "Consistency of the OLS Estimator",
-    "section": "Consistency",
-    "text": "Consistency",
-    "crumbs": [
-      "Linear Regression II",
-      "Consistency of the OLS Estimator"
-    ]
   },
   {
     "objectID": "slides/vector/vector-ols.html#introduction",
