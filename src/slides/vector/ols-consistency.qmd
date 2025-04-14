@@ -55,22 +55,14 @@ By the end, you should be able to
     - Your favorite probability textbook
     - Section B in @Wooldridge2020IntroductoryEconometricsModern
 - Asymptotic theory for the OLS estimator
-    - E4 in @Wooldridge2020IntroductoryEconometricsModern
-    - Or chapter 7 in @Hansen2022Econometrics
+    - 7.1-7.2 in @Hansen2022Econometrics
+    - Or 11.2 and E4 in @Wooldridge2020IntroductoryEconometricsModern
+    
 
   
 ::: 
 
-
-### Motivation {background="#43464B"}
-
-#### Goal
-
-inference 
-
-- Quantify uncertaintY: confidence intervals
-- Test something
-
+ 
 
 #### Reminder: 
 
@@ -99,9 +91,40 @@ But we cannot
 
 
 
+
 ::: footer
 ?
 :::
+
+
+
+## Probability Background {background="#00100F"}
+
+
+#### Convergence in Probability
+
+Recall
+
+
+#### Tool: Law of Large Numbers
+
+The very key tool 
+
+
+#### LLN Discussion
+
+- many. Can do dependence and non-identical distributions
+- Spirit remains the same
+
+ 
+
+#### Tool: Continuous Mapping Theory
+
+#### CMT Example: 
+
+#### CMT Discussion
+
+#### Slutsky's Theorem
 
 
 
@@ -110,9 +133,6 @@ But we cannot
   
 ### Definitions {background="#43464B"}
 
-#### Convergence in Probability
-
-Recall
 
 ### Model-Free Convergence  {background="#43464B"}
 
@@ -163,6 +183,10 @@ $$
 
 - Work with "sampling" properties of realised values
 - Use the *assumed* structure to connect to causally interpretable paramtesr
+
+#### Discussion of Assumptions
+
+- iid bad?
 
 #### Orthogonality
 
