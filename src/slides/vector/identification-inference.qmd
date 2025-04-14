@@ -20,9 +20,7 @@ format:
 slide-level: 4
 title-slide-attributes:
     data-background-color: "#045D5D"
-    data-footer: " "
-filters:
-  - reveal-header 
+    data-footer: " " 
 embed-resources: true
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
@@ -89,38 +87,193 @@ Which parameter you want depends on the context:
 - Causal settings: 
   - Treatment effects: averages, variances, ... 
   - Features of structural economic models: elasticities, multipliers, ...
-- Prediction: some value of interest -
+- Prediction: 
   - Forecast of GDP, ...
   - Whether the patient has a disease ...
   
-#### Identification vs. Inference
+#### Kind of Questions
 
-What about the "something" and the "data"? 
+What about the "something"? 
 
 . . . 
 
+Three example questions:
 
-## Identification and Inference {background="#00100F"}
-  
-### Broad Goals {background="#43464B"}
+1. Can the parameter be learned at all? 
+2. If we have an estimate, how sure are we about it?
+3. Does the parameter satisfy some constraints? (equal to 0, positive, etc.)
 
 
-####
+#### Identification and Inference
 
-Two kinds of statistical work: 
+All possible questions can be split into two classes of work: 
 
-1. <span class="highlight">Identification</span>: what could we learn if we had an infinite amount of data?
-2. <span class="highlight">Inference</span>: how to "learn" from limited data? 
+1. <span class="highlight">Identification</span>: what could we learn if we had an infinite amount of data? 
+2. <span class="highlight">Estimation and inference</span>: how to "learn" from limited data? 
 
 . . .
 
+<br>
+
 Both equally important in causal settings. Identification less/not important in prediction
 
-#### Goal of Estimation 
 
-In prediction, also care: how uncertain are we about our prediction? 
+## Identification {background="#00100F"}
+  
 
-In prediction, there are two  sources of uncertainty 
+### General Idea {background="#43464B"}
+
+
+#### Parameter Label
+
+Focus first on identification
+
+<br>
+
+. . .
+
+Let $\theta$ be the "parameter of interest" — something unknown you care about, e.g.
+
+- Average treatment effect
+- Coefficient vector
+- Even an unknown function
+
+#### Population Distribution $F_{X, Y}$
+
+Suppose that our data — observations on $(X, Y)$
+
+. . .
+
+<br>
+
+How to express the idea of having "infinite data"? 
+
+. . . 
+
+<br>
+
+For us:
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+Infinite data = knowing the joint distribution function $F_{X, Y}$
+
+
+</div> 
+ 
+
+<!-- #### Observed Data
+
+<br>
+
+::: {#fig-actual}
+``` tikz  
+%%| fig-cap: Observed data arises from some underlying data generating process 
+%%| fig-align: center
+\begin{tikzpicture}
+ \tikzset{line width=1.5pt, outer sep=0pt,
+ ell/.style={draw,fill=white, inner sep=2pt,
+ line width=1.5pt},
+ swig vsplit={gap=5pt,
+ inner line width right=0.5pt}};
+
+ 
+ 
+\node[name=activity, ell, shape=ellipse, align=left]{True data \\ generation};
+
+\node[name=observed, ell, shape=ellipse, align=left, right = 5mm of activity]{Actual \\ $F_{X, Y}(x, y)$}; 
+ 
+\draw[->](activity) to (observed);  
+\end{tikzpicture}
+``` 
+:::
+
+
+<br>
+
+Identification: assume that we see the full $F_{X, Y}(x, y)$ -->
+
+#### Models and Parameters Imply Distributions of Data
+
+::: {#fig-model}
+``` tikz  
+%%| fig-cap: Path from parameter $\theta$ to the *implied* data distribution
+%%| fig-align: center
+\begin{tikzpicture}
+ \tikzset{line width=1.5pt, outer sep=0pt,
+ ell/.style={draw,fill=white, inner sep=2pt,
+ line width=1.5pt},
+ swig vsplit={gap=5pt,
+ inner line width right=0.5pt}};
+
+ 
+
+\node[name=theta, ell, shape=ellipse]{Model($\theta$)};
+ 
+\node[name=observed, ell, shape=ellipse, align=left, right = 5mm of theta]{Implications$(\theta)$ \\ for  $F_{X, Y}$}; 
+
+\draw[->](theta) to (observed);  
+\end{tikzpicture}
+``` 
+:::
+
+The "model" specifies all or parts of a generating mechanism: 
+
+- Parts of $F_{X, Y}$ might be unknown even if you know $\theta$
+- Example: linear model with exogeneity say that $\E[Y_i|\bX_i]$ is linear in $\bX_i$, but doesn't say much about the distribution of $\bX_i$ or $Y_i$ beyond that
+
+#### Definition of Identification
+
+Identification basically asks: 
+ 
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+Given the 
+
+1. The joint distribution $F_{X, Y}$ of the data
+2. "Implications"$(\theta)$ of the model,
+
+can $\theta$ be uniquely determined?
+
+</div> 
+ 
+
+### General Idea {background="#43464B"}
+
+
+#### Fully Parametric Case: Intro
+
+May sound a bit vague
+
+. . .
+
+<br>
+
+To make idea simpler, a special <span class="highlight">parametric</span> case 
+
+- Model fully determines the distribution of the data up $\theta$  
+- If you know $\theta$, you know distribution of the data
+
+#### Example
+
+Consider simple example: 
+
+- $Y_i\sim N(\theta, 1)$, no $X_i$ (model)
+- Parameter of interest is <span class="highlight">$\theta$</span>
+
+. . . 
+
+<br> 
+
+Implication of the model:
+
+- $F_{Y}$ is a normal distribution with mean $\theta$ and variance 1
+- Known up to $\theta$, can label the distribution as $F_Y(y|\theta)$ 
+ 
+
+
+
+#### Definition
+
 
 #### Motivation 
 
@@ -158,7 +311,8 @@ You have to show an actual example of different values of $\theta$ that give the
 Not sufficient to show that a particular strategy fails
 
 
-### Inference {background="#43464B"}
+## Estimation and Inference {background="#00100F"}
+  
 
 #### Broad
 
@@ -167,6 +321,11 @@ fif
 Goal of next Lectures
 
 
+#### Goal of Estimation 
+
+In prediction, also care: how uncertain are we about our prediction? 
+
+In prediction, there are two  sources of uncertainty 
 
 ## Recap and Conclusions {background="#00100F"}
   
