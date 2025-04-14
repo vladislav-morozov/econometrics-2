@@ -1,0 +1,133 @@
+---
+title: "Identification and Inference"
+subtitle: "Convergence as Sample Size Grows"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "A Deeper Look at Linear Regression: Consistency"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header 
+embed-resources: true
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+---
+
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B"}
+
+
+#### Learning Outcomes
+
+This lecture is about a 
+
+<br>
+
+By the end, you should be able to
+
+- R
+
+#### Textbook References
+ 
+
+::: {.nonincremental}
+
+ 
+- Identification vs. Inference
+    - Section 2.32 @Hansen2022Econometrics
+    - Chapter 5 in @Huntington-Klein2025EffectIntroductionResearch
+    - Sections 15.1-15.2 @Wooldridge2020IntroductoryEconometricsModern gives a worked example
+    
+
+  
+::: 
+
+
+### Identification and Inference {background="#43464B"}
+
+#### Overall Goal
+
+Goal of all of statistics:
+
+<br> 
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+"Say something" about a "parameter" of interest "based on data"
+
+</div>
+
+<br>
+
+Which "parameter"? What is "something"?  How much "data"?
+
+
+#### Parameters of Interest
+
+Which parameter you want depends on the context: 
+
+- Causal settings: 
+  - Treatment effects: averages, variances, ... 
+  - Features of structural economic models: elasticities, multipliers, ...
+- Prediction: some value of interest -
+  - Forecast of GDP, ...
+  - Whether the patient has a disease ...
+  
+#### Identification vs. Estimation
+
+What about the "something" and the "data"? 
+
+. . . 
+
+
+Two kinds of statistical work: 
+
+1. <span class="highlight">Identification</span>: what could we learn if we had an infinite amount of data?
+2. <span class="highlight">Inference</span>: how to "learn" from limited data? 
+
+. . .
+
+Both equally important in causal settings. Identification less/not important in prediction
+
+#### Goal of Estimation 
+
+In prediction, also care: how uncertain are we about our prediction? 
+
+In prediction, there are two  sources of uncertainty 
+
+#### Motivation 
+
+"Identification strategy" refers to imposing some assumptions
+
+#### 
+
+Identification is the property of the model
+
+Something you do with "sample" arguments
+
+Sometimes you do it with 
+
+
+@Wooldridge2020IntroductoryEconometricsModern defines identification directly as being able to estimate it consistently
+
+- Good definition for practice - if we cannot, then what use is the parameter? 
+- 
