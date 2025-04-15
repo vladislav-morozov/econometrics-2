@@ -243,8 +243,7 @@ $$
 
 </div>
  
-
-#### Visualization  
+ 
 
 #### Tool: Continuous Mapping Theorem
 
@@ -444,84 +443,160 @@ See [Wikipedia](https://en.wikipedia.org/wiki/Inner_product_space#Random_variabl
 
 :::
 
-### Convergence under Causal Model with Exogeneity  {background="#43464B" visibility="uncounted"}
+### Convergence under Causal Model with Exogeneity and Homogeneous Effects  {background="#43464B" visibility="uncounted"}
 
 
  
 
 #### Potential Outcomes Framework
 
-Let's go back to our causal framework
+
+Let's go back to our causal framework to add a causal part to @prp-vector-consistency-ols-model-free
+
+. . .
+
+- Treatment $\bX_i$ with possible values $\bx$
+- Potential outcome under $\bX_i=\bx$:
+  $$ 
+  Y_i^{\bx} = \bx'\bbeta + U_i
+  $$ {#eq-vector-consistency-causal-homogeneous}
+
+. . .
+
+Observed outcomes $Y_i$ satisfy
+$$
+Y_i = \bX_i'\bbeta + U_i
+$$
 
 #### Sampling Error Representation
 
+Can now <span class="highlight">substitute the equation for $Y_i$</span> (+invertibility assumptions) to get   
 $$
-\hat{\bbeta} = 
+\begin{aligned}
+\hat{\bbeta} & = \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_iY_i'\\
+& = \bbeta + \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_i U_i'
+\end{aligned}
 $$
-we retain the same invertibility 
+Last line — <span class="highlight">sampling error form</span>
+ 
 
 #### Consistency of the OLS Estimator
 
-Combining the steps together
+
+<div class="rounded-box">
+
+::: {#prp-vector-consistency-ols-model-causal-homogeneous}
+
+Let
+
+1. $(\bX_i, U_i)$ be IID and model ([-@eq-vector-consistency-causal-homogeneous]) hold
+2. $\E[\norm{\bX_i\bX_i'}]<\infty$, $\E[\norm{\bX_iU_i}]<\infty, $\E[\bX_iU_i]=0$
+3. $\E[\bX_i\bX_i']$ be invertible
+
+Then
 $$
 \hat{\bbeta} \xrightarrow{p} \bbeta
 $$
 
-#### Discussion
 
-- Work with "sampling" properties of realised values
-- Use the *assumed* structure to connect to causally interpretable paramtesr
+:::
 
+</div>
+ 
 #### Discussion of Assumptions
+ 
 
-We made may assumptions 
-- IID
-- Causal framework + SUTVA
-- Invertibility and existence of moments
-- Exogeneity
+- @prp-vector-consistency-ols-model-free: assumptions on $(\bX_i, Y_i)$
+- @prp-vector-consistency-ols-model-causal-homogeneous: assumptions on $(\bX_i, U_i)$
 
-#### Orthogonality
+. . . 
 
-Let's think about the proof again
+<br> 
 
-We don't actually need $\E[U_i|\bX_i]=0$
+Need assumptions for causal interpretation:
 
-Sufficient to have 
-$$
-\E[\bX_iU_i] = 0
-$$
-This is $k$ conditions now --- one per component of $\bX_i$
-
-#### Consistency Under Orthogonality
-
-Things go through
-
-
-
-#### What Do We Lose Without Strict Exogeneity?
-
-Still can specify the potential outcomes frameworok
-
-But we lose mean interpretation: 
-$$
-\E[Y_i|\bX_i] = \bX_i'\bbeta + \E[U_{it}|\bX_i]
- $$
- Now maybe $ \E[U_{it}|\bX_i]$ is not zero. 
-
-
-In finite samples you may have bias!
-Consistency result shows that in the limit you are still estimating the correct thing
+- Assumptions on the assignment mechanism (IID $\bX_i$ and exogeneity/orthogonality)
+- Same assumptions as for identification of $\bbeta$ (why can you use @prp-vector-consistency-ols-model-causal-homogeneous to prove identification?)
 
  
-#### Visualization
 
 
-#### Identification
 
-This convergence result is another way to prove the identification result for $\bbeta$ 
+#### Orthogonality vs Strict Exogeneity
 
-The probability limit of $\hat{\bbeta}$ can be computed from the joint distribution $F_{\bX, Y}$. At the same time equal to $\bbeta$. Fits our definition
+Recall: 
 
+<div class="rounded-box">
+If $\E[U_i|\bX_i]=0$, then $\E[\bX_iU_i]=0$
+</div>
+
+- $\E[U_i|\bX_i]=0$ is stronger than $\E[\bX_iU_i]=0$
+- If $\E[U_i|\bX_i]=0$ holds, then $\E[\hat{\bbeta}] = \bbeta$ (unbiased)
+- If $\E[U_i|\bX_i]\neq 0$ but $\E[\bX_i U_i]=0$, then $\hat{\bbeta}$ may be biased in finite samples, but still converges to the correct $\bbeta$
+- What if both fail? 
+
+
+### Convergence under Causal Model with Heterogeneous Effects  {background="#43464B" visibility="uncounted"}
+
+#### Allowing Heterogeneous Causal Effects
+
+Before concluding, let's go back to model ([-@eq-vector-consistency-causal-homogeneous])
+
+- Causal effects are <span class = "highlight"> homogeneous </span> (same for everyone)
+- Might not be realistic
+
+. . . 
+
+More general potential outcome equation
+$$
+Y_i^\bx = \bx_i'\bbeta_{\textcolor{teal}{i}} + U_i
+$$ {#eq-vector-consistency-causal-heterogeneous}
+Causal effect of shift from $\bx_1$ to $\bx_2$ for unit $i$:
+$$
+(\bx_2-\bx_1)'\bbeta_i
+$$
+
+::: footer
+
+:::
+
+#### Parameters of Interest In Model ([-@eq-vector-consistency-causal-heterogeneous])
+
+#### OLS Under Model 
+
+
+
+#### 
+
+
+<div class="rounded-box">
+
+::: {#prp-vector-consistency-ols-model-causal-homogeneous}
+
+Let
+
+1. $(\bX_i, U_i)$ be IID and model ([-@eq-vector-consistency-causal-homogeneous]) hold
+2. $\E[\norm{\bX_i\bX_i'}]<\infty$, $\E[\norm{\bX_iU_i}]<\infty, $\E[\bX_iU_i]=0$
+3. $\E[\bX_i\bX_i']$ be invertible
+
+Then
+$$
+\hat{\bbeta} \xrightarrow{p} \bbeta
+$$
+
+
+:::
+
+</div>
+
+#### Can You Identify $\E[\bbeta_i]$?
+
+<br>
+
+Only under restrictions:
+
+- Independence of $\bbeta_i$ and $\bX_i$ (experimental settings)
+- With instruments
 
 ## Recap and Conclusions {background="#00100F"}
   
