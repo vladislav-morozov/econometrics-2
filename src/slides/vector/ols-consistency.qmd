@@ -31,7 +31,7 @@ highlight-style: tango
 
 ## Introduction {background="#00100F"}
   
-### Lecture Info {background="#43464B"}
+### Lecture Info {background="#43464B" visibility="uncounted"}
 
 
 #### Learning Outcomes
@@ -84,7 +84,7 @@ Informally:
 </div>
 
 
-## Probability Background {background="#00100F" visibility="uncounted"}
+## Probability Background {background="#00100F"}
 
 ### Definitions {background="#43464B" visibility="uncounted"}
 
@@ -181,7 +181,7 @@ $$
 
 ::: {#prp-vector-consistency-characterizations-open}
 
-If $\bX_N\xrightarrow{p}\bX$, then $P(\bX_N\in U)\to 1$ for any open neighborhood $U$ of $\bX$
+$\bX_N\xrightarrow{p}\bX$ if and only if $P(\bX_N\in U)\to 1$ for any open set $U$ that contains $\bX$
 :::
 
 </div>
@@ -252,7 +252,7 @@ $$
 
 <div class="rounded-box">
 
-::: {#prp-vector-consistency-lln}
+::: {#prp-vector-consistency-cmt}
 
 Let $\bX_N\xrightarrow{p}\bX$, and let $f(\cdot)$ be continuous is some neighborhood of all the possible values of  $\bX$.
 
@@ -281,12 +281,12 @@ Simple examples
 
 
 
-## Consistency of the OLS Estimator {background="#00100F" visibility="uncounted"}
+## Consistency of the OLS Estimator {background="#00100F"}
    
 
 #### Returning to the OLS Estimator
 
-Let's go back to the OLS estimator based on sample $(\bX_1, Y_1), \dots, (\bX_N, Y_N)$
+Let's go back to the OLS estimator based on <span class="highlight"> IID</span>  sample $(\bX_1, Y_1), \dots, (\bX_N, Y_N)$
 
 . . . 
 
@@ -303,7 +303,7 @@ Is the OLS estimator consistent?
 Consistent for what?
 
 
-### Model-Free Convergence  {background="#43464B" visibility="uncounted"}
+### Convergence Without a Causal Model {background="#43464B" visibility="uncounted"}
 
 
 
@@ -326,7 +326,7 @@ $$
 \bc, & \bX'\bX \text{ not invertible}
 \end{cases}
 $$ 
-Now $\hat{\bbeta}$ is always defined
+Now $\hat{\bbeta}$ is always defined, but does $\bc$ matter?
 
 #### Representation in Terms of Averages
 
@@ -340,51 +340,103 @@ $$
 (\bX'\bX)\bX'\bY = \left(\textcolor{teal}{\dfrac{1}{N}} \sum_{i=1}^N \bX_i\bX_i'\right)^{-1} \left( \textcolor{teal}{\dfrac{1}{N}} \sum_{i=1}^N \bX_i Y_i\right)
 $$
 
-#### Assumption
+#### Limits of Averages
 
-Make the following assumptions:
+Can handle averages. If 
 
-1. $(\bX)
+- $\E[\norm{\bX_i\bX_i'}]<\infty$
+- $\E[\norm{\bX_iY_i}]<\infty$
+
+then by the WLLN  (@prp-vector-consistency-lln)
+$$
+\begin{aligned}
+\dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i' \xrightarrow{p} \E[\bX_i\bX_i'], \quad 
+\dfrac{1}{N} \sum_{i=1}^N \bX_iY_i \xrightarrow{p} \E[\bX_i Y_i]
+\end{aligned}
+$$
+
+ 
+
+#### Handling the Inverse  of $\bX'\bX$
+
+Two facts: 
+
+- The inverse function $\bA\to \bA^{-1}$ is continuous on the space of invertible matrices
+- The set of invertible matrices is open
+  
+. . . 
+
+So if $\E[\bX_i\bX_i']$ is invertible, then by @prp-vector-consistency-characterizations-open  and the CMT (@prp-vector-consistency-cmt)
+
+- $P(\frac{1}{N} \sum_{i=1}^N \bX_i\bX_i' \text{ is invertible})\to 1$
+- $(\sum_{i=1}^N \bX_i\bX_i')^{-1}  \xrightarrow{p} \left(\E[\bX_i\bX_i']\right)^{-1}$
 
 
-#### Handling
 
 
-The inverse function $\bA\to \bA^{-1}$ is continuous on the space of invertible matrices
-
-@prp-vector-consistency-characterizations-open
+  
 
 
 ::: footer
 See [this StackExchange discussion](https://math.stackexchange.com/questions/84392/why-do-the-n-times-n-non-singular-matrices-form-an-open-set) for more details
 :::
 
-#### 
+#### $\bc$ Does Not Matter
 
-With probability approaching 1 
+Since $\frac{1}{N} \sum_{i=1}^N \bX_i\bX_i'$ is invertible with probability approaching 1 (w.p.a. 1), then w.p.a.1 it holds
 $$
-1
+\hat{\bbeta} =  (\bX'\bX)^{-1}\bX'\bY =  \left( \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'\right)^{-1} \left( \dfrac{1}{N} \sum_{i=1}^N \bX_i Y_i\right)
 $$
-Accordingly, we only need to study what happens to $(\bX'\bX)^{-1}\bX'\bY$
 
-There is a technicality 
+. . . 
 
-#### 
+It follows that if $\bc\neq \E[\bX_i\bX_i']^{-1}\E[\bX_iY_i]$, then
+$$
+P(\hat{\bbeta}= \bc) \to 0
+$$
 
-In the future you can always write directly 
+#### Combining Together
+
+<div class="rounded-box">
+
+::: {#prp-vector-consistency-ols-model-free}
+
+Let
+
+1. $(\bX_i, Y_i)$ be IID
+2. $\E[\norm{\bX_i\bX_i'}]<\infty$, $\E[\norm{\bX_iY_i}]<\infty$
+3. $\E[\bX_i\bX_i']$ be invertible
+
+Then
+$$
+\hat{\bbeta} \xrightarrow{p} \left( \E[\bX_i\bX_i'] \right)^{-1} \E[\bX_iY_i]
+$$
+
+
+:::
+
+</div>
+
+#### Quicker Way of Writing
+ 
+It is common and acceptable (also on the exam) to directly write
 $$
 \hat{\bbeta}  = (\bX'\bX)^{-1}\bX'\bY
 $$
-if the assumption that $\E[\bX_i\bX_i']$ is invertlbe holds
+<span class = "highlight"> provided that you </span>
 
-#### Limit 
+1. Are talking about asymptotic properties (consistency, asymptotic distributions, asymptotic confidence intervals)
+2. Make the assumption that $\E[\bX_i\bX_i']$ is invertible and say that $\bX'\bX$ is invertible w.p.a.1
 
+#### Discussion
+ 
 
+<br>
 
-Converges to $\E[\bX_i\bX_i']^{-1}\E[\bX_i\bX_i]$
-No "model", no "potential outcomes" --- just correlations
-
-- Called the "population project" because it is, just that projections defined in a more general sense that you might be used to
+ 
+- @prp-vector-consistency-ols-model-free: no causal framework
+- OLS just measures covariances in general
+- Limit $\left( \E[\bX_i\bX_i'] \right)^{-1} \E[\bX_iY_i]$ is called "population projection of $Y_i$ on $\bX_i$"
 
 ::: footer
 
@@ -392,7 +444,7 @@ See [Wikipedia](https://en.wikipedia.org/wiki/Inner_product_space#Random_variabl
 
 :::
 
-### Convergence under Exogeneity  {background="#43464B" visibility="uncounted"}
+### Convergence under Causal Model with Exogeneity  {background="#43464B" visibility="uncounted"}
 
 
  
@@ -422,7 +474,11 @@ $$
 
 #### Discussion of Assumptions
 
-- iid bad?
+We made may assumptions 
+- IID
+- Causal framework + SUTVA
+- Invertibility and existence of moments
+- Exogeneity
 
 #### Orthogonality
 
@@ -467,7 +523,7 @@ This convergence result is another way to prove the identification result for $\
 The probability limit of $\hat{\bbeta}$ can be computed from the joint distribution $F_{\bX, Y}$. At the same time equal to $\bbeta$. Fits our definition
 
 
-## Recap and Conclusions {background="#00100F" visibility="uncounted"}
+## Recap and Conclusions {background="#00100F"}
   
 #### Recap
 
