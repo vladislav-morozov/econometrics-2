@@ -153,7 +153,7 @@ $$
 - The limit $\bX$ can be random or deterministic 
 - Convergence in probability written $\bX_n\xrightarrow{p}\bX$
 - $\bX_N\xrightarrow{p} \bX$ is the same as $\bX_N-\bX\xrightarrow{p} 0$
-- Convergence of vector is equivalent to convergence of every coordinate
+- Convergence of vector/matrix is equivalent to convergence of every element
 - Sometimes terminology "with probability approaching 1" (w.p.a. 1) is used
 
 #### Definition of Consistency
@@ -208,17 +208,41 @@ $$
 :::
 
 </div>
-In words: sample mean is consistent for population mean
  
 
 #### Visualization  
 
-#### Tool: Continuous Mapping Theory
+#### Tool: Continuous Mapping Theorem
 
-#### CMT Example: 
 
-#### CMT Discussion
- 
+
+<div class="rounded-box">
+
+::: {#prp-vector-consistency-lln}
+
+Let $\bX_N\xrightarrow{p}\bX$, and let $f(\cdot)$ be continuous.
+
+Then  
+$$
+f(\bX_N) \xrightarrow{p} f(\bX)
+$$
+:::
+
+</div>
+In words: convergence in probability is preserved under continuous transformations
+
+
+#### CMT Examples
+
+Simple examples
+
+1. If $X_N$ is scalar and $X_n\xrightarrow{p}X$, then 
+   - $X_N^2 \xrightarrow{p} X^2$
+   - $\max\curl{0, X_N}\xrightarrow \max\curl{0, X}$
+2. If $\bX_N\to \bX$, $\bX_N\in \R^p$ and $\bA_N\xrightarrow{p}\bA$, $\bA_N\in\R^{k\times p}$, then 
+   $$
+   \bA_N\bX_N\xrightarrow{p} \bA\bX
+   $$
 
 
 
