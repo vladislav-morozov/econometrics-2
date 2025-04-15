@@ -105,6 +105,13 @@ $presentation-title-slide-text-align: left;
   color: $accent; 
 }
 
+.rounded-box {
+  border: 2px solid #ccc;
+  padding: 9px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
+
 // lists
  
 // Unordered lists

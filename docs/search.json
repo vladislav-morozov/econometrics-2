@@ -1,5 +1,106 @@
 [
   {
+    "objectID": "slides/vector/ols-consistency.html#introduction",
+    "href": "slides/vector/ols-consistency.html#introduction",
+    "title": "Consistency of the OLS Estimator",
+    "section": "Introduction",
+    "text": "Introduction",
+    "crumbs": [
+      "Linear Regression II",
+      "Consistency of the OLS Estimator"
+    ]
+  },
+  {
+    "objectID": "slides/vector/ols-consistency.html#probability-background",
+    "href": "slides/vector/ols-consistency.html#probability-background",
+    "title": "Consistency of the OLS Estimator",
+    "section": "Probability Background",
+    "text": "Probability Background",
+    "crumbs": [
+      "Linear Regression II",
+      "Consistency of the OLS Estimator"
+    ]
+  },
+  {
+    "objectID": "slides/vector/ols-consistency.html#consistency-of-the-ols-estimator",
+    "href": "slides/vector/ols-consistency.html#consistency-of-the-ols-estimator",
+    "title": "Consistency of the OLS Estimator",
+    "section": "Consistency of the OLS Estimator",
+    "text": "Consistency of the OLS Estimator",
+    "crumbs": [
+      "Linear Regression II",
+      "Consistency of the OLS Estimator"
+    ]
+  },
+  {
+    "objectID": "slides/vector/ols-consistency.html#recap-and-conclusions",
+    "href": "slides/vector/ols-consistency.html#recap-and-conclusions",
+    "title": "Consistency of the OLS Estimator",
+    "section": "Recap and Conclusions",
+    "text": "Recap and Conclusions",
+    "crumbs": [
+      "Linear Regression II",
+      "Consistency of the OLS Estimator"
+    ]
+  },
+  {
+    "objectID": "slides/organizational/intro.html#content-and-motivation",
+    "href": "slides/organizational/intro.html#content-and-motivation",
+    "title": "Course Introduction",
+    "section": "Content and Motivation",
+    "text": "Content and Motivation",
+    "crumbs": [
+      "Course Info",
+      "Course Introduction"
+    ]
+  },
+  {
+    "objectID": "slides/organizational/intro.html#course-logistics",
+    "href": "slides/organizational/intro.html#course-logistics",
+    "title": "Course Introduction",
+    "section": "Course Logistics",
+    "text": "Course Logistics",
+    "crumbs": [
+      "Course Info",
+      "Course Introduction"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Advanced Econometrics (Econometrics II)",
+    "section": "",
+    "text": "Advanced Econometrics builds on the basic econometrics course in three directions. First, the course discusses a range of practical methods used in economics and business. Second, it addresses both causal inference and forecasting. Third, it offers a deeper discussion of the underlying theory.\n\n\nInstructor: Vladislav Morozov\nEmail: morozov [at] uni-bonn.de\nOffice Location: Adenauerallee 24-42, IFS, Statistics Section\nOffice Hours: Virtual, by appointment\nCourse Website: eCampus and this website\nLectures: 8:30-10:00; Wednesdays (Room 0.042), Fridays (Lecture Hall N)\nSchedule Changes and Holidays: See eCampus and BASIS\nLevel: Undergraduate\nPrerequisites: basic courses in statistics and econometrics\n\n\n    View slides in full screen\n       \n      \n    \n  \n\n\n\n\n\n\nThe course is structured into the following main parts (Subject to modification based on progress):\n\nA deeper look at linear regression and linear IV:\n\nA vector-matrix form approach to linear regression.\nAsymptotic theory for the OLS estimator. Wald tests.\nLinear generalized method of moments (GMM).\n\nPanel data in causal settings:\n\nEvent studies.\nDifferences-in-differences.\nTwo-way fixed effect approaches with multivalued treatment.\nMean group estimation.\n\nIntroduction to forecasting:\n\nCausal inference vs. forecasting I.\nNotions of forecast optimality.\nForecasting in cross-sections.\n\nParametric nonlinear models:\n\nBeyond linearity: nonlinear regression and nonlinear least squares.\nDiscrete outcomes in causal settings.\nElements of asymptotic theory for nonlinear models.\nClassification as forecasting with discrete outcomes.\n\nTime series:\n\nTime series as probabilistic objects and their properties.\nUnivariate models: ARIMA(X).\nMultivariate time series: VARIMA(X).\nElements of causal inference with time series.\nForecasting with time series vs. forecasting with panel data.\n\n\nFurther topics may include quantile and distributional regression, big data, and experimentation in settings with interference.\n\n\n\n\n\nTextbooks: the course draws on several textbooks:\n\nBrockwell, P. J., & Davis, R. A. (2016). Introduction to Time Series and Forecasting. Springer International Publishing.\nCunningham, S. (2021). Causal Inference: The Mixtape. Yale University Press.\nHuntington-Klein, N. (2025). The Effect: An Introduction to Research Design and Causality. Chapman and Hall/CRC.\nJames, G., Witten, D., Hastie, T., Tibshirani, R., & Taylor, J. E. (2023). An Introduction to Statistical Learning: With Applications in Python. Springer.\nWooldridge, J. M. (2020). Introductory Econometrics: A Modern Approach (Seventh edition). Cengage.\n\nAll books minus Wooldridge are available online (openly or through our university network). The Wooldridge book is available in our library. For specific chapters, please refer to each specific set of slides.\n\n\n\n\n\n\nThe final grade for this course is based on a 90 minute closed-book written exam. The date of the exam will be announced separately by the Examination Office.\n\n\n\nAttendance and Participation:\nRegular attendance and active participation are strongly encouraged.\nAcademic Integrity:\nStudents must adhere to the university’s policies on academic integrity and plagiarism. Any violations will be subject to disciplinary action.\nAccommodations:\nIf you require any accommodations due to a disability or other circumstances, please contact the relevant office as soon as possible."
+  },
+  {
+    "objectID": "index.html#course-information",
+    "href": "index.html#course-information",
+    "title": "Advanced Econometrics (Econometrics II)",
+    "section": "",
+    "text": "Instructor: Vladislav Morozov\nEmail: morozov [at] uni-bonn.de\nOffice Location: Adenauerallee 24-42, IFS, Statistics Section\nOffice Hours: Virtual, by appointment\nCourse Website: eCampus and this website\nLectures: 8:30-10:00; Wednesdays (Room 0.042), Fridays (Lecture Hall N)\nSchedule Changes and Holidays: See eCampus and BASIS\nLevel: Undergraduate\nPrerequisites: basic courses in statistics and econometrics\n\n\n    View slides in full screen"
+  },
+  {
+    "objectID": "index.html#course-content",
+    "href": "index.html#course-content",
+    "title": "Advanced Econometrics (Econometrics II)",
+    "section": "",
+    "text": "The course is structured into the following main parts (Subject to modification based on progress):\n\nA deeper look at linear regression and linear IV:\n\nA vector-matrix form approach to linear regression.\nAsymptotic theory for the OLS estimator. Wald tests.\nLinear generalized method of moments (GMM).\n\nPanel data in causal settings:\n\nEvent studies.\nDifferences-in-differences.\nTwo-way fixed effect approaches with multivalued treatment.\nMean group estimation.\n\nIntroduction to forecasting:\n\nCausal inference vs. forecasting I.\nNotions of forecast optimality.\nForecasting in cross-sections.\n\nParametric nonlinear models:\n\nBeyond linearity: nonlinear regression and nonlinear least squares.\nDiscrete outcomes in causal settings.\nElements of asymptotic theory for nonlinear models.\nClassification as forecasting with discrete outcomes.\n\nTime series:\n\nTime series as probabilistic objects and their properties.\nUnivariate models: ARIMA(X).\nMultivariate time series: VARIMA(X).\nElements of causal inference with time series.\nForecasting with time series vs. forecasting with panel data.\n\n\nFurther topics may include quantile and distributional regression, big data, and experimentation in settings with interference."
+  },
+  {
+    "objectID": "index.html#course-materials",
+    "href": "index.html#course-materials",
+    "title": "Advanced Econometrics (Econometrics II)",
+    "section": "",
+    "text": "Textbooks: the course draws on several textbooks:\n\nBrockwell, P. J., & Davis, R. A. (2016). Introduction to Time Series and Forecasting. Springer International Publishing.\nCunningham, S. (2021). Causal Inference: The Mixtape. Yale University Press.\nHuntington-Klein, N. (2025). The Effect: An Introduction to Research Design and Causality. Chapman and Hall/CRC.\nJames, G., Witten, D., Hastie, T., Tibshirani, R., & Taylor, J. E. (2023). An Introduction to Statistical Learning: With Applications in Python. Springer.\nWooldridge, J. M. (2020). Introductory Econometrics: A Modern Approach (Seventh edition). Cengage.\n\nAll books minus Wooldridge are available online (openly or through our university network). The Wooldridge book is available in our library. For specific chapters, please refer to each specific set of slides."
+  },
+  {
+    "objectID": "index.html#course-policies",
+    "href": "index.html#course-policies",
+    "title": "Advanced Econometrics (Econometrics II)",
+    "section": "",
+    "text": "The final grade for this course is based on a 90 minute closed-book written exam. The date of the exam will be announced separately by the Examination Office.\n\n\n\nAttendance and Participation:\nRegular attendance and active participation are strongly encouraged.\nAcademic Integrity:\nStudents must adhere to the university’s policies on academic integrity and plagiarism. Any violations will be subject to disciplinary action.\nAccommodations:\nIf you require any accommodations due to a disability or other circumstances, please contact the relevant office as soon as possible."
+  },
+  {
     "objectID": "slides/vector/identification-inference.html#introduction",
     "href": "slides/vector/identification-inference.html#introduction",
     "title": "Identification, Estimation and Inference",
@@ -41,63 +142,6 @@
     "crumbs": [
       "Linear Regression II",
       "Identification, Estimation and Inference"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Advanced Econometrics (Econometrics II)",
-    "section": "",
-    "text": "Advanced Econometrics builds on the basic econometrics course in three directions. First, the course discusses a range of practical methods used in economics and business. Second, it addresses both causal inference and forecasting. Third, it offers a deeper discussion of the underlying theory.\n\n\nInstructor: Vladislav Morozov\nEmail: morozov [at] uni-bonn.de\nOffice Location: Adenauerallee 24-42, IFS, Statistics Section\nOffice Hours: Virtual, by appointment\nCourse Website: eCampus and this website\nLectures: 8:30-10:00; Wednesdays (Room 0.042), Fridays (Lecture Hall N)\nSchedule Changes and Holidays: See eCampus and BASIS\nLevel: Undergraduate\nPrerequisites: basic courses in statistics and econometrics\n\n\n    View slides in full screen\n       \n      \n    \n  \n\n\n\n\n\n\nThe course is structured into the following main parts (Subject to modification based on progress):\n\nA deeper look at linear regression and linear IV:\n\nA vector-matrix form approach to linear regression.\nAsymptotic theory for the OLS estimator. Wald tests.\nLinear generalized method of moments (GMM).\n\nPanel data in causal settings:\n\nEvent studies.\nDifferences-in-differences.\nTwo-way fixed effect approaches with multivalued treatment.\nMean group estimation.\n\nIntroduction to forecasting:\n\nCausal inference vs. forecasting I.\nNotions of forecast optimality.\nForecasting in cross-sections.\n\nParametric nonlinear models:\n\nBeyond linearity: nonlinear regression and nonlinear least squares.\nDiscrete outcomes in causal settings.\nElements of asymptotic theory for nonlinear models.\nClassification as forecasting with discrete outcomes.\n\nTime series:\n\nTime series as probabilistic objects and their properties.\nUnivariate models: ARIMA(X).\nMultivariate time series: VARIMA(X).\nElements of causal inference with time series.\nForecasting with time series vs. forecasting with panel data.\n\n\nFurther topics may include quantile and distributional regression, big data, and experimentation in settings with interference.\n\n\n\n\n\nTextbooks: the course draws on several textbooks:\n\nBrockwell, P. J., & Davis, R. A. (2016). Introduction to Time Series and Forecasting. Springer International Publishing.\nCunningham, S. (2021). Causal Inference: The Mixtape. Yale University Press.\nHuntington-Klein, N. (2025). The Effect: An Introduction to Research Design and Causality. Chapman and Hall/CRC.\nJames, G., Witten, D., Hastie, T., Tibshirani, R., & Taylor, J. E. (2023). An Introduction to Statistical Learning: With Applications in Python. Springer.\nWooldridge, J. M. (2020). Introductory Econometrics: A Modern Approach (Seventh edition). Cengage.\n\nAll books minus Wooldridge are available online (openly or through our university network). The Wooldridge book is available in our library. For specific chapters, please refer to each specific set of slides.\n\n\n\n\n\n\nThe final grade for this course is based on a 90 minute closed-book written exam. The date of the exam will be announced separately by the Examination Office.\n\n\n\nAttendance and Participation:\nRegular attendance and active participation are strongly encouraged.\nAcademic Integrity:\nStudents must adhere to the university’s policies on academic integrity and plagiarism. Any violations will be subject to disciplinary action.\nAccommodations:\nIf you require any accommodations due to a disability or other circumstances, please contact the relevant office as soon as possible."
-  },
-  {
-    "objectID": "index.html#course-information",
-    "href": "index.html#course-information",
-    "title": "Advanced Econometrics (Econometrics II)",
-    "section": "",
-    "text": "Instructor: Vladislav Morozov\nEmail: morozov [at] uni-bonn.de\nOffice Location: Adenauerallee 24-42, IFS, Statistics Section\nOffice Hours: Virtual, by appointment\nCourse Website: eCampus and this website\nLectures: 8:30-10:00; Wednesdays (Room 0.042), Fridays (Lecture Hall N)\nSchedule Changes and Holidays: See eCampus and BASIS\nLevel: Undergraduate\nPrerequisites: basic courses in statistics and econometrics\n\n\n    View slides in full screen"
-  },
-  {
-    "objectID": "index.html#course-content",
-    "href": "index.html#course-content",
-    "title": "Advanced Econometrics (Econometrics II)",
-    "section": "",
-    "text": "The course is structured into the following main parts (Subject to modification based on progress):\n\nA deeper look at linear regression and linear IV:\n\nA vector-matrix form approach to linear regression.\nAsymptotic theory for the OLS estimator. Wald tests.\nLinear generalized method of moments (GMM).\n\nPanel data in causal settings:\n\nEvent studies.\nDifferences-in-differences.\nTwo-way fixed effect approaches with multivalued treatment.\nMean group estimation.\n\nIntroduction to forecasting:\n\nCausal inference vs. forecasting I.\nNotions of forecast optimality.\nForecasting in cross-sections.\n\nParametric nonlinear models:\n\nBeyond linearity: nonlinear regression and nonlinear least squares.\nDiscrete outcomes in causal settings.\nElements of asymptotic theory for nonlinear models.\nClassification as forecasting with discrete outcomes.\n\nTime series:\n\nTime series as probabilistic objects and their properties.\nUnivariate models: ARIMA(X).\nMultivariate time series: VARIMA(X).\nElements of causal inference with time series.\nForecasting with time series vs. forecasting with panel data.\n\n\nFurther topics may include quantile and distributional regression, big data, and experimentation in settings with interference."
-  },
-  {
-    "objectID": "index.html#course-materials",
-    "href": "index.html#course-materials",
-    "title": "Advanced Econometrics (Econometrics II)",
-    "section": "",
-    "text": "Textbooks: the course draws on several textbooks:\n\nBrockwell, P. J., & Davis, R. A. (2016). Introduction to Time Series and Forecasting. Springer International Publishing.\nCunningham, S. (2021). Causal Inference: The Mixtape. Yale University Press.\nHuntington-Klein, N. (2025). The Effect: An Introduction to Research Design and Causality. Chapman and Hall/CRC.\nJames, G., Witten, D., Hastie, T., Tibshirani, R., & Taylor, J. E. (2023). An Introduction to Statistical Learning: With Applications in Python. Springer.\nWooldridge, J. M. (2020). Introductory Econometrics: A Modern Approach (Seventh edition). Cengage.\n\nAll books minus Wooldridge are available online (openly or through our university network). The Wooldridge book is available in our library. For specific chapters, please refer to each specific set of slides."
-  },
-  {
-    "objectID": "index.html#course-policies",
-    "href": "index.html#course-policies",
-    "title": "Advanced Econometrics (Econometrics II)",
-    "section": "",
-    "text": "The final grade for this course is based on a 90 minute closed-book written exam. The date of the exam will be announced separately by the Examination Office.\n\n\n\nAttendance and Participation:\nRegular attendance and active participation are strongly encouraged.\nAcademic Integrity:\nStudents must adhere to the university’s policies on academic integrity and plagiarism. Any violations will be subject to disciplinary action.\nAccommodations:\nIf you require any accommodations due to a disability or other circumstances, please contact the relevant office as soon as possible."
-  },
-  {
-    "objectID": "slides/organizational/intro.html#content-and-motivation",
-    "href": "slides/organizational/intro.html#content-and-motivation",
-    "title": "Course Introduction",
-    "section": "Content and Motivation",
-    "text": "Content and Motivation",
-    "crumbs": [
-      "Course Info",
-      "Course Introduction"
-    ]
-  },
-  {
-    "objectID": "slides/organizational/intro.html#course-logistics",
-    "href": "slides/organizational/intro.html#course-logistics",
-    "title": "Course Introduction",
-    "section": "Course Logistics",
-    "text": "Course Logistics",
-    "crumbs": [
-      "Course Info",
-      "Course Introduction"
     ]
   },
   {
