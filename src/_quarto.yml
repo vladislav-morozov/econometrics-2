@@ -32,9 +32,7 @@ website:
       - section: "Linear Regression II"
         contents:
         - slides/vector/vector-ols.qmd  
-        - slides/vector/identification-inference.qmd
-        - slides/vector/ols-consistency.qmd
-        - slides/vector/ols-limit-distribution.qmd
+        - slides/vector/identification-inference.qmd 
 
 execute:
   freeze: auto  # re-render only when source changes
