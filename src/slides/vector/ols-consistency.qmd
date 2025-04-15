@@ -22,8 +22,7 @@ title-slide-attributes:
     data-background-color: "#045D5D"
     data-footer: " "
 filters:
-  - reveal-header 
-embed-resources: true
+  - reveal-header  
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
 ---
@@ -52,91 +51,267 @@ By the end, you should be able to
 
  
 - Refresher on probability: 
-    - Your favorite probability textbook
-    - Section B in @Wooldridge2020IntroductoryEconometricsModern
-- Asymptotic theory for the OLS estimator
+    - Your favorite probability textbook (e.g. 5 in @Bertsekas2008IntroductionProbability)
+    - Sections B-C in @Wooldridge2020IntroductoryEconometricsModern
+- Consistency of the OLS estimator
     - 7.1-7.2 in @Hansen2022Econometrics
-    - Or 11.2 and E4 in @Wooldridge2020IntroductoryEconometricsModern
+    - *Or* 5.1 and E4 in @Wooldridge2020IntroductoryEconometricsModern
     
 
   
 ::: 
 
+#### Consistency as Basic Requirement
+ 
+Want estimators with good properties 
+
+. . . 
+
+<br>
+
+<span class =  "highlight">Consistency</span> is a minimal required property for a "sensible" estimator
+
+. . .
+
+<br>
+
+Informally:
+<div class="rounded-box">
+  An estimation procedure is consistent if it get the target parameter right as sample size grows infinite large
+</div>
+
+
+## Probability Background {background="#00100F" visibility="uncounted"}
+
+### Definitions {background="#43464B" visibility="uncounted"}
+
+
+#### Reminder: Convergence of a Deterministic Sequence
+
+
+Recall: 
+
+<div class="rounded-box">
+
+::: {#def-vector-consistency-deterministic-convergence}
+
+Let $\bx_1, \bx_2, \dots$ be a sequence of vectors in $\R^p$. Then $\bx_n$ converges to some $\bx\in \R^p$  if for any $\varepsilon>0$ there exists an $N_0$ such that for all $N\geq N_0$
+$$
+\norm{ \bx_N - \bx } < \varepsilon
+$$
+
+:::
+
+</div>
+ 
+Here $\norm{\cdot}$ is the Euclidean norm on $\R^p$: if $\by = (y_1, \dots, y_p)$, then $\norm{\by} = \sqrt{ \sum_{i=1}^p y_i^p   }$
  
 
-#### Reminder: 
 
-normality
+#### Towards Formalizing Convergence
 
+- Let $\theta\in \R^p$
+- Sample of size $N$ is $(X_1, \dots, X_N)$
+- Recall: estimators $\curl{\hat{\theta}_k}_{k=\min N}^{\infty}$ are a sequence of functions. $N$th estimator maps $(X_1, \dots, X_N)$ to $\R^p$ to produce *estimates*
 
-#### Issue with Normality
+. . .
 
-But normality
+<br> 
 
-Example: positive outcomes and positive regressors: how can $U_{it}$ be normal?
+Sample is random $\Rightarrow$ each $\hat{\theta}_N(X_1, \dots, X_N)$ is random
 
-#### Issue: Unknown Distribution
+. . .
 
-Normality was useful? 
+$\Rightarrow$ How to formalize convergence?
 
-If we knew some other distribution, would be nice
+::: footer
+See [Wikipedia](https://en.wikipedia.org/wiki/Convergence_of_random_variables)
+:::
+ 
 
-But we cannot 
+#### Convergence in Probability: Definition
 
-#### Options
+<br> 
 
-- Nonasymptotic/finite-sample analysis based on "high-probability bounds" --- originally more popular in high-dimensional  @Wainwright2019HighDimensionalStatisticsNonAsymptotic
-- Large-sample "approximations" using tools like the central limit theorem(s) --- topic of this lecture
+<div class="rounded-box">
 
+::: {#def-vector-consistency-convergence-ip}
 
+Let $\bX_1, \bX_2, \dots$ be a sequence of random vectors in $\R^p$. Then $\bX_N$ converges to some $\bX\in \R^p$ <span class="highlight">in probability</span> if for any $\varepsilon>0$  it holds that 
+$$
+\lim_{N\to\infty} P(\norm{\bX_N - \bX}>\varepsilon) = 0
+$$
 
+:::
+
+</div>
+
+#### Convergence in Probability: Discussion
+
+<br> 
+
+- The limit $\bX$ can be random or deterministic 
+- Convergence in probability written $\bX_n\xrightarrow{p}\bX$
+- $\bX_N\xrightarrow{p} \bX$ is the same as $\bX_N-\bX\xrightarrow{p} 0$
+- Convergence of vector is equivalent to convergence of every coordinate
+- Sometimes terminology "with probability approaching 1" (w.p.a. 1) is used
+
+#### Definition of Consistency
+
+<div class="rounded-box">
+
+::: {#def-vector-consistency-consistency}
+
+The estimator (sequence) $\hat{\theta}_N$ is consistent for $\theta$ if as $N\to\infty$ 
+$$
+\hat{\theta}_N(X_1, \dots, X_N) \xrightarrow{p} \theta
+$$
+
+:::
+
+</div>
+
+Note: we usually use the word "estimator" to refer to the whole sequence $\curl{\hat{\theta}_N}$
+
+### Tools for Showing Consistency {background="#43464B" visibility="uncounted"}
+
+#### Two Approaches To Showing Consistency
+
+1. Qualitative: just that convergence happens
+  - Relies on laws of large numbers (LLNs) and related results
+  - Approach in this course
+2. Quantitive: shows that convergence happens and answers *how fast*
+  - Usually based on <span class="highlight">concentration inequalities</span>
+  - Check out chapter 2 in @Wainwright2019HighDimensionalStatisticsNonAsymptotic
 
 
 ::: footer
-?
+Wikipedia gives a [list](https://en.wikipedia.org/wiki/Concentration_inequality) of some concentration inequalities. Check 
 :::
 
+#### Tool: (Weak) Law of Large Numbers
+ 
+
+<div class="rounded-box">
+
+::: {#prp-vector-consistency-lln}
+
+Let $\bX_1, \bX_2, \dots$ be a sequence of random vectors such that
+
+1. $\bX_i$ are independently and identically distributed (IID)
+2. $\E[\norm{\bX_i}]<\infty$
+
+Then 
+$$ \small
+\dfrac{1}{N} \sum_{i=1}^N \bX_i \xrightarrow{p} \E[\bX_i]
+$$
+:::
+
+</div>
 
 
-## Probability Background {background="#00100F"}
+#### WLLN Discussion
 
-
-#### Convergence in Probability
-
-Recall
-
-
-#### Tool: Law of Large Numbers
-
-The very key tool 
-
-
-#### LLN Discussion
-
-- many. Can do dependence and non-identical distributions
+- IID assumption can be relaxed
+- many. Can do dependence and non-identical distributions: important not too much of either
 - Spirit remains the same
 
- 
+
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import seaborn as sns
+
+# Parameters
+a, b = 2, 5  # Parameters for the beta distribution
+sample_sizes = np.linspace(10, 1000, 50).astype(int)  # More sample sizes for smoother animation
+num_samples = 1000
+true_mean = a / (a + b)
+
+# Generate data from a beta distribution
+data = np.random.beta(a, b, (num_samples, max(sample_sizes)))
+
+# Compute sample means
+sample_means = [np.mean(data[:, :n], axis=1) for n in sample_sizes]
+
+# Compute probabilities for the right subplot
+prob_01 = [np.mean(np.abs(means - true_mean) > 0.1) for means in sample_means]
+prob_001 = [np.mean(np.abs(means - true_mean) > 0.01) for means in sample_means]
+
+# Set up the figure and the axes
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
+ax1.set_xlim(0, 1)  # Beta distribution is bounded between 0 and 1
+ax1.set_ylim(0, 10)
+ax2.set_xlim(min(sample_sizes), max(sample_sizes))
+ax2.set_ylim(0, 1)
+
+# Initialization function: plot the background of each frame
+def init():
+    ax1.clear()
+    ax1.set_xlim(0, 1)
+    ax1.set_ylim(0, 10)
+    ax1.set_xlabel('Sample Mean')
+    ax1.set_ylabel('Density')
+    ax1.set_title('Convergence in Probability of Sample Mean')
+
+    ax2.clear()
+    ax2.set_xlim(min(sample_sizes), max(sample_sizes))
+    ax2.set_ylim(0, 1)
+    ax2.set_xlabel('Sample Size (N)')
+    ax2.set_ylabel('Probability')
+    ax2.set_title('Probability of Deviation from True Mean')
+    ax2.plot([], [], 'g-', label='P(|X̄ - μ| > 0.1)')
+    ax2.plot([], [], 'b-', label='P(|X̄ - μ| > 0.01)')
+    ax2.legend()
+
+# Animation function: this is called sequentially
+def animate(i):
+    ax1.clear()
+    sns.kdeplot(sample_means[i], ax=ax1, color='g', shade=True)
+    ax1.axvline(x=true_mean, color='r', linestyle='--')  # True mean of the beta distribution
+    ax1.set_xlim(0, 1)
+    ax1.set_ylim(0, 10)
+    ax1.set_xlabel('Sample Mean')
+    ax1.set_ylabel('Density')
+    ax1.set_title('Convergence in Probability of Sample Mean')
+
+    ax2.clear()
+    ax2.plot(sample_sizes[:i+1], prob_01[:i+1], 'g-', label='P(|X̄ - μ| > 0.1)')
+    ax2.plot(sample_sizes[:i+1], prob_001[:i+1], 'b-', label='P(|X̄ - μ| > 0.01)')
+    ax2.set_xlim(min(sample_sizes), max(sample_sizes))
+    ax2.set_ylim(0, 1)
+    ax2.set_xlabel('Sample Size (N)')
+    ax2.set_ylabel('Probability')
+    ax2.set_title('Probability of Deviation from True Mean')
+    ax2.legend()
+
+# Call the animator
+ani = animation.FuncAnimation(fig, animate, frames=len(sample_sizes), init_func=init, interval=100, repeat=True)
+plt.show()
+
+
+```
+
+
 
 #### Tool: Continuous Mapping Theory
 
 #### CMT Example: 
 
 #### CMT Discussion
-
-#### Slutsky's Theorem
-
+ 
 
 
 
-## Consistency {background="#00100F"}
-  
-### Definitions {background="#43464B"}
 
+## Consistency of the OLS Estimator {background="#00100F" visibility="uncounted"}
+   
 
-### Model-Free Convergence  {background="#43464B"}
+### Model-Free Convergence  {background="#43464B" visibility="uncounted"}
 
-#### 
+#### OLS
 
 Converges to $\E[\bX_i\bX_i']^{-1}\E[\bX_i\bX_i]$
 
@@ -144,7 +319,7 @@ No "model", no "potential outcomes" --- just correlations
 
 
 
-### Convergence under Exogeneity  {background="#43464B"}
+### Convergence under Exogeneity  {background="#43464B" visibility="uncounted"}
 
 
 
