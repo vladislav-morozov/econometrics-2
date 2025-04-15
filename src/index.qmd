@@ -28,14 +28,16 @@ Advanced Econometrics builds on the basic econometrics course in three direction
 **Level:** Undergraduate\
 **Prerequisites:** basic courses in statistics and econometrics
 
-## Course Content
- 
+
 ### In Slide Form
 
 
 
 {{< revealjs file="slides/organizational/intro.html" height="500px" class="ratio ratio-16x9" >}}
 
+
+## Course Content
+ 
   
 ### Content 
 The course is structured into the following main parts (*Subject to modification based on progress*):
@@ -53,17 +55,18 @@ The course is structured into the following main parts (*Subject to modification
    - Causal inference vs. forecasting I.
    - Notions of forecast optimality.
    - Forecasting in cross-sections.
-4. Time series:
+4. Parametric nonlinear models:
+   - Beyond linearity: nonlinear regression and nonlinear least squares.
+   - Discrete outcomes in causal settings. 
+   - Elements of asymptotic theory for nonlinear models.
+   - Classification as forecasting with discrete outcomes.
+5. Time series:
    - Time series as probabilistic objects and their properties.
    - Univariate models: ARIMA(X).
    - Multivariate time series: VARIMA(X).
    - Elements of causal inference with time series. 
    - Forecasting with time series vs. forecasting with panel data.
-5. Parametric nonlinear models:
-   - Beyond linearity: nonlinear regression and nonlinear least squares.
-   - Discrete outcomes in causal settings. 
-   - Elements of asymptotic theory for nonlinear models.
-   - Classification as forecasting with discrete outcomes.
+
 
 Further topics may include quantile and distributional regression, big data, and experimentation in settings with interference. 
  

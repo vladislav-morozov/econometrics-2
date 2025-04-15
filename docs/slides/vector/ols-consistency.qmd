@@ -1,0 +1,225 @@
+---
+title: "Consistency of the OLS Estimator"
+subtitle: "Convergence as Sample Size Grows"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "A Deeper Look at Linear Regression: Consistency"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header 
+embed-resources: true
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+---
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B"}
+
+
+#### Learning Outcomes
+
+This lecture is about a 
+
+<br>
+
+By the end, you should be able to
+
+- R
+
+#### Textbook References
+ 
+
+::: {.nonincremental}
+
+ 
+- Refresher on probability: 
+    - Your favorite probability textbook
+    - Section B in @Wooldridge2020IntroductoryEconometricsModern
+- Asymptotic theory for the OLS estimator
+    - 7.1-7.2 in @Hansen2022Econometrics
+    - Or 11.2 and E4 in @Wooldridge2020IntroductoryEconometricsModern
+    
+
+  
+::: 
+
+ 
+
+#### Reminder: 
+
+normality
+
+
+#### Issue with Normality
+
+But normality
+
+Example: positive outcomes and positive regressors: how can $U_{it}$ be normal?
+
+#### Issue: Unknown Distribution
+
+Normality was useful? 
+
+If we knew some other distribution, would be nice
+
+But we cannot 
+
+#### Options
+
+- Nonasymptotic/finite-sample analysis based on "high-probability bounds" --- originally more popular in high-dimensional  @Wainwright2019HighDimensionalStatisticsNonAsymptotic
+- Large-sample "approximations" using tools like the central limit theorem(s) --- topic of this lecture
+
+
+
+
+
+::: footer
+?
+:::
+
+
+
+## Probability Background {background="#00100F"}
+
+
+#### Convergence in Probability
+
+Recall
+
+
+#### Tool: Law of Large Numbers
+
+The very key tool 
+
+
+#### LLN Discussion
+
+- many. Can do dependence and non-identical distributions
+- Spirit remains the same
+
+ 
+
+#### Tool: Continuous Mapping Theory
+
+#### CMT Example: 
+
+#### CMT Discussion
+
+#### Slutsky's Theorem
+
+
+
+
+## Consistency {background="#00100F"}
+  
+### Definitions {background="#43464B"}
+
+
+### Model-Free Convergence  {background="#43464B"}
+
+#### 
+
+Converges to $\E[\bX_i\bX_i']^{-1}\E[\bX_i\bX_i]$
+
+No "model", no "potential outcomes" --- just correlations
+
+
+
+### Convergence under Exogeneity  {background="#43464B"}
+
+
+
+#### 
+
+Can always say! 
+
+
+$\bbeta + \E[\bX_i\bX_i']\E[\bX_i\bU_i(\bbeta)]$
+
+
+
+Model-free in teh sense that by itself writing $Y_i = \bX_i'\bbeta + \bU_i(\bbeta)$ does not say anything (a bit like writing $5 = X + (5-X)$)
+
+#### Potential Outcomes Framework
+
+If we want $\bbeta$ to have any causal meaning, we need a casual framework 
+
+So let's make the usual assumption
+
+####
+
+In this class we will maintain SUTVA --- no general equilbrium, "only your known treatment matters"
+
+- Not always true, think about policies which apply to everyone
+- Insert tutoring example
+
+#### Consistency of the OLS Estimator
+
+Combining the steps together
+$$
+\hat{\bbeta} \xrightarrow{p} \bbeta
+$$
+
+#### Discussion
+
+- Work with "sampling" properties of realised values
+- Use the *assumed* structure to connect to causally interpretable paramtesr
+
+#### Discussion of Assumptions
+
+- iid bad?
+
+#### Orthogonality
+
+Let's think about the proof again
+
+We don't actually need $\E[U_i|\bX_i]=0$
+
+Sufficient to have 
+$$
+\E[\bX_iU_i] = 0
+$$
+This is $k$ conditions now --- one per component of $\bX_i$
+
+#### Consistency Under Orthogonality
+
+Things go through
+
+
+
+#### What Do We Lose Without Strict Exogeneity?
+
+Still can specify the potential outcomes frameworok
+
+But we lose mean interpretation: 
+$$
+\E[Y_i|\bX_i] = \bX_i'\bbeta + \E[U_{it}|\bX_i]
+ $$
+ Now maybe $ \E[U_{it}|\bX_i]$ is not zero. 
+
+
+In finite samples you may have bias!
+Consistency result shows that in the limit you are still estimating the correct thing
+
+ 
+#### How Quick is the Convergence? 
+
