@@ -20,8 +20,7 @@ format:
 slide-level: 4
 title-slide-attributes:
     data-background-color: "#045D5D"
-    data-footer: " " 
-embed-resources: true
+    data-footer: " "  
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
 ---
@@ -288,7 +287,7 @@ Consider a simple example:
 Implication of the model:
 
 - $F_{Y}$ is a normal distribution with mean $\theta_0$ and variance 1
-- Known up to $\theta$, can label the distribution as $F_Y(y|\theta_0)$ 
+- Known up to $\theta$, can label the distribution as $F_Y(y|\theta)$ 
  
 #### Identification of $\theta$
  
@@ -450,6 +449,7 @@ Work in the familiar potential outcomes framework:
 $$
 Y^{\bx}_i = \bx'\bbeta + U_i
 $$
+- Units are identically distributed
 
 
 
@@ -595,7 +595,7 @@ Let $\theta$ be a parameter of interest and $(X_1, \dots, X_N)$ be the available
 
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 
-::: {#dfn-vector-id-estimator}
+::: {#def-vector-id-estimator}
  
 Let $\theta$ belong to some space $\S$. An estimator $\hat{\theta}_N$ is a function from $(X_1, \dots, X_N)$ to $\S$:
 $$
