@@ -208,93 +208,10 @@ $$
 :::
 
 </div>
+In words: sample mean is consistent for population mean
+ 
 
-
-#### WLLN Discussion
-
-- IID assumption can be relaxed
-- many. Can do dependence and non-identical distributions: important not too much of either
-- Spirit remains the same
-
-
-
-```{python}
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-import seaborn as sns
-
-# Parameters
-a, b = 2, 5  # Parameters for the beta distribution
-sample_sizes = np.linspace(10, 1000, 50).astype(int)  # More sample sizes for smoother animation
-num_samples = 1000
-true_mean = a / (a + b)
-
-# Generate data from a beta distribution
-data = np.random.beta(a, b, (num_samples, max(sample_sizes)))
-
-# Compute sample means
-sample_means = [np.mean(data[:, :n], axis=1) for n in sample_sizes]
-
-# Compute probabilities for the right subplot
-prob_01 = [np.mean(np.abs(means - true_mean) > 0.1) for means in sample_means]
-prob_001 = [np.mean(np.abs(means - true_mean) > 0.01) for means in sample_means]
-
-# Set up the figure and the axes
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
-ax1.set_xlim(0, 1)  # Beta distribution is bounded between 0 and 1
-ax1.set_ylim(0, 10)
-ax2.set_xlim(min(sample_sizes), max(sample_sizes))
-ax2.set_ylim(0, 1)
-
-# Initialization function: plot the background of each frame
-def init():
-    ax1.clear()
-    ax1.set_xlim(0, 1)
-    ax1.set_ylim(0, 10)
-    ax1.set_xlabel('Sample Mean')
-    ax1.set_ylabel('Density')
-    ax1.set_title('Convergence in Probability of Sample Mean')
-
-    ax2.clear()
-    ax2.set_xlim(min(sample_sizes), max(sample_sizes))
-    ax2.set_ylim(0, 1)
-    ax2.set_xlabel('Sample Size (N)')
-    ax2.set_ylabel('Probability')
-    ax2.set_title('Probability of Deviation from True Mean')
-    ax2.plot([], [], 'g-', label='P(|X̄ - μ| > 0.1)')
-    ax2.plot([], [], 'b-', label='P(|X̄ - μ| > 0.01)')
-    ax2.legend()
-
-# Animation function: this is called sequentially
-def animate(i):
-    ax1.clear()
-    sns.kdeplot(sample_means[i], ax=ax1, color='g', shade=True)
-    ax1.axvline(x=true_mean, color='r', linestyle='--')  # True mean of the beta distribution
-    ax1.set_xlim(0, 1)
-    ax1.set_ylim(0, 10)
-    ax1.set_xlabel('Sample Mean')
-    ax1.set_ylabel('Density')
-    ax1.set_title('Convergence in Probability of Sample Mean')
-
-    ax2.clear()
-    ax2.plot(sample_sizes[:i+1], prob_01[:i+1], 'g-', label='P(|X̄ - μ| > 0.1)')
-    ax2.plot(sample_sizes[:i+1], prob_001[:i+1], 'b-', label='P(|X̄ - μ| > 0.01)')
-    ax2.set_xlim(min(sample_sizes), max(sample_sizes))
-    ax2.set_ylim(0, 1)
-    ax2.set_xlabel('Sample Size (N)')
-    ax2.set_ylabel('Probability')
-    ax2.set_title('Probability of Deviation from True Mean')
-    ax2.legend()
-
-# Call the animator
-ani = animation.FuncAnimation(fig, animate, frames=len(sample_sizes), init_func=init, interval=100, repeat=True)
-plt.show()
-
-
-```
-
-
+#### Visualization  
 
 #### Tool: Continuous Mapping Theory
 
@@ -396,5 +313,11 @@ In finite samples you may have bias!
 Consistency result shows that in the limit you are still estimating the correct thing
 
  
-#### How Quick is the Convergence? 
+#### Visualization
 
+
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
