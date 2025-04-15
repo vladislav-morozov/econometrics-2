@@ -36,16 +36,15 @@ highlight-style: tango
 
 #### Learning Outcomes
 
-This lecture is about a 
+This lecture is about a consistency in general and consistency of the OLS estimator
 
 <br>
 
 By the end, you should be able to
 
-- Provide definitions of consistency and convergence in probability
-- Discuss 
-- Handle the case of non-invertible $\bX'\bX$
-- 
+- Provide definitions of convergence in probability and consistency 
+- Handle the question of invertibility of $\bX'\bX$
+- Derive consistency results for the OLS estimator 
 
 #### Textbook References
  
@@ -54,7 +53,7 @@ By the end, you should be able to
 
  
 - Refresher on probability: 
-    - Your favorite probability textbook (e.g. 5 in @Bertsekas2008IntroductionProbability)
+    - Your favorite probability textbook (e.g. chapter 5 in @Bertsekas2008IntroductionProbability)
     - Sections B-C in @Wooldridge2020IntroductoryEconometricsModern
 - Consistency of the OLS estimator
     - 7.1-7.2 in @Hansen2022Econometrics
@@ -107,7 +106,7 @@ $$
 
 </div>
  
-Here $\norm{\cdot}$ is the Euclidean norm on $\R^p$: if $\by = (y_1, \dots, y_p)$, then $\norm{\by} = \sqrt{ \sum_{i=1}^p y_i^p   }$
+Here $\norm{\cdot}$ is the Euclidean norm on $\R^p$: if $\by = (y_1, \dots, y_p)$, then $\norm{\by} = \sqrt{ \sum_{i=1}^p y_i^2   }$
  
 
 
@@ -140,7 +139,7 @@ See [Wikipedia](https://en.wikipedia.org/wiki/Convergence_of_random_variables)
 
 ::: {#def-vector-consistency-convergence-ip}
 
-Let $\bX_1, \bX_2, \dots$ be a sequence of random vectors in $\R^p$. Then $\bX_N$ converges to some $\bX\in \R^p$ <span class="highlight">in probability</span> if for any $\varepsilon>0$  it holds that 
+Let $\bX_1, \bX_2, \dots$ be a sequence of random matrices in $\R^{k\times p}$. Then $\bX_N$ converges to some $\bX\in \R^{k\times p}$ <span class="highlight">in probability</span> if for any $\varepsilon>0$  it holds that 
 $$
 \lim_{N\to\infty} P(\norm{\bX_N - \bX}>\varepsilon) = 0
 $$
@@ -368,7 +367,7 @@ Two facts:
 So if $\E[\bX_i\bX_i']$ is invertible, then by @prp-vector-consistency-characterizations-open  and the CMT (@prp-vector-consistency-cmt)
 
 - $P(\frac{1}{N} \sum_{i=1}^N \bX_i\bX_i' \text{ is invertible})\to 1$
-- $(\sum_{i=1}^N \bX_i\bX_i')^{-1}  \xrightarrow{p} \left(\E[\bX_i\bX_i']\right)^{-1}$
+- $(\frac{1}{N}\sum_{i=1}^N \bX_i\bX_i')^{-1}  \xrightarrow{p} \left(\E[\bX_i\bX_i']\right)^{-1}$
 
 
 
@@ -473,8 +472,8 @@ $$
 Can now <span class="highlight">substitute the equation for $Y_i$</span> (+invertibility assumptions) to get   
 $$
 \begin{aligned}
-\hat{\bbeta} & = \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_iY_i'\\
-& = \bbeta + \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_i U_i'
+\hat{\bbeta} & = \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_iY_i\\
+& = \bbeta + \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_i U_i
 \end{aligned}
 $$
 Last line — <span class="highlight">sampling error form</span>
@@ -490,7 +489,7 @@ Last line — <span class="highlight">sampling error form</span>
 Let
 
 1. $(\bX_i, U_i)$ be IID and model ([-@eq-vector-consistency-causal-homogeneous]) hold
-2. $\E[\norm{\bX_i\bX_i'}]<\infty$, $\E[\norm{\bX_iU_i}]<\infty, $\E[\bX_iU_i]=0$
+2. $\E[\norm{\bX_i\bX_i'}]<\infty$, $\E[\norm{\bX_iU_i}]<\infty$, $\E[\bX_iU_i]=0$
 3. $\E[\bX_i\bX_i']$ be invertible
 
 Then
@@ -562,32 +561,65 @@ $$
 
 #### Parameters of Interest In Model ([-@eq-vector-consistency-causal-heterogeneous])
 
-#### OLS Under Model 
+1. Average $\E[\bbeta_i]$ — enough to compute all average treatment effects
+2. Variance, other moments of $\bbeta_i$
+3. Distribution of $\bbeta_i$
+4. Other objects? 
+
+#### OLS Under Model ([-@eq-vector-consistency-causal-heterogeneous])
+
+
+We can still apply OLS under ([-@eq-vector-consistency-causal-heterogeneous]), but the representation in terms of $U_i$ and $\bbeta_i$ is different:
+$$ \small
+\begin{aligned}
+\hat{\bbeta} & = \left( \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'  \right)\dfrac{1}{N} \sum_{i=1}^N \bX_i Y_i \\
+& = \left( \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'  \right)\dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'\bbeta_i \\
+& \quad + \left( \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'  \right)\dfrac{1}{N} \sum_{i=1}^N \bX_i U_i
+\end{aligned}
+$$
 
 
 
-#### 
+
+#### Limit of the OLS Estimator Under Model ([-@eq-vector-consistency-causal-heterogeneous])
 
 
 <div class="rounded-box">
 
-::: {#prp-vector-consistency-ols-model-causal-homogeneous}
+::: {#prp-vector-consistency-ols-model-causal-heterogeneous}
 
 Let
 
-1. $(\bX_i, U_i)$ be IID and model ([-@eq-vector-consistency-causal-homogeneous]) hold
-2. $\E[\norm{\bX_i\bX_i'}]<\infty$, $\E[\norm{\bX_iU_i}]<\infty, $\E[\bX_iU_i]=0$
-3. $\E[\bX_i\bX_i']$ be invertible
+1. $X_i$ be scalar, $(X_i, \bbeta_i, U_i)$ be IID and model ([-@eq-vector-consistency-causal-heterogeneous]) hold as 
+$$ \small
+Y_i^x = \beta_i x + U_i
+$$
+1. $\E[X_i^2] \in (0,\infty)$, $\E[X_iU_i]=0$
 
 Then
-$$
-\hat{\bbeta} \xrightarrow{p} \bbeta
+$$ \small
+\hat{\bbeta} \xrightarrow{p} \E[W(X_i)\beta_i], \quad W(X_i) = X_i^2/\E[X_i^2]
 $$
 
 
 :::
 
 </div>
+ 
+::: footer
+
+
+:::
+
+#### @prp-vector-consistency-ols-model-causal-heterogeneous: Discussion
+
+
+<br>
+
+- @prp-vector-consistency-ols-model-causal-heterogeneous: OLS is estimating a *weighted* average of individual $\beta_i$
+- Weights $W(X_i)$ are non-negative and $\E[W(X_i)]=1$ (population version of summing to 1)
+- Still a "causal" parameter, but maybe hard to interpret
+- Not equal to $\E[\bbeta_i]$ without further assumptions
 
 #### Can You Identify $\E[\bbeta_i]$?
 
@@ -595,7 +627,7 @@ $$
 
 Only under restrictions:
 
-- Independence of $\bbeta_i$ and $\bX_i$ (experimental settings)
+- Independence of $\bbeta_i$ and $\bX_i$ (experimental settings). Show this! 
 - With instruments
 
 ## Recap and Conclusions {background="#00100F"}
@@ -604,20 +636,20 @@ Only under restrictions:
 
 In this lecture we
 
-1. Discussed the difference between identification, estimation, and inference
-2. Saw definitions of identification
-3. Reviewed potential outcomes
-4. Discussed identification in the linear model under exogeneity
-
+1. Reviewed convergence in probability and consistency
+2. Discussed consistency of the OLS estimator 
+   - Without a causal framework (covariances)
+   - In a causal model with homogeneous effects
+   - In a causal model with heterogeneous effects
 
 
 #### Next Questions
 
-- Linear model: inference on $\bbeta$ based on the OLS estimator
-  - Quantifying uncertainty
-  - Hypothesis testing
-- Identification in various settings: IV, panel, nonlinear, etc.
+<br>
 
+- How was fast does $\hat{\bbeta}$ converge?
+- Distributional properties of $\hat{\bbeta}$?
+- Inference on $\bbeta$
 
 
 #### References {.allowframebreaks visibility="uncounted"}
