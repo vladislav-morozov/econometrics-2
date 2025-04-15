@@ -22,8 +22,7 @@ title-slide-attributes:
     data-background-color: "#045D5D"
     data-footer: " "
 filters:
-  - reveal-header 
-embed-resources: true
+  - reveal-header  
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
 ---
@@ -32,18 +31,20 @@ highlight-style: tango
 
 ## Introduction {background="#00100F"}
   
-### Lecture Info {background="#43464B"}
+### Lecture Info {background="#43464B" visibility="uncounted"}
 
 
 #### Learning Outcomes
 
-This lecture is about a 
+This lecture is about a consistency in general and consistency of the OLS estimator
 
 <br>
 
 By the end, you should be able to
 
-- R
+- Provide definitions of convergence in probability and consistency 
+- Handle the question of invertibility of $\bX'\bX$
+- Derive consistency results for the OLS estimator 
 
 #### Textbook References
  
@@ -52,174 +53,606 @@ By the end, you should be able to
 
  
 - Refresher on probability: 
-    - Your favorite probability textbook
-    - Section B in @Wooldridge2020IntroductoryEconometricsModern
-- Asymptotic theory for the OLS estimator
+    - Your favorite probability textbook (e.g. chapter 5 in @Bertsekas2008IntroductionProbability)
+    - Sections B-C in @Wooldridge2020IntroductoryEconometricsModern
+- Consistency of the OLS estimator
     - 7.1-7.2 in @Hansen2022Econometrics
-    - Or 11.2 and E4 in @Wooldridge2020IntroductoryEconometricsModern
+    - *Or* 5.1 and E4 in @Wooldridge2020IntroductoryEconometricsModern
     
 
   
 ::: 
 
+#### Consistency as Basic Requirement
  
+Want estimators with good properties 
 
-#### Reminder: 
+. . . 
 
-normality
+<br>
 
+<span class =  "highlight">Consistency</span> is a minimal required property for a "sensible" estimator
 
-#### Issue with Normality
+. . .
 
-But normality
+<br>
 
-Example: positive outcomes and positive regressors: how can $U_{it}$ be normal?
-
-#### Issue: Unknown Distribution
-
-Normality was useful? 
-
-If we knew some other distribution, would be nice
-
-But we cannot 
-
-#### Options
-
-- Nonasymptotic/finite-sample analysis based on "high-probability bounds" --- originally more popular in high-dimensional  @Wainwright2019HighDimensionalStatisticsNonAsymptotic
-- Large-sample "approximations" using tools like the central limit theorem(s) --- topic of this lecture
-
-
-
-
-
-::: footer
-?
-:::
-
+Informally:
+<div class="rounded-box">
+  An estimation procedure is consistent if it get the target parameter right as sample size grows infinite large
+</div>
 
 
 ## Probability Background {background="#00100F"}
 
-
-#### Convergence in Probability
-
-Recall
+### Definitions {background="#43464B" visibility="uncounted"}
 
 
-#### Tool: Law of Large Numbers
-
-The very key tool 
+#### Reminder: Convergence of a Deterministic Sequence
 
 
-#### LLN Discussion
+Recall: 
 
-- many. Can do dependence and non-identical distributions
-- Spirit remains the same
+<div class="rounded-box">
+
+::: {#def-vector-consistency-deterministic-convergence}
+
+Let $\bx_1, \bx_2, \dots$ be a sequence of vectors in $\R^p$. Then $\bx_n$ converges to some $\bx\in \R^p$  if for any $\varepsilon>0$ there exists an $N_0$ such that for all $N\geq N_0$
+$$
+\norm{ \bx_N - \bx } < \varepsilon
+$$
+
+:::
+
+</div>
+ 
+Here $\norm{\cdot}$ is the Euclidean norm on $\R^p$: if $\by = (y_1, \dots, y_p)$, then $\norm{\by} = \sqrt{ \sum_{i=1}^p y_i^2   }$
+ 
+
+
+#### Towards Formalizing Convergence
+
+- Let $\theta\in \R^p$
+- Sample of size $N$ is $(X_1, \dots, X_N)$
+- Recall: estimators $\curl{\hat{\theta}_k}_{k=\min N}^{\infty}$ are a sequence of functions. $N$th estimator maps $(X_1, \dots, X_N)$ to $\R^p$ to produce *estimates*
+
+. . .
+
+<br> 
+
+Sample is random $\Rightarrow$ each $\hat{\theta}_N(X_1, \dots, X_N)$ is random
+
+. . .
+
+$\Rightarrow$ How to formalize convergence?
+
+::: footer
+See [Wikipedia](https://en.wikipedia.org/wiki/Convergence_of_random_variables)
+:::
+ 
+
+#### Convergence in Probability: Definition
+
+<br> 
+
+<div class="rounded-box">
+
+::: {#def-vector-consistency-convergence-ip}
+
+Let $\bX_1, \bX_2, \dots$ be a sequence of random matrices in $\R^{k\times p}$. Then $\bX_N$ converges to some $\bX\in \R^{k\times p}$ <span class="highlight">in probability</span> if for any $\varepsilon>0$  it holds that 
+$$
+\lim_{N\to\infty} P(\norm{\bX_N - \bX}>\varepsilon) = 0
+$$
+
+:::
+
+</div>
+
+#### Convergence in Probability: Discussion
+
+<br>
+
+
+- The limit $\bX$ can be random or deterministic 
+- Convergence in probability written $\bX_n\xrightarrow{p}\bX$
+- $\bX_N\xrightarrow{p} \bX$ is the same as $\bX_N-\bX\xrightarrow{p} 0$
+
+#### Two Important Characterizations 
+
+
+<div class="rounded-box">
+
+::: {#prp-vector-consistency-characterizations-vector}
+
+Let $\bA_N, \bA$ be a $m \times n$ matrices with $(i, j)$th element $a_{ij, N}$ and $a_{ij}$. Then
+$$
+\bA_N\xrightarrow{p}\bA   \Leftrightarrow a_{ij, N} \xrightarrow a_{ij}
+$$
+:::
+
+</div>
+
+. . . 
+
+<br>
+
+<div class="rounded-box">
+
+::: {#prp-vector-consistency-characterizations-open}
+
+$\bX_N\xrightarrow{p}\bX$ if and only if $P(\bX_N\in U)\to 1$ for any open set $U$ that contains $\bX$
+:::
+
+</div>
 
  
 
-#### Tool: Continuous Mapping Theory
-
-#### CMT Example: 
-
-#### CMT Discussion
-
-#### Slutsky's Theorem
 
 
+#### Definition of Consistency
+
+<div class="rounded-box">
+
+::: {#def-vector-consistency-consistency}
+
+The estimator (sequence) $\hat{\theta}_N$ is consistent for $\theta$ if as $N\to\infty$ 
+$$
+\hat{\theta}_N(X_1, \dots, X_N) \xrightarrow{p} \theta
+$$
+
+:::
+
+</div>
+
+Note: we usually use the word "estimator" to refer to the whole sequence $\curl{\hat{\theta}_N}$
+
+### Tools for Showing Consistency {background="#43464B" visibility="uncounted"}
+
+#### Two Approaches To Showing Consistency
+
+1. Qualitative: just that convergence happens
+  - Relies on laws of large numbers (LLNs) and related results
+  - Approach in this course
+2. Quantitive: shows that convergence happens and answers *how fast*
+  - Usually based on <span class="highlight">concentration inequalities</span>
+  - Check out chapter 2 in @Wainwright2019HighDimensionalStatisticsNonAsymptotic
 
 
-## Consistency {background="#00100F"}
+::: footer
+Wikipedia gives a [list](https://en.wikipedia.org/wiki/Concentration_inequality) of some concentration inequalities 
+:::
+
+#### Tool: (Weak) Law of Large Numbers
+ 
+
+<div class="rounded-box">
+
+::: {#prp-vector-consistency-lln}
+
+Let $\bX_1, \bX_2, \dots$ be a sequence of random vectors such that
+
+1. $\bX_i$ are independently and identically distributed (IID)
+2. $\E[\norm{\bX_i}]<\infty$
+
+Then 
+$$ \small
+\dfrac{1}{N} \sum_{i=1}^N \bX_i \xrightarrow{p} \E[\bX_i]
+$$
+:::
+
+</div>
+ 
+ 
+
+#### Tool: Continuous Mapping Theorem
+
+
+
+<div class="rounded-box">
+
+::: {#prp-vector-consistency-cmt}
+
+Let $\bX_N\xrightarrow{p}\bX$, and let $f(\cdot)$ be continuous is some neighborhood of all the possible values of  $\bX$.
+
+Then  
+$$
+f(\bX_N) \xrightarrow{p} f(\bX)
+$$
+:::
+
+</div>
+In words: convergence in probability is preserved under continuous transformations
+
+
+#### CMT Examples
+
+Simple examples
+
+1. If $X_N$ is scalar and $X_n\xrightarrow{p}X$, then 
+   - $X_N^2 \xrightarrow{p} X^2$
+   - $\max\curl{0, X_N}\xrightarrow \max\curl{0, X}$
+2. If $\bX_N\to \bX$, $\bX_N\in \R^p$ and $\bA_N\xrightarrow{p}\bA$, $\bA_N\in\R^{k\times p}$, then 
+   $$
+   \bA_N\bX_N\xrightarrow{p} \bA\bX
+   $$
+
+
+
+
+## Consistency of the OLS Estimator {background="#00100F"}
+   
+
+#### Returning to the OLS Estimator
+
+Let's go back to the OLS estimator based on <span class="highlight"> IID</span>  sample $(\bX_1, Y_1), \dots, (\bX_N, Y_N)$
+
+. . . 
+
+<br>
+
+<div class="rounded-box">
+
+Is the OLS estimator consistent? 
+
+</div>
+
+<br>
+
+Consistent for what?
+
+
+### Convergence Without a Causal Model {background="#43464B" visibility="uncounted"}
+
+
+
+#### Invertibility of $\bX'\bX$
+
+First an unpleasant technical issue
+
+<div class="rounded-box">
+
+How to handle non-invertible $\bX'\bX$? 
+
+</div>
+
+<br>
+
+Some fall-back known value $\bc$ 
+$$
+\hat{\bbeta} = \begin{cases}
+(\bX'\bX)^{-1}\bX'\bY, & \bX'\bX \text{ invertible}\\
+\bc, & \bX'\bX \text{ not invertible}
+\end{cases}
+$$ 
+Now $\hat{\bbeta}$ is always defined, but does $\bc$ matter?
+
+#### Representation in Terms of Averages
+
+First lecture shows that 
+$$
+\bX'\bX = \sum_{i=1}^N \bX_i\bX_i', \quad \bX'\bY = \sum_{i=1}^N \bX_i Y_i
+$$
+
+Then we can write (under invertibility)
+$$
+(\bX'\bX)\bX'\bY = \left(\textcolor{teal}{\dfrac{1}{N}} \sum_{i=1}^N \bX_i\bX_i'\right)^{-1} \left( \textcolor{teal}{\dfrac{1}{N}} \sum_{i=1}^N \bX_i Y_i\right)
+$$
+
+#### Limits of Averages
+
+Can handle averages. If 
+
+- $\E[\norm{\bX_i\bX_i'}]<\infty$
+- $\E[\norm{\bX_iY_i}]<\infty$
+
+then by the WLLN  (@prp-vector-consistency-lln)
+$$
+\begin{aligned}
+\dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i' \xrightarrow{p} \E[\bX_i\bX_i'], \quad 
+\dfrac{1}{N} \sum_{i=1}^N \bX_iY_i \xrightarrow{p} \E[\bX_i Y_i]
+\end{aligned}
+$$
+
+ 
+
+#### Handling the Inverse  of $\bX'\bX$
+
+Two facts: 
+
+- The inverse function $\bA\to \bA^{-1}$ is continuous on the space of invertible matrices
+- The set of invertible matrices is open
   
-### Definitions {background="#43464B"}
+. . . 
 
+So if $\E[\bX_i\bX_i']$ is invertible, then by @prp-vector-consistency-characterizations-open  and the CMT (@prp-vector-consistency-cmt)
 
-### Model-Free Convergence  {background="#43464B"}
-
-#### 
-
-Converges to $\E[\bX_i\bX_i']^{-1}\E[\bX_i\bX_i]$
-
-No "model", no "potential outcomes" --- just correlations
+- $P(\frac{1}{N} \sum_{i=1}^N \bX_i\bX_i' \text{ is invertible})\to 1$
+- $(\frac{1}{N}\sum_{i=1}^N \bX_i\bX_i')^{-1}  \xrightarrow{p} \left(\E[\bX_i\bX_i']\right)^{-1}$
 
 
 
-### Convergence under Exogeneity  {background="#43464B"}
+
+  
 
 
+::: footer
+See [this StackExchange discussion](https://math.stackexchange.com/questions/84392/why-do-the-n-times-n-non-singular-matrices-form-an-open-set) for more details
+:::
 
-#### 
+#### $\bc$ Does Not Matter
 
-Can always say! 
+Since $\frac{1}{N} \sum_{i=1}^N \bX_i\bX_i'$ is invertible with probability approaching 1 (w.p.a. 1), then w.p.a.1 it holds
+$$
+\hat{\bbeta} =  (\bX'\bX)^{-1}\bX'\bY =  \left( \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'\right)^{-1} \left( \dfrac{1}{N} \sum_{i=1}^N \bX_i Y_i\right)
+$$
+
+. . . 
+
+It follows that if $\bc\neq \E[\bX_i\bX_i']^{-1}\E[\bX_iY_i]$, then
+$$
+P(\hat{\bbeta}= \bc) \to 0
+$$
+
+#### Combining Together
+
+<div class="rounded-box">
+
+::: {#prp-vector-consistency-ols-model-free}
+
+Let
+
+1. $(\bX_i, Y_i)$ be IID
+2. $\E[\norm{\bX_i\bX_i'}]<\infty$, $\E[\norm{\bX_iY_i}]<\infty$
+3. $\E[\bX_i\bX_i']$ be invertible
+
+Then
+$$
+\hat{\bbeta} \xrightarrow{p} \left( \E[\bX_i\bX_i'] \right)^{-1} \E[\bX_iY_i]
+$$
 
 
-$\bbeta + \E[\bX_i\bX_i']\E[\bX_i\bU_i(\bbeta)]$
+:::
+
+</div>
+
+#### Quicker Way of Writing
+ 
+It is common and acceptable (also on the exam) to directly write
+$$
+\hat{\bbeta}  = (\bX'\bX)^{-1}\bX'\bY
+$$
+<span class = "highlight"> provided that you </span>
+
+1. Are talking about asymptotic properties (consistency, asymptotic distributions, asymptotic confidence intervals)
+2. Make the assumption that $\E[\bX_i\bX_i']$ is invertible and say that $\bX'\bX$ is invertible w.p.a.1
+
+#### Discussion
+ 
+
+<br>
+
+ 
+- @prp-vector-consistency-ols-model-free: no causal framework
+- OLS just measures covariances in general
+- Limit $\left( \E[\bX_i\bX_i'] \right)^{-1} \E[\bX_iY_i]$ is called "population projection of $Y_i$ on $\bX_i$"
+
+::: footer
+
+See [Wikipedia](https://en.wikipedia.org/wiki/Inner_product_space#Random_variables) on inner products of random variables
+
+:::
+
+### Convergence under Causal Model with Exogeneity and Homogeneous Effects  {background="#43464B" visibility="uncounted"}
 
 
-
-Model-free in teh sense that by itself writing $Y_i = \bX_i'\bbeta + \bU_i(\bbeta)$ does not say anything (a bit like writing $5 = X + (5-X)$)
+ 
 
 #### Potential Outcomes Framework
 
-If we want $\bbeta$ to have any causal meaning, we need a casual framework 
 
-So let's make the usual assumption
+Let's go back to our causal framework to add a causal part to @prp-vector-consistency-ols-model-free
 
-####
+. . .
 
-In this class we will maintain SUTVA --- no general equilbrium, "only your known treatment matters"
+- Treatment $\bX_i$ with possible values $\bx$
+- Potential outcome under $\bX_i=\bx$:
+  $$ 
+  Y_i^{\bx} = \bx'\bbeta + U_i
+  $$ {#eq-vector-consistency-causal-homogeneous}
 
-- Not always true, think about policies which apply to everyone
-- Insert tutoring example
+. . .
+
+Observed outcomes $Y_i$ satisfy
+$$
+Y_i = \bX_i'\bbeta + U_i
+$$
+
+#### Sampling Error Representation
+
+Can now <span class="highlight">substitute the equation for $Y_i$</span> (+invertibility assumptions) to get   
+$$
+\begin{aligned}
+\hat{\bbeta} & = \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_iY_i\\
+& = \bbeta + \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_i U_i
+\end{aligned}
+$$
+Last line — <span class="highlight">sampling error form</span>
+ 
 
 #### Consistency of the OLS Estimator
 
-Combining the steps together
+
+<div class="rounded-box">
+
+::: {#prp-vector-consistency-ols-model-causal-homogeneous}
+
+Let
+
+1. $(\bX_i, U_i)$ be IID and model ([-@eq-vector-consistency-causal-homogeneous]) hold
+2. $\E[\norm{\bX_i\bX_i'}]<\infty$, $\E[\norm{\bX_iU_i}]<\infty$, $\E[\bX_iU_i]=0$
+3. $\E[\bX_i\bX_i']$ be invertible
+
+Then
 $$
 \hat{\bbeta} \xrightarrow{p} \bbeta
 $$
 
-#### Discussion
 
-- Work with "sampling" properties of realised values
-- Use the *assumed* structure to connect to causally interpretable paramtesr
+:::
 
+</div>
+ 
 #### Discussion of Assumptions
+ 
 
-- iid bad?
+- @prp-vector-consistency-ols-model-free: assumptions on $(\bX_i, Y_i)$
+- @prp-vector-consistency-ols-model-causal-homogeneous: assumptions on $(\bX_i, U_i)$
 
-#### Orthogonality
+. . . 
 
-Let's think about the proof again
+<br> 
 
-We don't actually need $\E[U_i|\bX_i]=0$
+Need assumptions for causal interpretation:
 
-Sufficient to have 
-$$
-\E[\bX_iU_i] = 0
-$$
-This is $k$ conditions now --- one per component of $\bX_i$
-
-#### Consistency Under Orthogonality
-
-Things go through
-
-
-
-#### What Do We Lose Without Strict Exogeneity?
-
-Still can specify the potential outcomes frameworok
-
-But we lose mean interpretation: 
-$$
-\E[Y_i|\bX_i] = \bX_i'\bbeta + \E[U_{it}|\bX_i]
- $$
- Now maybe $ \E[U_{it}|\bX_i]$ is not zero. 
-
-
-In finite samples you may have bias!
-Consistency result shows that in the limit you are still estimating the correct thing
+- Assumptions on the assignment mechanism (IID $\bX_i$ and exogeneity/orthogonality)
+- Same assumptions as for identification of $\bbeta$ (why can you use @prp-vector-consistency-ols-model-causal-homogeneous to prove identification?)
 
  
-#### How Quick is the Convergence? 
 
+
+
+#### Orthogonality vs Strict Exogeneity
+
+Recall: 
+
+<div class="rounded-box">
+If $\E[U_i|\bX_i]=0$, then $\E[\bX_iU_i]=0$
+</div>
+
+- $\E[U_i|\bX_i]=0$ is stronger than $\E[\bX_iU_i]=0$
+- If $\E[U_i|\bX_i]=0$ holds, then $\E[\hat{\bbeta}] = \bbeta$ (unbiased)
+- If $\E[U_i|\bX_i]\neq 0$ but $\E[\bX_i U_i]=0$, then $\hat{\bbeta}$ may be biased in finite samples, but still converges to the correct $\bbeta$
+- What if both fail? 
+
+
+### Convergence under Causal Model with Heterogeneous Effects  {background="#43464B" visibility="uncounted"}
+
+#### Allowing Heterogeneous Causal Effects
+
+Before concluding, let's go back to model ([-@eq-vector-consistency-causal-homogeneous])
+
+- Causal effects are <span class = "highlight"> homogeneous </span> (same for everyone)
+- Might not be realistic
+
+. . . 
+
+More general potential outcome equation
+$$
+Y_i^\bx = \bx_i'\bbeta_{\textcolor{teal}{i}} + U_i
+$$ {#eq-vector-consistency-causal-heterogeneous}
+Causal effect of shift from $\bx_1$ to $\bx_2$ for unit $i$:
+$$
+(\bx_2-\bx_1)'\bbeta_i
+$$
+
+::: footer
+
+:::
+
+#### Parameters of Interest In Model ([-@eq-vector-consistency-causal-heterogeneous])
+
+1. Average $\E[\bbeta_i]$ — enough to compute all average treatment effects
+2. Variance, other moments of $\bbeta_i$
+3. Distribution of $\bbeta_i$
+4. Other objects? 
+
+#### OLS Under Model ([-@eq-vector-consistency-causal-heterogeneous])
+
+
+We can still apply OLS under ([-@eq-vector-consistency-causal-heterogeneous]), but the representation in terms of $U_i$ and $\bbeta_i$ is different:
+$$ \small
+\begin{aligned}
+\hat{\bbeta} & = \left( \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'  \right)\dfrac{1}{N} \sum_{i=1}^N \bX_i Y_i \\
+& = \left( \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'  \right)\dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'\bbeta_i \\
+& \quad + \left( \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'  \right)\dfrac{1}{N} \sum_{i=1}^N \bX_i U_i
+\end{aligned}
+$$
+
+
+
+
+#### Limit of the OLS Estimator Under Model ([-@eq-vector-consistency-causal-heterogeneous])
+
+
+<div class="rounded-box">
+
+::: {#prp-vector-consistency-ols-model-causal-heterogeneous}
+
+Let
+
+1. $X_i$ be scalar, $(X_i, \bbeta_i, U_i)$ be IID and model ([-@eq-vector-consistency-causal-heterogeneous]) hold as 
+$$ \small
+Y_i^x = \beta_i x + U_i
+$$
+1. $\E[X_i^2] \in (0,\infty)$, $\E[X_iU_i]=0$
+
+Then
+$$ \small
+\hat{\bbeta} \xrightarrow{p} \E[W(X_i)\beta_i], \quad W(X_i) = X_i^2/\E[X_i^2]
+$$
+
+
+:::
+
+</div>
+ 
+::: footer
+
+
+:::
+
+#### @prp-vector-consistency-ols-model-causal-heterogeneous: Discussion
+
+
+<br>
+
+- @prp-vector-consistency-ols-model-causal-heterogeneous: OLS is estimating a *weighted* average of individual $\beta_i$
+- Weights $W(X_i)$ are non-negative and $\E[W(X_i)]=1$ (population version of summing to 1)
+- Still a "causal" parameter, but maybe hard to interpret
+- Not equal to $\E[\bbeta_i]$ without further assumptions
+
+#### Can You Identify $\E[\bbeta_i]$?
+
+<br>
+
+Only under restrictions:
+
+- Independence of $\bbeta_i$ and $\bX_i$ (experimental settings). Show this! 
+- With instruments
+
+## Recap and Conclusions {background="#00100F"}
+  
+#### Recap
+
+In this lecture we
+
+1. Reviewed convergence in probability and consistency
+2. Discussed consistency of the OLS estimator 
+   - Without a causal framework (covariances)
+   - In a causal model with homogeneous effects
+   - In a causal model with heterogeneous effects
+
+
+#### Next Questions
+
+<br>
+
+- How was fast does $\hat{\bbeta}$ converge?
+- Distributional properties of $\hat{\bbeta}$?
+- Inference on $\bbeta$
+
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
