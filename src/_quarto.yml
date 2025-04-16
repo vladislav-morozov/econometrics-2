@@ -33,8 +33,12 @@ website:
         contents:
         - slides/vector/vector-ols.qmd  
         - slides/vector/identification-inference.qmd
+<<<<<<< HEAD
         - slides/vector/ols-consistency.qmd
         - slides/vector/ols-limit-distribution.qmd
+=======
+        - slides/vector/ols-consistency.qmd 
+>>>>>>> block/vector
 
 execute:
   freeze: auto  # re-render only when source changes
