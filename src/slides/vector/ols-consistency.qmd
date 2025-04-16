@@ -541,7 +541,7 @@ $$
 1. Are talking about asymptotic properties (consistency, asymptotic distributions, asymptotic confidence intervals)
 2. Make the assumption that $\E[\bX_i\bX_i']$ is invertible and say that $\bX'\bX$ is invertible w.p.a.1
 
-#### Convergence of the Estimator and the Objective Functions
+#### Convergence of Estimator and Objective Function
 
 ```{python}
 #| eval: false
