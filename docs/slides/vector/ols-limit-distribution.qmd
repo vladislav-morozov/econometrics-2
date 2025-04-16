@@ -1,0 +1,115 @@
+---
+title: "Limit Distribution of the OLS Estimator"
+subtitle: "Normality as an Asymptotic Approximation"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "A Deeper Look at Linear Regression: Asymptotic Normality"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header 
+embed-resources: true
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+---
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B"}
+
+
+#### Learning Outcomes
+
+This lecture is about a 
+
+<br>
+
+By the end, you should be able to
+
+- R
+
+#### Textbook References
+ 
+
+::: {.nonincremental}
+
+ 
+- Refresher on probability: 
+    - Your favorite probability textbook
+    - Section B in @Wooldridge2020IntroductoryEconometricsModern
+- Asymptotic theory for the OLS estimator
+    - E4 in @Wooldridge2020IntroductoryEconometricsModern
+    - Or chapter 7 in @Hansen2022Econometrics
+
+  
+::: 
+
+
+### Motivation {background="#43464B"}
+
+#### Goal
+
+inference 
+
+- Quantify uncertaintY: confidence intervals
+- Test something
+
+
+#### Reminder: 
+
+normality
+
+
+#### Issue with Normality
+
+But normality
+
+Example: positive outcomes and positive regressors: how can $U_{it}$ be normal?
+
+#### Issue: Unknown Distribution
+
+Normality was useful? 
+
+If we knew some other distribution, would be nice
+
+But we cannot 
+
+#### Options
+
+- Nonasymptotic/finite-sample analysis based on "high-probability bounds" --- originally more popular in high-dimensional  @Wainwright2019HighDimensionalStatisticsNonAsymptotic
+- Large-sample "approximations" using tools like the central limit theorem(s) --- topic of this lecture
+
+
+
+
+::: footer
+?
+:::
+
+
+
+ 
+## Asymptotic Normality {background="#00100F"}
+  
+### Model {background="#43464B"}
+
+####
+
+Model 
