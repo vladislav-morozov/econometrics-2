@@ -184,7 +184,8 @@ print(results.summary())
 <br> 
 
 Recall: 
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+<div class="rounded-box">
 
 Inference is about answering questions about the population based on the finite sample
 
@@ -198,7 +199,7 @@ All of our questions — examples of inference
 
 Key challenge:
 
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+<div class="rounded-box">
 
 We only see a random sample instead of the full population
 
@@ -216,7 +217,7 @@ In other words: our estimated values are also random and do not perfectly reflec
 
 <br>
 
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+<div class="rounded-box">
 
 To answer these questions, we need the distribution of the estimator for given sample size
 
@@ -243,13 +244,12 @@ Such approaches usually problematic:
  
 
 #### Other Approaches
-
-<br>
+ 
 
 - Nonasymptotic/finite-sample analysis based on "high-probability bounds":
   - Usually require making assumptions about tails of the data (e.g. that $U_i$ has bounded support),
   - See examples in @Mohri2018FoundationsMachineLearning and  @Wainwright2019HighDimensionalStatisticsNonAsymptotic for some examples
-- Large-sample "approximations" using tools like the central limit theorem(s) --- topic of this lecture
+- Large-sample approximations using tools like the central limit theorem(s) --- topic of this lecture
 
 
  
@@ -259,9 +259,41 @@ Such approaches usually problematic:
 
 ### Definitions {background="#43464B" visibility="uncounted"}
 
-####
+#### Convergence in Distribution
 
-F
+<div class="rounded-box">
+
+
+::: {#def-vector-distribution-convergence-distribution}
+
+Let $\bX_1, \bX_2, \dots$ and $\bX$ be random vectors in $\R^q$. Let $\bX_N$ have CDF $F_N(\cdot)$ and $\bX$ have CDF $F(\cdot)$. $\curl{\bX_N}$ converges *in distribution* (converges *weakly*) to $\bX$ if 
+
+$$
+\lim_{N\to\infty} F_N(\bx) = F(\bx)
+$$
+for every $x\in\R^q$ such that $F(\cdot)$ is continuous at $\bx$
+
+:::
+
+</div>
+
+Convergence in distribution is labeled $\bX_N\Rightarrow \bX$ or $\bX_N\xrightarrow{d} \bX$
+
+#### Convergence in Distribution vs. in Probability
+
+<div class="rounded-box">
+
+
+::: {#prp-vector-distribution-convergence-contrast}
+
+1. If $\bX_N\xrightarrow{p} \bX$, then $\bX_N\xrightarrow{p} \bX$
+2. If $\bX_N\xrightarrow{d} \bX$ and $\bX$ is not random (=constant), then $\bX_N\xrightarrow{p} \bX$
+
+:::
+
+</div>
+
+Convergence in probability is generally *stronger* than convergence in distribution
 
 ### Tools for Working with Convergence in Distribution {background="#43464B" visibility="uncounted"}
 
