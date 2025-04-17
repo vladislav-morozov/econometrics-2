@@ -452,6 +452,24 @@ plt.close()
   <source src="images/clt_cdf.mp4 " type="video/webm">
 </video> 
  
+ 
+#### Practical Interpetation: Scalar Case
+
+The CLT (@prp-vector-distribution-clt) for scalar data states that for sufficiently large $N$ 
+$$
+P\left(\dfrac{N^{-1}\sum_{i=1}^N X_i - \E[X_i]  }{\sqrt{ \var(X_i)/N  }}\leq x \right) \approx \Phi(x)
+$$
+where $\Phi(\cdot)$ is the standard normal. In other words,
+$$
+\bar{X}\sim N\left( \E[X_i], \dfrac{\var(X_i)}{N} \right)
+$$
+
+::: footer
+
+Vector version in the next lecture
+
+:::
+ 
 
 #### Tool: Continuous Mapping Theorem
 
@@ -459,7 +477,7 @@ plt.close()
 
 <div class="rounded-box">
 
-::: {#prp-vector-consistency-cmt}
+::: {#prp-vector-distribution-cmt}
 
 Let $\bX_N\xrightarrow{d}\bX$, and let $f(\cdot)$ be continuous is some neighborhood of all the possible values of  $\bX$.
 
@@ -473,12 +491,56 @@ $$
 In words: convergence in distribution is also preserved under continuous transformations
 
 
-#### Example
+#### CMT: Scalar Example
 
-#### Slutsky's Theorem
- s
+Consider scalar case with $\sqrt{N}(\bar{X}-\mu)\Rightarrow Z$ for $Z\sim N(0, \var(X_i))$. Then
+$$
+N(\bar{X}-\mu)^2 \xrightarrow{d} Z^2
+$$
 
-#### Warning:
+. . .
+
+
+::: {.callout-important appearance="minimal"}
+
+
+Note: the above is not the same as looking at 
+$$
+\sqrt{N}([\bar{X}]^2 - \mu^2)
+$$ {#eq-vector-distribution-predelta}
+The function $f$ is applied to the elements of the convergent sequence
+
+:::
+
+::: footer
+
+But next lecture will discuss how to talk about @eq-vector-distribution-predelta using the CLT
+
+:::
+
+#### CMT: Vector Example
+
+In the vector case, label
+
+- $\bZ_N= \sqrt{N}\left(  \dfrac{1}{N}\sum_{i=1}^N \bX_i - \E[\bX_i]  \right)$ with $q$ coordinates
+- $\bZ\sim N(0, \var(\bX) )$
+- $\bA$ — some $q\times q$ matrix
+
+. . .
+
+Then 
+
+$$
+\bZ_N'\bA\bZ_N\xrightarrow{d} \bZ'\bA\bZ
+$$
+
+#### Tool: Slutsky's Theorem
+
+We w
+
+#### Warning: $c$ Must Be Constant
+
+
 
 ## Asymptotic Normality of the OLS Estimator {background="#00100F"}
   
