@@ -194,35 +194,65 @@ Inference is about answering questions about the population based on the finite 
 
 All of our questions — examples of inference
 
-#### Challenge
+#### Challenge: Randomness
+
+Key challenge:
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+We only see a random sample instead of the full population
+
+</div>
+In other words: our estimated values are also random and do not perfectly reflect the underlying population values
+
+. . . 
+
+ 
+- How to quantify whether we are close or far to the true parameters? ($\Rightarrow$ confidence intervals)
+- Are the values we obtained compatible with our hypotheses? ($\Rightarrow$ hypothesis testing)
+
+#### Necessary Object: Distribution of Estimator
+
+
+<br>
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+To answer these questions, we need the distribution of the estimator for given sample size
+
+</div>
+
+. . . 
+
+<br> 
+
+How do you get this distribution if you only have one sample? 
+
 
 #### Possible Approach: Distributional Assumptions
 
-It is possible
+- It is possible to impose exact distributional assumptions on the data (i.e., $(\bX_i, \bU_i))$
+- Example: assuming $U_i|\bX_i\sim N(\cdot, \cdot)$ (e.g. chapter 4 in @Wooldridge2020IntroductoryEconometricsModern)
 
-But normality
+. . . 
 
-Example: positive outcomes and positive regressors: how can $U_{it}$ be normal?
+Such approaches usually problematic:
 
-#### Issue: Unknown Distribution
+- How do you justify such assumptions?
+- If these distributions have unknown parameters, how do you estimate them and quantify uncertainty about those parameters?  
+ 
 
-Normality was useful? 
+#### Other Approaches
 
-If we knew some other distribution, would be nice
+<br>
 
-But we cannot 
-
-#### Options
-
-- Nonasymptotic/finite-sample analysis based on "high-probability bounds" --- originally more popular in high-dimensional  @Wainwright2019HighDimensionalStatisticsNonAsymptotic
+- Nonasymptotic/finite-sample analysis based on "high-probability bounds":
+  - Usually require making assumptions about tails of the data (e.g. that $U_i$ has bounded support),
+  - See examples in @Mohri2018FoundationsMachineLearning and  @Wainwright2019HighDimensionalStatisticsNonAsymptotic for some examples
 - Large-sample "approximations" using tools like the central limit theorem(s) --- topic of this lecture
 
 
-
-
-::: footer
-?
-:::
+ 
 
 
 ## Probability Background {background="#00100F"}
