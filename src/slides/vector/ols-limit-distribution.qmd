@@ -36,13 +36,17 @@ highlight-style: tango
 
 #### Learning Outcomes
 
-This lecture is about a 
+This lecture is about the asymptotic distribution of the OLS estimator and why we need it
 
 <br>
 
 By the end, you should be able to
 
-- R
+- Discuss why we need the asymptotic distribution of the OLS estimator
+- Provide definition of convergence in distribution
+- State the multivariate central limit theorem along with Slutsky's theorem
+- Derive the asymptotic distribution of the OLS estimator
+ 
 
 #### Textbook References
  
