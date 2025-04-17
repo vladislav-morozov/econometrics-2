@@ -22,8 +22,7 @@ title-slide-attributes:
     data-background-color: "#045D5D"
     data-footer: " "
 filters:
-  - reveal-header 
-embed-resources: true
+  - reveal-header  
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
 ---
@@ -32,7 +31,7 @@ highlight-style: tango
 
 ## Introduction {background="#00100F"}
   
-### Lecture Info {background="#43464B"}
+### Lecture Info {background="#43464B" visibility="uncounted"}
 
 
 #### Learning Outcomes
@@ -52,32 +51,154 @@ By the end, you should be able to
 
  
 - Refresher on probability: 
-    - Your favorite probability textbook
-    - Section B in @Wooldridge2020IntroductoryEconometricsModern
+    - Your favorite probability textbook (e.g. chapter 5 in @Bertsekas2008IntroductionProbability)
+    - Sections B-C in @Wooldridge2020IntroductoryEconometricsModern
 - Asymptotic theory for the OLS estimator
-    - E4 in @Wooldridge2020IntroductoryEconometricsModern
-    - Or chapter 7 in @Hansen2022Econometrics
+    - 5.2 and E4 in @Wooldridge2020IntroductoryEconometricsModern
+    - Or 7.3 in @Hansen2022Econometrics
 
   
 ::: 
 
 
-### Motivation {background="#43464B"}
 
-#### Goal
+## Motivation {background="#00100F"}
 
-inference 
-
-- Quantify uncertaintY: confidence intervals
-- Test something
+### Motivating Empirical Example {background="#43464B" visibility="uncounted"}
 
 
-#### Reminder: 
+#### Setting: Linear Causal Model
 
-normality
+<br> 
+
+We'll continue to work in the linear causal model with potential outcomes:
+$$
+Y_i^\bx = \bx'\bbeta + U_i
+$$
+ 
+#### Motivating Empirical Example: Variables
+
+- $Y_i$ — hourly log wage
+- $\bx$ — education and job experience in years
+- $U_i$ — unobserved characteristics (skill, health, etc.), assumed to satisfy $\E[U_i|\bX_i]=0$
+- Sample: some suitably homogeneous group (e.g. white married women)
+
+#### Motivating Empirical Example: Potential Outcomes
+ 
+$$
+\begin{aligned}[]
+& [\ln(\text{wage}_i)]^{\text{(education, experience)}} \\
+&  =   \beta_1 + \beta_2 \times \text{education} \\
+& \quad  + \beta_3 \times  \text{experience} + \beta_4 \times  \dfrac{\text{experience}^2}{100} + U_i
+\end{aligned}
+$$
+
+. . . 
+ 
+- Can write model in terms of realized variables, but above emphasizes causal assumption
+- Divide experience$^2$ by 100 for numerical reasons
+
+#### Motivating Empirical Example: Parameters of Interest
+
+ 
+<br>
+
+Our parameters of interest: 
+
+1. $100\beta_2$ — (more or less) average effect of additional year of education in percent
+2. $100\beta_3 + 20 \beta_4$ — average effect of increasing education for individuals with 10 years of experience
+3. $-50\beta_3/\beta_4$ — experience level which maximizes expected log wage
+
+#### Motivating Empirical Example: Data {.scrollable}
 
 
-#### Issue with Normality
+- `cps09mar` — a selection from the March 2009 US Current Population Survey: 
+- Can be obtained from the [website](https://users.ssc.wisc.edu/~bhansen/econometrics/) for @Hansen2022Econometrics
+- Sample: married white women with present spouses
+
+<br> 
+
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Expand for full data preparation code"
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+
+from statsmodels.regression.linear_model import OLS
+
+# Read in the data
+data_path = ("https://github.com/pegeorge/Econ521_Datasets/"
+             "raw/refs/heads/main/cps09mar.csv")
+cps_data = pd.read_csv(data_path)
+
+# Generate variables
+cps_data["experience"] = cps_data["age"] - cps_data["education"] - 6
+cps_data["experience_sq_div"] = cps_data["experience"]**2/100
+cps_data["wage"] = cps_data["earnings"]/(cps_data["week"]*cps_data["hours"] )
+cps_data["log_wage"] = np.log(cps_data['wage'])
+
+# Retain only married women white with present spouses
+select_data = cps_data.loc[
+    (cps_data["marital"] <= 2) & (cps_data["race"] == 1) & (cps_data["female"] == 1), :
+]
+
+# Construct X and y for regression 
+exog = select_data.loc[:, ['education', 'experience', 'experience_sq_div']]
+exog = sm.add_constant(exog)
+endog = select_data.loc[:, "log_wage"]
+```
+
+::: footer
+
+:::
+
+#### Motivating Empirical Example: Estimation Results 
+
+```{.python code-line-numbers="0-1"}
+results = OLS(endog, exog).fit(cov_type='HC0') # Robust covariance matrix estimator
+print(results.summary())
+```
+
+```{python} 
+results = OLS(endog, exog).fit(cov_type='HC0')
+print(results.summary())
+```
+
+
+#### Empirical Questions
+
+
+<br> 
+
+1. How certain are we of our estimates of target parameters?
+2. Does education matter at all? (up to our statistical confidence)
+3. Is the best amount of experience to have equal to 15 years? (up to our statistical confidence)
+
+
+### Translating to Theory {background="#43464B" visibility="uncounted"}
+
+#### Goal: Inference
+
+<br> 
+
+Recall: 
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+Inference is about answering questions about the population based on the finite sample
+
+</div>
+
+<br>
+
+All of our questions — examples of inference
+
+#### Challenge
+
+#### Possible Approach: Distributional Assumptions
+
+It is possible
 
 But normality
 
@@ -104,9 +225,30 @@ But we cannot
 :::
 
 
+## Probability Background {background="#00100F"}
 
- 
-## Asymptotic Normality {background="#00100F"}
+### Definitions {background="#43464B" visibility="uncounted"}
+
+####
+
+F
+
+### Tools for Working with Convergence in Distribution {background="#43464B" visibility="uncounted"}
+
+#### CLT
+
+1
+
+#### Continuous Mapping Theorem
+
+Part 2
+
+#### Example
+
+#### Slutsky's Theorem
+ s
+
+## Asymptotic Normality of the OLS Estimator {background="#00100F"}
   
 ### Model {background="#43464B"}
 
