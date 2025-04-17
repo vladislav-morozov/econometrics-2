@@ -74,7 +74,7 @@ By the end, you should be able to
 We'll continue to work in the linear causal model with potential outcomes:
 $$
 Y_i^\bx = \bx'\bbeta + U_i
-$$
+$$ {#eq-vector-distribution-potential}
  
 #### Motivating Empirical Example: Variables
 
@@ -572,14 +572,14 @@ Slutsky's theorem no longer holds if $\bY_N$ or $\bA_N$ converges to a random li
    
 #### Estimator and Model
 
-Let's return to the OLS estimator
+Let's return to the OLS estimator for $\bbeta$ in model ([-@eq-vector-distribution-potential])
 $$
 \hat{\bbeta} = \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1}\left( \dfrac{1}{N}\sum_{i=1}^N \bX_i Y_i \right)
 $$
 
 . . .
 
-We make all the assumptions for consistency
+We retain these assumptions used for consistency:
 
 - IID sample
 - $\E[\bX_i\bX_i']$ invertible
@@ -597,7 +597,7 @@ $$
 
 Notice 
 
-- $N^{-1}\sum_{i=1}^N \bX_i U_i$ — sum of IID random variable with $\E[\bX_i U_i]=0$.
+- $N^{-1}\sum_{i=1}^N \bX_i U_i$ — sample average of IID random variable with $\E[\bX_i U_i]=0$.
 - Potential application of the CLT!
 
 
@@ -674,7 +674,7 @@ Similar story for vectors:
 
 Let $\bZ$ be a $k$-vector with variance-covariance matrix $\var(\bZ)$. Let $\bA$ be a $q\times k$ matrix. Then
 $$
-\var(\bA\bZ) = \bA\var(\bZ)\bY'
+\var(\bA\bZ) = \bA\var(\bZ)\bA'
 $$
 
 
