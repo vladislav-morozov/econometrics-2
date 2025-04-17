@@ -536,25 +536,201 @@ $$
 
 #### Tool: Slutsky's Theorem
 
-We w
+Tool for combining sequences that converge in probability and in distribution
 
-#### Warning: $c$ Must Be Constant
+
+
+<div class="rounded-box">
+
+::: {#prp-vector-distribution-slutsky}
+
+Let $\bX_N\xrightarrow{d}\bX$, $\bY_N\xrightarrow{p} \by$, $\bA_N\xrightarrow{p}\bA$. Then (provided invertibility and compatible sizes) 
+
+1. $\bX_N + \bY_N \xrightarrow{d} \bX + \by$
+2. $\bA_N\bX_N \xrightarrow{d} \bA\bX$
+3. $\bX_N'\bA_N^{-1}\bX_N\xrightarrow{d} \bX'\bA^{-1}\bX$
+
+:::
+
+</div>
+
+
+#### Warning: $\by$ and $\bA$ Must Be Constant
+
+<br>
+
+::: {.callout-important}
+
+Slutsky's theorem no longer holds if $\bY_N$ or $\bA_N$ converges to a random limit! 
+
+:::
+
 
 
 
 ## Asymptotic Normality of the OLS Estimator {background="#00100F"}
-  
-### Model {background="#43464B"}
+   
+#### Estimator and Model
 
-####
+Let's return to the OLS estimator
+$$
+\hat{\bbeta} = \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1}\left( \dfrac{1}{N}\sum_{i=1}^N \bX_i Y_i \right)
+$$
 
-Model 
+. . .
+
+We make all the assumptions for consistency
+
+- IID sample
+- $\E[\bX_i\bX_i']$ invertible
+- $\E[\bX_iU_i] =0$
+
+#### Towards Normality
+
+Write the OLS estimator in sample error form:
+$$
+\hat{\bbeta} = \bbeta + \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1}\left( \dfrac{1}{N}\sum_{i=1}^N \bX_i U_i \right)
+$$
+
+. . . 
+ 
+
+Notice 
+
+- $N^{-1}\sum_{i=1}^N \bX_i U_i$ — sum of IID random variable with $\E[\bX_i U_i]=0$.
+- Potential application of the CLT!
 
 
-#### Discussion
+#### The Four Steps of Showing Normality
 
-- Can also prove the result directly with 
-- `nonrobust` — in practice there is never a use case 
+<br>
+
+<div class="rounded-box">
+1. Show asymptotic normality of $N^{-1}\sum_{i=1}^N \bX_i U_i$
+2. Handle $\left(N^{-1}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1}$
+3. Combine first two steps together
+4. Figure out the variance of the limit
+
+</div>
+ 
+
+#### Step 1: Asymptotic Normality of $N^{-1}\sum_{i=1}^N \bX_i U_i$
+
+By the CLT (@prp-vector-distribution-clt) (applied to $\bX_iU_i$) and the assumption $\E[\bX_iU_i]=0$ 
+
+$$
+\dfrac{1}{\sqrt{N}}\sum_{i=1}^N \bX_i U_i \xrightarrow{d} N\left( 0, \E[U_i^2\bX_i\bX_i']   \right)
+$$
+
+. . .
+
+We need to assume that $\E[\norm{\bX_i U_i}^2] <\infty$
+
+#### Step 2: Handling $\left(N^{-1}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1}$
+
+Exactly as for consistency:
+
+- Law of large numbers: $N^{-1}\sum_{i=1}^N \bX_i\bX_i'\xrightarrow{p} \E[\bX_i\bX_i']$
+- CMT + assumption that $\left(\E[\bX_i\bX_i']\right)^{-1}$ exists $\Rightarrow$  $N^{-1}\sum_{i=1}^N \bX_i\bX_i'$ is invertible with probability approaching 1
+- CMT: $\left(\frac{1}{N} \sum_{i=1}^N \bX_i\bX_i'  \right)^{-1} \xrightarrow{p} \left( \E[\bX_i\bX_i']\right)^{-1}$
+
+#### Step 3: OLS as Product of Two Sequences
+
+OLS estimator multiplies two sequences:
+
+- Vectors $\frac{1}{\sqrt{N}}\sum_{i=1}^N \bX_i U_i$ converge in distribution
+- Matrices $\left(N^{-1}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1}$ converge in probability to *constant limit*
+
+. . .
+
+<br> 
+
+Can apply Slutsky's theorem (@prp-vector-distribution-slutsky)!
+
+#### Step 3: Applying Slutsky's Theorem
+
+Slutsky's theorem gives
+$$
+\begin{aligned}
+& \sqrt{N}(\hat{\bbeta}-\bbeta)\\
+& = \left(N^{-1}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1} \dfrac{1}{\sqrt{N}}\sum_{i=1}^N \bX_i U_i \\
+& \xrightarrow{d} \left( \E[\bX_i\bX_i']\right)^{-1} \bZ,
+\end{aligned}
+$$ {#eq-vector-distribution-slutsky-result}
+for $\bZ\sim  N\left( 0, \E[U_i^2\bX_i\bX_i']   \right)$
+
+#### Step 4: Properties of Variances of Vectors
+
+Recall: if $\var(X)= \sigma^2$, then $\var(aX) = a^2\sigma^2$
+
+. . .
+
+<br>
+
+Similar story for vectors: 
+<div class="rounded-box">
+
+::: {#prp-vector-distribution-vector-var}
+
+Let $\bZ$ be a $k$-vector with variance-covariance matrix $\var(\bZ)$. Let $\bA$ be a $q\times k$ matrix. Then
+$$
+\var(\bA\bZ) = \bA\var(\bZ)\bY'
+$$
+
+
+:::
+
+</div>
+
+
+#### Step 4: Variance
+
+Now want to apply @prp-vector-distribution-vector-var to @eq-vector-distribution-slutsky-result to get
+$$
+\begin{aligned}
+& \var\left( \left( \E[\bX_i\bX_i']\right)^{-1} \bZ \right) \\
+& = \left( \E[\bX_i\bX_i']\right)^{-1} \E[U_i^2\bX_i\bX_i']\left( \E[\bX_i\bX_i']\right)^{-1} 
+\end{aligned}
+$$
+
+
+<div class="rounded-box">
+
+We have used (where?) that 
+
+- $\E[\bX_i\bX_i']$ is symmetric (why?)
+- Inverses of symmetric matrices are symmetric
+
+</div>
+
+#### Combined Result
+
+<div class="rounded-box">
+
+::: {#prp-vector-distribution-ols-distr}
+
+Let
+
+1. $(\bX_i, Y_i)$ be IID
+2. $\E[\norm{\bX_i\bX_i'}]<\infty$, $\E[\norm{\bX_iU_i}^2]<\infty$
+3. $\E[\bX_i\bX_i']$ be invertible
+
+Then
+$$\small
+\sqrt{N}(\hat{\bbeta}-\bbeta) \xrightarrow{d} N\left(0, \left( \E[\bX_i\bX_i']\right)^{-1} \E[U_i^2\bX_i\bX_i']\left( \E[\bX_i\bX_i']\right)^{-1}  \right)
+$$
+
+
+:::
+
+</div>
+
+
+#### Discussion of Variance
+ 
+- Variance expression in @prp-vector-distribution-ols-distr is sometimes called the "sandwich" form
+- Expression compatible with heteroskedasticity
+- If $\E[U_i^2|\bX_i]=\sigma^2$ (conditional homoskedasticity), expression simplifies. In practice not very useful (corresponds to `nonrobust` estimates of standard errors)
 
 
 #### References {.allowframebreaks visibility="uncounted"}
