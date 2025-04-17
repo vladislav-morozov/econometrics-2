@@ -297,18 +297,188 @@ Convergence in probability is generally *stronger* than convergence in distribut
 
 ### Tools for Working with Convergence in Distribution {background="#43464B" visibility="uncounted"}
 
-#### CLT
 
-1
 
-#### Continuous Mapping Theorem
+#### Working with Vectors: Mean and Variance
 
-Part 2
+In this class we work with random vectors (such as $\bX_iU_i$)
+
+. . .
+
+<br>
+
+Some notation:
+
+- Mean of random vector $\bX$ is the vector $\bmu = \E[\bX]$: coordinates of $\bmu$ — means of coordinates of $\E[\bX]$
+- Variance-covariance matrix of $\bX$ is the matrix  
+$$
+\var(\bX) = \E[(\bX-\bmu)(\bX-\bmu)']
+$$
+
+
+
+#### Key Tool: (Multivariate) CLT
+
+<div class="rounded-box">
+
+
+::: {#prp-vector-distribution-clt}
+
+Let $\bX_1, \bX_2, \dots$ be a sequence of random vectors such that
+
+1. $\bX_i$ are independently and identically distributed (IID)
+2. $\E[\norm{\bX_i}^2]<\infty$ and $\bmu=\E[\bX_i]$
+
+Then 
+$$ \small
+ \sqrt{N}\left(  \dfrac{1}{N}\sum_{i=1}^N \bX_i - \bmu  \right) \xrightarrow{d} N(0, \var(\bX) )
+$$ 
+
+:::
+
+</div>
+
+
+#### Visualizing The CLT
+
+ 
+```{python}
+#| eval: false 
+
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from scipy.stats import beta, norm, nct
+from scipy.ndimage import uniform_filter1d
+from statsmodels.distributions.empirical_distribution import ECDF
+from pathlib import Path
+
+
+plt.rcParams["font.family"] = "sans-serif"
+plt.rcParams["font.sans-serif"] = ["Arial"]
+
+BG_COLOR = "whitesmoke"
+
+# Function to generate samples from a given distribution
+def generate_samples(distribution, params, size):
+    return distribution.rvs(*params, size=size)
+
+# Parameters for the Beta distribution
+beta_params = (0.5, 0.5)
+
+# Parameters for the noncentral t distribution
+nct_params = (3, 10, 0, 1)  # df=3, nc=10, loc=0, scale=1
+
+# Choose the distribution (uncomment the desired distribution)
+# distribution = beta
+# params = beta_params
+distribution = nct
+params = nct_params
+
+# Generate sample sizes
+sample_sizes = np.concatenate(
+    [
+        np.arange(5, 101),   
+        np.arange(100, 201, 4),  
+        np.arange(200, 501, 5),   
+        np.arange(500, 4001, 13),  
+    ]
+).astype(int)
+
+# Initialize the history of standardized sample means for smoothing
+standardized_means_history = []
+
+# Set up the figure and the axes
+fig, ax = plt.subplots(figsize=(12, 6))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+
+
+overall_samples = generate_samples(distribution, params, size=(80000, sample_sizes.max()))
+population_mean = np.mean(overall_samples)
+population_std = np.std(overall_samples)
+
+# Animation function: this is called sequentially
+def animate(i):
+    ax.clear()
+
+    # Get the current sample size
+    n = sample_sizes[i]
+
+    # Draw samples from the chosen distribution
+    samples = overall_samples[:, :n]
+
+    # Compute the sample means
+    sample_means = np.mean(samples, axis=1)
+
+    # Standardize the sample means
+    standardized_means = (sample_means - population_mean) / population_std * np.sqrt(n)
+
+    # Compute the empirical CDF
+    ecdf = ECDF( standardized_means)
+    x_vals = np.linspace(-4, 4, 1000)
+    y_vals = ecdf(x_vals)
+
+    # Plot the empirical CDF
+    ax.plot(x_vals, y_vals, label=f'Sample Size = {n}', color='darkorange')
+
+    # Plot the standard normal CDF for reference
+    ax.plot(x_vals, norm.cdf(x_vals), label='Standard Normal', color='teal', linestyle='--')
+
+    ax.set_xlim(-4, 4)
+    ax.set_ylim(-0.03, 1.03) 
+    ax.set_title('Convergence of CDF of Sample Mean to Standard Normal CDF',
+                 loc='left')
+    ax.legend(loc='lower right')
+    ax.set_facecolor(BG_COLOR)
+
+# Call the animator
+WriterMP4 = animation.writers["ffmpeg"]
+writer_mp4 = WriterMP4(fps=50, metadata=dict(artist="g_ww"), bitrate=1800)
+ani = animation.FuncAnimation(
+    fig,
+    animate,
+    frames=len(sample_sizes),
+    repeat=True,
+)
+ani.save(Path("images").resolve() / "clt_cdf.mp4", writer=writer_mp4)
+
+plt.close()
+
+```
+
+<video width="99%" style="display: block; margin: 0 auto;" controls muted autoplay loop>
+  <source src="images/clt_cdf.mp4 " type="video/webm">
+</video> 
+ 
+
+#### Tool: Continuous Mapping Theorem
+
+
+
+<div class="rounded-box">
+
+::: {#prp-vector-consistency-cmt}
+
+Let $\bX_N\xrightarrow{d}\bX$, and let $f(\cdot)$ be continuous is some neighborhood of all the possible values of  $\bX$.
+
+Then  
+$$
+f(\bX_N) \xrightarrow{d} f(\bX)
+$$
+:::
+
+</div>
+In words: convergence in distribution is also preserved under continuous transformations
+
 
 #### Example
 
 #### Slutsky's Theorem
  s
+
+#### Warning:
 
 ## Asymptotic Normality of the OLS Estimator {background="#00100F"}
   
