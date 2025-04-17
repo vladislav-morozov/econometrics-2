@@ -1,6 +1,6 @@
 ---
 title: "Limit Distribution of the OLS Estimator"
-subtitle: "Normality as an Asymptotic Approximation"
+subtitle: "Key Step Towards Inference"
 author: Vladislav Morozov  
 format:
   revealjs:
@@ -456,20 +456,13 @@ plt.close()
 #### Practical Interpetation: Scalar Case
 
 The CLT (@prp-vector-distribution-clt) for scalar data states that for sufficiently large $N$ 
-$$
+$$ \small
 P\left(\dfrac{N^{-1}\sum_{i=1}^N X_i - \E[X_i]  }{\sqrt{ \var(X_i)/N  }}\leq x \right) \approx \Phi(x)
 $$
-where $\Phi(\cdot)$ is the standard normal. In other words,
-$$
-\bar{X}\sim N\left( \E[X_i], \dfrac{\var(X_i)}{N} \right)
-$$
-
-::: footer
-
-Vector version in the next lecture
-
-:::
- 
+where $\Phi(\cdot)$ is the standard normal. In other words, the mean is approximately distrubuted as ("$\overset{a}{\sim}$")
+$$\small
+\bar{X} \overset{a}{\sim} N\left( \E[X_i], \dfrac{\var(X_i)}{N} \right)
+$$ {#eq-vector-distribution-mean-approx-clt} 
 
 #### Tool: Continuous Mapping Theorem
 
@@ -726,11 +719,48 @@ $$
 </div>
 
 
-#### Discussion of Variance
+#### Discussion of Asymptotic Variance $\avar(\hat{\bbeta})$
  
-- Variance expression in @prp-vector-distribution-ols-distr is sometimes called the "sandwich" form
+- Asymptotic variance expression in @prp-vector-distribution-ols-distr is sometimes called the "sandwich" form
 - Expression compatible with heteroskedasticity
 - If $\E[U_i^2|\bX_i]=\sigma^2$ (conditional homoskedasticity), expression simplifies. In practice not very useful (corresponds to `nonrobust` estimates of standard errors)
+
+#### Practical Usefulness: Foundation for Inference
+
+Similarly to ([-@eq-vector-distribution-mean-approx-clt]), @prp-vector-distribution-ols-distr can be interpreted as saying that 
+
+$$
+\hat{\bbeta} \overset{a}{\sim} N\left(\bbeta,  \dfrac{1}{N}\avar(\hat{\bbeta}) \right)
+$$
+
+. . . 
+
+
+- Gives us an idea of how much variation/precision we can expect from $\hat{\bbeta}$
+- If a hypothesis tells us something about $\bbeta$, we can check how likely based on seeing  $\hat{\bbeta}$
+ 
+
+
+
+## Recap and Conclusions {background="#00100F"}
+  
+#### Recap
+
+In this lecture we
+
+1. Formulated our first practical questions in inference
+2. Reviewed convergence in distribution
+3. Derived the asymptotic distribution of the OLS estimator
+
+#### Next Questions
+
+<br>
+
+How to use @prp-vector-distribution-ols-distr for inference?
+
+- Estimating $\avar(\hat{\bbeta})$ to get standard errors
+- Building tests and confidence intervals
+- Answering the questions of our empirical example
 
 
 #### References {.allowframebreaks visibility="uncounted"}
