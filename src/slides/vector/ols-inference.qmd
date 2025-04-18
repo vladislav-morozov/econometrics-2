@@ -46,7 +46,7 @@ By the end, you should be able to
 
 - Do
 
-#### Textbook References
+#### References
  
 
 ::: {.nonincremental}
@@ -55,7 +55,9 @@ By the end, you should be able to
 
 - 8-2 and E4+E4a in @Wooldridge2020IntroductoryEconometricsModern (careful with the specialized formulas in 8-2, they are more confusing than the general case in the lecture and those in E4)
 - Or 7.11-7.13, 7.16, 7.18* in @Hansen2022Econometrics
-  
+- (*Curious background reading*): @Wooldridge2023WhatStandardError on what "standard error" might mean
+
+
 ::: 
 
  
@@ -72,7 +74,7 @@ $$
 &  =   \beta_1 + \beta_2 \times \text{education} \\
 & \quad  + \beta_3 \times  \text{experience} + \beta_4 \times  \dfrac{\text{experience}^2}{100} + U_i
 \end{aligned}
-$$
+$$ {#eq-vector-inference-emp-model}
 
 . . . 
  
@@ -166,9 +168,8 @@ What is the interpretation of those parameters?
 4. How certain are we of our estimates of target parameters?
 
 
-## Hypothesis Testing {background="#00100F"}
-  
-### Background and Key Definitions {background="#43464B" visibility="uncounted"}
+## Background and Definitions for Testing {background="#00100F"}
+   
 
 #### Basic Setup: Hypotheses
 
@@ -275,7 +276,7 @@ Usually impossible in practice. Instead we ask
 
 <div class="rounded-box">
 
-::: {#def-vector-inference-significane}
+::: {#def-vector-inference-significance}
 
 $T$ is *consistent* if for any $\theta\in \Theta_1$ 
 $$ \small
@@ -297,23 +298,188 @@ As with estimators, we say "test" when we mean a sequence of tests, one for each
 :::
 
 
+#### Asymptotic Significance Level
 
-### Linear Hypotheses {background="#43464B" visibility="uncounted"}
+- Also, can't necessarily control rejection under $H_0$ in finite
+- But can require it asymptotically
+
+
+<div class="rounded-box">
+
+::: {#def-vector-inference-asy-significane}
+
+The asymptotic significance level $\alpha$ of the test $T$ is 
+$$
+\alpha = \lim_{N\to\infty} \max_{\theta\in\Theta_0}  P(T(X_1, \dots, X_N)=\text{Reject }H_0|\theta) 
+$$
+
+:::
+
+</div>
+
+
+## Linear Hypotheses {background="#00100F"}
+
+### A Single Linear Hypothesis {background="#43464B" visibility="uncounted"}
 
 #### Single Example Hypothesis
 
+Let's start with our first empirical question:
+
+<div class="rounded-box">
+
+Does education affect wages?
+
+</div>
+
+. . .
+
+<br>
+
+In the framework of @eq-vector-inference-emp-model can translate to 
+$$
+H_0: \beta_2 = 0, \quad H_1: \beta_2\neq 0
+$$
+
+. . .
+
+Here $\Theta_1 = \curl{0}$ and $\Theta_2 = \R - \curl{0}$
+
+
 
 #### How Testing Works in General
+
+*How do we construct a test/decision rule?*
+
+<br>
+
+. . .
 
 The basic approach to testing is surprisingly simple
 
 1. Pick a "statistic" (=some known function of the data) that behaves "differently" under $H_0$ and $H_1$
 2. Is the observed value of the statistic compatible with $H_0$? If not, reject $H_0$ in favor or $H_1$. If yes, do not reject $H_0$
 
-####
+
+#### Picking a Statistic
+
+- In principle, can pick any statistic. Some are more "standard"
+- For testing hypotheses about coefficients, there are three main classes
+  - Wald statistics: need only *unrestricted* estimates 
+  - Lagrange multiplier (LM): need *restricted* estimates 
+  - Likelihood ratio (LR): need both
+
+. . .
+ 
+
+::: {.callout-note appearance="minimal"}
+
+Wald tests easiest to work with in linear models, but others have their uses in different contexts 
+:::
 
 
-@Wooldridge2023WhatStandardError
+#### Convergence of $\hat{\beta}_2$
+
+Recall asymptotic distribution result for OLS estimator
+$$\small
+\sqrt{N}\left( \hat{\bbeta}- \bbeta \right) \xrightarrow{d} N(0, \avar(\hat{\bbeta}))
+$$
+
+. . . 
+
+It implies (why?) that
+$$ \small
+\dfrac{\hat{\beta}_2 - \beta_2}{\sqrt{ \avar(\hat{\beta}_2)/N }  } \xrightarrow{d} N\left(0, 1\right)
+$$
+where $\avar(\hat{\beta}_2)$ is the (2, 2) element of $\avar(\hat{\bbeta})$
+
+
+#### $t$-statistic
+
+Suppose that we have a consistent estimator of $\avar(\hat{\bbeta})$:
+$$ \small
+\widehat{\avar}(\hat{\bbeta}) \xrightarrow{p} \avar(\hat{\bbeta})
+$$
+
+. . .
+
+Then if $H_0: \beta_2 = 0$, by Slutsky's theorem (why?) it holds that
+$$ \small
+t = \dfrac{\hat{\beta}_2 - \beta_2}{\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }  } \xrightarrow{d} N\left(0, 1\right)
+$$
+$t$ is called a $t$-statistic; $\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }$ — standard error of $\hat{\beta}_2$
+
+::: footer
+
+:::
+
+#### Decision Rule: Test  {#sec-ols-inference-t-test}
+
+We call the following the "asymptotic level $\alpha$ $t$-test":
+
+
+<br>
+
+<div class="rounded-box">
+
+Let $z_{1-\alpha/2} = \Phi^{-1}(1-\alpha/2)$. Then
+
+- Reject $H_0$ is $\abs{t}>z_{1-\alpha/2}$
+- Do not reject $H_0$ is $\abs{t}\leq z_{1-\alpha/2}$
+
+
+</div>
+
+
+#### $t$-Statistic under $H_0$
+
+
+
+
+#### $t$-Statistics under $H_1$
+
+
+#### $t$-Test for $H_0:\beta_2 = c$
+
+More generally, can test
+$$
+H_0: \beta_k = c \text{ vs } H_1: \beta_k \neq c
+$$
+
+. . . 
+
+$t$-statistic
+$$
+t = \dfrac{\hat{\beta}_2 - c}{\sqrt{ \widehat{\avar}(\hat{\beta}_k)/N }  }
+$$
+
+Same decision rule as on @sec-ols-inference-t-test
+
+
+#### Estimating $\avar(\hat{\bbeta})$
+
+One remaining issue: how to estimate 
+$$
+\avar(\hat{\bbeta}) =  \left( \E[\bX_i\bX_i']\right)^{-1} \E[U_i^2\bX_i\bX_i']\left( \E[\bX_i\bX_i']\right)^{-1} 
+$$
+
+. . . 
+
+
+Turns out that 
+
+
+
+
+#### Practical Implementation
+
+
+#### Summary
+
+
+### Multiple Linear Hypothesis {background="#43464B" visibility="uncounted"}
+
+#### Potentially Multiple
 
 #### 
  
@@ -322,14 +488,21 @@ Special case
 
 Wald statistics is the square of the $t$-statistic
 
-#### About the $F$-Statistic
+- You lose nothing by doing a Wald test even if you have a single hypothesis
+ 
 
 
+## Nonlinear Hypotheses and the Delta Method  {background="#00100F"}
 
-### Nonlinear Hypotheses and the Delta Method {background="#43464B" visibility="uncounted"}
+### The Delta Method {background="#43464B" visibility="uncounted"}
 
 ####
 
+### Nonlinear Wald Tests  {background="#43464B" visibility="uncounted"}
+
+#### 
+
+A
 
 ## Confidence Intervals and Sets {background="#00100F"}
 
