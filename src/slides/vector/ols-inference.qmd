@@ -527,7 +527,7 @@ $$
 $t$-statistic
 $$
 t = \dfrac{\hat{\beta}_2 - c}{\sqrt{ \widehat{\avar}(\hat{\beta}_k)/N }  }
-$$
+$$ {#eq-vector-inference-t-general}
 
 Same decision rule: compare $t$ to $z_{1-\alpha/2}$
 
@@ -536,6 +536,26 @@ Same decision rule: compare $t$ to $z_{1-\alpha/2}$
 - Under $H_0$, the $t$ statistic should be "well-behaved": normal and centered at 0. Big values of $t$-statistic unlikely
 - So if we see a big $t$-statistic, such a value is unlikely under $H_0$ — evidence against $H_0$
 - If value is large enough, we think the evidence is strong enough to be reasonably incompatible with $H_0$ — rejection
+
+
+#### Combined Result: $t$-statistics
+
+
+<div class="rounded-box">
+
+::: {#prp-vector-inference-t}
+
+Let the assumptions for asymptotic normality of the OLS estimator hold. Let $t$ be defined as in @eq-vector-inference-t-general. Then
+
+1. If $H_0: \beta_k=c$ holds, then $t\xrightarrow{d} N(0, 1)$ and the associated test has asymptotic size $\alpha$
+2. If $H_0: \beta_k=c$ does not hold, then $t\xrightarrow{p}\pm\infty$ and the associated test is consistent
+
+
+
+:::
+
+</div>
+
 
 #### Estimating $\avar(\hat{\bbeta})$
 
@@ -564,12 +584,6 @@ $$
 - $N^{-1}\widehat{\avar}(\hat{\bbeta})$ is called  *robust* (or *heteroskedasticity robust*) standard errors (specifically, HC0). 
 - In `statsmodels`, we used them by called `OLS(endog, exog).fit(cov_type='HC0')`
 
-#### Combined Result: $t$-statistics
-
-
-<div class="rounded-box">
-
-</div>
 
 
 
