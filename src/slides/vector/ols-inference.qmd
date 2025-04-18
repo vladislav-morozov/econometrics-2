@@ -1,7 +1,9 @@
 ---
-title: "Inference in Linear Models"
+title: "Inference and the Delta Method"
 subtitle: "Hypothesis Testing and Confidence Intervals"
 author: Vladislav Morozov  
+execution:
+  eval: false
 format:
   revealjs:
     width: 1150
@@ -51,7 +53,7 @@ By the end, you should be able to
 
  
 
-- 8-2 and E4+E4a in @Wooldridge2020IntroductoryEconometricsModern (careful with the specialized formulas in 8-2, they are more confusing than the general case in the lecture)
+- 8-2 and E4+E4a in @Wooldridge2020IntroductoryEconometricsModern (careful with the specialized formulas in 8-2, they are more confusing than the general case in the lecture and those in E4)
 - Or 7.11-7.13, 7.16, 7.18* in @Hansen2022Econometrics
   
 ::: 
@@ -61,24 +63,9 @@ By the end, you should be able to
 ### Reminder on the Empirical Example {background="#43464B" visibility="uncounted"}
 
 
-#### Setting: Linear Causal Model
+#### Reminder: Empirical Model 
 
-<br> 
-
-We'll continue to work in the linear causal model with potential outcomes:
-$$
-Y_i^\bx = \bx'\bbeta + U_i
-$$ {#eq-vector-distribution-potential}
- 
-#### Motivating Empirical Example: Variables
-
-- $Y_i$ — hourly log wage
-- $\bx$ — education and job experience in years
-- $U_i$ — unobserved characteristics (skill, health, etc.), assumed to satisfy $\E[U_i|\bX_i]=0$
-- Sample: some suitably homogeneous group (e.g.  married white women)
-
-#### Motivating Empirical Example: Potential Outcomes
- 
+Studying link between wages and (education, experience)
 $$
 \begin{aligned}[]
 & [\ln(\text{wage}_i)]^{\text{(education, experience)}} \\
@@ -89,31 +76,11 @@ $$
 
 . . . 
  
-- Can write model in terms of realized variables, but above emphasizes causal assumption
-- We divide experience$^2$ by 100 for numerical reasons
+Data: married white women from March 2009 CPS
 
-#### Motivating Empirical Example: Parameters of Interest
-
- 
-<br>
-
-Our parameters of interest: 
-
-1. $100\beta_2$ — (more or less) average effect of additional year of education in percent
-2. $100\beta_3 + 20 \beta_4$ — average effect of increasing education for individuals with 10 years of experience
-3. $-50\beta_3/\beta_4$ — experience level which maximizes expected log wage
-
-#### Motivating Empirical Example: Data {.scrollable}
-
-
-- `cps09mar` — a selection from the March 2009 US Current Population Survey: 
-- Can be obtained from the [website](https://users.ssc.wisc.edu/~bhansen/econometrics/) for @Hansen2022Econometrics
-- Sample: married white women with present spouses
-
-<br> 
 
 ```{python}
-#| echo: true
+#| echo: true 
 #| code-fold: true
 #| code-summary: "Expand for full data preparation code"
 import numpy as np
@@ -148,7 +115,10 @@ endog = select_data.loc[:, "log_wage"]
 
 :::
 
-#### Motivating Empirical Example: Estimation Results 
+
+
+
+#### Reminder: Estimation Results 
 
 ```{.python code-line-numbers="0-1"}
 results = OLS(endog, exog).fit(cov_type='HC0') # Robust covariance matrix estimator
@@ -160,22 +130,201 @@ results = OLS(endog, exog).fit(cov_type='HC0')
 print(results.summary())
 ```
 
+#### Reminder: Parameters of Interest and Estimators
 
-#### Empirical Questions
+ 
+<br>
+
+Our parameters of interest: 
+
+1. $100\beta_2$. Estimate: $11.14$
+2. $100\beta_3 + 20 \beta_4$. Estimate: $2.22$
+3. $-50\beta_3/\beta_4$. Estimate: $36.67$
+
+
+. . . 
+
+
+<br>
+
+<div class="rounded-box">
+
+What is the interpretation of those parameters?
+
+</div>
+
+
+
+#### Reminder: Empirical Questions
 
 
 <br> 
 
-1. How certain are we of our estimates of target parameters?
-2. Does education matter at all? (up to our statistical confidence)
-3. Is the best amount of experience to have equal to 15 years? (up to our statistical confidence)
+1. Does education matter at all? (up to our statistical confidence)
+2. Does experience matter at all? (up to our statistical confidence)
+3. Is the best amount of experience to have equal to 25 years? (up to our statistical confidence)
+4. How certain are we of our estimates of target parameters?
 
 
 ## Hypothesis Testing {background="#00100F"}
   
+### Background and Key Definitions {background="#43464B" visibility="uncounted"}
+
+#### Basic Setup: Hypotheses
+
+Suppose that we have a model with some parameters $\theta$ (of whatever nature):
+
+Two competing *hypotheses* (statements about parameters $\theta$)
+$$
+H_0: \theta\in \Theta_0 \text{  vs.  } H_1: \theta \in \Theta_1 
+$$
+for some nonintersecting $\Theta_0$ and $\Theta_1$
+
+. . .
+
+Example
+
+- $H_0: \beta_2=0$ (education does not affect wages)
+- $H_1: \beta_2\neq 0$ (education affects wages)
+ 
+
+#### Definition of a Test
+
+Informally, a test is a *decision rule*: you see the sample and then you decide in favor of $H_0$ or $H_1$
+
+
+. . . 
+
+<br>
+
+Formally:
+
+<div class="rounded-box">
+
+::: {#def-vector-inference-test}
+
+A test $T$ is a function of the sample $(X_1, \dots, X_N)$ to the space $\curl{\text{Reject} H_0,  \text{Do not reject }H_0}$
+
+:::
+
+</div>
+
+
+
+
+#### Power
+
+<br>
+
+<div class="rounded-box">
+
+::: {#def-vector-inference-power}
+
+The power function $\text{Power}_T(\theta)$ of the test $T$ is the probability that $T$ rejects if $\theta$ is the true parameter value:
+$$
+\text{Power}_T(\theta) = P(T(X_1, \dots, X_N)=\text{Reject }H_0|\theta)
+$$
+
+:::
+
+</div>
+
+ 
+
+#### Significance Level
+
+Maximal power under the null has a special name 
+<div class="rounded-box">
+
+::: {#def-vector-inference-significane}
+
+The significance level $\alpha$ of the test $T$ is 
+$$
+\alpha = \max_{\theta\in\Theta_0} \text{Power}_T(\theta)
+$$
+
+:::
+
+</div>
+
+In other words, the probability of falsely rejecting the null (type I error)
+
+
+#### What Defines a Good Test? 
+
+The best possible test has perfect detection:
+
+- Never rejects under $H_0$
+- Always reject under $H_1$
+
+. . . 
+
+<br>
+
+Usually impossible in practice. Instead we ask
+
+- Not too much false rejection under $H_0$ (e.g. $\leq 5\%$ of the time)
+- As much rejection as possible under $H_1$ 
+
+#### Test Consistency
+
+- For given sample sizes, usually cannot power function
+- Substitute requirement that asymptoticall you detect any failure of $H_0$:
+ 
+. . .
+
+<div class="rounded-box">
+
+::: {#def-vector-inference-significane}
+
+$T$ is *consistent* if for any $\theta\in \Theta_1$ 
+$$ \small
+ \lim_{N\to\infty} P(T(X_1, \dots, X_N)=\text{Reject }H_0|\theta) = 1
+$$
+
+:::
+
+</div>
+
+::: {.callout-important appearance="minimal"}
+
+As with estimators, we say "test" when we mean a sequence of tests, one for each sample size.
+
+:::
+
+::: footer
+
+:::
+
+
+
 ### Linear Hypotheses {background="#43464B" visibility="uncounted"}
 
+#### Single Example Hypothesis
+
+
+#### How Testing Works in General
+
+The basic approach to testing is surprisingly simple
+
+1. Pick a "statistic" (=some known function of the data) that behaves "differently" under $H_0$ and $H_1$
+2. Is the observed value of the statistic compatible with $H_0$? If not, reject $H_0$ in favor or $H_1$. If yes, do not reject $H_0$
+
+####
+
+
+@Wooldridge2023WhatStandardError
+
 #### 
+ 
+
+Special case
+
+Wald statistics is the square of the $t$-statistic
+
+#### About the $F$-Statistic
+
+
 
 ### Nonlinear Hypotheses and the Delta Method {background="#43464B" visibility="uncounted"}
 
