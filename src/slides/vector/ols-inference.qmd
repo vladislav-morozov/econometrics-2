@@ -232,14 +232,14 @@ $$
 
  
 
-#### Significance Level
+#### Test Size
 
 Maximal power under the null has a special name 
 <div class="rounded-box">
 
-::: {#def-vector-inference-significane}
+::: {#def-vector-inference-size}
 
-The significance level $\alpha$ of the test $T$ is 
+The test size $\alpha$ of the test $T$ is 
 $$
 \alpha = \max_{\theta\in\Theta_0} \text{Power}_T(\theta)
 $$
@@ -276,7 +276,7 @@ Usually impossible in practice. Instead we ask
 
 <div class="rounded-box">
 
-::: {#def-vector-inference-significance}
+::: {#def-vector-inference-consistency}
 
 $T$ is *consistent* if for any $\theta\in \Theta_1$ 
 $$ \small
@@ -298,7 +298,7 @@ As with estimators, we say "test" when we mean a sequence of tests, one for each
 :::
 
 
-#### Asymptotic Significance Level
+#### Asymptotic Size
 
 - Also, can't necessarily control rejection under $H_0$ in finite
 - But can require it asymptotically
@@ -308,7 +308,7 @@ As with estimators, we say "test" when we mean a sequence of tests, one for each
 
 ::: {#def-vector-inference-asy-significane}
 
-The asymptotic significance level $\alpha$ of the test $T$ is 
+The asymptotic size $\alpha$ of the test $T$ is 
 $$
 \alpha = \lim_{N\to\infty} \max_{\theta\in\Theta_0}  P(T(X_1, \dots, X_N)=\text{Reject }H_0|\theta) 
 $$
@@ -405,7 +405,7 @@ $$
 
 Then if $H_0: \beta_2 = 0$, by Slutsky's theorem (why?) it holds that
 $$ \small
-t = \dfrac{\hat{\beta}_2 - \beta_2}{\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }  } \xrightarrow{d} N\left(0, 1\right)
+t = \dfrac{\hat{\beta}_2}{\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }  } \xrightarrow{d} N\left(0, 1\right)
 $$
 $t$ is called a $t$-statistic; $\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }$ — standard error of $\hat{\beta}_2$
 
@@ -430,13 +430,89 @@ Let $z_{1-\alpha/2} = \Phi^{-1}(1-\alpha/2)$. Then
 
 </div>
 
+#### Illustration: Extracting Standard Errors {.scrollable}
+
+Can get $\widehat{\avar}(\hat{\bbeta})$ from the `results` object:
+```{python}
+#| echo: true
+(results.nobs)*results.cov_params()
+```
+`cov_params()` extracts *standard errors*
+
+::: footer
+
+:::
+
+#### Illustration: Doing the Test by Hand
+
+Compute $t$-statistic as
+```{python}
+#| echo: true
+t = (results.params.iloc[1])/np.sqrt(results.cov_params().iloc[1, 1])
+print(t)
+```
+
+- Can compare `t` statistic to suitable quantile of the normal
+- Set $\alpha=0.05$ if want to reject at most 5% under $H_0$ in the limit
+
+. . .
+
+```{python}
+#| echo: true
+from scipy.stats import norm
+np.abs(t) > norm.ppf(1-0.05/2)
+```
+Reject $H_0$ in favor $H_1: \beta_2\neq 0$ at 5\% asymptotic level 
+
+::: footer
+
+:::
+
+#### Illustration: Using `t_test()`
+
+Can also use 
+```{python}
+#| echo: true
+results.t_test(np.array([0, 1, 0, 0]), use_t=False)
+```
+
+. . .
+
+- Decision by comparing with the $p$-value
+- Can reject with high confidence (very small $p$-value)
 
 #### $t$-Statistic under $H_0$
 
+What is the (asymptotic) probability of rejecting under $H_0$?
+
+$$
+\begin{aligned}
+& P\left(\text{Reject} H_0|H_0 \right) = P\left(\abs{t}>z_{1-\alpha/2} |H_0\right) \\
+& = P\left( \abs{ \dfrac{\hat{\beta}_2}{\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }  }}> z_{1-\alpha/2}|H_0 \right)\\
+& \to 2(1- Phi(z_{1-\alpha/2})) = \alpha 
+\end{aligned}
+$$
+
+. . .
+
+The test has asymptotic size $\alpha$
+
+#### $t$-Statistic under $H_1$
 
 
+What happens to $t$ under $H_1$? Suppose that $\beta_2\neq 0$ is the true value. Can write
+$$ \small 
+t = \dfrac{\hat{\beta}_2}{\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }  }=  \underbrace{\dfrac{\hat{\beta}_2 - \beta_2}{\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }  }}_{\scriptsize \xrightarrow{d} N(0, 1)} +  \underbrace{\dfrac{\beta_2}{\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }  }}_{\scriptsize \xrightarrow{p} \pm \infty }
+$$
 
-#### $t$-Statistics under $H_1$
+
+. . .
+
+It follows (why?) that the $t$-test is consistent
+$$ \small
+P(\text{Reject } H_0|H_1) \xrightarrow{N\to\infty} 1
+$$ 
+
 
 
 #### $t$-Test for $H_0:\beta_2 = c$
@@ -453,8 +529,13 @@ $$
 t = \dfrac{\hat{\beta}_2 - c}{\sqrt{ \widehat{\avar}(\hat{\beta}_k)/N }  }
 $$
 
-Same decision rule as on @sec-ols-inference-t-test
+Same decision rule: compare $t$ to $z_{1-\alpha/2}$
 
+#### Intuition: What the Test Does
+
+- Under $H_0$, the $t$ statistic should be "well-behaved": normal and centered at 0. Big values of $t$-statistic unlikely
+- So if we see a big $t$-statistic, such a value is unlikely under $H_0$ — evidence against $H_0$
+- If value is large enough, we think the evidence is strong enough to be reasonably incompatible with $H_0$ — rejection
 
 #### Estimating $\avar(\hat{\bbeta})$
 
@@ -466,15 +547,34 @@ $$
 . . . 
 
 
-Turns out that 
+Can estimate using "sample analogs"
+
+1. $\left( \E[\bX_i\bX_i']\right)^{-1}$ with $\left( N^{-1}\sum_{i=1}^N \sum_{i=1}^N \bX_i\bX_i'\right)^{-1}$
+2. $\E[U_i^2\bX_i\bX_i']$ with $N^{-1}\sum_{i=1}^N \hat{U}_i \bX_i\bX_i'$ for $\hat{U}_i = Y_i-\bX_i'\hat{\bbeta}$
+
+
+#### Estimating $\avar(\hat{\bbeta})$: Robust Standard Errors
+
+Resulting $\widehat{\avar}(\hat{\bbeta})$ is consistent:
+$$
+\widehat{\avar}(\hat{\bbeta}) \xrightarrow{p} {\avar}(\hat{\bbeta})
+$$
+
+- Can use in test statistics
+- $N^{-1}\widehat{\avar}(\hat{\bbeta})$ is called  *robust* (or *heteroskedasticity robust*) standard errors (specifically, HC0). 
+- In `statsmodels`, we used them by called `OLS(endog, exog).fit(cov_type='HC0')`
+
+#### Combined Result: $t$-statistics
+
+
+<div class="rounded-box">
+
+</div>
 
 
 
 
-#### Practical Implementation
 
-
-#### Summary
 
 
 ### Multiple Linear Hypothesis {background="#43464B" visibility="uncounted"}
