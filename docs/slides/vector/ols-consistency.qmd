@@ -46,6 +46,26 @@ By the end, you should be able to
 - Handle the question of invertibility of $\bX'\bX$
 - Derive consistency results for the OLS estimator 
 
+
+```{python}
+import matplotlib.animation as animation
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+import numpy as np
+
+
+from pathlib import Path
+from scipy.ndimage import uniform_filter1d
+from statsmodels.distributions.empirical_distribution import ECDF
+
+
+plt.rcParams["font.family"] = "sans-serif"
+plt.rcParams["font.sans-serif"] = ["Arial"]
+
+BG_COLOR = "whitesmoke"
+
+```
+
 #### Textbook References
  
 
@@ -277,7 +297,102 @@ Simple examples
    $$
 
 
+#### Visualizing the Law of Large Numbers
 
+```{python}
+#| eval: false
+
+# Parameters
+a, b = 2, 5  # Parameters for the beta distribution
+sample_sizes = np.concatenate(
+    [
+        np.arange(1, 101),  # Every number between 1 and 100
+        np.arange(100, 201, 4),  # Every 2nd number between 100 and 200
+        np.arange(200, 501, 5),  # Every 3rd number between 200 and 500
+        np.arange(500, 1001, 8),  # Every 5th number between 500 and 1000
+    ]
+).astype(int)
+num_samples = 70000
+
+# Generate data from a beta distribution
+data = np.random.beta(a, b, (num_samples, max(sample_sizes)))
+
+# Standardize the data
+data_mean = np.mean(data)
+data_std = np.std(data)
+standardized_data = (data - data_mean) / data_std
+
+# Compute sample means on the standardized data
+sample_means = [np.mean(standardized_data[:, :n], axis=1) for n in sample_sizes]
+
+# Compute probabilities for the right subplot
+xvals = np.linspace(-0.5, 0.5, 100)
+
+prob_01 = [np.mean(np.abs(means) > 0.1) for means in sample_means]
+prob_001 = [np.mean(np.abs(means) > 0.01) for means in sample_means]
+
+# Set up the figure and the axes
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+ 
+def animate(i):
+    ax1.clear()
+    ecdf = ECDF(sample_means[i])
+    ax1.axvline(x=0, color="gainsboro", linestyle="--")  
+    ax1.plot(xvals, ecdf(xvals), "g-")
+    ax1.set_xlim(xvals[[0, -1]])
+    ax1.set_ylim(-0.03, 1.03)
+    ax1.set_xlabel("Standard deviations of the data")
+    ax1.set_title(
+        "Cumulative Distribution Function of Sample Mean",
+        loc="left",
+    )
+    ax1.set_facecolor(BG_COLOR)
+
+    ax2.clear()
+    ax2.plot(
+        sample_sizes[: i + 1],
+        prob_01[: i + 1],
+        color='teal',
+        label="$P(|\\bar{X} - \\mu| > 0.1\\sigma)$",
+    )
+    ax2.plot(
+        sample_sizes[: i + 1],
+        prob_001[: i + 1],
+        color='darkorange',
+        label="$P(|\\bar{X} - \\mu| > 0.01\\sigma)$",
+    )
+    ax2.set_xlim(min(sample_sizes), max(sample_sizes))
+    ax2.set_ylim(-0.03, 1.03)
+    ax2.set_xlabel("Sample Size")
+    ax2.set_title(
+        "Probability of Deviations from True Mean",
+        loc="left",
+    )
+    ax2.legend(loc="upper right")
+    ax2.set_facecolor(BG_COLOR)
+
+# Call the animator
+frames_total = len(sample_sizes) 
+ani = animation.FuncAnimation(fig, animate, frames=frames_total, repeat=True)
+
+ 
+WriterMP4 = animation.writers['ffmpeg']
+writer_mp4 = WriterMP4(fps=50, metadata=dict(artist='bww'), bitrate=1800) 
+ani.save(
+     Path("images").resolve() / "lln.mp4",
+     writer=writer_mp4
+)
+plt.close()
+
+```
+
+<video width="99%" style="display: block; margin: 0 auto;" controls muted autoplay loop>
+  <source src="images/lln.mp4 " type="video/webm">
+</video> 
+ 
 
 ## Consistency of the OLS Estimator {background="#00100F"}
    
@@ -425,6 +540,143 @@ $$
 
 1. Are talking about asymptotic properties (consistency, asymptotic distributions, asymptotic confidence intervals)
 2. Make the assumption that $\E[\bX_i\bX_i']$ is invertible and say that $\bX'\bX$ is invertible w.p.a.1
+
+#### Convergence of Estimator and Objective Function
+
+```{python}
+#| eval: false
+
+# Parameters
+BETA_1 = 0
+NUM_OBS = 10000  # Large number of observations to approximate the population SSR
+rng = np.random.default_rng(1)
+
+# Generate data
+X1 = rng.normal(size=NUM_OBS)
+Y = BETA_1 * X1 + 0.5 * rng.normal(size=NUM_OBS)
+
+
+# Define the SSR function
+def ssr(b1, X1, Y):
+    return np.mean((Y - b1 * X1) ** 2)
+
+
+# Generate a grid of beta values for the SSR plot
+ref_b_val = 1.5
+b1_vals = np.linspace(-ref_b_val, ref_b_val, 1000)
+SSR_vals_population = np.array([ssr(b1, X1, Y) for b1 in b1_vals])
+
+# Generate a sequence of growing samples
+sample_sizes = np.concatenate(
+    [
+        np.arange(5, 101),  # Every number between 1 and 100
+        np.arange(100, 201, 4),  # Every 2nd number between 100 and 200
+        np.arange(200, 501, 5),  # Every 3rd number between 200 and 500
+        np.arange(500, 1001, 8),  # Every 5th number between 500 and 1000
+    ]
+).astype(int)
+
+# Initialize the SSR values for the moving average
+SSR_vals_sample_history = []
+
+# Set up the figure and the axes
+fig, ax = plt.subplots(figsize=(12, 6))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+
+# Animation function: this is called sequentially
+def animate(i):
+    ax.clear()
+
+    # Plot the population SSR function
+    ax.plot(
+        b1_vals,
+        SSR_vals_population,
+        color="teal",
+        label="Population Objective Function",
+    )
+
+    n = sample_sizes[i]
+    X1_sample = X1[:n]
+    Y_sample = Y[:n]
+
+    # Compute the sample SSR function
+    SSR_vals_sample = np.array([ssr(b1, X1_sample, Y_sample) for b1 in b1_vals])
+
+    # Apply moving average to smooth the SSR values
+    if i == 0:
+        SSR_vals_sample_smoothed = SSR_vals_sample
+    else:
+        SSR_vals_sample_history.append(SSR_vals_sample)
+        SSR_vals_sample_smoothed = uniform_filter1d(
+            np.array(SSR_vals_sample_history),
+            size=min(5, len(SSR_vals_sample_history)),
+            axis=0,
+            mode="reflect",
+        )[-1]
+
+    # Plot the sample SSR function
+    ax.plot(
+        b1_vals,
+        SSR_vals_sample_smoothed,
+        color="darkorange",
+        label=f"Sample Objective Function (Sample Size={n})",
+    )
+
+    # Find the minimizer of the sample SSR
+    min_idx = np.argmin(SSR_vals_sample_smoothed)
+    b1_min = b1_vals[min_idx]
+    ssr_min = SSR_vals_sample_smoothed[min_idx]
+
+    # Plot the broken line from the minimizer to the x-axis
+    ax.plot([b1_min, b1_min], [0, ssr_min], "k--")
+    ax.text(
+        b1_min, 0, r"$\hat{\beta}$", ha="center", va="top", fontsize=12, color="black"
+    )
+
+    # Find the minimizer of the population SSR
+    pop_min_idx = np.argmin(SSR_vals_population)
+    pop_b1_min = b1_vals[pop_min_idx]
+    pop_ssr_min = SSR_vals_population[pop_min_idx]
+
+    # Plot the pale broken line from the minimizer of the population SSR to the x-axis
+    ax.plot([pop_b1_min, pop_b1_min], [0, pop_ssr_min], "k--", alpha=0.3)
+
+    ax.set_xlim(b1_vals[[0, -1]])
+    ax.set_ylim(0, np.max(SSR_vals_population))
+    ax.set_xlabel("$b_1$", loc="right")
+    ax.set_ylabel("Sum of squared residuals")
+    # ax.set_title('Convergence of Objective Function and the OLS Estimator')
+    ax.legend(loc="upper center")
+
+    # Remove x and y tick labels
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_facecolor(BG_COLOR)
+
+
+# Call the animator
+WriterMP4 = animation.writers['ffmpeg']
+writer_mp4 = WriterMP4(fps=50, metadata=dict(artist='bww'), bitrate=1800) 
+ani = animation.FuncAnimation(
+    fig,
+    animate,
+    frames=len(sample_sizes),
+    repeat=True,
+)
+ani.save(
+     Path("images").resolve() / "ols-conv-1d.mp4",
+     writer=writer_mp4
+)
+plt.close()
+
+```
+
+<video width="99%" style="display: block; margin: 0 auto;" controls muted autoplay loop>
+  <source src="images/ols-conv-1d.mp4 " type="video/webm">
+</video>
+
 
 #### Discussion
  
