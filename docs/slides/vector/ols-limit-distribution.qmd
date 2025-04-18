@@ -1,6 +1,6 @@
 ---
 title: "Limit Distribution of the OLS Estimator"
-subtitle: "Normality as an Asymptotic Approximation"
+subtitle: "Key Step Towards Inference"
 author: Vladislav Morozov  
 format:
   revealjs:
@@ -22,8 +22,7 @@ title-slide-attributes:
     data-background-color: "#045D5D"
     data-footer: " "
 filters:
-  - reveal-header 
-embed-resources: true
+  - reveal-header  
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
 ---
@@ -32,18 +31,22 @@ highlight-style: tango
 
 ## Introduction {background="#00100F"}
   
-### Lecture Info {background="#43464B"}
+### Lecture Info {background="#43464B" visibility="uncounted"}
 
 
 #### Learning Outcomes
 
-This lecture is about a 
+This lecture is about the asymptotic distribution of the OLS estimator 
 
 <br>
 
 By the end, you should be able to
 
-- R
+- Discuss why we need the asymptotic distribution of the OLS estimator
+- Provide the definition of convergence in distribution
+- State the central limit theorem and Slutsky's theorem
+- Derive the asymptotic distribution of the OLS estimator
+ 
 
 #### Textbook References
  
@@ -52,64 +55,733 @@ By the end, you should be able to
 
  
 - Refresher on probability: 
-    - Your favorite probability textbook
-    - Section B in @Wooldridge2020IntroductoryEconometricsModern
+    - Your favorite probability textbook (e.g. chapter 5 in @Bertsekas2008IntroductionProbability)
+    - Sections B-C in @Wooldridge2020IntroductoryEconometricsModern
 - Asymptotic theory for the OLS estimator
-    - E4 in @Wooldridge2020IntroductoryEconometricsModern
-    - Or chapter 7 in @Hansen2022Econometrics
+    - 5.2 and E4 in @Wooldridge2020IntroductoryEconometricsModern
+    - Or 7.3 in @Hansen2022Econometrics
 
   
 ::: 
 
 
-### Motivation {background="#43464B"}
 
-#### Goal
+## Motivation {background="#00100F"}
 
-inference 
-
-- Quantify uncertaintY: confidence intervals
-- Test something
+### Motivating Empirical Example {background="#43464B" visibility="uncounted"}
 
 
-#### Reminder: 
+#### Setting: Linear Causal Model
 
-normality
+<br> 
+
+We'll continue to work in the linear causal model with potential outcomes:
+$$
+Y_i^\bx = \bx'\bbeta + U_i
+$$ {#eq-vector-distribution-potential}
+ 
+#### Motivating Empirical Example: Variables
+
+- $Y_i$ — hourly log wage
+- $\bx$ — education and job experience in years
+- $U_i$ — unobserved characteristics (skill, health, etc.), assumed to satisfy $\E[U_i|\bX_i]=0$
+- Sample: some suitably homogeneous group (e.g.  married white women)
+
+#### Motivating Empirical Example: Potential Outcomes
+ 
+$$
+\begin{aligned}[]
+& [\ln(\text{wage}_i)]^{\text{(education, experience)}} \\
+&  =   \beta_1 + \beta_2 \times \text{education} \\
+& \quad  + \beta_3 \times  \text{experience} + \beta_4 \times  \dfrac{\text{experience}^2}{100} + U_i
+\end{aligned}
+$$
+
+. . . 
+ 
+- Can write model in terms of realized variables, but above emphasizes causal assumption
+- We divide experience$^2$ by 100 for numerical reasons
+
+#### Motivating Empirical Example: Parameters of Interest
+
+ 
+<br>
+
+Our parameters of interest: 
+
+1. $100\beta_2$ — (more or less) average effect of additional year of education in percent
+2. $100\beta_3 + 20 \beta_4$ — average effect of increasing education for individuals with 10 years of experience
+3. $-50\beta_3/\beta_4$ — experience level which maximizes expected log wage
+
+#### Motivating Empirical Example: Data {.scrollable}
 
 
-#### Issue with Normality
+- `cps09mar` — a selection from the March 2009 US Current Population Survey: 
+- Can be obtained from the [website](https://users.ssc.wisc.edu/~bhansen/econometrics/) for @Hansen2022Econometrics
+- Sample: married white women with present spouses
 
-But normality
+<br> 
 
-Example: positive outcomes and positive regressors: how can $U_{it}$ be normal?
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Expand for full data preparation code"
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
 
-#### Issue: Unknown Distribution
+from statsmodels.regression.linear_model import OLS
 
-Normality was useful? 
+# Read in the data
+data_path = ("https://github.com/pegeorge/Econ521_Datasets/"
+             "raw/refs/heads/main/cps09mar.csv")
+cps_data = pd.read_csv(data_path)
 
-If we knew some other distribution, would be nice
+# Generate variables
+cps_data["experience"] = cps_data["age"] - cps_data["education"] - 6
+cps_data["experience_sq_div"] = cps_data["experience"]**2/100
+cps_data["wage"] = cps_data["earnings"]/(cps_data["week"]*cps_data["hours"] )
+cps_data["log_wage"] = np.log(cps_data['wage'])
 
-But we cannot 
+# Retain only married women white with present spouses
+select_data = cps_data.loc[
+    (cps_data["marital"] <= 2) & (cps_data["race"] == 1) & (cps_data["female"] == 1), :
+]
 
-#### Options
-
-- Nonasymptotic/finite-sample analysis based on "high-probability bounds" --- originally more popular in high-dimensional  @Wainwright2019HighDimensionalStatisticsNonAsymptotic
-- Large-sample "approximations" using tools like the central limit theorem(s) --- topic of this lecture
-
-
-
+# Construct X and y for regression 
+exog = select_data.loc[:, ['education', 'experience', 'experience_sq_div']]
+exog = sm.add_constant(exog)
+endog = select_data.loc[:, "log_wage"]
+```
 
 ::: footer
-?
+
+:::
+
+#### Motivating Empirical Example: Estimation Results 
+
+```{.python code-line-numbers="0-1"}
+results = OLS(endog, exog).fit(cov_type='HC0') # Robust covariance matrix estimator
+print(results.summary())
+```
+
+```{python} 
+results = OLS(endog, exog).fit(cov_type='HC0')
+print(results.summary())
+```
+
+
+#### Empirical Questions
+
+
+<br> 
+
+1. How certain are we of our estimates of target parameters?
+2. Does education matter at all? (up to our statistical confidence)
+3. Is the best amount of experience to have equal to 15 years? (up to our statistical confidence)
+
+
+### Translating to Theory {background="#43464B" visibility="uncounted"}
+
+#### Goal: Inference
+
+<br> 
+
+Recall: 
+
+<div class="rounded-box">
+
+Inference is about answering questions about the population based on the finite sample
+
+</div>
+
+<br>
+
+All of our questions — examples of inference
+
+#### Challenge: Randomness
+
+Key challenge:
+
+<div class="rounded-box">
+
+We only see a random sample instead of the full population
+
+</div>
+In other words: our estimated values are also random and do not perfectly reflect the underlying population values
+
+. . . 
+
+ 
+- How to quantify whether we are close or far to the true parameters? ($\Rightarrow$ confidence intervals)
+- Are the values we obtained compatible with our hypotheses? ($\Rightarrow$ hypothesis testing)
+
+#### Necessary Object: Distribution of Estimator
+
+
+<br>
+
+<div class="rounded-box">
+
+To answer these questions, we need the distribution of the estimator for given sample size
+
+</div>
+
+. . . 
+
+<br> 
+
+How do you get this distribution if you only have one sample? 
+
+
+#### Possible Approach: Distributional Assumptions
+
+- It is possible to impose exact distributional assumptions on the data (i.e., $(\bX_i, \bU_i))$
+- Example: assuming $U_i|\bX_i\sim N(\cdot, \cdot)$ (e.g. chapter 4 in @Wooldridge2020IntroductoryEconometricsModern)
+
+. . . 
+
+Such approaches usually problematic:
+
+- How do you justify such assumptions?
+- If these distributions have unknown parameters, how do you estimate them and quantify uncertainty about those parameters?  
+ 
+
+#### Other Approaches
+ 
+
+- Nonasymptotic/finite-sample analysis based on "high-probability bounds":
+  - Usually require making assumptions about tails of the data (e.g. that $U_i$ has bounded support),
+  - See examples in @Mohri2018FoundationsMachineLearning and  @Wainwright2019HighDimensionalStatisticsNonAsymptotic for some examples
+- Large-sample approximations using tools like the central limit theorem(s) --- topic of this lecture
+
+
+ 
+
+
+## Probability Background {background="#00100F"}
+
+### Definitions {background="#43464B" visibility="uncounted"}
+
+#### Convergence in Distribution
+
+<div class="rounded-box">
+
+
+::: {#def-vector-distribution-convergence-distribution}
+
+Let $\bX_1, \bX_2, \dots$ and $\bX$ be random vectors in $\R^q$. Let $\bX_N$ have CDF $F_N(\cdot)$ and $\bX$ have CDF $F(\cdot)$. $\curl{\bX_N}$ converges *in distribution* (converges *weakly*) to $\bX$ if 
+
+$$
+\lim_{N\to\infty} F_N(\bx) = F(\bx)
+$$
+for every $x\in\R^q$ such that $F(\cdot)$ is continuous at $\bx$
+
+:::
+
+</div>
+
+Convergence in distribution is labeled $\bX_N\Rightarrow \bX$ or $\bX_N\xrightarrow{d} \bX$
+
+#### Convergence in Distribution vs. in Probability
+
+<div class="rounded-box">
+
+
+::: {#prp-vector-distribution-convergence-contrast}
+
+1. If $\bX_N\xrightarrow{p} \bX$, then $\bX_N\xrightarrow{d} \bX$
+2. If $\bX_N\xrightarrow{d} \bX$ and $\bX$ is not random (=constant), then $\bX_N\xrightarrow{p} \bX$
+
+:::
+
+</div>
+
+Convergence in probability is generally *stronger* than convergence in distribution
+
+### Tools for Working with Convergence in Distribution {background="#43464B" visibility="uncounted"}
+
+
+
+#### Working with Vectors: Mean and Variance
+
+In this class we work with random vectors (such as $\bX_iU_i$)
+
+. . .
+
+<br>
+
+Some notation for vectors:
+
+- Mean of random vector $\bZ$ is the vector $\bmu = \E[\bZ]$: coordinates of $\bmu$ — means of coordinates of $\E[\bZ]$
+- Variance-covariance matrix of $\bZ$ is the matrix  
+$$
+\var(\bZ) = \E[(\bZ-\bmu)(\bZ-\bmu)']
+$$
+
+
+
+#### Key Tool: (Multivariate) CLT
+
+<div class="rounded-box">
+
+
+::: {#prp-vector-distribution-clt}
+
+Let $\bZ_1, \bZ_2, \dots$ be a sequence of random vectors with $\bmu=\E[\bZ_i]$
+
+1. $\bZ_i$ are independently and identically distributed (IID)
+2. $\E[\norm{\bZ_i}^2]<\infty$ 
+
+Then 
+$$ \small
+ \sqrt{N}\left(  \dfrac{1}{N}\sum_{i=1}^N \bZ_i - \bmu  \right) \xrightarrow{d} N(0, \var(\bZ_i) )
+$$ 
+
+:::
+
+</div>
+
+::: footer
+
+:::
+
+
+#### Visualizing The CLT
+
+ 
+```{python}
+#| eval: false 
+
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from scipy.stats import beta, norm, nct
+from scipy.ndimage import uniform_filter1d
+from statsmodels.distributions.empirical_distribution import ECDF
+from pathlib import Path
+
+
+plt.rcParams["font.family"] = "sans-serif"
+plt.rcParams["font.sans-serif"] = ["Arial"]
+
+BG_COLOR = "whitesmoke"
+
+# Function to generate samples from a given distribution
+def generate_samples(distribution, params, size):
+    return distribution.rvs(*params, size=size)
+
+# Parameters for the Beta distribution
+beta_params = (0.5, 0.5)
+
+# Parameters for the noncentral t distribution
+nct_params = (3, 10, 0, 1)  # df=3, nc=10, loc=0, scale=1
+
+# Choose the distribution (uncomment the desired distribution)
+# distribution = beta
+# params = beta_params
+distribution = nct
+params = nct_params
+
+# Generate sample sizes
+sample_sizes = np.concatenate(
+    [
+        np.arange(5, 101),   
+        np.arange(100, 201, 4),  
+        np.arange(200, 501, 5),   
+        np.arange(500, 4001, 13),  
+    ]
+).astype(int)
+
+# Initialize the history of standardized sample means for smoothing
+standardized_means_history = []
+
+# Set up the figure and the axes
+fig, ax = plt.subplots(figsize=(12, 6))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+
+
+overall_samples = generate_samples(distribution, params, size=(80000, sample_sizes.max()))
+population_mean = np.mean(overall_samples)
+population_std = np.std(overall_samples)
+
+# Animation function: this is called sequentially
+def animate(i):
+    ax.clear()
+
+    # Get the current sample size
+    n = sample_sizes[i]
+
+    # Draw samples from the chosen distribution
+    samples = overall_samples[:, :n]
+
+    # Compute the sample means
+    sample_means = np.mean(samples, axis=1)
+
+    # Standardize the sample means
+    standardized_means = (sample_means - population_mean) / population_std * np.sqrt(n)
+
+    # Compute the empirical CDF
+    ecdf = ECDF( standardized_means)
+    x_vals = np.linspace(-4, 4, 1000)
+    y_vals = ecdf(x_vals)
+
+    # Plot the empirical CDF
+    ax.plot(x_vals, y_vals, label=f'Sample Size = {n}', color='darkorange')
+
+    # Plot the standard normal CDF for reference
+    ax.plot(x_vals, norm.cdf(x_vals), label='Standard Normal', color='teal', linestyle='--')
+
+    ax.set_xlim(-4, 4)
+    ax.set_ylim(-0.03, 1.03) 
+    ax.set_title('Convergence of CDF of Sample Mean to Standard Normal CDF',
+                 loc='left')
+    ax.legend(loc='lower right')
+    ax.set_facecolor(BG_COLOR)
+
+# Call the animator
+WriterMP4 = animation.writers["ffmpeg"]
+writer_mp4 = WriterMP4(fps=50, metadata=dict(artist="g_ww"), bitrate=1800)
+ani = animation.FuncAnimation(
+    fig,
+    animate,
+    frames=len(sample_sizes),
+    repeat=True,
+)
+ani.save(Path("images").resolve() / "clt_cdf.mp4", writer=writer_mp4)
+
+plt.close()
+
+```
+
+<video width="99%" style="display: block; margin: 0 auto;" controls muted autoplay loop>
+  <source src="images/clt_cdf.mp4 " type="video/webm">
+</video> 
+ 
+ 
+#### Practical Interpetation: Scalar Case
+
+The CLT (@prp-vector-distribution-clt) for scalar data states that for sufficiently large $N$ 
+$$ \small
+P\left(\dfrac{N^{-1}\sum_{i=1}^N Z_i - \E[Z_i]  }{\sqrt{ \var(Z_i)/N  }}\leq x \right) \approx \Phi(x)
+$$
+where $\Phi(\cdot)$ is the standard normal CDF. In other words, the mean is approximately distrubuted as ("$\overset{a}{\sim}$")
+$$\small
+\bar{Z} \overset{a}{\sim} N\left( \E[Z_i], \dfrac{\var(Z_i)}{N} \right)
+$$ {#eq-vector-distribution-mean-approx-clt} 
+
+#### Tool: Continuous Mapping Theorem
+
+
+
+<div class="rounded-box">
+
+::: {#prp-vector-distribution-cmt}
+
+Let $\bZ_N\xrightarrow{d}\bZ$, and let $f(\cdot)$ be continuous is some neighborhood of all the possible values of  $\bZ$.
+
+Then  
+$$
+f(\bZ_N) \xrightarrow{d} f(\bZ)
+$$
+:::
+
+</div>
+In words: convergence in distribution is also preserved under continuous transformations
+
+
+#### CMT: Scalar Example
+
+Consider scalar case with $\sqrt{N}(\bar{X}-\mu)\Rightarrow Z$ for $Z\sim N(0, \var(X_i))$. Then
+$$
+N(\bar{X}-\mu)^2 \xrightarrow{d} Z^2
+$$
+
+. . .
+
+
+::: {.callout-important appearance="minimal"}
+
+
+Note: the above is not the same as looking at 
+$$
+\sqrt{N}([\bar{X}]^2 - \mu^2)
+$$ {#eq-vector-distribution-predelta}
+The function $f$ is applied to the elements of the convergent sequence
+
+:::
+
+::: footer
+
+But next lecture will discuss how to talk about @eq-vector-distribution-predelta using the CLT
+
+:::
+
+#### CMT: Vector Example
+
+In the vector case, label
+
+- $\bZ_N= \sqrt{N}\left(  \dfrac{1}{N}\sum_{i=1}^N \bX_i - \E[\bX_i]  \right)$ with $q$ coordinates
+- $\bZ\sim N(0, \var(\bX) )$
+- $\bA$ — some $q\times q$ matrix
+
+. . .
+
+Then 
+
+$$
+\bZ_N'\bA\bZ_N\xrightarrow{d} \bZ'\bA\bZ
+$$
+
+#### Tool: Slutsky's Theorem
+
+Tool for combining sequences that converge in probability and in distribution
+
+
+
+<div class="rounded-box">
+
+::: {#prp-vector-distribution-slutsky}
+
+Let $\bZ_N\xrightarrow{d}\bZ$, $\bV_N\xrightarrow{p} \bv$, $\bA_N\xrightarrow{p}\bA$. Then (provided invertibility and compatible sizes) 
+
+1. $\bZ_N + \bV_N \xrightarrow{d} \bZ + \bv$
+2. $\bA_N\bZ_N \xrightarrow{d} \bA\bZ$
+3. $\bZ_N'\bA_N^{-1}\bZ_N\xrightarrow{d} \bZ'\bA^{-1}\bZ$
+
+:::
+
+</div>
+
+
+#### Warning: $\bv$ and $\bA$ Must Be Constant
+
+<br>
+
+::: {.callout-important}
+
+Slutsky's theorem no longer holds if $\bV_N$ or $\bA_N$ converges to a random limit! 
+
 :::
 
 
 
+
+## Asymptotic Normality of the OLS Estimator {background="#00100F"}
+   
+#### Estimator and Model
+
+Let's return to the OLS estimator for $\bbeta$ in model ([-@eq-vector-distribution-potential])
+$$
+\hat{\bbeta} = \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1}\left( \dfrac{1}{N}\sum_{i=1}^N \bX_i Y_i \right)
+$$
+
+. . .
+
+We retain these assumptions used for consistency:
+
+- IID sample
+- $\E[\bX_i\bX_i']$ invertible
+- $\E[\bX_iU_i] =0$
+
+::: footer
+
+The question of invertibility is handled as in the previous lecture
+
+:::
+
+#### Towards Normality
+
+Write the OLS estimator in sample error form:
+$$
+\hat{\bbeta} = \bbeta + \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1}\left( \dfrac{1}{N}\sum_{i=1}^N \bX_i U_i \right)
+$$
+
+. . . 
  
-## Asymptotic Normality {background="#00100F"}
+
+Notice 
+
+- $N^{-1}\sum_{i=1}^N \bX_i U_i$ — sample average of IID random variable with $\E[\bX_i U_i]=0$.
+- Potential application of the CLT!
+
+
+#### The Four Steps of Showing Normality
+
+<br>
+
+<div class="rounded-box">
+1. Show asymptotic normality of $N^{-1}\sum_{i=1}^N \bX_i U_i$
+2. Handle $\left(N^{-1}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1}$
+3. Combine first two steps together
+4. Figure out the variance of the limit
+
+</div>
+ 
+
+#### Step 1: Asymptotic Normality of $N^{-1}\sum_{i=1}^N \bX_i U_i$
+
+By the CLT (@prp-vector-distribution-clt) (applied to $\bX_iU_i$) and the assumption $\E[\bX_iU_i]=0$ 
+
+$$
+\dfrac{1}{\sqrt{N}}\sum_{i=1}^N \bX_i U_i \xrightarrow{d} N\left( 0, \E[U_i^2\bX_i\bX_i']   \right)
+$$
+
+. . .
+
+We need to assume that $\E[\norm{\bX_i U_i}^2] <\infty$
+
+#### Step 2: Handling $\left(N^{-1}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1}$
+
+Exactly as for consistency:
+
+- Law of large numbers: $N^{-1}\sum_{i=1}^N \bX_i\bX_i'\xrightarrow{p} \E[\bX_i\bX_i']$
+- CMT + assumption that $\left(\E[\bX_i\bX_i']\right)^{-1}$ exists $\Rightarrow$  $N^{-1}\sum_{i=1}^N \bX_i\bX_i'$ is invertible with probability approaching 1
+- CMT: $\left(\frac{1}{N} \sum_{i=1}^N \bX_i\bX_i'  \right)^{-1} \xrightarrow{p} \left( \E[\bX_i\bX_i']\right)^{-1}$
+
+#### Step 3: OLS as Product of Two Sequences
+
+OLS estimator multiplies two sequences:
+
+- Vectors $\frac{1}{\sqrt{N}}\sum_{i=1}^N \bX_i U_i$ converge in distribution
+- Matrices $\left(N^{-1}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1}$ converge in probability to *constant limit*
+
+. . .
+
+<br> 
+
+Can apply Slutsky's theorem (@prp-vector-distribution-slutsky)!
+
+#### Step 3: Applying Slutsky's Theorem
+
+Slutsky's theorem gives
+$$
+\begin{aligned}
+& \sqrt{N}(\hat{\bbeta}-\bbeta)\\
+& = \left(N^{-1}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1} \dfrac{1}{\sqrt{N}}\sum_{i=1}^N \bX_i U_i \\
+& \xrightarrow{d} \left( \E[\bX_i\bX_i']\right)^{-1} \bZ,
+\end{aligned}
+$$ {#eq-vector-distribution-slutsky-result}
+for $\bZ\sim  N\left( 0, \E[U_i^2\bX_i\bX_i']   \right)$
+
+#### Step 4: Properties of Variances of Vectors
+
+Recall: if $\var(X)= \sigma^2$, then $\var(aX) = a^2\sigma^2$
+
+. . .
+
+<br>
+
+Similar story for vectors: 
+<div class="rounded-box">
+
+::: {#prp-vector-distribution-vector-var}
+
+Let $\bZ$ be a $k$-vector with variance-covariance matrix $\var(\bZ)$. Let $\bA$ be a $q\times k$ matrix. Then
+$$
+\var(\bA\bZ) = \bA\var(\bZ)\bA'
+$$
+
+
+:::
+
+</div>
+
+
+#### Step 4: Variance
+
+Now want to apply @prp-vector-distribution-vector-var to @eq-vector-distribution-slutsky-result to get
+$$
+\begin{aligned}
+& \var\left( \left( \E[\bX_i\bX_i']\right)^{-1} \bZ \right) \\
+& = \left( \E[\bX_i\bX_i']\right)^{-1} \E[U_i^2\bX_i\bX_i']\left( \E[\bX_i\bX_i']\right)^{-1} 
+\end{aligned}
+$$
+
+
+<div class="rounded-box">
+
+We have used (where?) that 
+
+- $\E[\bX_i\bX_i']$ is symmetric (why?)
+- Inverses of symmetric matrices are symmetric
+
+</div>
+
+#### Combined Result
+
+<div class="rounded-box">
+
+::: {#prp-vector-distribution-ols-distr}
+
+Let
+
+1. $(\bX_i, Y_i)$ be IID
+2. $\E[\norm{\bX_i\bX_i'}]<\infty$, $\E[\norm{\bX_iU_i}^2]<\infty$
+3. $\E[\bX_i\bX_i']$ be invertible
+
+Then
+$$\scriptsize
+\sqrt{N}(\hat{\bbeta}-\bbeta) \xrightarrow{d} N\left(0, \underbrace{\left( \E[\bX_i\bX_i']\right)^{-1} \E[U_i^2\bX_i\bX_i']\left( \E[\bX_i\bX_i']\right)^{-1} }_{\tiny \text{Called the asymptotic variance: } \avar(\hat{\bbeta}) }\right)
+$$
+
+
+:::
+
+</div>
+
+::: foooter
+
+:::
+
+
+#### Discussion of Asymptotic Variance $\avar(\hat{\bbeta})$
+ 
+- Asymptotic variance expression in @prp-vector-distribution-ols-distr is sometimes called the "sandwich" form
+- Expression compatible with heteroskedasticity
+- If $\E[U_i^2|\bX_i]=\sigma^2$ (conditional homoskedasticity), expression simplifies (corresponds to `nonrobust` estimates of standard errors). In practice not very useful 
+
+#### Practical Usefulness: Foundation for Inference
+
+Similarly to ([-@eq-vector-distribution-mean-approx-clt]), @prp-vector-distribution-ols-distr can be interpreted as saying that 
+
+$$
+\hat{\bbeta} \overset{a}{\sim} N\left(\bbeta,  \dfrac{1}{N}\avar(\hat{\bbeta}) \right)
+$$
+
+. . . 
+
+
+- Gives us an idea of how much variation/precision we can expect from $\hat{\bbeta}$
+- If a hypothesis $H_0$ tells us something about $\bbeta$, we can check how likely $H_0$ is based on seeing $\hat{\bbeta}$
+ 
+
+
+
+## Recap and Conclusions {background="#00100F"}
   
-### Model {background="#43464B"}
+#### Recap
 
-####
+In this lecture we
 
-Model 
+1. Formulated our first practical questions in inference
+2. Reviewed convergence in distribution
+3. Derived the asymptotic distribution of the OLS estimator
+
+#### Next Questions
+
+<br>
+
+How to use @prp-vector-distribution-ols-distr for inference?
+
+- Estimating $\avar(\hat{\bbeta})$ to get standard errors
+- Building tests and confidence intervals
+- Answering the questions of our empirical example
+
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::

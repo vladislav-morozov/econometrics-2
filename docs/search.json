@@ -4,14 +4,55 @@
     "href": "slides/vector/ols-limit-distribution.html#introduction",
     "title": "Limit Distribution of the OLS Estimator",
     "section": "Introduction",
-    "text": "Introduction"
+    "text": "Introduction",
+    "crumbs": [
+      "Linear Regression II",
+      "Limit Distribution of the OLS Estimator"
+    ]
   },
   {
-    "objectID": "slides/vector/ols-limit-distribution.html#asymptotic-normality",
-    "href": "slides/vector/ols-limit-distribution.html#asymptotic-normality",
+    "objectID": "slides/vector/ols-limit-distribution.html#motivation",
+    "href": "slides/vector/ols-limit-distribution.html#motivation",
     "title": "Limit Distribution of the OLS Estimator",
-    "section": "Asymptotic Normality",
-    "text": "Asymptotic Normality"
+    "section": "Motivation",
+    "text": "Motivation",
+    "crumbs": [
+      "Linear Regression II",
+      "Limit Distribution of the OLS Estimator"
+    ]
+  },
+  {
+    "objectID": "slides/vector/ols-limit-distribution.html#probability-background",
+    "href": "slides/vector/ols-limit-distribution.html#probability-background",
+    "title": "Limit Distribution of the OLS Estimator",
+    "section": "Probability Background",
+    "text": "Probability Background",
+    "crumbs": [
+      "Linear Regression II",
+      "Limit Distribution of the OLS Estimator"
+    ]
+  },
+  {
+    "objectID": "slides/vector/ols-limit-distribution.html#asymptotic-normality-of-the-ols-estimator",
+    "href": "slides/vector/ols-limit-distribution.html#asymptotic-normality-of-the-ols-estimator",
+    "title": "Limit Distribution of the OLS Estimator",
+    "section": "Asymptotic Normality of the OLS Estimator",
+    "text": "Asymptotic Normality of the OLS Estimator",
+    "crumbs": [
+      "Linear Regression II",
+      "Limit Distribution of the OLS Estimator"
+    ]
+  },
+  {
+    "objectID": "slides/vector/ols-limit-distribution.html#recap-and-conclusions",
+    "href": "slides/vector/ols-limit-distribution.html#recap-and-conclusions",
+    "title": "Limit Distribution of the OLS Estimator",
+    "section": "Recap and Conclusions",
+    "text": "Recap and Conclusions",
+    "crumbs": [
+      "Linear Regression II",
+      "Limit Distribution of the OLS Estimator"
+    ]
   },
   {
     "objectID": "slides/vector/identification-inference.html#introduction",

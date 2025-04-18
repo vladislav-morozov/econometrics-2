@@ -36,15 +36,15 @@ highlight-style: tango
 
 #### Learning Outcomes
 
-This lecture is about the asymptotic distribution of the OLS estimator and why we need it
+This lecture is about the asymptotic distribution of the OLS estimator 
 
 <br>
 
 By the end, you should be able to
 
 - Discuss why we need the asymptotic distribution of the OLS estimator
-- Provide definition of convergence in distribution
-- State the multivariate central limit theorem along with Slutsky's theorem
+- Provide the definition of convergence in distribution
+- State the central limit theorem and Slutsky's theorem
 - Derive the asymptotic distribution of the OLS estimator
  
 
@@ -85,7 +85,7 @@ $$ {#eq-vector-distribution-potential}
 - $Y_i$ — hourly log wage
 - $\bx$ — education and job experience in years
 - $U_i$ — unobserved characteristics (skill, health, etc.), assumed to satisfy $\E[U_i|\bX_i]=0$
-- Sample: some suitably homogeneous group (e.g. white married women)
+- Sample: some suitably homogeneous group (e.g.  married white women)
 
 #### Motivating Empirical Example: Potential Outcomes
  
@@ -100,7 +100,7 @@ $$
 . . . 
  
 - Can write model in terms of realized variables, but above emphasizes causal assumption
-- Divide experience$^2$ by 100 for numerical reasons
+- We divide experience$^2$ by 100 for numerical reasons
 
 #### Motivating Empirical Example: Parameters of Interest
 
@@ -290,7 +290,7 @@ Convergence in distribution is labeled $\bX_N\Rightarrow \bX$ or $\bX_N\xrightar
 
 ::: {#prp-vector-distribution-convergence-contrast}
 
-1. If $\bX_N\xrightarrow{p} \bX$, then $\bX_N\xrightarrow{p} \bX$
+1. If $\bX_N\xrightarrow{p} \bX$, then $\bX_N\xrightarrow{d} \bX$
 2. If $\bX_N\xrightarrow{d} \bX$ and $\bX$ is not random (=constant), then $\bX_N\xrightarrow{p} \bX$
 
 :::
@@ -311,12 +311,12 @@ In this class we work with random vectors (such as $\bX_iU_i$)
 
 <br>
 
-Some notation:
+Some notation for vectors:
 
-- Mean of random vector $\bX$ is the vector $\bmu = \E[\bX]$: coordinates of $\bmu$ — means of coordinates of $\E[\bX]$
-- Variance-covariance matrix of $\bX$ is the matrix  
+- Mean of random vector $\bZ$ is the vector $\bmu = \E[\bZ]$: coordinates of $\bmu$ — means of coordinates of $\E[\bZ]$
+- Variance-covariance matrix of $\bZ$ is the matrix  
 $$
-\var(\bX) = \E[(\bX-\bmu)(\bX-\bmu)']
+\var(\bZ) = \E[(\bZ-\bmu)(\bZ-\bmu)']
 $$
 
 
@@ -328,19 +328,23 @@ $$
 
 ::: {#prp-vector-distribution-clt}
 
-Let $\bX_1, \bX_2, \dots$ be a sequence of random vectors such that
+Let $\bZ_1, \bZ_2, \dots$ be a sequence of random vectors with $\bmu=\E[\bZ_i]$
 
-1. $\bX_i$ are independently and identically distributed (IID)
-2. $\E[\norm{\bX_i}^2]<\infty$ and $\bmu=\E[\bX_i]$
+1. $\bZ_i$ are independently and identically distributed (IID)
+2. $\E[\norm{\bZ_i}^2]<\infty$ 
 
 Then 
 $$ \small
- \sqrt{N}\left(  \dfrac{1}{N}\sum_{i=1}^N \bX_i - \bmu  \right) \xrightarrow{d} N(0, \var(\bX) )
+ \sqrt{N}\left(  \dfrac{1}{N}\sum_{i=1}^N \bZ_i - \bmu  \right) \xrightarrow{d} N(0, \var(\bZ_i) )
 $$ 
 
 :::
 
 </div>
+
+::: footer
+
+:::
 
 
 #### Visualizing The CLT
@@ -461,11 +465,11 @@ plt.close()
 
 The CLT (@prp-vector-distribution-clt) for scalar data states that for sufficiently large $N$ 
 $$ \small
-P\left(\dfrac{N^{-1}\sum_{i=1}^N X_i - \E[X_i]  }{\sqrt{ \var(X_i)/N  }}\leq x \right) \approx \Phi(x)
+P\left(\dfrac{N^{-1}\sum_{i=1}^N Z_i - \E[Z_i]  }{\sqrt{ \var(Z_i)/N  }}\leq x \right) \approx \Phi(x)
 $$
-where $\Phi(\cdot)$ is the standard normal. In other words, the mean is approximately distrubuted as ("$\overset{a}{\sim}$")
+where $\Phi(\cdot)$ is the standard normal CDF. In other words, the mean is approximately distrubuted as ("$\overset{a}{\sim}$")
 $$\small
-\bar{X} \overset{a}{\sim} N\left( \E[X_i], \dfrac{\var(X_i)}{N} \right)
+\bar{Z} \overset{a}{\sim} N\left( \E[Z_i], \dfrac{\var(Z_i)}{N} \right)
 $$ {#eq-vector-distribution-mean-approx-clt} 
 
 #### Tool: Continuous Mapping Theorem
@@ -476,11 +480,11 @@ $$ {#eq-vector-distribution-mean-approx-clt}
 
 ::: {#prp-vector-distribution-cmt}
 
-Let $\bX_N\xrightarrow{d}\bX$, and let $f(\cdot)$ be continuous is some neighborhood of all the possible values of  $\bX$.
+Let $\bZ_N\xrightarrow{d}\bZ$, and let $f(\cdot)$ be continuous is some neighborhood of all the possible values of  $\bZ$.
 
 Then  
 $$
-f(\bX_N) \xrightarrow{d} f(\bX)
+f(\bZ_N) \xrightarrow{d} f(\bZ)
 $$
 :::
 
@@ -541,24 +545,24 @@ Tool for combining sequences that converge in probability and in distribution
 
 ::: {#prp-vector-distribution-slutsky}
 
-Let $\bX_N\xrightarrow{d}\bX$, $\bY_N\xrightarrow{p} \by$, $\bA_N\xrightarrow{p}\bA$. Then (provided invertibility and compatible sizes) 
+Let $\bZ_N\xrightarrow{d}\bZ$, $\bV_N\xrightarrow{p} \bv$, $\bA_N\xrightarrow{p}\bA$. Then (provided invertibility and compatible sizes) 
 
-1. $\bX_N + \bY_N \xrightarrow{d} \bX + \by$
-2. $\bA_N\bX_N \xrightarrow{d} \bA\bX$
-3. $\bX_N'\bA_N^{-1}\bX_N\xrightarrow{d} \bX'\bA^{-1}\bX$
+1. $\bZ_N + \bV_N \xrightarrow{d} \bZ + \bv$
+2. $\bA_N\bZ_N \xrightarrow{d} \bA\bZ$
+3. $\bZ_N'\bA_N^{-1}\bZ_N\xrightarrow{d} \bZ'\bA^{-1}\bZ$
 
 :::
 
 </div>
 
 
-#### Warning: $\by$ and $\bA$ Must Be Constant
+#### Warning: $\bv$ and $\bA$ Must Be Constant
 
 <br>
 
 ::: {.callout-important}
 
-Slutsky's theorem no longer holds if $\bY_N$ or $\bA_N$ converges to a random limit! 
+Slutsky's theorem no longer holds if $\bV_N$ or $\bA_N$ converges to a random limit! 
 
 :::
 
@@ -581,6 +585,12 @@ We retain these assumptions used for consistency:
 - IID sample
 - $\E[\bX_i\bX_i']$ invertible
 - $\E[\bX_iU_i] =0$
+
+::: footer
+
+The question of invertibility is handled as in the previous lecture
+
+:::
 
 #### Towards Normality
 
@@ -713,8 +723,8 @@ Let
 3. $\E[\bX_i\bX_i']$ be invertible
 
 Then
-$$\small
-\sqrt{N}(\hat{\bbeta}-\bbeta) \xrightarrow{d} N\left(0, \left( \E[\bX_i\bX_i']\right)^{-1} \E[U_i^2\bX_i\bX_i']\left( \E[\bX_i\bX_i']\right)^{-1}  \right)
+$$\scriptsize
+\sqrt{N}(\hat{\bbeta}-\bbeta) \xrightarrow{d} N\left(0, \underbrace{\left( \E[\bX_i\bX_i']\right)^{-1} \E[U_i^2\bX_i\bX_i']\left( \E[\bX_i\bX_i']\right)^{-1} }_{\tiny \text{Called the asymptotic variance: } \avar(\hat{\bbeta}) }\right)
 $$
 
 
@@ -722,12 +732,16 @@ $$
 
 </div>
 
+::: foooter
+
+:::
+
 
 #### Discussion of Asymptotic Variance $\avar(\hat{\bbeta})$
  
 - Asymptotic variance expression in @prp-vector-distribution-ols-distr is sometimes called the "sandwich" form
 - Expression compatible with heteroskedasticity
-- If $\E[U_i^2|\bX_i]=\sigma^2$ (conditional homoskedasticity), expression simplifies. In practice not very useful (corresponds to `nonrobust` estimates of standard errors)
+- If $\E[U_i^2|\bX_i]=\sigma^2$ (conditional homoskedasticity), expression simplifies (corresponds to `nonrobust` estimates of standard errors). In practice not very useful 
 
 #### Practical Usefulness: Foundation for Inference
 
@@ -741,7 +755,7 @@ $$
 
 
 - Gives us an idea of how much variation/precision we can expect from $\hat{\bbeta}$
-- If a hypothesis tells us something about $\bbeta$, we can check how likely based on seeing  $\hat{\bbeta}$
+- If a hypothesis $H_0$ tells us something about $\bbeta$, we can check how likely $H_0$ is based on seeing $\hat{\bbeta}$
  
 
 
