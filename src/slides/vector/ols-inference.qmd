@@ -593,6 +593,26 @@ $$
 
 ### Multiple Linear Hypothesis {background="#43464B" visibility="uncounted"}
 
+#### Motivation
+
+- $t$-tests allowed us to test if education mattered ($\beta_2=0$)
+- But next question is whether experience affects wages: 
+$$
+H_0: \beta_3=\beta_4 = 0 \text{ vs } H_1: \beta_3 \neq 0\text{ or } \beta_4 \neq 0
+$$
+The "or" allows the possibility that both $\beta_3\neq 0$ and $\beta_4\neq 0$
+- That's two constraints! 
+
+
+. . . 
+
+<div class="rounded-box">
+
+Needs tests that can handle multiple restrictions
+
+</div>
+
+
 #### Potentially Multiple
 
 #### 
