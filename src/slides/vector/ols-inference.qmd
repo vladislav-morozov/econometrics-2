@@ -1042,19 +1042,71 @@ A -->
 - Anything can be a set estimator, but we want "sensible" ones
 - Leading example: confidence intervals/sets
 
-#### Confidence Sets
+#### Confidence Sets: Definition
 
-Let 
+
 <div class="rounded-box">
 
 ::: {#def-vector-inference-conf-set}
 
+1. A <span class="highlight"> size $\alpha$ confidence set for $\theta$ </span> ($\theta\in\R^p$) is a random set $S(X_1, \dots, X_N)\subseteq \R^p$  
+$$ \scriptsize
+P(\theta \in S(X_1, \dots, X_N)) = 1-\alpha
+$$
 
+2. $S(\cdot, \cdots)$ is an <span class="highlight">asymptotic size $\alpha$ confidence set for $\theta$ </span>  if $\lim_{N\to\infty} P(\theta \in S(X_1, \dots, X_N)) = 1-\alpha$
+
+3. $P(\theta \in S(X_1, \dots, X_N))$ is the <span class="highlight">coverage</span> of $S$
 
 :::
 
 
 </div>
+
+
+::: footer
+
+:::
+
+#### Example: Confidence Intervals for $\beta_k$
+
+- Can construct confidence sets based on asymptotic distribution of $\hat{\bbeta}$
+- Example: try to construct a symmetric interval based on $\hat{\beta}_k$ (since limit distribution is symmetric around $\beta_k$)
+
+. . . 
+ 
+
+Such an interval takes form
+$$
+[\hat{\beta}_k - \hat{c}, \hat{\beta}_k + \hat{c}]
+$$
+Here $\hat{c}_N\geq 0$ can depend on the sample and  $N$
+
+#### Picking $\hat{c}$
+
+$$\scriptsize
+\begin{aligned}
+& P\left(\beta_k\in[\hat{\beta}_k - \hat{c}_N, \hat{\beta}_k + \hat{c}]   \right)\\
+&   = P\left( - \frac{\hat{c}_N}{\sqrt{\widehat{\avar}(\hat{\beta}_k/N}}\leq \sqrt{N} \frac{\hat{\beta}_k - \beta_k}{\widehat{\avar}(\hat{\beta}_k }\leq   \frac{\hat{c}_N}{\sqrt{\widehat{\avar}(\hat{\beta}_k/N}}  \right)\\
+& \approx \Phi\left(       \frac{\hat{c}_N}{\sqrt{\widehat{\avar}(\hat{\beta}_k/N}}\right) - \Phi\left(  -\dfrac{\hat{c}_N}{\sqrt{\widehat{\avar}(\hat{\beta}_k/N}} \right)
+\end{aligned}
+$$
+
+. . . 
+
+If we want $(1-\alpha)\times 100\%$ asymptotic coverage, pick $\hat{c}_N = z_{1-\alpha} \sqrt{ \frac{\widehat{\avar}(\hat{\beta}_k)}{N} }$
+
+#### Result and Interpretation
+
+
+
+#### Connection to $t$-Tests: Test Inversion
+
+Our interval
+
+. . .
+
+Same interval 
 
 #### Confidence Sets
 
