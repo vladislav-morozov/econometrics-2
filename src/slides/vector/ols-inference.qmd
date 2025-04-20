@@ -821,9 +821,46 @@ What is $k=1$ — only one constraint?
 
 ### Illustration {background="#43464B" visibility="uncounted"}
 
-#### 
+#### Expressing $\bR$ and $\bq$
 
-A
+The results class in `statsmodels` has a `wald_test()` method 
+
+. . . 
+ 
+First need to define the $\bR$ and $\bq$ matrices: 
+```{python}
+#| echo: true
+constraint_matrix = np.array( 
+    [[0, 0, 1, 0],
+     [0, 0, 0, 1]]
+)
+
+rhs_vector = np.array(
+    [0, 0]
+)
+
+print(constraint_matrix, '\n', rhs_vector)
+```
+
+#### Using `wald_test()`
+
+Then can supply $\bR$ and $\bq$ to `wald_test()` as a tuple:
+```{python}
+#| echo: true
+wald_results = results.wald_test(
+  (constraint_matrix, rhs_vector), 
+  use_f=False, 
+  scalar=True
+)
+print(wald_results)
+```
+
+. . .
+
+<br>
+
+- Strong evidence against $H_0: \beta_3=\beta_4=0$
+- Experience matters for earnings
 
 ### Properties {background="#43464B" visibility="uncounted"}
 
@@ -875,7 +912,7 @@ See [Wikipedia](https://en.wikipedia.org/wiki/Definite_matrix#Square_root) on ma
 
 
 
-## Nonlinear Hypotheses and the Delta Method  {background="#00100F"}
+<!-- ## Nonlinear Hypotheses and the Delta Method  {background="#00100F"}
 
 ### The Delta Method {background="#43464B" visibility="uncounted"}
 
@@ -885,7 +922,7 @@ See [Wikipedia](https://en.wikipedia.org/wiki/Definite_matrix#Square_root) on ma
 
 #### 
 
-A
+A -->
 
 ## Confidence Intervals and Sets {background="#00100F"}
 
