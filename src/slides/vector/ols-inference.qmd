@@ -607,19 +607,33 @@ $$
 - $t$-tests allowed us to test if education mattered ($\beta_2=0$)
 - But next question is whether experience affects wages: 
 $$
-H_0: \beta_3=\beta_4 = 0 \text{ vs } H_1: \beta_3 \neq 0\text{ or } \beta_4 \neq 0
+H_0: \begin{cases}
+\beta_3 =0\\
+\beta_4 = 0
+\end{cases} \quad 
+\text{ vs }  \quad H_1: \beta_3 \neq 0\text{ or } \beta_4 \neq 0
 $$
-The "or" allows the possibility that both $\beta_3\neq 0$ and $\beta_4\neq 0$
-- That's two constraints! 
+-  $H_0$ has two constraints as the same time! 
+
+. . .
+
+::: {.callout-note appearance="minimal"}
+
+The "or" allows the possibility that <span class="highlight">both</span> $\beta_3\neq 0$ and $\beta_4\neq 0$
 
 
-. . . 
+:::
+
+
+#### Potentially Multiple Linear Hypotheses
 
 <div class="rounded-box">
 
 Needs tests that can handle multiple restrictions
 
 </div>
+
+
 
 
 #### Potentially Multiple
