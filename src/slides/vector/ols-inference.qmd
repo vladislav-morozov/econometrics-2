@@ -1094,25 +1094,53 @@ $$
 
 . . . 
 
-If we want $(1-\alpha)\times 100\%$ asymptotic coverage, pick $\hat{c}_N = z_{1-\alpha} \sqrt{ \frac{\widehat{\avar}(\hat{\beta}_k)}{N} }$
+If we want $(1-\alpha)\times 100\%$ asymptotic coverage, pick $\hat{c}_N = z_{1-\alpha/2} \sqrt{ \frac{\widehat{\avar}(\hat{\beta}_k)}{N} }$
 
 #### Result and Interpretation
 
+<div class="rounded-box">
+
+::: {#prp-vector-inference-ci}
+
+The confidence interval
+$$ \small \hspace{-1.6cm}
+S = \left[  \hat{\beta}_k -  z_{1-\alpha/2} \sqrt{ \frac{\widehat{\avar}(\hat{\beta}_k)}{N} }, \hat{\beta}_k+  z_{1-\alpha/2} \sqrt{ \frac{\widehat{\avar}(\hat{\beta}_k)}{N} }  \right]
+$$ {#eq-vector-inference-basic-ci}
+has asymptotic coverage $(1-\alpha)\times 100\%$
+
+:::
+
+</div>
+
+. . . 
+
+What is the interpretation of this interval?
 
 
 #### Connection to $t$-Tests: Test Inversion
 
-Our interval
+There is an equivalent way to construct the confidence interval ([-@eq-vector-inference-basic-ci])
 
-. . .
+- Recall $t$-statistic ([-@eq-vector-inference-t-general]) for $H_0: \beta_k = c$
+- $S$ is the set of all $c$ for which the test does not reject
 
-Same interval 
+. . . 
 
-#### Confidence Sets
+<br>
 
-Can actually extend
+An example of <span class="highlight">test inversion</span> and equivalence between testing and confidence intervals
 
-A bit more advanced — can read in 7.18 in @Hansen2022Econometrics
+#### Multivariate Confidence Sets
+
+- Can also construct <span class="highlight">joint</span>  confidence sets for multiple parts of $\bbeta$
+- Example approach: inverting the Wald test for $H_0: \bbeta = \bc$
+- A bit more advanced — can read in 7.18 in @Hansen2022Econometrics
+
+. . . 
+
+<br>
+
+Theree are other ways of constructing confidence sets 
 
 ## Recap and Conclusions {background="#00100F"}
   
