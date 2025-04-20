@@ -1,9 +1,7 @@
 ---
 title: "Inference and the Delta Method"
 subtitle: "Hypothesis Testing and Confidence Intervals"
-author: Vladislav Morozov  
-execution:
-  eval: false
+author: Vladislav Morozov   
 format:
   revealjs:
     width: 1150
@@ -318,9 +316,9 @@ $$
 </div>
 
 
-## Linear Hypotheses {background="#00100F"}
+## One Linear Hypothesis {background="#00100F"}
 
-### A Single Linear Hypothesis {background="#43464B" visibility="uncounted"}
+### Example and $t$-Statistic {background="#43464B" visibility="uncounted"}
 
 #### Single Example Hypothesis
 
@@ -429,6 +427,9 @@ Let $z_{1-\alpha/2} = \Phi^{-1}(1-\alpha/2)$. Then
 
 </div>
 
+### Illustration {background="#43464B" visibility="uncounted"}
+
+
 #### Illustration: Extracting Standard Errors {.scrollable}
 
 Can get $\widehat{\avar}(\hat{\bbeta})$ from the `results` object:
@@ -488,6 +489,9 @@ Regression results also print out results for $t$-tests of hypotheses $H_0:\beta
 results = OLS(endog, exog).fit(cov_type='HC0')
 print(results.summary())
 ```
+
+### Properties {background="#43464B" visibility="uncounted"}
+
 
 #### $t$-Statistic under $H_0$: Size
 
@@ -598,10 +602,11 @@ $$
 
 
 
+## General Linear Hypotheses {background="#00100F"}
 
 
 
-### Multiple Linear Hypothesis {background="#43464B" visibility="uncounted"}
+### Example and Wald Statistic {background="#43464B" visibility="uncounted"}
 
 #### Motivation: Need Tests for Multiple Restrictions
 
@@ -656,7 +661,8 @@ $$
 Here 
 
 - $\bbeta$ is $p\times 1$
-- $\bR$ is $k\times p$ — $k$ constraints, $k\geq 1$
+- $\bR$ is $k\times p$ with maximum rank — $k$ constraints
+- $k\geq 1$ and $k\leq p$ 
 
 
 . . . 
@@ -668,18 +674,205 @@ Covers both example $H_0$ we have seen so far
 :::
 
 
-#### Wald Statistics
+#### Towards a Statistic
+
+Intuitive way to construct a statistic
+
+<div class="rounded-box"> 
+Check the distance between $\bR\hat{\bbeta}$ and $\bq$
+
+</div>
+
+. . .
+
+- Reject if distance is large, do not reject if not
+- How to pick "large" to ensure correct test size? 
+- $\Rightarrow$ need to combine asymptotic distribution of $\bR\hat{\bbeta}$ and distance
+
+#### Asymptotic Distribution of $\bR\hat{\bbeta}$
+
+Recall that 
+$$
+\sqrt{N}(\hat{\bbeta}-\bbeta)\xrightarrow{d} N(0, \avar(\bbeta))
+$$
+
+. . .
+
+By the CMT
+$$
+\sqrt{N}(\bR\hat{\bbeta}-\bR\bbeta) \xrightarrow{d} N(0, \bR\avar(\bbeta)\bR')
+$$
 
 
-#### 
+#### $\chi^2$ Random Variables
+
+A special useful distribution
+
+<div class="rounded-box"> 
+
+::: {#eq-vector-inference-chi2}
+
+Let $Z_1, \dots, Z_k$ be independent $N(0, 1)$ variables. The distribution of $\sum_{j=1}^k Z_j^2$ is called the chi-squared distribution with $k$ degrees of freedom (written $\chi^2_k$)
+
+:::
+
+
+</div>
+
+
+. . . 
+
+- If $\bZ=(Z_1, \dots, Z_k)$, then $\bZ\sim N(0, \bI_k)$ and $\norm{\bZ}^2 = \bZ'\bZ \sim \chi^2_k$
+- Has two ingredients we need: normality and distance
+
+
+#### Wald Statistic
+
+
+<br> 
+
+
+The following statistic is called a <span class="highlight">Wald</span> statistic: 
+$$
+W = N\left(  \bR\hat{\bbeta}-\bq   \right)'\left(\bR\widehat{\avar}(\bbeta)\bR'\right)^{-1}\left(  \bR\hat{\bbeta}-\bq   \right)
+$$
+
+- Interpretation: weighted distance
+- Weighted by the inverse of the variance-covariance matrix
+
+#### Decision Rule: Wald Test
+
+We call the following the <span class="highlight">asymptotic size $\alpha$ Wald-test</span>:
+
+
+<br>
+
+<div class="rounded-box">
+
+Let $c_{1-\alpha}$ solve $P(\chi^2\leq c_{1-\alpha})=1-\alpha$. Then
+
+- Reject $H_0$ is $W>c_{1-\alpha}$
+- Do not reject $H_0$ is $W\leq c_{1-\alpha}$
+
+
+</div>
+
+#### Plot: PDF of $\chi^2_k$ and Rejection Region (Shaded)
+
+```{python}
+import matplotlib.pyplot as plt
+from scipy.stats import chi2
+BG_COLOR = "whitesmoke"
+
+# Parameters for the chi-squared distribution
+df = 5
+
+# Generate the x values for the PDF
+x_vals = np.linspace(0, 20, 1000)
+
+# Compute the PDF values
+pdf_vals = chi2.pdf(x_vals, df)
+
+# Compute the 95th quantile
+quantile_95 = chi2.ppf(0.95, df)
+
+# Set up the figure and the axes
+fig, ax = plt.subplots(figsize=(15, 6))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+
+# Plot the PDF
+ax.plot(x_vals, pdf_vals, label=f'PDF of $\\chi^2_k$ distribution', color='teal')
+
+# Fill the area under the PDF to the right of the 95th quantile
+ax.fill_between(x_vals, pdf_vals, where=(x_vals >= quantile_95), color='darkorange', alpha=0.3)
+
+# Mark the 95th quantile
+ax.axvline(quantile_95, color='red', linestyle='--', label="$c_{1-\\alpha}$")
+
+# Set the labels and title 
+ax.set_ylabel('Density') 
+ax.legend(loc='upper right')
+ax.set_ylim(0, 0.17)
+ax.set_xlim(0, 20)
+ax.set_xticklabels([])
+ax.set_yticklabels([])
+ax.set_facecolor(BG_COLOR)
+
+# Show the plot
+plt.show()
+
+```
+
+#### Wald and $t$ Statistics
  
+What is $k=1$ — only one constraint? 
 
-Special case
+. . .
 
-Wald statistics is the square of the $t$-statistic
+<br> 
 
+- Wald statistic is the square of the corresponding $t$-statistic (show this)
 - You lose nothing by doing a Wald test even if you have a single hypothesis
  
+
+
+
+### Illustration {background="#43464B" visibility="uncounted"}
+
+#### 
+
+A
+
+### Properties {background="#43464B" visibility="uncounted"}
+
+ 
+#### Why Normalize by $( \bR\avar(\bbeta)\bR')^{-1}$
+
+- Under $H_0: \R\bbeta=\bq$ it holds that 
+$$
+\sqrt{N}(\bR\hat{\bbeta}-\bq) \xrightarrow{d} N(0, \bR\avar(\bbeta)\bR')
+$$
+- $\norm{\bR\hat{\bbeta}-\bq}^2$ is <span class="highlight"> not </span> $\chi^2$ unless $\bR\avar(\bbeta)\bR'= \bI_k$
+
+
+. . . 
+
+<br>
+
+$\Rightarrow$ In general need to something transform $\bR\hat{\bbeta}-\bq$ to get $\bI_k$ asymptotic variance
+
+#### Standardizing a Normal Vector
+
+- Recall: if $W\sim N(0, \sigma^2)$, then $W/\sigma \sim N(0, 1)$
+- Similar result can be used for vectors $\bW\sim N(0, \bSigma)$
+
+. . . 
+
+Just need the equivalent of standard deviation:
+<div class="rounded-box"> 
+
+::: {#prp-vector-inference-sqrt}
+
+Let $\bSigma$ be a positive definite matrix. Then there is a unique positive definite matrix $\bSigma^{1/2}$ such that 
+$$
+\bSigma^{1/2} \bSigma^{1/2} =  \bSigma
+$$
+:::
+
+
+</div>
+
+::: footer
+
+See [Wikipedia](https://en.wikipedia.org/wiki/Definite_matrix#Square_root) on matrix square roots
+
+:::
+
+
+
+
 
 
 ## Nonlinear Hypotheses and the Delta Method  {background="#00100F"}
