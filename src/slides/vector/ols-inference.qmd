@@ -1,6 +1,6 @@
 ---
-title: "Inference and the Delta Method"
-subtitle: "Hypothesis Testing and Confidence Intervals"
+title: "Inference I: Linear Hypotheses"
+subtitle: "Testing Linear Hypotheses. Confidence Intervals"
 author: Vladislav Morozov   
 format:
   revealjs:
@@ -138,7 +138,7 @@ print(results.summary())
 Our parameters of interest: 
 
 1. $100\beta_2$. Estimate: $11.14$
-2. $100\beta_3 + 20 \beta_4$. Estimate: $2.22$
+2. $100\beta_3 + 20 \beta_4$. Estimate: $1.59$
 3. $-50\beta_3/\beta_4$. Estimate: $36.67$
 
 
@@ -493,7 +493,7 @@ print(results.summary())
 ### Properties {background="#43464B" visibility="uncounted"}
 
 
-#### $t$-Statistic under $H_0$: Size
+#### $t$-Test under $H_0$: Size
 
 What is the (asymptotic) probability of rejecting under $H_0$?
 
@@ -511,7 +511,7 @@ $$
 
 The test has asymptotic size $\alpha$
 
-#### $t$-Statistic under $H_1$: Consistency
+#### $t$-Test under $H_1$: Consistency
 
 
 What happens to $t$ under $H_1$? Suppose that $\beta_2\neq 0$ is the true value. Can write
@@ -735,8 +735,8 @@ Let $Z_1, \dots, Z_k$ be independent $N(0, 1)$ variables. The distribution of $\
 The following statistic is called a <span class="highlight">Wald</span> statistic: 
 $$
 W = N\left(  \bR\hat{\bbeta}-\bq   \right)'\left(\bR\widehat{\avar}(\bbeta)\bR'\right)^{-1}\left(  \bR\hat{\bbeta}-\bq   \right)
-$$
-
+$$ {#eq-vector-inference-wald}
+ 
 - Interpretation: weighted distance
 - Weighted by the inverse of the variance-covariance matrix
 
@@ -821,7 +821,7 @@ What is $k=1$ — only one constraint?
 
 ### Illustration {background="#43464B" visibility="uncounted"}
 
-#### Expressing $\bR$ and $\bq$
+#### Effect of Experience: Expressing $\bR$ and $\bq$
 
 The results class in `statsmodels` has a `wald_test()` method 
 
@@ -842,7 +842,7 @@ rhs_vector = np.array(
 print(constraint_matrix, '\n', rhs_vector)
 ```
 
-#### Using `wald_test()`
+#### Effect of Experience: Using `wald_test()`
 
 Then can supply $\bR$ and $\bq$ to `wald_test()` as a tuple:
 ```{python}
@@ -862,6 +862,36 @@ print(wald_results)
 - Strong evidence against $H_0: \beta_3=\beta_4=0$
 - Experience matters for earnings
 
+
+#### Second Example: Effect of Experience for 10 Years
+
+Recall other parameter of interest: $100\beta_3 + 20\beta_4$. Can ask:
+$$ \small
+H_0: 100\beta_3 + 20\beta_4 =5 \text{ vs } H_0: 100\beta_3 + 20\beta_4 \neq 1.4
+$$
+
+. . . 
+ 
+
+Can also do Wald test:
+```{python}
+#| echo: true
+constraint_matrix = np.array( 
+    [0, 0, 100, 20], 
+)
+rhs_vector = np.array(
+    [1.4]
+)
+# Perform test
+wald_results = results.wald_test((constraint_matrix, rhs_vector), use_f=False, scalar=True)
+print(wald_results)
+```
+
+::: footer
+
+
+:::
+
 ### Properties {background="#43464B" visibility="uncounted"}
 
  
@@ -878,9 +908,9 @@ $$
 
 <br>
 
-$\Rightarrow$ In general need to something transform $\bR\hat{\bbeta}-\bq$ to get $\bI_k$ asymptotic variance
+$\Rightarrow$ In general need to something transform $\bR\hat{\bbeta}-\bq$ to get $\bI_k$ asymptotic variance for $\chi^2_k$ limit
 
-#### Standardizing a Normal Vector
+#### Matrix Square Root
 
 - Recall: if $W\sim N(0, \sigma^2)$, then $W/\sigma \sim N(0, 1)$
 - Similar result can be used for vectors $\bW\sim N(0, \bSigma)$
@@ -907,9 +937,82 @@ See [Wikipedia](https://en.wikipedia.org/wiki/Definite_matrix#Square_root) on ma
 
 :::
 
+#### Standardizing $\bR\hat{\bbeta}$
+
+- So if $\bW\sim N(0, \bSigma)$ with full rank $\bSigma$
+$$\small
+(\bSigma^{1/2})^{-1}\bW \sim N(0, (\bSigma^{1/2})^{-1}\bSigma(\bSigma^{1/2})^{-1}) = N(0, \bI_k)
+$$
+- Or 
+$$ \small
+((\bSigma^{1/2})^{-1}\bW )'(\bSigma^{1/2})^{-1}\bW ) = \bW' \bSigma^{-1}\bW\sim \chi^2_k
+$$
+
+. . . 
+
+We just take $\bW=\sqrt{N}(\hat{\bbeta}-\bbeta)$ and apply the argument asymptotically and with an estimator of $\avar(\hat{\bbeta})$
+
+::: footer
+
+:::
+
+#### Wald Test under $H_0$: Size
+
+Under the null $H_0: \bR\bbeta=\bq$
+
+. . .
+
+By Slutsky's theorem and the above it follows
+$$
+W = N\left(  \bR\hat{\bbeta}-\bq   \right)'\left(\bR\widehat{\avar}(\bbeta)\bR'\right)^{-1}\left(  \bR\hat{\bbeta}-\bq   \right) \xrightarrow{d} \chi^2_k
+$$
+
+. . .
+
+<br>
+
+Hence the test is asymptotically size $\alpha$
+$$ \small
+P(\text{Reject } H_0|H_0) \xrightarrow{N\to\infty} \alpha
+$$ 
+
+
+#### Wald Test under $H_1$: Consistency
+
+Suppose that $H_1$ holds: $\bR\bbeta\neq \bq$. Then
+
+- $\bR\hat{\bbeta}-\bq$ converges to something $\neq 0$
+- $\left(\bR\widehat{\avar}(\bbeta)\bR'\right)^{-1}\xrightarrow{p} \left(\bR{\avar}(\bbeta)\bR'\right)^{-1}$ by the CMT
+- $\left(\bR{\avar}(\bbeta)\bR'\right)^{-1}$ is positive definite (why?)
+  
+
+. . .
+
+It follows (why?) that $W\to+\infty$ and  
+$$ \small
+P(\text{Reject } H_0|H_1) \xrightarrow{N\to\infty} 1
+$$ 
 
 
 
+
+#### Combined Result: Wald Statistic and Test
+
+
+<div class="rounded-box">
+
+::: {#prp-vector-inference-wald}
+
+Let the assumptions for asymptotic normality of the OLS estimator hold. Let $W$ be defined as in @eq-vector-inference-wald. Then
+
+1. If $H_0: \bR\bbeta=\bq$ holds, then $W\xrightarrow{d} \chi^2_k$ The associated test has asymptotic size $\alpha$
+2. If $H_0: \bR\bbeta=\bq$ does not hold, then $W\xrightarrow{p}\pm +\infty$. The associated test is consistent
+
+
+
+:::
+
+</div>
 
 
 <!-- ## Nonlinear Hypotheses and the Delta Method  {background="#00100F"}
@@ -926,7 +1029,38 @@ A -->
 
 ## Confidence Intervals and Sets {background="#00100F"}
 
-####
+#### Point vs. Interval Estimators
+
+
+- Our $\hat{\bbeta}$ is a <span class="highlight">point</span> estimator for $\bbeta$ — returns a single value in $\R^p$ for each sample
+- Can also consider <span class="highlight">set estimator</span> — returns a whole set of values in $\R^q$ as a collection of guesses for $\bbeta$
+
+<br>
+
+. . .
+
+- Anything can be a set estimator, but we want "sensible" ones
+- Leading example: confidence intervals/sets
+
+#### Confidence Sets
+
+Let 
+<div class="rounded-box">
+
+::: {#def-vector-inference-conf-set}
+
+
+
+:::
+
+
+</div>
+
+#### Confidence Sets
+
+Can actually extend
+
+A bit more advanced — can read in 7.18 in @Hansen2022Econometrics
 
 ## Recap and Conclusions {background="#00100F"}
   
