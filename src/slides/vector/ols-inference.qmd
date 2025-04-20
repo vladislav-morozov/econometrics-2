@@ -9,7 +9,7 @@ format:
     sc-sb-title: true
     incremental: true   
     logo: ../../themes/favicon.ico
-    footer: "A Deeper Look at Linear Regression: Inference"
+    footer: "A Deeper Look at Linear Regression: Testing Linear Hypotheses. CIs"
     footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
     theme: ../../themes/slides_theme.scss
     toc: TRUE
@@ -36,13 +36,15 @@ highlight-style: tango
 
 #### Learning Outcomes
 
-This lecture is about  
+This lecture is about  testing linear hypotheses and constructing asymptotic confidence intervals based on the OLS estimator
 
 <br>
 
 By the end, you should be able to
 
-- Do
+- Define test power, size, and test consistency
+- Construct and prove properties of $t$- and Wald tests
+- Construct valid asymptotic confidence intervals for a single coefficients
 
 #### References
  
@@ -51,9 +53,9 @@ By the end, you should be able to
 
  
 
-- 8-2 and E4+E4a in @Wooldridge2020IntroductoryEconometricsModern (careful with the specialized formulas in 8-2, they are more confusing than the general case in the lecture and those in E4)
+- 5-2, 8-2 and E4+E4a in @Wooldridge2020IntroductoryEconometricsModern (careful with the specialized formulas in 8-2, they may be a bit confusing compared to the general case in the lecture and those in E4)
 - Or 7.11-7.13, 7.16, 9.1-9.9 in @Hansen2022Econometrics
-- (*Curious background reading*): @Wooldridge2023WhatStandardError on what "standard error" might mean
+- (*Curious background reading*): @Wooldridge2023WhatStandardError on the meaning of "standard error"
 
 
 ::: 
@@ -619,7 +621,7 @@ H_0: \begin{cases}
 \end{cases} \quad 
 \text{ vs }  \quad H_1: \beta_3 \neq 0\text{ or } \beta_4 \neq 0
 $$
--  $H_0$ has two constraints as the same time! 
+-  $H_0$ has two constraints at the same time! 
 
 . . .
 
@@ -807,14 +809,14 @@ plt.show()
 
 #### Wald and $t$ Statistics
  
-What is $k=1$ — only one constraint? 
+What if $k=1$: only one constraint? 
 
 . . .
 
 <br> 
 
 - Wald statistic is the square of the corresponding $t$-statistic (show this)
-- You lose nothing by doing a Wald test even if you have a single hypothesis
+- You lose and win nothing by doing a Wald test even if you have a single hypothesis
  
 
 
@@ -867,7 +869,7 @@ print(wald_results)
 
 Recall other parameter of interest: $100\beta_3 + 20\beta_4$. Can ask:
 $$ \small
-H_0: 100\beta_3 + 20\beta_4 =5 \text{ vs } H_0: 100\beta_3 + 20\beta_4 \neq 1.4
+H_0: 100\beta_3 + 20\beta_4 = 1.4\quad  \text{ vs } \quad  H_0: 100\beta_3 + 20\beta_4 \neq 1.4
 $$
 
 . . . 
@@ -917,7 +919,7 @@ $\Rightarrow$ In general need to something transform $\bR\hat{\bbeta}-\bq$ to ge
 
 . . . 
 
-Just need the equivalent of standard deviation:
+Just need to define "$\sqrt{\Sigma}$"
 <div class="rounded-box"> 
 
 ::: {#prp-vector-inference-sqrt}
@@ -1005,8 +1007,8 @@ $$
 
 Let the assumptions for asymptotic normality of the OLS estimator hold. Let $W$ be defined as in @eq-vector-inference-wald. Then
 
-1. If $H_0: \bR\bbeta=\bq$ holds, then $W\xrightarrow{d} \chi^2_k$ The associated test has asymptotic size $\alpha$
-2. If $H_0: \bR\bbeta=\bq$ does not hold, then $W\xrightarrow{p}\pm +\infty$. The associated test is consistent
+1. If $H_0: \bR\bbeta=\bq$ holds, then $W\xrightarrow{d} \chi^2_k$. The associated test has asymptotic size $\alpha$
+2. If $H_0: \bR\bbeta=\bq$ does not hold, then $W\xrightarrow{p} +\infty$. The associated test is consistent
 
 
 
@@ -1087,8 +1089,8 @@ Here $\hat{c}_N\geq 0$ can depend on the sample and  $N$
 $$\scriptsize
 \begin{aligned}
 & P\left(\beta_k\in[\hat{\beta}_k - \hat{c}_N, \hat{\beta}_k + \hat{c}]   \right)\\
-&   = P\left( - \frac{\hat{c}_N}{\sqrt{\widehat{\avar}(\hat{\beta}_k/N}}\leq \sqrt{N} \frac{\hat{\beta}_k - \beta_k}{\widehat{\avar}(\hat{\beta}_k }\leq   \frac{\hat{c}_N}{\sqrt{\widehat{\avar}(\hat{\beta}_k/N}}  \right)\\
-& \approx \Phi\left(       \frac{\hat{c}_N}{\sqrt{\widehat{\avar}(\hat{\beta}_k/N}}\right) - \Phi\left(  -\dfrac{\hat{c}_N}{\sqrt{\widehat{\avar}(\hat{\beta}_k/N}} \right)
+&   = P\left( - \frac{\hat{c}_N}{\sqrt{\widehat{\avar}(\hat{\beta}_k)/N} }\leq \sqrt{N} \frac{\hat{\beta}_k - \beta_k}{\widehat{\avar}(\hat{\beta}_k) }\leq   \frac{\hat{c}_N}{\sqrt{\widehat{\avar}(\hat{\beta}_k)/N}}  \right)\\
+& \approx \Phi\left(       \frac{\hat{c}_N}{\sqrt{\widehat{\avar}(\hat{\beta}_k)/N}}\right) - \Phi\left(  -\dfrac{\hat{c}_N}{\sqrt{\widehat{\avar}(\hat{\beta}_k)/N}} \right)
 \end{aligned}
 $$
 
@@ -1140,7 +1142,7 @@ An example of <span class="highlight">test inversion</span> and equivalence betw
 
 <br>
 
-Theree are other ways of constructing confidence sets 
+There are other ways of constructing confidence sets 
 
 ## Recap and Conclusions {background="#00100F"}
   
@@ -1148,13 +1150,16 @@ Theree are other ways of constructing confidence sets
 
 In this lecture we
 
-1. Did
+1. Reviewed key concepts from hypothesis testing
+2. Discussed $t$- and Wald tests for linear hypotheses
+3. Constructed an asymptotic confidence interval for a coefficient value
    
 #### Next Questions
 
 <br>
 
-How 
+- What if the hypothesis is not linear in coefficients? 
+- How do nonlinear transformations of parameters behave?
 
 #### References {.allowframebreaks visibility="uncounted"}
 
