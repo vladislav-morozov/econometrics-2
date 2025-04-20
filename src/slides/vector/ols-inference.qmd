@@ -173,13 +173,13 @@ What is the interpretation of those parameters?
 
 #### Basic Setup: Hypotheses
 
-Suppose that we have a model with some parameters $\theta$ (of whatever nature):
+Suppose that we have a model with some parameters $\theta$ (of whatever nature)
 
 Two competing *hypotheses* (statements about parameters $\theta$)
 $$
 H_0: \theta\in \Theta_0 \text{  vs.  } H_1: \theta \in \Theta_1 
 $$
-for some nonintersecting $\Theta_0$ and $\Theta_1$
+for some non-intersecting $\Theta_0$ and $\Theta_1$
 
 . . .
 
@@ -191,7 +191,7 @@ Example
 
 #### Definition of a Test
 
-Informally, a test is a *decision rule*: you see the sample and then you decide in favor of $H_0$ or $H_1$
+A test is a *decision rule*: you see the sample and then you decide in favor of $H_0$ or $H_1$
 
 
 . . . 
@@ -239,7 +239,7 @@ Maximal power under the null has a special name
 
 ::: {#def-vector-inference-size}
 
-The test size $\alpha$ of the test $T$ is 
+The <span class="highlight"> size </span> $\alpha$ of the test $T$ is 
 $$
 \alpha = \max_{\theta\in\Theta_0} \text{Power}_T(\theta)
 $$
@@ -269,8 +269,8 @@ Usually impossible in practice. Instead we ask
 
 #### Test Consistency
 
-- For given sample sizes, usually cannot power function
-- Substitute requirement that asymptoticall you detect any failure of $H_0$:
+- In finite samples, usually cannot compute $\text{Power}_T(\theta)$
+- Instead ask that you detect $H_1$ <span class="highlight"> asymptotically </span>  
  
 . . .
 
@@ -300,7 +300,7 @@ As with estimators, we say "test" when we mean a sequence of tests, one for each
 
 #### Asymptotic Size
 
-- Also, can't necessarily control rejection under $H_0$ in finite
+- In finite samples, usually cannot control size exactly
 - But can require it asymptotically
 
 
@@ -340,10 +340,9 @@ In the framework of @eq-vector-inference-emp-model can translate to
 $$
 H_0: \beta_2 = 0, \quad H_1: \beta_2\neq 0
 $$
+What are the $\Theta_0$ and $\Theta_1$ here if $\theta=\bbeta$?
 
-. . .
-
-Here $\Theta_1 = \curl{0}$ and $\Theta_2 = \R - \curl{0}$
+<!-- Here $\Theta_1 = \curl{0}$ and $\Theta_2 = \R - \curl{0}$ -->
 
 
 
@@ -358,13 +357,15 @@ Here $\Theta_1 = \curl{0}$ and $\Theta_2 = \R - \curl{0}$
 The basic approach to testing is surprisingly simple
 
 1. Pick a "statistic" (=some known function of the data) that behaves "differently" under $H_0$ and $H_1$
-2. Is the observed value of the statistic compatible with $H_0$? If not, reject $H_0$ in favor or $H_1$. If yes, do not reject $H_0$
+2. Is the observed value of the statistic compatible with $H_0$? 
+   - No $\Rightarrow$ reject $H_0$ in favor or $H_1$
+   - Yes $\Rightarrow$ do not reject $H_0$
 
 
 #### Picking a Statistic
 
 - In principle, can pick any statistic. Some are more "standard"
-- For testing hypotheses about coefficients, there are three main classes
+- For testing hypotheses about coefficients, there are three main classes:
   - Wald statistics: need only *unrestricted* estimates 
   - Lagrange multiplier (LM): need *restricted* estimates 
   - Likelihood ratio (LR): need both
@@ -396,18 +397,16 @@ where $\avar(\hat{\beta}_2)$ is the (2, 2) element of $\avar(\hat{\bbeta})$
 
 #### $t$-statistic
 
-Suppose that we have a consistent estimator of $\avar(\hat{\bbeta})$:
-$$ \small
-\widehat{\avar}(\hat{\bbeta}) \xrightarrow{p} \avar(\hat{\bbeta})
-$$
+- Let $\widehat{\avar}(\hat{\bbeta})$ be a consistent estimator of $\avar(\hat{\bbeta})$
+- Let $H_0: \beta_2 = 0$ be true
 
 . . .
 
-Then if $H_0: \beta_2 = 0$, by Slutsky's theorem (why?) it holds that
+By Slutsky's theorem (why?) it holds that
 $$ \small
 t = \dfrac{\hat{\beta}_2}{\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }  } \xrightarrow{d} N\left(0, 1\right)
 $$
-$t$ is called a $t$-statistic; $\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }$ — standard error of $\hat{\beta}_2$
+$\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }$ — <span class="highlight">standard error</span> of $\hat{\beta}_2$
 
 ::: footer
 
@@ -415,7 +414,7 @@ $t$ is called a $t$-statistic; $\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }$ — s
 
 #### Decision Rule: Test  {#sec-ols-inference-t-test}
 
-We call the following the "asymptotic level $\alpha$ $t$-test":
+We call the following the <span class="highlight">asymptotic size $\alpha$ $t$-test</span>:
 
 
 <br>
@@ -481,15 +480,25 @@ results.t_test(np.array([0, 1, 0, 0]), use_t=False)
 - Decision by comparing with the $p$-value
 - Can reject with high confidence (very small $p$-value)
 
-#### $t$-Statistic under $H_0$
+#### Illustration: $t$ Test From the Regression Results
+
+Regression results also print out results for $t$-tests of hypotheses $H_0:\beta_k=0$
+```{python} 
+results = OLS(endog, exog).fit(cov_type='HC0')
+print(results.summary())
+```
+
+#### $t$-Statistic under $H_0$: Size
 
 What is the (asymptotic) probability of rejecting under $H_0$?
+
+. . .
 
 $$
 \begin{aligned}
 & P\left(\text{Reject} H_0|H_0 \right) = P\left(\abs{t}>z_{1-\alpha/2} |H_0\right) \\
-& = P\left( \abs{ \dfrac{\hat{\beta}_2}{\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }  }}> z_{1-\alpha/2}|H_0 \right)\\
-& \to 2(1- Phi(z_{1-\alpha/2})) = \alpha 
+& = P\left( \abs{ \dfrac{\hat{\beta}_2}{\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }  }}> z_{1-\alpha/2}\Bigg|H_0 \right)\\
+& \to \Phi(z_{\alpha/2}) + (1- \Phi(z_{1-\alpha/2})) = \alpha 
 \end{aligned}
 $$
 
@@ -497,7 +506,7 @@ $$
 
 The test has asymptotic size $\alpha$
 
-#### $t$-Statistic under $H_1$
+#### $t$-Statistic under $H_1$: Consistency
 
 
 What happens to $t$ under $H_1$? Suppose that $\beta_2\neq 0$ is the true value. Can write
@@ -547,8 +556,8 @@ Same decision rule: compare $t$ to $z_{1-\alpha/2}$
 
 Let the assumptions for asymptotic normality of the OLS estimator hold. Let $t$ be defined as in @eq-vector-inference-t-general. Then
 
-1. If $H_0: \beta_k=c$ holds, then $t\xrightarrow{d} N(0, 1)$ and the associated test has asymptotic size $\alpha$
-2. If $H_0: \beta_k=c$ does not hold, then $t\xrightarrow{p}\pm\infty$ and the associated test is consistent
+1. If $H_0: \beta_k=c$ holds, then $t\xrightarrow{d} N(0, 1)$ The associated test has asymptotic size $\alpha$
+2. If $H_0: \beta_k=c$ does not hold, then $t\xrightarrow{p}\pm\infty$. The associated test is consistent
 
 
 
@@ -567,9 +576,9 @@ $$
 . . . 
 
 
-Can estimate using "sample analogs"
+Can estimate using <span class="highlight">sample analogs</span>
 
-1. $\left( \E[\bX_i\bX_i']\right)^{-1}$ with $\left( N^{-1}\sum_{i=1}^N \sum_{i=1}^N \bX_i\bX_i'\right)^{-1}$
+1. $\left( \E[\bX_i\bX_i']\right)^{-1}$ with $\left( N^{-1}\sum_{i=1}^N  \bX_i\bX_i'\right)^{-1}$
 2. $\E[U_i^2\bX_i\bX_i']$ with $N^{-1}\sum_{i=1}^N \hat{U}_i \bX_i\bX_i'$ for $\hat{U}_i = Y_i-\bX_i'\hat{\bbeta}$
 
 
@@ -580,8 +589,8 @@ $$
 \widehat{\avar}(\hat{\bbeta}) \xrightarrow{p} {\avar}(\hat{\bbeta})
 $$
 
-- Can use in test statistics
-- $N^{-1}\widehat{\avar}(\hat{\bbeta})$ is called  *robust* (or *heteroskedasticity robust*) standard errors (specifically, HC0). 
+- Catn use in test statistics
+- $N^{-1}\widehat{\avar}(\hat{\bbeta})$ is called  *robust* (or *heteroskedasticity robust*) standard errors — specifically,  <span class="highlight">HC0</span>
 - In `statsmodels`, we used them by called `OLS(endog, exog).fit(cov_type='HC0')`
 
 
