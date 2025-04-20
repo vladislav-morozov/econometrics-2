@@ -54,7 +54,7 @@ By the end, you should be able to
  
 
 - 8-2 and E4+E4a in @Wooldridge2020IntroductoryEconometricsModern (careful with the specialized formulas in 8-2, they are more confusing than the general case in the lecture and those in E4)
-- Or 7.11-7.13, 7.16, 7.18* in @Hansen2022Econometrics
+- Or 7.11-7.13, 7.16, 9.1-9.9 in @Hansen2022Econometrics
 - (*Curious background reading*): @Wooldridge2023WhatStandardError on what "standard error" might mean
 
 
@@ -477,7 +477,8 @@ results.t_test(np.array([0, 1, 0, 0]), use_t=False)
 
 . . .
 
-- Decision by comparing with the $p$-value
+- Reports <span class="highlight">asymptotic</span> $p$-values
+- Decision by comparing with the  $p$-value
 - Can reject with high confidence (very small $p$-value)
 
 #### Illustration: $t$ Test From the Regression Results
@@ -602,7 +603,7 @@ $$
 
 ### Multiple Linear Hypothesis {background="#43464B" visibility="uncounted"}
 
-#### Motivation
+#### Motivation: Need Tests for Multiple Restrictions
 
 - $t$-tests allowed us to test if education mattered ($\beta_2=0$)
 - But next question is whether experience affects wages: 
@@ -619,24 +620,56 @@ $$
 
 ::: {.callout-note appearance="minimal"}
 
-The "or" allows the possibility that <span class="highlight">both</span> $\beta_3\neq 0$ and $\beta_4\neq 0$
+The "or" in $H_1$ allows the possibility that <span class="highlight">both</span> $\beta_3\neq 0$ and $\beta_4\neq 0$
 
 
 :::
 
+#### Matrix Representation of the Null
 
-#### Potentially Multiple Linear Hypotheses
+Can write our $H_0$ as
+$$
+\bR\bbeta = \bq
+$$
+for 
+$$
+\bR = \begin{pmatrix}
+0 & 0 & 1 & 0\\
+0 & 0 & 0 & 1
+\end{pmatrix}, \quad \bq =\begin{pmatrix}
+0 \\
+0 
+\end{pmatrix}
+$$
 
-<div class="rounded-box">
-
-Needs tests that can handle multiple restrictions
-
-</div>
+ 
 
 
+#### Linear Hypotheses
+ 
+
+More generally, can consider <span class="highlight">linear hypotheses</span> of the form
+$$
+\bR\bbeta = \bq
+$$
+
+Here 
+
+- $\bbeta$ is $p\times 1$
+- $\bR$ is $k\times p$ — $k$ constraints, $k\geq 1$
 
 
-#### Potentially Multiple
+. . . 
+
+::: {.callout-note appearance="minimal"}
+
+Covers both example $H_0$ we have seen so far
+
+:::
+
+
+#### Wald Statistics
+
 
 #### 
  
