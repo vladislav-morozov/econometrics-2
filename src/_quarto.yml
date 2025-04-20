@@ -36,6 +36,7 @@ website:
         - slides/vector/ols-consistency.qmd 
         - slides/vector/ols-limit-distribution.qmd 
         - slides/vector/ols-inference.qmd
+        - slides/vector/ols-delta-method.qmd
 
 execute:
   freeze: auto  # re-render only when source changes

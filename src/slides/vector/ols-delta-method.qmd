@@ -1,0 +1,86 @@
+---
+title: "Inference II: Nonlinear Hypotheses and the Delta Method"
+subtitle: "Handling Nonlinearities with the Delta Method"
+author: Vladislav Morozov   
+format:
+  revealjs:
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "A Deeper Look at Linear Regression: Nonlinear Hypotheses and the Delta Method"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+---
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture is about 
+
+<br>
+
+By the end, you should be able to
+
+-  
+
+#### References
+ 
+
+::: {.nonincremental}
+
+ 
+
+- 1
+
+
+::: 
+
+ 
+
+### Reminder on the Empirical Example {background="#43464B" visibility="uncounted"}
+
+
+
+#### Question
+
+## Recap and Conclusions {background="#00100F"}
+  
+#### Recap
+
+In this lecture we
+
+1. A
+   
+#### Come Concluding Thoughts on the Block
+
+<br>
+
+1. Asymptotic tools are very general
+2. Wald 
+  
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
