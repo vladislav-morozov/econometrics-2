@@ -120,7 +120,7 @@ $$
 
 . . . 
 
-Rearranged: the "mean value expansion aroudn $x$"
+Rearranged: the "mean value expansion around $x$"
 $$
 f(y) = f(x) + f'(\tilde{y})(y-x)
 $$
@@ -200,7 +200,7 @@ More properly called the <span class="highlight">first-order</span> delta method
 @prp-vector-inference-delta-1d has two limitations:
 
 - $Y_N$ is scalar, but we deal with whole vector $\hat{\bbeta}$
-- $f(\cdot)$ is scalar-value — but we may have 
+- $f(\cdot)$ is scalar-valued — but we may have multiple transformations of $\bbeta$
 
 . . . 
 
@@ -220,20 +220,62 @@ $$
 $$ 
  Rows correspond to components of $\ba(\cdot)$; columns — to components of $\bbeta$
 
-####
+#### Delta Method in the Multivariate Case
+
+  
+<div class="rounded-box">
+
+::: {#prp-vector-inference-delta}
+
+Let $\sqrt{N}(\bY_N-\btheta)\xrightarrow{d} N(0, \bSigma)$. Let $\ba(\cdot)$ be continuously differentiable. Let $\bA(\btheta)$ have rank $q$. Then
+ 
+$$
+\sqrt{N}(\ba(\bY_N) - \ba(\btheta)) \xrightarrow{d} N(0, \bA(\btheta)\bSigma\bA(\btheta)')
+$$
 
 
-#### Scalar-Value Transformation
+:::
+
+</div>
+
+- Proof (not examinable) is similar to the univariate case
+- OLS: take $\bY_N=\hat{\bbeta}$ and $\btheta=\bbeta$
+
+#### Vector Example I: Norm of $\bbeta$
+
+Suppose that our parameter of interest is $\ba(\bbeta) = \norm{\bbeta}$. Then 
+$$
+\bA(\bbeta) = \begin{pmatrix}
+\dfrac{\beta_1}{\norm{\bbeta}}  & \cdots & \dfrac{\beta_p}{\norm{\bbeta}}
+\end{pmatrix}
+$$
+
+. . .
+
+If $\bbeta\neq 0$, the delta method (@prp-vector-inference-delta) tells us that 
+$$
+\sqrt{N}(\norm{\hat{\bbeta}}-\norm{\bbeta})\xrightarrow{d} N(0, \bA(\bbeta)\avar(\bbeta)\bA(\bbeta)')
+$$
 
 
-####
+#### Vector Example II: Linear Transformations
 
-The proof is the same, just involve
+Another example: $\ba(\bbeta) = \bR\bbeta$. Then $\bA(\bbeta)=\bR$ and 
+
+. . .
+
+$$
+\sqrt{N}(\bR\hat{\bbeta}-\bR\bbeta)\xrightarrow{d} N(0, \bR\avar(\bbeta)\bR')
+$$
+
+<br>
+
+In words, the delta method implies our results for linear transformations from before 
 
 
 #### Generalizations 
 
-Delta method — extremely general tool
+Delta method — extremely general tool!
 
 <br>
 
@@ -241,23 +283,151 @@ Some generalizations:
 
 - The limit does not have to be normal
 - Speed of convergence does not have to be $\sqrt{N}$
-- $f(\cdot)$ can have functions inputs and outputs
+- $f(\cdot)$ can have functions as inputs and outputs
+
 
 ## Inference on Nonlinear Transformations {background="#00100F"}
 
 
 ### Confidence Intervals {background="#43464B" visibility="uncounted"}
 
+#### Overall Idea
+
+Can use @prp-vector-inference-delta for inference!
+
+. . . 
+
+<br>
+
+Intuitively, it says that 
+$$
+\ba(\hat{\bbeta}) \overset{a}{\sim} N\left(\ba(\bbeta), \dfrac{1}{N}\bA(\bbeta)\avar(\bbeta)\bA(\bbeta)'  \right)
+$$
+
+Can construct tests and confidence intervals same way as before, just need to compute the Jacobian $\bA$
+
+
+#### Estimating the Asymptotic Variance 
+
+For construction, need to estimate 
+$$
+\avar(\ba(\hat{\bbeta})) = \bA(\bbeta)\avar(\bbeta)\bA(\bbeta)'
+$$
+
+To consistently estimate it
+
+- Estimate $\avar(\hat{\bbeta})$ as before with HC0 (or other robust) errors $\widehat{\avar}(\hat{\bbeta})$
+- For $\bA(\bbeta)$, just use $\bA(\hat{\bbeta})$
+
+
+
+#### Example: Confidence Interval for Ratio
+
+
+Suppose that $\bbeta=(\beta_1, \beta_2)$, $\beta_2\neq 0$, and $a(\bbeta) = \beta_1/\beta_2$
+
+. . .
+
+<br> 
+
+As in the previous lecture, the following is $(1-\alpha)\times 100\%$ asymptotic confidence interval 
+$$ \small
+S = \left[ \dfrac{\hat{\beta}_1}{\hat{\beta_2}} - z_{1-\alpha/2} \sqrt{\dfrac{\widehat{\avar}(\hat{\beta}_1/\hat{\beta}_2)}{N}  } ,  \dfrac{\hat{\beta}_1}{\hat{\beta_2}} + z_{1-\alpha/2} \sqrt{\dfrac{\widehat{\avar}(\hat{\beta}_1/\hat{\beta}_2)}{N}  } \right]
+$$
+
+#### Example: Estimating $\widehat{\avar}(\hat{\beta}_1/\hat{\beta}_2)$
+
+Jacobian of our $a(\cdot)$ is
+$$
+\bA(\bbeta) = \begin{pmatrix}
+1/\beta_2 & -\beta_1/\beta_2^2
+\end{pmatrix}
+$$
+$\bA(\bbeta)$ defined and maximal rank if $\beta_2\neq 0$
+
+. . . 
+
+So
+
+$$
+\widehat{\avar}(\hat{\beta}_1/\hat{\beta}_2) = \begin{pmatrix}
+1/\hat{\beta}_2 & -\hat{\beta}_1/\hat{\beta}_2^2
+\end{pmatrix}\widehat{\avar}(\hat{\bbeta}) \begin{pmatrix}
+1/\hat{\beta}_2 \\ -\hat{\beta}_1/\hat{\beta}_2^2
+\end{pmatrix}
+$$
+
+#### Application to Empirical Parameter
+
+Our empirical parameter of interest was 
+$$
+\ba(\bbeta) = -50\beta_3/\beta_4
+$$
+
+Here Jacobian is
+
+. . .
+
+$$
+\bA(\bbeta) = \begin{pmatrix}
+0 & 0 & -50/\beta_4 & 50\beta_3/\beta_4^2
+\end{pmatrix}
+$$
+
+
+#### The Delta Method in `statsmodels`
+
+Can use the Delta method in `statsmodels` using the `NonlinearDeltaCov` class — compatible with many different models and estimators, not just OLS.
+
+. . .
+
+ To define an instance, need
+
+- Function $\ba(\cdot)$
+- $\hat{\bbeta}$ and $N^{-1}\widehat{\avar}(\hat{\bbeta})$ (standard errors)
+- (*Optionally*): function for $\bA(\cdot)$
+
+#### Documentation of `NonlinearDeltaCov`
+
+Functionality not documented, but [in code](https://github.com/statsmodels/statsmodels/blob/main/statsmodels/stats/_delta_method.py) with good docstrings
+
+#### Creating an Instance of `NonlinearDeltaCov`
+
+In our example, define the function $a(\cdot)$
+
+
+Then we supply $a(\cdot)$ together with parameters and standard errors:
+
+
+#### Constructing Confidence Intervals with `NonlinearDeltaCov`
+
+Can construct a 95\% confidence interval with the `conf_int()` method
+
+or the `summary()` method
+
+
+### Nonlinear Wald Tests {background="#43464B" visibility="uncounted"}
+
+#### Hypotheses
+
+What 
+
+If there are any constants, they are absorbed into the definition of $\ba$
+
+#### Example:
+
+
+#### Wald Statistic
+
+We can use the same idea as before
+
+
+#### Wald Test
+
+
 ####
 
-
-#### Illustration
-
-### Nonlinear Wald Tests  {background="#43464B" visibility="uncounted"}
-
-#### 
-
-A
+In fact, this matches exactly the Wald and $t$ tests for linear hypotheses (check this!)
 
 ## Recap and Conclusions {background="#00100F"}
   
