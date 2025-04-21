@@ -311,7 +311,7 @@ Can construct tests and confidence intervals same way as before, just need to co
 
 For construction, need to estimate 
 $$
-\avar(\ba(\hat{\bbeta})) = \bA(\bbeta)\avar(\bbeta)\bA(\bbeta)'
+\avar(\ba(\hat{\bbeta})) = \bA(\bbeta)\avar(\hat{\bbeta})\bA(\bbeta)'
 $$
 
 To consistently estimate it
@@ -410,16 +410,54 @@ or the `summary()` method
 
 #### Hypotheses
 
-What 
+The delta method also allows testing
+$$
+H_0: \ba(\bbeta) = 0 \quad \text{ vs. } \quad H_1: \ba(\bbeta) \neq 0
+$$
+where
 
-If there are any constants, they are absorbed into the definition of $\ba$
+- $\ba(\cdot)$ is a smooth function
+- If there are any constants, they are absorbed into the definition of $\ba$
 
-#### Example:
+#### Example I: Experience and Maximal Earnings
+
+Our remaining empirical question: 
+$$
+H_0: -\dfrac{50\beta_3}{\beta_4} - 15 = 0 \quad \text{ vs. }  H_0: -\dfrac{50\beta_3}{\beta_4} - 15\neq 0 
+$$
+
+. . .
+
+<br>
+
+Interpretation of $H_0$: expected log wage maximized with 15 years of experience
+
+#### Example II: Equal Effects
+
+<div class="rounded-box">
+Sometimes same hypothesis can be written in many ways
+</div>
+
+Example: 
+
+- Want to check that two variables have the same coefficients
+- One way to phrase it: $H_0: \beta_k/\beta_j -1 =0$
+- Another way: $H_0: \beta_k-\beta_j =0$
+
 
 
 #### Wald Statistic
 
-We can use the same idea as before
+Use same idea as before: compare distance between $\ba(\hat{\bbeta})$ and $0$
+
+. . . 
+
+<br>
+
+Wald statistic:
+$$
+W = N\ba(\hat{\bbeta})'\left( \bA(\hat{\bbeta})\widehat{\avar}(\hat{\bbeta})\bA(\hat{\bbeta})' \right)^{-1}  \ba(\hat{\bbeta})
+$$
 
 
 #### Wald Test
