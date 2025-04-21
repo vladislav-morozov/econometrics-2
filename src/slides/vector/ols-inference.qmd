@@ -1017,17 +1017,6 @@ Let the assumptions for asymptotic normality of the OLS estimator hold. Let $W$ 
 </div>
 
 
-<!-- ## Nonlinear Hypotheses and the Delta Method  {background="#00100F"}
-
-### The Delta Method {background="#43464B" visibility="uncounted"}
-
-####
-
-### Nonlinear Wald Tests  {background="#43464B" visibility="uncounted"}
-
-#### 
-
-A -->
 
 ## Confidence Intervals and Sets {background="#00100F"}
 
