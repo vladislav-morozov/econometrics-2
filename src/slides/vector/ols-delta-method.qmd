@@ -1,5 +1,5 @@
 ---
-title: "Inference II: Nonlinear Hypotheses and the Delta Method"
+title: "Inference II: Nonlinear Hypotheses"
 subtitle: "Handling Nonlinearities with the Delta Method"
 author: Vladislav Morozov   
 format:
@@ -47,12 +47,13 @@ By the end, you should be able to
 #### References
  
 
+<br>
+
 ::: {.nonincremental}
 
  
-
-- 1
-
+- Corresponding [section](https://en.wikipedia.org/wiki/Delta_method) on Wikipedia (Up to the "Example" section)
+- *Or* 6.5, 7.10 in @Hansen2022Econometrics
 
 ::: 
 
@@ -60,9 +61,203 @@ By the end, you should be able to
 
 ### Reminder on the Empirical Example {background="#43464B" visibility="uncounted"}
 
+#### Reminder: Empirical Model
+
+Studying link between wages and (education, experience)
+$$
+\begin{aligned}[]
+& [\ln(\text{wage}_i)]^{\text{(education, experience)}} \\
+&  =   \beta_1 + \beta_2 \times \text{education} \\
+& \quad  + \beta_3 \times  \text{experience} + \beta_4 \times  \dfrac{\text{experience}^2}{100} + U_i
+\end{aligned}
+$$ {#eq-vector-inference-emp-model}
 
 
-#### Question
+#### Reminder: Estimation Results
+
+#### Parameter of Interest: Nonlinear Transformation
+
+We still have one parameter of interest to look at:
+$$
+\theta = -50\frac{\beta_3}{\beta_4}
+$$
+
+- Interpretation: experience level that maximizes expected log wage
+- This $\theta$: <span class="highlight">smooth nonlinear transformation</span> of $\bbeta$
+
+. . . 
+
+<div class="rounded-box">
+
+How to do inference on such $\theta$?
+
+</div>
+
+
+
+## The Delta Method  {background="#00100F"}
+
+### Scalar Case {background="#43464B" visibility="uncounted"}
+
+ 
+#### Mean Value Theorem
+
+Recall the following useful result:
+
+<div class="rounded-box">
+
+::: {#prp-vector-inference-mean-value}
+
+Let $f(\cdot): \R\to\R$ be differentiable on the interval $[x, y]$. Then there exists some $\tilde{y}\in[x, y]$ such that
+$$
+f(y)-f(x) = f'(\tilde{y})(y-x)
+$$
+
+
+:::
+
+</div>
+
+. . . 
+
+Rearranged: the "mean value expansion aroudn $x$"
+$$
+f(y) = f(x) + f'(\tilde{y})(y-x)
+$$
+
+
+#### Manual Illustration of the Argument
+
+Let $X_1, \dots, X_N\sim$IID$(\theta, \sigma^2)$ Then $\sqrt{N}(\bar{X}-\theta)\xrightarrow{d} N(0, \sigma^2)$
+
+<div class="rounded-box">
+
+What is the asymptotic distribution of $(\bar{X})^2$?
+
+</div>
+
+. . .
+
+Mean value theorem (@prp-vector-inference-mean-value):
+$$
+(\bar{X})^2 = \theta^2 + 2(\theta+\alpha_N[\bar{X}-\theta])(\bar{X}-\theta), \quad \alpha_N\in[0, 1]
+$$ {#eq-vector-inference-manual-delta}
+
+. . . 
+
+By Slutsky's theorem 
+$$
+\sqrt{N}(\bar{X}^2 - \theta^2) \xrightarrow{d} N( 0, (2\theta)^2 \sigma^2  )
+$$
+
+#### More Abstract Form of ([-@eq-vector-inference-manual-delta])
+
+
+Can write @eq-vector-inference-manual-delta as 
+$$
+\sqrt{N}(f(Y_N)-f(\theta)) = f'(\theta + \alpha_N[Y_N-\theta] ) \sqrt{N}(Y_N-\theta)
+$$
+for 
+
+- $f(y) = y^2$ 
+- $Y_N = \bar{X}$
+ 
+#### Abstracting the Argument
+
+<br> 
+
+Can replicate the argument if 
+
+- $Y_N\xrightarrow{p} \theta$ and $f'(\cdot)$ is continuous with $f'(\theta)\neq 0$
+- $\sqrt{N}(Y_N-\theta)$ converges to a normal distribution
+
+
+#### Delta Method in the Univariate Case
+
+
+Combining the previous arguments gives:
+<div class="rounded-box">
+
+::: {#prp-vector-inference-delta-1d}
+
+Let $\sqrt{N}(Y_N-\theta)\xrightarrow{d} N(0, \sigma^2)$ and let $f(\cdot)$ be continuously differentiable. Then
+ 
+$$
+\sqrt{N}(f(Y_N) - f(\theta)) \xrightarrow{d} N(0, [f'(\theta)]^2\sigma^2)
+$$
+
+
+:::
+
+</div>
+More properly called the <span class="highlight">first-order</span> delta method — there are higher-order versions if $f'(\theta)=0$
+
+
+### Multivariate Case {background="#43464B" visibility="uncounted"}
+
+#### Motivation
+ 
+@prp-vector-inference-delta-1d has two limitations:
+
+- $Y_N$ is scalar, but we deal with whole vector $\hat{\bbeta}$
+- $f(\cdot)$ is scalar-value — but we may have 
+
+. . . 
+
+<br>
+
+Can solve both! Let $\ba(\bbeta):\R^p\to\R^q$ be the transformation of interest
+
+#### Jacobian of $\ba(\cdot)$
+
+Let $\ba(\cdot) = (a_1(\cdot), \dots, a_q(\cdot))'$. Define its *Jacobian matrix* $\bA(\bbeta)$ as 
+$$
+\bA(\bbeta) = \begin{pmatrix}
+\frac{\partial a_1}{\partial \beta_1}(\bbeta) & \cdots & \frac{\partial a_1}{\partial \beta_p}(\bbeta)\\
+\vdots & \ddots & \vdots\\
+\frac{\partial a_q}{\partial \beta_1}(\bbeta) & \cdots & \frac{\partial a_q}{\partial \beta_p}(\bbeta) 
+\end{pmatrix}
+$$ 
+ Rows correspond to components of $\ba(\cdot)$; columns — to components of $\bbeta$
+
+####
+
+
+#### Scalar-Value Transformation
+
+
+####
+
+The proof is the same, just involve
+
+
+#### Generalizations 
+
+Delta method — extremely general tool
+
+<br>
+
+Some generalizations:
+
+- The limit does not have to be normal
+- Speed of convergence does not have to be $\sqrt{N}$
+- $f(\cdot)$ can have functions inputs and outputs
+
+## Inference on Nonlinear Transformations {background="#00100F"}
+
+
+### Confidence Intervals {background="#43464B" visibility="uncounted"}
+
+####
+
+
+#### Illustration
+
+### Nonlinear Wald Tests  {background="#43464B" visibility="uncounted"}
+
+#### 
+
+A
 
 ## Recap and Conclusions {background="#00100F"}
   
@@ -72,12 +267,13 @@ In this lecture we
 
 1. A
    
-#### Come Concluding Thoughts on the Block
+#### Overall Concluding Thoughts on the Block
 
 <br>
 
-1. Asymptotic tools are very general
-2. Wald 
+1. Deep analysis of the linear model, and linear models appear naturally in some settings, as we will see in the next block
+1. But also the tools are quite general asymptotic tools are very general
+2. The overall approach to constructing tests and CIs works similarly
   
 
 #### References {.allowframebreaks visibility="uncounted"}
