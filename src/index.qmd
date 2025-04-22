@@ -42,15 +42,16 @@ Advanced Econometrics builds on the basic econometrics course in three direction
 ### Content 
 The course is structured into the following main parts (*Subject to modification based on progress*):
 
-1. A deeper look at linear regression and linear IV:
+1. A deeper look at linear regression:
    - A vector-matrix form approach to linear regression.
    - Asymptotic theory for the OLS estimator. Wald tests.
-   - Linear generalized method of moments (GMM).
 2. Panel data in causal settings:
    - Event studies.
    - Differences-in-differences.
    - Two-way fixed effect approaches with multivalued treatment.
    - Mean group estimation.
+   - Linear generalized method of moments (GMM).
+   - IV estimation of dynamic panel data models.
 3. Introduction to forecasting:
    - Causal inference vs. forecasting I.
    - Notions of forecast optimality.
