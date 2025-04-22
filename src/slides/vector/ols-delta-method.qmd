@@ -77,7 +77,10 @@ $$ {#eq-vector-inference-emp-model}
 
 #### Reminder: Estimation Results
 
-
+```{.python code-line-numbers="0-1"}
+results = OLS(endog, exog).fit(cov_type='HC0') # Robust covariance matrix estimator
+print(results.summary())
+```
 ```{python} 
 import numpy as np
 import pandas as pd
@@ -109,10 +112,7 @@ results = OLS(endog, exog).fit(cov_type='HC0')
 print(results.summary())
 ```
 
-```{.python code-line-numbers="0-1"}
-results = OLS(endog, exog).fit(cov_type='HC0') # Robust covariance matrix estimator
-print(results.summary())
-```
+
  
 ::: footer
 
@@ -430,24 +430,48 @@ Can use the Delta method in `statsmodels` using the `NonlinearDeltaCov` class â€
 - $\hat{\bbeta}$ and $N^{-1}\widehat{\avar}(\hat{\bbeta})$ (standard errors)
 - (*Optionally*): function for $\bA(\cdot)$
 
-#### Documentation of `NonlinearDeltaCov`
+#### Documentation of `NonlinearDeltaCov` {.scrollable}
 
 Functionality not documented, but [in code](https://github.com/statsmodels/statsmodels/blob/main/statsmodels/stats/_delta_method.py) with good docstrings
 
+```{python}
+#| echo: true
+from statsmodels.stats._delta_method import NonlinearDeltaCov
+help(NonlinearDeltaCov)
+```
+
+
 #### Creating an Instance of `NonlinearDeltaCov`
 
-In our example, define the function $a(\cdot)$
+In our example, define the function $a(\cdot)$:
+```{python}
+#| echo: true
+def max_earn(beta: pd.Series):
+    return np.array([-50*beta.loc["experience"]/beta.loc["experience_sq_div"]])
+```
 
+. . . 
+
+<br>
 
 Then we supply $a(\cdot)$ together with parameters and standard errors:
-
+```{python}
+#| echo: true
+delta_ratio = NonlinearDeltaCov(max_earn, results.params, results.cov_params())
+```
 
 #### Constructing Confidence Intervals with `NonlinearDeltaCov`
 
 Can construct a 95\% confidence interval with the `conf_int()` method
-
+```{python}
+#| echo: true
+delta_ratio.conf_int(alpha=0.05)
+```
 or the `summary()` method
-
+```{python}
+#| echo: true
+delta_ratio.summary(alpha=0.1)
+```
 
 ### Nonlinear Wald Tests {background="#43464B" visibility="uncounted"}
 
@@ -547,7 +571,18 @@ Let the assumptions for asymptotic normality of the OLS estimator hold. Let $\bA
 
 #### Illustration: Nonlinear Wald Test with `statsmodels`
 
-Using the `wald_test` method
+Can do the Wald test with the `wald_test` method of `NonlinearDeltaCov`:
+```{python}
+#| echo: true
+delta_ratio.wald_test(np.array([15]))
+```
+
+. . .
+
+Outputs:
+
+- Value of $W$
+- Corresponding $p$-value
 
 
 
