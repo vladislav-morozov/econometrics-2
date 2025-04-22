@@ -753,8 +753,8 @@ We call the following the <span class="highlight">asymptotic size $\alpha$ Wald-
 
 Let $c_{1-\alpha}$ solve $P(\chi^2\leq c_{1-\alpha})=1-\alpha$. Then
 
-- Reject $H_0$ is $W>c_{1-\alpha}$
-- Do not reject $H_0$ is $W\leq c_{1-\alpha}$
+- Reject $H_0$ if $W>c_{1-\alpha}$
+- Do not reject $H_0$ if $W\leq c_{1-\alpha}$
 
 
 </div>
@@ -1005,7 +1005,7 @@ $$
 
 ::: {#prp-vector-inference-wald}
 
-Let the assumptions for asymptotic normality of the OLS estimator hold. Let $W$ be defined as in @eq-vector-inference-wald. Then
+Let the assumptions for asymptotic normality of the OLS estimator hold. Let $W$ be defined as in @eq-vector-inference-wald and let $\bR$ have rank $k$. Then
 
 1. If $H_0: \bR\bbeta=\bq$ holds, then $W\xrightarrow{d} \chi^2_k$. The associated test has asymptotic size $\alpha$
 2. If $H_0: \bR\bbeta=\bq$ does not hold, then $W\xrightarrow{p} +\infty$. The associated test is consistent
@@ -1040,14 +1040,14 @@ Let the assumptions for asymptotic normality of the OLS estimator hold. Let $W$ 
 
 ::: {#def-vector-inference-conf-set}
 
-1. A <span class="highlight"> size $\alpha$ confidence set for $\theta$ </span> ($\theta\in\R^p$) is a random set $S(X_1, \dots, X_N)\subseteq \R^p$  
+1. A <span class="highlight"> $(1-\alpha)\times 100\%$ confidence set for $\theta$ </span> ($\theta\in\R^p$) is a random set $S(X_1, \dots, X_N)\subseteq \R^p$  
 $$ \scriptsize
 P(\theta \in S(X_1, \dots, X_N)) = 1-\alpha
 $$
 
-2. $S(\cdot, \cdots)$ is an <span class="highlight">asymptotic size $\alpha$ confidence set for $\theta$ </span>  if $\lim_{N\to\infty} P(\theta \in S(X_1, \dots, X_N)) = 1-\alpha$
+1. $S(\cdot, \cdots)$ is an <span class="highlight">asymptotic $(1-\alpha)\times 100\%$ confidence set for $\theta$ </span>  if $\lim_{N\to\infty} P(\theta \in S(X_1, \dots, X_N)) = 1-\alpha$
 
-3. $P(\theta \in S(X_1, \dots, X_N))$ is the <span class="highlight">coverage</span> of $S$
+2. $P(\theta \in S(X_1, \dots, X_N))$ is the <span class="highlight">coverage</span> of $S$
 
 :::
 

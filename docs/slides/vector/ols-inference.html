@@ -620,7 +620,7 @@ Vladislav Morozov
 \tag{1}\]</span></span></p>
 <div class="fragment">
 <p>Data: married white women from March 2009 CPS</p>
-<div id="8639a1a7" class="cell" data-execution_count="1">
+<div id="83150e7d" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Expand for full data preparation code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -660,15 +660,15 @@ Vladislav Morozov
 <h4>Reminder: Estimation Results</h4>
 <div class="sourceCode" id="cb2" data-code-line-numbers="0-1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>results <span class="op">=</span> OLS(endog, exog).fit(cov_type<span class="op">=</span><span class="st">'HC0'</span>) <span class="co"># Robust covariance matrix estimator</span></span>
 <span id="cb2-2"><a></a><span class="bu">print</span>(results.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="5f6aae67" class="cell" data-execution_count="2">
+<div id="3a321cb2" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
 Dep. Variable:               log_wage   R-squared:                       0.226
 Model:                            OLS   Adj. R-squared:                  0.226
 Method:                 Least Squares   F-statistic:                     862.5
-Date:                Mon, 21 Apr 2025   Prob (F-statistic):               0.00
-Time:                        15:49:01   Log-Likelihood:                -8152.9
+Date:                Tue, 22 Apr 2025   Prob (F-statistic):               0.00
+Time:                        15:23:51   Log-Likelihood:                -8152.9
 No. Observations:               10402   AIC:                         1.631e+04
 Df Residuals:                   10398   BIC:                         1.634e+04
 Df Model:                           3                                         
@@ -936,9 +936,9 @@ t = \dfrac{\hat{\beta}_2}{\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }  } \xrightar
 <section id="illustration-extracting-standard-errors" class="slide level4 scrollable">
 <h4>Illustration: Extracting Standard Errors</h4>
 <p>Can get <span class="math inline">\(\widehat{\avar}(\hat{\bbeta})\)</span> from the <code>results</code> object:</p>
-<div id="d57a595a" class="cell" data-execution_count="3">
+<div id="7fe20c93" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a>(results.nobs)<span class="op">*</span>results.cov_params()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="25">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1007,7 +1007,7 @@ t = \dfrac{\hat{\beta}_2}{\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }  } \xrightar
 <section id="illustration-doing-the-test-by-hand" class="slide level4">
 <h4>Illustration: Doing the Test by Hand</h4>
 <p>Compute <span class="math inline">\(t\)</span>-statistic as</p>
-<div id="483c7ea4" class="cell" data-execution_count="4">
+<div id="8eadfe8b" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a>t <span class="op">=</span> (results.params.iloc[<span class="dv">1</span>])<span class="op">/</span>np.sqrt(results.cov_params().iloc[<span class="dv">1</span>, <span class="dv">1</span>])</span>
 <span id="cb5-2"><a></a><span class="bu">print</span>(t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1019,10 +1019,10 @@ t = \dfrac{\hat{\beta}_2}{\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }  } \xrightar
 <li class="fragment">Set <span class="math inline">\(\alpha=0.05\)</span> if want to reject at most 5% under <span class="math inline">\(H_0\)</span> in the limit</li>
 </ul>
 <div class="fragment">
-<div id="3578d957" class="cell" data-execution_count="5">
+<div id="c69d693e" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a><span class="im">from</span> scipy.stats <span class="im">import</span> norm</span>
 <span id="cb7-2"><a></a>np.<span class="bu">abs</span>(t) <span class="op">&gt;</span> norm.ppf(<span class="dv">1</span><span class="op">-</span><span class="fl">0.05</span><span class="op">/</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="27">
 <pre><code>np.True_</code></pre>
 </div>
 </div>
@@ -1035,9 +1035,9 @@ t = \dfrac{\hat{\beta}_2}{\sqrt{ \widehat{\avar}(\hat{\beta}_2)/N }  } \xrightar
 <section id="illustration-using-t_test" class="slide level4">
 <h4>Illustration: Using <code>t_test()</code></h4>
 <p>Can also use</p>
-<div id="da59c1a4" class="cell" data-execution_count="6">
+<div id="69e818d8" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>results.t_test(np.array([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>]), use_t<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="28">
 <pre><code>&lt;class 'statsmodels.stats.contrast.ContrastResults'&gt;
                              Test for Constraints                             
 ==============================================================================
@@ -1058,15 +1058,15 @@ c0             0.1114      0.002     50.185      0.000       0.107       0.116
 <section id="illustration-t-test-from-the-regression-results" class="slide level4">
 <h4>Illustration: <span class="math inline">\(t\)</span> Test From the Regression Results</h4>
 <p>Regression results also print out results for <span class="math inline">\(t\)</span>-tests of hypotheses <span class="math inline">\(H_0:\beta_k=0\)</span></p>
-<div id="77ecadd6" class="cell" data-execution_count="7">
+<div id="1a4a5b54" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
 Dep. Variable:               log_wage   R-squared:                       0.226
 Model:                            OLS   Adj. R-squared:                  0.226
 Method:                 Least Squares   F-statistic:                     862.5
-Date:                Mon, 21 Apr 2025   Prob (F-statistic):               0.00
-Time:                        15:49:01   Log-Likelihood:                -8152.9
+Date:                Tue, 22 Apr 2025   Prob (F-statistic):               0.00
+Time:                        15:23:51   Log-Likelihood:                -8152.9
 No. Observations:               10402   AIC:                         1.631e+04
 Df Residuals:                   10398   BIC:                         1.634e+04
 Df Model:                           3                                         
@@ -1304,14 +1304,14 @@ W = N\left(  \bR\hat{\bbeta}-\bq   \right)'\left(\bR\widehat{\avar}(\bbeta)\bR'\
 <div class="rounded-box">
 <p>Let <span class="math inline">\(c_{1-\alpha}\)</span> solve <span class="math inline">\(P(\chi^2\leq c_{1-\alpha})=1-\alpha\)</span>. Then</p>
 <ul>
-<li class="fragment">Reject <span class="math inline">\(H_0\)</span> is <span class="math inline">\(W&gt;c_{1-\alpha}\)</span></li>
-<li class="fragment">Do not reject <span class="math inline">\(H_0\)</span> is <span class="math inline">\(W\leq c_{1-\alpha}\)</span></li>
+<li class="fragment">Reject <span class="math inline">\(H_0\)</span> if <span class="math inline">\(W&gt;c_{1-\alpha}\)</span></li>
+<li class="fragment">Do not reject <span class="math inline">\(H_0\)</span> if <span class="math inline">\(W\leq c_{1-\alpha}\)</span></li>
 </ul>
 </div>
 </section>
 <section id="plot-pdf-of-chi2_k-and-rejection-region-shaded" class="slide level4">
 <h4>Plot: PDF of <span class="math inline">\(\chi^2_k\)</span> and Rejection Region (Shaded)</h4>
-<div id="78829a60" class="cell" data-execution_count="8">
+<div id="1d883bde" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1342,7 +1342,7 @@ W = N\left(  \bR\hat{\bbeta}-\bq   \right)'\left(\bR\widehat{\avar}(\bbeta)\bR'\
 <p>The results class in <code>statsmodels</code> has a <code>wald_test()</code> method</p>
 <div class="fragment">
 <p>First need to define the <span class="math inline">\(\bR\)</span> and <span class="math inline">\(\bq\)</span> matrices:</p>
-<div id="4a4a45f1" class="cell" data-execution_count="9">
+<div id="2fe68436" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a>constraint_matrix <span class="op">=</span> np.array( </span>
 <span id="cb12-2"><a></a>    [[<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>],</span>
 <span id="cb12-3"><a></a>     [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>]]</span>
@@ -1364,7 +1364,7 @@ W = N\left(  \bR\hat{\bbeta}-\bq   \right)'\left(\bR\widehat{\avar}(\bbeta)\bR'\
 <section id="effect-of-experience-using-wald_test" class="slide level4">
 <h4>Effect of Experience: Using <code>wald_test()</code></h4>
 <p>Then can supply <span class="math inline">\(\bR\)</span> and <span class="math inline">\(\bq\)</span> to <code>wald_test()</code> as a tuple:</p>
-<div id="7addc73b" class="cell" data-execution_count="10">
+<div id="024987ea" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a>wald_results <span class="op">=</span> results.wald_test(</span>
 <span id="cb14-2"><a></a>  (constraint_matrix, rhs_vector), </span>
 <span id="cb14-3"><a></a>  use_f<span class="op">=</span><span class="va">False</span>, </span>
@@ -1390,7 +1390,7 @@ H_0: 100\beta_3 + 20\beta_4 = 1.4\quad  \text{ vs } \quad  H_0: 100\beta_3 + 20\
 \]</span></p>
 <div class="fragment">
 <p>Can also do Wald test:</p>
-<div id="81168731" class="cell" data-execution_count="11">
+<div id="8659b617" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a></a>constraint_matrix <span class="op">=</span> np.array( </span>
 <span id="cb16-2"><a></a>    [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">20</span>], </span>
 <span id="cb16-3"><a></a>)</span>
@@ -1498,7 +1498,7 @@ P(\text{Reject } H_0|H_1) \xrightarrow{N\to\infty} 1
 <h4>Combined Result: Wald Statistic and Test</h4>
 <div class="rounded-box">
 <div id="prp-vector-inference-wald" class="theorem proposition">
-<p><span class="theorem-title"><strong>Proposition 3</strong></span> Let the assumptions for asymptotic normality of the OLS estimator hold. Let <span class="math inline">\(W\)</span> be defined as in <a href="#/eq-vector-inference-wald" class="quarto-xref">Equation&nbsp;3</a>. Then</p>
+<p><span class="theorem-title"><strong>Proposition 3</strong></span> Let the assumptions for asymptotic normality of the OLS estimator hold. Let <span class="math inline">\(W\)</span> be defined as in <a href="#/eq-vector-inference-wald" class="quarto-xref">Equation&nbsp;3</a> and let <span class="math inline">\(\bR\)</span> have rank <span class="math inline">\(k\)</span>. Then</p>
 <ol type="1">
 <li class="fragment">If <span class="math inline">\(H_0: \bR\bbeta=\bq\)</span> holds, then <span class="math inline">\(W\xrightarrow{d} \chi^2_k\)</span>. The associated test has asymptotic size <span class="math inline">\(\alpha\)</span></li>
 <li class="fragment">If <span class="math inline">\(H_0: \bR\bbeta=\bq\)</span> does not hold, then <span class="math inline">\(W\xrightarrow{p} +\infty\)</span>. The associated test is consistent</li>
@@ -1532,11 +1532,11 @@ P(\text{Reject } H_0|H_1) \xrightarrow{N\to\infty} 1
 <div id="def-vector-inference-conf-set" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 6</strong></span> &nbsp;</p>
 <ol type="1">
-<li class="fragment"><p>A <span class="highlight"> size <span class="math inline">\(\alpha\)</span> confidence set for <span class="math inline">\(\theta\)</span> </span> (<span class="math inline">\(\theta\in\R^p\)</span>) is a random set <span class="math inline">\(S(X_1, \dots, X_N)\subseteq \R^p\)</span><br>
+<li class="fragment"><p>A <span class="highlight"> <span class="math inline">\((1-\alpha)\times 100\%\)</span> confidence set for <span class="math inline">\(\theta\)</span> </span> (<span class="math inline">\(\theta\in\R^p\)</span>) is a random set <span class="math inline">\(S(X_1, \dots, X_N)\subseteq \R^p\)</span><br>
 <span class="math display">\[ \scriptsize
 P(\theta \in S(X_1, \dots, X_N)) = 1-\alpha
 \]</span></p></li>
-<li class="fragment"><p><span class="math inline">\(S(\cdot, \cdots)\)</span> is an <span class="highlight">asymptotic size <span class="math inline">\(\alpha\)</span> confidence set for <span class="math inline">\(\theta\)</span> </span> if <span class="math inline">\(\lim_{N\to\infty} P(\theta \in S(X_1, \dots, X_N)) = 1-\alpha\)</span></p></li>
+<li class="fragment"><p><span class="math inline">\(S(\cdot, \cdots)\)</span> is an <span class="highlight">asymptotic <span class="math inline">\((1-\alpha)\times 100\%\)</span> confidence set for <span class="math inline">\(\theta\)</span> </span> if <span class="math inline">\(\lim_{N\to\infty} P(\theta \in S(X_1, \dots, X_N)) = 1-\alpha\)</span></p></li>
 <li class="fragment"><p><span class="math inline">\(P(\theta \in S(X_1, \dots, X_N))\)</span> is the <span class="highlight">coverage</span> of <span class="math inline">\(S\)</span></p></li>
 </ol>
 </div>
