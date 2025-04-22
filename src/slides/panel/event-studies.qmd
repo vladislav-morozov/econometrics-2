@@ -17,60 +17,54 @@ format:
     toc-title: Contents
     transition: convex
     transition-speed: fast
-slide-level: 3
+slide-level: 4
 title-slide-attributes:
     data-background-color: "#045D5D"
     data-footer: " "
 filters:
-  - reveal-header 
-embed-resources: true
+  - reveal-header  
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
 ---
 
-# INTRODUCTION {background="#014D4E"}
+## Introduction {background="#00100F"}
   
- 
+### Lecture Info {background="#43464B" visibility="uncounted"}
 
-### Learning Outcomes
 
-### Textbook References
+#### Learning Outcomes
+
+This lecture  
+
+<br>
+
+By the end, you should be able to
+
+- Provide 
+
+### References
  
 
 ::: {.nonincremental}
 
- 
-- First lecture: none
-- After covering time series event studies: Chapter 17 in @Huntington-Klein2025EffectIntroductionResearch: <https://www.theeffectbook.net/ch-EventStudies.html>
 
+- Chapter 17 in @Huntington-Klein2025EffectIntroductionResearch: <https://www.theeffectbook.net/ch-EventStudies.html>
+- @MacKinlay1997EventStudiesEconomics, @Freyaldenhoven2021VisualizationIdentificationEstimation, @Miller2023IntroductoryGuideEvent
+- NBER 2023 Methods Lectures on Linear Panel Event Studies: <https://www.nber.org/conferences/si-2023-methods-lectures-linear-panel-event-studies>
   
-::: 
-
-### Further Reading
+:::  
 
 
-::: {.nonincremental}
+### Empirical Motivation {background="#43464B" visibility="uncounted"}
 
-Reference articles:
 
-- @MacKinlay1997EventStudiesEconomics
-- @Freyaldenhoven2021VisualizationIdentificationEstimation
-- @Miller2023IntroductoryGuideEvent
-
-Latter two articles more advanced and modern — how people do it these days.
-
-Also see NBER 2023 Methods Lectures on Linear Panel Event Studies: <https://www.nber.org/conferences/si-2023-methods-lectures-linear-panel-event-studies>
-
-::: 
-
-# TWO PERIODS {background="#014D4E"}
+## Two Periods {background="#00100F"}
  
-## SETTING {background="#43464B"}
  
 
 
 
-### Simple Event Study Setting
+#### Simple Event Study Setting
 
 Begin with the simplest possible panel setting with binary treatment: 
  
@@ -83,7 +77,7 @@ Begin with the simplest possible panel setting with binary treatment:
 
 Object of interest: "average effect of treatment"
 
-### Simple Estimator — Average Change
+#### Simple Estimator — Average Change
 
 Simplest approach: compute average change in $Y_{it}$ across periods
   $$
@@ -93,7 +87,7 @@ Simplest approach: compute average change in $Y_{it}$ across periods
 
 Estimator ([-@eq-causal-event-studies-naive-panel-contrast]) — simplest example of *event study* estimators [see @Freyaldenhoven2021VisualizationIdentificationEstimation;@Miller2023IntroductoryGuideEvent].
 
-### Example Framework {#sec-event-study-example}
+#### Example Framework {#sec-event-study-example}
 
 Possible empirical framework
 
@@ -110,7 +104,7 @@ Effect of interest: change in stock prices due to the announcement of iPhone
 
 
 
-### What Does ([-@eq-causal-event-studies-naive-panel-contrast]) Do?
+#### What Does ([-@eq-causal-event-studies-naive-panel-contrast]) Do?
 
 
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
@@ -134,10 +128,10 @@ $$
 
 </div>
 
-## CAUSAL ANALYSIS {background="#43464B"}
- 
+### Causal Analysis {background="#43464B" visibility="uncounted"}
 
-### Causal Framework
+
+#### Causal Framework
 
 
 Is $\E[Y_{i2} - Y_{i1}]$ interesting (=causal)?
@@ -164,7 +158,7 @@ For short, use $Y_{it}^d$ where $d=0, 1$
 
 
 
-### Limit of ES Estimator and Causality
+#### Limit of ES Estimator and Causality
 
 Potential and *realized* outcomes are connected as
 $$
@@ -184,7 +178,7 @@ $$
 $\E[Y_{i2}^2- Y_{i1}^1]$ is not necessarily a treatment effect — mixes effect of treatment and effects of time!
 ::: 
 
-### Example
+#### Example
 
 [[Context]{.button}](#sec-event-study-example) Again consider the iPhone example. Then 
 
@@ -200,7 +194,7 @@ $$
 
 
 
-### Solution: Restrict Changes over Time
+#### Solution: Restrict Changes over Time
 
 Simple solution: rule out changes over time
 
@@ -221,7 +215,7 @@ $$
 \end{aligned}
 $$ 
 
-### Relaxing Time Invariance: No Trends
+#### Relaxing Time Invariance: No Trends
 
 Time invariance very strict. Why use it if we only work with averages?
 
@@ -240,7 +234,7 @@ $$
 </div>
 Allows random variation in potential outcomes between times
 
-### Summary so Far
+#### Summary so Far
 
 
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
@@ -265,10 +259,11 @@ $$
 
 </div>
 
-## REGRESSION INTERPRETATION {background="#43464B"}
+### Regression Interpretation {background="#43464B" visibility="uncounted"}
+
  
 
-### Regression Setting
+#### Regression Setting
 
 Can also connect $\widehat{AE}_{ES}$ and OLS 
 
@@ -288,7 +283,7 @@ where we simply treat $(Y_{i1}, D_{i1})$ and $(Y_{i2}, D_{i2})$ as separate obse
 
 
 
-### Event Study and OLS
+#### Event Study and OLS
 
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 
@@ -311,7 +306,7 @@ $$
    - No experiment was necessary
    
 
-### Event Study and Regression
+#### Event Study and Regression
 
 A way to think about regression in causal settings:
 
@@ -324,12 +319,13 @@ $$
  
 - Check properties of this $u_{it}$. If $u_{it}$ is "nice", apply OLS (or another method)
 
+## Multiple Periods {background="#00100F"}
 
-# MULTIPLE PERIODS {background="#014D4E"}
  
-## ESTIMATION AND CAUSAL FRAMEWORK {background="#43464B"}
+### Estimation and Causal Framework {background="#43464B" visibility="uncounted"}
+
  
-### Multiple Period Framework
+#### Multiple Period Framework
 
 - Often have more than 2 periods of data
 - Want to use that data
@@ -342,7 +338,7 @@ New framework:
 - Treatment starts in period $t_0$
 - We see $Y_{it}^0$ for $t<t_0$ and $Y_{it}^1$ for $t\geq t_0$
 
-### Expanded Regression
+#### Expanded Regression
 
 New variables for treatment: 
 $$
@@ -360,7 +356,7 @@ Y_{it} = \beta_0 +  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + u_{it}.
 $${#eq-event-studies-long-regression}
 
 
-### Estimates 
+#### Estimates 
 
 Fairly easy to show that
 $$
@@ -371,7 +367,7 @@ $$
 $$
 More general version of the simple estimator of before
 
-### Dynamic Treatment Effects?
+#### Dynamic Treatment Effects?
 
 If $\beta_{\tau}$ — average effect in period $\tau$, then model ([-@eq-event-studies-long-regression]) seems to allow for *dynamic* effects
 
@@ -386,7 +382,7 @@ Dynamic effects often realistic: effect of treatment may grow or disappear over 
 - Increasing: job training lets you jump to a higher position and gain experience quicker for the rest of your life
 
  
-### No Trends Rule Out Dynamics
+#### No Trends Rule Out Dynamics
 
 Suppose that the *no trends* assumption holds
 $$
@@ -406,7 +402,7 @@ The no trends assumption rules out dynamic treatment effects
 This is *bad*, since we want to allow for dynamics
 
 
-### Relaxing No Trends Assumption
+#### Relaxing No Trends Assumption
 
 Can relax no trends to only affect *one* of the potential outcomes — makes more sense to restrict the untreated outcome (why?)
 
@@ -417,7 +413,7 @@ Can relax no trends to only affect *one* of the potential outcomes — makes mor
 
 </div>
  
-### Estimation of Dynamic Average Treatment Effects
+#### Estimation of Dynamic Average Treatment Effects
 
 
 Under the no trends in the baseline assumption:
@@ -429,10 +425,11 @@ $$
 Right hand side is average effect in period $\tau$
 
  
- 
-## ASYMPTOTIC PROPERTIES {background="#43464B"}
 
-### Consistency in the Multivariate Case
+### Asymptotic Properties {background="#43464B" visibility="uncounted"}
+
+
+#### Consistency in the Multivariate Case
 
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 
@@ -453,7 +450,7 @@ Then $\hat{\beta}_{\tau}$ consistently estimates the average treatment effect in
 
 </div>
 
-### Unbiasedness of OLS
+#### Unbiasedness of OLS
 
 Moreover, under no trends in the baseline
 $$
@@ -461,7 +458,7 @@ $$
 $$
 In other words, the OLS estimator is unbiased
 
-### Asymptotic Distribution
+#### Asymptotic Distribution
 
  
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
@@ -485,7 +482,7 @@ $$
 
 </div>
 
-### Asymptotic Variance I
+#### Asymptotic Variance I
 
 Need variance $V$ to construct confidence intervals for $\E[Y_{i \tau}^1 - Y_{i\tau}^0]$. How to find $V$? Remember the CLT:
 
@@ -500,7 +497,7 @@ $$
 Asymptotic variance = variance of $X_i$
 </div>
  
-###  Asymptotic Variance II
+####  Asymptotic Variance II
 
 Can apply this idea to find $V$. Can write
 $$
@@ -517,7 +514,7 @@ $$
 V = \var(Z_i)
 $$
 
-### Estimator for Asymptotic Variance
+#### Estimator for Asymptotic Variance
 
 Can estimate $V$ with 
 $$
@@ -531,7 +528,7 @@ $$
 \widehat{se}(\hat{\beta}_{\tau}) = \sqrt{ \dfrac{\hat{V}}{N} }
 $$
 
-### Inference on Average Effects I
+#### Inference on Average Effects I
 
 Can now construct confidence intervals and hypothesis tests about $\E[Y_{i \tau}^1 - Y_{i\tau}^0]$. E.g. an asymptotic 95% confidece interval:
 $$
@@ -542,7 +539,7 @@ $$
  z_{1-\alpha/2}= \Phi^{-1}\left(1 - \dfrac{\alpha}{2} \right)
 $$
 
-### Inference on Average Effects II
+#### Inference on Average Effects II
 
 But what if we want to set the *joint* hypothesis
 $$
@@ -554,7 +551,7 @@ $$
 - This $H_0$ is a hypothesis above a *vector* of effects 
 - Need a *joint* asymptotic distribution to write down a test
 
-### Joint Asymptotic Distribution
+#### Joint Asymptotic Distribution
 
 
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
@@ -579,17 +576,23 @@ $$
 
 </div>
 
-### Joint Inference on Average Effects
+#### Joint Inference on Average Effects
 
 Can use @prp-event-study-joint-limit-distribution to create a Wald test
 
-# EMPIRICAL ILLUSTRATION {background="#014D4E"}
+## Empirical Application {background="#00100F"}
 
-### Slide
+#### Slide
 
 ff
 
-### References {.allowframebreaks visibility="uncounted"}
+
+
+## Recap and Conclusions {background="#00100F"}
+  
+#### Recap
+
+#### References {.allowframebreaks visibility="uncounted"}
 
 ::: {#refs}
 :::
