@@ -1,4 +1,120 @@
-# Advanced Econometrics
+---
+description: "Econometrics 2 covers theory and applications of causal inference and forecasting. Topics include linear and nonlinear models, panel data, and time series."
+open-graph:
+    description: "Econometrics 2 covers theory and applications of causal inference and forecasting. Topics include linear and nonlinear models, panel data, and time series." 
+---
+
+# Advanced Econometrics (Econometrics II)
 
 
-This website stores the web versions of the lectures.
+
+<img src="images/ecm-2-header-img.png" alt="Advanced Econometrics" style="width: 100%;  border-radius: 15px; margin-bottom: 6px;">
+
+
+Advanced Econometrics builds on the basic econometrics course in three directions. First, the course discusses a range of practical methods used in economics and business. Second, it addresses both causal inference and forecasting. Third, it offers a deeper discussion of the underlying theory.
+
+
+## Course Information
+  
+**Instructor:** Vladislav Morozov\
+**Email:** [morozov [at] uni-bonn.de](mailto:morozov@uni-bonn.de)\
+**Office Location:** Adenauerallee 24-42, IFS, Statistics Section\
+**Office Hours:** Virtual, by appointment\
+**Course Website:** eCampus and this website\
+**Lectures:** 8:30-10:00; Wednesdays (Room 0.042), Fridays (Lecture Hall N)\
+**Schedule Changes and Holidays**: See eCampus and BASIS
+
+
+**Level:** Undergraduate\
+**Prerequisites:** basic courses in statistics and econometrics
+
+
+### In Slide Form
+
+
+
+{{< revealjs file="slides/organizational/intro.html" height="500px" class="ratio ratio-16x9" >}}
+
+
+## Course Content
+ 
+  
+### Content 
+The course is structured into the following main parts (*Subject to modification based on progress*):
+
+1. A deeper look at linear regression:
+   - A vector-matrix form approach to linear regression.
+   - Asymptotic theory for the OLS estimator. Wald tests.
+2. Panel data in causal settings:
+   - Event studies.
+   - Differences-in-differences.
+   - Two-way fixed effect approaches with multivalued treatment.
+   - Mean group estimation.
+   - Linear generalized method of moments (GMM).
+   - IV estimation of dynamic panel data models.
+3. Introduction to forecasting:
+   - Causal inference vs. forecasting I.
+   - Notions of forecast optimality.
+   - Forecasting in cross-sections.
+4. Parametric nonlinear models:
+   - Beyond linearity: nonlinear regression and nonlinear least squares.
+   - Discrete outcomes in causal settings. 
+   - Elements of asymptotic theory for nonlinear models.
+   - Classification as forecasting with discrete outcomes.
+5. Time series:
+   - Time series as probabilistic objects and their properties.
+   - Univariate models: ARIMA(X).
+   - Multivariate time series: VARIMA(X).
+   - Elements of causal inference with time series. 
+   - Forecasting with time series vs. forecasting with panel data.
+
+
+Further topics may include quantile and distributional regression, big data, and experimentation in settings with interference. 
+ 
+
+
+---
+ 
+
+## Course Materials
+
+**Textbooks:** the course draws on several textbooks:
+
+- Brockwell, P. J., & Davis, R. A. (2016). Introduction to Time Series and Forecasting. Springer International Publishing. 
+
+- Cunningham, S. (2021). Causal Inference: The Mixtape. Yale University Press.  
+
+- Huntington-Klein, N. (2025). The Effect: An Introduction to Research Design and Causality. Chapman and Hall/CRC.
+
+- James, G., Witten, D., Hastie, T., Tibshirani, R., & Taylor, J. E. (2023). An Introduction to Statistical Learning: With Applications in Python. Springer.
+
+
+- Wooldridge, J. M. (2020). Introductory Econometrics: A Modern Approach (Seventh edition). Cengage.
+
+All books minus Wooldridge are available online (openly or through our university network). The Wooldridge book is available in our library. For specific chapters, please refer to each specific set of slides.
+ 
+---
+
+## Course Policies
+
+
+### Grading and Evaluation
+
+The final grade for this course is based on a 90 minute closed-book written exam. The date of the exam will be announced separately by the Examination Office.
+ 
+### Policies and Additional Information
+
+**Attendance and Participation:**\
+Regular attendance and active participation are strongly encouraged.  
+
+
+**Academic Integrity:**\
+Students must adhere to the university’s policies on academic integrity and plagiarism. Any violations will be subject to disciplinary action.
+
+**Accommodations:**\
+If you require any accommodations due to a disability or other circumstances, please contact the relevant office as soon as possible.
+ 
+
+
+
+ 

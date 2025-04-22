@@ -4,18 +4,42 @@ project:
 
 html-math-method: mathjax
 
+filters:
+  - diagram  
+  - reveal-header
+diagram:
+  engine:
+    tikz:
+      execpath: pdflatex
+      header-includes:
+        - '\usepackage{adjustbox}'
+        - '\usetikzlibrary{arrows,shapes.arrows,shapes.geometric,shapes.multipart,decorations.pathmorphing,positioning,swigs}' 
+
 website:
   title: "Advanced Econometrics"
-  navbar:
-    foreground: white
+  favicon: themes/favicon.ico
+  site-url: https://vladislav-morozov.github.io/econometrics-2/
+  repo-url: https://github.com/vladislav-morozov/econometrics-2/
+  repo-subdir: "src" 
+  repo-actions: [edit, issue]
+  sidebar:
+    style: "floating"
     search: true
-    left:
-      - href: index.qmd
-        text: Home 
-      - text: "Lectures"
-        menu: 
-         - slides/test_presentation.qmd
-         - slides/test_presentation_2.qmd
+    contents: 
+      - section: "Course Info"
+        contents:
+        - slides/organizational/intro.qmd  
+      - section: "Linear Regression II"
+        contents:
+        - slides/vector/vector-ols.qmd  
+        - slides/vector/identification-inference.qmd
+        - slides/vector/ols-consistency.qmd 
+        - slides/vector/ols-limit-distribution.qmd 
+        - slides/vector/ols-inference.qmd
+        - slides/vector/ols-delta-method.qmd
+
+execute:
+  freeze: auto  # re-render only when source changes
 
 format:
   html:
@@ -23,3 +47,5 @@ format:
     theme:
       light: [themes/ws_light.scss, themes/block.scss]
       dark: [themes/ws_dark.scss, themes/block.scss]  
+
+bibliography: eco.bib

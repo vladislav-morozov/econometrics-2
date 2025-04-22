@@ -8,7 +8,9 @@
 $font-family-sans-serif: "Noto Sans", sans-serif !default;
 $body-color: #333 !default;
 $presentation-h1-font-size: 3em !default;
-$presentation-h2-font-size: 2em !default;
+$presentation-h2-font-size: 2.4em !default;
+$presentation-h3-font-size: 2em !default;
+$presentation-h4-font-size: 1.1em !default;
 $presentation-heading-font: "Roboto Slab", sans-serif !default;
 $presentation-heading-color: $body-color !default;  
 $presentation-heading-font-weight: 1000 !default;
@@ -17,6 +19,12 @@ $body-bg: #ffffff !default;
 $link-color: #045D5D !default;
 $accent: $link-color !default;
 $selection-bg: #ffae00 !default;
+.title-slide h2 {
+  text-transform: uppercase !important;
+}
+.title-slide h3 {
+  text-transform: uppercase !important;
+}
 
 $presentation-heading-font-weight: 699 !default; // from settings.scss
 
@@ -91,6 +99,18 @@ $presentation-title-slide-text-align: left;
   margin-right: 5px;
 }
 
+// highlights
+
+.highlight {
+  color: $accent; 
+}
+
+.rounded-box {
+  border: 2px solid #ccc;
+  padding: 9px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+}
 
 // lists
  

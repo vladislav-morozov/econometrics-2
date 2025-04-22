@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<link href="../../themes/favicon.ico" rel="icon">
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-0de45b8b5f35a93596f1d788d60c4c11.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/quarto-contrib/reveal-header-1.0.0/add_header.js" defer="true"></script>
+<link href="../../site_libs/quarto-contrib/reveal-header-1.0.0/add_header.css" rel="stylesheet">
+<script src="../../site_libs/quarto-contrib/sc-sb-title-1.0.0/sc_sb_title.js" defer="true"></script>
+<link href="../../site_libs/quarto-contrib/grid-no-htext-1.0.0/grid_no_htext.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.6.42">
+
+  <meta name="author" content="Vladislav Morozov">
+  <title>Advanced Econometrics – Consistency of the OLS Estimator</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-cb5537517b990794adf0c72e32550bcc.css">
+  <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+   
+
+  <!-- This is what works with Quarto and MathJax 3+ -->
+
+  <script>
+
+    MathJax = {
+
+      tex: {
+
+        tags: 'ams',  // should be 'ams', 'none', or 'all'
+
+        macros: {
+
+          vect: ["\\mathbf{#1}", 1],
+
+          mat: ["\\mathbf{#1}", 1], 
+
+  
+
+          bA: "\\boldsymbol{A}",
+
+          bB: "\\boldsymbol{B}",
+
+          bC: "\\boldsymbol{C}",
+
+          bD: "\\boldsymbol{D}",
+
+          bE: "\\boldsymbol{E}",
+
+          bF: "\\boldsymbol{F}",
+
+          bG: "\\boldsymbol{G}",
+
+          bH: "\\boldsymbol{H}",
+
+          bI: "\\boldsymbol{I}",
+
+          bJ: "\\boldsymbol{J}",
+
+          bK: "\\boldsymbol{K}",
+
+          bL: "\\boldsymbol{L}",
+
+          bM: "\\boldsymbol{M}",
+
+          bN: "\\boldsymbol{N}",
+
+          bP: "\\boldsymbol{P}",
+
+          bQ: "\\boldsymbol{Q}",
+
+          bR: "\\boldsymbol{R}",
+
+          bS: "\\boldsymbol{S}",
+
+          bT: "\\boldsymbol{T}",
+
+          bU: "\\boldsymbol{U}",
+
+          bV: "\\boldsymbol{V}",
+
+          bW: "\\boldsymbol{W}",
+
+          bX: "\\boldsymbol{X}",
+
+          bY: "\\boldsymbol{Y}",
+
+          bZ: "\\boldsymbol{Z}",
+
+          ba: "\\boldsymbol{a}",
+
+          bb: "\\boldsymbol{b}",
+
+          bc: "\\boldsymbol{c}",
+
+          bd: "\\boldsymbol{d}",
+
+          be: "\\boldsymbol{e}",
+
+          bg: "\\boldsymbol{g}",
+
+          bh: "\\boldsymbol{h}",
+
+          bi: "\\boldsymbol{\\imath}",
+
+          bm: "\\boldsymbol{m}",
+
+          bp: "\\boldsymbol{p}",
+
+          bq: "\\boldsymbol{q}",
+
+          br: "\\boldsymbol{r}",
+
+          bs: "\\boldsymbol{s}",
+
+          bt: "\\boldsymbol{t}",
+
+          bu: "\\boldsymbol{u}",
+
+          bv: "\\boldsymbol{v}",
+
+          bw: "\\boldsymbol{w}",
+
+          bx: "\\boldsymbol{x}",
+
+          by: "\\boldsymbol{y}",
+
+  
+
+          Acal: "\\mathcal{A}",
+
+          Bcal: "\\mathcal{B}",
+
+          Ccal: "\\mathcal{C}",
+
+          Dcal: "\\mathcal{D}",
+
+          Ecal: "\\mathcal{E}",
+
+          Fcal: "\\mathcal{F}",
+
+          Gcal: "\\mathcal{G}",
+
+          Hcal: "\\mathcal{H}",
+
+          Ical: "\\mathcal{I}",
+
+          Jcal: "\\mathcal{J}",
+
+          Kcal: "\\mathcal{K}",
+
+          Lcal: "\\mathcal{L}",
+
+          Mcal: "\\mathcal{M}",
+
+          Ncal: "\\mathcal{N}",
+
+          Ocal: "\\mathcal{O}",
+
+          Pcal: "\\mathcal{P}",
+
+          Qcal: "\\mathcal{Q}",
+
+          Rcal: "\\mathcal{R}",
+
+          Scal: "\\mathcal{S}",
+
+          Tcal: "\\mathcal{T}",
+
+          Ucal: "\\mathcal{U}",
+
+          Vcal: "\\mathcal{V}",
+
+          Wcal: "\\mathcal{W}",
+
+          Xcal: "\\mathcal{X}",
+
+          Ycal: "\\mathcal{Y}",
+
+          Zcal: "\\mathcal{Z}",
+
+  
+
+          A: "\\mathbb{A}",
+
+          B: "\\mathbb{B}",
+
+          C: "\\mathbb{C}",
+
+          D: "\\mathbb{D}",
+
+          E: "\\mathbb{E}",
+
+          F: "\\mathbb{F}",
+
+          G: "\\mathbb{G}",
+
+          H: "\\mathbb{H}",
+
+          I: "\\mathbb{I}",
+
+          J: "\\mathbb{J}",
+
+          K: "\\mathbb{K}",
+
+          L: "\\mathbb{L}",
+
+          M: "\\mathbb{M}",
+
+          N: "\\mathbb{N}",
+
+          O: "\\mathbb{O}",
+
+          P: "\\mathbb{P}",
+
+          Q: "\\mathbb{Q}",
+
+          R: "\\mathbb{R}",
+
+          S: "\\mathbb{S}",
+
+          T: "\\mathbb{T}",
+
+          U: "\\mathbb{U}",
+
+          V: "\\mathbb{V}",
+
+          W: "\\mathbb{W}",
+
+          X: "\\mathbb{X}",
+
+          Y: "\\mathbb{Y}",
+
+          Z: "\\mathbb{Z}",
+
+  
+
+          bAlpha: "\\boldsymbol{\\Alpha}",
+
+          bBeta: "\\boldsymbol{\\beta}",
+
+          bDelta: "\\boldsymbol{\\delta}",
+
+          bEta: "\\boldsymbol{\\eta}",
+
+          bGamma: "\\boldsymbol{\\Gamma}",
+
+          bLambda: "\\boldsymbol{\\Lambda}",
+
+          bOmega: "\\boldsymbol{\\Omega}",
+
+          bPhi: "\\boldsymbol{\\Phi}",
+
+          bPi: "\\boldsymbol{\\Pi}",
+
+          bPsi: "\\boldsymbol{\\Psi}",
+
+          bSigma: "\\boldsymbol{\\Sigma}",
+
+          bTau: "\\boldsymbol{\\tau}",
+
+          bXi: "\\boldsymbol{\\Xi}",
+
+          bbeta: "\\boldsymbol{\\beta}",
+
+          bdelta: "\\boldsymbol{\\delta}",
+
+          blambda: "\\boldsymbol{\\lambda}",
+
+          bmu: "\\boldsymbol{\\mu}",
+
+          bphi: "\\boldsymbol{\\phi}",
+
+          bpi: "\\boldsymbol{\\pi}",
+
+          bpsi: "\\boldsymbol{\\psi}",
+
+          brho: "\\boldsymbol{\\rho}",
+
+          bsigma: "\\boldsymbol{\\sigma}",
+
+          btau: "\\boldsymbol{\\tau}",
+
+          bxi: "\\boldsymbol{\\xi}",
+
+          bEta: "\\boldsymbol{\\eta}",
+
+          bPhi: "\\boldsymbol{\\Phi}",
+
+          bPi: "\\boldsymbol{\\Pi}",
+
+          bPsi: "\\boldsymbol{\\Psi}",
+
+          bXi: "\\boldsymbol{\\Xi}",
+
+          blambda: "\\boldsymbol{\\lambda}",
+
+          bmu: "\\boldsymbol{\\mu}",
+
+          bphi: "\\boldsymbol{\\phi}",
+
+          bpi: "\\boldsymbol{\\pi}",
+
+          bpsi: "\\boldsymbol{\\psi}",
+
+          brho: "\\boldsymbol{\\rho}",
+
+          bsigma: "\\boldsymbol{\\sigma}",
+
+          btheta: "\\boldsymbol{\\theta}",
+
+                     
+
+          curl: ["\\left\\lbrace#1\\right\\rbrace", 1],
+
+          floor: ["\\left\\lfloor#1\\right\\rfloor", 1],
+
+          ceil: ["\\left\\lceil#1\\right\\rceil", 1],
+
+          abs: ["\\left\\lvert#1\\right\\rvert", 1],
+
+          norm: ["\\left\\lVert#1\\right\\rVert", 1],
+
+  
+
+          avar: "\\mathrm{avar}",
+
+          var: "\\mathrm{var}",
+
+          cov: "\\mathrm{cov}",
+
+  
+
+          argmin: "\\operatorname*{arg\\,min}",
+
+          argmax: "\\operatorname*{arg\\,max}",
+
+          argsup: "\\operatorname*{arg\\,sup}",
+
+          arginf: "\\operatorname*{arg\\,inf}",
+
+        }
+
+      }
+
+    };
+
+  </script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-color="#045D5D" data-footer="" class="quarto-title-block center">
+  <h1 class="title">Consistency of the OLS Estimator</h1>
+  <p class="subtitle">Convergence as Sample Size Grows</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Vladislav Morozov 
+</div>
+</div>
+</div>
+
+</section><section id="TOC">
+<nav role="doc-toc"> 
+<h2 id="toc-title">Contents</h2>
+<ul>
+<li class="fragment"><a href="#/introduction" id="/toc-introduction">Introduction</a></li>
+<li class="fragment"><a href="#/probability-background" id="/toc-probability-background">Probability Background</a></li>
+<li class="fragment"><a href="#/consistency-of-the-ols-estimator" id="/toc-consistency-of-the-ols-estimator">Consistency of the OLS Estimator</a></li>
+<li class="fragment"><a href="#/recap-and-conclusions" id="/toc-recap-and-conclusions">Recap and Conclusions</a></li>
+</ul>
+</nav>
+</section>
+<section>
+<section id="introduction" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Introduction</h2>
+
+</section>
+<section id="lecture-info" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Lecture Info</h3>
+
+</section>
+<section id="learning-outcomes" class="slide level4">
+<h4>Learning Outcomes</h4>
+<p>This lecture is about a consistency in general and consistency of the OLS estimator</p>
+<p><br></p>
+<p>By the end, you should be able to</p>
+<ul>
+<li class="fragment">Provide definitions of convergence in probability and consistency</li>
+<li class="fragment">Handle the question of invertibility of <span class="math inline">\(\bX'\bX\)</span></li>
+<li class="fragment">Derive consistency results for the OLS estimator</li>
+</ul>
+</section>
+<section id="textbook-references" class="slide level4">
+<h4>Textbook References</h4>
+<div>
+<ul>
+<li>Refresher on probability:
+<ul>
+<li>Your favorite probability textbook (e.g.&nbsp;chapter 5 in <span class="citation" data-cites="Bertsekas2008IntroductionProbability">Bertsekas and Tsitsiklis (<a href="#/references" role="doc-biblioref" onclick="">2008</a>)</span>)</li>
+<li>Sections B-C in <span class="citation" data-cites="Wooldridge2020IntroductoryEconometricsModern">Wooldridge (<a href="#/references" role="doc-biblioref" onclick="">2020</a>)</span></li>
+</ul></li>
+<li>Consistency of the OLS estimator
+<ul>
+<li>7.1-7.2 in <span class="citation" data-cites="Hansen2022Econometrics">Hansen (<a href="#/references" role="doc-biblioref" onclick="">2022</a>)</span></li>
+<li><em>Or</em> 5.1 and E4 in <span class="citation" data-cites="Wooldridge2020IntroductoryEconometricsModern">Wooldridge (<a href="#/references" role="doc-biblioref" onclick="">2020</a>)</span></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="consistency-as-basic-requirement" class="slide level4">
+<h4>Consistency as Basic Requirement</h4>
+<p>Want estimators with good properties</p>
+<div class="fragment">
+<p><br></p>
+<p><span class="highlight">Consistency</span> is a minimal required property for a “sensible” estimator</p>
+</div>
+<div class="fragment">
+<p><br></p>
+Informally:
+<div class="rounded-box">
+<p>An estimation procedure is consistent if it get the target parameter right as sample size grows infinite large</p>
+</div>
+</div>
+</section>
+</section>
+<section>
+<section id="probability-background" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Probability Background</h2>
+
+</section>
+<section id="definitions" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Definitions</h3>
+
+</section>
+<section id="reminder-convergence-of-a-deterministic-sequence" class="slide level4">
+<h4>Reminder: Convergence of a Deterministic Sequence</h4>
+<p>Recall:</p>
+<div class="rounded-box">
+<div id="def-vector-consistency-deterministic-convergence" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 1</strong></span> Let <span class="math inline">\(\bx_1, \bx_2, \dots\)</span> be a sequence of vectors in <span class="math inline">\(\R^p\)</span>. Then <span class="math inline">\(\bx_n\)</span> converges to some <span class="math inline">\(\bx\in \R^p\)</span> if for any <span class="math inline">\(\varepsilon&gt;0\)</span> there exists an <span class="math inline">\(N_0\)</span> such that for all <span class="math inline">\(N\geq N_0\)</span> <span class="math display">\[
+\norm{ \bx_N - \bx } &lt; \varepsilon
+\]</span></p>
+</div>
+</div>
+<p>Here <span class="math inline">\(\norm{\cdot}\)</span> is the Euclidean norm on <span class="math inline">\(\R^p\)</span>: if <span class="math inline">\(\by = (y_1, \dots, y_p)\)</span>, then <span class="math inline">\(\norm{\by} = \sqrt{ \sum_{i=1}^p y_i^2   }\)</span></p>
+</section>
+<section id="towards-formalizing-convergence" class="slide level4">
+<h4>Towards Formalizing Convergence</h4>
+<ul>
+<li class="fragment">Let <span class="math inline">\(\theta\in \R^p\)</span></li>
+<li class="fragment">Sample of size <span class="math inline">\(N\)</span> is <span class="math inline">\((X_1, \dots, X_N)\)</span></li>
+<li class="fragment">Recall: estimators <span class="math inline">\(\curl{\hat{\theta}_k}_{k=\min N}^{\infty}\)</span> are a sequence of functions. <span class="math inline">\(N\)</span>th estimator maps <span class="math inline">\((X_1, \dots, X_N)\)</span> to <span class="math inline">\(\R^p\)</span> to produce <em>estimates</em></li>
+</ul>
+<div class="fragment">
+<p><br></p>
+<p>Sample is random <span class="math inline">\(\Rightarrow\)</span> each <span class="math inline">\(\hat{\theta}_N(X_1, \dots, X_N)\)</span> is random</p>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(\Rightarrow\)</span> How to formalize convergence?</p>
+<div class="footer">
+<p>See <a href="https://en.wikipedia.org/wiki/Convergence_of_random_variables">Wikipedia</a></p>
+</div>
+</div>
+</section>
+<section id="convergence-in-probability-definition" class="slide level4">
+<h4>Convergence in Probability: Definition</h4>
+<p><br></p>
+<div class="rounded-box">
+<div id="def-vector-consistency-convergence-ip" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 2</strong></span> Let <span class="math inline">\(\bX_1, \bX_2, \dots\)</span> be a sequence of random matrices in <span class="math inline">\(\R^{k\times p}\)</span>. Then <span class="math inline">\(\bX_N\)</span> converges to some <span class="math inline">\(\bX\in \R^{k\times p}\)</span> <span class="highlight">in probability</span> if for any <span class="math inline">\(\varepsilon&gt;0\)</span> it holds that <span class="math display">\[
+\lim_{N\to\infty} P(\norm{\bX_N - \bX}&gt;\varepsilon) = 0
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="convergence-in-probability-discussion" class="slide level4">
+<h4>Convergence in Probability: Discussion</h4>
+<p><br></p>
+<ul>
+<li class="fragment">The limit <span class="math inline">\(\bX\)</span> can be random or deterministic</li>
+<li class="fragment">Convergence in probability written <span class="math inline">\(\bX_n\xrightarrow{p}\bX\)</span></li>
+<li class="fragment"><span class="math inline">\(\bX_N\xrightarrow{p} \bX\)</span> is the same as <span class="math inline">\(\bX_N-\bX\xrightarrow{p} 0\)</span></li>
+</ul>
+</section>
+<section id="two-important-characterizations" class="slide level4">
+<h4>Two Important Characterizations</h4>
+<div class="rounded-box">
+<div id="prp-vector-consistency-characterizations-vector" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 1</strong></span> Let <span class="math inline">\(\bA_N, \bA\)</span> be a <span class="math inline">\(m \times n\)</span> matrices with <span class="math inline">\((i, j)\)</span>th element <span class="math inline">\(a_{ij, N}\)</span> and <span class="math inline">\(a_{ij}\)</span>. Then <span class="math display">\[
+\bA_N\xrightarrow{p}\bA   \Leftrightarrow a_{ij, N} \xrightarrow a_{ij}
+\]</span></p>
+</div>
+</div>
+<div class="fragment">
+<p><br></p>
+<div class="rounded-box">
+<div id="prp-vector-consistency-characterizations-open" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 2</strong></span> <span class="math inline">\(\bX_N\xrightarrow{p}\bX\)</span> if and only if <span class="math inline">\(P(\bX_N\in U)\to 1\)</span> for any open set <span class="math inline">\(U\)</span> that contains <span class="math inline">\(\bX\)</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="definition-of-consistency" class="slide level4">
+<h4>Definition of Consistency</h4>
+<div class="rounded-box">
+<div id="def-vector-consistency-consistency" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 3</strong></span> The estimator (sequence) <span class="math inline">\(\hat{\theta}_N\)</span> is consistent for <span class="math inline">\(\theta\)</span> if as <span class="math inline">\(N\to\infty\)</span> <span class="math display">\[
+\hat{\theta}_N(X_1, \dots, X_N) \xrightarrow{p} \theta
+\]</span></p>
+</div>
+</div>
+<p>Note: we usually use the word “estimator” to refer to the whole sequence <span class="math inline">\(\curl{\hat{\theta}_N}\)</span></p>
+</section>
+
+<section id="tools-for-showing-consistency" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Tools for Showing Consistency</h3>
+
+</section>
+<section id="two-approaches-to-showing-consistency" class="slide level4">
+<h4>Two Approaches To Showing Consistency</h4>
+<ol type="1">
+<li class="fragment">Qualitative: just that convergence happens</li>
+</ol>
+<ul>
+<li class="fragment">Relies on laws of large numbers (LLNs) and related results</li>
+<li class="fragment">Approach in this course</li>
+</ul>
+<ol start="2" type="1">
+<li class="fragment">Quantitive: shows that convergence happens and answers <em>how fast</em></li>
+</ol>
+<ul>
+<li class="fragment">Usually based on <span class="highlight">concentration inequalities</span></li>
+<li class="fragment">Check out chapter 2 in <span class="citation" data-cites="Wainwright2019HighDimensionalStatisticsNonAsymptotic">Wainwright (<a href="#/references" role="doc-biblioref" onclick="">2019</a>)</span></li>
+</ul>
+<div class="footer">
+<p>Wikipedia gives a <a href="https://en.wikipedia.org/wiki/Concentration_inequality">list</a> of some concentration inequalities</p>
+</div>
+</section>
+<section id="tool-weak-law-of-large-numbers" class="slide level4">
+<h4>Tool: (Weak) Law of Large Numbers</h4>
+<div class="rounded-box">
+<div id="prp-vector-consistency-lln" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 3</strong></span> Let <span class="math inline">\(\bX_1, \bX_2, \dots\)</span> be a sequence of random vectors such that</p>
+<ol type="1">
+<li class="fragment"><span class="math inline">\(\bX_i\)</span> are independently and identically distributed (IID)</li>
+<li class="fragment"><span class="math inline">\(\E[\norm{\bX_i}]&lt;\infty\)</span></li>
+</ol>
+<p>Then <span class="math display">\[ \small
+\dfrac{1}{N} \sum_{i=1}^N \bX_i \xrightarrow{p} \E[\bX_i]
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="tool-continuous-mapping-theorem" class="slide level4">
+<h4>Tool: Continuous Mapping Theorem</h4>
+<div class="rounded-box">
+<div id="prp-vector-consistency-cmt" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 4</strong></span> Let <span class="math inline">\(\bX_N\xrightarrow{p}\bX\)</span>, and let <span class="math inline">\(f(\cdot)\)</span> be continuous is some neighborhood of all the possible values of <span class="math inline">\(\bX\)</span>.</p>
+<p>Then<br>
+<span class="math display">\[
+f(\bX_N) \xrightarrow{p} f(\bX)
+\]</span></p>
+</div>
+</div>
+<p>In words: convergence in probability is preserved under continuous transformations</p>
+</section>
+<section id="cmt-examples" class="slide level4">
+<h4>CMT Examples</h4>
+<p>Simple examples</p>
+<ol type="1">
+<li class="fragment">If <span class="math inline">\(X_N\)</span> is scalar and <span class="math inline">\(X_n\xrightarrow{p}X\)</span>, then
+<ul>
+<li class="fragment"><span class="math inline">\(X_N^2 \xrightarrow{p} X^2\)</span></li>
+<li class="fragment"><span class="math inline">\(\max\curl{0, X_N}\xrightarrow \max\curl{0, X}\)</span></li>
+</ul></li>
+<li class="fragment">If <span class="math inline">\(\bX_N\to \bX\)</span>, <span class="math inline">\(\bX_N\in \R^p\)</span> and <span class="math inline">\(\bA_N\xrightarrow{p}\bA\)</span>, <span class="math inline">\(\bA_N\in\R^{k\times p}\)</span>, then <span class="math display">\[
+\bA_N\bX_N\xrightarrow{p} \bA\bX
+\]</span></li>
+</ol>
+</section>
+<section id="visualizing-the-law-of-large-numbers" class="slide level4">
+<h4>Visualizing the Law of Large Numbers</h4>
+<video width="99%" style="display: block; margin: 0 auto;" controls="" muted="" autoplay="" loop="">
+<source src="images/lln.mp4 " type="video/webm">
+</video>
+</section>
+</section>
+<section>
+<section id="consistency-of-the-ols-estimator" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Consistency of the OLS Estimator</h2>
+
+</section>
+<section id="returning-to-the-ols-estimator" class="slide level4">
+<h4>Returning to the OLS Estimator</h4>
+<p>Let’s go back to the OLS estimator based on <span class="highlight"> IID</span> sample <span class="math inline">\((\bX_1, Y_1), \dots, (\bX_N, Y_N)\)</span></p>
+<div class="fragment">
+<p><br></p>
+<div class="rounded-box">
+<p>Is the OLS estimator consistent?</p>
+</div>
+<p><br></p>
+<p>Consistent for what?</p>
+</div>
+</section>
+<section id="convergence-without-a-causal-model" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Convergence Without a Causal Model</h3>
+
+</section>
+<section id="invertibility-of-bxbx" class="slide level4">
+<h4>Invertibility of <span class="math inline">\(\bX'\bX\)</span></h4>
+<p>First an unpleasant technical issue</p>
+<div class="rounded-box">
+<p>How to handle non-invertible <span class="math inline">\(\bX'\bX\)</span>?</p>
+</div>
+<p><br></p>
+<p>Some fall-back known value <span class="math inline">\(\bc\)</span> <span class="math display">\[
+\hat{\bbeta} = \begin{cases}
+(\bX'\bX)^{-1}\bX'\bY, &amp; \bX'\bX \text{ invertible}\\
+\bc, &amp; \bX'\bX \text{ not invertible}
+\end{cases}
+\]</span> Now <span class="math inline">\(\hat{\bbeta}\)</span> is always defined, but does <span class="math inline">\(\bc\)</span> matter?</p>
+</section>
+<section id="representation-in-terms-of-averages" class="slide level4">
+<h4>Representation in Terms of Averages</h4>
+<p>First lecture shows that <span class="math display">\[
+\bX'\bX = \sum_{i=1}^N \bX_i\bX_i', \quad \bX'\bY = \sum_{i=1}^N \bX_i Y_i
+\]</span></p>
+<p>Then we can write (under invertibility) <span class="math display">\[
+(\bX'\bX)\bX'\bY = \left(\textcolor{teal}{\dfrac{1}{N}} \sum_{i=1}^N \bX_i\bX_i'\right)^{-1} \left( \textcolor{teal}{\dfrac{1}{N}} \sum_{i=1}^N \bX_i Y_i\right)
+\]</span></p>
+</section>
+<section id="limits-of-averages" class="slide level4">
+<h4>Limits of Averages</h4>
+<p>Can handle averages. If</p>
+<ul>
+<li class="fragment"><span class="math inline">\(\E[\norm{\bX_i\bX_i'}]&lt;\infty\)</span></li>
+<li class="fragment"><span class="math inline">\(\E[\norm{\bX_iY_i}]&lt;\infty\)</span></li>
+</ul>
+<p>then by the WLLN (<a href="#/prp-vector-consistency-lln" class="quarto-xref">Proposition&nbsp;3</a>) <span class="math display">\[
+\begin{aligned}
+\dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i' \xrightarrow{p} \E[\bX_i\bX_i'], \quad
+\dfrac{1}{N} \sum_{i=1}^N \bX_iY_i \xrightarrow{p} \E[\bX_i Y_i]
+\end{aligned}
+\]</span></p>
+</section>
+<section id="handling-the-inverse-of-bxbx" class="slide level4">
+<h4>Handling the Inverse of <span class="math inline">\(\bX'\bX\)</span></h4>
+<p>Two facts:</p>
+<ul>
+<li class="fragment">The inverse function <span class="math inline">\(\bA\to \bA^{-1}\)</span> is continuous on the space of invertible matrices</li>
+<li class="fragment">The set of invertible matrices is open</li>
+</ul>
+<div class="fragment">
+<p>So if <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is invertible, then by <a href="#/prp-vector-consistency-characterizations-open" class="quarto-xref">Proposition&nbsp;2</a> and the CMT (<a href="#/prp-vector-consistency-cmt" class="quarto-xref">Proposition&nbsp;4</a>)</p>
+<ul>
+<li class="fragment"><span class="math inline">\(P(\frac{1}{N} \sum_{i=1}^N \bX_i\bX_i' \text{ is invertible})\to 1\)</span></li>
+<li class="fragment"><span class="math inline">\((\frac{1}{N}\sum_{i=1}^N \bX_i\bX_i')^{-1}  \xrightarrow{p} \left(\E[\bX_i\bX_i']\right)^{-1}\)</span></li>
+</ul>
+<div class="footer">
+<p>See <a href="https://math.stackexchange.com/questions/84392/why-do-the-n-times-n-non-singular-matrices-form-an-open-set">this StackExchange discussion</a> for more details</p>
+</div>
+</div>
+</section>
+<section id="bc-does-not-matter" class="slide level4">
+<h4><span class="math inline">\(\bc\)</span> Does Not Matter</h4>
+<p>Since <span class="math inline">\(\frac{1}{N} \sum_{i=1}^N \bX_i\bX_i'\)</span> is invertible with probability approaching 1 (w.p.a. 1), then w.p.a.1 it holds <span class="math display">\[
+\hat{\bbeta} =  (\bX'\bX)^{-1}\bX'\bY =  \left( \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'\right)^{-1} \left( \dfrac{1}{N} \sum_{i=1}^N \bX_i Y_i\right)
+\]</span></p>
+<div class="fragment">
+<p>It follows that if <span class="math inline">\(\bc\neq \E[\bX_i\bX_i']^{-1}\E[\bX_iY_i]\)</span>, then <span class="math display">\[
+P(\hat{\bbeta}= \bc) \to 0
+\]</span></p>
+</div>
+</section>
+<section id="combining-together" class="slide level4">
+<h4>Combining Together</h4>
+<div class="rounded-box">
+<div id="prp-vector-consistency-ols-model-free" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 5</strong></span> Let</p>
+<ol type="1">
+<li class="fragment"><span class="math inline">\((\bX_i, Y_i)\)</span> be IID</li>
+<li class="fragment"><span class="math inline">\(\E[\norm{\bX_i\bX_i'}]&lt;\infty\)</span>, <span class="math inline">\(\E[\norm{\bX_iY_i}]&lt;\infty\)</span></li>
+<li class="fragment"><span class="math inline">\(\E[\bX_i\bX_i']\)</span> be invertible</li>
+</ol>
+<p>Then <span class="math display">\[
+\hat{\bbeta} \xrightarrow{p} \left( \E[\bX_i\bX_i'] \right)^{-1} \E[\bX_iY_i]
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="quicker-way-of-writing" class="slide level4">
+<h4>Quicker Way of Writing</h4>
+<p>It is common and acceptable (also on the exam) to directly write <span class="math display">\[
+\hat{\bbeta}  = (\bX'\bX)^{-1}\bX'\bY
+\]</span> <span class="highlight"> provided that you </span></p>
+<ol type="1">
+<li class="fragment">Are talking about asymptotic properties (consistency, asymptotic distributions, asymptotic confidence intervals)</li>
+<li class="fragment">Make the assumption that <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is invertible and say that <span class="math inline">\(\bX'\bX\)</span> is invertible w.p.a.1</li>
+</ol>
+</section>
+<section id="convergence-of-estimator-and-objective-function" class="slide level4">
+<h4>Convergence of Estimator and Objective Function</h4>
+<video width="99%" style="display: block; margin: 0 auto;" controls="" muted="" autoplay="" loop="">
+<source src="images/ols-conv-1d.mp4 " type="video/webm">
+</video>
+</section>
+<section id="discussion" class="slide level4">
+<h4>Discussion</h4>
+<p><br></p>
+<ul>
+<li class="fragment"><a href="#/prp-vector-consistency-ols-model-free" class="quarto-xref">Proposition&nbsp;5</a>: no causal framework</li>
+<li class="fragment">OLS just measures covariances in general</li>
+<li class="fragment">Limit <span class="math inline">\(\left( \E[\bX_i\bX_i'] \right)^{-1} \E[\bX_iY_i]\)</span> is called “population projection of <span class="math inline">\(Y_i\)</span> on <span class="math inline">\(\bX_i\)</span>”</li>
+</ul>
+<div class="footer">
+<p>See <a href="https://en.wikipedia.org/wiki/Inner_product_space#Random_variables">Wikipedia</a> on inner products of random variables</p>
+</div>
+</section>
+
+<section id="convergence-under-causal-model-with-exogeneity-and-homogeneous-effects" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Convergence under Causal Model with Exogeneity and Homogeneous Effects</h3>
+
+</section>
+<section id="potential-outcomes-framework" class="slide level4">
+<h4>Potential Outcomes Framework</h4>
+<p>Let’s go back to our causal framework to add a causal part to <a href="#/prp-vector-consistency-ols-model-free" class="quarto-xref">Proposition&nbsp;5</a></p>
+<div class="fragment">
+<ul>
+<li class="fragment">Treatment <span class="math inline">\(\bX_i\)</span> with possible values <span class="math inline">\(\bx\)</span></li>
+<li class="fragment">Potential outcome under <span class="math inline">\(\bX_i=\bx\)</span>: <span id="eq-vector-consistency-causal-homogeneous"><span class="math display">\[
+Y_i^{\bx} = \bx'\bbeta + U_i
+\tag{1}\]</span></span></li>
+</ul>
+</div>
+<div class="fragment">
+<p>Observed outcomes <span class="math inline">\(Y_i\)</span> satisfy <span class="math display">\[
+Y_i = \bX_i'\bbeta + U_i
+\]</span></p>
+</div>
+</section>
+<section id="sampling-error-representation" class="slide level4">
+<h4>Sampling Error Representation</h4>
+<p>Can now <span class="highlight">substitute the equation for <span class="math inline">\(Y_i\)</span></span> (+invertibility assumptions) to get<br>
+<span class="math display">\[
+\begin{aligned}
+\hat{\bbeta} &amp; = \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_iY_i\\
+&amp; = \bbeta + \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_i U_i
+\end{aligned}
+\]</span> Last line — <span class="highlight">sampling error form</span></p>
+</section>
+<section id="consistency-of-the-ols-estimator-1" class="slide level4">
+<h4>Consistency of the OLS Estimator</h4>
+<div class="rounded-box">
+<div id="prp-vector-consistency-ols-model-causal-homogeneous" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 6</strong></span> Let</p>
+<ol type="1">
+<li class="fragment"><span class="math inline">\((\bX_i, U_i)\)</span> be IID and model (<a href="#/eq-vector-consistency-causal-homogeneous" class="quarto-xref">1</a>) hold</li>
+<li class="fragment"><span class="math inline">\(\E[\norm{\bX_i\bX_i'}]&lt;\infty\)</span>, <span class="math inline">\(\E[\norm{\bX_iU_i}]&lt;\infty\)</span>, <span class="math inline">\(\E[\bX_iU_i]=0\)</span></li>
+<li class="fragment"><span class="math inline">\(\E[\bX_i\bX_i']\)</span> be invertible</li>
+</ol>
+<p>Then <span class="math display">\[
+\hat{\bbeta} \xrightarrow{p} \bbeta
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="discussion-of-assumptions" class="slide level4">
+<h4>Discussion of Assumptions</h4>
+<ul>
+<li class="fragment"><a href="#/prp-vector-consistency-ols-model-free" class="quarto-xref">Proposition&nbsp;5</a>: assumptions on <span class="math inline">\((\bX_i, Y_i)\)</span></li>
+<li class="fragment"><a href="#/prp-vector-consistency-ols-model-causal-homogeneous" class="quarto-xref">Proposition&nbsp;6</a>: assumptions on <span class="math inline">\((\bX_i, U_i)\)</span></li>
+</ul>
+<div class="fragment">
+<p><br></p>
+<p>Need assumptions for causal interpretation:</p>
+<ul>
+<li class="fragment">Assumptions on the assignment mechanism (IID <span class="math inline">\(\bX_i\)</span> and exogeneity/orthogonality)</li>
+<li class="fragment">Same assumptions as for identification of <span class="math inline">\(\bbeta\)</span> (why can you use <a href="#/prp-vector-consistency-ols-model-causal-homogeneous" class="quarto-xref">Proposition&nbsp;6</a> to prove identification?)</li>
+</ul>
+</div>
+</section>
+<section id="orthogonality-vs-strict-exogeneity" class="slide level4">
+<h4>Orthogonality vs Strict Exogeneity</h4>
+<p>Recall:</p>
+<div class="rounded-box">
+<p>If <span class="math inline">\(\E[U_i|\bX_i]=0\)</span>, then <span class="math inline">\(\E[\bX_iU_i]=0\)</span></p>
+</div>
+<ul>
+<li class="fragment"><span class="math inline">\(\E[U_i|\bX_i]=0\)</span> is stronger than <span class="math inline">\(\E[\bX_iU_i]=0\)</span></li>
+<li class="fragment">If <span class="math inline">\(\E[U_i|\bX_i]=0\)</span> holds, then <span class="math inline">\(\E[\hat{\bbeta}] = \bbeta\)</span> (unbiased)</li>
+<li class="fragment">If <span class="math inline">\(\E[U_i|\bX_i]\neq 0\)</span> but <span class="math inline">\(\E[\bX_i U_i]=0\)</span>, then <span class="math inline">\(\hat{\bbeta}\)</span> may be biased in finite samples, but still converges to the correct <span class="math inline">\(\bbeta\)</span></li>
+<li class="fragment">What if both fail?</li>
+</ul>
+</section>
+
+<section id="convergence-under-causal-model-with-heterogeneous-effects" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Convergence under Causal Model with Heterogeneous Effects</h3>
+
+</section>
+<section id="allowing-heterogeneous-causal-effects" class="slide level4">
+<h4>Allowing Heterogeneous Causal Effects</h4>
+<p>Before concluding, let’s go back to model (<a href="#/eq-vector-consistency-causal-homogeneous" class="quarto-xref">1</a>)</p>
+<ul>
+<li class="fragment">Causal effects are <span class="highlight"> homogeneous </span> (same for everyone)</li>
+<li class="fragment">Might not be realistic</li>
+</ul>
+<div class="fragment">
+<p>More general potential outcome equation <span id="eq-vector-consistency-causal-heterogeneous"><span class="math display">\[
+Y_i^\bx = \bx_i'\bbeta_{\textcolor{teal}{i}} + U_i
+\tag{2}\]</span></span> Causal effect of shift from <span class="math inline">\(\bx_1\)</span> to <span class="math inline">\(\bx_2\)</span> for unit <span class="math inline">\(i\)</span>: <span class="math display">\[
+(\bx_2-\bx_1)'\bbeta_i
+\]</span></p>
+<div class="footer">
+
+</div>
+</div>
+</section>
+<section id="parameters-of-interest-in-model--eq-vector-consistency-causal-heterogeneous" class="slide level4">
+<h4>Parameters of Interest In Model (<a href="#/eq-vector-consistency-causal-heterogeneous" class="quarto-xref">2</a>)</h4>
+<ol type="1">
+<li class="fragment">Average <span class="math inline">\(\E[\bbeta_i]\)</span> — enough to compute all average treatment effects</li>
+<li class="fragment">Variance, other moments of <span class="math inline">\(\bbeta_i\)</span></li>
+<li class="fragment">Distribution of <span class="math inline">\(\bbeta_i\)</span></li>
+<li class="fragment">Other objects?</li>
+</ol>
+</section>
+<section id="ols-under-model--eq-vector-consistency-causal-heterogeneous" class="slide level4">
+<h4>OLS Under Model (<a href="#/eq-vector-consistency-causal-heterogeneous" class="quarto-xref">2</a>)</h4>
+<p>We can still apply OLS under (<a href="#/eq-vector-consistency-causal-heterogeneous" class="quarto-xref">2</a>), but the representation in terms of <span class="math inline">\(U_i\)</span> and <span class="math inline">\(\bbeta_i\)</span> is different: <span class="math display">\[ \small
+\begin{aligned}
+\hat{\bbeta} &amp; = \left( \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'  \right)\dfrac{1}{N} \sum_{i=1}^N \bX_i Y_i \\
+&amp; = \left( \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'  \right)\dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'\bbeta_i \\
+&amp; \quad + \left( \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'  \right)\dfrac{1}{N} \sum_{i=1}^N \bX_i U_i
+\end{aligned}
+\]</span></p>
+</section>
+<section id="limit-of-the-ols-estimator-under-model--eq-vector-consistency-causal-heterogeneous" class="slide level4">
+<h4>Limit of the OLS Estimator Under Model (<a href="#/eq-vector-consistency-causal-heterogeneous" class="quarto-xref">2</a>)</h4>
+<div class="rounded-box">
+<div id="prp-vector-consistency-ols-model-causal-heterogeneous" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 7</strong></span> Let</p>
+<ol type="1">
+<li class="fragment"><span class="math inline">\(X_i\)</span> be scalar, <span class="math inline">\((X_i, \bbeta_i, U_i)\)</span> be IID and model (<a href="#/eq-vector-consistency-causal-heterogeneous" class="quarto-xref">2</a>) hold as <span class="math display">\[ \small
+Y_i^x = \beta_i x + U_i
+\]</span></li>
+<li class="fragment"><span class="math inline">\(\E[X_i^2] \in (0,\infty)\)</span>, <span class="math inline">\(\E[X_iU_i]=0\)</span></li>
+</ol>
+<p>Then <span class="math display">\[ \small
+\hat{\bbeta} \xrightarrow{p} \E[W(X_i)\beta_i], \quad W(X_i) = X_i^2/\E[X_i^2]
+\]</span></p>
+</div>
+</div>
+<div class="footer">
+
+</div>
+</section>
+<section id="prp-vector-consistency-ols-model-causal-heterogeneous-discussion" class="slide level4">
+<h4><a href="#/prp-vector-consistency-ols-model-causal-heterogeneous" class="quarto-xref">Proposition&nbsp;7</a>: Discussion</h4>
+<p><br></p>
+<ul>
+<li class="fragment"><a href="#/prp-vector-consistency-ols-model-causal-heterogeneous" class="quarto-xref">Proposition&nbsp;7</a>: OLS is estimating a <em>weighted</em> average of individual <span class="math inline">\(\beta_i\)</span></li>
+<li class="fragment">Weights <span class="math inline">\(W(X_i)\)</span> are non-negative and <span class="math inline">\(\E[W(X_i)]=1\)</span> (population version of summing to 1)</li>
+<li class="fragment">Still a “causal” parameter, but maybe hard to interpret</li>
+<li class="fragment">Not equal to <span class="math inline">\(\E[\bbeta_i]\)</span> without further assumptions</li>
+</ul>
+</section>
+<section id="can-you-identify-ebbeta_i" class="slide level4">
+<h4>Can You Identify <span class="math inline">\(\E[\bbeta_i]\)</span>?</h4>
+<p><br></p>
+<p>Only under restrictions:</p>
+<ul>
+<li class="fragment">Independence of <span class="math inline">\(\bbeta_i\)</span> and <span class="math inline">\(\bX_i\)</span> (experimental settings). Show this!</li>
+<li class="fragment">With instruments</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="recap-and-conclusions" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Recap and Conclusions</h2>
+
+</section>
+<section id="recap" class="slide level4">
+<h4>Recap</h4>
+<p>In this lecture we</p>
+<ol type="1">
+<li class="fragment">Reviewed convergence in probability and consistency</li>
+<li class="fragment">Discussed consistency of the OLS estimator
+<ul>
+<li class="fragment">Without a causal framework (covariances)</li>
+<li class="fragment">In a causal model with homogeneous effects</li>
+<li class="fragment">In a causal model with heterogeneous effects</li>
+</ul></li>
+</ol>
+</section>
+<section id="next-questions" class="slide level4">
+<h4>Next Questions</h4>
+<p><br></p>
+<ul>
+<li class="fragment">How was fast does <span class="math inline">\(\hat{\bbeta}\)</span> converge?</li>
+<li class="fragment">Distributional properties of <span class="math inline">\(\hat{\bbeta}\)</span>?</li>
+<li class="fragment">Inference on <span class="math inline">\(\bbeta\)</span></li>
+</ul>
+</section>
+<section id="references" class="slide level4 allowframebreaks smaller scrollable" data-visibility="uncounted">
+<h4>References</h4>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Bertsekas2008IntroductionProbability" class="csl-entry" role="listitem">
+Bertsekas, Dimitri P., and John N. Tsitsiklis. 2008. <em>Introduction to <span>Probability</span></em>. 2nd ed. Optimization and Computation Series. Belmont: Athena scientific.
+</div>
+<div id="ref-Hansen2022Econometrics" class="csl-entry" role="listitem">
+Hansen, Bruce. 2022. <em>Econometrics</em>. Princeton_University_Press.
+</div>
+<div id="ref-Wainwright2019HighDimensionalStatisticsNonAsymptotic" class="csl-entry" role="listitem">
+Wainwright, Martin J. 2019. <em>High-<span>Dimensional Statistics</span>: <span>A Non-Asymptotic Viewpoint</span></em>. Cambridge University Press. <a href="https://doi.org/10.1017/9781108627771">https://doi.org/10.1017/9781108627771</a>.
+</div>
+<div id="ref-Wooldridge2020IntroductoryEconometricsModern" class="csl-entry" role="listitem">
+Wooldridge, Jeffrey M. 2020. <em>Introductory <span>Econometrics</span>: A <span>Modern Approach</span></em>. Seventh edition. Boston, MA: Cengage.
+</div>
+</div>
+
+
+<div class="reveal-header">
+<div class="header-logo" data-footer-logo-link="https://vladislav-morozov.github.io/econometrics-2/">
+<img data-src="">
+</div>
+<div class="sc-title">
+<p> </p>
+</div>
+<div class="header-text">
+<p> </p>
+</div>
+<div class="sb-title">
+<p> </p>
+</div>
+</div>
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="../../themes/favicon.ico" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>A Deeper Look at Linear Regression: Consistency</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'convex',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'fast',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1150,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const onCopySuccess = function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
+      });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp("https:\/\/vladislav-morozov\.github\.io\/econometrics-2\/");
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+        const config = {
+          allowHTML: true,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start',
+        };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>

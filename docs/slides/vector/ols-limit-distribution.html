@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<link href="../../themes/favicon.ico" rel="icon">
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-0de45b8b5f35a93596f1d788d60c4c11.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/quarto-contrib/reveal-header-1.0.0/add_header.js" defer="true"></script>
+<link href="../../site_libs/quarto-contrib/reveal-header-1.0.0/add_header.css" rel="stylesheet">
+<script src="../../site_libs/quarto-contrib/sc-sb-title-1.0.0/sc_sb_title.js" defer="true"></script>
+<link href="../../site_libs/quarto-contrib/grid-no-htext-1.0.0/grid_no_htext.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.6.42">
+
+  <meta name="author" content="Vladislav Morozov">
+  <title>Advanced Econometrics – Limit Distribution of the OLS Estimator</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-cb5537517b990794adf0c72e32550bcc.css">
+  <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+   
+
+  <!-- This is what works with Quarto and MathJax 3+ -->
+
+  <script>
+
+    MathJax = {
+
+      tex: {
+
+        tags: 'ams',  // should be 'ams', 'none', or 'all'
+
+        macros: {
+
+          vect: ["\\mathbf{#1}", 1],
+
+          mat: ["\\mathbf{#1}", 1], 
+
+  
+
+          bA: "\\boldsymbol{A}",
+
+          bB: "\\boldsymbol{B}",
+
+          bC: "\\boldsymbol{C}",
+
+          bD: "\\boldsymbol{D}",
+
+          bE: "\\boldsymbol{E}",
+
+          bF: "\\boldsymbol{F}",
+
+          bG: "\\boldsymbol{G}",
+
+          bH: "\\boldsymbol{H}",
+
+          bI: "\\boldsymbol{I}",
+
+          bJ: "\\boldsymbol{J}",
+
+          bK: "\\boldsymbol{K}",
+
+          bL: "\\boldsymbol{L}",
+
+          bM: "\\boldsymbol{M}",
+
+          bN: "\\boldsymbol{N}",
+
+          bP: "\\boldsymbol{P}",
+
+          bQ: "\\boldsymbol{Q}",
+
+          bR: "\\boldsymbol{R}",
+
+          bS: "\\boldsymbol{S}",
+
+          bT: "\\boldsymbol{T}",
+
+          bU: "\\boldsymbol{U}",
+
+          bV: "\\boldsymbol{V}",
+
+          bW: "\\boldsymbol{W}",
+
+          bX: "\\boldsymbol{X}",
+
+          bY: "\\boldsymbol{Y}",
+
+          bZ: "\\boldsymbol{Z}",
+
+          ba: "\\boldsymbol{a}",
+
+          bb: "\\boldsymbol{b}",
+
+          bc: "\\boldsymbol{c}",
+
+          bd: "\\boldsymbol{d}",
+
+          be: "\\boldsymbol{e}",
+
+          bg: "\\boldsymbol{g}",
+
+          bh: "\\boldsymbol{h}",
+
+          bi: "\\boldsymbol{\\imath}",
+
+          bm: "\\boldsymbol{m}",
+
+          bp: "\\boldsymbol{p}",
+
+          bq: "\\boldsymbol{q}",
+
+          br: "\\boldsymbol{r}",
+
+          bs: "\\boldsymbol{s}",
+
+          bt: "\\boldsymbol{t}",
+
+          bu: "\\boldsymbol{u}",
+
+          bv: "\\boldsymbol{v}",
+
+          bw: "\\boldsymbol{w}",
+
+          bx: "\\boldsymbol{x}",
+
+          by: "\\boldsymbol{y}",
+
+  
+
+          Acal: "\\mathcal{A}",
+
+          Bcal: "\\mathcal{B}",
+
+          Ccal: "\\mathcal{C}",
+
+          Dcal: "\\mathcal{D}",
+
+          Ecal: "\\mathcal{E}",
+
+          Fcal: "\\mathcal{F}",
+
+          Gcal: "\\mathcal{G}",
+
+          Hcal: "\\mathcal{H}",
+
+          Ical: "\\mathcal{I}",
+
+          Jcal: "\\mathcal{J}",
+
+          Kcal: "\\mathcal{K}",
+
+          Lcal: "\\mathcal{L}",
+
+          Mcal: "\\mathcal{M}",
+
+          Ncal: "\\mathcal{N}",
+
+          Ocal: "\\mathcal{O}",
+
+          Pcal: "\\mathcal{P}",
+
+          Qcal: "\\mathcal{Q}",
+
+          Rcal: "\\mathcal{R}",
+
+          Scal: "\\mathcal{S}",
+
+          Tcal: "\\mathcal{T}",
+
+          Ucal: "\\mathcal{U}",
+
+          Vcal: "\\mathcal{V}",
+
+          Wcal: "\\mathcal{W}",
+
+          Xcal: "\\mathcal{X}",
+
+          Ycal: "\\mathcal{Y}",
+
+          Zcal: "\\mathcal{Z}",
+
+  
+
+          A: "\\mathbb{A}",
+
+          B: "\\mathbb{B}",
+
+          C: "\\mathbb{C}",
+
+          D: "\\mathbb{D}",
+
+          E: "\\mathbb{E}",
+
+          F: "\\mathbb{F}",
+
+          G: "\\mathbb{G}",
+
+          H: "\\mathbb{H}",
+
+          I: "\\mathbb{I}",
+
+          J: "\\mathbb{J}",
+
+          K: "\\mathbb{K}",
+
+          L: "\\mathbb{L}",
+
+          M: "\\mathbb{M}",
+
+          N: "\\mathbb{N}",
+
+          O: "\\mathbb{O}",
+
+          P: "\\mathbb{P}",
+
+          Q: "\\mathbb{Q}",
+
+          R: "\\mathbb{R}",
+
+          S: "\\mathbb{S}",
+
+          T: "\\mathbb{T}",
+
+          U: "\\mathbb{U}",
+
+          V: "\\mathbb{V}",
+
+          W: "\\mathbb{W}",
+
+          X: "\\mathbb{X}",
+
+          Y: "\\mathbb{Y}",
+
+          Z: "\\mathbb{Z}",
+
+  
+
+          bAlpha: "\\boldsymbol{\\Alpha}",
+
+          bBeta: "\\boldsymbol{\\beta}",
+
+          bDelta: "\\boldsymbol{\\delta}",
+
+          bEta: "\\boldsymbol{\\eta}",
+
+          bGamma: "\\boldsymbol{\\Gamma}",
+
+          bLambda: "\\boldsymbol{\\Lambda}",
+
+          bOmega: "\\boldsymbol{\\Omega}",
+
+          bPhi: "\\boldsymbol{\\Phi}",
+
+          bPi: "\\boldsymbol{\\Pi}",
+
+          bPsi: "\\boldsymbol{\\Psi}",
+
+          bSigma: "\\boldsymbol{\\Sigma}",
+
+          bTau: "\\boldsymbol{\\tau}",
+
+          bXi: "\\boldsymbol{\\Xi}",
+
+          bbeta: "\\boldsymbol{\\beta}",
+
+          bdelta: "\\boldsymbol{\\delta}",
+
+          blambda: "\\boldsymbol{\\lambda}",
+
+          bmu: "\\boldsymbol{\\mu}",
+
+          bphi: "\\boldsymbol{\\phi}",
+
+          bpi: "\\boldsymbol{\\pi}",
+
+          bpsi: "\\boldsymbol{\\psi}",
+
+          brho: "\\boldsymbol{\\rho}",
+
+          bsigma: "\\boldsymbol{\\sigma}",
+
+          btau: "\\boldsymbol{\\tau}",
+
+          bxi: "\\boldsymbol{\\xi}",
+
+          bEta: "\\boldsymbol{\\eta}",
+
+          bPhi: "\\boldsymbol{\\Phi}",
+
+          bPi: "\\boldsymbol{\\Pi}",
+
+          bPsi: "\\boldsymbol{\\Psi}",
+
+          bXi: "\\boldsymbol{\\Xi}",
+
+          blambda: "\\boldsymbol{\\lambda}",
+
+          bmu: "\\boldsymbol{\\mu}",
+
+          bphi: "\\boldsymbol{\\phi}",
+
+          bpi: "\\boldsymbol{\\pi}",
+
+          bpsi: "\\boldsymbol{\\psi}",
+
+          brho: "\\boldsymbol{\\rho}",
+
+          bsigma: "\\boldsymbol{\\sigma}",
+
+          btheta: "\\boldsymbol{\\theta}",
+
+                     
+
+          curl: ["\\left\\lbrace#1\\right\\rbrace", 1],
+
+          floor: ["\\left\\lfloor#1\\right\\rfloor", 1],
+
+          ceil: ["\\left\\lceil#1\\right\\rceil", 1],
+
+          abs: ["\\left\\lvert#1\\right\\rvert", 1],
+
+          norm: ["\\left\\lVert#1\\right\\rVert", 1],
+
+  
+
+          avar: "\\mathrm{avar}",
+
+          var: "\\mathrm{var}",
+
+          cov: "\\mathrm{cov}",
+
+  
+
+          argmin: "\\operatorname*{arg\\,min}",
+
+          argmax: "\\operatorname*{arg\\,max}",
+
+          argsup: "\\operatorname*{arg\\,sup}",
+
+          arginf: "\\operatorname*{arg\\,inf}",
+
+        }
+
+      }
+
+    };
+
+  </script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-color="#045D5D" data-footer="" class="quarto-title-block center">
+  <h1 class="title">Limit Distribution of the OLS Estimator</h1>
+  <p class="subtitle">Key Step Towards Inference</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Vladislav Morozov 
+</div>
+</div>
+</div>
+
+</section><section id="TOC">
+<nav role="doc-toc"> 
+<h2 id="toc-title">Contents</h2>
+<ul>
+<li class="fragment"><a href="#/introduction" id="/toc-introduction">Introduction</a></li>
+<li class="fragment"><a href="#/motivation" id="/toc-motivation">Motivation</a></li>
+<li class="fragment"><a href="#/probability-background" id="/toc-probability-background">Probability Background</a></li>
+<li class="fragment"><a href="#/asymptotic-normality-of-the-ols-estimator" id="/toc-asymptotic-normality-of-the-ols-estimator">Asymptotic Normality of the OLS Estimator</a></li>
+<li class="fragment"><a href="#/recap-and-conclusions" id="/toc-recap-and-conclusions">Recap and Conclusions</a></li>
+</ul>
+</nav>
+</section>
+<section>
+<section id="introduction" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Introduction</h2>
+
+</section>
+<section id="lecture-info" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Lecture Info</h3>
+
+</section>
+<section id="learning-outcomes" class="slide level4">
+<h4>Learning Outcomes</h4>
+<p>This lecture is about the asymptotic distribution of the OLS estimator</p>
+<p><br></p>
+<p>By the end, you should be able to</p>
+<ul>
+<li class="fragment">Discuss why we need the asymptotic distribution of the OLS estimator</li>
+<li class="fragment">Provide the definition of convergence in distribution</li>
+<li class="fragment">State the central limit theorem and Slutsky’s theorem</li>
+<li class="fragment">Derive the asymptotic distribution of the OLS estimator</li>
+</ul>
+</section>
+<section id="textbook-references" class="slide level4">
+<h4>Textbook References</h4>
+<div>
+<ul>
+<li>Refresher on probability:
+<ul>
+<li>Your favorite probability textbook (e.g.&nbsp;chapter 5 in <span class="citation" data-cites="Bertsekas2008IntroductionProbability">Bertsekas and Tsitsiklis (<a href="#/references" role="doc-biblioref" onclick="">2008</a>)</span>)</li>
+<li>Sections B-C in <span class="citation" data-cites="Wooldridge2020IntroductoryEconometricsModern">Wooldridge (<a href="#/references" role="doc-biblioref" onclick="">2020</a>)</span></li>
+</ul></li>
+<li>Asymptotic theory for the OLS estimator
+<ul>
+<li>5.2 and E4 in <span class="citation" data-cites="Wooldridge2020IntroductoryEconometricsModern">Wooldridge (<a href="#/references" role="doc-biblioref" onclick="">2020</a>)</span></li>
+<li>Or 7.3 in <span class="citation" data-cites="Hansen2022Econometrics">Hansen (<a href="#/references" role="doc-biblioref" onclick="">2022</a>)</span></li>
+</ul></li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+<section id="motivation" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Motivation</h2>
+
+</section>
+<section id="motivating-empirical-example" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Motivating Empirical Example</h3>
+
+</section>
+<section id="setting-linear-causal-model" class="slide level4">
+<h4>Setting: Linear Causal Model</h4>
+<p><br></p>
+<p>We’ll continue to work in the linear causal model with potential outcomes: <span id="eq-vector-distribution-potential"><span class="math display">\[
+Y_i^\bx = \bx'\bbeta + U_i
+\tag{1}\]</span></span></p>
+</section>
+<section id="motivating-empirical-example-variables" class="slide level4">
+<h4>Motivating Empirical Example: Variables</h4>
+<ul>
+<li class="fragment"><span class="math inline">\(Y_i\)</span> — hourly log wage</li>
+<li class="fragment"><span class="math inline">\(\bx\)</span> — education and job experience in years</li>
+<li class="fragment"><span class="math inline">\(U_i\)</span> — unobserved characteristics (skill, health, etc.), assumed to satisfy <span class="math inline">\(\E[U_i|\bX_i]=0\)</span></li>
+<li class="fragment">Sample: some suitably homogeneous group (e.g.&nbsp;married white women)</li>
+</ul>
+</section>
+<section id="motivating-empirical-example-potential-outcomes" class="slide level4">
+<h4>Motivating Empirical Example: Potential Outcomes</h4>
+<p><span class="math display">\[
+\begin{aligned}[]
+&amp; [\ln(\text{wage}_i)]^{\text{(education, experience)}} \\
+&amp;  =   \beta_1 + \beta_2 \times \text{education} \\
+&amp; \quad  + \beta_3 \times  \text{experience} + \beta_4 \times  \dfrac{\text{experience}^2}{100} + U_i
+\end{aligned}
+\]</span></p>
+<div class="fragment">
+<ul>
+<li class="fragment">Can write model in terms of realized variables, but above emphasizes causal assumption</li>
+<li class="fragment">We divide experience<span class="math inline">\(^2\)</span> by 100 for numerical reasons</li>
+</ul>
+</div>
+</section>
+<section id="motivating-empirical-example-parameters-of-interest" class="slide level4">
+<h4>Motivating Empirical Example: Parameters of Interest</h4>
+<p><br></p>
+<p>Our parameters of interest:</p>
+<ol type="1">
+<li class="fragment"><span class="math inline">\(100\beta_2\)</span> — (more or less) average effect of additional year of education in percent</li>
+<li class="fragment"><span class="math inline">\(100\beta_3 + 20 \beta_4\)</span> — average effect of increasing education for individuals with 10 years of experience</li>
+<li class="fragment"><span class="math inline">\(-50\beta_3/\beta_4\)</span> — experience level which maximizes expected log wage</li>
+</ol>
+</section>
+<section id="motivating-empirical-example-data" class="slide level4 scrollable">
+<h4>Motivating Empirical Example: Data</h4>
+<ul>
+<li class="fragment"><code>cps09mar</code> — a selection from the March 2009 US Current Population Survey:</li>
+<li class="fragment">Can be obtained from the <a href="https://users.ssc.wisc.edu/~bhansen/econometrics/">website</a> for <span class="citation" data-cites="Hansen2022Econometrics">Hansen (<a href="#/references" role="doc-biblioref" onclick="">2022</a>)</span></li>
+<li class="fragment">Sample: married white women with present spouses</li>
+</ul>
+<p><br></p>
+<div id="fe701b17" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Expand for full data preparation code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb1-4"><a></a></span>
+<span id="cb1-5"><a></a><span class="im">from</span> statsmodels.regression.linear_model <span class="im">import</span> OLS</span>
+<span id="cb1-6"><a></a></span>
+<span id="cb1-7"><a></a><span class="co"># Read in the data</span></span>
+<span id="cb1-8"><a></a>data_path <span class="op">=</span> (<span class="st">"https://github.com/pegeorge/Econ521_Datasets/"</span></span>
+<span id="cb1-9"><a></a>             <span class="st">"raw/refs/heads/main/cps09mar.csv"</span>)</span>
+<span id="cb1-10"><a></a>cps_data <span class="op">=</span> pd.read_csv(data_path)</span>
+<span id="cb1-11"><a></a></span>
+<span id="cb1-12"><a></a><span class="co"># Generate variables</span></span>
+<span id="cb1-13"><a></a>cps_data[<span class="st">"experience"</span>] <span class="op">=</span> cps_data[<span class="st">"age"</span>] <span class="op">-</span> cps_data[<span class="st">"education"</span>] <span class="op">-</span> <span class="dv">6</span></span>
+<span id="cb1-14"><a></a>cps_data[<span class="st">"experience_sq_div"</span>] <span class="op">=</span> cps_data[<span class="st">"experience"</span>]<span class="op">**</span><span class="dv">2</span><span class="op">/</span><span class="dv">100</span></span>
+<span id="cb1-15"><a></a>cps_data[<span class="st">"wage"</span>] <span class="op">=</span> cps_data[<span class="st">"earnings"</span>]<span class="op">/</span>(cps_data[<span class="st">"week"</span>]<span class="op">*</span>cps_data[<span class="st">"hours"</span>] )</span>
+<span id="cb1-16"><a></a>cps_data[<span class="st">"log_wage"</span>] <span class="op">=</span> np.log(cps_data[<span class="st">'wage'</span>])</span>
+<span id="cb1-17"><a></a></span>
+<span id="cb1-18"><a></a><span class="co"># Retain only married women white with present spouses</span></span>
+<span id="cb1-19"><a></a>select_data <span class="op">=</span> cps_data.loc[</span>
+<span id="cb1-20"><a></a>    (cps_data[<span class="st">"marital"</span>] <span class="op">&lt;=</span> <span class="dv">2</span>) <span class="op">&amp;</span> (cps_data[<span class="st">"race"</span>] <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (cps_data[<span class="st">"female"</span>] <span class="op">==</span> <span class="dv">1</span>), :</span>
+<span id="cb1-21"><a></a>]</span>
+<span id="cb1-22"><a></a></span>
+<span id="cb1-23"><a></a><span class="co"># Construct X and y for regression </span></span>
+<span id="cb1-24"><a></a>exog <span class="op">=</span> select_data.loc[:, [<span class="st">'education'</span>, <span class="st">'experience'</span>, <span class="st">'experience_sq_div'</span>]]</span>
+<span id="cb1-25"><a></a>exog <span class="op">=</span> sm.add_constant(exog)</span>
+<span id="cb1-26"><a></a>endog <span class="op">=</span> select_data.loc[:, <span class="st">"log_wage"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="footer">
+
+</div>
+</section>
+<section id="motivating-empirical-example-estimation-results" class="slide level4">
+<h4>Motivating Empirical Example: Estimation Results</h4>
+<div class="sourceCode" id="cb2" data-code-line-numbers="0-1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>results <span class="op">=</span> OLS(endog, exog).fit(cov_type<span class="op">=</span><span class="st">'HC0'</span>) <span class="co"># Robust covariance matrix estimator</span></span>
+<span id="cb2-2"><a></a><span class="bu">print</span>(results.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f50a5761" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:               log_wage   R-squared:                       0.226
+Model:                            OLS   Adj. R-squared:                  0.226
+Method:                 Least Squares   F-statistic:                     862.5
+Date:                Fri, 18 Apr 2025   Prob (F-statistic):               0.00
+Time:                        12:23:59   Log-Likelihood:                -8152.9
+No. Observations:               10402   AIC:                         1.631e+04
+Df Residuals:                   10398   BIC:                         1.634e+04
+Df Model:                           3                                         
+Covariance Type:                  HC0                                         
+=====================================================================================
+                        coef    std err          z      P&gt;|z|      [0.025      0.975]
+-------------------------------------------------------------------------------------
+const                 0.9799      0.040     24.675      0.000       0.902       1.058
+education             0.1114      0.002     50.185      0.000       0.107       0.116
+experience            0.0229      0.002     12.257      0.000       0.019       0.027
+experience_sq_div    -0.0347      0.004     -8.965      0.000      -0.042      -0.027
+==============================================================================
+Omnibus:                     4380.404   Durbin-Watson:                   1.833
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):           134722.859
+Skew:                          -1.401   Prob(JB):                         0.00
+Kurtosis:                      20.406   Cond. No.                         219.
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity robust (HC0)</code></pre>
+</div>
+</div>
+</section>
+<section id="empirical-questions" class="slide level4">
+<h4>Empirical Questions</h4>
+<p><br></p>
+<ol type="1">
+<li class="fragment">How certain are we of our estimates of target parameters?</li>
+<li class="fragment">Does education matter at all? (up to our statistical confidence)</li>
+<li class="fragment">Is the best amount of experience to have equal to 15 years? (up to our statistical confidence)</li>
+</ol>
+</section>
+
+<section id="translating-to-theory" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Translating to Theory</h3>
+
+</section>
+<section id="goal-inference" class="slide level4">
+<h4>Goal: Inference</h4>
+<p><br></p>
+<p>Recall:</p>
+<div class="rounded-box">
+<p>Inference is about answering questions about the population based on the finite sample</p>
+</div>
+<p><br></p>
+<p>All of our questions — examples of inference</p>
+</section>
+<section id="challenge-randomness" class="slide level4">
+<h4>Challenge: Randomness</h4>
+<p>Key challenge:</p>
+<div class="rounded-box">
+<p>We only see a random sample instead of the full population</p>
+</div>
+<p>In other words: our estimated values are also random and do not perfectly reflect the underlying population values</p>
+<div class="fragment">
+<ul>
+<li class="fragment">How to quantify whether we are close or far to the true parameters? (<span class="math inline">\(\Rightarrow\)</span> confidence intervals)</li>
+<li class="fragment">Are the values we obtained compatible with our hypotheses? (<span class="math inline">\(\Rightarrow\)</span> hypothesis testing)</li>
+</ul>
+</div>
+</section>
+<section id="necessary-object-distribution-of-estimator" class="slide level4">
+<h4>Necessary Object: Distribution of Estimator</h4>
+<p><br></p>
+<div class="rounded-box">
+<p>To answer these questions, we need the distribution of the estimator for given sample size</p>
+</div>
+<div class="fragment">
+<p><br></p>
+<p>How do you get this distribution if you only have one sample?</p>
+</div>
+</section>
+<section id="possible-approach-distributional-assumptions" class="slide level4">
+<h4>Possible Approach: Distributional Assumptions</h4>
+<ul>
+<li class="fragment">It is possible to impose exact distributional assumptions on the data (i.e., <span class="math inline">\((\bX_i, \bU_i))\)</span></li>
+<li class="fragment">Example: assuming <span class="math inline">\(U_i|\bX_i\sim N(\cdot, \cdot)\)</span> (e.g.&nbsp;chapter 4 in <span class="citation" data-cites="Wooldridge2020IntroductoryEconometricsModern">Wooldridge (<a href="#/references" role="doc-biblioref" onclick="">2020</a>)</span>)</li>
+</ul>
+<div class="fragment">
+<p>Such approaches usually problematic:</p>
+<ul>
+<li class="fragment">How do you justify such assumptions?</li>
+<li class="fragment">If these distributions have unknown parameters, how do you estimate them and quantify uncertainty about those parameters?</li>
+</ul>
+</div>
+</section>
+<section id="other-approaches" class="slide level4">
+<h4>Other Approaches</h4>
+<ul>
+<li class="fragment">Nonasymptotic/finite-sample analysis based on “high-probability bounds”:
+<ul>
+<li class="fragment">Usually require making assumptions about tails of the data (e.g.&nbsp;that <span class="math inline">\(U_i\)</span> has bounded support),</li>
+<li class="fragment">See examples in <span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri, Rostamizadeh, and Talwalkar (<a href="#/references" role="doc-biblioref" onclick="">2018</a>)</span> and <span class="citation" data-cites="Wainwright2019HighDimensionalStatisticsNonAsymptotic">Wainwright (<a href="#/references" role="doc-biblioref" onclick="">2019</a>)</span> for some examples</li>
+</ul></li>
+<li class="fragment">Large-sample approximations using tools like the central limit theorem(s) — topic of this lecture</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="probability-background" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Probability Background</h2>
+
+</section>
+<section id="definitions" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Definitions</h3>
+
+</section>
+<section id="convergence-in-distribution" class="slide level4">
+<h4>Convergence in Distribution</h4>
+<div class="rounded-box">
+<div id="def-vector-distribution-convergence-distribution" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 1</strong></span> Let <span class="math inline">\(\bX_1, \bX_2, \dots\)</span> and <span class="math inline">\(\bX\)</span> be random vectors in <span class="math inline">\(\R^q\)</span>. Let <span class="math inline">\(\bX_N\)</span> have CDF <span class="math inline">\(F_N(\cdot)\)</span> and <span class="math inline">\(\bX\)</span> have CDF <span class="math inline">\(F(\cdot)\)</span>. <span class="math inline">\(\curl{\bX_N}\)</span> converges <em>in distribution</em> (converges <em>weakly</em>) to <span class="math inline">\(\bX\)</span> if</p>
+<p><span class="math display">\[
+\lim_{N\to\infty} F_N(\bx) = F(\bx)
+\]</span> for every <span class="math inline">\(x\in\R^q\)</span> such that <span class="math inline">\(F(\cdot)\)</span> is continuous at <span class="math inline">\(\bx\)</span></p>
+</div>
+</div>
+<p>Convergence in distribution is labeled <span class="math inline">\(\bX_N\Rightarrow \bX\)</span> or <span class="math inline">\(\bX_N\xrightarrow{d} \bX\)</span></p>
+</section>
+<section id="convergence-in-distribution-vs.-in-probability" class="slide level4">
+<h4>Convergence in Distribution vs.&nbsp;in Probability</h4>
+<div class="rounded-box">
+<div id="prp-vector-distribution-convergence-contrast" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 1</strong></span> &nbsp;</p>
+<ol type="1">
+<li class="fragment">If <span class="math inline">\(\bX_N\xrightarrow{p} \bX\)</span>, then <span class="math inline">\(\bX_N\xrightarrow{d} \bX\)</span></li>
+<li class="fragment">If <span class="math inline">\(\bX_N\xrightarrow{d} \bX\)</span> and <span class="math inline">\(\bX\)</span> is not random (=constant), then <span class="math inline">\(\bX_N\xrightarrow{p} \bX\)</span></li>
+</ol>
+</div>
+</div>
+<p>Convergence in probability is generally <em>stronger</em> than convergence in distribution</p>
+</section>
+
+<section id="tools-for-working-with-convergence-in-distribution" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Tools for Working with Convergence in Distribution</h3>
+
+</section>
+<section id="working-with-vectors-mean-and-variance" class="slide level4">
+<h4>Working with Vectors: Mean and Variance</h4>
+<p>In this class we work with random vectors (such as <span class="math inline">\(\bX_iU_i\)</span>)</p>
+<div class="fragment">
+<p><br></p>
+<p>Some notation for vectors:</p>
+<ul>
+<li class="fragment">Mean of random vector <span class="math inline">\(\bZ\)</span> is the vector <span class="math inline">\(\bmu = \E[\bZ]\)</span>: coordinates of <span class="math inline">\(\bmu\)</span> — means of coordinates of <span class="math inline">\(\E[\bZ]\)</span></li>
+<li class="fragment">Variance-covariance matrix of <span class="math inline">\(\bZ\)</span> is the matrix<br>
+<span class="math display">\[
+\var(\bZ) = \E[(\bZ-\bmu)(\bZ-\bmu)']
+\]</span></li>
+</ul>
+</div>
+</section>
+<section id="key-tool-multivariate-clt" class="slide level4">
+<h4>Key Tool: (Multivariate) CLT</h4>
+<div class="rounded-box">
+<div id="prp-vector-distribution-clt" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 2</strong></span> Let <span class="math inline">\(\bZ_1, \bZ_2, \dots\)</span> be a sequence of random vectors with <span class="math inline">\(\bmu=\E[\bZ_i]\)</span></p>
+<ol type="1">
+<li class="fragment"><span class="math inline">\(\bZ_i\)</span> are independently and identically distributed (IID)</li>
+<li class="fragment"><span class="math inline">\(\E[\norm{\bZ_i}^2]&lt;\infty\)</span></li>
+</ol>
+<p>Then <span class="math display">\[ \small
+\sqrt{N}\left(  \dfrac{1}{N}\sum_{i=1}^N \bZ_i - \bmu  \right) \xrightarrow{d} N(0, \var(\bZ_i) )
+\]</span></p>
+</div>
+</div>
+<div class="footer">
+
+</div>
+</section>
+<section id="visualizing-the-clt" class="slide level4">
+<h4>Visualizing The CLT</h4>
+<video width="99%" style="display: block; margin: 0 auto;" controls="" muted="" autoplay="" loop="">
+<source src="images/clt_cdf.mp4 " type="video/webm">
+</video>
+</section>
+<section id="practical-interpetation-scalar-case" class="slide level4">
+<h4>Practical Interpetation: Scalar Case</h4>
+<p>The CLT (<a href="#/prp-vector-distribution-clt" class="quarto-xref">Proposition&nbsp;2</a>) for scalar data states that for sufficiently large <span class="math inline">\(N\)</span> <span class="math display">\[ \small
+P\left(\dfrac{N^{-1}\sum_{i=1}^N Z_i - \E[Z_i]  }{\sqrt{ \var(Z_i)/N  }}\leq x \right) \approx \Phi(x)
+\]</span> where <span class="math inline">\(\Phi(\cdot)\)</span> is the standard normal CDF. In other words, the mean is approximately distrubuted as (“<span class="math inline">\(\overset{a}{\sim}\)</span>”) <span id="eq-vector-distribution-mean-approx-clt"><span class="math display">\[\small
+\bar{Z} \overset{a}{\sim} N\left( \E[Z_i], \dfrac{\var(Z_i)}{N} \right)
+\tag{2}\]</span></span></p>
+</section>
+<section id="tool-continuous-mapping-theorem" class="slide level4">
+<h4>Tool: Continuous Mapping Theorem</h4>
+<div class="rounded-box">
+<div id="prp-vector-distribution-cmt" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 3</strong></span> Let <span class="math inline">\(\bZ_N\xrightarrow{d}\bZ\)</span>, and let <span class="math inline">\(f(\cdot)\)</span> be continuous is some neighborhood of all the possible values of <span class="math inline">\(\bZ\)</span>.</p>
+<p>Then<br>
+<span class="math display">\[
+f(\bZ_N) \xrightarrow{d} f(\bZ)
+\]</span></p>
+</div>
+</div>
+<p>In words: convergence in distribution is also preserved under continuous transformations</p>
+</section>
+<section id="cmt-scalar-example" class="slide level4">
+<h4>CMT: Scalar Example</h4>
+<p>Consider scalar case with <span class="math inline">\(\sqrt{N}(\bar{X}-\mu)\Rightarrow Z\)</span> for <span class="math inline">\(Z\sim N(0, \var(X_i))\)</span>. Then <span class="math display">\[
+N(\bar{X}-\mu)^2 \xrightarrow{d} Z^2
+\]</span></p>
+<div class="fragment">
+<div class="callout callout-important no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Note: the above is not the same as looking at <span id="eq-vector-distribution-predelta"><span class="math display">\[
+\sqrt{N}([\bar{X}]^2 - \mu^2)
+\tag{3}\]</span></span> The function <span class="math inline">\(f\)</span> is applied to the elements of the convergent sequence</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<p>But next lecture will discuss how to talk about <a href="#/eq-vector-distribution-predelta" class="quarto-xref">Equation&nbsp;3</a> using the CLT</p>
+</div>
+</div>
+</section>
+<section id="cmt-vector-example" class="slide level4">
+<h4>CMT: Vector Example</h4>
+<p>In the vector case, label</p>
+<ul>
+<li class="fragment"><span class="math inline">\(\bZ_N= \sqrt{N}\left(  \dfrac{1}{N}\sum_{i=1}^N \bX_i - \E[\bX_i]  \right)\)</span> with <span class="math inline">\(q\)</span> coordinates</li>
+<li class="fragment"><span class="math inline">\(\bZ\sim N(0, \var(\bX) )\)</span></li>
+<li class="fragment"><span class="math inline">\(\bA\)</span> — some <span class="math inline">\(q\times q\)</span> matrix</li>
+</ul>
+<div class="fragment">
+<p>Then</p>
+<p><span class="math display">\[
+\bZ_N'\bA\bZ_N\xrightarrow{d} \bZ'\bA\bZ
+\]</span></p>
+</div>
+</section>
+<section id="tool-slutskys-theorem" class="slide level4">
+<h4>Tool: Slutsky’s Theorem</h4>
+<p>Tool for combining sequences that converge in probability and in distribution</p>
+<div class="rounded-box">
+<div id="prp-vector-distribution-slutsky" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 4</strong></span> Let <span class="math inline">\(\bZ_N\xrightarrow{d}\bZ\)</span>, <span class="math inline">\(\bV_N\xrightarrow{p} \bv\)</span>, <span class="math inline">\(\bA_N\xrightarrow{p}\bA\)</span>. Then (provided invertibility and compatible sizes)</p>
+<ol type="1">
+<li class="fragment"><span class="math inline">\(\bZ_N + \bV_N \xrightarrow{d} \bZ + \bv\)</span></li>
+<li class="fragment"><span class="math inline">\(\bA_N\bZ_N \xrightarrow{d} \bA\bZ\)</span></li>
+<li class="fragment"><span class="math inline">\(\bZ_N'\bA_N^{-1}\bZ_N\xrightarrow{d} \bZ'\bA^{-1}\bZ\)</span></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="warning-bv-and-ba-must-be-constant" class="slide level4">
+<h4>Warning: <span class="math inline">\(\bv\)</span> and <span class="math inline">\(\bA\)</span> Must Be Constant</h4>
+<p><br></p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>Slutsky’s theorem no longer holds if <span class="math inline">\(\bV_N\)</span> or <span class="math inline">\(\bA_N\)</span> converges to a random limit!</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section>
+<section id="asymptotic-normality-of-the-ols-estimator" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Asymptotic Normality of the OLS Estimator</h2>
+
+</section>
+<section id="estimator-and-model" class="slide level4">
+<h4>Estimator and Model</h4>
+<p>Let’s return to the OLS estimator for <span class="math inline">\(\bbeta\)</span> in model (<a href="#/eq-vector-distribution-potential" class="quarto-xref">1</a>) <span class="math display">\[
+\hat{\bbeta} = \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1}\left( \dfrac{1}{N}\sum_{i=1}^N \bX_i Y_i \right)
+\]</span></p>
+<div class="fragment">
+<p>We retain these assumptions used for consistency:</p>
+<ul>
+<li class="fragment">IID sample</li>
+<li class="fragment"><span class="math inline">\(\E[\bX_i\bX_i']\)</span> invertible</li>
+<li class="fragment"><span class="math inline">\(\E[\bX_iU_i] =0\)</span></li>
+</ul>
+<div class="footer">
+<p>The question of invertibility is handled as in the previous lecture</p>
+</div>
+</div>
+</section>
+<section id="towards-normality" class="slide level4">
+<h4>Towards Normality</h4>
+<p>Write the OLS estimator in sample error form: <span class="math display">\[
+\hat{\bbeta} = \bbeta + \left( \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1}\left( \dfrac{1}{N}\sum_{i=1}^N \bX_i U_i \right)
+\]</span></p>
+<div class="fragment">
+<p>Notice</p>
+<ul>
+<li class="fragment"><span class="math inline">\(N^{-1}\sum_{i=1}^N \bX_i U_i\)</span> — sample average of IID random variable with <span class="math inline">\(\E[\bX_i U_i]=0\)</span>.</li>
+<li class="fragment">Potential application of the CLT!</li>
+</ul>
+</div>
+</section>
+<section id="the-four-steps-of-showing-normality" class="slide level4">
+<h4>The Four Steps of Showing Normality</h4>
+<p><br></p>
+<div class="rounded-box">
+<ol type="1">
+<li class="fragment">Show asymptotic normality of <span class="math inline">\(N^{-1}\sum_{i=1}^N \bX_i U_i\)</span></li>
+<li class="fragment">Handle <span class="math inline">\(\left(N^{-1}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1}\)</span></li>
+<li class="fragment">Combine first two steps together</li>
+<li class="fragment">Figure out the variance of the limit</li>
+</ol>
+</div>
+</section>
+<section id="step-1-asymptotic-normality-of-n-1sum_i1n-bx_i-u_i" class="slide level4">
+<h4>Step 1: Asymptotic Normality of <span class="math inline">\(N^{-1}\sum_{i=1}^N \bX_i U_i\)</span></h4>
+<p>By the CLT (<a href="#/prp-vector-distribution-clt" class="quarto-xref">Proposition&nbsp;2</a>) (applied to <span class="math inline">\(\bX_iU_i\)</span>) and the assumption <span class="math inline">\(\E[\bX_iU_i]=0\)</span></p>
+<p><span class="math display">\[
+\dfrac{1}{\sqrt{N}}\sum_{i=1}^N \bX_i U_i \xrightarrow{d} N\left( 0, \E[U_i^2\bX_i\bX_i']   \right)
+\]</span></p>
+<div class="fragment">
+<p>We need to assume that <span class="math inline">\(\E[\norm{\bX_i U_i}^2] &lt;\infty\)</span></p>
+</div>
+</section>
+<section id="step-2-handling-leftn-1sum_i1n-bx_ibx_i-right-1" class="slide level4">
+<h4>Step 2: Handling <span class="math inline">\(\left(N^{-1}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1}\)</span></h4>
+<p>Exactly as for consistency:</p>
+<ul>
+<li class="fragment">Law of large numbers: <span class="math inline">\(N^{-1}\sum_{i=1}^N \bX_i\bX_i'\xrightarrow{p} \E[\bX_i\bX_i']\)</span></li>
+<li class="fragment">CMT + assumption that <span class="math inline">\(\left(\E[\bX_i\bX_i']\right)^{-1}\)</span> exists <span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(N^{-1}\sum_{i=1}^N \bX_i\bX_i'\)</span> is invertible with probability approaching 1</li>
+<li class="fragment">CMT: <span class="math inline">\(\left(\frac{1}{N} \sum_{i=1}^N \bX_i\bX_i'  \right)^{-1} \xrightarrow{p} \left( \E[\bX_i\bX_i']\right)^{-1}\)</span></li>
+</ul>
+</section>
+<section id="step-3-ols-as-product-of-two-sequences" class="slide level4">
+<h4>Step 3: OLS as Product of Two Sequences</h4>
+<p>OLS estimator multiplies two sequences:</p>
+<ul>
+<li class="fragment">Vectors <span class="math inline">\(\frac{1}{\sqrt{N}}\sum_{i=1}^N \bX_i U_i\)</span> converge in distribution</li>
+<li class="fragment">Matrices <span class="math inline">\(\left(N^{-1}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1}\)</span> converge in probability to <em>constant limit</em></li>
+</ul>
+<div class="fragment">
+<p><br></p>
+<p>Can apply Slutsky’s theorem (<a href="#/prp-vector-distribution-slutsky" class="quarto-xref">Proposition&nbsp;4</a>)!</p>
+</div>
+</section>
+<section id="step-3-applying-slutskys-theorem" class="slide level4">
+<h4>Step 3: Applying Slutsky’s Theorem</h4>
+<p>Slutsky’s theorem gives <span id="eq-vector-distribution-slutsky-result"><span class="math display">\[
+\begin{aligned}
+&amp; \sqrt{N}(\hat{\bbeta}-\bbeta)\\
+&amp; = \left(N^{-1}\sum_{i=1}^N \bX_i\bX_i'  \right)^{-1} \dfrac{1}{\sqrt{N}}\sum_{i=1}^N \bX_i U_i \\
+&amp; \xrightarrow{d} \left( \E[\bX_i\bX_i']\right)^{-1} \bZ,
+\end{aligned}
+\tag{4}\]</span></span> for <span class="math inline">\(\bZ\sim  N\left( 0, \E[U_i^2\bX_i\bX_i']   \right)\)</span></p>
+</section>
+<section id="step-4-properties-of-variances-of-vectors" class="slide level4">
+<h4>Step 4: Properties of Variances of Vectors</h4>
+<p>Recall: if <span class="math inline">\(\var(X)= \sigma^2\)</span>, then <span class="math inline">\(\var(aX) = a^2\sigma^2\)</span></p>
+<div class="fragment">
+<p><br></p>
+Similar story for vectors:
+<div class="rounded-box">
+<div id="prp-vector-distribution-vector-var" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 5</strong></span> Let <span class="math inline">\(\bZ\)</span> be a <span class="math inline">\(k\)</span>-vector with variance-covariance matrix <span class="math inline">\(\var(\bZ)\)</span>. Let <span class="math inline">\(\bA\)</span> be a <span class="math inline">\(q\times k\)</span> matrix. Then <span class="math display">\[
+\var(\bA\bZ) = \bA\var(\bZ)\bA'
+\]</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="step-4-variance" class="slide level4">
+<h4>Step 4: Variance</h4>
+<p>Now want to apply <a href="#/prp-vector-distribution-vector-var" class="quarto-xref">Proposition&nbsp;5</a> to <a href="#/eq-vector-distribution-slutsky-result" class="quarto-xref">Equation&nbsp;4</a> to get <span class="math display">\[
+\begin{aligned}
+&amp; \var\left( \left( \E[\bX_i\bX_i']\right)^{-1} \bZ \right) \\
+&amp; = \left( \E[\bX_i\bX_i']\right)^{-1} \E[U_i^2\bX_i\bX_i']\left( \E[\bX_i\bX_i']\right)^{-1}
+\end{aligned}
+\]</span></p>
+<div class="rounded-box">
+<p>We have used (where?) that</p>
+<ul>
+<li class="fragment"><span class="math inline">\(\E[\bX_i\bX_i']\)</span> is symmetric (why?)</li>
+<li class="fragment">Inverses of symmetric matrices are symmetric</li>
+</ul>
+</div>
+</section>
+<section id="combined-result" class="slide level4">
+<h4>Combined Result</h4>
+<div class="rounded-box">
+<div id="prp-vector-distribution-ols-distr" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 6</strong></span> Let</p>
+<ol type="1">
+<li class="fragment"><span class="math inline">\((\bX_i, Y_i)\)</span> be IID</li>
+<li class="fragment"><span class="math inline">\(\E[\norm{\bX_i\bX_i'}]&lt;\infty\)</span>, <span class="math inline">\(\E[\norm{\bX_iU_i}^2]&lt;\infty\)</span></li>
+<li class="fragment"><span class="math inline">\(\E[\bX_i\bX_i']\)</span> be invertible</li>
+</ol>
+<p>Then <span class="math display">\[\scriptsize
+\sqrt{N}(\hat{\bbeta}-\bbeta) \xrightarrow{d} N\left(0, \underbrace{\left( \E[\bX_i\bX_i']\right)^{-1} \E[U_i^2\bX_i\bX_i']\left( \E[\bX_i\bX_i']\right)^{-1} }_{\tiny \text{Called the asymptotic variance: } \avar(\hat{\bbeta}) }\right)
+\]</span></p>
+</div>
+</div>
+<div class="foooter">
+
+</div>
+</section>
+<section id="discussion-of-asymptotic-variance-avarhatbbeta" class="slide level4">
+<h4>Discussion of Asymptotic Variance <span class="math inline">\(\avar(\hat{\bbeta})\)</span></h4>
+<ul>
+<li class="fragment">Asymptotic variance expression in <a href="#/prp-vector-distribution-ols-distr" class="quarto-xref">Proposition&nbsp;6</a> is sometimes called the “sandwich” form</li>
+<li class="fragment">Expression compatible with heteroskedasticity</li>
+<li class="fragment">If <span class="math inline">\(\E[U_i^2|\bX_i]=\sigma^2\)</span> (conditional homoskedasticity), expression simplifies (corresponds to <code>nonrobust</code> estimates of standard errors). In practice not very useful</li>
+</ul>
+</section>
+<section id="practical-usefulness-foundation-for-inference" class="slide level4">
+<h4>Practical Usefulness: Foundation for Inference</h4>
+<p>Similarly to (<a href="#/eq-vector-distribution-mean-approx-clt" class="quarto-xref">2</a>), <a href="#/prp-vector-distribution-ols-distr" class="quarto-xref">Proposition&nbsp;6</a> can be interpreted as saying that</p>
+<p><span class="math display">\[
+\hat{\bbeta} \overset{a}{\sim} N\left(\bbeta,  \dfrac{1}{N}\avar(\hat{\bbeta}) \right)
+\]</span></p>
+<div class="fragment">
+<ul>
+<li class="fragment">Gives us an idea of how much variation/precision we can expect from <span class="math inline">\(\hat{\bbeta}\)</span></li>
+<li class="fragment">If a hypothesis <span class="math inline">\(H_0\)</span> tells us something about <span class="math inline">\(\bbeta\)</span>, we can check how likely <span class="math inline">\(H_0\)</span> is based on seeing <span class="math inline">\(\hat{\bbeta}\)</span></li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="recap-and-conclusions" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Recap and Conclusions</h2>
+
+</section>
+<section id="recap" class="slide level4">
+<h4>Recap</h4>
+<p>In this lecture we</p>
+<ol type="1">
+<li class="fragment">Formulated our first practical questions in inference</li>
+<li class="fragment">Reviewed convergence in distribution</li>
+<li class="fragment">Derived the asymptotic distribution of the OLS estimator</li>
+</ol>
+</section>
+<section id="next-questions" class="slide level4">
+<h4>Next Questions</h4>
+<p><br></p>
+<p>How to use <a href="#/prp-vector-distribution-ols-distr" class="quarto-xref">Proposition&nbsp;6</a> for inference?</p>
+<ul>
+<li class="fragment">Estimating <span class="math inline">\(\avar(\hat{\bbeta})\)</span> to get standard errors</li>
+<li class="fragment">Building tests and confidence intervals</li>
+<li class="fragment">Answering the questions of our empirical example</li>
+</ul>
+</section>
+<section id="references" class="slide level4 allowframebreaks smaller scrollable" data-visibility="uncounted">
+<h4>References</h4>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Bertsekas2008IntroductionProbability" class="csl-entry" role="listitem">
+Bertsekas, Dimitri P., and John N. Tsitsiklis. 2008. <em>Introduction to <span>Probability</span></em>. 2nd ed. Optimization and Computation Series. Belmont: Athena scientific.
+</div>
+<div id="ref-Hansen2022Econometrics" class="csl-entry" role="listitem">
+Hansen, Bruce. 2022. <em>Econometrics</em>. Princeton_University_Press.
+</div>
+<div id="ref-Mohri2018FoundationsMachineLearning" class="csl-entry" role="listitem">
+Mohri, Mehryar, Afshin Rostamizadeh, and Ameet Talwalkar. 2018. <em>Foundations of <span>Machine Learning</span></em>. The MIT Press. <a href="https://doi.org/10.5555/3360093">https://doi.org/10.5555/3360093</a>.
+</div>
+<div id="ref-Wainwright2019HighDimensionalStatisticsNonAsymptotic" class="csl-entry" role="listitem">
+Wainwright, Martin J. 2019. <em>High-<span>Dimensional Statistics</span>: <span>A Non-Asymptotic Viewpoint</span></em>. Cambridge University Press. <a href="https://doi.org/10.1017/9781108627771">https://doi.org/10.1017/9781108627771</a>.
+</div>
+<div id="ref-Wooldridge2020IntroductoryEconometricsModern" class="csl-entry" role="listitem">
+Wooldridge, Jeffrey M. 2020. <em>Introductory <span>Econometrics</span>: A <span>Modern Approach</span></em>. Seventh edition. Boston, MA: Cengage.
+</div>
+</div>
+
+
+<div class="reveal-header">
+<div class="header-logo" data-footer-logo-link="https://vladislav-morozov.github.io/econometrics-2/">
+<img data-src="">
+</div>
+<div class="sc-title">
+<p> </p>
+</div>
+<div class="header-text">
+<p> </p>
+</div>
+<div class="sb-title">
+<p> </p>
+</div>
+</div>
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="../../themes/favicon.ico" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>A Deeper Look at Linear Regression: Asymptotic Normality</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'convex',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'fast',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1150,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const onCopySuccess = function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
+      });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp("https:\/\/vladislav-morozov\.github\.io\/econometrics-2\/");
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+        const config = {
+          allowHTML: true,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start',
+        };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>

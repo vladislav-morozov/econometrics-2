@@ -1,3 +1,5 @@
 /.quarto/
 /.venv/*
 /_extensions/*
+*.quarto_ipynb
+_freeze/*
