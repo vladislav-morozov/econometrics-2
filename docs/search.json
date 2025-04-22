@@ -143,6 +143,28 @@
     ]
   },
   {
+    "objectID": "slides/organizational/intro.html#content-and-motivation",
+    "href": "slides/organizational/intro.html#content-and-motivation",
+    "title": "Course Introduction",
+    "section": "Content and Motivation",
+    "text": "Content and Motivation",
+    "crumbs": [
+      "Course Info",
+      "Course Introduction"
+    ]
+  },
+  {
+    "objectID": "slides/organizational/intro.html#course-logistics",
+    "href": "slides/organizational/intro.html#course-logistics",
+    "title": "Course Introduction",
+    "section": "Course Logistics",
+    "text": "Course Logistics",
+    "crumbs": [
+      "Course Info",
+      "Course Introduction"
+    ]
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Advanced Econometrics (Econometrics II)",
@@ -178,25 +200,58 @@
     "text": "The final grade for this course is based on a 90 minute closed-book written exam. The date of the exam will be announced separately by the Examination Office.\n\n\n\nAttendance and Participation:\nRegular attendance and active participation are strongly encouraged.\nAcademic Integrity:\nStudents must adhere to the university’s policies on academic integrity and plagiarism. Any violations will be subject to disciplinary action.\nAccommodations:\nIf you require any accommodations due to a disability or other circumstances, please contact the relevant office as soon as possible."
   },
   {
-    "objectID": "slides/organizational/intro.html#content-and-motivation",
-    "href": "slides/organizational/intro.html#content-and-motivation",
-    "title": "Course Introduction",
-    "section": "Content and Motivation",
-    "text": "Content and Motivation",
+    "objectID": "slides/panel/event-studies.html#setting",
+    "href": "slides/panel/event-studies.html#setting",
+    "title": "Event Studies",
+    "section": "SETTING",
+    "text": "SETTING",
     "crumbs": [
-      "Course Info",
-      "Course Introduction"
+      "Panel Data",
+      "Event Studies"
     ]
   },
   {
-    "objectID": "slides/organizational/intro.html#course-logistics",
-    "href": "slides/organizational/intro.html#course-logistics",
-    "title": "Course Introduction",
-    "section": "Course Logistics",
-    "text": "Course Logistics",
+    "objectID": "slides/panel/event-studies.html#causal-analysis",
+    "href": "slides/panel/event-studies.html#causal-analysis",
+    "title": "Event Studies",
+    "section": "CAUSAL ANALYSIS",
+    "text": "CAUSAL ANALYSIS",
     "crumbs": [
-      "Course Info",
-      "Course Introduction"
+      "Panel Data",
+      "Event Studies"
+    ]
+  },
+  {
+    "objectID": "slides/panel/event-studies.html#regression-interpretation",
+    "href": "slides/panel/event-studies.html#regression-interpretation",
+    "title": "Event Studies",
+    "section": "REGRESSION INTERPRETATION",
+    "text": "REGRESSION INTERPRETATION",
+    "crumbs": [
+      "Panel Data",
+      "Event Studies"
+    ]
+  },
+  {
+    "objectID": "slides/panel/event-studies.html#estimation-and-causal-framework",
+    "href": "slides/panel/event-studies.html#estimation-and-causal-framework",
+    "title": "Event Studies",
+    "section": "ESTIMATION AND CAUSAL FRAMEWORK",
+    "text": "ESTIMATION AND CAUSAL FRAMEWORK",
+    "crumbs": [
+      "Panel Data",
+      "Event Studies"
+    ]
+  },
+  {
+    "objectID": "slides/panel/event-studies.html#asymptotic-properties",
+    "href": "slides/panel/event-studies.html#asymptotic-properties",
+    "title": "Event Studies",
+    "section": "ASYMPTOTIC PROPERTIES",
+    "text": "ASYMPTOTIC PROPERTIES",
+    "crumbs": [
+      "Panel Data",
+      "Event Studies"
     ]
   },
   {
@@ -362,6 +417,61 @@
     "crumbs": [
       "Linear Regression II",
       "Linear Regression in Vector-Matrix Form"
+    ]
+  },
+  {
+    "objectID": "slides/panel/event-studies.html#introduction",
+    "href": "slides/panel/event-studies.html#introduction",
+    "title": "Event Studies",
+    "section": "Introduction",
+    "text": "Introduction",
+    "crumbs": [
+      "Panel Data",
+      "Event Studies"
+    ]
+  },
+  {
+    "objectID": "slides/panel/event-studies.html#two-periods",
+    "href": "slides/panel/event-studies.html#two-periods",
+    "title": "Event Studies",
+    "section": "Two Periods",
+    "text": "Two Periods",
+    "crumbs": [
+      "Panel Data",
+      "Event Studies"
+    ]
+  },
+  {
+    "objectID": "slides/panel/event-studies.html#multiple-periods",
+    "href": "slides/panel/event-studies.html#multiple-periods",
+    "title": "Event Studies",
+    "section": "Multiple Periods",
+    "text": "Multiple Periods",
+    "crumbs": [
+      "Panel Data",
+      "Event Studies"
+    ]
+  },
+  {
+    "objectID": "slides/panel/event-studies.html#empirical-application",
+    "href": "slides/panel/event-studies.html#empirical-application",
+    "title": "Event Studies",
+    "section": "Empirical Application",
+    "text": "Empirical Application",
+    "crumbs": [
+      "Panel Data",
+      "Event Studies"
+    ]
+  },
+  {
+    "objectID": "slides/panel/event-studies.html#recap-and-conclusions",
+    "href": "slides/panel/event-studies.html#recap-and-conclusions",
+    "title": "Event Studies",
+    "section": "Recap and Conclusions",
+    "text": "Recap and Conclusions",
+    "crumbs": [
+      "Panel Data",
+      "Event Studies"
     ]
   }
 ]
