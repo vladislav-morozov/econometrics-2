@@ -1,0 +1,595 @@
+---
+title: "Event Studies"
+subtitle: "Simple Panel Data Approaches with Binary Treatment"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Panel Data I: Event Studies"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 3
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header 
+embed-resources: true
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+---
+
+# INTRODUCTION {background="#014D4E"}
+  
+ 
+
+### Learning Outcomes
+
+### Textbook References
+ 
+
+::: {.nonincremental}
+
+ 
+- First lecture: none
+- After covering time series event studies: Chapter 17 in @Huntington-Klein2025EffectIntroductionResearch: <https://www.theeffectbook.net/ch-EventStudies.html>
+
+  
+::: 
+
+### Further Reading
+
+
+::: {.nonincremental}
+
+Reference articles:
+
+- @MacKinlay1997EventStudiesEconomics
+- @Freyaldenhoven2021VisualizationIdentificationEstimation
+- @Miller2023IntroductoryGuideEvent
+
+Latter two articles more advanced and modern — how people do it these days.
+
+Also see NBER 2023 Methods Lectures on Linear Panel Event Studies: <https://www.nber.org/conferences/si-2023-methods-lectures-linear-panel-event-studies>
+
+::: 
+
+# TWO PERIODS {background="#014D4E"}
+ 
+## SETTING {background="#43464B"}
+ 
+
+
+
+### Simple Event Study Setting
+
+Begin with the simplest possible panel setting with binary treatment: 
+ 
+- Two periods with $N$ units:
+  - No treatment in period 1.
+  - All units treated in period 2.
+- Data: outcomes $(Y_{i1}, Y_{i2})$.
+
+. . .
+
+Object of interest: "average effect of treatment"
+
+### Simple Estimator — Average Change
+
+Simplest approach: compute average change in $Y_{it}$ across periods
+  $$
+  \widehat{AE}_{ES} = \dfrac{1}{N}\sum_{i=1}^N (Y_{i2}- Y_{i1}).
+  $$ {#eq-causal-event-studies-naive-panel-contrast}
+  
+
+Estimator ([-@eq-causal-event-studies-naive-panel-contrast]) — simplest example of *event study* estimators [see @Freyaldenhoven2021VisualizationIdentificationEstimation;@Miller2023IntroductoryGuideEvent].
+
+### Example Framework {#sec-event-study-example}
+
+Possible empirical framework
+
+- Units $i$: firms that make phones
+- Outcome $Y_{it}$: their stock price
+- Periods:
+  1. One week before Apple announces the iPhone. 
+  2. One week after the announcement
+
+. . .
+
+Effect of interest: change in stock prices due to the announcement of iPhone
+
+
+
+
+### What Does ([-@eq-causal-event-studies-naive-panel-contrast]) Do?
+
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+::: {#prp-event-study-limit}
+
+## Asymptotics for $\widehat{AE}_{ES}$
+
+Let 
+
+::: {.nonincremental}
+- *(Cross-sectional random sampling)*: $(Y_{i1}, Y_{i2})$ be independent and identically distributed (IID)
+- *Finite first moments*: $\E[\abs{Y_{it}}]<\infty$
+:::
+ 
+Then
+$$
+\widehat{AE}_{ES} \xrightarrow{p} \E[Y_{i2} - Y_{i1}].
+$$ 
+:::
+
+</div>
+
+## CAUSAL ANALYSIS {background="#43464B"}
+ 
+
+### Causal Framework
+
+
+Is $\E[Y_{i2} - Y_{i1}]$ interesting (=causal)?
+
+. . .
+
+::: {.callout-important appearance="minimal"}
+
+Need a causal framework to talk about causal effects!
+
+:::
+
+. . .
+
+Work in the familiar potential outcomes framework: 
+
+- $Y_{it}^0$ — outcome for $i$ in period $t$ if *not treated*
+- $Y_{i1}^1$ — outcome for $i$ in period $t$ if *treated*
+- Treatment effect for $i$ in $t$: $Y_{it}^1- Y_{it}^0$
+
+. . .
+
+For short, use $Y_{it}^d$ where $d=0, 1$
+
+
+
+### Limit of ES Estimator and Causality
+
+Potential and *realized* outcomes are connected as
+$$
+Y_{i2} = Y_{i2}^1, \quad Y_{i1} = Y_{i1}^0.
+$$
+
+
+. . .
+
+It follows that
+$$
+\widehat{AE}_{ES} \xrightarrow{p} \E[Y_{i2}^2- Y_{i1}^1].
+$$
+
+::: {.callout-important appearance="minimal"}
+ 
+$\E[Y_{i2}^2- Y_{i1}^1]$ is not necessarily a treatment effect — mixes effect of treatment and effects of time!
+::: 
+
+### Example
+
+[[Context]{.button}](#sec-event-study-example) Again consider the iPhone example. Then 
+
+- $Y_{i2}^1 - Y_{i2}^0$ — treatment effect, change in price *because* of the iPhone announcement
+- $Y_{i2}^0 - Y_{i0}^0$ — change in a world *without* iPhone
+  
+. . . 
+
+We see combination of both changes
+$$
+Y_{i2} - Y_{i1} = Y_{i2}^1- Y_{i1}^0 = [Y_{i2}^1- Y_{i2}^0] + [Y_{i2}^0 - Y_{i0}^0]
+$$
+
+
+
+### Solution: Restrict Changes over Time
+
+Simple solution: rule out changes over time
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+**Assumption**: no variation in potential outcomes
+$$
+Y_{i2}^d= Y_{i1}^d, \quad d=0, 1
+$$ 
+ 
+
+</div>
+
+Then $\widehat{AE}_{ES}$ is estimating a *causal* parameter — average effects
+$$
+\begin{aligned}
+\widehat{AE}_{ES} & \xrightarrow{p} \E[Y_{i1}^1- Y_{i1}^0]  =  \E[Y_{i2}^1- Y_{i2}^0]
+\end{aligned}
+$$ 
+
+### Relaxing Time Invariance: No Trends
+
+Time invariance very strict. Why use it if we only work with averages?
+
+. . .
+
+Weaker assumption:
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+**Assumption** (*no trends*):  
+$$
+\E[Y_{i2}^d] = \E[Y_{i1}^d], \quad d=0, 1
+$$
+ 
+
+</div>
+Allows random variation in potential outcomes between times
+
+### Summary so Far
+
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+::: {#prp-event-study-no-trends}
+
+## Causal asymptotics for $\widehat{AE}_{ES}$
+
+Let 
+
+::: {.nonincremental}
+- Assumptions of @prp-event-study-limit hold
+- No trends assumption hold
+:::
+ 
+Then $\widehat{AE}_{ES}$ consistent for causal parameters:
+$$
+\widehat{AE}_{ES} \xrightarrow{p} \E[Y_{i1}^1- Y_{i1}^0]  =  \E[Y_{i2}^1- Y_{i2}^0]
+$$ 
+:::
+
+
+</div>
+
+## REGRESSION INTERPRETATION {background="#43464B"}
+ 
+
+### Regression Setting
+
+Can also connect $\widehat{AE}_{ES}$ and OLS 
+
+. . . 
+ 
+Consider regression model
+$$
+\begin{aligned}
+Y_{it} & = \beta_0 + \beta_1 D_{it} + u_{it}, \\
+D_{it} & = \begin{cases}
+1, & t= 1 \\
+0, & t =0
+\end{cases}
+\end{aligned}
+$${#eq-event-study-simple-regression}
+where we simply treat $(Y_{i1}, D_{i1})$ and $(Y_{i2}, D_{i2})$ as separate observations
+
+
+
+### Event Study and OLS
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+::: {#prp-event-study-no-trends}
+
+## $\widehat{AE}_{ES}$ is OLS
+
+For $\beta_1$ of regression  ([-@eq-event-study-simple-regression])
+$$
+\widehat{AE}_{ES} = \hat{\beta}_1^{OLS}
+$$ 
+:::
+
+
+</div> 
+
+1. Can use all results developed for OLS for $\widehat{AE}_{ES}$
+2. Regressing $Y_{it}$ on $D_{it}$ gives a causal parameter
+   - Under no trends
+   - No experiment was necessary
+   
+
+### Event Study and Regression
+
+A way to think about regression in causal settings:
+
+- Write down the regression in terms of parameters of interest: e.g. let
+$$ 
+\beta_0 = \E[Y_{i0}^0], \quad
+\beta_1  =  \E[Y_{i2}^1- Y_{i2}^0] 
+$$
+- Connect regression to potential outcomes: *what is $u_{it}$ in terms of potential outcomes?*
+ 
+- Check properties of this $u_{it}$. If $u_{it}$ is "nice", apply OLS (or another method)
+
+
+# MULTIPLE PERIODS {background="#014D4E"}
+ 
+## ESTIMATION AND CAUSAL FRAMEWORK {background="#43464B"}
+ 
+### Multiple Period Framework
+
+- Often have more than 2 periods of data
+- Want to use that data
+
+. . . 
+
+New framework:
+
+- $T$ periods in total
+- Treatment starts in period $t_0$
+- We see $Y_{it}^0$ for $t<t_0$ and $Y_{it}^1$ for $t\geq t_0$
+
+### Expanded Regression
+
+New variables for treatment: 
+$$
+D_{it, \tau} = \begin{cases}
+1, & t= \tau, \\
+0, & t\neq \tau
+\end{cases}
+$$
+ 
+. . . 
+
+Can try similar regression:
+$$
+Y_{it} = \beta_0 +  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + u_{it}.
+$${#eq-event-studies-long-regression}
+
+
+### Estimates 
+
+Fairly easy to show that
+$$
+\begin{aligned}
+\hat{\beta}^{OLS}_{\tau} & = \dfrac{1}{N} \sum_{i=1}^N Y_{i\tau} - \dfrac{1}{N(t_0-1)} \sum_{i=1}^N\left[ Y_{i1} + \dots + Y_{it_0-1} \right] \\
+& \xrightarrow{p} \E\left[Y_{i\tau}^1  - \dfrac{1}{t_0-1}(Y_{i1}^0+ \dots + Y_{it_0-1}^0) \right]
+\end{aligned}
+$$
+More general version of the simple estimator of before
+
+### Dynamic Treatment Effects?
+
+If $\beta_{\tau}$ — average effect in period $\tau$, then model ([-@eq-event-studies-long-regression]) seems to allow for *dynamic* effects
+
+
+. . . 
+ 
+<br>
+
+Dynamic effects often realistic: effect of treatment may grow or disappear over time. Example: impact of job training on earnings:
+
+- Disappearing: you forget the training over time
+- Increasing: job training lets you jump to a higher position and gain experience quicker for the rest of your life
+
+ 
+### No Trends Rule Out Dynamics
+
+Suppose that the *no trends* assumption holds
+$$
+\begin{aligned}
+& \E\left[Y_{i\tau}^1  - \dfrac{1}{t_0-1}(Y_{i1}^0+ \dots + Y_{it_0-1}^0) \right]  = \E[Y_{it}^1 - Y_{it}^0]
+\end{aligned}
+$$
+where right hand side does *not* depend on $t$
+
+. . . 
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+The no trends assumption rules out dynamic treatment effects
+
+</div> 
+This is *bad*, since we want to allow for dynamics
+
+
+### Relaxing No Trends Assumption
+
+Can relax no trends to only affect *one* of the potential outcomes — makes more sense to restrict the untreated outcome (why?)
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+**Assumption** (*no trends in the baseline*): $\E[Y_{it}^0]$ does not depend on $t$
+ 
+
+</div>
+ 
+### Estimation of Dynamic Average Treatment Effects
+
+
+Under the no trends in the baseline assumption:
+$$
+\begin{aligned}
+& \E\left[Y_{i\tau}^1  - \dfrac{1}{t_01}(Y_{i1}^0+ \dots + Y_{it_0-1}^0) \right]  = \E[Y_{i \tau}^1 - Y_{i\tau}^0]
+\end{aligned}
+$$
+Right hand side is average effect in period $\tau$
+
+ 
+ 
+## ASYMPTOTIC PROPERTIES {background="#43464B"}
+
+### Consistency in the Multivariate Case
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+::: {#prp-event-study-no-trends-multivariate}
+
+Let 
+
+::: {.nonincremental}
+- Assumptions of @prp-event-study-limit hold
+- No trends in the baseline assumption hold
+:::
+ 
+Then $\hat{\beta}_{\tau}$ consistently estimates the average treatment effect in period $\tau$ given by $\E[Y_{i \tau}^1 - Y_{i\tau}^0]$. 
+:::
+
+
+
+
+</div>
+
+### Unbiasedness of OLS
+
+Moreover, under no trends in the baseline
+$$
+\E[\hat{\beta}_{\tau}] = \E[Y_{i \tau}^1 - Y_{i\tau}^0]
+$$
+In other words, the OLS estimator is unbiased
+
+### Asymptotic Distribution
+
+ 
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+::: {#prp-event-study-no-trends-multivariate-distribution}
+
+Let 
+
+::: {.nonincremental} 
+- No trends in the baseline assumption hold 
+- $(Y_{i1}, Y_{i2}, \dots, Y_{iT})$ be IID (over $i$)
+- *Finite second moments*: $\E[Y_{it}^2]<\infty$
+:::
+ 
+Then there exists some variance $V$ such that
+$$
+\sqrt{N}\left( \hat{\beta}_{\tau} - \E[Y_{i \tau}^1 - Y_{i\tau}^0] \right) \Rightarrow N(0, V)
+$$
+:::
+
+
+</div>
+
+### Asymptotic Variance I
+
+Need variance $V$ to construct confidence intervals for $\E[Y_{i \tau}^1 - Y_{i\tau}^0]$. How to find $V$? Remember the CLT:
+
+. . .
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+If $X_1, X_2, \dots$ are IID random variables with $\E[X_i]=\mu$ and $\E[X^2]<\infty$, then
+$$
+\sqrt{N}\left( \dfrac{1}{N}\sum_{i=1}^N X_i - \mu  \right)\Rightarrow N\left(0, \var(X_i) \right)
+$$
+Asymptotic variance = variance of $X_i$
+</div>
+ 
+###  Asymptotic Variance II
+
+Can apply this idea to find $V$. Can write
+$$
+\begin{aligned}
+\hat{\beta}^{OLS}_{\tau} & = \dfrac{1}{N} \sum_{i=1}^N Z_i\\
+Z_i & =  Y_{i\tau} - \dfrac{1}{(t_0-1)}\left[ Y_{i1} + \dots + Y_{it_0-1} \right]
+\end{aligned}
+$$
+
+. . .
+
+Then we get that 
+$$
+V = \var(Z_i)
+$$
+
+### Estimator for Asymptotic Variance
+
+Can estimate $V$ with 
+$$
+\hat{V} = \widehat{\var}(Z_i) = \dfrac{1}{N}\left(Z_i - \dfrac{1}{N}\sum_{j=1}^N Z_j \right)^2
+$$
+
+. . . 
+
+Estimated standard error of $\hat{\beta}_{\tau}$:
+$$
+\widehat{se}(\hat{\beta}_{\tau}) = \sqrt{ \dfrac{\hat{V}}{N} }
+$$
+
+### Inference on Average Effects I
+
+Can now construct confidence intervals and hypothesis tests about $\E[Y_{i \tau}^1 - Y_{i\tau}^0]$. E.g. an asymptotic 95% confidece interval:
+$$
+\widehat{CI}_{95\%} = \left[\hat{\beta}^{OLS}_{\tau} - z_{1-\alpha/2}\widehat{se}(\hat{\beta}_{\tau}), \hat{\beta}^{OLS}_{\tau} + z_{1-\alpha/2}\widehat{se}(\hat{\beta}_{\tau}) \right]
+$$
+where the critical values $z_{1-\alpha/2}$ come from the standard normal distribution
+$$
+ z_{1-\alpha/2}= \Phi^{-1}\left(1 - \dfrac{\alpha}{2} \right)
+$$
+
+### Inference on Average Effects II
+
+But what if we want to set the *joint* hypothesis
+$$
+H_0: \beta_{\tau} = 0, \quad \tau = t_0, \dots, T
+$$
+
+. . .
+
+- This $H_0$ is a hypothesis above a *vector* of effects 
+- Need a *joint* asymptotic distribution to write down a test
+
+### Joint Asymptotic Distribution
+
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+::: {#prp-event-study-joint-limit-distribution}
+
+## Joint Asymptotics for Estimated Effects
+
+Let 
+
+::: {.nonincremental} 
+- No trends in the baseline assumption hold 
+- $(Y_{i1}, Y_{i2}, \dots, Y_{iT})$ be IID (over $i$)
+- *Finite second moments*: $\E[Y_{it}^2]<\infty$
+:::
+ 
+Then there exists some variance-covariance matrix $\bV$ such that
+$$
+\sqrt{N}(\hat{\bbeta} -\bbeta) \Rightarrow N(0, \bV)
+$$ 
+:::
+
+</div>
+
+### Joint Inference on Average Effects
+
+Can use @prp-event-study-joint-limit-distribution to create a Wald test
+
+# EMPIRICAL ILLUSTRATION {background="#014D4E"}
+
+### Slide
+
+ff
+
+### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::

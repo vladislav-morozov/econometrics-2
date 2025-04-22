@@ -37,6 +37,9 @@ website:
         - slides/vector/ols-limit-distribution.qmd 
         - slides/vector/ols-inference.qmd
         - slides/vector/ols-delta-method.qmd
+      - section: "Panel Data"
+        contents:
+        - slides/panel/event-studies.qmd
 
 execute:
   freeze: auto  # re-render only when source changes
