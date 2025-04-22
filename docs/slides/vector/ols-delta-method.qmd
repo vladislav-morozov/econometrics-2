@@ -1,0 +1,658 @@
+---
+title: "Inference II: Nonlinear Hypotheses"
+subtitle: "Handling Nonlinearities with the Delta Method"
+author: Vladislav Morozov   
+format:
+  revealjs:
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "A Deeper Look at Linear Regression: Nonlinear Hypotheses and the Delta Method"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+---
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture is about extending our distributional and inference results to nonlinear functions of parameters 
+
+<br>
+
+By the end, you should be able to
+
+- Derive the asymptotic distribution of nonlinear transformations of parameters using the delta method
+- Construct confidence intervals and hypothesis test for potentially nonlinear hypotheses
+- Discuss the connection between these results and those for linear hypotheses
+
+#### References
+ 
+
+<br>
+
+::: {.nonincremental}
+
+ 
+- Corresponding [section](https://en.wikipedia.org/wiki/Delta_method) on Wikipedia (Up to the "Example" section)
+- *Or* 6.5, 7.10 in @Hansen2022Econometrics
+
+::: 
+
+ 
+
+### Reminder on the Empirical Example {background="#43464B" visibility="uncounted"}
+
+#### Reminder: Empirical Model
+
+Studying link between wages and (education, experience)
+$$
+\begin{aligned}[]
+& [\ln(\text{wage}_i)]^{\text{(education, experience)}} \\
+&  =   \beta_1 + \beta_2 \times \text{education} \\
+& \quad  + \beta_3 \times  \text{experience} + \beta_4 \times  \dfrac{\text{experience}^2}{100} + U_i
+\end{aligned}
+$$ {#eq-vector-inference-emp-model}
+
+
+#### Reminder: Estimation Results
+
+```{.python code-line-numbers="0-1"}
+results = OLS(endog, exog).fit(cov_type='HC0') # Robust covariance matrix estimator
+print(results.summary())
+```
+```{python} 
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+
+from statsmodels.regression.linear_model import OLS
+
+# Read in the data
+data_path = ("https://github.com/pegeorge/Econ521_Datasets/"
+             "raw/refs/heads/main/cps09mar.csv")
+cps_data = pd.read_csv(data_path)
+
+# Generate variables
+cps_data["experience"] = cps_data["age"] - cps_data["education"] - 6
+cps_data["experience_sq_div"] = cps_data["experience"]**2/100
+cps_data["wage"] = cps_data["earnings"]/(cps_data["week"]*cps_data["hours"] )
+cps_data["log_wage"] = np.log(cps_data['wage'])
+
+# Retain only married women white with present spouses
+select_data = cps_data.loc[
+    (cps_data["marital"] <= 2) & (cps_data["race"] == 1) & (cps_data["female"] == 1), :
+]
+
+# Construct X and y for regression 
+exog = select_data.loc[:, ['education', 'experience', 'experience_sq_div']]
+exog = sm.add_constant(exog)
+endog = select_data.loc[:, "log_wage"]
+results = OLS(endog, exog).fit(cov_type='HC0')
+print(results.summary())
+```
+
+
+ 
+::: footer
+
+:::
+
+#### Parameter of Interest: Nonlinear Transformation
+
+We still have one parameter of interest to look at:
+$$
+\theta = -50\frac{\beta_3}{\beta_4}
+$$
+
+- Interpretation: experience level that maximizes expected log wage
+- This $\theta$ is a <span class="highlight">smooth nonlinear transformation</span> of $\bbeta$
+
+. . . 
+
+<div class="rounded-box">
+
+How to do inference on such $\theta$?
+
+</div>
+
+
+
+## The Delta Method  {background="#00100F"}
+
+### Scalar Case {background="#43464B" visibility="uncounted"}
+
+ 
+#### Mean Value Theorem
+
+Recall the following useful result:
+
+<div class="rounded-box">
+
+::: {#prp-vector-inference-mean-value}
+
+Let $f(\cdot): \R\to\R$ be differentiable on the interval $[x, y]$. Then there exists some $c\in[x, y]$ such that
+$$
+f(y)-f(x) = f'(c)(y-x)
+$$
+
+
+:::
+
+</div>
+
+. . . 
+
+Rearranged: the "mean value expansion around $x$"
+$$
+f(y) = f(x) + f'(c)(y-x)
+$$
+
+
+#### Manual Illustration of the Argument
+
+If $X_1, \dots, X_N\sim$IID$(\theta, \sigma^2)$, then $\sqrt{N}(\bar{X}-\theta)\xrightarrow{d} N(0, \sigma^2)$
+
+<div class="rounded-box">
+
+What is the asymptotic distribution of $(\bar{X})^2$?
+
+</div>
+
+. . .
+
+Mean value theorem (@prp-vector-inference-mean-value):
+$$\small
+(\bar{X})^2 = \theta^2 + 2(\theta+\alpha_N[\bar{X}-\theta])(\bar{X}-\theta), \quad \alpha_N\in[0, 1]
+$$ {#eq-vector-inference-manual-delta}
+
+. . . 
+
+By Slutsky's theorem if $\theta\neq 0$
+$$\small
+\sqrt{N}(\bar{X}^2 - \theta^2) \xrightarrow{d} N( 0, (2\theta)^2 \sigma^2  )
+$$
+
+#### More Abstract Form of ([-@eq-vector-inference-manual-delta])
+
+
+Can write @eq-vector-inference-manual-delta as 
+$$
+\sqrt{N}(f(Y_N)-f(\theta)) = f'(\theta + \alpha_N[Y_N-\theta] ) \sqrt{N}(Y_N-\theta)
+$$
+for 
+
+- $f(y) = y^2$ 
+- $Y_N = \bar{X}$
+ 
+#### Abstracting the Argument
+
+<br> 
+
+Can replicate the argument if 
+
+- $Y_N\xrightarrow{p} \theta$ and $f'(\cdot)$ is continuous with $f'(\theta)\neq 0$
+- $\sqrt{N}(Y_N-\theta)$ converges to a normal distribution
+
+
+#### Delta Method in the Univariate Case
+
+
+Combining the previous arguments gives:
+<div class="rounded-box">
+
+::: {#prp-vector-inference-delta-1d}
+
+Let $\sqrt{N}(Y_N-\theta)\xrightarrow{d} N(0, \sigma^2)$ and let $f(\cdot)$ be continuously differentiable with $f'(\theta)\neq 0$. Then
+ 
+$$
+\sqrt{N}(f(Y_N) - f(\theta)) \xrightarrow{d} N(0, [f'(\theta)]^2\sigma^2)
+$$
+
+
+:::
+
+</div>
+More properly called the <span class="highlight">first-order</span> delta method — there are higher-order versions if $f'(\theta)=0$
+
+
+### Multivariate Case {background="#43464B" visibility="uncounted"}
+
+#### Motivation
+ 
+@prp-vector-inference-delta-1d has two limitations:
+
+- $Y_N$ is scalar, but we deal with whole vector $\hat{\bbeta}$
+- $f(\cdot)$ is scalar-valued — but we may have multiple transformations of $\bbeta$
+
+. . . 
+
+<br>
+
+Can solve both! Let $\ba(\bbeta):\R^p\to\R^k$ be the transformation of interest
+
+#### Jacobian of $\ba(\cdot)$
+
+Let $\ba(\cdot) = (a_1(\cdot), \dots, a_k(\cdot))'$. Define its *Jacobian matrix* $\bA(\bbeta)$ as 
+$$
+\bA(\bbeta) = \begin{pmatrix}
+\frac{\partial a_1}{\partial \beta_1}(\bbeta) & \cdots & \frac{\partial a_1}{\partial \beta_p}(\bbeta)\\
+\vdots & \ddots & \vdots\\
+\frac{\partial a_k}{\partial \beta_1}(\bbeta) & \cdots & \frac{\partial a_k}{\partial \beta_p}(\bbeta) 
+\end{pmatrix}
+$$ 
+ Rows correspond to components of $\ba(\cdot)$; columns — to components of $\bbeta$
+
+#### Delta Method in the Multivariate Case
+
+  
+<div class="rounded-box">
+
+::: {#prp-vector-inference-delta}
+
+Let $\sqrt{N}(\bY_N-\btheta)\xrightarrow{d} N(0, \bSigma)$. Let $\ba(\cdot)$ be continuously differentiable. Let $\bA(\btheta)$ have rank $k$. Then
+ 
+$$
+\sqrt{N}\left(\ba(\bY_N) - \ba(\btheta)\right) \xrightarrow{d} N(0, \bA(\btheta)\bSigma\bA(\btheta)')
+$$
+
+
+:::
+
+</div>
+
+- Proof (not examinable) is similar to the univariate case
+- OLS: take $\bY_N=\hat{\bbeta}$ and $\btheta=\bbeta$
+
+#### Vector Example I: Norm of $\bbeta$
+
+Suppose that our parameter of interest is $\ba(\bbeta) = \norm{\bbeta}$. Then 
+$$
+\bA(\bbeta) = \begin{pmatrix}
+\dfrac{\beta_1}{\norm{\bbeta}}  & \cdots & \dfrac{\beta_p}{\norm{\bbeta}}
+\end{pmatrix}
+$$
+
+. . .
+
+If $\bbeta\neq 0$, the delta method (@prp-vector-inference-delta) tells us that 
+$$
+\sqrt{N}\left(\norm{\hat{\bbeta}}-\norm{\bbeta}\right)\xrightarrow{d} N(0, \bA(\bbeta)\avar(\bbeta)\bA(\bbeta)')
+$$
+
+
+#### Vector Example II: Linear Transformations
+
+Another example: $\ba(\bbeta) = \bR\bbeta$. Then $\bA(\bbeta)=\bR$ and 
+
+. . .
+
+$$
+\sqrt{N}(\bR\hat{\bbeta}-\bR\bbeta)\xrightarrow{d} N(0, \bR\avar(\bbeta)\bR')
+$$
+
+<br>
+
+In words, the delta method implies our results for linear transformations from before 
+
+
+#### Generalizations 
+
+Delta method — extremely general tool!
+
+<br>
+
+Some generalizations:
+
+- The limit does not have to be normal
+- Speed of convergence does not have to be $\sqrt{N}$
+- $f(\cdot)$ can have functions as inputs and outputs
+
+
+## Inference on Nonlinear Transformations {background="#00100F"}
+
+
+### Confidence Intervals {background="#43464B" visibility="uncounted"}
+
+#### Overall Idea
+
+Can use the delta method (@prp-vector-inference-delta) for inference!
+
+. . . 
+
+<br>
+
+Intuitively, it says that 
+$$
+\ba(\hat{\bbeta}) \overset{a}{\sim} N\left(\ba(\bbeta), \dfrac{1}{N}\bA(\bbeta)\avar(\bbeta)\bA(\bbeta)'  \right)
+$$
+
+Can construct tests and confidence intervals same way as before, just need to compute the Jacobian $\bA$
+
+
+#### Estimating the Asymptotic Variance 
+
+For construction, need to estimate 
+$$
+\avar(\ba(\hat{\bbeta})) = \bA(\bbeta)\avar(\hat{\bbeta})\bA(\bbeta)'
+$$
+
+To consistently estimate it:
+
+- Estimate $\avar(\hat{\bbeta})$ as before with HC0 (or other robust) errors $\widehat{\avar}(\hat{\bbeta})$
+- For $\bA(\bbeta)$, just use $\bA(\hat{\bbeta})$
+
+
+
+#### Example: Confidence Interval for Ratio
+
+
+Suppose that $\bbeta=(\beta_1, \beta_2)$, $\beta_2\neq 0$, and $a(\bbeta) = \beta_1/\beta_2$
+
+. . .
+
+<br> 
+
+As in the previous lecture, the following is $(1-\alpha)\times 100\%$ asymptotic confidence interval 
+$$ \small
+S = \left[ \dfrac{\hat{\beta}_1}{\hat{\beta_2}} - z_{1-\alpha/2} \sqrt{\dfrac{\widehat{\avar}(\hat{\beta}_1/\hat{\beta}_2)}{N}  } ,  \dfrac{\hat{\beta}_1}{\hat{\beta_2}} + z_{1-\alpha/2} \sqrt{\dfrac{\widehat{\avar}(\hat{\beta}_1/\hat{\beta}_2)}{N}  } \right]
+$$
+
+#### Example: Estimating $\widehat{\avar}(\hat{\beta}_1/\hat{\beta}_2)$
+
+Jacobian of our $a(\cdot)$ is
+$$
+\bA(\bbeta) = \begin{pmatrix}
+1/\beta_2 & -\beta_1/\beta_2^2
+\end{pmatrix}
+$$
+$\bA(\bbeta)$ defined and maximal rank if $\beta_2\neq 0$
+
+. . . 
+
+So
+
+$$
+\widehat{\avar}(\hat{\beta}_1/\hat{\beta}_2) = \begin{pmatrix}
+1/\hat{\beta}_2 & -\hat{\beta}_1/\hat{\beta}_2^2
+\end{pmatrix}\widehat{\avar}(\hat{\bbeta}) \begin{pmatrix}
+1/\hat{\beta}_2 \\ -\hat{\beta}_1/\hat{\beta}_2^2
+\end{pmatrix}
+$$
+
+#### Application to Empirical Parameter
+
+Our empirical parameter of interest was 
+$$
+\ba(\bbeta) = -50\beta_3/\beta_4
+$$
+
+Here Jacobian is
+
+. . .
+
+$$
+\bA(\bbeta) = \begin{pmatrix}
+0 & 0 & -50/\beta_4 & 50\beta_3/\beta_4^2
+\end{pmatrix}
+$$
+
+
+#### The Delta Method in `statsmodels`
+
+Can use the Delta method in `statsmodels` using the `NonlinearDeltaCov` class — compatible with many different models and estimators, not just OLS.
+
+. . .
+
+ To define an instance, need
+
+- Function $\ba(\cdot)$
+- $\hat{\bbeta}$ and $N^{-1}\widehat{\avar}(\hat{\bbeta})$ (standard errors)
+- (*Optionally*): function for $\bA(\cdot)$
+
+#### Documentation of `NonlinearDeltaCov` {.scrollable}
+
+Functionality not documented, but [in code](https://github.com/statsmodels/statsmodels/blob/main/statsmodels/stats/_delta_method.py) with good docstrings
+
+```{python}
+#| echo: true
+from statsmodels.stats._delta_method import NonlinearDeltaCov
+help(NonlinearDeltaCov)
+```
+
+
+#### Creating an Instance of `NonlinearDeltaCov`
+
+In our example, define the function $a(\cdot)$:
+```{python}
+#| echo: true
+def max_earn(beta: pd.Series):
+    return np.array([-50*beta.loc["experience"]/beta.loc["experience_sq_div"]])
+```
+
+. . . 
+
+<br>
+
+Then we supply $a(\cdot)$ together with parameters and standard errors:
+```{python}
+#| echo: true
+delta_ratio = NonlinearDeltaCov(max_earn, results.params, results.cov_params())
+```
+
+#### Constructing Confidence Intervals with `NonlinearDeltaCov`
+
+Can construct a 95\% confidence interval with the `conf_int()` method
+```{python}
+#| echo: true
+delta_ratio.conf_int(alpha=0.05)
+```
+or the `summary()` method
+```{python}
+#| echo: true
+delta_ratio.summary(alpha=0.1)
+```
+
+### Nonlinear Wald Tests {background="#43464B" visibility="uncounted"}
+
+#### Hypotheses
+
+The delta method also allows testing
+$$
+H_0: \ba(\bbeta) = 0 \quad \text{ vs. } \quad H_1: \ba(\bbeta) \neq 0
+$$
+where
+
+- $\ba(\cdot)$ is a smooth function
+- If there are any constants, they are absorbed into the definition of $\ba$
+
+#### Example I: Experience and Maximal Earnings
+
+Our remaining empirical question: 
+$$
+H_0: -\dfrac{50\beta_3}{\beta_4} - 15 = 0 \quad \text{ vs. }  H_0: -\dfrac{50\beta_3}{\beta_4} - 15\neq 0 
+$$
+
+. . .
+
+<br>
+
+Interpretation of $H_0$: expected log wage maximized with 15 years of experience
+
+#### Example II: Equal Effects
+
+<div class="rounded-box">
+Sometimes same hypothesis can be written in many ways
+</div>
+
+Example: 
+
+- Want to check that two variables have the same coefficients
+- One way to phrase it: $H_0: \beta_k/\beta_j -1 =0$
+- Another way: $H_0: \beta_k-\beta_j =0$
+
+
+
+#### Wald Statistic
+
+Use same idea as before: compare distance between $\ba(\hat{\bbeta})$ and $0$
+
+. . . 
+
+<br>
+
+Wald statistic:
+$$
+W = N\ba(\hat{\bbeta})'\left( \bA(\hat{\bbeta})\widehat{\avar}(\hat{\bbeta})\bA(\hat{\bbeta})' \right)^{-1}  \ba(\hat{\bbeta})
+$$ {#eq-vector-inference-wald}
+
+
+#### Decision Rule: Wald Test
+
+We call the following the <span class="highlight">asymptotic size $\alpha$ Wald-test</span>:
+
+<div class="rounded-box">
+
+Let $c_{1-\alpha}$ solve $P(\chi^2\leq c_{1-\alpha})=1-\alpha$. Then
+
+- Reject $H_0$ if $W>c_{1-\alpha}$
+- Do not reject $H_0$ if $W\leq c_{1-\alpha}$
+
+
+
+</div>
+
+. . .
+
+
+Exactly the Wald (and $t$) test for $H_0: \bR\bbeta=\bq$ taken with $\ba(\bbeta) =\bR\bbeta-\bq$
+
+#### Properties of the Wald Test
+
+
+
+ 
+
+<div class="rounded-box">
+
+::: {#prp-vector-inference-wald}
+
+Let the assumptions for asymptotic normality of the OLS estimator hold. Let $\bA(\bbeta)$ have rank $k$ where $k$ is the number of components of $\ba(\bbeta)$.  Let $W$ be defined as in @eq-vector-inference-wald. Then
+
+1. If $H_0: \ba(\bbeta)=0$ holds, then $W\xrightarrow{d} \chi^2_k$. The associated test has asymptotic size $\alpha$
+2. If $H_0: \ba(\bbeta)=0$ does not hold, then $W\xrightarrow{p} +\infty$. The associated test is consistent
+
+
+
+:::
+
+</div>
+
+
+#### Illustration: Nonlinear Wald Test with `statsmodels`
+
+Can do the Wald test with the `wald_test` method of `NonlinearDeltaCov`:
+```{python}
+#| echo: true
+delta_ratio.wald_test(np.array([15]))
+```
+
+. . .
+
+Outputs:
+
+- Value of $W$
+- Corresponding $p$-value
+
+
+
+## Recap and Conclusions {background="#00100F"}
+  
+  
+### Lecture Recap {background="#43464B" visibility="uncounted"}
+
+
+#### Recap
+
+In this lecture we
+
+1. Established the delta method as a way of obtaining the asymptotic distribution of transformations of parameters
+2. Discussed inference on such transformations through confidence intervals and potentially nonlinear Wald tests
+   
+  
+### Block Conclusion {background="#43464B" visibility="uncounted"}
+
+
+#### Overall Concluding Thoughts on the Block
+
+<br>
+
+
+We now finished the first block — a deeper look at linear regression 
+
+. . . 
+
+<br> 
+
+What did we do? 
+
+#### Results I: Linear Model Analysis
+
+<div class="rounded-box">
+
+Deeply analyzed the linear model itself
+
+</div>
+
+- Key properties and causal framework
+- Linear models useful even in some nonparametric settings (we'll see with event studies/difference-in-differences) 
+ 
+#### Results II: Asymptotic Arguments
+
+<div class="rounded-box">
+
+Discussed how to establish consistency and asymptotic normality of the OLS estimator
+
+</div>
+
+- Proofs represented the OLS estimator as a sample average and applied LLNs and CLTs
+- Generally useful approach: turns out many estimators can be represented and handled similarly
+  - Linear models (linear IV and linear GMM)
+  - Nonlinear models (including familiar ones like logit and probit) 
+  
+#### Results III: Inference
+
+<div class="rounded-box">
+
+We discussed confidence intervals and tests for both linear and nonlinear hypotheses
+
+</div>
+
+- Our constructions and proof for test statistics relied on consistency and asymptotic normality of the OLS estimator, but not the linearity of the model itself (check this!)
+- $\Rightarrow$ Same strategies can be used for inference in any model where we know the asymptotic distribution of the estimator
+  
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
