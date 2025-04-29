@@ -34,9 +34,28 @@ Suppose that
 
 ## Ratio Slope Estimator
 
-Under what conditions 
+Let $X_i$ and $U_i$ be scalar random variables. Suppose that $X_i$ satisfies $X_i\geq c>0$ for some $c$ (strictly positive and bounded away from 0). Let $Y_i$ be some outcome. Suppose that the following linear causal model holds: the potential outcome $Y_i^x$ is determined as
+$$
+Y_i^x = \beta x + U_i.
+$$
+The realized outcome $Y_i$ is determined as $Y_i = Y_i^{X_i}$.
 
+Consider the following estimator for $\beta$:
+$$
+\tilde{\beta} = \dfrac{1}{N}\sum_{i=1}^N \dfrac{Y_i}{X_i}.
+$$
+
+1. Propose conditions under which $\tilde{\beta}$ is consistent for $\beta$ and prove consistency.
+2. Derive the asymptotic distribution of $\tilde{\beta}$.
+3. Now suppose that the causal model allows heterogeneous effects:
+$$
+Y_i^x = \beta_i x + U_i.
+$$
+Under which conditions does $\tilde{\beta}$ consistently estimate $\E[\beta_i]$?
+ 
 ## Limit of the Ridge Estimator
+
+See section 6.2.1 in @James2023IntroductionStatisticalLearning about the ridge estimator and regularization techniques in general. 
 
 ## Measurement Error
 
