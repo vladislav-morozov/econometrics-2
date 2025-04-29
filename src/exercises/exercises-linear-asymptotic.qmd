@@ -1,0 +1,137 @@
+---
+format:
+  html:
+    toc: true
+---
+
+# Exercises: Vector Linear Model and Asymptotics
+
+
+## Theoretical Exercises 
+
+### Regressing Fitted Values
+
+Suppose that we observe data $(Y_1, \bX_1), \dots (Y_N, \bX_N)$. Let $\bY$ be the $N\times 1$ vector of outcomes, $\bX$ be the data matrix, and suppose that $\bX'\bX$ is invertible. 
+
+Let the vector $\hat{\bY}$ of fitted values and the vector $\hat{\be}$ of errors be given by 
+$$
+\begin{aligned}
+\hat{\bY} & = \bX\hat{\bbeta},\\
+\hat{\be} & = \bY- \hat{\bY},
+\end{aligned}
+$$
+where $\hat{\bbeta}$ is the OLS estimator. 
+
+Find the OLS coefficient vector from
+
+1. Regressing $\hat{Y}_i$ on $\bX_i$.
+2. Regressing $\hat{e}_i$ on $\bX_i$.
+
+In both cases, express the OLS estimator in terms of $\bY$ and $\bX$. Then express it in terms of $(Y_i, \bX_i)$, $i=1, \dots, N$.
+
+### Inconsistency of OLS Despite Strict Exogeneity
+
+Let $X_i$ and $Y_i$ be scalar variables. Let $X_i$ satisfy
+$$
+X_i = \begin{cases}
+1, & i = 1, \\
+0, & i > 1.
+\end{cases}
+$$
+
+1. Suppose we have a sample of $N$ units: $(Y_1, X_1), \dots, (Y_N, X_N)$. Can we compute the OLS estimator? If yes, express the estimator in terms of $(Y_i, X_i)$, $i=1,\dots, N$. If not, explain why.
+2. Suppose that $X_i$ and $Y_i$ are linked through the linear causal model
+$$
+Y_i^x = \beta x + U_i,
+$$
+where $Y_i^x$ is a potential outcome, $U_i$ is independent of $X_i$ with $\E[U_i]=0$. Why does the OLS estimator of $\beta$ not converge to $\beta$? In other words, which of the conditions of our consistency results fail?
+3. Provide an informal empirical interpretation of the above data-generating process for $X_i$.
+
+<br>
+
+### Ratio Slope Estimator
+
+Let $X_i$ and $U_i$ be scalar random variables. Suppose that $X_i$ satisfies $X_i\geq c>0$ for some $c$ (strictly positive and bounded away from 0). Let $Y_i$ be some outcome. Suppose that the following linear causal model holds: the potential outcome $Y_i^x$ is determined as
+$$
+Y_i^x = \beta x + U_i.
+$$
+The realized outcome $Y_i$ is determined as $Y_i = Y_i^{X_i}$.
+
+Consider the following estimator for $\beta$:
+$$
+\tilde{\beta} = \dfrac{1}{N}\sum_{i=1}^N \dfrac{Y_i}{X_i}.
+$$
+
+1. Propose conditions under which $\tilde{\beta}$ is consistent for $\beta$ and prove consistency.
+2. Derive the asymptotic distribution of $\tilde{\beta}$.
+3. Now suppose that the causal model allows heterogeneous effects:
+$$
+Y_i^x = \beta_i x + U_i.
+$$
+Under which conditions does $\tilde{\beta}$ consistently estimate $\E[\beta_i]$?
+ 
+### Limit of the Ridge Estimator
+
+Let the outcome $Y_i$, the covariates $\bX_i$, and an unobserved component $U_i$ be linked through the linear causal model
+$$
+Y_i^{\bx} = \bx'\bbeta + U_i
+$$
+Suppose that we observe an IID sample of data on $Y_i, \bX_i$. 
+
+Define the ridge estimator $\tilde{\bbeta}$ as
+$$
+\tilde{\bbeta} = (\bX'\bX+ \lambda_N \bI_k)^{-1}\bX'\bY,
+$$
+where $\lambda_N$ is some non-negative number, $\bI_k$ is the $k\times k$ identity matrix, and we assume that $(\bX'\bX+ \lambda_N \bI_k)$ is invertible. 
+
+1. Suppose that $\bX_i$ is scalar. Show that $\abs{\tilde{\bbeta}}\leq \abs{\hat{\bbeta}}$, where $\hat{\bbeta}$ is the OLS estimator (in words, the ridge estimator is always weakly closer to 0 than the OLS estimator — it is "shrunk" to zero).
+2. Suppose that $\lambda_N = cN$ for some fixed $c\geq 0$. Find the probability limit of $\tilde{\bbeta}$. State explicitly any moment assumptions you make. 
+3. *(Optional)*: prove that ridge estimator satisfies
+$$
+\tilde{\bbeta} = \argmin_{\bb} \sum_{i=1}^N (Y_i - \bX_i'\bb)^{2} + \lambda \norm{\bb}^2
+$$
+Hint: use the same approach as we used to derive the OLS estimator. 
+  
+
+Why would one use $\tilde{\bbeta}$? Note that $\bX'\bX + c\bI_k$ is invertible if $c>0$, regardless of invertibility of $\bX'\bX$. This means that $\tilde{\bbeta}$ can be computed even if the OLS estimator cannot. A leading case is *high-dimensional* regression, where the number of regressors $k$ exceeds the number $N$ of data points. See section 6.2.1 in @James2023IntroductionStatisticalLearning about the ridge estimator and regularization techniques in general. We will discuss some of these ideas later in the class.
+
+### Measurement Error in Revisited
+
+Let the outcome $Y_i$, the covariates $\bX_i$, and an unobserved component $U_i$ be linked through the linear causal model
+$$
+Y_i^{\bx} = \bx'\bbeta + U_i
+$$
+Suppose that our data is IID.
+
+
+Suppose that we do not observe the true $Y_i$, but instead a mismeasured version $Y_i^*= Y_i + V_i$, where the measurement error $V_i$ is mean zero and independent of $(X_i, U_i)$. 
+
+1. Show that the OLS estimator for the regression of $Y_i^*$ on $\bX_i$ is consistent for $\bbeta$.
+2. Derive the asymptotic distribution of the above OLS estimator. Express the asymptotic variance in terms of moments involving $V_i$ and $U_i$. Interpret the result: how does the measurement error in $\bX$ affect the asymptotic variance of the OLS estimator (increase/decrease/unchanged/unclear)? 
+
+Now suppose that we do observe $Y_i$, but we do not observe $\bX_i$. Instead, we only see a mismeasured version $\bX_i^*= \bX_i + \bV_i$, where the measurement error $\bV_i$ is mean zero and independent of $(\bX_i, U_i)$. 
+
+3. Compute the limit of the OLS estimator in the regression of $Y_i$ on $\bX_i^*$. Is this estimator consistent for $\bbeta$? If so, under which conditions?
+
+Compare the two cases of measurement error.
+
+
+
+### Omitted Variable Bias Revisited
+
+Let $Y_i$ be some outcome of interest. Let $\bX_i$ be an observed covariate vector. Let $U_i$ be an unobserved component that satisfies $\E[\bX_iU_i]=0$. Let $\bW_i$ be another group of variables that affect $Y_i$. Suppose that $Y_i$ and $(\bX_i, \bW_i)$ are related through the potential outcomes model
+$$
+Y_i^{(\bx, \bw)} = \bx'\bbeta + \bw'\bdelta + U_i.
+$$ 
+
+Suppose that $\bW_i$ is not observed, and we instead regress $Y_i$ only on $\bX_i$. Find the probability limit of the corresponding OLS estimator. When is that limit equal to $\bbeta$? If $\bX_i$ is scalar, can you say anything about the direction of the bias? 
+
+
+## Applied Exercises
+
+Applied exercises in this list of exercises serve as reminders on how to apply multivariate regression:
+
+- @Wooldridge2020IntroductoryEconometricsModern Exercise C9 in chapter 3 (see C7 in chapter 2 for some more context).
+- @James2023IntroductionStatisticalLearning Exercise 3.8 and 3.9. 
+
+Check out chapter 3 in @Heiss2024UsingPythonIntroductory and section 3.6 in @James2023IntroductionStatisticalLearning.
