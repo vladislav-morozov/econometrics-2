@@ -47,6 +47,8 @@ $$
 where $Y_i^x$ is a potential outcome, $U_i$ is independent of $X_i$ with $\E[U_i]=0$. Why does the OLS estimator of $\beta$ not converge to $\beta$? In other words, which of the conditions of our consistency results fail?
 3. Provide an informal empirical interpretation of the above data-generating process for $X_i$.
 
+<br>
+
 ### Ratio Slope Estimator
 
 Let $X_i$ and $U_i$ be scalar random variables. Suppose that $X_i$ satisfies $X_i\geq c>0$ for some $c$ (strictly positive and bounded away from 0). Let $Y_i$ be some outcome. Suppose that the following linear causal model holds: the potential outcome $Y_i^x$ is determined as
@@ -127,8 +129,9 @@ Suppose that $\bW_i$ is not observed, and we instead regress $Y_i$ only on $\bX_
 
 ## Applied Exercises
 
-Applied exercises in this block are mostly about computing the 
-- @Wooldridge2020IntroductoryEconometricsModern
-- @James2023IntroductionStatisticalLearning Exercise 2.9 
+Applied exercises in this list of exercises serve as reminders on how to apply multivariate regression:
+
+- @Wooldridge2020IntroductoryEconometricsModern Exercise C9 in chapter 3 (see C7 in chapter 2 for some more context).
+- @James2023IntroductionStatisticalLearning Exercise 3.8 and 3.9. 
 
 Check out chapter 3 in @Heiss2024UsingPythonIntroductory and section 3.6 in @James2023IntroductionStatisticalLearning.
