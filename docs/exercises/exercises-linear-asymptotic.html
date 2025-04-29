@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>syllabus – Advanced Econometrics</title>
+<title>exercises-linear-asymptotic – Advanced Econometrics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,28 +20,48 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./themes/favicon.ico" rel="icon">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b53751a350365c71b6c909e95f209ed1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b1f45ae4a132db6dfc08ad19f9a2d34c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-b4434866c09ead725b5c0ae22b4ec6c7.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../themes/favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b53751a350365c71b6c909e95f209ed1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b1f45ae4a132db6dfc08ad19f9a2d34c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-b4434866c09ead725b5c0ae22b4ec6c7.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -399,10 +419,39 @@ ul.task-list li input[type="checkbox"] {
 
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="nav-sidebar floating fullcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -411,9 +460,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">
-      Advanced Econometrics
-      </li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../slides/vector/vector-ols.html">Linear Regression II</a></li><li class="breadcrumb-item"><a href="../exercises/exercises-linear-asymptotic.html">Exercises: Vector Linear Model and Asymptotics</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -428,7 +475,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Advanced Econometrics</a> 
+      <a href="../">Advanced Econometrics</a> 
         <div class="sidebar-tools-main">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -452,7 +499,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/organizational/intro.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/organizational/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course Introduction</span></a>
   </div>
 </li>
@@ -469,61 +516,44 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/vector/vector-ols.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/vector/vector-ols.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Linear Regression in Vector-Matrix Form</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/vector/identification-inference.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/vector/identification-inference.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Identification, Estimation and Inference</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/vector/ols-consistency.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/vector/ols-consistency.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Consistency of the OLS Estimator</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/vector/ols-limit-distribution.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/vector/ols-limit-distribution.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Limit Distribution of the OLS Estimator</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./exercises/exercises-linear-asymptotic.html" class="sidebar-item-text sidebar-link">
+  <a href="../exercises/exercises-linear-asymptotic.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Exercises: Vector Linear Model and Asymptotics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/vector/ols-inference.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/vector/ols-inference.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Inference I: Linear Hypotheses</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/vector/ols-delta-method.html" class="sidebar-item-text sidebar-link">
+  <a href="../slides/vector/ols-delta-method.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Inference II: Nonlinear Hypotheses</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Linear Regression II</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./slides/panel/event-studies.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Event Studies</span></a>
   </div>
 </li>
       </ul>
@@ -533,17 +563,152 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#exercises-vector-linear-model-and-asymptotics" id="toc-exercises-vector-linear-model-and-asymptotics" class="nav-link active" data-scroll-target="#exercises-vector-linear-model-and-asymptotics">Exercises: Vector Linear Model and Asymptotics</a>
+  <ul class="collapse">
+  <li><a href="#theoretical-exercises" id="toc-theoretical-exercises" class="nav-link" data-scroll-target="#theoretical-exercises">Theoretical Exercises</a>
+  <ul class="collapse">
+  <li><a href="#regressing-fitted-values" id="toc-regressing-fitted-values" class="nav-link" data-scroll-target="#regressing-fitted-values">Regressing Fitted Values</a></li>
+  <li><a href="#inconsistency-of-ols-despite-strict-exogeneity" id="toc-inconsistency-of-ols-despite-strict-exogeneity" class="nav-link" data-scroll-target="#inconsistency-of-ols-despite-strict-exogeneity">Inconsistency of OLS Despite Strict Exogeneity</a></li>
+  <li><a href="#ratio-slope-estimator" id="toc-ratio-slope-estimator" class="nav-link" data-scroll-target="#ratio-slope-estimator">Ratio Slope Estimator</a></li>
+  <li><a href="#limit-of-the-ridge-estimator" id="toc-limit-of-the-ridge-estimator" class="nav-link" data-scroll-target="#limit-of-the-ridge-estimator">Limit of the Ridge Estimator</a></li>
+  <li><a href="#measurement-error-in-revisited" id="toc-measurement-error-in-revisited" class="nav-link" data-scroll-target="#measurement-error-in-revisited">Measurement Error in Revisited</a></li>
+  <li><a href="#omitted-variable-bias-revisited" id="toc-omitted-variable-bias-revisited" class="nav-link" data-scroll-target="#omitted-variable-bias-revisited">Omitted Variable Bias Revisited</a></li>
+  </ul></li>
+  <li><a href="#applied-exercises" id="toc-applied-exercises" class="nav-link" data-scroll-target="#applied-exercises">Applied Exercises</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/vladislav-morozov/econometrics-2/edit/main/src/exercises/exercises-linear-asymptotic.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/vladislav-morozov/econometrics-2/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../slides/vector/vector-ols.html">Linear Regression II</a></li><li class="breadcrumb-item"><a href="../exercises/exercises-linear-asymptotic.html">Exercises: Vector Linear Model and Asymptotics</a></li></ol></nav></header>
 
 
 
 
+<section id="exercises-vector-linear-model-and-asymptotics" class="level1">
+<h1>Exercises: Vector Linear Model and Asymptotics</h1>
+<section id="theoretical-exercises" class="level2">
+<h2 class="anchored" data-anchor-id="theoretical-exercises">Theoretical Exercises</h2>
+<section id="regressing-fitted-values" class="level3">
+<h3 class="anchored" data-anchor-id="regressing-fitted-values">Regressing Fitted Values</h3>
+<p>Suppose that we observe data <span class="math inline">\((Y_1, \bX_1), \dots (Y_N, \bX_N)\)</span>. Let <span class="math inline">\(\bY\)</span> be the <span class="math inline">\(N\times 1\)</span> vector of outcomes, <span class="math inline">\(\bX\)</span> be the data matrix, and suppose that <span class="math inline">\(\bX'\bX\)</span> is invertible.</p>
+<p>Let the vector <span class="math inline">\(\hat{\bY}\)</span> of fitted values and the vector <span class="math inline">\(\hat{\be}\)</span> of errors be given by <span class="math display">\[
+\begin{aligned}
+\hat{\bY} &amp; = \bX\hat{\bbeta},\\
+\hat{\be} &amp; = \bY- \hat{\bY},
+\end{aligned}
+\]</span> where <span class="math inline">\(\hat{\bbeta}\)</span> is the OLS estimator.</p>
+<p>Find the OLS coefficient vector from</p>
+<ol type="1">
+<li>Regressing <span class="math inline">\(\hat{Y}_i\)</span> on <span class="math inline">\(\bX_i\)</span>.</li>
+<li>Regressing <span class="math inline">\(\hat{e}_i\)</span> on <span class="math inline">\(\bX_i\)</span>.</li>
+</ol>
+<p>In both cases, express the OLS estimator in terms of <span class="math inline">\(\bY\)</span> and <span class="math inline">\(\bX\)</span>. Then express it in terms of <span class="math inline">\((Y_i, \bX_i)\)</span>, <span class="math inline">\(i=1, \dots, N\)</span>.</p>
+</section>
+<section id="inconsistency-of-ols-despite-strict-exogeneity" class="level3">
+<h3 class="anchored" data-anchor-id="inconsistency-of-ols-despite-strict-exogeneity">Inconsistency of OLS Despite Strict Exogeneity</h3>
+<p>Let <span class="math inline">\(X_i\)</span> and <span class="math inline">\(Y_i\)</span> be scalar variables. Let <span class="math inline">\(X_i\)</span> satisfy <span class="math display">\[
+X_i = \begin{cases}
+1, &amp; i = 1, \\
+0, &amp; i &gt; 1.
+\end{cases}
+\]</span></p>
+<ol type="1">
+<li>Suppose we have a sample of <span class="math inline">\(N\)</span> units: <span class="math inline">\((Y_1, X_1), \dots, (Y_N, X_N)\)</span>. Can we compute the OLS estimator? If yes, express the estimator in terms of <span class="math inline">\((Y_i, X_i)\)</span>, <span class="math inline">\(i=1,\dots, N\)</span>. If not, explain why.</li>
+<li>Suppose that <span class="math inline">\(X_i\)</span> and <span class="math inline">\(Y_i\)</span> are linked through the linear causal model <span class="math display">\[
+Y_i^x = \beta x + U_i,
+\]</span> where <span class="math inline">\(Y_i^x\)</span> is a potential outcome, <span class="math inline">\(U_i\)</span> is independent of <span class="math inline">\(X_i\)</span> with <span class="math inline">\(\E[U_i]=0\)</span>. Why does the OLS estimator of <span class="math inline">\(\beta\)</span> not converge to <span class="math inline">\(\beta\)</span>? In other words, which of the conditions of our consistency results fail?</li>
+<li>Provide an informal empirical interpretation of the above data-generating process for <span class="math inline">\(X_i\)</span>.</li>
+</ol>
+<p><br></p>
+</section>
+<section id="ratio-slope-estimator" class="level3">
+<h3 class="anchored" data-anchor-id="ratio-slope-estimator">Ratio Slope Estimator</h3>
+<p>Let <span class="math inline">\(X_i\)</span> and <span class="math inline">\(U_i\)</span> be scalar random variables. Suppose that <span class="math inline">\(X_i\)</span> satisfies <span class="math inline">\(X_i\geq c&gt;0\)</span> for some <span class="math inline">\(c\)</span> (strictly positive and bounded away from 0). Let <span class="math inline">\(Y_i\)</span> be some outcome. Suppose that the following linear causal model holds: the potential outcome <span class="math inline">\(Y_i^x\)</span> is determined as <span class="math display">\[
+Y_i^x = \beta x + U_i.
+\]</span> The realized outcome <span class="math inline">\(Y_i\)</span> is determined as <span class="math inline">\(Y_i = Y_i^{X_i}\)</span>.</p>
+<p>Consider the following estimator for <span class="math inline">\(\beta\)</span>: <span class="math display">\[
+\tilde{\beta} = \dfrac{1}{N}\sum_{i=1}^N \dfrac{Y_i}{X_i}.
+\]</span></p>
+<ol type="1">
+<li>Propose conditions under which <span class="math inline">\(\tilde{\beta}\)</span> is consistent for <span class="math inline">\(\beta\)</span> and prove consistency.</li>
+<li>Derive the asymptotic distribution of <span class="math inline">\(\tilde{\beta}\)</span>.</li>
+<li>Now suppose that the causal model allows heterogeneous effects: <span class="math display">\[
+Y_i^x = \beta_i x + U_i.
+\]</span> Under which conditions does <span class="math inline">\(\tilde{\beta}\)</span> consistently estimate <span class="math inline">\(\E[\beta_i]\)</span>?</li>
+</ol>
+</section>
+<section id="limit-of-the-ridge-estimator" class="level3">
+<h3 class="anchored" data-anchor-id="limit-of-the-ridge-estimator">Limit of the Ridge Estimator</h3>
+<p>Let the outcome <span class="math inline">\(Y_i\)</span>, the covariates <span class="math inline">\(\bX_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear causal model <span class="math display">\[
+Y_i^{\bx} = \bx'\bbeta + U_i
+\]</span> Suppose that we observe an IID sample of data on <span class="math inline">\(Y_i, \bX_i\)</span>.</p>
+<p>Define the ridge estimator <span class="math inline">\(\tilde{\bbeta}\)</span> as <span class="math display">\[
+\tilde{\bbeta} = (\bX'\bX+ \lambda_N \bI_k)^{-1}\bX'\bY,
+\]</span> where <span class="math inline">\(\lambda_N\)</span> is some non-negative number, <span class="math inline">\(\bI_k\)</span> is the <span class="math inline">\(k\times k\)</span> identity matrix, and we assume that <span class="math inline">\((\bX'\bX+ \lambda_N \bI_k)\)</span> is invertible.</p>
+<ol type="1">
+<li>Suppose that <span class="math inline">\(\bX_i\)</span> is scalar. Show that <span class="math inline">\(\abs{\tilde{\bbeta}}\leq \abs{\hat{\bbeta}}\)</span>, where <span class="math inline">\(\hat{\bbeta}\)</span> is the OLS estimator (in words, the ridge estimator is always weakly closer to 0 than the OLS estimator — it is “shrunk” to zero).</li>
+<li>Suppose that <span class="math inline">\(\lambda_N = cN\)</span> for some fixed <span class="math inline">\(c\geq 0\)</span>. Find the probability limit of <span class="math inline">\(\tilde{\bbeta}\)</span>. State explicitly any moment assumptions you make.</li>
+<li><em>(Optional)</em>: prove that ridge estimator satisfies <span class="math display">\[
+\tilde{\bbeta} = \argmin_{\bb} \sum_{i=1}^N (Y_i - \bX_i'\bb)^{2} + \lambda \norm{\bb}^2
+\]</span> Hint: use the same approach as we used to derive the OLS estimator.</li>
+</ol>
+<p>Why would one use <span class="math inline">\(\tilde{\bbeta}\)</span>? Note that <span class="math inline">\(\bX'\bX + c\bI_k\)</span> is invertible if <span class="math inline">\(c&gt;0\)</span>, regardless of invertibility of <span class="math inline">\(\bX'\bX\)</span>. This means that <span class="math inline">\(\tilde{\bbeta}\)</span> can be computed even if the OLS estimator cannot. A leading case is <em>high-dimensional</em> regression, where the number of regressors <span class="math inline">\(k\)</span> exceeds the number <span class="math inline">\(N\)</span> of data points. See section 6.2.1 in <span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#ref-James2023IntroductionStatisticalLearning" role="doc-biblioref">2023</a>)</span> about the ridge estimator and regularization techniques in general. We will discuss some of these ideas later in the class.</p>
+</section>
+<section id="measurement-error-in-revisited" class="level3">
+<h3 class="anchored" data-anchor-id="measurement-error-in-revisited">Measurement Error in Revisited</h3>
+<p>Let the outcome <span class="math inline">\(Y_i\)</span>, the covariates <span class="math inline">\(\bX_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear causal model <span class="math display">\[
+Y_i^{\bx} = \bx'\bbeta + U_i
+\]</span> Suppose that our data is IID.</p>
+<p>Suppose that we do not observe the true <span class="math inline">\(Y_i\)</span>, but instead a mismeasured version <span class="math inline">\(Y_i^*= Y_i + V_i\)</span>, where the measurement error <span class="math inline">\(V_i\)</span> is mean zero and independent of <span class="math inline">\((X_i, U_i)\)</span>.</p>
+<ol type="1">
+<li>Show that the OLS estimator for the regression of <span class="math inline">\(Y_i^*\)</span> on <span class="math inline">\(\bX_i\)</span> is consistent for <span class="math inline">\(\bbeta\)</span>.</li>
+<li>Derive the asymptotic distribution of the above OLS estimator. Express the asymptotic variance in terms of moments involving <span class="math inline">\(V_i\)</span> and <span class="math inline">\(U_i\)</span>. Interpret the result: how does the measurement error in <span class="math inline">\(\bX\)</span> affect the asymptotic variance of the OLS estimator (increase/decrease/unchanged/unclear)?</li>
+</ol>
+<p>Now suppose that we do observe <span class="math inline">\(Y_i\)</span>, but we do not observe <span class="math inline">\(\bX_i\)</span>. Instead, we only see a mismeasured version <span class="math inline">\(\bX_i^*= \bX_i + \bV_i\)</span>, where the measurement error <span class="math inline">\(\bV_i\)</span> is mean zero and independent of <span class="math inline">\((\bX_i, U_i)\)</span>.</p>
+<ol start="3" type="1">
+<li>Compute the limit of the OLS estimator in the regression of <span class="math inline">\(Y_i\)</span> on <span class="math inline">\(\bX_i^*\)</span>. Is this estimator consistent for <span class="math inline">\(\bbeta\)</span>? If so, under which conditions?</li>
+</ol>
+<p>Compare the two cases of measurement error.</p>
+</section>
+<section id="omitted-variable-bias-revisited" class="level3">
+<h3 class="anchored" data-anchor-id="omitted-variable-bias-revisited">Omitted Variable Bias Revisited</h3>
+<p>Let <span class="math inline">\(Y_i\)</span> be some outcome of interest. Let <span class="math inline">\(\bX_i\)</span> be an observed covariate vector. Let <span class="math inline">\(U_i\)</span> be an unobserved component that satisfies <span class="math inline">\(\E[\bX_iU_i]=0\)</span>. Let <span class="math inline">\(\bW_i\)</span> be another group of variables that affect <span class="math inline">\(Y_i\)</span>. Suppose that <span class="math inline">\(Y_i\)</span> and <span class="math inline">\((\bX_i, \bW_i)\)</span> are related through the potential outcomes model <span class="math display">\[
+Y_i^{(\bx, \bw)} = \bx'\bbeta + \bw'\bdelta + U_i.
+\]</span></p>
+<p>Suppose that <span class="math inline">\(\bW_i\)</span> is not observed, and we instead regress <span class="math inline">\(Y_i\)</span> only on <span class="math inline">\(\bX_i\)</span>. Find the probability limit of the corresponding OLS estimator. When is that limit equal to <span class="math inline">\(\bbeta\)</span>? If <span class="math inline">\(\bX_i\)</span> is scalar, can you say anything about the direction of the bias?</p>
+</section>
+</section>
+<section id="applied-exercises" class="level2">
+<h2 class="anchored" data-anchor-id="applied-exercises">Applied Exercises</h2>
+<p>Applied exercises in this list of exercises serve as reminders on how to apply multivariate regression:</p>
+<ul>
+<li><span class="citation" data-cites="Wooldridge2020IntroductoryEconometricsModern">Wooldridge (<a href="#ref-Wooldridge2020IntroductoryEconometricsModern" role="doc-biblioref">2020</a>)</span> Exercise C9 in chapter 3 (see C7 in chapter 2 for some more context).</li>
+<li><span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#ref-James2023IntroductionStatisticalLearning" role="doc-biblioref">2023</a>)</span> Exercise 3.8 and 3.9.</li>
+</ul>
+<p>Check out chapter 3 in <span class="citation" data-cites="Heiss2024UsingPythonIntroductory">Heiss and Brunner (<a href="#ref-Heiss2024UsingPythonIntroductory" role="doc-biblioref">2024</a>)</span> and section 3.6 in <span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#ref-James2023IntroductionStatisticalLearning" role="doc-biblioref">2023</a>)</span>.</p>
 
 
 
-</main> <!-- /main -->
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Heiss2024UsingPythonIntroductory" class="csl-entry" role="listitem">
+Heiss, Florian, and Daniel Brunner. 2024. <em>Using <span>Python</span> for <span>Introductory Econometrics</span></em>. 2nd edition. New York: Independently Published.
+</div>
+<div id="ref-James2023IntroductionStatisticalLearning" class="csl-entry" role="listitem">
+James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, and Jonathan E. Taylor. 2023. <em>An <span>Introduction</span> to <span>Statistical Learning</span>: <span>With Applications</span> in <span>Python</span></em>. Springer Texts in Statistics. Cham: Springer.
+</div>
+<div id="ref-Wooldridge2020IntroductoryEconometricsModern" class="csl-entry" role="listitem">
+Wooldridge, Jeffrey M. 2020. <em>Introductory <span>Econometrics</span>: A <span>Modern Approach</span></em>. Seventh edition. Boston, MA: Cengage.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1110,4 +1275,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/vladislav-morozov/econometrics-2/edit/main/src/syllabus.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/vladislav-morozov/econometrics-2/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/vladislav-morozov/econometrics-2/edit/main/src/exercises/exercises-linear-asymptotic.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/vladislav-morozov/econometrics-2/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
