@@ -10,13 +10,13 @@ format:
 
 ## Regressing Fitted Values
 
-Suppose that we observe data $(Y_1, \bX_1), \dots (Y_N, \bX_N)$. Let $\bX$ be the data matrix, and suppose that $\bX'\bX$ is invertible. 
+Suppose that we observe data $(Y_1, \bX_1), \dots (Y_N, \bX_N)$. Let $\bY$ be the $N\times 1$ vector of outcomes, $\bX$ be the data matrix, and suppose that $\bX'\bX$ is invertible. 
 
 Let the vector $\hat{\bY}$ of fitted values and the vector $\hat{\be}$ of errors be given by 
 $$
 \begin{aligned}
-\hat{\bY} = \bX\hat{\bbeta},
-\hat{\be} = \bY- \hat{\bY},
+\hat{\bY} & = \bX\hat{\bbeta},\\
+\hat{\be} & = \bY- \hat{\bY},
 \end{aligned}
 $$
 where $\hat{\bbeta}$ is the OLS estimator. 
