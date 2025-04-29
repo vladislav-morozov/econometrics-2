@@ -1,0 +1,54 @@
+---
+format:
+  html:
+    toc: true
+---
+
+# Exercises: Vector Linear Model and Asymptotics
+
+
+
+## Regressing Fitted Values
+
+Suppose that we observe data $(Y_1, \bX_1), \dots (Y_N, \bX_N)$. Let $\bX$ be the data matrix, and suppose that $\bX'\bX$ is invertible. 
+
+Let the vector $\hat{\bY}$ of fitted values and the vector $\hat{\be}$ of errors be given by 
+$$
+\begin{aligned}
+\hat{\bY} = \bX\hat{\bbeta},
+\hat{\be} = \bY- \hat{\bY},
+\end{aligned}
+$$
+where $\hat{\bbeta}$ is the OLS estimator. 
+
+Find the OLS coefficient vector from
+
+1. Regressing $\hat{Y}_i$ on $\bX_i$.
+2. Regressing $\hat{e}_i$ on $\bX_i$.
+
+In both cases, express the OLS estimator in terms of $\bY$ and $\bX$. Then express it in terms of $(Y_i, \bX_i)$, $i=1, \dots, N$.
+
+##  A
+
+Suppose that 
+
+## Ratio Slope Estimator
+
+Under what conditions 
+
+## Limit of the Ridge Estimator
+
+## Measurement Error
+
+
+
+## Omitted Variable Bias
+
+What if htere is 
+
+## Question 3
+ 
+
+## Applied Exercises
+
+1. @James2023IntroductionStatisticalLearning Exercise 2.9 
