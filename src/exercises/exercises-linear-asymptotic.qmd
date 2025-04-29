@@ -7,8 +7,9 @@ format:
 # Exercises: Vector Linear Model and Asymptotics
 
 
+## Theoretical Exercises 
 
-## Regressing Fitted Values
+### Regressing Fitted Values
 
 Suppose that we observe data $(Y_1, \bX_1), \dots (Y_N, \bX_N)$. Let $\bY$ be the $N\times 1$ vector of outcomes, $\bX$ be the data matrix, and suppose that $\bX'\bX$ is invertible. 
 
@@ -28,7 +29,7 @@ Find the OLS coefficient vector from
 
 In both cases, express the OLS estimator in terms of $\bY$ and $\bX$. Then express it in terms of $(Y_i, \bX_i)$, $i=1, \dots, N$.
 
-## Inconsistency of OLS Despite Strict Exogeneity
+### Inconsistency of OLS Despite Strict Exogeneity
 
 Let $X_i$ and $Y_i$ be scalar variables. Let $X_i$ satisfy
 $$
@@ -46,7 +47,7 @@ $$
 where $Y_i^x$ is a potential outcome, $U_i$ is independent of $X_i$ with $\E[U_i]=0$. Why does the OLS estimator of $\beta$ not converge to $\beta$? In other words, which of the conditions of our consistency results fail?
 3. Provide an informal empirical interpretation of the above data-generating process for $X_i$.
 
-## Ratio Slope Estimator
+### Ratio Slope Estimator
 
 Let $X_i$ and $U_i$ be scalar random variables. Suppose that $X_i$ satisfies $X_i\geq c>0$ for some $c$ (strictly positive and bounded away from 0). Let $Y_i$ be some outcome. Suppose that the following linear causal model holds: the potential outcome $Y_i^x$ is determined as
 $$
@@ -67,20 +68,52 @@ Y_i^x = \beta_i x + U_i.
 $$
 Under which conditions does $\tilde{\beta}$ consistently estimate $\E[\beta_i]$?
  
-## Limit of the Ridge Estimator
+### Limit of the Ridge Estimator
 
-See section 6.2.1 in @James2023IntroductionStatisticalLearning about the ridge estimator and regularization techniques in general. 
+Let the outcome $Y_i$, the covariates $\bX_i$, and an unobserved component $U_i$ be linked through the linear causal model
+$$
+Y_i^{\bx} = \bx'\bbeta + U_i
+$$
+Suppose that we observe an IID sample of data on $Y_i, \bX_i$. 
 
-## Measurement Error
+Define the ridge estimator $\tilde{\bbeta}$ as
+$$
+\tilde{\bbeta} = (\bX'\bX+ \lambda_N \bI_k)^{-1}\bX'\bY,
+$$
+where $\lambda_N$ is some non-negative number, $\bI_k$ is the $k\times k$ identity matrix, and we assume that $(\bX'\bX+ \lambda_N \bI_k)$ is invertible. 
+
+1. Suppose that $\bX_i$ is scalar. Show that $\abs{\tilde{\bbeta}}\leq \abs{\hat{\bbeta}}$, where $\hat{\bbeta}$ is the OLS estimator (in words, the ridge estimator is always weakly closer to 0 than the OLS estimator — it is "shrunk" to zero).
+2. Suppose that $\lambda_N = cN$ for some fixed $c\geq 0$. Find the probability limit of $\tilde{\bbeta}$. State explicitly any moment assumptions you make. 
+3. *(Optional)*: prove that ridge estimator satisfies
+$$
+\tilde{\bbeta} = \argmin_{\bb} \sum_{i=1}^N (Y_i - \bX_i'\bb)^{2} + \lambda \norm{\bb}^2
+$$
+Hint: use the same approach as we used to derive the OLS estimator. 
+  
+
+Why would one use $\tilde{\bbeta}$? Note that $\bX'\bX + c\bI_k$ is invertible if $c>0$, regardless of invertibility of $\bX'\bX$. This means that $\tilde{\bbeta}$ can be computed even if the OLS estimator cannot. A leading case is *high-dimensional* regression, where the number of regressors $k$ exceeds the number $N$ of data points. See section 6.2.1 in @James2023IntroductionStatisticalLearning about the ridge estimator and regularization techniques in general. We will discuss some of these ideas later in the class.
+
+### Measurement Error Revisited
+
+Let the outcome $Y_i$, the covariates $\bX_i$, and an unobserved component $U_i$ be linked through the linear causal model
+$$
+Y_i^{\bx} = \bx'\bbeta + U_i
+$$
+Suppose that our data is IID.
+
+
+Suppose that we do not observe the true $Y_i$, but instead a mismeasured version $Y_i^*= Y_i + V_i$, where the measurement error $V_i$ is mean zero and independent from $(X_i, U_i)$. 
+
+1. Show that the OLS estimator for the regression of $Y_i^*$ on $\bX_i$ is consistent for $\bbeta$.
+2. Derive the asymptotic distribution of the above OLS estimator. Express the asymptotic variance in terms of moments involving $V_i$ and $U_i$. Interpret the result: how does the measurement error in $\bX$ affect the asymptotic variance of the OLS estimator? 
 
 
 
-## Omitted Variable Bias
+### Omitted Variable Bias
 
 What if htere is 
 
-## Question 3
- 
+
 
 ## Applied Exercises
 
