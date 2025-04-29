@@ -165,6 +165,39 @@
     ]
   },
   {
+    "objectID": "exercises/exercises-linear-asymptotic.html",
+    "href": "exercises/exercises-linear-asymptotic.html",
+    "title": "Exercises: Vector Linear Model and Asymptotics",
+    "section": "",
+    "text": "Suppose that we observe data \\((Y_1, \\bX_1), \\dots (Y_N, \\bX_N)\\). Let \\(\\bY\\) be the \\(N\\times 1\\) vector of outcomes, \\(\\bX\\) be the data matrix, and suppose that \\(\\bX'\\bX\\) is invertible.\nLet the vector \\(\\hat{\\bY}\\) of fitted values and the vector \\(\\hat{\\be}\\) of errors be given by \\[\n\\begin{aligned}\n\\hat{\\bY} & = \\bX\\hat{\\bbeta},\\\\\n\\hat{\\be} & = \\bY- \\hat{\\bY},\n\\end{aligned}\n\\] where \\(\\hat{\\bbeta}\\) is the OLS estimator.\nFind the OLS coefficient vector from\n\nRegressing \\(\\hat{Y}_i\\) on \\(\\bX_i\\).\nRegressing \\(\\hat{e}_i\\) on \\(\\bX_i\\).\n\nIn both cases, express the OLS estimator in terms of \\(\\bY\\) and \\(\\bX\\). Then express it in terms of \\((Y_i, \\bX_i)\\), \\(i=1, \\dots, N\\).\n\n\n\nLet \\(X_i\\) and \\(Y_i\\) be scalar variables. Let \\(X_i\\) satisfy \\[\nX_i = \\begin{cases}\n1, & i = 1, \\\\\n0, & i &gt; 1.\n\\end{cases}\n\\]\n\nSuppose we have a sample of \\(N\\) units: \\((Y_1, X_1), \\dots, (Y_N, X_N)\\). Can we compute the OLS estimator? If yes, express the estimator in terms of \\((Y_i, X_i)\\), \\(i=1,\\dots, N\\). If not, explain why.\nSuppose that \\(X_i\\) and \\(Y_i\\) are linked through the linear causal model \\[\nY_i^x = \\beta x + U_i,\n\\] where \\(Y_i^x\\) is a potential outcome, \\(U_i\\) is independent of \\(X_i\\) with \\(\\E[U_i]=0\\). Why does the OLS estimator of \\(\\beta\\) not converge to \\(\\beta\\)? In other words, which of the conditions of our consistency results fail?\nProvide an informal empirical interpretation of the above data-generating process for \\(X_i\\).\n\n\n\n\n\nLet \\(X_i\\) and \\(U_i\\) be scalar random variables. Suppose that \\(X_i\\) satisfies \\(X_i\\geq c&gt;0\\) for some \\(c\\) (strictly positive and bounded away from 0). Let \\(Y_i\\) be some outcome. Suppose that the following linear causal model holds: the potential outcome \\(Y_i^x\\) is determined as \\[\nY_i^x = \\beta x + U_i.\n\\] The realized outcome \\(Y_i\\) is determined as \\(Y_i = Y_i^{X_i}\\).\nConsider the following estimator for \\(\\beta\\): \\[\n\\tilde{\\beta} = \\dfrac{1}{N}\\sum_{i=1}^N \\dfrac{Y_i}{X_i}.\n\\]\n\nPropose conditions under which \\(\\tilde{\\beta}\\) is consistent for \\(\\beta\\) and prove consistency.\nDerive the asymptotic distribution of \\(\\tilde{\\beta}\\).\nNow suppose that the causal model allows heterogeneous effects: \\[\nY_i^x = \\beta_i x + U_i.\n\\] Under which conditions does \\(\\tilde{\\beta}\\) consistently estimate \\(\\E[\\beta_i]\\)?\n\n\n\n\nLet the outcome \\(Y_i\\), the covariates \\(\\bX_i\\), and an unobserved component \\(U_i\\) be linked through the linear causal model \\[\nY_i^{\\bx} = \\bx'\\bbeta + U_i\n\\] Suppose that we observe an IID sample of data on \\(Y_i, \\bX_i\\).\nDefine the ridge estimator \\(\\tilde{\\bbeta}\\) as \\[\n\\tilde{\\bbeta} = (\\bX'\\bX+ \\lambda_N \\bI_k)^{-1}\\bX'\\bY,\n\\] where \\(\\lambda_N\\) is some non-negative number, \\(\\bI_k\\) is the \\(k\\times k\\) identity matrix, and we assume that \\((\\bX'\\bX+ \\lambda_N \\bI_k)\\) is invertible.\n\nSuppose that \\(\\bX_i\\) is scalar. Show that \\(\\abs{\\tilde{\\bbeta}}\\leq \\abs{\\hat{\\bbeta}}\\), where \\(\\hat{\\bbeta}\\) is the OLS estimator (in words, the ridge estimator is always weakly closer to 0 than the OLS estimator — it is “shrunk” to zero).\nSuppose that \\(\\lambda_N = cN\\) for some fixed \\(c\\geq 0\\). Find the probability limit of \\(\\tilde{\\bbeta}\\). State explicitly any moment assumptions you make.\n(Optional): prove that ridge estimator satisfies \\[\n\\tilde{\\bbeta} = \\argmin_{\\bb} \\sum_{i=1}^N (Y_i - \\bX_i'\\bb)^{2} + \\lambda \\norm{\\bb}^2\n\\] Hint: use the same approach as we used to derive the OLS estimator.\n\nWhy would one use \\(\\tilde{\\bbeta}\\)? Note that \\(\\bX'\\bX + c\\bI_k\\) is invertible if \\(c&gt;0\\), regardless of invertibility of \\(\\bX'\\bX\\). This means that \\(\\tilde{\\bbeta}\\) can be computed even if the OLS estimator cannot. A leading case is high-dimensional regression, where the number of regressors \\(k\\) exceeds the number \\(N\\) of data points. See section 6.2.1 in James et al. (2023) about the ridge estimator and regularization techniques in general. We will discuss some of these ideas later in the class.\n\n\n\nLet the outcome \\(Y_i\\), the covariates \\(\\bX_i\\), and an unobserved component \\(U_i\\) be linked through the linear causal model \\[\nY_i^{\\bx} = \\bx'\\bbeta + U_i\n\\] Suppose that our data is IID.\nSuppose that we do not observe the true \\(Y_i\\), but instead a mismeasured version \\(Y_i^*= Y_i + V_i\\), where the measurement error \\(V_i\\) is mean zero and independent of \\((X_i, U_i)\\).\n\nShow that the OLS estimator for the regression of \\(Y_i^*\\) on \\(\\bX_i\\) is consistent for \\(\\bbeta\\).\nDerive the asymptotic distribution of the above OLS estimator. Express the asymptotic variance in terms of moments involving \\(V_i\\) and \\(U_i\\). Interpret the result: how does the measurement error in \\(\\bX\\) affect the asymptotic variance of the OLS estimator (increase/decrease/unchanged/unclear)?\n\nNow suppose that we do observe \\(Y_i\\), but we do not observe \\(\\bX_i\\). Instead, we only see a mismeasured version \\(\\bX_i^*= \\bX_i + \\bV_i\\), where the measurement error \\(\\bV_i\\) is mean zero and independent of \\((\\bX_i, U_i)\\).\n\nCompute the limit of the OLS estimator in the regression of \\(Y_i\\) on \\(\\bX_i^*\\). Is this estimator consistent for \\(\\bbeta\\)? If so, under which conditions?\n\nCompare the two cases of measurement error.\n\n\n\nLet \\(Y_i\\) be some outcome of interest. Let \\(\\bX_i\\) be an observed covariate vector. Let \\(U_i\\) be an unobserved component that satisfies \\(\\E[\\bX_iU_i]=0\\). Let \\(\\bW_i\\) be another group of variables that affect \\(Y_i\\). Suppose that \\(Y_i\\) and \\((\\bX_i, \\bW_i)\\) are related through the potential outcomes model \\[\nY_i^{(\\bx, \\bw)} = \\bx'\\bbeta + \\bw'\\bdelta + U_i.\n\\]\nSuppose that \\(\\bW_i\\) is not observed, and we instead regress \\(Y_i\\) only on \\(\\bX_i\\). Find the probability limit of the corresponding OLS estimator. When is that limit equal to \\(\\bbeta\\)? If \\(\\bX_i\\) is scalar, can you say anything about the direction of the bias?\n\n\n\n\nApplied exercises in this list of exercises serve as reminders on how to apply multivariate regression:\n\nWooldridge (2020) Exercise C9 in chapter 3 (see C7 in chapter 2 for some more context).\nJames et al. (2023) Exercise 3.8 and 3.9.\n\nCheck out chapter 3 in Heiss and Brunner (2024) and section 3.6 in James et al. (2023).",
+    "crumbs": [
+      "Linear Regression II",
+      "Exercises: Vector Linear Model and Asymptotics"
+    ]
+  },
+  {
+    "objectID": "exercises/exercises-linear-asymptotic.html#theoretical-exercises",
+    "href": "exercises/exercises-linear-asymptotic.html#theoretical-exercises",
+    "title": "Exercises: Vector Linear Model and Asymptotics",
+    "section": "",
+    "text": "Suppose that we observe data \\((Y_1, \\bX_1), \\dots (Y_N, \\bX_N)\\). Let \\(\\bY\\) be the \\(N\\times 1\\) vector of outcomes, \\(\\bX\\) be the data matrix, and suppose that \\(\\bX'\\bX\\) is invertible.\nLet the vector \\(\\hat{\\bY}\\) of fitted values and the vector \\(\\hat{\\be}\\) of errors be given by \\[\n\\begin{aligned}\n\\hat{\\bY} & = \\bX\\hat{\\bbeta},\\\\\n\\hat{\\be} & = \\bY- \\hat{\\bY},\n\\end{aligned}\n\\] where \\(\\hat{\\bbeta}\\) is the OLS estimator.\nFind the OLS coefficient vector from\n\nRegressing \\(\\hat{Y}_i\\) on \\(\\bX_i\\).\nRegressing \\(\\hat{e}_i\\) on \\(\\bX_i\\).\n\nIn both cases, express the OLS estimator in terms of \\(\\bY\\) and \\(\\bX\\). Then express it in terms of \\((Y_i, \\bX_i)\\), \\(i=1, \\dots, N\\).\n\n\n\nLet \\(X_i\\) and \\(Y_i\\) be scalar variables. Let \\(X_i\\) satisfy \\[\nX_i = \\begin{cases}\n1, & i = 1, \\\\\n0, & i &gt; 1.\n\\end{cases}\n\\]\n\nSuppose we have a sample of \\(N\\) units: \\((Y_1, X_1), \\dots, (Y_N, X_N)\\). Can we compute the OLS estimator? If yes, express the estimator in terms of \\((Y_i, X_i)\\), \\(i=1,\\dots, N\\). If not, explain why.\nSuppose that \\(X_i\\) and \\(Y_i\\) are linked through the linear causal model \\[\nY_i^x = \\beta x + U_i,\n\\] where \\(Y_i^x\\) is a potential outcome, \\(U_i\\) is independent of \\(X_i\\) with \\(\\E[U_i]=0\\). Why does the OLS estimator of \\(\\beta\\) not converge to \\(\\beta\\)? In other words, which of the conditions of our consistency results fail?\nProvide an informal empirical interpretation of the above data-generating process for \\(X_i\\).\n\n\n\n\n\nLet \\(X_i\\) and \\(U_i\\) be scalar random variables. Suppose that \\(X_i\\) satisfies \\(X_i\\geq c&gt;0\\) for some \\(c\\) (strictly positive and bounded away from 0). Let \\(Y_i\\) be some outcome. Suppose that the following linear causal model holds: the potential outcome \\(Y_i^x\\) is determined as \\[\nY_i^x = \\beta x + U_i.\n\\] The realized outcome \\(Y_i\\) is determined as \\(Y_i = Y_i^{X_i}\\).\nConsider the following estimator for \\(\\beta\\): \\[\n\\tilde{\\beta} = \\dfrac{1}{N}\\sum_{i=1}^N \\dfrac{Y_i}{X_i}.\n\\]\n\nPropose conditions under which \\(\\tilde{\\beta}\\) is consistent for \\(\\beta\\) and prove consistency.\nDerive the asymptotic distribution of \\(\\tilde{\\beta}\\).\nNow suppose that the causal model allows heterogeneous effects: \\[\nY_i^x = \\beta_i x + U_i.\n\\] Under which conditions does \\(\\tilde{\\beta}\\) consistently estimate \\(\\E[\\beta_i]\\)?\n\n\n\n\nLet the outcome \\(Y_i\\), the covariates \\(\\bX_i\\), and an unobserved component \\(U_i\\) be linked through the linear causal model \\[\nY_i^{\\bx} = \\bx'\\bbeta + U_i\n\\] Suppose that we observe an IID sample of data on \\(Y_i, \\bX_i\\).\nDefine the ridge estimator \\(\\tilde{\\bbeta}\\) as \\[\n\\tilde{\\bbeta} = (\\bX'\\bX+ \\lambda_N \\bI_k)^{-1}\\bX'\\bY,\n\\] where \\(\\lambda_N\\) is some non-negative number, \\(\\bI_k\\) is the \\(k\\times k\\) identity matrix, and we assume that \\((\\bX'\\bX+ \\lambda_N \\bI_k)\\) is invertible.\n\nSuppose that \\(\\bX_i\\) is scalar. Show that \\(\\abs{\\tilde{\\bbeta}}\\leq \\abs{\\hat{\\bbeta}}\\), where \\(\\hat{\\bbeta}\\) is the OLS estimator (in words, the ridge estimator is always weakly closer to 0 than the OLS estimator — it is “shrunk” to zero).\nSuppose that \\(\\lambda_N = cN\\) for some fixed \\(c\\geq 0\\). Find the probability limit of \\(\\tilde{\\bbeta}\\). State explicitly any moment assumptions you make.\n(Optional): prove that ridge estimator satisfies \\[\n\\tilde{\\bbeta} = \\argmin_{\\bb} \\sum_{i=1}^N (Y_i - \\bX_i'\\bb)^{2} + \\lambda \\norm{\\bb}^2\n\\] Hint: use the same approach as we used to derive the OLS estimator.\n\nWhy would one use \\(\\tilde{\\bbeta}\\)? Note that \\(\\bX'\\bX + c\\bI_k\\) is invertible if \\(c&gt;0\\), regardless of invertibility of \\(\\bX'\\bX\\). This means that \\(\\tilde{\\bbeta}\\) can be computed even if the OLS estimator cannot. A leading case is high-dimensional regression, where the number of regressors \\(k\\) exceeds the number \\(N\\) of data points. See section 6.2.1 in James et al. (2023) about the ridge estimator and regularization techniques in general. We will discuss some of these ideas later in the class.\n\n\n\nLet the outcome \\(Y_i\\), the covariates \\(\\bX_i\\), and an unobserved component \\(U_i\\) be linked through the linear causal model \\[\nY_i^{\\bx} = \\bx'\\bbeta + U_i\n\\] Suppose that our data is IID.\nSuppose that we do not observe the true \\(Y_i\\), but instead a mismeasured version \\(Y_i^*= Y_i + V_i\\), where the measurement error \\(V_i\\) is mean zero and independent of \\((X_i, U_i)\\).\n\nShow that the OLS estimator for the regression of \\(Y_i^*\\) on \\(\\bX_i\\) is consistent for \\(\\bbeta\\).\nDerive the asymptotic distribution of the above OLS estimator. Express the asymptotic variance in terms of moments involving \\(V_i\\) and \\(U_i\\). Interpret the result: how does the measurement error in \\(\\bX\\) affect the asymptotic variance of the OLS estimator (increase/decrease/unchanged/unclear)?\n\nNow suppose that we do observe \\(Y_i\\), but we do not observe \\(\\bX_i\\). Instead, we only see a mismeasured version \\(\\bX_i^*= \\bX_i + \\bV_i\\), where the measurement error \\(\\bV_i\\) is mean zero and independent of \\((\\bX_i, U_i)\\).\n\nCompute the limit of the OLS estimator in the regression of \\(Y_i\\) on \\(\\bX_i^*\\). Is this estimator consistent for \\(\\bbeta\\)? If so, under which conditions?\n\nCompare the two cases of measurement error.\n\n\n\nLet \\(Y_i\\) be some outcome of interest. Let \\(\\bX_i\\) be an observed covariate vector. Let \\(U_i\\) be an unobserved component that satisfies \\(\\E[\\bX_iU_i]=0\\). Let \\(\\bW_i\\) be another group of variables that affect \\(Y_i\\). Suppose that \\(Y_i\\) and \\((\\bX_i, \\bW_i)\\) are related through the potential outcomes model \\[\nY_i^{(\\bx, \\bw)} = \\bx'\\bbeta + \\bw'\\bdelta + U_i.\n\\]\nSuppose that \\(\\bW_i\\) is not observed, and we instead regress \\(Y_i\\) only on \\(\\bX_i\\). Find the probability limit of the corresponding OLS estimator. When is that limit equal to \\(\\bbeta\\)? If \\(\\bX_i\\) is scalar, can you say anything about the direction of the bias?",
+    "crumbs": [
+      "Linear Regression II",
+      "Exercises: Vector Linear Model and Asymptotics"
+    ]
+  },
+  {
+    "objectID": "exercises/exercises-linear-asymptotic.html#applied-exercises",
+    "href": "exercises/exercises-linear-asymptotic.html#applied-exercises",
+    "title": "Exercises: Vector Linear Model and Asymptotics",
+    "section": "",
+    "text": "Applied exercises in this list of exercises serve as reminders on how to apply multivariate regression:\n\nWooldridge (2020) Exercise C9 in chapter 3 (see C7 in chapter 2 for some more context).\nJames et al. (2023) Exercise 3.8 and 3.9.\n\nCheck out chapter 3 in Heiss and Brunner (2024) and section 3.6 in James et al. (2023).",
+    "crumbs": [
+      "Linear Regression II",
+      "Exercises: Vector Linear Model and Asymptotics"
+    ]
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Advanced Econometrics (Econometrics II)",
@@ -200,88 +233,55 @@
     "text": "The final grade for this course is based on a 90 minute closed-book written exam. The date of the exam will be announced separately by the Examination Office.\n\n\n\nAttendance and Participation:\nRegular attendance and active participation are strongly encouraged.\nAcademic Integrity:\nStudents must adhere to the university’s policies on academic integrity and plagiarism. Any violations will be subject to disciplinary action.\nAccommodations:\nIf you require any accommodations due to a disability or other circumstances, please contact the relevant office as soon as possible."
   },
   {
-    "objectID": "exercises/exercises-linear-asymptotic.html",
-    "href": "exercises/exercises-linear-asymptotic.html",
-    "title": "Exercises: Vector Linear Model and Asymptotics",
-    "section": "",
-    "text": "Suppose that we observe data \\((Y_1, \\bX_1), \\dots (Y_N, \\bX_N)\\). Let \\(\\bY\\) be the \\(N\\times 1\\) vector of outcomes, \\(\\bX\\) be the data matrix, and suppose that \\(\\bX'\\bX\\) is invertible.\nLet the vector \\(\\hat{\\bY}\\) of fitted values and the vector \\(\\hat{\\be}\\) of errors be given by \\[\n\\begin{aligned}\n\\hat{\\bY} & = \\bX\\hat{\\bbeta},\\\\\n\\hat{\\be} & = \\bY- \\hat{\\bY},\n\\end{aligned}\n\\] where \\(\\hat{\\bbeta}\\) is the OLS estimator.\nFind the OLS coefficient vector from\n\nRegressing \\(\\hat{Y}_i\\) on \\(\\bX_i\\).\nRegressing \\(\\hat{e}_i\\) on \\(\\bX_i\\).\n\nIn both cases, express the OLS estimator in terms of \\(\\bY\\) and \\(\\bX\\). Then express it in terms of \\((Y_i, \\bX_i)\\), \\(i=1, \\dots, N\\).\n\n\n\nLet \\(X_i\\) and \\(Y_i\\) be scalar variables. Let \\(X_i\\) satisfy \\[\nX_i = \\begin{cases}\n1, & i = 1, \\\\\n0, & i &gt; 1.\n\\end{cases}\n\\]\n\nSuppose we have a sample of \\(N\\) units: \\((Y_1, X_1), \\dots, (Y_N, X_N)\\). Can we compute the OLS estimator? If yes, express the estimator in terms of \\((Y_i, X_i)\\), \\(i=1,\\dots, N\\). If not, explain why.\nSuppose that \\(X_i\\) and \\(Y_i\\) are linked through the linear causal model \\[\nY_i^x = \\beta x + U_i,\n\\] where \\(Y_i^x\\) is a potential outcome, \\(U_i\\) is independent of \\(X_i\\) with \\(\\E[U_i]=0\\). Why does the OLS estimator of \\(\\beta\\) not converge to \\(\\beta\\)? In other words, which of the conditions of our consistency results fail?\nProvide an informal empirical interpretation of the above data-generating process for \\(X_i\\).\n\n\n\n\n\nLet \\(X_i\\) and \\(U_i\\) be scalar random variables. Suppose that \\(X_i\\) satisfies \\(X_i\\geq c&gt;0\\) for some \\(c\\) (strictly positive and bounded away from 0). Let \\(Y_i\\) be some outcome. Suppose that the following linear causal model holds: the potential outcome \\(Y_i^x\\) is determined as \\[\nY_i^x = \\beta x + U_i.\n\\] The realized outcome \\(Y_i\\) is determined as \\(Y_i = Y_i^{X_i}\\).\nConsider the following estimator for \\(\\beta\\): \\[\n\\tilde{\\beta} = \\dfrac{1}{N}\\sum_{i=1}^N \\dfrac{Y_i}{X_i}.\n\\]\n\nPropose conditions under which \\(\\tilde{\\beta}\\) is consistent for \\(\\beta\\) and prove consistency.\nDerive the asymptotic distribution of \\(\\tilde{\\beta}\\).\nNow suppose that the causal model allows heterogeneous effects: \\[\nY_i^x = \\beta_i x + U_i.\n\\] Under which conditions does \\(\\tilde{\\beta}\\) consistently estimate \\(\\E[\\beta_i]\\)?\n\n\n\n\nLet the outcome \\(Y_i\\), the covariates \\(\\bX_i\\), and an unobserved component \\(U_i\\) be linked through the linear causal model \\[\nY_i^{\\bx} = \\bx'\\bbeta + U_i\n\\] Suppose that we observe an IID sample of data on \\(Y_i, \\bX_i\\).\nDefine the ridge estimator \\(\\tilde{\\bbeta}\\) as \\[\n\\tilde{\\bbeta} = (\\bX'\\bX+ \\lambda_N \\bI_k)^{-1}\\bX'\\bY,\n\\] where \\(\\lambda_N\\) is some non-negative number, \\(\\bI_k\\) is the \\(k\\times k\\) identity matrix, and we assume that \\((\\bX'\\bX+ \\lambda_N \\bI_k)\\) is invertible.\n\nSuppose that \\(\\bX_i\\) is scalar. Show that \\(\\abs{\\tilde{\\bbeta}}\\leq \\abs{\\hat{\\bbeta}}\\), where \\(\\hat{\\bbeta}\\) is the OLS estimator (in words, the ridge estimator is always weakly closer to 0 than the OLS estimator — it is “shrunk” to zero).\nSuppose that \\(\\lambda_N = cN\\) for some fixed \\(c\\geq 0\\). Find the probability limit of \\(\\tilde{\\bbeta}\\). State explicitly any moment assumptions you make.\n(Optional): prove that ridge estimator satisfies \\[\n\\tilde{\\bbeta} = \\argmin_{\\bb} \\sum_{i=1}^N (Y_i - \\bX_i'\\bb)^{2} + \\lambda \\norm{\\bb}^2\n\\] Hint: use the same approach as we used to derive the OLS estimator.\n\nWhy would one use \\(\\tilde{\\bbeta}\\)? Note that \\(\\bX'\\bX + c\\bI_k\\) is invertible if \\(c&gt;0\\), regardless of invertibility of \\(\\bX'\\bX\\). This means that \\(\\tilde{\\bbeta}\\) can be computed even if the OLS estimator cannot. A leading case is high-dimensional regression, where the number of regressors \\(k\\) exceeds the number \\(N\\) of data points. See section 6.2.1 in James et al. (2023) about the ridge estimator and regularization techniques in general. We will discuss some of these ideas later in the class.\n\n\n\nLet the outcome \\(Y_i\\), the covariates \\(\\bX_i\\), and an unobserved component \\(U_i\\) be linked through the linear causal model \\[\nY_i^{\\bx} = \\bx'\\bbeta + U_i\n\\] Suppose that our data is IID.\nSuppose that we do not observe the true \\(Y_i\\), but instead a mismeasured version \\(Y_i^*= Y_i + V_i\\), where the measurement error \\(V_i\\) is mean zero and independent of \\((X_i, U_i)\\).\n\nShow that the OLS estimator for the regression of \\(Y_i^*\\) on \\(\\bX_i\\) is consistent for \\(\\bbeta\\).\nDerive the asymptotic distribution of the above OLS estimator. Express the asymptotic variance in terms of moments involving \\(V_i\\) and \\(U_i\\). Interpret the result: how does the measurement error in \\(\\bX\\) affect the asymptotic variance of the OLS estimator (increase/decrease/unchanged/unclear)?\n\nNow suppose that we do observe \\(Y_i\\), but we do not observe \\(\\bX_i\\). Instead, we only see a mismeasured version \\(\\bX_i^*= \\bX_i + \\bV_i\\), where the measurement error \\(\\bV_i\\) is mean zero and independent of \\((\\bX_i, U_i)\\).\n\nCompute the limit of the OLS estimator in the regression of \\(Y_i\\) on \\(\\bX_i^*\\). Is this estimator consistent for \\(\\bbeta\\)? If so, under which conditions?\n\nCompare the two cases of measurement error.\n\n\n\nLet \\(Y_i\\) be some outcome of interest. Let \\(\\bX_i\\) be an observed covariate vector. Let \\(U_i\\) be an unobserved component that satisfies \\(\\E[\\bX_iU_i]=0\\). Let \\(\\bW_i\\) be another group of variables that affect \\(Y_i\\). Suppose that \\(Y_i\\) and \\((\\bX_i, \\bW_i)\\) are related through the potential outcomes model \\[\nY_i^{(\\bx, \\bw)} = \\bx'\\bbeta + \\bw'\\bdelta + U_i.\n\\]\nSuppose that \\(\\bW_i\\) is not observed, and we instead regress \\(Y_i\\) only on \\(\\bX_i\\). Find the probability limit of the corresponding OLS estimator. When is that limit equal to \\(\\bbeta\\)? If \\(\\bX_i\\) is scalar, can you say anything about the direction of the bias?\n\n\n\n\nApplied exercises in this list of exercises serve as reminders on how to apply multivariate regression:\n\nWooldridge (2020) Exercise C9 in chapter 3 (see C7 in chapter 2 for some more context).\nJames et al. (2023) Exercise 3.8 and 3.9.\n\nCheck out chapter 3 in Heiss and Brunner (2024) and section 3.6 in James et al. (2023).",
-    "crumbs": [
-      "Linear Regression II",
-      "Exercises: Vector Linear Model and Asymptotics"
-    ]
-  },
-  {
-    "objectID": "exercises/exercises-linear-asymptotic.html#theoretical-exercises",
-    "href": "exercises/exercises-linear-asymptotic.html#theoretical-exercises",
-    "title": "Exercises: Vector Linear Model and Asymptotics",
-    "section": "",
-    "text": "Suppose that we observe data \\((Y_1, \\bX_1), \\dots (Y_N, \\bX_N)\\). Let \\(\\bY\\) be the \\(N\\times 1\\) vector of outcomes, \\(\\bX\\) be the data matrix, and suppose that \\(\\bX'\\bX\\) is invertible.\nLet the vector \\(\\hat{\\bY}\\) of fitted values and the vector \\(\\hat{\\be}\\) of errors be given by \\[\n\\begin{aligned}\n\\hat{\\bY} & = \\bX\\hat{\\bbeta},\\\\\n\\hat{\\be} & = \\bY- \\hat{\\bY},\n\\end{aligned}\n\\] where \\(\\hat{\\bbeta}\\) is the OLS estimator.\nFind the OLS coefficient vector from\n\nRegressing \\(\\hat{Y}_i\\) on \\(\\bX_i\\).\nRegressing \\(\\hat{e}_i\\) on \\(\\bX_i\\).\n\nIn both cases, express the OLS estimator in terms of \\(\\bY\\) and \\(\\bX\\). Then express it in terms of \\((Y_i, \\bX_i)\\), \\(i=1, \\dots, N\\).\n\n\n\nLet \\(X_i\\) and \\(Y_i\\) be scalar variables. Let \\(X_i\\) satisfy \\[\nX_i = \\begin{cases}\n1, & i = 1, \\\\\n0, & i &gt; 1.\n\\end{cases}\n\\]\n\nSuppose we have a sample of \\(N\\) units: \\((Y_1, X_1), \\dots, (Y_N, X_N)\\). Can we compute the OLS estimator? If yes, express the estimator in terms of \\((Y_i, X_i)\\), \\(i=1,\\dots, N\\). If not, explain why.\nSuppose that \\(X_i\\) and \\(Y_i\\) are linked through the linear causal model \\[\nY_i^x = \\beta x + U_i,\n\\] where \\(Y_i^x\\) is a potential outcome, \\(U_i\\) is independent of \\(X_i\\) with \\(\\E[U_i]=0\\). Why does the OLS estimator of \\(\\beta\\) not converge to \\(\\beta\\)? In other words, which of the conditions of our consistency results fail?\nProvide an informal empirical interpretation of the above data-generating process for \\(X_i\\).\n\n\n\n\n\nLet \\(X_i\\) and \\(U_i\\) be scalar random variables. Suppose that \\(X_i\\) satisfies \\(X_i\\geq c&gt;0\\) for some \\(c\\) (strictly positive and bounded away from 0). Let \\(Y_i\\) be some outcome. Suppose that the following linear causal model holds: the potential outcome \\(Y_i^x\\) is determined as \\[\nY_i^x = \\beta x + U_i.\n\\] The realized outcome \\(Y_i\\) is determined as \\(Y_i = Y_i^{X_i}\\).\nConsider the following estimator for \\(\\beta\\): \\[\n\\tilde{\\beta} = \\dfrac{1}{N}\\sum_{i=1}^N \\dfrac{Y_i}{X_i}.\n\\]\n\nPropose conditions under which \\(\\tilde{\\beta}\\) is consistent for \\(\\beta\\) and prove consistency.\nDerive the asymptotic distribution of \\(\\tilde{\\beta}\\).\nNow suppose that the causal model allows heterogeneous effects: \\[\nY_i^x = \\beta_i x + U_i.\n\\] Under which conditions does \\(\\tilde{\\beta}\\) consistently estimate \\(\\E[\\beta_i]\\)?\n\n\n\n\nLet the outcome \\(Y_i\\), the covariates \\(\\bX_i\\), and an unobserved component \\(U_i\\) be linked through the linear causal model \\[\nY_i^{\\bx} = \\bx'\\bbeta + U_i\n\\] Suppose that we observe an IID sample of data on \\(Y_i, \\bX_i\\).\nDefine the ridge estimator \\(\\tilde{\\bbeta}\\) as \\[\n\\tilde{\\bbeta} = (\\bX'\\bX+ \\lambda_N \\bI_k)^{-1}\\bX'\\bY,\n\\] where \\(\\lambda_N\\) is some non-negative number, \\(\\bI_k\\) is the \\(k\\times k\\) identity matrix, and we assume that \\((\\bX'\\bX+ \\lambda_N \\bI_k)\\) is invertible.\n\nSuppose that \\(\\bX_i\\) is scalar. Show that \\(\\abs{\\tilde{\\bbeta}}\\leq \\abs{\\hat{\\bbeta}}\\), where \\(\\hat{\\bbeta}\\) is the OLS estimator (in words, the ridge estimator is always weakly closer to 0 than the OLS estimator — it is “shrunk” to zero).\nSuppose that \\(\\lambda_N = cN\\) for some fixed \\(c\\geq 0\\). Find the probability limit of \\(\\tilde{\\bbeta}\\). State explicitly any moment assumptions you make.\n(Optional): prove that ridge estimator satisfies \\[\n\\tilde{\\bbeta} = \\argmin_{\\bb} \\sum_{i=1}^N (Y_i - \\bX_i'\\bb)^{2} + \\lambda \\norm{\\bb}^2\n\\] Hint: use the same approach as we used to derive the OLS estimator.\n\nWhy would one use \\(\\tilde{\\bbeta}\\)? Note that \\(\\bX'\\bX + c\\bI_k\\) is invertible if \\(c&gt;0\\), regardless of invertibility of \\(\\bX'\\bX\\). This means that \\(\\tilde{\\bbeta}\\) can be computed even if the OLS estimator cannot. A leading case is high-dimensional regression, where the number of regressors \\(k\\) exceeds the number \\(N\\) of data points. See section 6.2.1 in James et al. (2023) about the ridge estimator and regularization techniques in general. We will discuss some of these ideas later in the class.\n\n\n\nLet the outcome \\(Y_i\\), the covariates \\(\\bX_i\\), and an unobserved component \\(U_i\\) be linked through the linear causal model \\[\nY_i^{\\bx} = \\bx'\\bbeta + U_i\n\\] Suppose that our data is IID.\nSuppose that we do not observe the true \\(Y_i\\), but instead a mismeasured version \\(Y_i^*= Y_i + V_i\\), where the measurement error \\(V_i\\) is mean zero and independent of \\((X_i, U_i)\\).\n\nShow that the OLS estimator for the regression of \\(Y_i^*\\) on \\(\\bX_i\\) is consistent for \\(\\bbeta\\).\nDerive the asymptotic distribution of the above OLS estimator. Express the asymptotic variance in terms of moments involving \\(V_i\\) and \\(U_i\\). Interpret the result: how does the measurement error in \\(\\bX\\) affect the asymptotic variance of the OLS estimator (increase/decrease/unchanged/unclear)?\n\nNow suppose that we do observe \\(Y_i\\), but we do not observe \\(\\bX_i\\). Instead, we only see a mismeasured version \\(\\bX_i^*= \\bX_i + \\bV_i\\), where the measurement error \\(\\bV_i\\) is mean zero and independent of \\((\\bX_i, U_i)\\).\n\nCompute the limit of the OLS estimator in the regression of \\(Y_i\\) on \\(\\bX_i^*\\). Is this estimator consistent for \\(\\bbeta\\)? If so, under which conditions?\n\nCompare the two cases of measurement error.\n\n\n\nLet \\(Y_i\\) be some outcome of interest. Let \\(\\bX_i\\) be an observed covariate vector. Let \\(U_i\\) be an unobserved component that satisfies \\(\\E[\\bX_iU_i]=0\\). Let \\(\\bW_i\\) be another group of variables that affect \\(Y_i\\). Suppose that \\(Y_i\\) and \\((\\bX_i, \\bW_i)\\) are related through the potential outcomes model \\[\nY_i^{(\\bx, \\bw)} = \\bx'\\bbeta + \\bw'\\bdelta + U_i.\n\\]\nSuppose that \\(\\bW_i\\) is not observed, and we instead regress \\(Y_i\\) only on \\(\\bX_i\\). Find the probability limit of the corresponding OLS estimator. When is that limit equal to \\(\\bbeta\\)? If \\(\\bX_i\\) is scalar, can you say anything about the direction of the bias?",
-    "crumbs": [
-      "Linear Regression II",
-      "Exercises: Vector Linear Model and Asymptotics"
-    ]
-  },
-  {
-    "objectID": "exercises/exercises-linear-asymptotic.html#applied-exercises",
-    "href": "exercises/exercises-linear-asymptotic.html#applied-exercises",
-    "title": "Exercises: Vector Linear Model and Asymptotics",
-    "section": "",
-    "text": "Applied exercises in this list of exercises serve as reminders on how to apply multivariate regression:\n\nWooldridge (2020) Exercise C9 in chapter 3 (see C7 in chapter 2 for some more context).\nJames et al. (2023) Exercise 3.8 and 3.9.\n\nCheck out chapter 3 in Heiss and Brunner (2024) and section 3.6 in James et al. (2023).",
-    "crumbs": [
-      "Linear Regression II",
-      "Exercises: Vector Linear Model and Asymptotics"
-    ]
-  },
-  {
-    "objectID": "slides/organizational/intro.html#content-and-motivation",
-    "href": "slides/organizational/intro.html#content-and-motivation",
-    "title": "Course Introduction",
-    "section": "Content and Motivation",
-    "text": "Content and Motivation",
+    "objectID": "slides/panel/event-studies.html#introduction",
+    "href": "slides/panel/event-studies.html#introduction",
+    "title": "Event Studies",
+    "section": "Introduction",
+    "text": "Introduction",
     "crumbs": [
       "Panel Data",
       "Event Studies"
     ]
   },
   {
-    "objectID": "slides/panel/event-studies.html#causal-analysis",
-    "href": "slides/panel/event-studies.html#causal-analysis",
+    "objectID": "slides/panel/event-studies.html#two-periods",
+    "href": "slides/panel/event-studies.html#two-periods",
     "title": "Event Studies",
-    "section": "CAUSAL ANALYSIS",
-    "text": "CAUSAL ANALYSIS",
+    "section": "Two Periods",
+    "text": "Two Periods",
     "crumbs": [
       "Panel Data",
       "Event Studies"
     ]
   },
   {
-    "objectID": "slides/panel/event-studies.html#regression-interpretation",
-    "href": "slides/panel/event-studies.html#regression-interpretation",
+    "objectID": "slides/panel/event-studies.html#multiple-periods",
+    "href": "slides/panel/event-studies.html#multiple-periods",
     "title": "Event Studies",
-    "section": "REGRESSION INTERPRETATION",
-    "text": "REGRESSION INTERPRETATION",
+    "section": "Multiple Periods",
+    "text": "Multiple Periods",
     "crumbs": [
       "Panel Data",
       "Event Studies"
     ]
   },
   {
-    "objectID": "slides/panel/event-studies.html#estimation-and-causal-framework",
-    "href": "slides/panel/event-studies.html#estimation-and-causal-framework",
+    "objectID": "slides/panel/event-studies.html#empirical-application",
+    "href": "slides/panel/event-studies.html#empirical-application",
     "title": "Event Studies",
-    "section": "ESTIMATION AND CAUSAL FRAMEWORK",
-    "text": "ESTIMATION AND CAUSAL FRAMEWORK",
+    "section": "Empirical Application",
+    "text": "Empirical Application",
     "crumbs": [
       "Panel Data",
       "Event Studies"
     ]
   },
   {
-    "objectID": "slides/panel/event-studies.html#asymptotic-properties",
-    "href": "slides/panel/event-studies.html#asymptotic-properties",
+    "objectID": "slides/panel/event-studies.html#recap-and-conclusions",
+    "href": "slides/panel/event-studies.html#recap-and-conclusions",
     "title": "Event Studies",
-    "section": "ASYMPTOTIC PROPERTIES",
-    "text": "ASYMPTOTIC PROPERTIES",
+    "section": "Recap and Conclusions",
+    "text": "Recap and Conclusions",
     "crumbs": [
       "Panel Data",
       "Event Studies"
@@ -450,61 +450,6 @@
     "crumbs": [
       "Linear Regression II",
       "Linear Regression in Vector-Matrix Form"
-    ]
-  },
-  {
-    "objectID": "slides/panel/event-studies.html#introduction",
-    "href": "slides/panel/event-studies.html#introduction",
-    "title": "Event Studies",
-    "section": "Introduction",
-    "text": "Introduction",
-    "crumbs": [
-      "Panel Data",
-      "Event Studies"
-    ]
-  },
-  {
-    "objectID": "slides/panel/event-studies.html#two-periods",
-    "href": "slides/panel/event-studies.html#two-periods",
-    "title": "Event Studies",
-    "section": "Two Periods",
-    "text": "Two Periods",
-    "crumbs": [
-      "Panel Data",
-      "Event Studies"
-    ]
-  },
-  {
-    "objectID": "slides/panel/event-studies.html#multiple-periods",
-    "href": "slides/panel/event-studies.html#multiple-periods",
-    "title": "Event Studies",
-    "section": "Multiple Periods",
-    "text": "Multiple Periods",
-    "crumbs": [
-      "Panel Data",
-      "Event Studies"
-    ]
-  },
-  {
-    "objectID": "slides/panel/event-studies.html#empirical-application",
-    "href": "slides/panel/event-studies.html#empirical-application",
-    "title": "Event Studies",
-    "section": "Empirical Application",
-    "text": "Empirical Application",
-    "crumbs": [
-      "Panel Data",
-      "Event Studies"
-    ]
-  },
-  {
-    "objectID": "slides/panel/event-studies.html#recap-and-conclusions",
-    "href": "slides/panel/event-studies.html#recap-and-conclusions",
-    "title": "Event Studies",
-    "section": "Recap and Conclusions",
-    "text": "Recap and Conclusions",
-    "crumbs": [
-      "Panel Data",
-      "Event Studies"
     ]
   }
 ]
