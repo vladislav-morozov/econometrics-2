@@ -28,9 +28,23 @@ Find the OLS coefficient vector from
 
 In both cases, express the OLS estimator in terms of $\bY$ and $\bX$. Then express it in terms of $(Y_i, \bX_i)$, $i=1, \dots, N$.
 
-##  A
+## Inconsistency of OLS Despite Strict Exogeneity
 
-Suppose that 
+Let $X_i$ and $Y_i$ be scalar variables. Let $X_i$ satisfy
+$$
+X_i = \begin{cases}
+1, & i = 1, \\
+0, & i > 1.
+\end{cases}
+$$
+
+1. Suppose we have a sample of $N$ units: $(Y_1, X_1), \dots, (Y_N, X_N)$. Can we compute the OLS estimator? If yes, express the estimator in terms of $(Y_i, X_i)$, $i=1,\dots, N$. If not, explain why.
+2. Suppose that $X_i$ and $Y_i$ are linked through the linear causal model
+$$
+Y_i^x = \beta x + U_i,
+$$
+where $Y_i^x$ is a potential outcome, $U_i$ is independent of $X_i$ with $\E[U_i]=0$. Why does the OLS estimator of $\beta$ not converge to $\beta$? In other words, which of the conditions of our consistency results fail?
+3. Provide an informal empirical interpretation of the above data-generating process for $X_i$.
 
 ## Ratio Slope Estimator
 
@@ -70,4 +84,5 @@ What if htere is
 
 ## Applied Exercises
 
-1. @James2023IntroductionStatisticalLearning Exercise 2.9 
+- @Wooldridge2020IntroductoryEconometricsModern
+- @James2023IntroductionStatisticalLearning Exercise 2.9 
