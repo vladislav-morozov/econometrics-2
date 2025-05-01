@@ -39,7 +39,7 @@ X_i = \begin{cases}
 \end{cases}
 $$
 
-1. Suppose we have a sample of $N$ units: $(Y_1, X_1), \dots, (Y_N, X_N)$. Can we compute the OLS estimator? If yes, express the estimator in terms of $(Y_i, X_i)$, $i=1,\dots, N$. If not, explain why.
+1. Suppose we have a sample of $N$ units: $(Y_1, X_1), \dots, (Y_N, X_N)$. Can we compute the OLS estimator for regressing $Y_i$ on $X_i$? If yes, express the estimator in terms of $(Y_i, X_i)$, $i=1,\dots, N$. If not, explain why.
 2. Suppose that $X_i$ and $Y_i$ are linked through the linear causal model
 $$
 Y_i^x = \beta x + U_i,
