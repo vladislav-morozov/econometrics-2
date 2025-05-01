@@ -1,10 +1,10 @@
 ---
+title: "Exercises: Vector Linear Model and Asymptotics"
 format:
   html:
     toc: true
 ---
 
-# Exercises: Vector Linear Model and Asymptotics
 
 
 ## Theoretical Exercises 
