@@ -95,7 +95,7 @@ Hint: use the same approach as we used to derive the OLS estimator.
 
 Why would one use $\tilde{\bbeta}$? Note that $\bX'\bX + c\bI_k$ is invertible if $c>0$, regardless of invertibility of $\bX'\bX$. This means that $\tilde{\bbeta}$ can be computed even if the OLS estimator cannot. A leading case is *high-dimensional* regression, where the number of regressors $k$ exceeds the number $N$ of data points. See section 6.2.1 in @James2023IntroductionStatisticalLearning about the ridge estimator and regularization techniques in general. We will discuss some of these ideas later in the class.
 
-### Measurement Error in Revisited
+### Measurement Error Revisited
 
 Let the outcome $Y_i$, the covariates $\bX_i$, and an unobserved component $U_i$ be linked through the linear causal model
 $$
@@ -107,7 +107,7 @@ Suppose that our data is IID.
 Suppose that we do not observe the true $Y_i$, but instead a mismeasured version $Y_i^*= Y_i + V_i$, where the measurement error $V_i$ is mean zero and independent of $(X_i, U_i)$. 
 
 1. Show that the OLS estimator for the regression of $Y_i^*$ on $\bX_i$ is consistent for $\bbeta$.
-2. Derive the asymptotic distribution of the above OLS estimator. Express the asymptotic variance in terms of moments involving $V_i$ and $U_i$. Interpret the result: how does the measurement error in $\bX$ affect the asymptotic variance of the OLS estimator (increase/decrease/unchanged/unclear)? 
+2. Derive the asymptotic distribution of the above OLS estimator. Express the asymptotic variance in terms of moments involving $V_i$ and $U_i$. Interpret the result: how does the measurement error in $\bX$ affect the asymptotic variance of the OLS estimator (increase, decrease, unchanged, unclear)? 
 
 Now suppose that we do observe $Y_i$, but we do not observe $\bX_i$. Instead, we only see a mismeasured version $\bX_i^*= \bX_i + \bV_i$, where the measurement error $\bV_i$ is mean zero and independent of $(\bX_i, U_i)$. 
 
