@@ -257,7 +257,7 @@ can $\theta_0$ be uniquely determined?
 </div> 
  Sometimes called <span class="highlight">point identification</span>
 
-### General Idea {background="#43464B"}
+### Parametric Models {background="#43464B"}
 
 
 #### Fully Parametric Case: Intro

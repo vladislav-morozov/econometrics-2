@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>exercises-linear-asymptotic – Advanced Econometrics</title>
+<title>Exercises: Vector Linear Model and Asymptotics – Advanced Econometrics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -568,30 +568,41 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#exercises-vector-linear-model-and-asymptotics" id="toc-exercises-vector-linear-model-and-asymptotics" class="nav-link active" data-scroll-target="#exercises-vector-linear-model-and-asymptotics">Exercises: Vector Linear Model and Asymptotics</a>
-  <ul class="collapse">
-  <li><a href="#theoretical-exercises" id="toc-theoretical-exercises" class="nav-link" data-scroll-target="#theoretical-exercises">Theoretical Exercises</a>
+  <li><a href="#theoretical-exercises" id="toc-theoretical-exercises" class="nav-link active" data-scroll-target="#theoretical-exercises">Theoretical Exercises</a>
   <ul class="collapse">
   <li><a href="#regressing-fitted-values" id="toc-regressing-fitted-values" class="nav-link" data-scroll-target="#regressing-fitted-values">Regressing Fitted Values</a></li>
   <li><a href="#inconsistency-of-ols-despite-strict-exogeneity" id="toc-inconsistency-of-ols-despite-strict-exogeneity" class="nav-link" data-scroll-target="#inconsistency-of-ols-despite-strict-exogeneity">Inconsistency of OLS Despite Strict Exogeneity</a></li>
   <li><a href="#ratio-slope-estimator" id="toc-ratio-slope-estimator" class="nav-link" data-scroll-target="#ratio-slope-estimator">Ratio Slope Estimator</a></li>
   <li><a href="#limit-of-the-ridge-estimator" id="toc-limit-of-the-ridge-estimator" class="nav-link" data-scroll-target="#limit-of-the-ridge-estimator">Limit of the Ridge Estimator</a></li>
-  <li><a href="#measurement-error-in-revisited" id="toc-measurement-error-in-revisited" class="nav-link" data-scroll-target="#measurement-error-in-revisited">Measurement Error in Revisited</a></li>
+  <li><a href="#measurement-error-revisited" id="toc-measurement-error-revisited" class="nav-link" data-scroll-target="#measurement-error-revisited">Measurement Error Revisited</a></li>
   <li><a href="#omitted-variable-bias-revisited" id="toc-omitted-variable-bias-revisited" class="nav-link" data-scroll-target="#omitted-variable-bias-revisited">Omitted Variable Bias Revisited</a></li>
   </ul></li>
   <li><a href="#applied-exercises" id="toc-applied-exercises" class="nav-link" data-scroll-target="#applied-exercises">Applied Exercises</a></li>
-  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/vladislav-morozov/econometrics-2/edit/main/src/exercises/exercises-linear-asymptotic.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/vladislav-morozov/econometrics-2/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../slides/vector/vector-ols.html">Linear Regression II</a></li><li class="breadcrumb-item"><a href="../exercises/exercises-linear-asymptotic.html">Exercises: Vector Linear Model and Asymptotics</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../slides/vector/vector-ols.html">Linear Regression II</a></li><li class="breadcrumb-item"><a href="../exercises/exercises-linear-asymptotic.html">Exercises: Vector Linear Model and Asymptotics</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Exercises: Vector Linear Model and Asymptotics</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="exercises-vector-linear-model-and-asymptotics" class="level1">
-<h1>Exercises: Vector Linear Model and Asymptotics</h1>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
 <section id="theoretical-exercises" class="level2">
 <h2 class="anchored" data-anchor-id="theoretical-exercises">Theoretical Exercises</h2>
 <section id="regressing-fitted-values" class="level3">
@@ -619,7 +630,7 @@ X_i = \begin{cases}
 \end{cases}
 \]</span></p>
 <ol type="1">
-<li>Suppose we have a sample of <span class="math inline">\(N\)</span> units: <span class="math inline">\((Y_1, X_1), \dots, (Y_N, X_N)\)</span>. Can we compute the OLS estimator? If yes, express the estimator in terms of <span class="math inline">\((Y_i, X_i)\)</span>, <span class="math inline">\(i=1,\dots, N\)</span>. If not, explain why.</li>
+<li>Suppose we have a sample of <span class="math inline">\(N\)</span> units: <span class="math inline">\((Y_1, X_1), \dots, (Y_N, X_N)\)</span>. Can we compute the OLS estimator for regressing <span class="math inline">\(Y_i\)</span> on <span class="math inline">\(X_i\)</span>? If yes, express the estimator in terms of <span class="math inline">\((Y_i, X_i)\)</span>, <span class="math inline">\(i=1,\dots, N\)</span>. If not, explain why.</li>
 <li>Suppose that <span class="math inline">\(X_i\)</span> and <span class="math inline">\(Y_i\)</span> are linked through the linear causal model <span class="math display">\[
 Y_i^x = \beta x + U_i,
 \]</span> where <span class="math inline">\(Y_i^x\)</span> is a potential outcome, <span class="math inline">\(U_i\)</span> is independent of <span class="math inline">\(X_i\)</span> with <span class="math inline">\(\E[U_i]=0\)</span>. Why does the OLS estimator of <span class="math inline">\(\beta\)</span> not converge to <span class="math inline">\(\beta\)</span>? In other words, which of the conditions of our consistency results fail?</li>
@@ -660,15 +671,15 @@ Y_i^{\bx} = \bx'\bbeta + U_i
 </ol>
 <p>Why would one use <span class="math inline">\(\tilde{\bbeta}\)</span>? Note that <span class="math inline">\(\bX'\bX + c\bI_k\)</span> is invertible if <span class="math inline">\(c&gt;0\)</span>, regardless of invertibility of <span class="math inline">\(\bX'\bX\)</span>. This means that <span class="math inline">\(\tilde{\bbeta}\)</span> can be computed even if the OLS estimator cannot. A leading case is <em>high-dimensional</em> regression, where the number of regressors <span class="math inline">\(k\)</span> exceeds the number <span class="math inline">\(N\)</span> of data points. See section 6.2.1 in <span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#ref-James2023IntroductionStatisticalLearning" role="doc-biblioref">2023</a>)</span> about the ridge estimator and regularization techniques in general. We will discuss some of these ideas later in the class.</p>
 </section>
-<section id="measurement-error-in-revisited" class="level3">
-<h3 class="anchored" data-anchor-id="measurement-error-in-revisited">Measurement Error in Revisited</h3>
+<section id="measurement-error-revisited" class="level3">
+<h3 class="anchored" data-anchor-id="measurement-error-revisited">Measurement Error Revisited</h3>
 <p>Let the outcome <span class="math inline">\(Y_i\)</span>, the covariates <span class="math inline">\(\bX_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear causal model <span class="math display">\[
 Y_i^{\bx} = \bx'\bbeta + U_i
 \]</span> Suppose that our data is IID.</p>
 <p>Suppose that we do not observe the true <span class="math inline">\(Y_i\)</span>, but instead a mismeasured version <span class="math inline">\(Y_i^*= Y_i + V_i\)</span>, where the measurement error <span class="math inline">\(V_i\)</span> is mean zero and independent of <span class="math inline">\((X_i, U_i)\)</span>.</p>
 <ol type="1">
 <li>Show that the OLS estimator for the regression of <span class="math inline">\(Y_i^*\)</span> on <span class="math inline">\(\bX_i\)</span> is consistent for <span class="math inline">\(\bbeta\)</span>.</li>
-<li>Derive the asymptotic distribution of the above OLS estimator. Express the asymptotic variance in terms of moments involving <span class="math inline">\(V_i\)</span> and <span class="math inline">\(U_i\)</span>. Interpret the result: how does the measurement error in <span class="math inline">\(\bX\)</span> affect the asymptotic variance of the OLS estimator (increase/decrease/unchanged/unclear)?</li>
+<li>Derive the asymptotic distribution of the above OLS estimator. Express the asymptotic variance in terms of moments involving <span class="math inline">\(V_i\)</span> and <span class="math inline">\(U_i\)</span>. Interpret the result: how does the measurement error in <span class="math inline">\(\bX\)</span> affect the asymptotic variance of the OLS estimator (increase, decrease, unchanged, unclear)?</li>
 </ol>
 <p>Now suppose that we do observe <span class="math inline">\(Y_i\)</span>, but we do not observe <span class="math inline">\(\bX_i\)</span>. Instead, we only see a mismeasured version <span class="math inline">\(\bX_i^*= \bX_i + \bV_i\)</span>, where the measurement error <span class="math inline">\(\bV_i\)</span> is mean zero and independent of <span class="math inline">\((\bX_i, U_i)\)</span>.</p>
 <ol start="3" type="1">
@@ -695,7 +706,6 @@ Y_i^{(\bx, \bw)} = \bx'\bbeta + \bw'\bdelta + U_i.
 
 
 
-</section>
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
