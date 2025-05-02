@@ -1,10 +1,10 @@
 ---
+title: "Exercises: Vector Linear Model and Asymptotics"
 format:
   html:
     toc: true
 ---
 
-# Exercises: Vector Linear Model and Asymptotics
 
 
 ## Theoretical Exercises 
@@ -39,7 +39,7 @@ X_i = \begin{cases}
 \end{cases}
 $$
 
-1. Suppose we have a sample of $N$ units: $(Y_1, X_1), \dots, (Y_N, X_N)$. Can we compute the OLS estimator? If yes, express the estimator in terms of $(Y_i, X_i)$, $i=1,\dots, N$. If not, explain why.
+1. Suppose we have a sample of $N$ units: $(Y_1, X_1), \dots, (Y_N, X_N)$. Can we compute the OLS estimator for regressing $Y_i$ on $X_i$? If yes, express the estimator in terms of $(Y_i, X_i)$, $i=1,\dots, N$. If not, explain why.
 2. Suppose that $X_i$ and $Y_i$ are linked through the linear causal model
 $$
 Y_i^x = \beta x + U_i,
@@ -95,7 +95,7 @@ Hint: use the same approach as we used to derive the OLS estimator.
 
 Why would one use $\tilde{\bbeta}$? Note that $\bX'\bX + c\bI_k$ is invertible if $c>0$, regardless of invertibility of $\bX'\bX$. This means that $\tilde{\bbeta}$ can be computed even if the OLS estimator cannot. A leading case is *high-dimensional* regression, where the number of regressors $k$ exceeds the number $N$ of data points. See section 6.2.1 in @James2023IntroductionStatisticalLearning about the ridge estimator and regularization techniques in general. We will discuss some of these ideas later in the class.
 
-### Measurement Error in Revisited
+### Measurement Error Revisited
 
 Let the outcome $Y_i$, the covariates $\bX_i$, and an unobserved component $U_i$ be linked through the linear causal model
 $$
@@ -107,7 +107,7 @@ Suppose that our data is IID.
 Suppose that we do not observe the true $Y_i$, but instead a mismeasured version $Y_i^*= Y_i + V_i$, where the measurement error $V_i$ is mean zero and independent of $(X_i, U_i)$. 
 
 1. Show that the OLS estimator for the regression of $Y_i^*$ on $\bX_i$ is consistent for $\bbeta$.
-2. Derive the asymptotic distribution of the above OLS estimator. Express the asymptotic variance in terms of moments involving $V_i$ and $U_i$. Interpret the result: how does the measurement error in $\bX$ affect the asymptotic variance of the OLS estimator (increase/decrease/unchanged/unclear)? 
+2. Derive the asymptotic distribution of the above OLS estimator. Express the asymptotic variance in terms of moments involving $V_i$ and $U_i$. Interpret the result: how does the measurement error in $\bX$ affect the asymptotic variance of the OLS estimator (increase, decrease, unchanged, unclear)? 
 
 Now suppose that we do observe $Y_i$, but we do not observe $\bX_i$. Instead, we only see a mismeasured version $\bX_i^*= \bX_i + \bV_i$, where the measurement error $\bV_i$ is mean zero and independent of $(\bX_i, U_i)$. 
 
