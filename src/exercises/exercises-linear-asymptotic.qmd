@@ -73,8 +73,7 @@ $$ {#eq-pset1-p2-causal}
 where $Y_i^x$ is a potential outcome, $U_i$ is independent of $X_i$ with $\E[U_i]=0$. Why does the OLS estimator of $\beta$ not converge to $\beta$ without stronger assumptions on $U_i$? Informally, which of the conditions of our consistency results fail?
 3. Provide an informal empirical interpretation of the above data-generating process for $X_i$.
 
-<br>
-
+ 
 
 <details>
   <summary>Click to see the solution</summary>
@@ -139,23 +138,102 @@ The message of this problem is that we make two invertibility conditions: the sa
 Let $X_i$ and $U_i$ be scalar random variables. Suppose that $X_i$ satisfies $X_i\geq c>0$ for some $c$ (strictly positive and bounded away from 0). Let $Y_i$ be some outcome. Suppose that the following linear causal model holds: the potential outcome $Y_i^x$ is determined as
 $$
 Y_i^x = \beta x + U_i.
-$$
+$$ {#eq-pset1-p3-causal}
 The realized outcome $Y_i$ is determined as $Y_i = Y_i^{X_i}$.
 
 Consider the following estimator for $\beta$:
 $$
 \tilde{\beta} = \dfrac{1}{N}\sum_{i=1}^N \dfrac{Y_i}{X_i}.
-$$
+$$ 
 
 1. Propose conditions under which $\tilde{\beta}$ is consistent for $\beta$ and prove consistency.
 2. Derive the asymptotic distribution of $\tilde{\beta}$.
 3. Now suppose that the causal model allows heterogeneous effects:
 $$
 Y_i^x = \beta_i x + U_i.
-$$
+$$ {#eq-pset1-p3-causal-het}
 Under which conditions does $\tilde{\beta}$ consistently estimate $\E[\beta_i]$?
 
 
+<details>
+  <summary>Click to see the solution</summary>
+
+
+*First subquestion*: we again use the key technique --- substituting the true model into the estimator. By @eq-pset1-p3-causal, the outcome $Y_i$ satisfies
+$$
+Y_i = \beta X_i + U_i.
+$$
+We can substitute this expression into $\tilde{\beta}$ to obtain
+$$
+\tilde{\beta} = \dfrac{1}{N}\sum_{i=1}^N \dfrac{Y_i}{X_i} = \beta+ \dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i}
+$$
+The law of large number applies to the sum on the right hand side if 
+
+1. $(X_i, U_i)$ are IID.
+2. $\E[U_i/X_i]$ exists.
+
+We make these assumptions. Then by the law of large numbers:
+$$
+\dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i}\xrightarrow{p} \E\left[ \dfrac{U_i}{X_i} \right].
+$$
+By the continuous mapping theorem:
+$$
+\tilde{\beta} \xrightarrow{p} \beta + \E\left[ \dfrac{U_i}{X_i} \right].
+$$
+$\tilde{\beta}$ is consistent for $\beta$ if 
+
+3. $\E[U_i/X_i]=0$ (note that it is sufficient that $\E[U_i|X_i]=0$ for this condition, why?).
+
+We conclude that $\tilde{\beta}$ is consistent for $\beta$ under assumptions (1)-(3).
+
+
+<br>
+
+*Second subquestion*: to study the asymptotic distribution, we keep the above conditions (1)-(3). Under these conditions (especially (3)) we note that 
+$$
+\begin{aligned}
+\tilde{\beta} - \beta & = \dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i} \\
+& = \dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i} - \E\left[\dfrac{U_i}{X_i}\right].
+\end{aligned}
+$$ {#eq-pset1-p3-sampling-error}
+The bottom line is in the form used in the central limit theorem: sample average minus population average. We can then apply the central limit theorem provided the following assumption holds:
+
+4. Finite second moments: $\E[U_i^2/X_i^2]<\infty$.
+
+Then by the central limit theorem it holds that 
+$$
+\sqrt{N}\left(  \dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i} - \E\left[\dfrac{U_i}{X_i}\right] \right)\xrightarrow{d} N\left(0, \E\left[\dfrac{U_i^2}{X_i^2} \right] \right).
+$$
+
+By @eq-pset1-p3-sampling-error we conclude that, if assumptions (1)-(4) hold, then
+$$
+\sqrt{N}\left(\tilde{\beta}- \beta \right)\xrightarrow{d} N\left(0, \E\left[\dfrac{U_i^2}{X_i^2} \right] \right).
+$$
+
+<br>
+
+*Third subquestion*: we again start by substituting the causal model into the estimator. Under @eq-pset1-p3-causal-het the outcome satisfies
+$$
+Y_i = \beta_i X_i + U_i.
+$$
+Then $\tilde{\beta}$ can be written as
+$$
+\tilde{\beta} = \dfrac{1}{N}\sum_{i=1}^N \beta_i +  \dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i}.
+$$ {#eq-pset1-p3-sampling-error-het}
+The second sum in @eq-pset1-p3-sampling-error-het can be handled as in the first subquestion using assumptions (1)-(3). The first sum satisfies
+$$
+ \dfrac{1}{N}\sum_{i=1}^N \beta_i  \xrightarrow{p} \E[\beta_i]
+$$
+by the law of large numbers provided
+
+5. $\E[\beta_i]$ exists.
+
+We conclude by the continuous mapping theorem (where do we apply it?) that $\tilde{\beta}$ is consistent for $\E[\beta_i]$ under conditions (1)-(3) and (5).
+
+Note that this consistency result does not restrict the dependence between $\beta_i$ and $X_i$. This is in contrast to the behavior of the OLS estimator (see lectures).
+
+
+</details>
  
 ### Limit of the Ridge Estimator
 
