@@ -63,17 +63,76 @@ X_i = \begin{cases}
 1, & i = 1, \\
 0, & i > 1.
 \end{cases}
-$$
+$$ {#eq-pset1-p2-x}
 
-1. Suppose we have a sample of $N$ units: $(Y_1, X_1), \dots, (Y_N, X_N)$. Can we compute the OLS estimator for regressing $Y_i$ on $X_i$? If yes, express the estimator in terms of $(Y_i, X_i)$, $i=1,\dots, N$. If not, explain why.
+1. Suppose we have a sample of $N$ units: $(Y_1, X_1), \dots, (Y_N, X_N)$. Can we compute the OLS estimator for regressing $Y_i$ on $X_i$ (without a constant)? If yes, express the estimator in terms of $(Y_i, X_i)$, $i=1,\dots, N$. If not, explain why.
 2. Suppose that $X_i$ and $Y_i$ are linked through the linear causal model
 $$
 Y_i^x = \beta x + U_i,
-$$
-where $Y_i^x$ is a potential outcome, $U_i$ is independent of $X_i$ with $\E[U_i]=0$. Why does the OLS estimator of $\beta$ not converge to $\beta$? In other words, which of the conditions of our consistency results fail?
+$$ {#eq-pset1-p2-causal}
+where $Y_i^x$ is a potential outcome, $U_i$ is independent of $X_i$ with $\E[U_i]=0$. Why does the OLS estimator of $\beta$ not converge to $\beta$ without stronger assumptions on $U_i$? Informally, which of the conditions of our consistency results fail?
 3. Provide an informal empirical interpretation of the above data-generating process for $X_i$.
 
 <br>
+
+
+<details>
+  <summary>Click to see the solution</summary>
+
+*First subquestion*: The computability of the OLS estimator is determined by one key question: is $\bX'\bX$ invertible? If $\bX'\bX$ is invertible, then the answer is positive. 
+
+In this case, there is only one scalar covariate. $\bX'\bX$ is itself then scalar ($1\times 1$) and given by
+$$
+\bX'\bX = \sum_{i=1}^N X_i^2
+$$
+By @eq-pset1-p2-x, we have that $\sum_{i=1}^N X_i^2=1$, which is invertible. It follows that we can compute $\hat{\beta}=(\bX'\bX)^{-1}\bX'\bY$:
+$$
+\hat{\beta} = (\bX'\bX)^{-1}\bX'\bY = \dfrac{\sum_{i=1}^N X_iY_i}{\sum_{i=1}^N X_i^2} = Y_1.
+$$ {#eq-pset1-p2-beta}
+
+<br>
+
+*Second subquestion:* To answer this question formally, we use the same technique we use in the lectures --- substituting the underlying model into the estimator. By @eq-pset1-p2-causal, the realized outcomes satisfy
+$$
+Y_i = \beta X_i + U_i
+$$
+
+We substitute this expression for realized values into the OLS estimator ([-@eq-pset1-p2-beta]) to obtain
+$$
+\hat{\beta} = \beta + U_1,
+$$
+where we have used that $X_1 =1$ by @eq-pset1-p2-x.
+
+We now see that the value of $\hat{\beta}$ does not depend on sample size $N$. The full value of $U_1$ will always be present in $\hat{\beta}$: as $N\to\infty$
+$$
+\hat{\beta} \xrightarrow{p} \beta + U_1
+$$
+The only case where $\hat{\beta}\xrightarrow{p}\beta$ is when $U_1=0$ --- an additional stronger condition.
+
+Which conditions of our consistency results fail? There are two conditions that hold:
+
+- Orthogonality: $\E[X_iU_i] =0$ holds. 
+- Independence of units
+
+There are two conditions that do not hold:
+
+- Identical distributions: unit 1 is different to the rest. 
+- Invertibility of the limit of $N^{-1}\sum_{i=1}^N\bX_i\bX_i'$. By @eq-pset1-p2-x, this sum is equal to $N^{-1}\to 0$.
+
+Of these two failing conditions, the first one is usually not a big issue. It concerns only a single point, and in general we have tools for handling non-identical distributions. 
+It is the second condition that creates a problem in the limit. 
+
+The message of this problem is that we make two invertibility conditions: the sample condition (on $\bX'\bX$) and the population one (on $\E[\bX_i\bX_i']$). These conditions play different roles. Each can fail, while the other condition is true.
+
+<br>
+
+*Third subquestion*: we can imagine a simple experiment in which the subjects have arrived to the lab in a random order, independently of their characteristics. However, there is only one real treatment, which is given to the first unit. Everyone else receives a placebo. 
+
+
+
+
+
+</details>
 
 ### Ratio Slope Estimator
 
@@ -95,6 +154,8 @@ $$
 Y_i^x = \beta_i x + U_i.
 $$
 Under which conditions does $\tilde{\beta}$ consistently estimate $\E[\beta_i]$?
+
+
  
 ### Limit of the Ridge Estimator
 
