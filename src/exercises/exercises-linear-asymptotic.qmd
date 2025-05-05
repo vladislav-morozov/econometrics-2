@@ -366,7 +366,7 @@ Compare the two cases of measurement error.
 *First subquestion*: we begin by writing out the OLS estimator, and substituting the causal and measurement models:
 $$
 \begin{aligned}
-\hat{\bbeta} & = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_iY_i^* \\
+\hat{\bbeta} & = \leftonly(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_iY_i^* \\
 & = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_i(Y_i + V_i)\\
 & = \bbeta +\left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_i (U_i+V_i)
 \end{aligned}
@@ -502,13 +502,47 @@ To summarize, we find notable differences between the two kinds of measurement e
 
 ### Omitted Variable Bias Revisited
 
-Let $Y_i$ be some outcome of interest. Let $\bX_i$ be an observed covariate vector. Let $U_i$ be an unobserved component that satisfies $\E[\bX_iU_i]=0$. Let $\bW_i$ be another group of variables that affect $Y_i$. Suppose that $Y_i$ and $(\bX_i, \bW_i)$ are related through the potential outcomes model
+Let $Y_i$ be some outcome of interest. Let $\bX_i$ be an observed covariate vector; $\E[\bX_i\bX_i']$ is assumed to be invertible. Let $U_i$ be an unobserved component that satisfies $\E[\bX_iU_i]=0$. Let $\bW_i$ be another group of variables that affect $Y_i$. Suppose that $Y_i$ and $(\bX_i, \bW_i)$ are related through the potential outcomes model
 $$
 Y_i^{(\bx, \bw)} = \bx'\bbeta + \bw'\bdelta + U_i.
 $$ 
 
-Suppose that $\bW_i$ is not observed, and we instead regress $Y_i$ only on $\bX_i$. Find the probability limit of the corresponding OLS estimator. When is that limit equal to $\bbeta$? If $\bX_i$ is scalar and we do not include a constant regressor, can you say anything about the direction of the bias? 
+Suppose that $\bW_i$ is not observed, and we instead regress $Y_i$ only on $\bX_i$. Find the probability limit of the corresponding OLS estimator. Make any necessary moment assumptions. When is that limit equal to $\bbeta$?
 
+ 
+<details>
+  <summary>Click to see the solution</summary>
+
+Yet again the approach is to substitute the true model into the estimator. The observed outcomes satisfy
+$$
+Y_i = \bX_i'\bbeta + \bW_i'\bdelta + U_i.
+$$
+
+The OLS estimator of $Y_i$ on $\bX_i$ satisfies
+$$
+\begin{aligned}
+\hat{\bbeta} & = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'   \right)^{-1}\dfrac{1}{N}\sum_{i=1}^N \bX_i Y_i\\
+& =  \bbeta+  \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'   \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_i U_i \\
+& \quad + \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'   \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_i\bW_i'\bdelta 
+\end{aligned}
+$$
+We now handle the individual sums in the usual way. By the law of large numbers, continuous mapping theorem and our moment conditions it holds that
+$$
+\begin{aligned}
+\dfrac{1}{N} \sum_{i=1}^N \bX_iU_i & \xrightarrow{p} \E[\bX_iU_i] =0 ,\\
+\dfrac{1}{N} \sum_{i=1}^N \bX_i\bW_i' & \xrightarrow{p} \E[\bX_i\bW_i'] ,\\
+\left( \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'\right)^{-1} & \xrightarrow{p} \left( \E[\bX_i\bX_i'] \right)^{-1}.
+\end{aligned}
+$$
+By the continuous mapping theorem we obtain the probability limit of $\hat{\bbeta}$:
+$$
+\hat{\bbeta} \xrightarrow{p} \bbeta + \left(\E[\bX_i\bX'] \right)^{-1}\E[\bX_i\bW_i']\bdelta.
+$$ 
+This limit is equal to $\bbeta$ if $\E[\bX_i\bW_i']\bdelta = 0$. Standard sufficient conditions are that $\bdelta = 0$ (and so $\bW_i$ are not important to $Y_i$) or that $\bX_i$ and $\bW_i$ are orthogonal in the sense that $\E[\bX_i\bW_i']=0$.
+ 
+
+
+</details>
 
 ## Applied Exercises
 
