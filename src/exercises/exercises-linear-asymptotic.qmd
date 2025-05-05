@@ -250,13 +250,87 @@ $$
 where $\lambda_N$ is some non-negative number, $\bI_k$ is the $k\times k$ identity matrix, and we assume that $(\bX'\bX+ \lambda_N \bI_k)$ is invertible. 
 
 1. Suppose that $\bX_i$ is scalar. Show that $\abs{\tilde{\bbeta}}\leq \abs{\hat{\bbeta}}$, where $\hat{\bbeta}$ is the OLS estimator (in words, the ridge estimator is always weakly closer to 0 than the OLS estimator — it is "shrunk" to zero).
-2. Suppose that $\lambda_N = cN$ for some fixed $c\geq 0$. Find the probability limit of $\tilde{\bbeta}$. State explicitly any moment assumptions you make. 
+2. Suppose that $\lambda_N = cN$ for some fixed $c\geq 0$. Find the probability limit of $\tilde{\bbeta}$. State explicitly any moment assumptions you make. When is $\tilde{\bbeta}$ consistent for $\bbeta$?
 3. *(Optional)*: prove that ridge estimator satisfies
 $$
 \tilde{\bbeta} = \argmin_{\bb} \sum_{i=1}^N (Y_i - \bX_i'\bb)^{2} + \lambda \norm{\bb}^2
 $$
 Hint: use the same approach as we used to derive the OLS estimator. 
   
+
+ 
+<details>
+  <summary>Click to see the solution</summary>
+
+*First subquestion*: in the scalar case we can write both estimators as
+$$
+\begin{aligned}
+\hat{\bbeta} & = \dfrac{\sum_{i=1}^N X_i Y_i }{\sum_{i=1}^N X_i^2},\\
+\tilde{\bbeta} & = \dfrac{\sum_{i=1}^N X_i Y_i}{\sum_{i=1}^N X_i^2 + \lambda_N}.
+\end{aligned}
+$$
+We can then divide the ridge estimator by the OLS estimator:
+$$
+\dfrac{\tilde{\bbeta}}{\hat{\bbeta}} = \dfrac{\sum_{i=1}^N X_i^2}{ \sum_{i=1}^N X_i^2 + \lambda_N } \leq 1.
+$$
+The desired inequality follows.
+
+<br>
+
+*Second subquestion*: for the second subquestion, we again start by substituting the model into the estimator:
+$$
+\begin{aligned}
+\tilde{\bbeta} & = (\bX'\bX+ \lambda_N \bI_k)^{-1}\bX'\bY\\
+& = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' + c\bI_k\right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_iY_i\\
+& = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' + c\bI_k\right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'\bbeta\\
+& \quad + \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' + c\bI_k\right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_i U_i
+\end{aligned}
+$$ {#eq-pset1-p4-sampling-error}
+We now only need to handle the individual averages in the above expression. 
+
+First, we assume that 
+
+- $\E[\bX_i\bX_i']$ and $\E[\bX_i'U_i]$ exist
+
+Then by the law of large number it holds that
+$$
+\begin{aligned}
+ \dfrac{1}{N}\sum_{i=1}^N \bX_i \bX_i' & \xrightarrow{p} \E[\bX_i\bX_i'], \\
+ \dfrac{1}{N}\sum_{i=1}^N \bX_i U_i & \xrightarrow{p} \E[\bX_iU_i] . 
+\end{aligned}
+$$
+By the continuous mapping theorem it also follows that
+$$
+ \dfrac{1}{N}\sum_{i=1}^N \bX_i \bX_i' + c\bI_i \xrightarrow{p} \E[\bX_i\bX_i'] + c\bI_k.
+$$ {#eq-pset1-p4-leading-term}
+
+Second, to handle the leading terms in @eq-pset1-p4-sampling-error, we also assume that
+
+- $\E[\bX_i\bX_i'] + c\bI_k$ is invertible
+
+Then by the continuous mapping theorem and  @eq-pset1-p4-leading-term it holds that 
+$$
+ \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i \bX_i' + c\bI_k\right)^{-1} \xrightarrow{p} \left(\E[\bX_i\bX_i'] + c\bI_k\right)^{-1}.
+$$
+
+Combining the above arguments together and applying the continuous mapping theorem, we conclude that
+$$
+\begin{aligned}
+\tilde{\bbeta} & \xrightarrow{p}  \left(\E[\bX_i\bX_i'] + c\bI_k\right)^{-1} \E[\bX_i\bX_i']\bbeta
+\\
+& \quad +  \left(\E[\bX_i\bX_i'] + c\bI_k\right)^{-1} \E[\bX_iU_i].
+\end{aligned}
+$$
+We conclude that $\tilde{\bbeta}$ is consistent for $\bbeta$ if $c=0$ and $\E[\bX_iU_i]=0$.
+
+
+
+
+
+
+<br>
+
+</details>
 
 Why would one use $\tilde{\bbeta}$? Note that $\bX'\bX + c\bI_k$ is invertible if $c>0$, regardless of invertibility of $\bX'\bX$. This means that $\tilde{\bbeta}$ can be computed even if the OLS estimator cannot. A leading case is *high-dimensional* regression, where the number of regressors $k$ exceeds the number $N$ of data points. See section 6.2.1 in @James2023IntroductionStatisticalLearning about the ridge estimator and regularization techniques in general. We will discuss some of these ideas later in the class.
 
