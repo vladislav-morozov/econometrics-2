@@ -33,6 +33,7 @@ In both cases, express the OLS estimator in terms of $\bY$ and $\bX$. Then expre
 <details>
   <summary>Click to see the solution</summary>
 
+*First subquestion*: 
 First consider the question of regressing $\hat{\bY}$ on $\bX$. Let $\tilde{\bbeta}$ be the OLS estimator of regressing $\hat{\bY}$ on $\bX$. We  can use the usual formula for the OLS, but replace $\bY$ with $\hat{\bY}$. We can then use the definition of $\hat{\bY}$ and $\hat{\bbeta}$ to express the coefficients in terms of the original data: 
 $$
 \begin{aligned}
@@ -42,7 +43,9 @@ $$
 $$
 One way to interpret the above result is that applying OLS more than 1 time does not change anything. The first application already extracts all the information that can be linearly explained by $\bX$ (a property sometimes called *idempotency*).
 
-We can proceed similarly with $\hat{\be}$. Let $\check{\bbeta}$ be the OLS estimator for regressing $\hat{\bbeta}$ on $\bX$. We can again use the general expression for the OLS estimator and substitute the definition of $\hat{\bbeta}$:
+<br>
+
+*Second subquestion*: We can proceed similarly with $\hat{\be}$. Let $\check{\bbeta}$ be the OLS estimator for regressing $\hat{\bbeta}$ on $\bX$. We can again use the general expression for the OLS estimator and substitute the definition of $\hat{\bbeta}$:
 $$
 \begin{aligned}
 \check{\bbeta} & = (\bX'\bX)^{-1}\bX'\hat{\be} = (\bX'\bX)^{-1}\bX'(\bY-\hat{\bY})\\
