@@ -751,7 +751,7 @@ We call the following the <span class="highlight">asymptotic size $\alpha$ Wald-
 
 <div class="rounded-box">
 
-Let $c_{1-\alpha}$ solve $P(\chi^2\leq c_{1-\alpha})=1-\alpha$. Then
+Let $c_{1-\alpha}$ solve $P(\chi^2_k\leq c_{1-\alpha})=1-\alpha$ where $k$ is the number of rows and rank of $\bR$. Then
 
 - Reject $H_0$ if $W>c_{1-\alpha}$
 - Do not reject $H_0$ if $W\leq c_{1-\alpha}$
