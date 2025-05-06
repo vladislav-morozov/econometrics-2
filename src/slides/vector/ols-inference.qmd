@@ -164,7 +164,7 @@ What is the interpretation of those parameters?
 
 1. Does education matter at all? (up to our statistical confidence)
 2. Does experience matter at all? (up to our statistical confidence)
-3. Is the best amount of experience to have equal to 25 years? (up to our statistical confidence)
+3. Is the best amount of experience to have equal to 15 years? (up to our statistical confidence)
 4. How certain are we of our estimates of target parameters?
 
 
