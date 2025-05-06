@@ -204,7 +204,7 @@ Formally:
 
 ::: {#def-vector-inference-test}
 
-A test $T$ is a function of the sample $(X_1, \dots, X_N)$ to the space $\curl{\text{Reject} H_0,  \text{Do not reject }H_0}$
+A test $T$ is a function of the sample $(X_1, \dots, X_N)$ to the space $\curl{\text{Reject } H_0,  \text{Do not reject }H_0}$
 
 :::
 
@@ -439,7 +439,7 @@ Can get $\widehat{\avar}(\hat{\bbeta})$ from the `results` object:
 #| echo: true
 (results.nobs)*results.cov_params()
 ```
-`cov_params()` extracts *standard errors*
+`cov_params()` extracts $\widehat{\avar}(\hat{\bbeta})/N$
 
 ::: footer
 
