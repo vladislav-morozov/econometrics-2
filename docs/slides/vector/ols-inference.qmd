@@ -164,7 +164,7 @@ What is the interpretation of those parameters?
 
 1. Does education matter at all? (up to our statistical confidence)
 2. Does experience matter at all? (up to our statistical confidence)
-3. Is the best amount of experience to have equal to 25 years? (up to our statistical confidence)
+3. Is the best amount of experience to have equal to 15 years? (up to our statistical confidence)
 4. How certain are we of our estimates of target parameters?
 
 
@@ -204,7 +204,7 @@ Formally:
 
 ::: {#def-vector-inference-test}
 
-A test $T$ is a function of the sample $(X_1, \dots, X_N)$ to the space $\curl{\text{Reject} H_0,  \text{Do not reject }H_0}$
+A test $T$ is a function of the sample $(X_1, \dots, X_N)$ to the space $\curl{\text{Reject } H_0,  \text{Do not reject }H_0}$
 
 :::
 
@@ -439,7 +439,7 @@ Can get $\widehat{\avar}(\hat{\bbeta})$ from the `results` object:
 #| echo: true
 (results.nobs)*results.cov_params()
 ```
-`cov_params()` extracts *standard errors*
+`cov_params()` extracts $\widehat{\avar}(\hat{\bbeta})/N$
 
 ::: footer
 
@@ -751,7 +751,7 @@ We call the following the <span class="highlight">asymptotic size $\alpha$ Wald-
 
 <div class="rounded-box">
 
-Let $c_{1-\alpha}$ solve $P(\chi^2\leq c_{1-\alpha})=1-\alpha$. Then
+Let $c_{1-\alpha}$ solve $P(\chi^2_k\leq c_{1-\alpha})=1-\alpha$ where $k$ is the number of rows and rank of $\bR$. Then
 
 - Reject $H_0$ if $W>c_{1-\alpha}$
 - Do not reject $H_0$ if $W\leq c_{1-\alpha}$
