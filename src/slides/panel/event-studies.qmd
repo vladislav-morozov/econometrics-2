@@ -57,7 +57,7 @@ By the end, you should be able to
 
 ### Empirical Motivation {background="#43464B" visibility="uncounted"}
 
-#### Event
+#### Event {#sec-event-study-svb-example}
 
 <div class="rounded-box">
 
@@ -715,8 +715,53 @@ $$
 
 ## Empirical Application {background="#00100F"}
 
-#### Slide
+
+### Formalizing the Application {background="#43464B" visibility="uncounted"}
+
+#### Back to Empirical Application
+
+Now let's answer our empirical question — impact of the SVB collapse on stock returns of US financial institutions [[Context]{.button}](#sec-event-study-svb-example)
+
+<br>
+
+. . . 
+
+We need
+
+- Outcome variables (which returns?)
+- Time context $t$
+- How to define the treatment $D_{it}$
+
+#### Some Finance Background: Abnormal Returns 
+
+In finance, usually work with <span class="highlight">abnormal returns</span> [@MacKinlay1997EventStudiesEconomics]
+
+<br>
+
+- Each stock assumed to have a "normal" or "expected" return given market conditions — reflects everything "expected" by the market
+- Abnormal returns — differences between actual return and expected return
+
+
+#### Computing Expected and Abnormal Returns
+
+Expected returns usually computed using some model
+
+Example models include:
+
+- Simple mean:
+- Factor models
+
  
+### Preparing Data {background="#43464B" visibility="uncounted"}
+
+
+#### Obtaining Data
+
+
+Yahoo Finance — the `yfinance` library
+ 
+
+### Estimation and Inference {background="#43464B" visibility="uncounted"} 
 
 #### Testing Joint Zero Effect
 
