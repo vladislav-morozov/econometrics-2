@@ -34,14 +34,14 @@ In both cases, express the OLS estimator in terms of $\bY$ and $\bX$. Then expre
   <summary>Click to see the solution</summary>
 
 *First subquestion*: 
-First consider the question of regressing $\hat{\bY}$ on $\bX$. Let $\tilde{\bbeta}$ be the OLS estimator of regressing $\hat{\bY}$ on $\bX$. We  can use the usual formula for the OLS, but replace $\bY$ with $\hat{\bY}$. We can then use the definition of $\hat{\bY}$ and $\hat{\bbeta}$ to express the coefficients in terms of the original data: 
+First consider the question of regressing $\hat{\bY}$ on $\bX$. Let $\tilde{\bbeta}$ be the OLS estimator of regressing $\hat{\bY}$ on $\bX$. We  can use the usual formula for OLS, but replace $\bY$ with $\hat{\bY}$. We can then use the definition of $\hat{\bY}$ and $\hat{\bbeta}$ to express the coefficients in terms of the original data: 
 $$
 \begin{aligned}
 \tilde{\bbeta} & = (\bX'\bX)^{-1}\bX'\hat{\bY} = (\bX'\bX)^{-1}\bX'\bX\hat{\bbeta} \\
 & = \hat{\bbeta} = (\bX'\bX)^{-1}\bX\bY = \left(\sum_{i=1}^N \bX_i\bX_i' \right)^{-1}\sum_{i=1}^N\bX_iY_i,
 \end{aligned}
 $$
-One way to interpret the above result is that applying OLS more than 1 time does not change anything. The first application already extracts all the information that can be linearly explained by $\bX$ (a property sometimes called *idempotency*).
+One way to interpret the above result is that applying OLS more than once does not change anything. The first application already extracts all the information that can be linearly explained by $\bX$ (a property sometimes called *idempotency*).
 
 <br>
 
@@ -124,7 +124,7 @@ There are two conditions that do not hold:
 Of these two failing conditions, the first one is usually not a big issue. It concerns only a single point, and in general we have tools for handling non-identical distributions. 
 It is the second condition that creates a problem in the limit. 
 
-The message of this problem is that we make two invertibility conditions: the sample condition (on $\bX'\bX$) and the population one (on $\E[\bX_i\bX_i']$). These conditions play different roles. Each can fail, while the other condition is true.
+The message of this problem is that we need two invertibility conditions: the sample condition (on $\bX'\bX$) and the population one (on $\E[\bX_i\bX_i']$). These conditions play different roles. Each can fail, while the other condition is true.
 
 <br>
 
@@ -150,7 +150,7 @@ $$
 $$ 
 
 1. Propose conditions under which $\tilde{\beta}$ is consistent for $\beta$ and prove consistency.
-2. Derive the asymptotic distribution of $\tilde{\beta}$.
+2. Derive the asymptotic distribution of $\tilde{\beta}$. Describe any additional assumptions you make. 
 3. Now suppose that the causal model allows heterogeneous effects:
 $$
 Y_i^x = \beta_i x + U_i.
@@ -265,7 +265,7 @@ Hint: use the same approach as we used to derive the OLS estimator.
 <details>
   <summary>Click to see the solution</summary>
 
-*First subquestion*: in the scalar case we can write both estimators as
+*First subquestion*: in the scalar case we can write the two estimators as
 $$
 \begin{aligned}
 \hat{\bbeta} & = \dfrac{\sum_{i=1}^N X_i Y_i }{\sum_{i=1}^N X_i^2},\\
@@ -366,7 +366,7 @@ Compare the two cases of measurement error.
 *First subquestion*: we begin by writing out the OLS estimator, and substituting the causal and measurement models:
 $$
 \begin{aligned}
-\hat{\bbeta} & = \leftonly(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_iY_i^* \\
+\hat{\bbeta} & = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_iY_i^* \\
 & = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_i(Y_i + V_i)\\
 & = \bbeta +\left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_i (U_i+V_i)
 \end{aligned}
