@@ -620,39 +620,144 @@ window.Quarto = {
 <li>Regressing <span class="math inline">\(\hat{e}_i\)</span> on <span class="math inline">\(\bX_i\)</span>.</li>
 </ol>
 <p>In both cases, express the OLS estimator in terms of <span class="math inline">\(\bY\)</span> and <span class="math inline">\(\bX\)</span>. Then express it in terms of <span class="math inline">\((Y_i, \bX_i)\)</span>, <span class="math inline">\(i=1, \dots, N\)</span>.</p>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p><em>First subquestion</em>: First consider the question of regressing <span class="math inline">\(\hat{\bY}\)</span> on <span class="math inline">\(\bX\)</span>. Let <span class="math inline">\(\tilde{\bbeta}\)</span> be the OLS estimator of regressing <span class="math inline">\(\hat{\bY}\)</span> on <span class="math inline">\(\bX\)</span>. We can use the usual formula for OLS, but replace <span class="math inline">\(\bY\)</span> with <span class="math inline">\(\hat{\bY}\)</span>. We can then use the definition of <span class="math inline">\(\hat{\bY}\)</span> and <span class="math inline">\(\hat{\bbeta}\)</span> to express the coefficients in terms of the original data: <span class="math display">\[
+\begin{aligned}
+\tilde{\bbeta} &amp; = (\bX'\bX)^{-1}\bX'\hat{\bY} = (\bX'\bX)^{-1}\bX'\bX\hat{\bbeta} \\
+&amp; = \hat{\bbeta} = (\bX'\bX)^{-1}\bX\bY = \left(\sum_{i=1}^N \bX_i\bX_i' \right)^{-1}\sum_{i=1}^N\bX_iY_i,
+\end{aligned}
+\]</span> One way to interpret the above result is that applying OLS more than once does not change anything. The first application already extracts all the information that can be linearly explained by <span class="math inline">\(\bX\)</span> (a property sometimes called <em>idempotency</em>).</p>
+<p><br></p>
+<p><em>Second subquestion</em>: We can proceed similarly with <span class="math inline">\(\hat{\be}\)</span>. Let <span class="math inline">\(\check{\bbeta}\)</span> be the OLS estimator for regressing <span class="math inline">\(\hat{\bbeta}\)</span> on <span class="math inline">\(\bX\)</span>. We can again use the general expression for the OLS estimator and substitute the definition of <span class="math inline">\(\hat{\bbeta}\)</span>: <span class="math display">\[
+\begin{aligned}
+\check{\bbeta} &amp; = (\bX'\bX)^{-1}\bX'\hat{\be} = (\bX'\bX)^{-1}\bX'(\bY-\hat{\bY})\\
+&amp; = \hat{\bbeta} -\tilde{\bbeta} = \hat{\bbeta}- \hat{\bbeta}\\
+&amp; = 0,
+\end{aligned}
+\]</span> where we have used the first result of the problem.</p>
+</details>
 </section>
 <section id="inconsistency-of-ols-despite-strict-exogeneity" class="level3">
 <h3 class="anchored" data-anchor-id="inconsistency-of-ols-despite-strict-exogeneity">Inconsistency of OLS Despite Strict Exogeneity</h3>
-<p>Let <span class="math inline">\(X_i\)</span> and <span class="math inline">\(Y_i\)</span> be scalar variables. Let <span class="math inline">\(X_i\)</span> satisfy <span class="math display">\[
+<p>Let <span class="math inline">\(X_i\)</span> and <span class="math inline">\(Y_i\)</span> be scalar variables. Let <span class="math inline">\(X_i\)</span> satisfy <span id="eq-pset1-p2-x"><span class="math display">\[
 X_i = \begin{cases}
 1, &amp; i = 1, \\
 0, &amp; i &gt; 1.
 \end{cases}
-\]</span></p>
+\tag{1}\]</span></span></p>
 <ol type="1">
-<li>Suppose we have a sample of <span class="math inline">\(N\)</span> units: <span class="math inline">\((Y_1, X_1), \dots, (Y_N, X_N)\)</span>. Can we compute the OLS estimator for regressing <span class="math inline">\(Y_i\)</span> on <span class="math inline">\(X_i\)</span>? If yes, express the estimator in terms of <span class="math inline">\((Y_i, X_i)\)</span>, <span class="math inline">\(i=1,\dots, N\)</span>. If not, explain why.</li>
-<li>Suppose that <span class="math inline">\(X_i\)</span> and <span class="math inline">\(Y_i\)</span> are linked through the linear causal model <span class="math display">\[
+<li>Suppose we have a sample of <span class="math inline">\(N\)</span> units: <span class="math inline">\((Y_1, X_1), \dots, (Y_N, X_N)\)</span>. Can we compute the OLS estimator for regressing <span class="math inline">\(Y_i\)</span> on <span class="math inline">\(X_i\)</span> (without a constant)? If yes, express the estimator in terms of <span class="math inline">\((Y_i, X_i)\)</span>, <span class="math inline">\(i=1,\dots, N\)</span>. If not, explain why.</li>
+<li>Suppose that <span class="math inline">\(X_i\)</span> and <span class="math inline">\(Y_i\)</span> are linked through the linear causal model <span id="eq-pset1-p2-causal"><span class="math display">\[
 Y_i^x = \beta x + U_i,
-\]</span> where <span class="math inline">\(Y_i^x\)</span> is a potential outcome, <span class="math inline">\(U_i\)</span> is independent of <span class="math inline">\(X_i\)</span> with <span class="math inline">\(\E[U_i]=0\)</span>. Why does the OLS estimator of <span class="math inline">\(\beta\)</span> not converge to <span class="math inline">\(\beta\)</span>? In other words, which of the conditions of our consistency results fail?</li>
+\tag{2}\]</span></span> where <span class="math inline">\(Y_i^x\)</span> is a potential outcome, <span class="math inline">\(U_i\)</span> is independent of <span class="math inline">\(X_i\)</span> with <span class="math inline">\(\E[U_i]=0\)</span>. Why does the OLS estimator of <span class="math inline">\(\beta\)</span> not converge to <span class="math inline">\(\beta\)</span> without stronger assumptions on <span class="math inline">\(U_i\)</span>? Informally, which of the conditions of our consistency results fail?</li>
 <li>Provide an informal empirical interpretation of the above data-generating process for <span class="math inline">\(X_i\)</span>.</li>
 </ol>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p><em>First subquestion</em>: The computability of the OLS estimator is determined by one key question: is <span class="math inline">\(\bX'\bX\)</span> invertible? If <span class="math inline">\(\bX'\bX\)</span> is invertible, then the answer is positive.</p>
+<p>In this case, there is only one scalar covariate. <span class="math inline">\(\bX'\bX\)</span> is itself then scalar (<span class="math inline">\(1\times 1\)</span>) and given by <span class="math display">\[
+\bX'\bX = \sum_{i=1}^N X_i^2
+\]</span> By <a href="#eq-pset1-p2-x" class="quarto-xref">Equation&nbsp;1</a>, we have that <span class="math inline">\(\sum_{i=1}^N X_i^2=1\)</span>, which is invertible. It follows that we can compute <span class="math inline">\(\hat{\beta}=(\bX'\bX)^{-1}\bX'\bY\)</span>: <span id="eq-pset1-p2-beta"><span class="math display">\[
+\hat{\beta} = (\bX'\bX)^{-1}\bX'\bY = \dfrac{\sum_{i=1}^N X_iY_i}{\sum_{i=1}^N X_i^2} = Y_1.
+\tag{3}\]</span></span></p>
 <p><br></p>
+<p><em>Second subquestion:</em> To answer this question formally, we use the same technique we use in the lectures — substituting the underlying model into the estimator. By <a href="#eq-pset1-p2-causal" class="quarto-xref">Equation&nbsp;2</a>, the realized outcomes satisfy <span class="math display">\[
+Y_i = \beta X_i + U_i
+\]</span></p>
+<p>We substitute this expression for realized values into the OLS estimator (<a href="#eq-pset1-p2-beta" class="quarto-xref">3</a>) to obtain <span class="math display">\[
+\hat{\beta} = \beta + U_1,
+\]</span> where we have used that <span class="math inline">\(X_1 =1\)</span> by <a href="#eq-pset1-p2-x" class="quarto-xref">Equation&nbsp;1</a>.</p>
+<p>We now see that the value of <span class="math inline">\(\hat{\beta}\)</span> does not depend on sample size <span class="math inline">\(N\)</span>. The full value of <span class="math inline">\(U_1\)</span> will always be present in <span class="math inline">\(\hat{\beta}\)</span>: as <span class="math inline">\(N\to\infty\)</span> <span class="math display">\[
+\hat{\beta} \xrightarrow{p} \beta + U_1
+\]</span> The only case where <span class="math inline">\(\hat{\beta}\xrightarrow{p}\beta\)</span> is when <span class="math inline">\(U_1=0\)</span> — an additional stronger condition.</p>
+<p>Which conditions of our consistency results fail? There are two conditions that hold:</p>
+<ul>
+<li>Orthogonality: <span class="math inline">\(\E[X_iU_i] =0\)</span> holds.</li>
+<li>Independence of units</li>
+</ul>
+<p>There are two conditions that do not hold:</p>
+<ul>
+<li>Identical distributions: unit 1 is different to the rest.</li>
+<li>Invertibility of the limit of <span class="math inline">\(N^{-1}\sum_{i=1}^N\bX_i\bX_i'\)</span>. By <a href="#eq-pset1-p2-x" class="quarto-xref">Equation&nbsp;1</a>, this sum is equal to <span class="math inline">\(N^{-1}\to 0\)</span>.</li>
+</ul>
+<p>Of these two failing conditions, the first one is usually not a big issue. It concerns only a single point, and in general we have tools for handling non-identical distributions. It is the second condition that creates a problem in the limit.</p>
+<p>The message of this problem is that we need two invertibility conditions: the sample condition (on <span class="math inline">\(\bX'\bX\)</span>) and the population one (on <span class="math inline">\(\E[\bX_i\bX_i']\)</span>). These conditions play different roles. Each can fail, while the other condition is true.</p>
+<p><br></p>
+<p><em>Third subquestion</em>: we can imagine a simple experiment in which the subjects have arrived to the lab in a random order, independently of their characteristics. However, there is only one real treatment, which is given to the first unit. Everyone else receives a placebo.</p>
+</details>
 </section>
 <section id="ratio-slope-estimator" class="level3">
 <h3 class="anchored" data-anchor-id="ratio-slope-estimator">Ratio Slope Estimator</h3>
-<p>Let <span class="math inline">\(X_i\)</span> and <span class="math inline">\(U_i\)</span> be scalar random variables. Suppose that <span class="math inline">\(X_i\)</span> satisfies <span class="math inline">\(X_i\geq c&gt;0\)</span> for some <span class="math inline">\(c\)</span> (strictly positive and bounded away from 0). Let <span class="math inline">\(Y_i\)</span> be some outcome. Suppose that the following linear causal model holds: the potential outcome <span class="math inline">\(Y_i^x\)</span> is determined as <span class="math display">\[
+<p>Let <span class="math inline">\(X_i\)</span> and <span class="math inline">\(U_i\)</span> be scalar random variables. Suppose that <span class="math inline">\(X_i\)</span> satisfies <span class="math inline">\(X_i\geq c&gt;0\)</span> for some <span class="math inline">\(c\)</span> (strictly positive and bounded away from 0). Let <span class="math inline">\(Y_i\)</span> be some outcome. Suppose that the following linear causal model holds: the potential outcome <span class="math inline">\(Y_i^x\)</span> is determined as <span id="eq-pset1-p3-causal"><span class="math display">\[
 Y_i^x = \beta x + U_i.
-\]</span> The realized outcome <span class="math inline">\(Y_i\)</span> is determined as <span class="math inline">\(Y_i = Y_i^{X_i}\)</span>.</p>
+\tag{4}\]</span></span> The realized outcome <span class="math inline">\(Y_i\)</span> is determined as <span class="math inline">\(Y_i = Y_i^{X_i}\)</span>.</p>
 <p>Consider the following estimator for <span class="math inline">\(\beta\)</span>: <span class="math display">\[
 \tilde{\beta} = \dfrac{1}{N}\sum_{i=1}^N \dfrac{Y_i}{X_i}.
 \]</span></p>
 <ol type="1">
 <li>Propose conditions under which <span class="math inline">\(\tilde{\beta}\)</span> is consistent for <span class="math inline">\(\beta\)</span> and prove consistency.</li>
-<li>Derive the asymptotic distribution of <span class="math inline">\(\tilde{\beta}\)</span>.</li>
-<li>Now suppose that the causal model allows heterogeneous effects: <span class="math display">\[
+<li>Derive the asymptotic distribution of <span class="math inline">\(\tilde{\beta}\)</span>. Describe any additional assumptions you make.</li>
+<li>Now suppose that the causal model allows heterogeneous effects: <span id="eq-pset1-p3-causal-het"><span class="math display">\[
 Y_i^x = \beta_i x + U_i.
-\]</span> Under which conditions does <span class="math inline">\(\tilde{\beta}\)</span> consistently estimate <span class="math inline">\(\E[\beta_i]\)</span>?</li>
+\tag{5}\]</span></span> Under which conditions does <span class="math inline">\(\tilde{\beta}\)</span> consistently estimate <span class="math inline">\(\E[\beta_i]\)</span>?</li>
 </ol>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p><em>First subquestion</em>: we again use the key technique — substituting the true model into the estimator. By <a href="#eq-pset1-p3-causal" class="quarto-xref">Equation&nbsp;4</a>, the outcome <span class="math inline">\(Y_i\)</span> satisfies <span class="math display">\[
+Y_i = \beta X_i + U_i.
+\]</span> We can substitute this expression into <span class="math inline">\(\tilde{\beta}\)</span> to obtain <span class="math display">\[
+\tilde{\beta} = \dfrac{1}{N}\sum_{i=1}^N \dfrac{Y_i}{X_i} = \beta+ \dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i}
+\]</span> The law of large number applies to the sum on the right hand side if</p>
+<ol type="1">
+<li><span class="math inline">\((X_i, U_i)\)</span> are IID.</li>
+<li><span class="math inline">\(\E[U_i/X_i]\)</span> exists.</li>
+</ol>
+<p>We make these assumptions. Then by the law of large numbers: <span class="math display">\[
+\dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i}\xrightarrow{p} \E\left[ \dfrac{U_i}{X_i} \right].
+\]</span> By the continuous mapping theorem: <span class="math display">\[
+\tilde{\beta} \xrightarrow{p} \beta + \E\left[ \dfrac{U_i}{X_i} \right].
+\]</span> <span class="math inline">\(\tilde{\beta}\)</span> is consistent for <span class="math inline">\(\beta\)</span> if</p>
+<ol start="3" type="1">
+<li><span class="math inline">\(\E[U_i/X_i]=0\)</span> (note that it is sufficient that <span class="math inline">\(\E[U_i|X_i]=0\)</span> for this condition, why?).</li>
+</ol>
+<p>We conclude that <span class="math inline">\(\tilde{\beta}\)</span> is consistent for <span class="math inline">\(\beta\)</span> under assumptions (1)-(3).</p>
+<p><br></p>
+<p><em>Second subquestion</em>: to study the asymptotic distribution, we keep the above conditions (1)-(3). Under these conditions (especially (3)) we note that <span id="eq-pset1-p3-sampling-error"><span class="math display">\[
+\begin{aligned}
+\tilde{\beta} - \beta &amp; = \dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i} \\
+&amp; = \dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i} - \E\left[\dfrac{U_i}{X_i}\right].
+\end{aligned}
+\tag{6}\]</span></span> The bottom line is in the form used in the central limit theorem: sample average minus population average. We can then apply the central limit theorem provided the following assumption holds:</p>
+<ol start="4" type="1">
+<li>Finite second moments: <span class="math inline">\(\E[U_i^2/X_i^2]&lt;\infty\)</span>.</li>
+</ol>
+<p>Then by the central limit theorem it holds that <span class="math display">\[
+\sqrt{N}\left(  \dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i} - \E\left[\dfrac{U_i}{X_i}\right] \right)\xrightarrow{d} N\left(0, \E\left[\dfrac{U_i^2}{X_i^2} \right] \right).
+\]</span></p>
+<p>By <a href="#eq-pset1-p3-sampling-error" class="quarto-xref">Equation&nbsp;6</a> we conclude that, if assumptions (1)-(4) hold, then <span class="math display">\[
+\sqrt{N}\left(\tilde{\beta}- \beta \right)\xrightarrow{d} N\left(0, \E\left[\dfrac{U_i^2}{X_i^2} \right] \right).
+\]</span></p>
+<p><br></p>
+<p><em>Third subquestion</em>: we again start by substituting the causal model into the estimator. Under <a href="#eq-pset1-p3-causal-het" class="quarto-xref">Equation&nbsp;5</a> the outcome satisfies <span class="math display">\[
+Y_i = \beta_i X_i + U_i.
+\]</span> Then <span class="math inline">\(\tilde{\beta}\)</span> can be written as <span id="eq-pset1-p3-sampling-error-het"><span class="math display">\[
+\tilde{\beta} = \dfrac{1}{N}\sum_{i=1}^N \beta_i +  \dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i}.
+\tag{7}\]</span></span> The second sum in <a href="#eq-pset1-p3-sampling-error-het" class="quarto-xref">Equation&nbsp;7</a> can be handled as in the first subquestion using assumptions (1)-(3). The first sum satisfies <span class="math display">\[
+\dfrac{1}{N}\sum_{i=1}^N \beta_i  \xrightarrow{p} \E[\beta_i]
+\]</span> by the law of large numbers provided</p>
+<ol start="5" type="1">
+<li><span class="math inline">\(\E[\beta_i]\)</span> exists.</li>
+</ol>
+<p>We conclude by the continuous mapping theorem (where do we apply it?) that <span class="math inline">\(\tilde{\beta}\)</span> is consistent for <span class="math inline">\(\E[\beta_i]\)</span> under conditions (1)-(3) and (5).</p>
+<p>Note that this consistency result does not restrict the dependence between <span class="math inline">\(\beta_i\)</span> and <span class="math inline">\(X_i\)</span>. This is in contrast to the behavior of the OLS estimator (see lectures).</p>
+</details>
 </section>
 <section id="limit-of-the-ridge-estimator" class="level3">
 <h3 class="anchored" data-anchor-id="limit-of-the-ridge-estimator">Limit of the Ridge Estimator</h3>
@@ -664,35 +769,207 @@ Y_i^{\bx} = \bx'\bbeta + U_i
 \]</span> where <span class="math inline">\(\lambda_N\)</span> is some non-negative number, <span class="math inline">\(\bI_k\)</span> is the <span class="math inline">\(k\times k\)</span> identity matrix, and we assume that <span class="math inline">\((\bX'\bX+ \lambda_N \bI_k)\)</span> is invertible.</p>
 <ol type="1">
 <li>Suppose that <span class="math inline">\(\bX_i\)</span> is scalar. Show that <span class="math inline">\(\abs{\tilde{\bbeta}}\leq \abs{\hat{\bbeta}}\)</span>, where <span class="math inline">\(\hat{\bbeta}\)</span> is the OLS estimator (in words, the ridge estimator is always weakly closer to 0 than the OLS estimator — it is “shrunk” to zero).</li>
-<li>Suppose that <span class="math inline">\(\lambda_N = cN\)</span> for some fixed <span class="math inline">\(c\geq 0\)</span>. Find the probability limit of <span class="math inline">\(\tilde{\bbeta}\)</span>. State explicitly any moment assumptions you make.</li>
+<li>Suppose that <span class="math inline">\(\lambda_N = cN\)</span> for some fixed <span class="math inline">\(c\geq 0\)</span>. Find the probability limit of <span class="math inline">\(\tilde{\bbeta}\)</span>. State explicitly any moment assumptions you make. When is <span class="math inline">\(\tilde{\bbeta}\)</span> consistent for <span class="math inline">\(\bbeta\)</span>?</li>
 <li><em>(Optional)</em>: prove that ridge estimator satisfies <span class="math display">\[
 \tilde{\bbeta} = \argmin_{\bb} \sum_{i=1}^N (Y_i - \bX_i'\bb)^{2} + \lambda \norm{\bb}^2
 \]</span> Hint: use the same approach as we used to derive the OLS estimator.</li>
 </ol>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p><em>First subquestion</em>: in the scalar case we can write the two estimators as <span class="math display">\[
+\begin{aligned}
+\hat{\bbeta} &amp; = \dfrac{\sum_{i=1}^N X_i Y_i }{\sum_{i=1}^N X_i^2},\\
+\tilde{\bbeta} &amp; = \dfrac{\sum_{i=1}^N X_i Y_i}{\sum_{i=1}^N X_i^2 + \lambda_N}.
+\end{aligned}
+\]</span> We can then divide the ridge estimator by the OLS estimator: <span class="math display">\[
+\dfrac{\tilde{\bbeta}}{\hat{\bbeta}} = \dfrac{\sum_{i=1}^N X_i^2}{ \sum_{i=1}^N X_i^2 + \lambda_N } \leq 1.
+\]</span> The desired inequality follows.</p>
+<p><br></p>
+<p><em>Second subquestion</em>: for the second subquestion, we again start by substituting the model into the estimator: <span id="eq-pset1-p4-sampling-error"><span class="math display">\[
+\begin{aligned}
+\tilde{\bbeta} &amp; = (\bX'\bX+ \lambda_N \bI_k)^{-1}\bX'\bY\\
+&amp; = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' + c\bI_k\right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_iY_i\\
+&amp; = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' + c\bI_k\right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'\bbeta\\
+&amp; \quad + \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' + c\bI_k\right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_i U_i
+\end{aligned}
+\tag{8}\]</span></span> We now only need to handle the individual averages in the above expression.</p>
+<p>First, we assume that</p>
+<ul>
+<li><span class="math inline">\(\E[\bX_i\bX_i']\)</span> and <span class="math inline">\(\E[\bX_i'U_i]\)</span> exist</li>
+</ul>
+<p>Then by the law of large number it holds that <span class="math display">\[
+\begin{aligned}
+\dfrac{1}{N}\sum_{i=1}^N \bX_i \bX_i' &amp; \xrightarrow{p} \E[\bX_i\bX_i'], \\
+\dfrac{1}{N}\sum_{i=1}^N \bX_i U_i &amp; \xrightarrow{p} \E[\bX_iU_i] .
+\end{aligned}
+\]</span> By the continuous mapping theorem it also follows that <span id="eq-pset1-p4-leading-term"><span class="math display">\[
+\dfrac{1}{N}\sum_{i=1}^N \bX_i \bX_i' + c\bI_i \xrightarrow{p} \E[\bX_i\bX_i'] + c\bI_k.
+\tag{9}\]</span></span></p>
+<p>Second, to handle the leading terms in <a href="#eq-pset1-p4-sampling-error" class="quarto-xref">Equation&nbsp;8</a>, we also assume that</p>
+<ul>
+<li><span class="math inline">\(\E[\bX_i\bX_i'] + c\bI_k\)</span> is invertible</li>
+</ul>
+<p>Then by the continuous mapping theorem and <a href="#eq-pset1-p4-leading-term" class="quarto-xref">Equation&nbsp;9</a> it holds that <span class="math display">\[
+\left(\dfrac{1}{N}\sum_{i=1}^N \bX_i \bX_i' + c\bI_k\right)^{-1} \xrightarrow{p} \left(\E[\bX_i\bX_i'] + c\bI_k\right)^{-1}.
+\]</span></p>
+<p>Combining the above arguments together and applying the continuous mapping theorem, we conclude that <span class="math display">\[
+\begin{aligned}
+\tilde{\bbeta} &amp; \xrightarrow{p}  \left(\E[\bX_i\bX_i'] + c\bI_k\right)^{-1} \E[\bX_i\bX_i']\bbeta
+\\
+&amp; \quad +  \left(\E[\bX_i\bX_i'] + c\bI_k\right)^{-1} \E[\bX_iU_i].
+\end{aligned}
+\]</span> We conclude that <span class="math inline">\(\tilde{\bbeta}\)</span> is consistent for <span class="math inline">\(\bbeta\)</span> if <span class="math inline">\(c=0\)</span> and <span class="math inline">\(\E[\bX_iU_i]=0\)</span>.</p>
+<p><br></p>
+</details>
 <p>Why would one use <span class="math inline">\(\tilde{\bbeta}\)</span>? Note that <span class="math inline">\(\bX'\bX + c\bI_k\)</span> is invertible if <span class="math inline">\(c&gt;0\)</span>, regardless of invertibility of <span class="math inline">\(\bX'\bX\)</span>. This means that <span class="math inline">\(\tilde{\bbeta}\)</span> can be computed even if the OLS estimator cannot. A leading case is <em>high-dimensional</em> regression, where the number of regressors <span class="math inline">\(k\)</span> exceeds the number <span class="math inline">\(N\)</span> of data points. See section 6.2.1 in <span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#ref-James2023IntroductionStatisticalLearning" role="doc-biblioref">2023</a>)</span> about the ridge estimator and regularization techniques in general. We will discuss some of these ideas later in the class.</p>
 </section>
 <section id="measurement-error-revisited" class="level3">
 <h3 class="anchored" data-anchor-id="measurement-error-revisited">Measurement Error Revisited</h3>
 <p>Let the outcome <span class="math inline">\(Y_i\)</span>, the covariates <span class="math inline">\(\bX_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear causal model <span class="math display">\[
 Y_i^{\bx} = \bx'\bbeta + U_i
-\]</span> Suppose that our data is IID.</p>
-<p>Suppose that we do not observe the true <span class="math inline">\(Y_i\)</span>, but instead a mismeasured version <span class="math inline">\(Y_i^*= Y_i + V_i\)</span>, where the measurement error <span class="math inline">\(V_i\)</span> is mean zero and independent of <span class="math inline">\((X_i, U_i)\)</span>.</p>
+\]</span> Suppose that our data is IID, that <span class="math inline">\(\E[\bX_iU_i]=0\)</span>, the second moments of the data are finite, and that <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is invertible.</p>
+<p>Suppose that we do not observe the true <span class="math inline">\(Y_i\)</span>, but instead a mismeasured version <span class="math inline">\(Y_i^*= Y_i + V_i\)</span>, where the measurement error <span class="math inline">\(V_i\)</span> is mean zero, independent of <span class="math inline">\((X_i, U_i)\)</span>, and has finite second moments.</p>
 <ol type="1">
 <li>Show that the OLS estimator for the regression of <span class="math inline">\(Y_i^*\)</span> on <span class="math inline">\(\bX_i\)</span> is consistent for <span class="math inline">\(\bbeta\)</span>.</li>
 <li>Derive the asymptotic distribution of the above OLS estimator. Express the asymptotic variance in terms of moments involving <span class="math inline">\(V_i\)</span> and <span class="math inline">\(U_i\)</span>. Interpret the result: how does the measurement error in <span class="math inline">\(\bX\)</span> affect the asymptotic variance of the OLS estimator (increase, decrease, unchanged, unclear)?</li>
 </ol>
-<p>Now suppose that we do observe <span class="math inline">\(Y_i\)</span>, but we do not observe <span class="math inline">\(\bX_i\)</span>. Instead, we only see a mismeasured version <span class="math inline">\(\bX_i^*= \bX_i + \bV_i\)</span>, where the measurement error <span class="math inline">\(\bV_i\)</span> is mean zero and independent of <span class="math inline">\((\bX_i, U_i)\)</span>.</p>
+<p>Now suppose that we do observe <span class="math inline">\(Y_i\)</span>, but we do not observe <span class="math inline">\(\bX_i\)</span>. Instead, we only see a mismeasured version <span class="math inline">\(\bX_i^*= \bX_i + \bV_i\)</span>, where the measurement error <span class="math inline">\(\bV_i\)</span> is mean zero, independent of <span class="math inline">\((\bX_i, U_i)\)</span>, and has finite second moments.</p>
 <ol start="3" type="1">
-<li>Compute the limit of the OLS estimator in the regression of <span class="math inline">\(Y_i\)</span> on <span class="math inline">\(\bX_i^*\)</span>. Is this estimator consistent for <span class="math inline">\(\bbeta\)</span>? If so, under which conditions?</li>
+<li>Compute the limit of the OLS estimator in the regression of <span class="math inline">\(Y_i\)</span> on <span class="math inline">\(\bX_i^*\)</span> in terms of <span class="math inline">\((Y_i, \bX_i, V_i, U_i)\)</span>. Is this estimator consistent for <span class="math inline">\(\bbeta\)</span>? If so, under which conditions?</li>
 </ol>
 <p>Compare the two cases of measurement error.</p>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p><em>First subquestion</em>: we begin by writing out the OLS estimator, and substituting the causal and measurement models: <span id="eq-pset1-p5-sampling-error"><span class="math display">\[
+\begin{aligned}
+\hat{\bbeta} &amp; = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_iY_i^* \\
+&amp; = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_i(Y_i + V_i)\\
+&amp; = \bbeta +\left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_i (U_i+V_i)
+\end{aligned}
+\tag{10}\]</span></span></p>
+<p>We handle the individual averages using the law of large numbers and combine the results using the continuous mapping theorem.</p>
+<p>By the assumptions of the problem and the law of large numbers it holds that <span class="math display">\[
+\begin{aligned}
+\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' &amp; \xrightarrow{p} \E[\bX_i\bX_i'], \\
+\dfrac{1}{N}\sum_{i=1}^N \bX_iU_i &amp; \xrightarrow{p} \E[\bX_iU_i] =0, \\
+\dfrac{1}{N}\sum_{i=1}^N \bX_iV_i &amp; \xrightarrow{p} \E[\bX_iV_i] =\E[\bX_i]\E[V_i]=0, \\
+\end{aligned}
+\]</span> where we use the independence of <span class="math inline">\(V_i\)</span> in the last line.</p>
+<p>By the continuous mapping theorem and assumption that <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is invertible it holds that <span id="eq-pset1-p5-inverse"><span class="math display">\[
+\left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'\right)^{-1}  \xrightarrow{p} \left( \E[\bX_i\bX_i']\right)^{-1}.
+\tag{11}\]</span></span></p>
+<p>By the continuous mapping theorem and the above results we conclude that <span class="math display">\[
+\hat{\bbeta} \xrightarrow{p} \bbeta.
+\]</span></p>
+<p><br></p>
+<p><em>Second subquestion</em>: to analyze the asymptotic distribution, we go to the last line in <a href="#eq-pset1-p5-sampling-error" class="quarto-xref">Equation&nbsp;10</a>. By the assumptions of the problem it holds that <span class="math display">\[
+\E[X_i(U_i+V_i)] = 0.
+\]</span> Accordingly, <span class="math display">\[
+\begin{aligned}
+&amp; \dfrac{1}{N} \sum_{i=1}^N \bX_i (U_i+V_i) \\
+&amp; = \dfrac{1}{N} \sum_{i=1}^N \bX_i (U_i+V_i) - \E[\bX_i(U_i+V_i)].
+\end{aligned}
+\]</span> We have identified a term to which we can apply the central limit theorem. We can now proceed as with the usual OLS estimator without measurement error in <span class="math inline">\(Y_i\)</span>.</p>
+<ol type="1">
+<li><p>By the central limit theorem it holds that <span class="math display">\[
+\begin{aligned}
+&amp; \dfrac{1}{\sqrt{N}} \sum_{i=1}^N \bX_i (U_i+V_i) \\
+&amp; \sqrt{N}\left( \dfrac{1}{N} \sum_{i=1}^N \bX_i (U_i+V_i) - \E[\bX_i(U_i+V_i)] \right) \\
+&amp; \xrightarrow{d} N(0, \E[(U_i+V_i)^2\bX_i\bX_i'])
+\end{aligned}
+\]</span></p></li>
+<li><p>By <a href="#eq-pset1-p5-inverse" class="quarto-xref">Equation&nbsp;11</a> it holds that <span class="math display">\[
+\left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'\right)^{-1}  \xrightarrow{p} \left( \E[\bX_i\bX_i']\right)^{-1}.
+\]</span></p></li>
+<li><p>By (1)-(2), Slutsky’s theorem, and the properties of variance it follows that <span class="math display">\[
+\begin{aligned}
+&amp; \sqrt{N}(\hat{\bbeta}-\bbeta)\\
+&amp; = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'\right)^{-1} \dfrac{1}{\sqrt{N} } \sum_{i=1}^N \bX_i (U_i+V_i)   \\
+&amp;  \xrightarrow{d} N\left(0,  \left( \E[\bX_i\bX_i']\right)^{-1} \E[(U_i+V_i)^2\bX_i\bX_i']\left( \E[\bX_i\bX_i']\right)^{-1} \right)
+\end{aligned}
+\]</span></p></li>
+</ol>
+<p>We can further examine the asymptotic variance. First consider the middle component: <span class="math display">\[
+\begin{aligned}
+&amp;\E[(U_i+V_i)^2\bX_i\bX_i'] \\
+&amp; = \E[U_i^2 \bX_i\bX_i'] + 2\E[V_i]\E[U_i\bX_i\bX_i'] + \E[V_i^2]\E[\bX_i\bX_i'] \\
+&amp; = \E[U_i^2 \bX_i\bX_i'] + \E[V_i^2]\E[\bX_i\bX_i'],
+\end{aligned}
+\]</span> where we have used the properties of <span class="math inline">\(V_i\)</span>.</p>
+<p>Substituting this expression back into the asymptotic variance expression gives us <span class="math display">\[
+\begin{aligned}
+&amp; \left( \E[\bX_i\bX_i']\right)^{-1} \E[(U_i+V_i)^2\bX_i\bX_i']\left( \E[\bX_i\bX_i']\right)^{-1} \\
+&amp; = \left( \E[\bX_i\bX_i']\right)^{-1} \E[U_i^2\bX_i\bX_i']\left( \E[\bX_i\bX_i']\right)^{-1} + \E[V_i^2](\E[\bX_i\bX_i'])^{-1}.
+\end{aligned}
+\]</span> The first term is the asymptotic variance of the OLS estimator without measurement error. The presence of independent measurement error adds an additional positive definite component — increases the asymptotic variance (check this at least in the scalar case!).</p>
+<p><br></p>
+<p><em>Third subquestion</em>: we again proceed by wriring down the estimator and then substituting the causal and measurement models. We will do those substitutions step-by-step to keep things cleaner: <span id="eq-pset1-p5-meX-ex"><span class="math display">\[
+\begin{aligned}
+\hat{\bbeta} &amp;  = \left(\sum_{i=1}^N \bX_i^*\bX_i^{*'}  \right)^{-1}\sum_{i=1}^N \bX_i^*Y_i \\
+&amp; = \left(\sum_{i=1}^N \bX_i^*\bX_i^{*'}  \right)^{-1}\sum_{i=1}^N \bX_i^* (\bX_i'\bbeta + U_i)\\
+&amp; = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i^*\bX_i^{*'}  \right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'\bbeta\\
+&amp; \quad + \left(\dfrac{1}{N} \sum_{i=1}^N \bX_i^*\bX_i^{*'}  \right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bV_i\bX_i'\bbeta \\
+&amp; \quad + \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i^*\bX_i^{*'}  \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_iU_i\\
+&amp; \quad + \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i^*\bX_i^{*'}  \right)^{-1}\dfrac{1}{N} \sum_{i=1}^N \bV_i U_i.
+\end{aligned}
+\tag{12}\]</span></span> We now analyze the different averages in the above expressions. By the law of large numbers it holds that <span class="math display">\[
+\begin{aligned}
+\dfrac{1}{N}\sum_{i=1}^N\bV_i\bX_i' &amp; \xrightarrow{p} \E[\bV_i\bX_i'] = \E[\bV_i]\E[\bX_i'] =0, \\
+\dfrac{1}{N}\sum_{i=1}^N\bX_i U_i &amp; \xrightarrow{p} \E[\bX_iU_i]  =0, \\
+\dfrac{1}{N}\sum_{i=1}^N \bV_i U_i &amp; \xrightarrow{p} \E[\bV_iU_i] = \E[\bV_i]\E[U_i] =0.
+\end{aligned}
+\]</span> It also holds that <span class="math display">\[
+\begin{aligned}
+\dfrac{1}{N} \sum_{i=1}^N \bX_i^*\bX_i^{*'} &amp; =   \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'   + \dfrac{1}{N} \sum_{i=1}^N \bV_i\bV_i'  \\
+&amp; \quad +
+\dfrac{1}{N} \sum_{i=1}^N \bX_i\bV_i' +
+\dfrac{1}{N} \sum_{i=1}^N \bV_i\bX_i' \\
+&amp; \xrightarrow{p} \E[\bX_i\bX_i'] + \E[\bV_i\bV_i']
+\end{aligned}
+\]</span> Combining the above convergence results, the continuous mapping theorem and <a href="#eq-pset1-p5-meX-ex" class="quarto-xref">Equation&nbsp;12</a> we get that <span class="math display">\[
+\hat{\bbeta} \xrightarrow{p} \left(\E[\bX_i\bX_i']  + \E[\bV_i\bV_i'] \right)^{-1} \E[\bX_i\bX_i']\bbeta.
+\]</span> We see that in general the OLS estimator is not consistent for <span class="math inline">\(\bbeta\)</span> if there is measurement error in the covariates.</p>
+<p>Consistency holds if <span class="math inline">\(\E[\bV_i\bV_i']=0\)</span>. Since <span class="math inline">\(\E[\bV_i]=0\)</span>, it holds that <span class="math inline">\(\E[\bV_i\bV_i'] = \var(\bV_i)\)</span>. In other words, consistency requires that <span class="math inline">\(\var(\bV_i)=0\)</span>, which means there is no measurement error in <span class="math inline">\(\bX_i\)</span>.</p>
+<p>To summarize, we find notable differences between the two kinds of measurement errors.</p>
+<ul>
+<li>Independent measurement error in the outcome variable does not break consistency or asymptotic normality. It only increases the asymptotic variances (reduces precision).</li>
+<li>Independent measurement error in the covariates makes the OLS estimator inconsistent.</li>
+</ul>
+</details>
 </section>
 <section id="omitted-variable-bias-revisited" class="level3">
 <h3 class="anchored" data-anchor-id="omitted-variable-bias-revisited">Omitted Variable Bias Revisited</h3>
-<p>Let <span class="math inline">\(Y_i\)</span> be some outcome of interest. Let <span class="math inline">\(\bX_i\)</span> be an observed covariate vector. Let <span class="math inline">\(U_i\)</span> be an unobserved component that satisfies <span class="math inline">\(\E[\bX_iU_i]=0\)</span>. Let <span class="math inline">\(\bW_i\)</span> be another group of variables that affect <span class="math inline">\(Y_i\)</span>. Suppose that <span class="math inline">\(Y_i\)</span> and <span class="math inline">\((\bX_i, \bW_i)\)</span> are related through the potential outcomes model <span class="math display">\[
+<p>Let <span class="math inline">\(Y_i\)</span> be some outcome of interest. Let <span class="math inline">\(\bX_i\)</span> be an observed covariate vector; <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is assumed to be invertible. Let <span class="math inline">\(U_i\)</span> be an unobserved component that satisfies <span class="math inline">\(\E[\bX_iU_i]=0\)</span>. Let <span class="math inline">\(\bW_i\)</span> be another group of variables that affect <span class="math inline">\(Y_i\)</span>. Suppose that <span class="math inline">\(Y_i\)</span> and <span class="math inline">\((\bX_i, \bW_i)\)</span> are related through the potential outcomes model <span class="math display">\[
 Y_i^{(\bx, \bw)} = \bx'\bbeta + \bw'\bdelta + U_i.
 \]</span></p>
-<p>Suppose that <span class="math inline">\(\bW_i\)</span> is not observed, and we instead regress <span class="math inline">\(Y_i\)</span> only on <span class="math inline">\(\bX_i\)</span>. Find the probability limit of the corresponding OLS estimator. When is that limit equal to <span class="math inline">\(\bbeta\)</span>? If <span class="math inline">\(\bX_i\)</span> is scalar, can you say anything about the direction of the bias?</p>
+<p>Suppose that <span class="math inline">\(\bW_i\)</span> is not observed, and we instead regress <span class="math inline">\(Y_i\)</span> only on <span class="math inline">\(\bX_i\)</span>. Find the probability limit of the corresponding OLS estimator. Make any necessary moment assumptions. When is that limit equal to <span class="math inline">\(\bbeta\)</span>?</p>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p>Yet again the approach is to substitute the true model into the estimator. The observed outcomes satisfy <span class="math display">\[
+Y_i = \bX_i'\bbeta + \bW_i'\bdelta + U_i.
+\]</span></p>
+<p>The OLS estimator of <span class="math inline">\(Y_i\)</span> on <span class="math inline">\(\bX_i\)</span> satisfies <span class="math display">\[
+\begin{aligned}
+\hat{\bbeta} &amp; = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'   \right)^{-1}\dfrac{1}{N}\sum_{i=1}^N \bX_i Y_i\\
+&amp; =  \bbeta+  \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'   \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_i U_i \\
+&amp; \quad + \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'   \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_i\bW_i'\bdelta
+\end{aligned}
+\]</span> We now handle the individual sums in the usual way. By the law of large numbers, continuous mapping theorem and our moment conditions it holds that <span class="math display">\[
+\begin{aligned}
+\dfrac{1}{N} \sum_{i=1}^N \bX_iU_i &amp; \xrightarrow{p} \E[\bX_iU_i] =0 ,\\
+\dfrac{1}{N} \sum_{i=1}^N \bX_i\bW_i' &amp; \xrightarrow{p} \E[\bX_i\bW_i'] ,\\
+\left( \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'\right)^{-1} &amp; \xrightarrow{p} \left( \E[\bX_i\bX_i'] \right)^{-1}.
+\end{aligned}
+\]</span> By the continuous mapping theorem we obtain the probability limit of <span class="math inline">\(\hat{\bbeta}\)</span>: <span class="math display">\[
+\hat{\bbeta} \xrightarrow{p} \bbeta + \left(\E[\bX_i\bX'] \right)^{-1}\E[\bX_i\bW_i']\bdelta.
+\]</span> This limit is equal to <span class="math inline">\(\bbeta\)</span> if <span class="math inline">\(\E[\bX_i\bW_i']\bdelta = 0\)</span>. Standard sufficient conditions are that <span class="math inline">\(\bdelta = 0\)</span> (and so <span class="math inline">\(\bW_i\)</span> are not important to <span class="math inline">\(Y_i\)</span>) or that <span class="math inline">\(\bX_i\)</span> and <span class="math inline">\(\bW_i\)</span> are orthogonal in the sense that <span class="math inline">\(\E[\bX_i\bW_i']=0\)</span>.</p>
+</details>
 </section>
 </section>
 <section id="applied-exercises" class="level2">
