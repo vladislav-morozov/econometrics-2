@@ -57,6 +57,109 @@ By the end, you should be able to
 
 ### Empirical Motivation {background="#43464B" visibility="uncounted"}
 
+#### Event
+
+<div class="rounded-box">
+
+*March 10, 2023*: third-largest bank failure in the US: the Silicon Valley Bank (SVB) collapses
+
+
+</div>
+
+<br>
+
+- Bank collapses are painful for depositors and creditors
+- Also raise fears of broader financial contagion — danger to other financial institutions
+
+#### Empirical Question {.scrollable}
+
+<div class="rounded-box">
+
+How did the collapse of the SVB affect stock prices of other US financial institutions in the next 10 days? 
+
+
+</div>
+
+- Causal question: comparing prices after collapse with prices without collapse
+- How to do this comparison? What assumptions do we need?
+
+``` 
+#| echo: true
+#| code-fold: true
+#| code-summary: "Expand for list of institutions of interest"
+
+tickers = [
+    "ALLY",  # Ally Financial Inc.
+    "AMTB",  # Amerant Bancorp Inc.
+    "ABCB",  # Ameris Bancorp
+    "ASB",   # Associated Banc-Corp
+    "AUB",   # Atlantic Union Bankshares Corporation
+    "AX",    # Axos Financial Inc.
+    "BANC",  # Banc of California Inc.
+    "BK",    # Bank of New York Mellon Corporation
+    "BAC",   # Bank of America Corporation
+    "BOH",   # Bank of Hawaii Corporation
+    "BKU",   # BankUnited Inc.
+    "BHB",   # Bar Harbor Bankshares Inc.
+    "BHLB",  # Berkshire Hills Bancorp Inc.
+    "BRBS",  # Blue Ridge Bankshares Inc.
+    "CADE",  # Cadence Bank
+    "COF",   # Capital One Financial Corporation
+    "C",     # Citigroup Inc.
+    "CFG",   # Citizens Financial Group Inc.
+    "CMA",   # Comerica Incorporated
+    "CFR",   # Cullen/Frost Bankers Inc. 
+    "FNB",   # F.N.B. Corporation
+    "FBK",   # FB Financial Corporation
+    "FITB",  # Fifth Third Bancorp
+    "HBAN",  # Huntington Bancshares Incorporated
+    "KEY",   # KeyCorp
+    "MTB",   # M&T Bank Corporation
+    "PNC",   # PNC Financial Services Group Inc.
+    "RF",    # Regions Financial Corporation
+    "STT",   # State Street Corporation
+    "SYF",   # Synchrony Financial
+    "USB",   # U.S. Bancorp
+    "WFC",   # Wells Fargo & Company
+    "SCHW",  # Charles Schwab Corporation
+    "AXP",   # American Express Company
+    "DFS",   # Discover Financial Services
+    "NTB",   # Bank of N.T. Butterfield & Son Limited
+    "EWBC",  # East West Bancorp Inc.
+    "WAL",   # Western Alliance Bancorporation
+    "SSB",   # SouthState Corporation
+    "WBS",   # Webster Financial Corporation
+    "FHN",   # First Horizon Corporation
+    "PNFP",  # Pinnacle Financial Partners Inc.
+    "HOMB",  # Home BancShares Inc.
+    "HTH",   # Hilltop Holdings Inc.
+    "GBCI",  # Glacier Bancorp Inc.
+    "BOKF",  # BOK Financial Corporation
+    "ZION",  # Zions Bancorporation
+    "TCBI",  # Texas Capital Bancshares Inc.
+    "CIVB",  # Civista Bancshares Inc.
+    "CFFI",  # C&F Financial Corporation
+    "BANF",  # BancFirst Corporation
+    "FULT",  # Fulton Financial Corporation
+    "ONB",   # Old National Bancorp
+    "PB",    # Prosperity Bancshares Inc.
+    "UBSI",  # United Bankshares Inc.
+    "VLY",   # Valley National Bancorp
+    "TRMK",  # Trustmark Corporation 
+    "CASH",  # Meta Financial Group Inc.
+    "CUBI",  # Customers Bancorp Inc.
+    "CFFN",  # Capitol Federal Financial Inc.
+    "FFIN",  # First Financial Bankshares Inc. 
+    "SFBS",  # ServisFirst Bancshares Inc.
+    "TBBK",  # The Bancorp Inc. 
+    "WSBC",  # WesBanco Inc.
+    "WTFC",  # Wintrust Financial Corporation
+]
+```
+
+::: footer
+
+:::
 
 ## Two Periods {background="#00100F"}
  
@@ -85,7 +188,7 @@ Simplest approach: compute average change in $Y_{it}$ across periods
   $$ {#eq-causal-event-studies-naive-panel-contrast}
   
 
-Estimator ([-@eq-causal-event-studies-naive-panel-contrast]) — simplest example of *event study* estimators [see @Freyaldenhoven2021VisualizationIdentificationEstimation;@Miller2023IntroductoryGuideEvent].
+Estimator ([-@eq-causal-event-studies-naive-panel-contrast]) — simplest example of *event study* estimators [see  @Freyaldenhoven2021VisualizationIdentificationEstimation;@Miller2023IntroductoryGuideEvent]
 
 #### Example Framework {#sec-event-study-example}
 
@@ -146,7 +249,7 @@ Need a causal framework to talk about causal effects!
 
 . . .
 
-Work in the familiar potential outcomes framework: 
+Again work in the familiar potential outcomes framework: 
 
 - $Y_{it}^0$ — outcome for $i$ in period $t$ if *not treated*
 - $Y_{i1}^1$ — outcome for $i$ in period $t$ if *treated*
@@ -170,12 +273,12 @@ $$
 
 It follows that
 $$
-\widehat{AE}_{ES} \xrightarrow{p} \E[Y_{i2}^2- Y_{i1}^1].
+\widehat{AE}_{ES} \xrightarrow{p} \E[Y_{i2}^1- Y_{i1}^0].
 $$
 
 ::: {.callout-important appearance="minimal"}
  
-$\E[Y_{i2}^2- Y_{i1}^1]$ is not necessarily a treatment effect — mixes effect of treatment and effects of time!
+$\E[Y_{i2}^1- Y_{i1}^0]$ is not necessarily a treatment effect — mixes effect of treatment and effects of time!
 ::: 
 
 #### Example
@@ -183,13 +286,15 @@ $\E[Y_{i2}^2- Y_{i1}^1]$ is not necessarily a treatment effect — mixes effect 
 [[Context]{.button}](#sec-event-study-example) Again consider the iPhone example. Then 
 
 - $Y_{i2}^1 - Y_{i2}^0$ — treatment effect, change in price *because* of the iPhone announcement
-- $Y_{i2}^0 - Y_{i0}^0$ — change in a world *without* iPhone
+- $Y_{i2}^0 - Y_{i1}^0$ — change in a world *without* iPhone
   
 . . . 
 
-We see combination of both changes
+<br>
+
+Realized difference = combination of both changes
 $$
-Y_{i2} - Y_{i1} = Y_{i2}^1- Y_{i1}^0 = [Y_{i2}^1- Y_{i2}^0] + [Y_{i2}^0 - Y_{i0}^0]
+Y_{i2} - Y_{i1} = Y_{i2}^1- Y_{i1}^0 = [Y_{i2}^1- Y_{i2}^0] + [Y_{i2}^0 - Y_{i1}^0]
 $$
 
 
@@ -208,7 +313,7 @@ $$
 
 </div>
 
-Then $\widehat{AE}_{ES}$ is estimating a *causal* parameter — average effects
+Then $\widehat{AE}_{ES}$ is estimating a *causal* parameter — average effects:
 $$
 \begin{aligned}
 \widehat{AE}_{ES} & \xrightarrow{p} \E[Y_{i1}^1- Y_{i1}^0]  =  \E[Y_{i2}^1- Y_{i2}^0]
@@ -247,7 +352,7 @@ Let
 
 ::: {.nonincremental}
 - Assumptions of @prp-event-study-limit hold
-- No trends assumption hold
+- Assumption of no trends holds
 :::
  
 Then $\widehat{AE}_{ES}$ consistent for causal parameters:
@@ -283,7 +388,7 @@ where we simply treat $(Y_{i1}, D_{i1})$ and $(Y_{i2}, D_{i2})$ as separate obse
 
 
 
-#### Event Study and OLS
+#### Event Studies and OLS
 
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 
@@ -293,17 +398,16 @@ where we simply treat $(Y_{i1}, D_{i1})$ and $(Y_{i2}, D_{i2})$ as separate obse
 
 For $\beta_1$ of regression  ([-@eq-event-study-simple-regression])
 $$
-\widehat{AE}_{ES} = \hat{\beta}_1^{OLS}
+\widehat{AE}_{ES} = \hat{\beta}_1,
 $$ 
+where $\hat{\beta}_1$ is the OLS estimator of $\beta_1$
 :::
 
 
 </div> 
 
-1. Can use all results developed for OLS for $\widehat{AE}_{ES}$
-2. Regressing $Y_{it}$ on $D_{it}$ gives a causal parameter
-   - Under no trends
-   - No experiment was necessary
+Can use all results developed for OLS for $\widehat{AE}_{ES}$
+ 
    
 
 #### Event Study and Regression
@@ -312,10 +416,10 @@ A way to think about regression in causal settings:
 
 - Write down the regression in terms of parameters of interest: e.g. let
 $$ 
-\beta_0 = \E[Y_{i0}^0], \quad
+\beta_0 = \E[Y_{i1}^0], \quad
 \beta_1  =  \E[Y_{i2}^1- Y_{i2}^0] 
 $$
-- Connect regression to potential outcomes: *what is $u_{it}$ in terms of potential outcomes?*
+- Connect regression to potential outcomes: *what is $u_{it}$ in terms of potential outcomes? (exercise)* 
  
 - Check properties of this $u_{it}$. If $u_{it}$ is "nice", apply OLS (or another method)
 
@@ -341,7 +445,7 @@ New framework:
 #### Expanded Regression
 
 New variables for treatment: 
-$$
+$$\small
 D_{it, \tau} = \begin{cases}
 1, & t= \tau, \\
 0, & t\neq \tau
@@ -351,17 +455,17 @@ $$
 . . . 
 
 Can try similar regression:
-$$
-Y_{it} = \beta_0 +  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + u_{it}.
+$$\small
+Y_{it} = \beta_0 +  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + u_{it}
 $${#eq-event-studies-long-regression}
+Let $\hat{\bbeta}=(\hat{\beta}_0, \hat{\beta}_{t_0}, \dots, \hat{\beta}_{T}$) be the OLS estimator
 
-
-#### Estimates 
+#### OLS Estimator Expression 
 
 Fairly easy to show that
 $$
 \begin{aligned}
-\hat{\beta}^{OLS}_{\tau} & = \dfrac{1}{N} \sum_{i=1}^N Y_{i\tau} - \dfrac{1}{N(t_0-1)} \sum_{i=1}^N\left[ Y_{i1} + \dots + Y_{it_0-1} \right] \\
+\hat{\beta}_{\tau} & = \dfrac{1}{N} \sum_{i=1}^N Y_{i\tau} - \dfrac{1}{N(t_0-1)} \sum_{i=1}^N\left[ Y_{i1} + \dots + Y_{it_0-1} \right] \\
 & \xrightarrow{p} \E\left[Y_{i\tau}^1  - \dfrac{1}{t_0-1}(Y_{i1}^0+ \dots + Y_{it_0-1}^0) \right]
 \end{aligned}
 $$
@@ -376,7 +480,7 @@ If $\beta_{\tau}$ — average effect in period $\tau$, then model ([-@eq-event-s
  
 <br>
 
-Dynamic effects often realistic: effect of treatment may grow or disappear over time. Example: impact of job training on earnings:
+Dynamic effects <span class="highlight">realistic</span>: effect of treatment may change over time. Example: impact of job training on earnings:
 
 - Disappearing: you forget the training over time
 - Increasing: job training lets you jump to a higher position and gain experience quicker for the rest of your life
@@ -390,21 +494,23 @@ $$
 & \E\left[Y_{i\tau}^1  - \dfrac{1}{t_0-1}(Y_{i1}^0+ \dots + Y_{it_0-1}^0) \right]  = \E[Y_{it}^1 - Y_{it}^0]
 \end{aligned}
 $$
-where right hand side does *not* depend on $t$
+The right hand side does <span class="highlight">not</span> depend on $t$
 
 . . . 
 
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 
-The no trends assumption rules out dynamic treatment effects
+No dynamic treatment effects under no trends!
 
 </div> 
-This is *bad*, since we want to allow for dynamics
+<span class="highlight">Bad</span>, since we want to allow for dynamics
 
 
 #### Relaxing No Trends Assumption
 
 Can relax no trends to only affect *one* of the potential outcomes — makes more sense to restrict the untreated outcome (why?)
+
+<br>
 
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 
@@ -413,15 +519,18 @@ Can relax no trends to only affect *one* of the potential outcomes — makes mor
 
 </div>
  
-#### Estimation of Dynamic Average Treatment Effects
+#### Recovering Dynamic Average Treatment Effects
 
 
-Under the no trends in the baseline assumption:
+Under assumption of no trends in the baseline:
 $$
 \begin{aligned}
 & \E\left[Y_{i\tau}^1  - \dfrac{1}{t_01}(Y_{i1}^0+ \dots + Y_{it_0-1}^0) \right]  = \E[Y_{i \tau}^1 - Y_{i\tau}^0]
 \end{aligned}
 $$
+
+<br> 
+
 Right hand side is average effect in period $\tau$
 
  
@@ -456,6 +565,12 @@ Moreover, under no trends in the baseline
 $$
 \E[\hat{\beta}_{\tau}] = \E[Y_{i \tau}^1 - Y_{i\tau}^0]
 $$
+
+<br>
+
+. . .
+
+
 In other words, the OLS estimator is unbiased
 
 #### Asymptotic Distribution
@@ -482,7 +597,7 @@ $$
 
 </div>
 
-#### Asymptotic Variance I
+<!-- #### Asymptotic Variance I
 
 Need variance $V$ to construct confidence intervals for $\E[Y_{i \tau}^1 - Y_{i\tau}^0]$. How to find $V$? Remember the CLT:
 
@@ -496,20 +611,24 @@ $$
 $$
 Asymptotic variance = variance of $X_i$
 </div>
- 
-####  Asymptotic Variance II
+  -->
 
-Can apply this idea to find $V$. Can write
+####  Asymptotic Variance 
+
+Need variance $V$ to construct confidence intervals for $\E[Y_{i \tau}^1 - Y_{i\tau}^0]$. 
+
+. . . 
+
 $$
 \begin{aligned}
-\hat{\beta}^{OLS}_{\tau} & = \dfrac{1}{N} \sum_{i=1}^N Z_i\\
+\hat{\beta}_{\tau} & = \dfrac{1}{N} \sum_{i=1}^N Z_i\\
 Z_i & =  Y_{i\tau} - \dfrac{1}{(t_0-1)}\left[ Y_{i1} + \dots + Y_{it_0-1} \right]
 \end{aligned}
 $$
 
 . . .
-
-Then we get that 
+ 
+From central limit theorem:
 $$
 V = \var(Z_i)
 $$
@@ -549,7 +668,8 @@ $$
 . . .
 
 - This $H_0$ is a hypothesis above a *vector* of effects 
-- Need a *joint* asymptotic distribution to write down a test
+- To write down a Wald test we need the *joint* asymptotic distribution of $\hat{\bbeta}$
+
 
 #### Joint Asymptotic Distribution
 
@@ -563,29 +683,50 @@ $$
 Let 
 
 ::: {.nonincremental} 
-- No trends in the baseline assumption hold 
-- $(Y_{i1}, Y_{i2}, \dots, Y_{iT})$ be IID (over $i$)
-- *Finite second moments*: $\E[Y_{it}^2]<\infty$
+- Assumption of no trends in the baseline hold
+- $(Y_{i1}, Y_{i2}, \dots, Y_{iT})$ be IID (over $i$) with finite second moments
 :::
  
-Then there exists some variance-covariance matrix $\bV$ such that
-$$
-\sqrt{N}(\hat{\bbeta} -\bbeta) \Rightarrow N(0, \bV)
+Then  
+$$ \small
+\sqrt{N}(\hat{\bbeta} -\bbeta) \Rightarrow N(0, \avar(\hat{\bbeta}))
 $$ 
 :::
 
 </div>
 
-#### Joint Inference on Average Effects
+#### Joint Inference on Average Effects: Wald Test
 
-Can use @prp-event-study-joint-limit-distribution to create a Wald test
+Can use @prp-event-study-joint-limit-distribution to create a Wald test:
+
+- Write $H_0$ as $H_0: \bR\bbeta = \bq$ for
+$$ \small
+\bR = \begin{pmatrix}
+\mathbf{0} & \bI_{T-t_0+1}
+\end{pmatrix}, \quad \bq = \mathbf{0}
+$$
+
+- Write down Wald statistic:
+$$ \small
+W = N(\bR\hat{\bbeta}-\bq)'(\bR\widehat{\avar}(\hat{\bbeta})\bR')^{-1}(\bR\hat{\bbeta}-\bq)
+$$
+
+- Compare to $(1-\alpha)$th quantile of $\chi^2_{T-t_0+1}$ distribution
 
 ## Empirical Application {background="#00100F"}
 
 #### Slide
+ 
 
-ff
+#### Testing Joint Zero Effect
 
+
+The implementation is exactly as before
+```
+R = np.concatenate( (np.zeros((8, 1)), np.eye(len(factor_model.params)-1)), axis=1)
+wald_results = factor_model.wald_test(R,  scalar=True)
+print(wald_results)
+```
 
 
 ## Recap and Conclusions {background="#00100F"}
