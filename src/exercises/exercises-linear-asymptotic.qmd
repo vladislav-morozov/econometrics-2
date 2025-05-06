@@ -1,10 +1,10 @@
 ---
+title: "Exercises: Vector Linear Model and Asymptotics"
 format:
   html:
     toc: true
 ---
 
-# Exercises: Vector Linear Model and Asymptotics
 
 
 ## Theoretical Exercises 
@@ -29,6 +29,35 @@ Find the OLS coefficient vector from
 
 In both cases, express the OLS estimator in terms of $\bY$ and $\bX$. Then express it in terms of $(Y_i, \bX_i)$, $i=1, \dots, N$.
 
+
+<details>
+  <summary>Click to see the solution</summary>
+
+*First subquestion*: 
+First consider the question of regressing $\hat{\bY}$ on $\bX$. Let $\tilde{\bbeta}$ be the OLS estimator of regressing $\hat{\bY}$ on $\bX$. We  can use the usual formula for OLS, but replace $\bY$ with $\hat{\bY}$. We can then use the definition of $\hat{\bY}$ and $\hat{\bbeta}$ to express the coefficients in terms of the original data: 
+$$
+\begin{aligned}
+\tilde{\bbeta} & = (\bX'\bX)^{-1}\bX'\hat{\bY} = (\bX'\bX)^{-1}\bX'\bX\hat{\bbeta} \\
+& = \hat{\bbeta} = (\bX'\bX)^{-1}\bX\bY = \left(\sum_{i=1}^N \bX_i\bX_i' \right)^{-1}\sum_{i=1}^N\bX_iY_i,
+\end{aligned}
+$$
+One way to interpret the above result is that applying OLS more than once does not change anything. The first application already extracts all the information that can be linearly explained by $\bX$ (a property sometimes called *idempotency*).
+
+<br>
+
+*Second subquestion*: We can proceed similarly with $\hat{\be}$. Let $\check{\bbeta}$ be the OLS estimator for regressing $\hat{\bbeta}$ on $\bX$. We can again use the general expression for the OLS estimator and substitute the definition of $\hat{\bbeta}$:
+$$
+\begin{aligned}
+\check{\bbeta} & = (\bX'\bX)^{-1}\bX'\hat{\be} = (\bX'\bX)^{-1}\bX'(\bY-\hat{\bY})\\
+& = \hat{\bbeta} -\tilde{\bbeta} = \hat{\bbeta}- \hat{\bbeta}\\
+& = 0,
+\end{aligned}
+$$
+where we have used the first result of the problem.
+
+ 
+</details>
+
 ### Inconsistency of OLS Despite Strict Exogeneity
 
 Let $X_i$ and $Y_i$ be scalar variables. Let $X_i$ satisfy
@@ -37,38 +66,177 @@ X_i = \begin{cases}
 1, & i = 1, \\
 0, & i > 1.
 \end{cases}
-$$
+$$ {#eq-pset1-p2-x}
 
-1. Suppose we have a sample of $N$ units: $(Y_1, X_1), \dots, (Y_N, X_N)$. Can we compute the OLS estimator? If yes, express the estimator in terms of $(Y_i, X_i)$, $i=1,\dots, N$. If not, explain why.
+1. Suppose we have a sample of $N$ units: $(Y_1, X_1), \dots, (Y_N, X_N)$. Can we compute the OLS estimator for regressing $Y_i$ on $X_i$ (without a constant)? If yes, express the estimator in terms of $(Y_i, X_i)$, $i=1,\dots, N$. If not, explain why.
 2. Suppose that $X_i$ and $Y_i$ are linked through the linear causal model
 $$
 Y_i^x = \beta x + U_i,
-$$
-where $Y_i^x$ is a potential outcome, $U_i$ is independent of $X_i$ with $\E[U_i]=0$. Why does the OLS estimator of $\beta$ not converge to $\beta$? In other words, which of the conditions of our consistency results fail?
+$$ {#eq-pset1-p2-causal}
+where $Y_i^x$ is a potential outcome, $U_i$ is independent of $X_i$ with $\E[U_i]=0$. Why does the OLS estimator of $\beta$ not converge to $\beta$ without stronger assumptions on $U_i$? Informally, which of the conditions of our consistency results fail?
 3. Provide an informal empirical interpretation of the above data-generating process for $X_i$.
 
+ 
+
+<details>
+  <summary>Click to see the solution</summary>
+
+*First subquestion*: The computability of the OLS estimator is determined by one key question: is $\bX'\bX$ invertible? If $\bX'\bX$ is invertible, then the answer is positive. 
+
+In this case, there is only one scalar covariate. $\bX'\bX$ is itself then scalar ($1\times 1$) and given by
+$$
+\bX'\bX = \sum_{i=1}^N X_i^2
+$$
+By @eq-pset1-p2-x, we have that $\sum_{i=1}^N X_i^2=1$, which is invertible. It follows that we can compute $\hat{\beta}=(\bX'\bX)^{-1}\bX'\bY$:
+$$
+\hat{\beta} = (\bX'\bX)^{-1}\bX'\bY = \dfrac{\sum_{i=1}^N X_iY_i}{\sum_{i=1}^N X_i^2} = Y_1.
+$$ {#eq-pset1-p2-beta}
+
 <br>
+
+*Second subquestion:* To answer this question formally, we use the same technique we use in the lectures --- substituting the underlying model into the estimator. By @eq-pset1-p2-causal, the realized outcomes satisfy
+$$
+Y_i = \beta X_i + U_i
+$$
+
+We substitute this expression for realized values into the OLS estimator ([-@eq-pset1-p2-beta]) to obtain
+$$
+\hat{\beta} = \beta + U_1,
+$$
+where we have used that $X_1 =1$ by @eq-pset1-p2-x.
+
+We now see that the value of $\hat{\beta}$ does not depend on sample size $N$. The full value of $U_1$ will always be present in $\hat{\beta}$: as $N\to\infty$
+$$
+\hat{\beta} \xrightarrow{p} \beta + U_1
+$$
+The only case where $\hat{\beta}\xrightarrow{p}\beta$ is when $U_1=0$ --- an additional stronger condition.
+
+Which conditions of our consistency results fail? There are two conditions that hold:
+
+- Orthogonality: $\E[X_iU_i] =0$ holds. 
+- Independence of units
+
+There are two conditions that do not hold:
+
+- Identical distributions: unit 1 is different to the rest. 
+- Invertibility of the limit of $N^{-1}\sum_{i=1}^N\bX_i\bX_i'$. By @eq-pset1-p2-x, this sum is equal to $N^{-1}\to 0$.
+
+Of these two failing conditions, the first one is usually not a big issue. It concerns only a single point, and in general we have tools for handling non-identical distributions. 
+It is the second condition that creates a problem in the limit. 
+
+The message of this problem is that we need two invertibility conditions: the sample condition (on $\bX'\bX$) and the population one (on $\E[\bX_i\bX_i']$). These conditions play different roles. Each can fail, while the other condition is true.
+
+<br>
+
+*Third subquestion*: we can imagine a simple experiment in which the subjects have arrived to the lab in a random order, independently of their characteristics. However, there is only one real treatment, which is given to the first unit. Everyone else receives a placebo. 
+
+
+
+
+
+</details>
 
 ### Ratio Slope Estimator
 
 Let $X_i$ and $U_i$ be scalar random variables. Suppose that $X_i$ satisfies $X_i\geq c>0$ for some $c$ (strictly positive and bounded away from 0). Let $Y_i$ be some outcome. Suppose that the following linear causal model holds: the potential outcome $Y_i^x$ is determined as
 $$
 Y_i^x = \beta x + U_i.
-$$
+$$ {#eq-pset1-p3-causal}
 The realized outcome $Y_i$ is determined as $Y_i = Y_i^{X_i}$.
 
 Consider the following estimator for $\beta$:
 $$
 \tilde{\beta} = \dfrac{1}{N}\sum_{i=1}^N \dfrac{Y_i}{X_i}.
-$$
+$$ 
 
 1. Propose conditions under which $\tilde{\beta}$ is consistent for $\beta$ and prove consistency.
-2. Derive the asymptotic distribution of $\tilde{\beta}$.
+2. Derive the asymptotic distribution of $\tilde{\beta}$. Describe any additional assumptions you make. 
 3. Now suppose that the causal model allows heterogeneous effects:
 $$
 Y_i^x = \beta_i x + U_i.
-$$
+$$ {#eq-pset1-p3-causal-het}
 Under which conditions does $\tilde{\beta}$ consistently estimate $\E[\beta_i]$?
+
+
+<details>
+  <summary>Click to see the solution</summary>
+
+
+*First subquestion*: we again use the key technique --- substituting the true model into the estimator. By @eq-pset1-p3-causal, the outcome $Y_i$ satisfies
+$$
+Y_i = \beta X_i + U_i.
+$$
+We can substitute this expression into $\tilde{\beta}$ to obtain
+$$
+\tilde{\beta} = \dfrac{1}{N}\sum_{i=1}^N \dfrac{Y_i}{X_i} = \beta+ \dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i}
+$$
+The law of large number applies to the sum on the right hand side if 
+
+1. $(X_i, U_i)$ are IID.
+2. $\E[U_i/X_i]$ exists.
+
+We make these assumptions. Then by the law of large numbers:
+$$
+\dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i}\xrightarrow{p} \E\left[ \dfrac{U_i}{X_i} \right].
+$$
+By the continuous mapping theorem:
+$$
+\tilde{\beta} \xrightarrow{p} \beta + \E\left[ \dfrac{U_i}{X_i} \right].
+$$
+$\tilde{\beta}$ is consistent for $\beta$ if 
+
+3. $\E[U_i/X_i]=0$ (note that it is sufficient that $\E[U_i|X_i]=0$ for this condition, why?).
+
+We conclude that $\tilde{\beta}$ is consistent for $\beta$ under assumptions (1)-(3).
+
+
+<br>
+
+*Second subquestion*: to study the asymptotic distribution, we keep the above conditions (1)-(3). Under these conditions (especially (3)) we note that 
+$$
+\begin{aligned}
+\tilde{\beta} - \beta & = \dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i} \\
+& = \dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i} - \E\left[\dfrac{U_i}{X_i}\right].
+\end{aligned}
+$$ {#eq-pset1-p3-sampling-error}
+The bottom line is in the form used in the central limit theorem: sample average minus population average. We can then apply the central limit theorem provided the following assumption holds:
+
+4. Finite second moments: $\E[U_i^2/X_i^2]<\infty$.
+
+Then by the central limit theorem it holds that 
+$$
+\sqrt{N}\left(  \dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i} - \E\left[\dfrac{U_i}{X_i}\right] \right)\xrightarrow{d} N\left(0, \E\left[\dfrac{U_i^2}{X_i^2} \right] \right).
+$$
+
+By @eq-pset1-p3-sampling-error we conclude that, if assumptions (1)-(4) hold, then
+$$
+\sqrt{N}\left(\tilde{\beta}- \beta \right)\xrightarrow{d} N\left(0, \E\left[\dfrac{U_i^2}{X_i^2} \right] \right).
+$$
+
+<br>
+
+*Third subquestion*: we again start by substituting the causal model into the estimator. Under @eq-pset1-p3-causal-het the outcome satisfies
+$$
+Y_i = \beta_i X_i + U_i.
+$$
+Then $\tilde{\beta}$ can be written as
+$$
+\tilde{\beta} = \dfrac{1}{N}\sum_{i=1}^N \beta_i +  \dfrac{1}{N}\sum_{i=1}^N \dfrac{U_i}{X_i}.
+$$ {#eq-pset1-p3-sampling-error-het}
+The second sum in @eq-pset1-p3-sampling-error-het can be handled as in the first subquestion using assumptions (1)-(3). The first sum satisfies
+$$
+ \dfrac{1}{N}\sum_{i=1}^N \beta_i  \xrightarrow{p} \E[\beta_i]
+$$
+by the law of large numbers provided
+
+5. $\E[\beta_i]$ exists.
+
+We conclude by the continuous mapping theorem (where do we apply it?) that $\tilde{\beta}$ is consistent for $\E[\beta_i]$ under conditions (1)-(3) and (5).
+
+Note that this consistency result does not restrict the dependence between $\beta_i$ and $X_i$. This is in contrast to the behavior of the OLS estimator (see lectures).
+
+
+</details>
  
 ### Limit of the Ridge Estimator
 
@@ -85,7 +253,7 @@ $$
 where $\lambda_N$ is some non-negative number, $\bI_k$ is the $k\times k$ identity matrix, and we assume that $(\bX'\bX+ \lambda_N \bI_k)$ is invertible. 
 
 1. Suppose that $\bX_i$ is scalar. Show that $\abs{\tilde{\bbeta}}\leq \abs{\hat{\bbeta}}$, where $\hat{\bbeta}$ is the OLS estimator (in words, the ridge estimator is always weakly closer to 0 than the OLS estimator — it is "shrunk" to zero).
-2. Suppose that $\lambda_N = cN$ for some fixed $c\geq 0$. Find the probability limit of $\tilde{\bbeta}$. State explicitly any moment assumptions you make. 
+2. Suppose that $\lambda_N = cN$ for some fixed $c\geq 0$. Find the probability limit of $\tilde{\bbeta}$. State explicitly any moment assumptions you make. When is $\tilde{\bbeta}$ consistent for $\bbeta$?
 3. *(Optional)*: prove that ridge estimator satisfies
 $$
 \tilde{\bbeta} = \argmin_{\bb} \sum_{i=1}^N (Y_i - \bX_i'\bb)^{2} + \lambda \norm{\bb}^2
@@ -93,39 +261,288 @@ $$
 Hint: use the same approach as we used to derive the OLS estimator. 
   
 
+ 
+<details>
+  <summary>Click to see the solution</summary>
+
+*First subquestion*: in the scalar case we can write the two estimators as
+$$
+\begin{aligned}
+\hat{\bbeta} & = \dfrac{\sum_{i=1}^N X_i Y_i }{\sum_{i=1}^N X_i^2},\\
+\tilde{\bbeta} & = \dfrac{\sum_{i=1}^N X_i Y_i}{\sum_{i=1}^N X_i^2 + \lambda_N}.
+\end{aligned}
+$$
+We can then divide the ridge estimator by the OLS estimator:
+$$
+\dfrac{\tilde{\bbeta}}{\hat{\bbeta}} = \dfrac{\sum_{i=1}^N X_i^2}{ \sum_{i=1}^N X_i^2 + \lambda_N } \leq 1.
+$$
+The desired inequality follows.
+
+<br>
+
+*Second subquestion*: for the second subquestion, we again start by substituting the model into the estimator:
+$$
+\begin{aligned}
+\tilde{\bbeta} & = (\bX'\bX+ \lambda_N \bI_k)^{-1}\bX'\bY\\
+& = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' + c\bI_k\right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_iY_i\\
+& = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' + c\bI_k\right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'\bbeta\\
+& \quad + \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' + c\bI_k\right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_i U_i
+\end{aligned}
+$$ {#eq-pset1-p4-sampling-error}
+We now only need to handle the individual averages in the above expression. 
+
+First, we assume that 
+
+- $\E[\bX_i\bX_i']$ and $\E[\bX_i'U_i]$ exist
+
+Then by the law of large number it holds that
+$$
+\begin{aligned}
+ \dfrac{1}{N}\sum_{i=1}^N \bX_i \bX_i' & \xrightarrow{p} \E[\bX_i\bX_i'], \\
+ \dfrac{1}{N}\sum_{i=1}^N \bX_i U_i & \xrightarrow{p} \E[\bX_iU_i] . 
+\end{aligned}
+$$
+By the continuous mapping theorem it also follows that
+$$
+ \dfrac{1}{N}\sum_{i=1}^N \bX_i \bX_i' + c\bI_i \xrightarrow{p} \E[\bX_i\bX_i'] + c\bI_k.
+$$ {#eq-pset1-p4-leading-term}
+
+Second, to handle the leading terms in @eq-pset1-p4-sampling-error, we also assume that
+
+- $\E[\bX_i\bX_i'] + c\bI_k$ is invertible
+
+Then by the continuous mapping theorem and  @eq-pset1-p4-leading-term it holds that 
+$$
+ \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i \bX_i' + c\bI_k\right)^{-1} \xrightarrow{p} \left(\E[\bX_i\bX_i'] + c\bI_k\right)^{-1}.
+$$
+
+Combining the above arguments together and applying the continuous mapping theorem, we conclude that
+$$
+\begin{aligned}
+\tilde{\bbeta} & \xrightarrow{p}  \left(\E[\bX_i\bX_i'] + c\bI_k\right)^{-1} \E[\bX_i\bX_i']\bbeta
+\\
+& \quad +  \left(\E[\bX_i\bX_i'] + c\bI_k\right)^{-1} \E[\bX_iU_i].
+\end{aligned}
+$$
+We conclude that $\tilde{\bbeta}$ is consistent for $\bbeta$ if $c=0$ and $\E[\bX_iU_i]=0$.
+
+
+
+
+
+
+<br>
+
+</details>
+
 Why would one use $\tilde{\bbeta}$? Note that $\bX'\bX + c\bI_k$ is invertible if $c>0$, regardless of invertibility of $\bX'\bX$. This means that $\tilde{\bbeta}$ can be computed even if the OLS estimator cannot. A leading case is *high-dimensional* regression, where the number of regressors $k$ exceeds the number $N$ of data points. See section 6.2.1 in @James2023IntroductionStatisticalLearning about the ridge estimator and regularization techniques in general. We will discuss some of these ideas later in the class.
 
-### Measurement Error in Revisited
+### Measurement Error Revisited
 
 Let the outcome $Y_i$, the covariates $\bX_i$, and an unobserved component $U_i$ be linked through the linear causal model
 $$
 Y_i^{\bx} = \bx'\bbeta + U_i
 $$
-Suppose that our data is IID.
+Suppose that our data is IID, that $\E[\bX_iU_i]=0$,  the second moments of the data are finite, and that $\E[\bX_i\bX_i']$ is invertible.
 
 
-Suppose that we do not observe the true $Y_i$, but instead a mismeasured version $Y_i^*= Y_i + V_i$, where the measurement error $V_i$ is mean zero and independent of $(X_i, U_i)$. 
+Suppose that we do not observe the true $Y_i$, but instead a mismeasured version $Y_i^*= Y_i + V_i$, where the measurement error $V_i$ is mean zero, independent of $(X_i, U_i)$, and has finite second moments.
 
 1. Show that the OLS estimator for the regression of $Y_i^*$ on $\bX_i$ is consistent for $\bbeta$.
-2. Derive the asymptotic distribution of the above OLS estimator. Express the asymptotic variance in terms of moments involving $V_i$ and $U_i$. Interpret the result: how does the measurement error in $\bX$ affect the asymptotic variance of the OLS estimator (increase/decrease/unchanged/unclear)? 
+2. Derive the asymptotic distribution of the above OLS estimator. Express the asymptotic variance in terms of moments involving $V_i$ and $U_i$. Interpret the result: how does the measurement error in $\bX$ affect the asymptotic variance of the OLS estimator (increase, decrease, unchanged, unclear)? 
 
-Now suppose that we do observe $Y_i$, but we do not observe $\bX_i$. Instead, we only see a mismeasured version $\bX_i^*= \bX_i + \bV_i$, where the measurement error $\bV_i$ is mean zero and independent of $(\bX_i, U_i)$. 
+Now suppose that we do observe $Y_i$, but we do not observe $\bX_i$. Instead, we only see a mismeasured version $\bX_i^*= \bX_i + \bV_i$, where the measurement error $\bV_i$ is mean zero, independent of $(\bX_i, U_i)$, and has finite second moments.
 
-3. Compute the limit of the OLS estimator in the regression of $Y_i$ on $\bX_i^*$. Is this estimator consistent for $\bbeta$? If so, under which conditions?
+3. Compute the limit of the OLS estimator in the regression of $Y_i$ on $\bX_i^*$ in terms of $(Y_i, \bX_i, V_i, U_i)$. Is this estimator consistent for $\bbeta$? If so, under which conditions?
 
 Compare the two cases of measurement error.
 
 
 
+ 
+<details>
+  <summary>Click to see the solution</summary>
+
+*First subquestion*: we begin by writing out the OLS estimator, and substituting the causal and measurement models:
+$$
+\begin{aligned}
+\hat{\bbeta} & = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_iY_i^* \\
+& = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_i(Y_i + V_i)\\
+& = \bbeta +\left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_i (U_i+V_i)
+\end{aligned}
+$$ {#eq-pset1-p5-sampling-error}
+
+We handle the individual averages using the law of large numbers and combine the results using the continuous mapping theorem.
+
+By  the assumptions of the problem and the law of large numbers it holds that
+$$
+\begin{aligned}
+\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i' & \xrightarrow{p} \E[\bX_i\bX_i'], \\
+\dfrac{1}{N}\sum_{i=1}^N \bX_iU_i & \xrightarrow{p} \E[\bX_iU_i] =0, \\
+\dfrac{1}{N}\sum_{i=1}^N \bX_iV_i & \xrightarrow{p} \E[\bX_iV_i] =\E[\bX_i]\E[V_i]=0, \\
+\end{aligned}
+$$
+where we use the independence of $V_i$ in the last line. 
+
+By the continuous mapping theorem and assumption that $\E[\bX_i\bX_i']$ is invertible it holds that
+$$
+\left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'\right)^{-1}  \xrightarrow{p} \left( \E[\bX_i\bX_i']\right)^{-1}.
+$$ {#eq-pset1-p5-inverse}
+
+By the continuous mapping theorem and the above results we conclude that
+$$
+\hat{\bbeta} \xrightarrow{p} \bbeta.
+$$
+
+<br>
+
+*Second subquestion*: to analyze the asymptotic distribution, we go to the last line in @eq-pset1-p5-sampling-error. By the assumptions of the problem it holds that
+$$
+\E[X_i(U_i+V_i)] = 0.
+$$
+Accordingly, 
+$$
+\begin{aligned}
+& \dfrac{1}{N} \sum_{i=1}^N \bX_i (U_i+V_i) \\
+& = \dfrac{1}{N} \sum_{i=1}^N \bX_i (U_i+V_i) - \E[\bX_i(U_i+V_i)].
+\end{aligned} 
+$$
+We have identified a term to which we can apply the central limit theorem. We can now proceed as with the usual OLS estimator without measurement error in $Y_i$. 
+
+1. By the central limit theorem it holds that
+$$
+\begin{aligned}
+& \dfrac{1}{\sqrt{N}} \sum_{i=1}^N \bX_i (U_i+V_i) \\
+& \sqrt{N}\left( \dfrac{1}{N} \sum_{i=1}^N \bX_i (U_i+V_i) - \E[\bX_i(U_i+V_i)] \right) \\
+& \xrightarrow{d} N(0, \E[(U_i+V_i)^2\bX_i\bX_i'])
+\end{aligned}
+$$
+
+2. By @eq-pset1-p5-inverse it holds that
+$$
+\left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'\right)^{-1}  \xrightarrow{p} \left( \E[\bX_i\bX_i']\right)^{-1}.
+$$
+
+3. By (1)-(2), Slutsky's theorem, and the properties of variance it follows that
+$$
+\begin{aligned}
+& \sqrt{N}(\hat{\bbeta}-\bbeta)\\
+& = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'\right)^{-1} \dfrac{1}{\sqrt{N} } \sum_{i=1}^N \bX_i (U_i+V_i)   \\
+&  \xrightarrow{d} N\left(0,  \left( \E[\bX_i\bX_i']\right)^{-1} \E[(U_i+V_i)^2\bX_i\bX_i']\left( \E[\bX_i\bX_i']\right)^{-1} \right)
+\end{aligned}
+$$
+
+We can further examine the asymptotic variance. First consider the middle component:
+$$
+\begin{aligned}
+&\E[(U_i+V_i)^2\bX_i\bX_i'] \\
+& = \E[U_i^2 \bX_i\bX_i'] + 2\E[V_i]\E[U_i\bX_i\bX_i'] + \E[V_i^2]\E[\bX_i\bX_i'] \\
+& = \E[U_i^2 \bX_i\bX_i'] + \E[V_i^2]\E[\bX_i\bX_i'],
+\end{aligned}
+$$
+where we have used the properties of $V_i$.
+
+Substituting this expression back into the asymptotic variance expression gives us
+$$
+\begin{aligned}
+& \left( \E[\bX_i\bX_i']\right)^{-1} \E[(U_i+V_i)^2\bX_i\bX_i']\left( \E[\bX_i\bX_i']\right)^{-1} \\
+& = \left( \E[\bX_i\bX_i']\right)^{-1} \E[U_i^2\bX_i\bX_i']\left( \E[\bX_i\bX_i']\right)^{-1} + \E[V_i^2](\E[\bX_i\bX_i'])^{-1}.
+\end{aligned}
+$$
+The first term is the asymptotic variance of the OLS estimator without measurement error. The presence of independent measurement error adds an additional positive definite component --- increases the asymptotic variance (check this at least in the scalar case!). 
+
+<br>
+
+*Third subquestion*: we again proceed by wriring down the estimator and then substituting the causal and measurement models. We will do those substitutions step-by-step to keep things cleaner:
+$$
+\begin{aligned}
+\hat{\bbeta} &  = \left(\sum_{i=1}^N \bX_i^*\bX_i^{*'}  \right)^{-1}\sum_{i=1}^N \bX_i^*Y_i \\
+& = \left(\sum_{i=1}^N \bX_i^*\bX_i^{*'}  \right)^{-1}\sum_{i=1}^N \bX_i^* (\bX_i'\bbeta + U_i)\\
+& = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i^*\bX_i^{*'}  \right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'\bbeta\\
+& \quad + \left(\dfrac{1}{N} \sum_{i=1}^N \bX_i^*\bX_i^{*'}  \right)^{-1} \dfrac{1}{N}\sum_{i=1}^N \bV_i\bX_i'\bbeta \\
+& \quad + \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i^*\bX_i^{*'}  \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_iU_i\\
+& \quad + \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i^*\bX_i^{*'}  \right)^{-1}\dfrac{1}{N} \sum_{i=1}^N \bV_i U_i.
+\end{aligned}
+$$ {#eq-pset1-p5-meX-ex}
+We now analyze the different averages in the above expressions. By the law of large numbers it holds that
+$$
+\begin{aligned}
+\dfrac{1}{N}\sum_{i=1}^N\bV_i\bX_i' & \xrightarrow{p} \E[\bV_i\bX_i'] = \E[\bV_i]\E[\bX_i'] =0, \\
+\dfrac{1}{N}\sum_{i=1}^N\bX_i U_i & \xrightarrow{p} \E[\bX_iU_i]  =0, \\
+\dfrac{1}{N}\sum_{i=1}^N \bV_i U_i & \xrightarrow{p} \E[\bV_iU_i] = \E[\bV_i]\E[U_i] =0.
+\end{aligned}
+$$
+It also holds that 
+$$
+\begin{aligned}
+\dfrac{1}{N} \sum_{i=1}^N \bX_i^*\bX_i^{*'} & =   \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'   + \dfrac{1}{N} \sum_{i=1}^N \bV_i\bV_i'  \\
+& \quad + 
+\dfrac{1}{N} \sum_{i=1}^N \bX_i\bV_i' + 
+\dfrac{1}{N} \sum_{i=1}^N \bV_i\bX_i' \\
+& \xrightarrow{p} \E[\bX_i\bX_i'] + \E[\bV_i\bV_i']
+\end{aligned} 
+$$
+Combining the above convergence results, the continuous mapping theorem and @eq-pset1-p5-meX-ex we get that
+$$
+\hat{\bbeta} \xrightarrow{p} \left(\E[\bX_i\bX_i']  + \E[\bV_i\bV_i'] \right)^{-1} \E[\bX_i\bX_i']\bbeta.
+$$
+We see that in general the OLS estimator is not consistent for $\bbeta$ if there is measurement error in the covariates. 
+
+Consistency holds if $\E[\bV_i\bV_i']=0$. Since $\E[\bV_i]=0$, it holds that $\E[\bV_i\bV_i'] = \var(\bV_i)$. In other words, consistency requires that $\var(\bV_i)=0$, which means there is no measurement error in $\bX_i$.
+
+To summarize, we find notable differences between the two kinds of measurement errors. 
+
+- Independent measurement error in the outcome variable does not break consistency or asymptotic normality. It only increases the asymptotic variances (reduces precision).
+- Independent measurement error in the covariates makes the OLS estimator inconsistent. 
+
+
+
+
+</details>
+
 ### Omitted Variable Bias Revisited
 
-Let $Y_i$ be some outcome of interest. Let $\bX_i$ be an observed covariate vector. Let $U_i$ be an unobserved component that satisfies $\E[\bX_iU_i]=0$. Let $\bW_i$ be another group of variables that affect $Y_i$. Suppose that $Y_i$ and $(\bX_i, \bW_i)$ are related through the potential outcomes model
+Let $Y_i$ be some outcome of interest. Let $\bX_i$ be an observed covariate vector; $\E[\bX_i\bX_i']$ is assumed to be invertible. Let $U_i$ be an unobserved component that satisfies $\E[\bX_iU_i]=0$. Let $\bW_i$ be another group of variables that affect $Y_i$. Suppose that $Y_i$ and $(\bX_i, \bW_i)$ are related through the potential outcomes model
 $$
 Y_i^{(\bx, \bw)} = \bx'\bbeta + \bw'\bdelta + U_i.
 $$ 
 
-Suppose that $\bW_i$ is not observed, and we instead regress $Y_i$ only on $\bX_i$. Find the probability limit of the corresponding OLS estimator. When is that limit equal to $\bbeta$? If $\bX_i$ is scalar, can you say anything about the direction of the bias? 
+Suppose that $\bW_i$ is not observed, and we instead regress $Y_i$ only on $\bX_i$. Find the probability limit of the corresponding OLS estimator. Make any necessary moment assumptions. When is that limit equal to $\bbeta$?
 
+ 
+<details>
+  <summary>Click to see the solution</summary>
+
+Yet again the approach is to substitute the true model into the estimator. The observed outcomes satisfy
+$$
+Y_i = \bX_i'\bbeta + \bW_i'\bdelta + U_i.
+$$
+
+The OLS estimator of $Y_i$ on $\bX_i$ satisfies
+$$
+\begin{aligned}
+\hat{\bbeta} & = \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'   \right)^{-1}\dfrac{1}{N}\sum_{i=1}^N \bX_i Y_i\\
+& =  \bbeta+  \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'   \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_i U_i \\
+& \quad + \left(\dfrac{1}{N}\sum_{i=1}^N \bX_i\bX_i'   \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \bX_i\bW_i'\bdelta 
+\end{aligned}
+$$
+We now handle the individual sums in the usual way. By the law of large numbers, continuous mapping theorem and our moment conditions it holds that
+$$
+\begin{aligned}
+\dfrac{1}{N} \sum_{i=1}^N \bX_iU_i & \xrightarrow{p} \E[\bX_iU_i] =0 ,\\
+\dfrac{1}{N} \sum_{i=1}^N \bX_i\bW_i' & \xrightarrow{p} \E[\bX_i\bW_i'] ,\\
+\left( \dfrac{1}{N} \sum_{i=1}^N \bX_i\bX_i'\right)^{-1} & \xrightarrow{p} \left( \E[\bX_i\bX_i'] \right)^{-1}.
+\end{aligned}
+$$
+By the continuous mapping theorem we obtain the probability limit of $\hat{\bbeta}$:
+$$
+\hat{\bbeta} \xrightarrow{p} \bbeta + \left(\E[\bX_i\bX'] \right)^{-1}\E[\bX_i\bW_i']\bdelta.
+$$ 
+This limit is equal to $\bbeta$ if $\E[\bX_i\bW_i']\bdelta = 0$. Standard sufficient conditions are that $\bdelta = 0$ (and so $\bW_i$ are not important to $Y_i$) or that $\bX_i$ and $\bW_i$ are orthogonal in the sense that $\E[\bX_i\bW_i']=0$.
+ 
+
+
+</details>
 
 ## Applied Exercises
 
