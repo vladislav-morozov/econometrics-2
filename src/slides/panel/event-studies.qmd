@@ -42,7 +42,7 @@ By the end, you should be able to
 
 - Provide 
 
-### References
+#### References
  
 
 ::: {.nonincremental}
@@ -53,6 +53,19 @@ By the end, you should be able to
 - NBER 2023 Methods Lectures on Linear Panel Event Studies: <https://www.nber.org/conferences/si-2023-methods-lectures-linear-panel-event-studies>
   
 :::  
+
+
+```{python} 
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import re
+import statsmodels.api as sm
+import yfinance as yf
+
+from pathlib import Path
+```
 
 
 ### Empirical Motivation {background="#43464B" visibility="uncounted"}
@@ -83,7 +96,7 @@ How did the collapse of the SVB affect stock prices of other US financial instit
 - Causal question: comparing prices after collapse with prices without collapse
 - How to do this comparison? What assumptions do we need?
 
-``` 
+```{python}
 #| echo: true
 #| code-fold: true
 #| code-summary: "Expand for list of institutions of interest"
@@ -822,7 +835,7 @@ When does treatment turn on? What $T$ to take?
 - Key public announcement — March 8, 2023 (our $t_0$)
 - Look for 10 days around ($T=20$)
 
-``` 
+```{python}
 #| echo: true
 event_date = pd.Timestamp("2023-03-08")
 event_window = pd.Timedelta(days=10)  
@@ -834,7 +847,7 @@ event_window = pd.Timedelta(days=10)
 
 For estimation, use long window before SVB collapse:
 
-```
+```{python}
 #| echo: true
 estimation_window = pd.Timedelta(days=500) 
 start_date = event_date - event_window - estimation_window 
@@ -851,11 +864,11 @@ Necessary data:
 
 . . .
 
-Can obtain ticker data from Yahoo Finance directly with  `yfinance` package
+Can obtain ticker data from Yahoo Finance directly with  `yfinance` package (abbreviated as `yf`)
  
 
 
-``` 
+```{python}
 #| echo: true
 #| output: false
 #| code-fold: true
@@ -903,7 +916,7 @@ Estimate outcome variable $AR_{it}$ using Fama-French 3 market model:
 
 For contrast, also estimate mean model
 
-``` 
+```{python}
 #| echo: true
 #| output: false
 #| code-fold: true
@@ -955,6 +968,86 @@ for ticker in tickers:
 ::: footer
 
 :::
+
+#### Visualizing Average Returns
+
+Useful to view averages of estimated $AR_{it}$ — need to see zero mean for $t$ before March 8 (no trends assumption)
+
+```{python}
+#| label: fig-causal-es-avg-abnormal-return
+#| fig-cap: "Averages of abnormal returns with 95% pointwise confidence intervals" 
+
+# Combine the two DFs of abnormal returns into a list
+abnormal_returns_list = [abnormal_returns_mean, abnormal_returns_factor]
+abnormal_returns_titles = ["Expected returns: own average", "Expected returns: three-factor model"]
+
+# Create a figure
+fig, axs = plt.subplots(nrows=1, ncols=2, figsize=(12, 5))
+
+# Add plots of average abnormal returns + CIs
+for method_id, abnormal_df in enumerate(abnormal_returns_list):
+    # Compute averages and bounds for the confidence interval
+    effects = pd.DataFrame()
+    effects["estimates"] = abnormal_df.cumsum().mean(axis=1)
+    effects["ci_upper"] = effects["estimates"] + 1.96 * np.sqrt(
+        abnormal_df.var(axis=1).cumsum()
+    )
+    effects["ci_lower"] = effects["estimates"] - 1.96 * np.sqrt(
+        abnormal_df.var(axis=1).cumsum()
+    )
+
+    # Plot the estimates
+    axs[method_id].plot(
+        effects.index,
+        effects["estimates"],
+        color="blue",
+        linewidth=2,
+        label="Estimates",
+    )
+
+    # Plot the confidence intervals
+    axs[method_id].fill_between(
+        effects.index,
+        effects["ci_lower"],
+        effects["ci_upper"],
+        color="lightblue",
+        alpha=0.5,
+        label="95% CI",
+    )
+
+    # Add a vertical line on event date
+    vertical_line_date = event_date
+    axs[method_id].axvline(
+        x=vertical_line_date,
+        color="red",
+        linestyle="--",
+        label="Event Date",
+    )
+
+    # Add labels and title
+    axs[method_id].set_xlabel("Date")
+    axs[method_id].xaxis.set_tick_params(
+        which="both",
+        rotation=76,
+        labelleft=True,
+        left=True,
+    )
+    axs[method_id].set_title(
+        abnormal_returns_titles[method_id],
+        loc="left",
+    )
+
+    # Align y-axes and add grid
+    axs[method_id].set_ylim([-48, 18])
+    axs[method_id].grid(True)
+
+    axs[1].legend()
+
+fig.suptitle("Averages of abnormal returns per date", size=18)
+
+plt.show()
+```
+
 
 ### Estimation and Inference {background="#43464B" visibility="uncounted"} 
 
