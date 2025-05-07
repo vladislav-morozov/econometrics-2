@@ -734,32 +734,227 @@ We need
 
 #### Some Finance Background: Abnormal Returns 
 
-In finance, usually work with <span class="highlight">abnormal returns</span> [@MacKinlay1997EventStudiesEconomics]
+In finance, usually work with <span class="highlight">abnormal returns $AR_{it}$</span> [@MacKinlay1997EventStudiesEconomics]
 
 <br>
 
-- Each stock assumed to have a "normal" or "expected" return given market conditions — reflects everything "expected" by the market
-- Abnormal returns — differences between actual return and expected return
+- Each stock $i$ assumed to have a "normal" or "expected" return $ER_{it}$ given market conditions on day $t$ — everything "expected" by the market
+- $AR_{it}$ — differences between actual return $R_{it}$ and $ER_{it}$:
+$$ \small
+R_{it} = ER_{it} + AR_{it}
+$$
 
+#### Interest: Impact on Abnormal Returns
+
+
+
+<br>
+
+. . .
+ 
+
+|$d=0$ | $d=1$|
+|:---:|:----:|
+|Only idiosyncratic day-to-day shifts| Impact of SVB collapse + idiosyncratic movements|
+
+: Potential outcomes {.striped .hover .bordered}
+
+<br> 
+
+<div class="rounded-box">
+
+Assume that $\E[AR_{it}^0] = 0$ and $AR_{it}^0$ uncorrelated with broader market characteristics
+
+</div>  
 
 #### Computing Expected and Abnormal Returns
 
-Expected returns usually computed using some model
+Expected returns usually given by some model:
 
-Example models include:
+- Simple mean: let $R_{it}$ be return of asset $i$ on $t$. Expected return $ER_{it} = \E[R_{it}]$
+- Factor models: 
+$$\small
+ER_{it} = f_i\left( \text{Some market characteristics on }t \right)
+$$
+Example: $ER_{it} = \bbeta_i'\bx_{t}$ where $\bx_{t}$ includes market return on $t$ (CAPM), or also small minus big, high minus low (Fama-French 3 factor)
 
-- Simple mean:
-- Factor models
+::: footer
 
- 
+Check out @Fama2014TwoPillarsAsset Nobel Prize lecture for some background and history
+
+:::
+
+#### Estimating Model Parameters
+
+- Can compute $ER_{it}$ (and $AR_{it}$) if know model parameters
+- But how to compute parameters? 
+
+. . . 
+
+<br> 
+
+Select estimation window with $D_{it}=0$. Then 
+$$
+R_{it} = \bbeta_i'\bx_t + AR_{it}^0, \quad \E[AR_{it}^0\bx_t] =0
+$$
+Can consistently estimate $\bbeta_i$ by regressing $R_{it}$ on $\bx_t$ (why — measurement error in dependent variable)
+
+#### Computing Abnormal Returns
+
+Work with estimated abnormal returns:
+$$
+\widehat{AR}_{it} = R_{it} - \widehat{ER}_{it} = R_{it} - \hat{\bbeta}'\bx_t
+$$
+
+<br>
+
+One issue: $\widehat{AR}_{it}$ has measurement error. But
+
+- Measurement error in dependent variable not a problem if uncorrelated with covariates
+- If estimation window for $\hat{\bbeta}$ large, measurement error likely small
+
 ### Preparing Data {background="#43464B" visibility="uncounted"}
 
+#### Define Time Frames
 
-#### Obtaining Data
+When does treatment turn on? What $T$ to take? 
+
+- Key public announcement — March 8, 2023 (our $t_0$)
+- Look for 10 days around ($T=20$)
+
+``` 
+#| echo: true
+event_date = pd.Timestamp("2023-03-08")
+event_window = pd.Timedelta(days=10)  
+```
+
+<br> 
+
+. . . 
+
+For estimation, use long window before SVB collapse:
+
+```
+#| echo: true
+estimation_window = pd.Timedelta(days=500) 
+start_date = event_date - event_window - estimation_window 
+```
 
 
-Yahoo Finance — the `yfinance` library
+
+#### Obtaining Data {.scrollable}
+
+Necessary data:
+
+- Returns on tickers of interest
+- Market data for estimating $ER_{it}$ — will use 3-factor Fama-French model
+
+. . .
+
+Can obtain ticker data from Yahoo Finance directly with  `yfinance` package
  
+
+
+``` 
+#| echo: true
+#| output: false
+#| code-fold: true
+#| code-summary: "Expand for data call and data preparation"
+
+# Download the tickers and rename columns to only retain ticker names
+stock_data = yf.download(tickers, start=start_date, end=event_date + 4*event_window,)
+stock_data = stock_data.iloc[:, 0:len(tickers)]
+stock_data.columns = (
+    stock_data.columns.map(lambda col: re.sub(r"[()\s']", "", col[1]))
+)
+
+# Calculate daily returns
+returns = stock_data.pct_change().dropna()*100
+
+# Read in FF 3 factor daily data
+ff_path = Path() / 'data' / 'fama-french-3.csv'
+fama_french_data = pd.read_csv(ff_path).iloc[:, :-1]
+# Read the Date column as a date and set it as the index
+fama_french_data["Date"] = pd.to_datetime(
+    fama_french_data["Date"], 
+    format="%Y-%m-%d", 
+)
+fama_french_data = fama_french_data.set_index("Date")
+
+# Merge returns and FF data, drop unnecessary data
+merged_data = pd.concat(
+    [returns, fama_french_data], 
+    axis=1
+).dropna(axis=0)
+```
+
+
+::: footer
+
+:::
+
+#### Estimating Abnormal Returns {.scrollable}
+
+Estimate outcome variable $AR_{it}$ using Fama-French 3 market model:
+
+- Separately regress returns of each $i$ on Fama-French factors over estimation window
+- Obtained fitted values ($\widehat{ER}_{it}$) 
+- Compute $\widehat{AR}_{it}$} and store
+
+For contrast, also estimate mean model
+
+``` 
+#| echo: true
+#| output: false
+#| code-fold: true
+#| code-summary: "Expand for estimation of abnormal returns"
+
+# Create arrays to hold abnormal returns   
+abnormal_returns_factor = pd.DataFrame()
+abnormal_returns_mean = pd.DataFrame()   
+
+# Estimate abnormal returns for each 
+for ticker in tickers:
+    # Estimate the 3-factor abnormal returns
+    X = merged_data.loc[
+        merged_data.index < event_date - event_window, 
+        ["Mkt-RF", "SMB", "HML"]
+    ]   
+    y = merged_data.loc[
+        merged_data.index < event_date - event_window, 
+        ticker
+    ] 
+    X = sm.add_constant(X) 
+    model = sm.OLS(y, X).fit()   
+
+    # Compute expected returns during the window
+    X_event = (
+        merged_data.loc[
+            ((merged_data.index >= event_date - event_window) & 
+            (merged_data.index <= event_date + event_window)), 
+            ["Mkt-RF", "SMB", "HML"]
+        ]
+    )
+    X_event = sm.add_constant(X_event)
+    expected_returns = model.predict(X_event)
+
+    # Extract realized returns during the event
+    event_data = (
+        merged_data.loc[
+            ((merged_data.index >= event_date - event_window) & 
+            (merged_data.index <= event_date + event_window)), 
+            ticker
+        ]
+    )
+
+    # Abnormal returns are residuals
+    abnormal_returns_factor[ticker] = event_data - expected_returns
+    abnormal_returns_mean[ticker] = event_data - y.mean()
+```
+
+::: footer
+
+:::
 
 ### Estimation and Inference {background="#43464B" visibility="uncounted"} 
 
