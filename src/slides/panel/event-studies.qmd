@@ -65,6 +65,12 @@ import statsmodels.api as sm
 import yfinance as yf
 
 from pathlib import Path
+
+
+plt.rcParams["font.family"] = "sans-serif"
+plt.rcParams["font.sans-serif"] = ["Arial"]
+
+BG_COLOR = "whitesmoke"
 ```
 
 
@@ -185,8 +191,8 @@ tickers = [
 Begin with the simplest possible panel setting with binary treatment: 
  
 - Two periods with $N$ units:
-  - No treatment in period 1.
-  - All units treated in period 2.
+  - No treatment in period 1
+  - All units treated in period 2
 - Data: outcomes $(Y_{i1}, Y_{i2})$.
 
 . . .
@@ -759,7 +765,7 @@ $$
 
 #### Interest: Impact on Abnormal Returns
 
-
+Outcome of interest: $AR_{it}$
 
 <br>
 
@@ -835,6 +841,8 @@ When does treatment turn on? What $T$ to take?
 - Key public announcement — March 8, 2023 (our $t_0$)
 - Look for 10 days around ($T=20$)
 
+. . .
+
 ```{python}
 #| echo: true
 event_date = pd.Timestamp("2023-03-08")
@@ -865,9 +873,7 @@ Necessary data:
 . . .
 
 Can obtain ticker data from Yahoo Finance directly with  `yfinance` package (abbreviated as `yf`)
- 
-
-
+  
 ```{python}
 #| echo: true
 #| output: false
@@ -875,7 +881,12 @@ Can obtain ticker data from Yahoo Finance directly with  `yfinance` package (abb
 #| code-summary: "Expand for data call and data preparation"
 
 # Download the tickers and rename columns to only retain ticker names
-stock_data = yf.download(tickers, start=start_date, end=event_date + 4*event_window,)
+stock_data = yf.download(
+    tickers, 
+    start=start_date, 
+    end=event_date + 4*event_window,
+    progress=False,
+)
 stock_data = stock_data.iloc[:, 0:len(tickers)]
 stock_data.columns = (
     stock_data.columns.map(lambda col: re.sub(r"[()\s']", "", col[1]))
@@ -924,7 +935,7 @@ For contrast, also estimate mean model
 
 # Create arrays to hold abnormal returns   
 abnormal_returns_factor = pd.DataFrame()
-abnormal_returns_mean = pd.DataFrame()   
+abnormal_returns_mean = pd.DataFrame()    
 
 # Estimate abnormal returns for each 
 for ticker in tickers:
@@ -969,20 +980,22 @@ for ticker in tickers:
 
 :::
 
-#### Visualizing Average Returns
+#### Visualizing Average Abnormal Returns
 
-Useful to view averages of estimated $AR_{it}$ — need to see zero mean for $t$ before March 8 (no trends assumption)
 
 ```{python}
 #| label: fig-causal-es-avg-abnormal-return
 #| fig-cap: "Averages of abnormal returns with 95% pointwise confidence intervals" 
 
 # Combine the two DFs of abnormal returns into a list
-abnormal_returns_list = [abnormal_returns_mean, abnormal_returns_factor]
+abnormal_returns_list = [abnormal_returns_mean, abnormal_returns_factor] 
 abnormal_returns_titles = ["Expected returns: own average", "Expected returns: three-factor model"]
 
 # Create a figure
-fig, axs = plt.subplots(nrows=1, ncols=2, figsize=(12, 5))
+fig, axs = plt.subplots(nrows=1, ncols=2, figsize=(14, 4.5))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
 
 # Add plots of average abnormal returns + CIs
 for method_id, abnormal_df in enumerate(abnormal_returns_list):
@@ -1002,7 +1015,7 @@ for method_id, abnormal_df in enumerate(abnormal_returns_list):
         effects["estimates"],
         color="blue",
         linewidth=2,
-        label="Estimates",
+        label="Average abnormal returns",
     )
 
     # Plot the confidence intervals
@@ -1041,12 +1054,31 @@ for method_id, abnormal_df in enumerate(abnormal_returns_list):
     axs[method_id].set_ylim([-48, 18])
     axs[method_id].grid(True)
 
-    axs[1].legend()
+    axs[method_id].set_facecolor(BG_COLOR)
+    if method_id == 1:
+        axs[1].legend()
 
 fig.suptitle("Averages of abnormal returns per date", size=18)
 
 plt.show()
 ```
+
+::: footer
+
+:::
+
+#### Looking For Pretrends
+
+@fig-causal-es-avg-abnormal-return suggests idea:
+
+- Cannot check no trends assumption for all periods (why?)
+- But can check pretreatment periods for trends in means
+
+<br>
+
+. . . 
+
+@fig-causal-es-avg-abnormal-return: zero mean for $t$ before March 8 — supports no trends
 
 
 ### Estimation and Inference {background="#43464B" visibility="uncounted"} 
