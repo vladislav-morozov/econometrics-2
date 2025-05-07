@@ -34,14 +34,16 @@ highlight-style: tango
 
 #### Learning Outcomes
 
-This lecture  
+This lecture is about a simple kind of causal studies with panel data — comparing outcomes from before and after treatment
 
 <br>
 
 By the end, you should be able to
 
-- Provide 
-
+- Write down event study estimators with two or more periods of data
+- Define an appropriate causal framework
+- Prove consistency of event study estimators under an assumption of no trends 
+  
 #### References
  
 
@@ -88,7 +90,7 @@ BG_COLOR = "whitesmoke"
 <br>
 
 - Bank collapses are painful for depositors and creditors
-- Also raise fears of broader financial contagion — danger to other financial institutions
+- Collapses also raise fears of broader financial contagion — danger to other financial institutions
 
 #### Empirical Question {.scrollable}
 
@@ -1083,20 +1085,285 @@ plt.show()
 
 ### Estimation and Inference {background="#43464B" visibility="uncounted"} 
 
+#### Preparing Data for Event Study
+
+Now need to create $\bX$ and $\by$ matrices to apply event study OLS 
+
+<br>
+
+. . . 
+
+Key challenge: how do $\bX$ and $\by$ look like?
+
+- Regressors: indicators $D_{it, \tau}$ of every day after treatment start 
+- Express in tabular form: each row in $\bX$ contains data on one stock $i$ on one day $t$, columns — $\widehat{AR}_{it}$ and $D_{it, \tau}$
+
+#### Generate Event Study Data {.scrollable}
+
+
+```{python}
+#| echo: true 
+#| code-fold: true
+#| code-summary: "Expand for construction of data matrices"
+
+# Create an array for day dummies
+dummy_df = (
+    pd.get_dummies(
+        np.maximum(
+            (abnormal_returns_mean.index - pd.to_datetime(event_date)).days+1, 
+            0,
+        ), 
+        prefix='day',
+    )
+)
+
+# Set the index again
+dummy_df.index = abnormal_returns_factor.index
+# Drop the column of days preceding the event
+dummy_df = dummy_df.drop("day_0", axis=1)
+
+# Melt abnormal returns data
+ar_factor_long = abnormal_returns_factor.reset_index().melt(id_vars="Date")
+ar_factor_long.head()
+
+# Merge data
+ar_factor_days = pd.merge(
+    ar_factor_long, 
+    dummy_df, 
+    how='left', 
+    left_on='Date', 
+    right_index=True,
+)
+# Split into two
+exog = ar_factor_days.filter(regex="day*", axis=1).astype('float64')
+exog = sm.add_constant(exog)
+endog = ar_factor_days.loc[:, "value"]
+
+# View
+ar_factor_days.head()
+```
+
+::: footer
+
+
+:::
+
+#### Event Study OLS {.scrollable}
+
+Can now apply the event study estimator 
+
+```{python}
+#| echo: true
+
+factor_model = sm.OLS(endog, exog).fit(cov_type="HC0")
+print(factor_model.summary())
+```
+
+
+
+
+
+::: footer
+
+:::
+
+
+#### Reporting Cumulative Effects {.scrollable}
+
+There are (at least) two kinds parameters of interest:
+
+- Coefficients $\beta_{\tau}$
+- Cumulative effects up to each given day
+
+Can compute cumulative effects and their variances as linear combinations of $\beta_{\tau}$
+
+
+```{python}
+#| echo: true 
+#| code-fold: true
+#| code-summary: "Expand to see computation of cumulative effects"
+# Extract coefs and SEs of daily indicators
+dummy_coefficients = factor_model.params.iloc[1:]  
+dummy_cov_matrix = factor_model.cov_params().iloc[1:, 1:]  
+
+# Compute the cumulative effects
+cumulative_effects = dummy_coefficients.cumsum()
+
+# Compute the standard errors of the cumulative effects
+cumulative_se = np.zeros(len(cumulative_effects))
+for t in range(1, len(cumulative_effects) + 1):
+    # Create a vector of ones up to day t and zeros afterwards
+    indicator_vector = np.concatenate(
+        [np.ones(t), np.zeros(len(cumulative_effects) - t)]
+    )
+
+    # Compute the SE of the cumulative effect
+    cumulative_se[t - 1] = np.sqrt(
+        indicator_vector @ dummy_cov_matrix @ indicator_vector
+    )
+
+# Create a DataFrame to store the results
+results = pd.DataFrame(
+    {
+        "Day": factor_model.params.index[1:].map(lambda x: x[4:]),
+        "Cumulative Effect": cumulative_effects,
+        "SE": cumulative_se,
+    }
+)
+
+# Prepend day 0 as a reference
+day0_df = pd.DataFrame(
+    {
+        "Day": 0,
+        "Cumulative Effect": 0,
+        "SE": 0,
+    },
+    index = np.array(['day_0'])
+)
+results = pd.concat([day0_df, results])
+
+# Construct confidence intervals
+results["ci_upper"] = results["Cumulative Effect"] + 1.96 * results["SE"]
+results["ci_lower"] = results["Cumulative Effect"] - 1.96 * results["SE"]
+
+# Set index
+results.index = abnormal_returns_mean.index[6:]
+
+# Print the results
+print(results)
+```
+
+::: footer
+
+:::
+
+
+#### Visualizing Cumulative Effects
+
+```{python}
+# Reset the index, plotting will be done against the new index
+results_reset = results.reset_index()
+
+fig, ax = plt.subplots(figsize=(14, 4.5))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+
+# Add vertical line before the event: now use 0.5 as potition
+ax.axvline(
+    x=0.5,
+    color="red",
+    linestyle="--",
+    label="Event Date",
+)
+ax.axhline(
+    y=0,
+    color="gray",
+    linestyle="--",
+    label="_nolegend_",
+)
+
+# Plot the estimates as dots
+ax.plot(
+    results_reset.index,
+    results_reset["Cumulative Effect"],
+    "o",
+    color="blue",
+    markersize=8,
+    label="Estimates",
+)
+
+# Add error bars
+ax.errorbar(
+    results_reset.index,
+    results_reset["Cumulative Effect"],
+    yerr=[
+        results_reset["Cumulative Effect"] - results_reset["ci_lower"],
+        results_reset["ci_upper"] - results_reset["Cumulative Effect"],
+    ],
+    fmt="o",
+    color="blue",
+    ecolor="gray",
+    capsize=5,
+    capthick=2,
+    label="95% CI",
+)
+
+# Add labels and title
+ax.set_xlabel("Date")
+ax.set_ylabel("Average Cumulative Effect on Other Stock Returns")
+ax.set_title(
+    "Event Study: Collapse of the Silicon Valley Bank (3-factor model)",
+    loc="left",
+    size=14,
+)
+ax.set_ylim([-10.5, 4])
+ax.legend()
+
+# Add tick labels using the original dates
+ax.set_xticks(
+    results_reset.index,
+    results_reset["Date"].dt.strftime("%Y-%m-%d"),
+    rotation=45,
+)
+
+# Recolor and add grid
+plt.grid(True)
+ax.set_facecolor(BG_COLOR)
+
+# Show the plot
+plt.show()
+```
+
 #### Testing Joint Zero Effect
 
+Can also formally test our null that $H_0: \beta_{\tau}=0$ for all $\tau$
 
-The implementation is exactly as before
-```
+<br>
+
+
+. . .
+
+Use Wald test: 
+```{python}
+#| echo: true
 R = np.concatenate( (np.zeros((8, 1)), np.eye(len(factor_model.params)-1)), axis=1)
 wald_results = factor_model.wald_test(R,  scalar=True)
 print(wald_results)
 ```
 
 
+#### Empirical Conclusions
+
+So what is the final conclusion?
+
+<br>
+
+
+<div class="rounded-box">
+
+Find that collapse of the SVB had significant negative effects on returns over the next 10 days
+
+</div>
+
+
+
 ## Recap and Conclusions {background="#00100F"}
   
 #### Recap
+
+In this lecture we
+
+1. Introduced event studies — the simplest panel causal estimator
+2. Discussed causal properties under various assumptions of no trends
+3. Considered dynamic treatment effects
+4. Expressed event studies as regression
+5. Did a detailed study on the collapse of the SVB
+
+#### Next Questions
+
+- What if the assumption of no trends is unreasonable?
+- What if the treatment is not binary?
 
 #### References {.allowframebreaks visibility="uncounted"}
 
