@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <link href="../../themes/favicon.ico" rel="icon">
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -33,6 +33,69 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
     /* CSS for citations */
     div.csl-bib-body { }
     div.csl-entry {
@@ -475,6 +538,9 @@
     };
 
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+  
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -515,16 +581,17 @@ Vladislav Morozov
 </section>
 <section id="learning-outcomes" class="slide level4">
 <h4>Learning Outcomes</h4>
-<p>This lecture</p>
+<p>This lecture is about a simple kind of causal studies with panel data — comparing outcomes from before and after treatment</p>
 <p><br></p>
 <p>By the end, you should be able to</p>
 <ul>
-<li class="fragment">Provide</li>
+<li class="fragment">Write down event study estimators with two or more periods of data</li>
+<li class="fragment">Define an appropriate causal framework</li>
+<li class="fragment">Prove consistency of event study estimators under an assumption of no trends</li>
 </ul>
 </section>
-
-<section id="references" class="title-slide slide level3 center">
-<h3>References</h3>
+<section id="references" class="slide level4">
+<h4>References</h4>
 <div>
 <ul>
 <li>Chapter 17 in <span class="citation" data-cites="Huntington-Klein2025EffectIntroductionResearch">Huntington-Klein (<a href="#/references-1" role="doc-biblioref" onclick="">2025</a>)</span>: <a href="https://www.theeffectbook.net/ch-EventStudies.html" class="uri">https://www.theeffectbook.net/ch-EventStudies.html</a></li>
@@ -538,10 +605,110 @@ Vladislav Morozov
 <h3>Empirical Motivation</h3>
 
 </section>
+<section id="sec-event-study-svb-example" class="slide level4">
+<h4>Event</h4>
+<div class="rounded-box">
+<p><em>March 10, 2023</em>: third-largest bank failure in the US: the Silicon Valley Bank (SVB) collapses</p>
+</div>
+<p><br></p>
+<ul>
+<li class="fragment">Bank collapses are painful for depositors and creditors</li>
+<li class="fragment">Collapses also raise fears of broader financial contagion — danger to other financial institutions</li>
+</ul>
+</section>
+<section id="empirical-question" class="slide level4 scrollable">
+<h4>Empirical Question</h4>
+<div class="rounded-box">
+<p>How did the collapse of the SVB affect stock prices of other US financial institutions in the next 10 days?</p>
+</div>
+<ul>
+<li class="fragment">Causal question: comparing prices after collapse with prices without collapse</li>
+<li class="fragment">How to do this comparison? What assumptions do we need?</li>
+</ul>
+<div id="8f9fcda0" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Expand for list of institutions of interest</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a>tickers <span class="op">=</span> [</span>
+<span id="cb1-2"><a></a>    <span class="st">"ALLY"</span>,  <span class="co"># Ally Financial Inc.</span></span>
+<span id="cb1-3"><a></a>    <span class="st">"AMTB"</span>,  <span class="co"># Amerant Bancorp Inc.</span></span>
+<span id="cb1-4"><a></a>    <span class="st">"ABCB"</span>,  <span class="co"># Ameris Bancorp</span></span>
+<span id="cb1-5"><a></a>    <span class="st">"ASB"</span>,   <span class="co"># Associated Banc-Corp</span></span>
+<span id="cb1-6"><a></a>    <span class="st">"AUB"</span>,   <span class="co"># Atlantic Union Bankshares Corporation</span></span>
+<span id="cb1-7"><a></a>    <span class="st">"AX"</span>,    <span class="co"># Axos Financial Inc.</span></span>
+<span id="cb1-8"><a></a>    <span class="st">"BANC"</span>,  <span class="co"># Banc of California Inc.</span></span>
+<span id="cb1-9"><a></a>    <span class="st">"BK"</span>,    <span class="co"># Bank of New York Mellon Corporation</span></span>
+<span id="cb1-10"><a></a>    <span class="st">"BAC"</span>,   <span class="co"># Bank of America Corporation</span></span>
+<span id="cb1-11"><a></a>    <span class="st">"BOH"</span>,   <span class="co"># Bank of Hawaii Corporation</span></span>
+<span id="cb1-12"><a></a>    <span class="st">"BKU"</span>,   <span class="co"># BankUnited Inc.</span></span>
+<span id="cb1-13"><a></a>    <span class="st">"BHB"</span>,   <span class="co"># Bar Harbor Bankshares Inc.</span></span>
+<span id="cb1-14"><a></a>    <span class="st">"BHLB"</span>,  <span class="co"># Berkshire Hills Bancorp Inc.</span></span>
+<span id="cb1-15"><a></a>    <span class="st">"BRBS"</span>,  <span class="co"># Blue Ridge Bankshares Inc.</span></span>
+<span id="cb1-16"><a></a>    <span class="st">"CADE"</span>,  <span class="co"># Cadence Bank</span></span>
+<span id="cb1-17"><a></a>    <span class="st">"COF"</span>,   <span class="co"># Capital One Financial Corporation</span></span>
+<span id="cb1-18"><a></a>    <span class="st">"C"</span>,     <span class="co"># Citigroup Inc.</span></span>
+<span id="cb1-19"><a></a>    <span class="st">"CFG"</span>,   <span class="co"># Citizens Financial Group Inc.</span></span>
+<span id="cb1-20"><a></a>    <span class="st">"CMA"</span>,   <span class="co"># Comerica Incorporated</span></span>
+<span id="cb1-21"><a></a>    <span class="st">"CFR"</span>,   <span class="co"># Cullen/Frost Bankers Inc. </span></span>
+<span id="cb1-22"><a></a>    <span class="st">"FNB"</span>,   <span class="co"># F.N.B. Corporation</span></span>
+<span id="cb1-23"><a></a>    <span class="st">"FBK"</span>,   <span class="co"># FB Financial Corporation</span></span>
+<span id="cb1-24"><a></a>    <span class="st">"FITB"</span>,  <span class="co"># Fifth Third Bancorp</span></span>
+<span id="cb1-25"><a></a>    <span class="st">"HBAN"</span>,  <span class="co"># Huntington Bancshares Incorporated</span></span>
+<span id="cb1-26"><a></a>    <span class="st">"KEY"</span>,   <span class="co"># KeyCorp</span></span>
+<span id="cb1-27"><a></a>    <span class="st">"MTB"</span>,   <span class="co"># M&amp;T Bank Corporation</span></span>
+<span id="cb1-28"><a></a>    <span class="st">"PNC"</span>,   <span class="co"># PNC Financial Services Group Inc.</span></span>
+<span id="cb1-29"><a></a>    <span class="st">"RF"</span>,    <span class="co"># Regions Financial Corporation</span></span>
+<span id="cb1-30"><a></a>    <span class="st">"STT"</span>,   <span class="co"># State Street Corporation</span></span>
+<span id="cb1-31"><a></a>    <span class="st">"SYF"</span>,   <span class="co"># Synchrony Financial</span></span>
+<span id="cb1-32"><a></a>    <span class="st">"USB"</span>,   <span class="co"># U.S. Bancorp</span></span>
+<span id="cb1-33"><a></a>    <span class="st">"WFC"</span>,   <span class="co"># Wells Fargo &amp; Company</span></span>
+<span id="cb1-34"><a></a>    <span class="st">"SCHW"</span>,  <span class="co"># Charles Schwab Corporation</span></span>
+<span id="cb1-35"><a></a>    <span class="st">"AXP"</span>,   <span class="co"># American Express Company</span></span>
+<span id="cb1-36"><a></a>    <span class="st">"DFS"</span>,   <span class="co"># Discover Financial Services</span></span>
+<span id="cb1-37"><a></a>    <span class="st">"NTB"</span>,   <span class="co"># Bank of N.T. Butterfield &amp; Son Limited</span></span>
+<span id="cb1-38"><a></a>    <span class="st">"EWBC"</span>,  <span class="co"># East West Bancorp Inc.</span></span>
+<span id="cb1-39"><a></a>    <span class="st">"WAL"</span>,   <span class="co"># Western Alliance Bancorporation</span></span>
+<span id="cb1-40"><a></a>    <span class="st">"SSB"</span>,   <span class="co"># SouthState Corporation</span></span>
+<span id="cb1-41"><a></a>    <span class="st">"WBS"</span>,   <span class="co"># Webster Financial Corporation</span></span>
+<span id="cb1-42"><a></a>    <span class="st">"FHN"</span>,   <span class="co"># First Horizon Corporation</span></span>
+<span id="cb1-43"><a></a>    <span class="st">"PNFP"</span>,  <span class="co"># Pinnacle Financial Partners Inc.</span></span>
+<span id="cb1-44"><a></a>    <span class="st">"HOMB"</span>,  <span class="co"># Home BancShares Inc.</span></span>
+<span id="cb1-45"><a></a>    <span class="st">"HTH"</span>,   <span class="co"># Hilltop Holdings Inc.</span></span>
+<span id="cb1-46"><a></a>    <span class="st">"GBCI"</span>,  <span class="co"># Glacier Bancorp Inc.</span></span>
+<span id="cb1-47"><a></a>    <span class="st">"BOKF"</span>,  <span class="co"># BOK Financial Corporation</span></span>
+<span id="cb1-48"><a></a>    <span class="st">"ZION"</span>,  <span class="co"># Zions Bancorporation</span></span>
+<span id="cb1-49"><a></a>    <span class="st">"TCBI"</span>,  <span class="co"># Texas Capital Bancshares Inc.</span></span>
+<span id="cb1-50"><a></a>    <span class="st">"CIVB"</span>,  <span class="co"># Civista Bancshares Inc.</span></span>
+<span id="cb1-51"><a></a>    <span class="st">"CFFI"</span>,  <span class="co"># C&amp;F Financial Corporation</span></span>
+<span id="cb1-52"><a></a>    <span class="st">"BANF"</span>,  <span class="co"># BancFirst Corporation</span></span>
+<span id="cb1-53"><a></a>    <span class="st">"FULT"</span>,  <span class="co"># Fulton Financial Corporation</span></span>
+<span id="cb1-54"><a></a>    <span class="st">"ONB"</span>,   <span class="co"># Old National Bancorp</span></span>
+<span id="cb1-55"><a></a>    <span class="st">"PB"</span>,    <span class="co"># Prosperity Bancshares Inc.</span></span>
+<span id="cb1-56"><a></a>    <span class="st">"UBSI"</span>,  <span class="co"># United Bankshares Inc.</span></span>
+<span id="cb1-57"><a></a>    <span class="st">"VLY"</span>,   <span class="co"># Valley National Bancorp</span></span>
+<span id="cb1-58"><a></a>    <span class="st">"TRMK"</span>,  <span class="co"># Trustmark Corporation </span></span>
+<span id="cb1-59"><a></a>    <span class="st">"CASH"</span>,  <span class="co"># Meta Financial Group Inc.</span></span>
+<span id="cb1-60"><a></a>    <span class="st">"CUBI"</span>,  <span class="co"># Customers Bancorp Inc.</span></span>
+<span id="cb1-61"><a></a>    <span class="st">"CFFN"</span>,  <span class="co"># Capitol Federal Financial Inc.</span></span>
+<span id="cb1-62"><a></a>    <span class="st">"FFIN"</span>,  <span class="co"># First Financial Bankshares Inc. </span></span>
+<span id="cb1-63"><a></a>    <span class="st">"SFBS"</span>,  <span class="co"># ServisFirst Bancshares Inc.</span></span>
+<span id="cb1-64"><a></a>    <span class="st">"TBBK"</span>,  <span class="co"># The Bancorp Inc. </span></span>
+<span id="cb1-65"><a></a>    <span class="st">"WSBC"</span>,  <span class="co"># WesBanco Inc.</span></span>
+<span id="cb1-66"><a></a>    <span class="st">"WTFC"</span>,  <span class="co"># Wintrust Financial Corporation</span></span>
+<span id="cb1-67"><a></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="footer">
+
+</div>
+</section>
 </section>
 <section>
 <section id="two-periods" class="title-slide slide level2 center" data-background="#00100F">
 <h2>Two Periods</h2>
+
+</section>
+<section id="estimator" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Estimator</h3>
 
 </section>
 <section id="simple-event-study-setting" class="slide level4">
@@ -550,8 +717,8 @@ Vladislav Morozov
 <ul>
 <li class="fragment">Two periods with <span class="math inline">\(N\)</span> units:
 <ul>
-<li class="fragment">No treatment in period 1.</li>
-<li class="fragment">All units treated in period 2.</li>
+<li class="fragment">No treatment in period 1</li>
+<li class="fragment">All units treated in period 2</li>
 </ul></li>
 <li class="fragment">Data: outcomes <span class="math inline">\((Y_{i1}, Y_{i2})\)</span>.</li>
 </ul>
@@ -564,7 +731,7 @@ Vladislav Morozov
 <p>Simplest approach: compute average change in <span class="math inline">\(Y_{it}\)</span> across periods <span id="eq-causal-event-studies-naive-panel-contrast"><span class="math display">\[
   \widehat{AE}_{ES} = \dfrac{1}{N}\sum_{i=1}^N (Y_{i2}- Y_{i1}).
    \tag{1}\]</span></span></p>
-<p>Estimator (<a href="#/eq-causal-event-studies-naive-panel-contrast" class="quarto-xref">1</a>) — simplest example of <em>event study</em> estimators <span class="citation" data-cites="Freyaldenhoven2021VisualizationIdentificationEstimation Miller2023IntroductoryGuideEvent">(see <a href="#/references-1" role="doc-biblioref" onclick="">Freyaldenhoven et al. 2021</a>; <a href="#/references-1" role="doc-biblioref" onclick="">Miller 2023</a>)</span>.</p>
+<p>Estimator (<a href="#/eq-causal-event-studies-naive-panel-contrast" class="quarto-xref">1</a>) — simplest example of <em>event study</em> estimators <span class="citation" data-cites="Freyaldenhoven2021VisualizationIdentificationEstimation Miller2023IntroductoryGuideEvent">(see <a href="#/references-1" role="doc-biblioref" onclick="">Freyaldenhoven et al. 2021</a>; <a href="#/references-1" role="doc-biblioref" onclick="">Miller 2023</a>)</span></p>
 </section>
 <section id="sec-event-study-example" class="slide level4">
 <h4>Example Framework</h4>
@@ -574,7 +741,7 @@ Vladislav Morozov
 <li class="fragment">Outcome <span class="math inline">\(Y_{it}\)</span>: their stock price</li>
 <li class="fragment">Periods:
 <ol type="1">
-<li class="fragment">One week before Apple announces the iPhone.</li>
+<li class="fragment">One week before Apple announces the iPhone</li>
 <li class="fragment">One week after the announcement</li>
 </ol></li>
 </ul>
@@ -599,6 +766,7 @@ Vladislav Morozov
 </div>
 </div>
 </section>
+
 <section id="causal-analysis" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
 <h3>Causal Analysis</h3>
 
@@ -616,7 +784,7 @@ Vladislav Morozov
 </div>
 </div>
 <div class="fragment">
-<p>Work in the familiar potential outcomes framework:</p>
+<p>Again work in the familiar potential outcomes framework:</p>
 <ul>
 <li class="fragment"><span class="math inline">\(Y_{it}^0\)</span> — outcome for <span class="math inline">\(i\)</span> in period <span class="math inline">\(t\)</span> if <em>not treated</em></li>
 <li class="fragment"><span class="math inline">\(Y_{i1}^1\)</span> — outcome for <span class="math inline">\(i\)</span> in period <span class="math inline">\(t\)</span> if <em>treated</em></li>
@@ -634,12 +802,12 @@ Y_{i2} = Y_{i2}^1, \quad Y_{i1} = Y_{i1}^0.
 \]</span></p>
 <div class="fragment">
 <p>It follows that <span class="math display">\[
-\widehat{AE}_{ES} \xrightarrow{p} \E[Y_{i2}^2- Y_{i1}^1].
+\widehat{AE}_{ES} \xrightarrow{p} \E[Y_{i2}^1- Y_{i1}^0].
 \]</span></p>
 <div class="callout callout-important no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p><span class="math inline">\(\E[Y_{i2}^2- Y_{i1}^1]\)</span> is not necessarily a treatment effect — mixes effect of treatment and effects of time!</p>
+<p><span class="math inline">\(\E[Y_{i2}^1- Y_{i1}^0]\)</span> is not necessarily a treatment effect — mixes effect of treatment and effects of time!</p>
 </div>
 </div>
 </div>
@@ -650,11 +818,12 @@ Y_{i2} = Y_{i2}^1, \quad Y_{i1} = Y_{i1}^0.
 <p><a href="#/sec-event-study-example"><span class="button">Context</span></a> Again consider the iPhone example. Then</p>
 <ul>
 <li class="fragment"><span class="math inline">\(Y_{i2}^1 - Y_{i2}^0\)</span> — treatment effect, change in price <em>because</em> of the iPhone announcement</li>
-<li class="fragment"><span class="math inline">\(Y_{i2}^0 - Y_{i0}^0\)</span> — change in a world <em>without</em> iPhone</li>
+<li class="fragment"><span class="math inline">\(Y_{i2}^0 - Y_{i1}^0\)</span> — change in a world <em>without</em> iPhone</li>
 </ul>
 <div class="fragment">
-<p>We see combination of both changes <span class="math display">\[
-Y_{i2} - Y_{i1} = Y_{i2}^1- Y_{i1}^0 = [Y_{i2}^1- Y_{i2}^0] + [Y_{i2}^0 - Y_{i0}^0]
+<p><br></p>
+<p>Realized difference = combination of both changes <span class="math display">\[
+Y_{i2} - Y_{i1} = Y_{i2}^1- Y_{i1}^0 = [Y_{i2}^1- Y_{i2}^0] + [Y_{i2}^0 - Y_{i1}^0]
 \]</span></p>
 </div>
 </section>
@@ -666,7 +835,7 @@ Y_{i2} - Y_{i1} = Y_{i2}^1- Y_{i1}^0 = [Y_{i2}^1- Y_{i2}^0] + [Y_{i2}^0 - Y_{i0}
 Y_{i2}^d= Y_{i1}^d, \quad d=0, 1
 \]</span></p>
 </div>
-<p>Then <span class="math inline">\(\widehat{AE}_{ES}\)</span> is estimating a <em>causal</em> parameter — average effects <span class="math display">\[
+<p>Then <span class="math inline">\(\widehat{AE}_{ES}\)</span> is estimating a <em>causal</em> parameter — average effects: <span class="math display">\[
 \begin{aligned}
 \widehat{AE}_{ES} &amp; \xrightarrow{p} \E[Y_{i1}^1- Y_{i1}^0]  =  \E[Y_{i2}^1- Y_{i2}^0]
 \end{aligned}
@@ -694,7 +863,7 @@ Y_{i2}^d= Y_{i1}^d, \quad d=0, 1
 <div>
 <ul>
 <li>Assumptions of <a href="#/prp-event-study-limit" class="quarto-xref">Proposition&nbsp;1</a> hold</li>
-<li>No trends assumption hold</li>
+<li>Assumption of no trends holds</li>
 </ul>
 </div>
 <p>Then <span class="math inline">\(\widehat{AE}_{ES}\)</span> consistent for causal parameters: <span class="math display">\[
@@ -723,33 +892,26 @@ D_{it} &amp; = \begin{cases}
 \tag{2}\]</span></span> where we simply treat <span class="math inline">\((Y_{i1}, D_{i1})\)</span> and <span class="math inline">\((Y_{i2}, D_{i2})\)</span> as separate observations</p>
 </div>
 </section>
-<section id="event-study-and-ols" class="slide level4">
-<h4>Event Study and OLS</h4>
+<section id="event-studies-and-ols" class="slide level4">
+<h4>Event Studies and OLS</h4>
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 <div id="prp-event-study-no-trends" class="theorem proposition">
 <p><span class="theorem-title"><strong>Proposition 3 (<span class="math inline">\(\widehat{AE}_{ES}\)</span> is OLS)</strong></span> For <span class="math inline">\(\beta_1\)</span> of regression (<a href="#/eq-event-study-simple-regression" class="quarto-xref">2</a>) <span class="math display">\[
-\widehat{AE}_{ES} = \hat{\beta}_1^{OLS}
-\]</span></p>
+\widehat{AE}_{ES} = \hat{\beta}_1,
+\]</span> where <span class="math inline">\(\hat{\beta}_1\)</span> is the OLS estimator of <span class="math inline">\(\beta_1\)</span></p>
 </div>
 </div>
-<ol type="1">
-<li class="fragment">Can use all results developed for OLS for <span class="math inline">\(\widehat{AE}_{ES}\)</span></li>
-<li class="fragment">Regressing <span class="math inline">\(Y_{it}\)</span> on <span class="math inline">\(D_{it}\)</span> gives a causal parameter
-<ul>
-<li class="fragment">Under no trends</li>
-<li class="fragment">No experiment was necessary</li>
-</ul></li>
-</ol>
+<p>Can use all results developed for OLS for <span class="math inline">\(\widehat{AE}_{ES}\)</span></p>
 </section>
 <section id="event-study-and-regression" class="slide level4">
 <h4>Event Study and Regression</h4>
 <p>A way to think about regression in causal settings:</p>
 <ul>
 <li class="fragment"><p>Write down the regression in terms of parameters of interest: e.g.&nbsp;let <span class="math display">\[
-\beta_0 = \E[Y_{i0}^0], \quad
+\beta_0 = \E[Y_{i1}^0], \quad
 \beta_1  =  \E[Y_{i2}^1- Y_{i2}^0]
 \]</span></p></li>
-<li class="fragment"><p>Connect regression to potential outcomes: <em>what is <span class="math inline">\(u_{it}\)</span> in terms of potential outcomes?</em></p></li>
+<li class="fragment"><p>Connect regression to potential outcomes: <em>what is <span class="math inline">\(u_{it}\)</span> in terms of potential outcomes? (exercise)</em></p></li>
 <li class="fragment"><p>Check properties of this <span class="math inline">\(u_{it}\)</span>. If <span class="math inline">\(u_{it}\)</span> is “nice”, apply OLS (or another method)</p></li>
 </ul>
 </section>
@@ -780,23 +942,23 @@ D_{it} &amp; = \begin{cases}
 </section>
 <section id="expanded-regression" class="slide level4">
 <h4>Expanded Regression</h4>
-<p>New variables for treatment: <span class="math display">\[
+<p>New variables for treatment: <span class="math display">\[\small
 D_{it, \tau} = \begin{cases}
 1, &amp; t= \tau, \\
 0, &amp; t\neq \tau
 \end{cases}
 \]</span></p>
 <div class="fragment">
-<p>Can try similar regression: <span id="eq-event-studies-long-regression"><span class="math display">\[
-Y_{it} = \beta_0 +  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + u_{it}.
-\tag{3}\]</span></span></p>
+<p>Can try similar regression: <span id="eq-event-studies-long-regression"><span class="math display">\[\small
+Y_{it} = \beta_0 +  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + u_{it}
+\tag{3}\]</span></span> Let <span class="math inline">\(\hat{\bbeta}=(\hat{\beta}_0, \hat{\beta}_{t_0}, \dots, \hat{\beta}_{T}\)</span>) be the OLS estimator</p>
 </div>
 </section>
-<section id="estimates" class="slide level4">
-<h4>Estimates</h4>
+<section id="ols-estimator-expression" class="slide level4">
+<h4>OLS Estimator Expression</h4>
 <p>Fairly easy to show that <span class="math display">\[
 \begin{aligned}
-\hat{\beta}^{OLS}_{\tau} &amp; = \dfrac{1}{N} \sum_{i=1}^N Y_{i\tau} - \dfrac{1}{N(t_0-1)} \sum_{i=1}^N\left[ Y_{i1} + \dots + Y_{it_0-1} \right] \\
+\hat{\beta}_{\tau} &amp; = \dfrac{1}{N} \sum_{i=1}^N Y_{i\tau} - \dfrac{1}{N(t_0-1)} \sum_{i=1}^N\left[ Y_{i1} + \dots + Y_{it_0-1} \right] \\
 &amp; \xrightarrow{p} \E\left[Y_{i\tau}^1  - \dfrac{1}{t_0-1}(Y_{i1}^0+ \dots + Y_{it_0-1}^0) \right]
 \end{aligned}
 \]</span> More general version of the simple estimator of before</p>
@@ -806,7 +968,7 @@ Y_{it} = \beta_0 +  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + u_{it}.
 <p>If <span class="math inline">\(\beta_{\tau}\)</span> — average effect in period <span class="math inline">\(\tau\)</span>, then model (<a href="#/eq-event-studies-long-regression" class="quarto-xref">3</a>) seems to allow for <em>dynamic</em> effects</p>
 <div class="fragment">
 <p><br></p>
-<p>Dynamic effects often realistic: effect of treatment may grow or disappear over time. Example: impact of job training on earnings:</p>
+<p>Dynamic effects <span class="highlight">realistic</span>: effect of treatment may change over time. Example: impact of job training on earnings:</p>
 <ul>
 <li class="fragment">Disappearing: you forget the training over time</li>
 <li class="fragment">Increasing: job training lets you jump to a higher position and gain experience quicker for the rest of your life</li>
@@ -819,28 +981,31 @@ Y_{it} = \beta_0 +  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + u_{it}.
 \begin{aligned}
 &amp; \E\left[Y_{i\tau}^1  - \dfrac{1}{t_0-1}(Y_{i1}^0+ \dots + Y_{it_0-1}^0) \right]  = \E[Y_{it}^1 - Y_{it}^0]
 \end{aligned}
-\]</span> where right hand side does <em>not</em> depend on <span class="math inline">\(t\)</span></p>
+\]</span> The right hand side does <span class="highlight">not</span> depend on <span class="math inline">\(t\)</span></p>
 <div class="fragment">
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p>The no trends assumption rules out dynamic treatment effects</p>
+<p>No dynamic treatment effects under no trends!</p>
 </div>
-<p>This is <em>bad</em>, since we want to allow for dynamics</p>
+<p><span class="highlight">Bad</span>, since we want to allow for dynamics</p>
 </div>
 </section>
 <section id="relaxing-no-trends-assumption" class="slide level4">
 <h4>Relaxing No Trends Assumption</h4>
 <p>Can relax no trends to only affect <em>one</em> of the potential outcomes — makes more sense to restrict the untreated outcome (why?)</p>
+<p><br></p>
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 <p><strong>Assumption</strong> (<em>no trends in the baseline</em>): <span class="math inline">\(\E[Y_{it}^0]\)</span> does not depend on <span class="math inline">\(t\)</span></p>
 </div>
 </section>
-<section id="estimation-of-dynamic-average-treatment-effects" class="slide level4">
-<h4>Estimation of Dynamic Average Treatment Effects</h4>
-<p>Under the no trends in the baseline assumption: <span class="math display">\[
+<section id="recovering-dynamic-average-treatment-effects" class="slide level4">
+<h4>Recovering Dynamic Average Treatment Effects</h4>
+<p>Under assumption of no trends in the baseline: <span class="math display">\[
 \begin{aligned}
 &amp; \E\left[Y_{i\tau}^1  - \dfrac{1}{t_01}(Y_{i1}^0+ \dots + Y_{it_0-1}^0) \right]  = \E[Y_{i \tau}^1 - Y_{i\tau}^0]
 \end{aligned}
-\]</span> Right hand side is average effect in period <span class="math inline">\(\tau\)</span></p>
+\]</span></p>
+<p><br></p>
+<p>Right hand side is average effect in period <span class="math inline">\(\tau\)</span></p>
 </section>
 
 <section id="asymptotic-properties" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
@@ -866,7 +1031,11 @@ Y_{it} = \beta_0 +  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + u_{it}.
 <h4>Unbiasedness of OLS</h4>
 <p>Moreover, under no trends in the baseline <span class="math display">\[
 \E[\hat{\beta}_{\tau}] = \E[Y_{i \tau}^1 - Y_{i\tau}^0]
-\]</span> In other words, the OLS estimator is unbiased</p>
+\]</span></p>
+<p><br></p>
+<div class="fragment">
+<p>In other words, the OLS estimator is unbiased</p>
+</div>
 </section>
 <section id="asymptotic-distribution" class="slide level4">
 <h4>Asymptotic Distribution</h4>
@@ -885,28 +1054,35 @@ Y_{it} = \beta_0 +  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + u_{it}.
 \]</span></p>
 </div>
 </div>
-</section>
-<section id="asymptotic-variance-i" class="slide level4">
-<h4>Asymptotic Variance I</h4>
-<p>Need variance <span class="math inline">\(V\)</span> to construct confidence intervals for <span class="math inline">\(\E[Y_{i \tau}^1 - Y_{i\tau}^0]\)</span>. How to find <span class="math inline">\(V\)</span>? Remember the CLT:</p>
-<div class="fragment">
+<!-- #### Asymptotic Variance I
+
+Need variance $V$ to construct confidence intervals for $\E[Y_{i \tau}^1 - Y_{i\tau}^0]$. How to find $V$? Remember the CLT:
+
+. . .
+
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p>If <span class="math inline">\(X_1, X_2, \dots\)</span> are IID random variables with <span class="math inline">\(\E[X_i]=\mu\)</span> and <span class="math inline">\(\E[X^2]&lt;\infty\)</span>, then <span class="math display">\[
+
+If $X_1, X_2, \dots$ are IID random variables with $\E[X_i]=\mu$ and $\E[X^2]<\infty$, then
+$$
 \sqrt{N}\left( \dfrac{1}{N}\sum_{i=1}^N X_i - \mu  \right)\Rightarrow N\left(0, \var(X_i) \right)
-\]</span> Asymptotic variance = variance of <span class="math inline">\(X_i\)</span></p>
+$$
+Asymptotic variance = variance of $X_i$
 </div>
-</div>
+  -->
 </section>
-<section id="asymptotic-variance-ii" class="slide level4">
-<h4>Asymptotic Variance II</h4>
-<p>Can apply this idea to find <span class="math inline">\(V\)</span>. Can write <span class="math display">\[
+<section id="asymptotic-variance" class="slide level4">
+<h4>Asymptotic Variance</h4>
+<p>Need variance <span class="math inline">\(V\)</span> to construct confidence intervals for <span class="math inline">\(\E[Y_{i \tau}^1 - Y_{i\tau}^0]\)</span>.</p>
+<div class="fragment">
+<p><span class="math display">\[
 \begin{aligned}
-\hat{\beta}^{OLS}_{\tau} &amp; = \dfrac{1}{N} \sum_{i=1}^N Z_i\\
+\hat{\beta}_{\tau} &amp; = \dfrac{1}{N} \sum_{i=1}^N Z_i\\
 Z_i &amp; =  Y_{i\tau} - \dfrac{1}{(t_0-1)}\left[ Y_{i1} + \dots + Y_{it_0-1} \right]
 \end{aligned}
 \]</span></p>
+</div>
 <div class="fragment">
-<p>Then we get that <span class="math display">\[
+<p>From central limit theorem: <span class="math display">\[
 V = \var(Z_i)
 \]</span></p>
 </div>
@@ -938,7 +1114,7 @@ H_0: \beta_{\tau} = 0, \quad \tau = t_0, \dots, T
 <div class="fragment">
 <ul>
 <li class="fragment">This <span class="math inline">\(H_0\)</span> is a hypothesis above a <em>vector</em> of effects</li>
-<li class="fragment">Need a <em>joint</em> asymptotic distribution to write down a test</li>
+<li class="fragment">To write down a Wald test we need the <em>joint</em> asymptotic distribution of <span class="math inline">\(\hat{\bbeta}\)</span></li>
 </ul>
 </div>
 </section>
@@ -949,20 +1125,31 @@ H_0: \beta_{\tau} = 0, \quad \tau = t_0, \dots, T
 <p><span class="theorem-title"><strong>Proposition 6 (Joint Asymptotics for Estimated Effects)</strong></span> Let</p>
 <div>
 <ul>
-<li>No trends in the baseline assumption hold</li>
-<li><span class="math inline">\((Y_{i1}, Y_{i2}, \dots, Y_{iT})\)</span> be IID (over <span class="math inline">\(i\)</span>)</li>
-<li><em>Finite second moments</em>: <span class="math inline">\(\E[Y_{it}^2]&lt;\infty\)</span></li>
+<li>Assumption of no trends in the baseline hold</li>
+<li><span class="math inline">\((Y_{i1}, Y_{i2}, \dots, Y_{iT})\)</span> be IID (over <span class="math inline">\(i\)</span>) with finite second moments</li>
 </ul>
 </div>
-<p>Then there exists some variance-covariance matrix <span class="math inline">\(\bV\)</span> such that <span class="math display">\[
-\sqrt{N}(\hat{\bbeta} -\bbeta) \Rightarrow N(0, \bV)
+<p>Then<br>
+<span class="math display">\[ \small
+\sqrt{N}(\hat{\bbeta} -\bbeta) \Rightarrow N(0, \avar(\hat{\bbeta}))
 \]</span></p>
 </div>
 </div>
 </section>
-<section id="joint-inference-on-average-effects" class="slide level4">
-<h4>Joint Inference on Average Effects</h4>
-<p>Can use <a href="#/prp-event-study-joint-limit-distribution" class="quarto-xref">Proposition&nbsp;6</a> to create a Wald test</p>
+<section id="joint-inference-on-average-effects-wald-test" class="slide level4">
+<h4>Joint Inference on Average Effects: Wald Test</h4>
+<p>Can use <a href="#/prp-event-study-joint-limit-distribution" class="quarto-xref">Proposition&nbsp;6</a> to create a Wald test:</p>
+<ul>
+<li class="fragment"><p>Write <span class="math inline">\(H_0\)</span> as <span class="math inline">\(H_0: \bR\bbeta = \bq\)</span> for <span class="math display">\[ \small
+\bR = \begin{pmatrix}
+\mathbf{0} &amp; \bI_{T-t_0+1}
+\end{pmatrix}, \quad \bq = \mathbf{0}
+\]</span></p></li>
+<li class="fragment"><p>Write down Wald statistic: <span class="math display">\[ \small
+W = N(\bR\hat{\bbeta}-\bq)'(\bR\widehat{\avar}(\hat{\bbeta})\bR')^{-1}(\bR\hat{\bbeta}-\bq)
+\]</span></p></li>
+<li class="fragment"><p>Compare to <span class="math inline">\((1-\alpha)\)</span>th quantile of <span class="math inline">\(\chi^2_{T-t_0+1}\)</span> distribution</p></li>
+</ul>
 </section>
 </section>
 <section>
@@ -970,10 +1157,608 @@ H_0: \beta_{\tau} = 0, \quad \tau = t_0, \dots, T
 <h2>Empirical Application</h2>
 
 </section>
-<section id="slide" class="slide level4">
-<h4>Slide</h4>
-<p>ff</p>
-</section></section>
+<section id="formalizing-the-application" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Formalizing the Application</h3>
+
+</section>
+<section id="back-to-empirical-application" class="slide level4">
+<h4>Back to Empirical Application</h4>
+<p>Now let’s answer our empirical question — impact of the SVB collapse on stock returns of US financial institutions <a href="#/sec-event-study-svb-example"><span class="button">Context</span></a></p>
+<p><br></p>
+<div class="fragment">
+<p>We need</p>
+<ul>
+<li class="fragment">Outcome variables (which returns?)</li>
+<li class="fragment">Time context <span class="math inline">\(t\)</span></li>
+<li class="fragment">How to define the treatment</li>
+</ul>
+</div>
+</section>
+<section id="some-finance-background-abnormal-returns" class="slide level4">
+<h4>Some Finance Background: Abnormal Returns</h4>
+<p>In finance, usually work with <span class="highlight">abnormal returns <span class="math inline">\(AR_{it}\)</span></span> <span class="citation" data-cites="MacKinlay1997EventStudiesEconomics">(<a href="#/references-1" role="doc-biblioref" onclick="">MacKinlay 1997</a>)</span></p>
+<p><br></p>
+<ul>
+<li class="fragment">Each stock <span class="math inline">\(i\)</span> assumed to have a “normal” or “expected” return <span class="math inline">\(ER_{it}\)</span> given market conditions on day <span class="math inline">\(t\)</span> — everything “expected” by the market</li>
+<li class="fragment"><span class="math inline">\(AR_{it}\)</span> — differences between actual return <span class="math inline">\(R_{it}\)</span> and <span class="math inline">\(ER_{it}\)</span>: <span class="math display">\[ \small
+R_{it} = ER_{it} + AR_{it}
+\]</span></li>
+</ul>
+</section>
+<section id="interest-impact-on-abnormal-returns" class="slide level4">
+<h4>Interest: Impact on Abnormal Returns</h4>
+<p>Outcome of interest: <span class="math inline">\(AR_{it}\)</span></p>
+<p><br></p>
+<div class="fragment">
+<table class="table-striped table-hover table-bordered caption-top">
+<caption>Potential outcomes</caption>
+<colgroup>
+<col style="width: 45%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">\(d=0\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(d=1\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Only idiosyncratic day-to-day shifts</td>
+<td style="text-align: center;">Impact of SVB collapse + idiosyncratic movements</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<div class="rounded-box">
+<p>Assume that <span class="math inline">\(\E[AR_{it}^0] = 0\)</span> and <span class="math inline">\(AR_{it}^0\)</span> uncorrelated with broader market characteristics</p>
+</div>
+<div class="footer">
+
+</div>
+</div>
+</section>
+<section id="computing-expected-and-abnormal-returns" class="slide level4">
+<h4>Computing Expected and Abnormal Returns</h4>
+<p>Expected returns usually given by some model:</p>
+<ul>
+<li class="fragment">Simple mean model: let <span class="math inline">\(R_{it}\)</span> be return of asset <span class="math inline">\(i\)</span> on <span class="math inline">\(t\)</span>. Expected return <span class="math inline">\(ER_{it} = \E[R_{it}]\)</span></li>
+<li class="fragment">Factor models: <span class="math display">\[\small
+ER_{it} = f_i\left( \text{Some market characteristics on }t \right)
+\]</span> Example: <span class="math inline">\(ER_{it} = \bbeta_i'\bx_{t}\)</span> where <span class="math inline">\(\bx_{t}\)</span> includes market return on <span class="math inline">\(t\)</span> (CAPM), or also small minus big, high minus low (Fama-French 3 factor)</li>
+</ul>
+<div class="footer">
+<p>Check out <span class="citation" data-cites="Fama2014TwoPillarsAsset">Fama (<a href="#/references-1" role="doc-biblioref" onclick="">2014</a>)</span> Nobel Prize lecture for some background and history</p>
+</div>
+</section>
+<section id="estimating-model-parameters" class="slide level4">
+<h4>Estimating Model Parameters</h4>
+<ul>
+<li class="fragment">Can compute <span class="math inline">\(ER_{it}\)</span> (and <span class="math inline">\(AR_{it}\)</span>) if know model parameters</li>
+<li class="fragment">But how to compute parameters?</li>
+</ul>
+<div class="fragment">
+<p><br></p>
+<p>Select estimation window with <span class="math inline">\(D_{it}=0\)</span>. Then <span class="math display">\[
+R_{it} = \bbeta_i'\bx_t + AR_{it}^0, \quad \E[AR_{it}^0\bx_t] =0
+\]</span> Can consistently estimate <span class="math inline">\(\bbeta_i\)</span> by regressing <span class="math inline">\(R_{it}\)</span> on <span class="math inline">\(\bx_t\)</span> (why — measurement error in dependent variable)</p>
+</div>
+</section>
+<section id="computing-abnormal-returns" class="slide level4">
+<h4>Computing Abnormal Returns</h4>
+<p>Work with estimated abnormal returns: <span class="math display">\[
+\widehat{AR}_{it} = R_{it} - \widehat{ER}_{it} = R_{it} - \hat{\bbeta}'\bx_t
+\]</span></p>
+<p><br></p>
+<p>One issue: <span class="math inline">\(\widehat{AR}_{it}\)</span> has measurement error. But</p>
+<ul>
+<li class="fragment">Measurement error in dependent variable not a problem if uncorrelated with covariates</li>
+<li class="fragment">If estimation window for <span class="math inline">\(\hat{\bbeta}\)</span> large, measurement error likely small</li>
+</ul>
+</section>
+
+<section id="preparing-data" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Preparing Data</h3>
+
+</section>
+<section id="define-time-frames" class="slide level4">
+<h4>Define Time Frames</h4>
+<p>When does treatment turn on? What <span class="math inline">\(T\)</span> to take?</p>
+<ul>
+<li class="fragment">Key public announcement — March 8, 2023 (our <span class="math inline">\(t_0\)</span>)</li>
+<li class="fragment">Look for 10 days around (<span class="math inline">\(T=20\)</span>)</li>
+</ul>
+<div class="fragment">
+<div id="517d6b61" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>event_date <span class="op">=</span> pd.Timestamp(<span class="st">"2023-03-08"</span>)</span>
+<span id="cb2-2"><a></a>event_window <span class="op">=</span> pd.Timedelta(days<span class="op">=</span><span class="dv">10</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+</div>
+<div class="fragment">
+<p>For estimation, use long window before SVB collapse:</p>
+<div id="a34a774a" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>estimation_window <span class="op">=</span> pd.Timedelta(days<span class="op">=</span><span class="dv">500</span>) </span>
+<span id="cb3-2"><a></a>start_date <span class="op">=</span> event_date <span class="op">-</span> event_window <span class="op">-</span> estimation_window </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="obtaining-data" class="slide level4 scrollable">
+<h4>Obtaining Data</h4>
+<p>Necessary data:</p>
+<ul>
+<li class="fragment">Returns on tickers of interest</li>
+<li class="fragment">Market data for estimating <span class="math inline">\(ER_{it}\)</span> — will use 3-factor Fama-French model</li>
+</ul>
+<div class="fragment">
+<p>Can obtain ticker data from Yahoo Finance directly with <code>yfinance</code> package (abbreviated as <code>yf</code>)</p>
+<div id="aebf75ea" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Expand for data call and data preparation</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="co"># Download the tickers and rename columns to only retain ticker names</span></span>
+<span id="cb4-2"><a></a>stock_data <span class="op">=</span> yf.download(</span>
+<span id="cb4-3"><a></a>    tickers, </span>
+<span id="cb4-4"><a></a>    start<span class="op">=</span>start_date, </span>
+<span id="cb4-5"><a></a>    end<span class="op">=</span>event_date <span class="op">+</span> <span class="dv">4</span><span class="op">*</span>event_window,</span>
+<span id="cb4-6"><a></a>    progress<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb4-7"><a></a>)</span>
+<span id="cb4-8"><a></a>stock_data <span class="op">=</span> stock_data.iloc[:, <span class="dv">0</span>:<span class="bu">len</span>(tickers)]</span>
+<span id="cb4-9"><a></a>stock_data.columns <span class="op">=</span> (</span>
+<span id="cb4-10"><a></a>    stock_data.columns.<span class="bu">map</span>(<span class="kw">lambda</span> col: re.sub(<span class="vs">r"[()\s']"</span>, <span class="st">""</span>, col[<span class="dv">1</span>]))</span>
+<span id="cb4-11"><a></a>)</span>
+<span id="cb4-12"><a></a></span>
+<span id="cb4-13"><a></a><span class="co"># Calculate daily returns</span></span>
+<span id="cb4-14"><a></a>returns <span class="op">=</span> stock_data.pct_change().dropna()<span class="op">*</span><span class="dv">100</span></span>
+<span id="cb4-15"><a></a></span>
+<span id="cb4-16"><a></a><span class="co"># Read in FF 3 factor daily data</span></span>
+<span id="cb4-17"><a></a>ff_path <span class="op">=</span> Path() <span class="op">/</span> <span class="st">'data'</span> <span class="op">/</span> <span class="st">'fama-french-3.csv'</span></span>
+<span id="cb4-18"><a></a>fama_french_data <span class="op">=</span> pd.read_csv(ff_path).iloc[:, :<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb4-19"><a></a><span class="co"># Read the Date column as a date and set it as the index</span></span>
+<span id="cb4-20"><a></a>fama_french_data[<span class="st">"Date"</span>] <span class="op">=</span> pd.to_datetime(</span>
+<span id="cb4-21"><a></a>    fama_french_data[<span class="st">"Date"</span>], </span>
+<span id="cb4-22"><a></a>    <span class="bu">format</span><span class="op">=</span><span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>, </span>
+<span id="cb4-23"><a></a>)</span>
+<span id="cb4-24"><a></a>fama_french_data <span class="op">=</span> fama_french_data.set_index(<span class="st">"Date"</span>)</span>
+<span id="cb4-25"><a></a></span>
+<span id="cb4-26"><a></a><span class="co"># Merge returns and FF data, drop unnecessary data</span></span>
+<span id="cb4-27"><a></a>merged_data <span class="op">=</span> pd.concat(</span>
+<span id="cb4-28"><a></a>    [returns, fama_french_data], </span>
+<span id="cb4-29"><a></a>    axis<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb4-30"><a></a>).dropna(axis<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="footer">
+
+</div>
+</div>
+</section>
+<section id="estimating-abnormal-returns" class="slide level4 scrollable">
+<h4>Estimating Abnormal Returns</h4>
+<p>Estimate outcome variable <span class="math inline">\(AR_{it}\)</span> using Fama-French 3 market model:</p>
+<ul>
+<li class="fragment">Separately regress returns of each <span class="math inline">\(i\)</span> on Fama-French factors over estimation window</li>
+<li class="fragment">Obtained fitted values (<span class="math inline">\(\widehat{ER}_{it}\)</span>)</li>
+<li class="fragment">Compute <span class="math inline">\(\widehat{AR}_{it}\)</span>} and store</li>
+</ul>
+<p>For contrast, also estimate mean model</p>
+<div id="3a8219ce" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Expand for estimation of abnormal returns</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="co"># Create arrays to hold abnormal returns   </span></span>
+<span id="cb5-2"><a></a>abnormal_returns_factor <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb5-3"><a></a>abnormal_returns_mean <span class="op">=</span> pd.DataFrame()    </span>
+<span id="cb5-4"><a></a></span>
+<span id="cb5-5"><a></a><span class="co"># Estimate abnormal returns for each </span></span>
+<span id="cb5-6"><a></a><span class="cf">for</span> ticker <span class="kw">in</span> tickers:</span>
+<span id="cb5-7"><a></a>    <span class="co"># Estimate the 3-factor abnormal returns</span></span>
+<span id="cb5-8"><a></a>    X <span class="op">=</span> merged_data.loc[</span>
+<span id="cb5-9"><a></a>        merged_data.index <span class="op">&lt;</span> event_date <span class="op">-</span> event_window, </span>
+<span id="cb5-10"><a></a>        [<span class="st">"Mkt-RF"</span>, <span class="st">"SMB"</span>, <span class="st">"HML"</span>]</span>
+<span id="cb5-11"><a></a>    ]   </span>
+<span id="cb5-12"><a></a>    y <span class="op">=</span> merged_data.loc[</span>
+<span id="cb5-13"><a></a>        merged_data.index <span class="op">&lt;</span> event_date <span class="op">-</span> event_window, </span>
+<span id="cb5-14"><a></a>        ticker</span>
+<span id="cb5-15"><a></a>    ] </span>
+<span id="cb5-16"><a></a>    X <span class="op">=</span> sm.add_constant(X) </span>
+<span id="cb5-17"><a></a>    model <span class="op">=</span> sm.OLS(y, X).fit()   </span>
+<span id="cb5-18"><a></a></span>
+<span id="cb5-19"><a></a>    <span class="co"># Compute expected returns during the window</span></span>
+<span id="cb5-20"><a></a>    X_event <span class="op">=</span> (</span>
+<span id="cb5-21"><a></a>        merged_data.loc[</span>
+<span id="cb5-22"><a></a>            ((merged_data.index <span class="op">&gt;=</span> event_date <span class="op">-</span> event_window) <span class="op">&amp;</span> </span>
+<span id="cb5-23"><a></a>            (merged_data.index <span class="op">&lt;=</span> event_date <span class="op">+</span> event_window)), </span>
+<span id="cb5-24"><a></a>            [<span class="st">"Mkt-RF"</span>, <span class="st">"SMB"</span>, <span class="st">"HML"</span>]</span>
+<span id="cb5-25"><a></a>        ]</span>
+<span id="cb5-26"><a></a>    )</span>
+<span id="cb5-27"><a></a>    X_event <span class="op">=</span> sm.add_constant(X_event)</span>
+<span id="cb5-28"><a></a>    expected_returns <span class="op">=</span> model.predict(X_event)</span>
+<span id="cb5-29"><a></a></span>
+<span id="cb5-30"><a></a>    <span class="co"># Extract realized returns during the event</span></span>
+<span id="cb5-31"><a></a>    event_data <span class="op">=</span> (</span>
+<span id="cb5-32"><a></a>        merged_data.loc[</span>
+<span id="cb5-33"><a></a>            ((merged_data.index <span class="op">&gt;=</span> event_date <span class="op">-</span> event_window) <span class="op">&amp;</span> </span>
+<span id="cb5-34"><a></a>            (merged_data.index <span class="op">&lt;=</span> event_date <span class="op">+</span> event_window)), </span>
+<span id="cb5-35"><a></a>            ticker</span>
+<span id="cb5-36"><a></a>        ]</span>
+<span id="cb5-37"><a></a>    )</span>
+<span id="cb5-38"><a></a></span>
+<span id="cb5-39"><a></a>    <span class="co"># Abnormal returns are residuals</span></span>
+<span id="cb5-40"><a></a>    abnormal_returns_factor[ticker] <span class="op">=</span> event_data <span class="op">-</span> expected_returns</span>
+<span id="cb5-41"><a></a>    abnormal_returns_mean[ticker] <span class="op">=</span> event_data <span class="op">-</span> y.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="footer">
+
+</div>
+</section>
+<section id="visualizing-average-abnormal-returns" class="slide level4">
+<h4>Visualizing Average Abnormal Returns</h4>
+<div id="cell-fig-causal-es-avg-abnormal-return" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-display">
+<div id="fig-causal-es-avg-abnormal-return" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig">
+<div aria-describedby="fig-causal-es-avg-abnormal-return-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img data-src="event-studies_files/figure-revealjs/fig-causal-es-avg-abnormal-return-output-1.png" width="1093" height="491">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-causal-es-avg-abnormal-return-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence intervals
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="footer">
+
+</div>
+</section>
+<section id="looking-for-pretrends" class="slide level4">
+<h4>Looking For Pretrends</h4>
+<p><a href="#/fig-causal-es-avg-abnormal-return" class="quarto-xref">Figure&nbsp;1</a> suggests idea:</p>
+<ul>
+<li class="fragment">Cannot check no trends assumption for all periods (why?)</li>
+<li class="fragment">But can check pretreatment periods for trends in means</li>
+</ul>
+<p><br></p>
+<div class="fragment">
+<p><a href="#/fig-causal-es-avg-abnormal-return" class="quarto-xref">Figure&nbsp;1</a>: zero mean for <span class="math inline">\(t\)</span> before March 8 — supports no trends</p>
+</div>
+</section>
+
+<section id="estimation-and-inference" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Estimation and Inference</h3>
+
+</section>
+<section id="preparing-data-for-event-study" class="slide level4">
+<h4>Preparing Data for Event Study</h4>
+<p>Now need to create <span class="math inline">\(\bX\)</span> and <span class="math inline">\(\by\)</span> matrices to apply event study OLS</p>
+<p><br></p>
+<div class="fragment">
+<p>Key challenge: how do <span class="math inline">\(\bX\)</span> and <span class="math inline">\(\by\)</span> look like?</p>
+<ul>
+<li class="fragment">Regressors: indicators <span class="math inline">\(D_{it, \tau}\)</span> of every day after treatment start</li>
+<li class="fragment">Express in tabular form: each row in <span class="math inline">\(\bX\)</span> contains data on one stock <span class="math inline">\(i\)</span> on one day <span class="math inline">\(t\)</span>, columns — <span class="math inline">\(\widehat{AR}_{it}\)</span> and <span class="math inline">\(D_{it, \tau}\)</span></li>
+</ul>
+</div>
+</section>
+<section id="generate-event-study-data" class="slide level4 scrollable">
+<h4>Generate Event Study Data</h4>
+<div id="4e4da329" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Expand for construction of data matrices</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="co"># Create an array for day dummies</span></span>
+<span id="cb6-2"><a></a>dummy_df <span class="op">=</span> (</span>
+<span id="cb6-3"><a></a>    pd.get_dummies(</span>
+<span id="cb6-4"><a></a>        np.maximum(</span>
+<span id="cb6-5"><a></a>            (abnormal_returns_mean.index <span class="op">-</span> pd.to_datetime(event_date)).days<span class="op">+</span><span class="dv">1</span>, </span>
+<span id="cb6-6"><a></a>            <span class="dv">0</span>,</span>
+<span id="cb6-7"><a></a>        ), </span>
+<span id="cb6-8"><a></a>        prefix<span class="op">=</span><span class="st">'day'</span>,</span>
+<span id="cb6-9"><a></a>    )</span>
+<span id="cb6-10"><a></a>)</span>
+<span id="cb6-11"><a></a></span>
+<span id="cb6-12"><a></a><span class="co"># Set the index again</span></span>
+<span id="cb6-13"><a></a>dummy_df.index <span class="op">=</span> abnormal_returns_factor.index</span>
+<span id="cb6-14"><a></a><span class="co"># Drop the column of days preceding the event</span></span>
+<span id="cb6-15"><a></a>dummy_df <span class="op">=</span> dummy_df.drop(<span class="st">"day_0"</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-16"><a></a></span>
+<span id="cb6-17"><a></a><span class="co"># Melt abnormal returns data</span></span>
+<span id="cb6-18"><a></a>ar_factor_long <span class="op">=</span> abnormal_returns_factor.reset_index().melt(id_vars<span class="op">=</span><span class="st">"Date"</span>)</span>
+<span id="cb6-19"><a></a>ar_factor_long.head()</span>
+<span id="cb6-20"><a></a></span>
+<span id="cb6-21"><a></a><span class="co"># Merge data</span></span>
+<span id="cb6-22"><a></a>ar_factor_days <span class="op">=</span> pd.merge(</span>
+<span id="cb6-23"><a></a>    ar_factor_long, </span>
+<span id="cb6-24"><a></a>    dummy_df, </span>
+<span id="cb6-25"><a></a>    how<span class="op">=</span><span class="st">'left'</span>, </span>
+<span id="cb6-26"><a></a>    left_on<span class="op">=</span><span class="st">'Date'</span>, </span>
+<span id="cb6-27"><a></a>    right_index<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb6-28"><a></a>)</span>
+<span id="cb6-29"><a></a><span class="co"># Split into two</span></span>
+<span id="cb6-30"><a></a>exog <span class="op">=</span> ar_factor_days.<span class="bu">filter</span>(regex<span class="op">=</span><span class="st">"day*"</span>, axis<span class="op">=</span><span class="dv">1</span>).astype(<span class="st">'float64'</span>)</span>
+<span id="cb6-31"><a></a>exog <span class="op">=</span> sm.add_constant(exog)</span>
+<span id="cb6-32"><a></a>endog <span class="op">=</span> ar_factor_days.loc[:, <span class="st">"value"</span>]</span>
+<span id="cb6-33"><a></a></span>
+<span id="cb6-34"><a></a><span class="co"># View</span></span>
+<span id="cb6-35"><a></a>ar_factor_days.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Date</th>
+<th data-quarto-table-cell-role="th">variable</th>
+<th data-quarto-table-cell-role="th">value</th>
+<th data-quarto-table-cell-role="th">day_1</th>
+<th data-quarto-table-cell-role="th">day_2</th>
+<th data-quarto-table-cell-role="th">day_3</th>
+<th data-quarto-table-cell-role="th">day_6</th>
+<th data-quarto-table-cell-role="th">day_7</th>
+<th data-quarto-table-cell-role="th">day_8</th>
+<th data-quarto-table-cell-role="th">day_9</th>
+<th data-quarto-table-cell-role="th">day_10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>2023-02-27</td>
+<td>ALLY</td>
+<td>-2.330220</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2023-02-28</td>
+<td>ALLY</td>
+<td>2.108659</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2023-03-01</td>
+<td>ALLY</td>
+<td>0.247473</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>2023-03-02</td>
+<td>ALLY</td>
+<td>-0.029388</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>2023-03-03</td>
+<td>ALLY</td>
+<td>-1.057677</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="footer">
+
+</div>
+</section>
+<section id="event-study-ols" class="slide level4 scrollable">
+<h4>Event Study OLS</h4>
+<p>Can now apply the event study estimator</p>
+<div id="2edddcd7" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>factor_model <span class="op">=</span> sm.OLS(endog, exog).fit(cov_type<span class="op">=</span><span class="st">"HC0"</span>)</span>
+<span id="cb7-2"><a></a><span class="bu">print</span>(factor_model.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  value   R-squared:                       0.253
+Model:                            OLS   Adj. R-squared:                  0.247
+Method:                 Least Squares   F-statistic:                     25.25
+Date:                Wed, 07 May 2025   Prob (F-statistic):           1.47e-35
+Time:                        16:37:51   Log-Likelihood:                -2430.0
+No. Observations:                 975   AIC:                             4878.
+Df Residuals:                     966   BIC:                             4922.
+Df Model:                           8                                         
+Covariance Type:                  HC0                                         
+==============================================================================
+                 coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+const         -0.3725      0.063     -5.946      0.000      -0.495      -0.250
+day_1          0.1577      0.130      1.212      0.225      -0.097       0.413
+day_2         -2.2014      0.255     -8.618      0.000      -2.702      -1.701
+day_3         -0.3894      0.417     -0.933      0.351      -1.208       0.429
+day_6         -5.3652      0.966     -5.552      0.000      -7.259      -3.471
+day_7          1.7938      0.510      3.516      0.000       0.794       2.794
+day_8          1.5678      0.420      3.733      0.000       0.745       2.391
+day_9          1.6478      0.349      4.715      0.000       0.963       2.333
+day_10        -1.5880      0.254     -6.241      0.000      -2.087      -1.089
+==============================================================================
+Omnibus:                      714.361   Durbin-Watson:                   1.914
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):            46546.835
+Skew:                          -2.701   Prob(JB):                         0.00
+Kurtosis:                      36.415   Cond. No.                         5.88
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity robust (HC0)</code></pre>
+</div>
+</div>
+<div class="footer">
+
+</div>
+</section>
+<section id="cumulative-effects" class="slide level4 scrollable">
+<h4>Cumulative Effects</h4>
+<p>There are (at least) two kinds parameters of interest:</p>
+<ul>
+<li class="fragment">Coefficients <span class="math inline">\(\beta_{\tau}\)</span></li>
+<li class="fragment">Cumulative effects up to each given day</li>
+</ul>
+<p>Can compute cumulative effects and their variances as linear combinations of <span class="math inline">\(\beta_{\tau}\)</span></p>
+</section>
+<section id="computing-cumulative-effects" class="slide level4 scrollable">
+<h4>Computing Cumulative Effects</h4>
+<div id="5b1e4d7c" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Expand to see computation of cumulative effects</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a><span class="co"># Extract coefs and SEs of daily indicators</span></span>
+<span id="cb9-2"><a></a>dummy_coefficients <span class="op">=</span> factor_model.params.iloc[<span class="dv">1</span>:]  </span>
+<span id="cb9-3"><a></a>dummy_cov_matrix <span class="op">=</span> factor_model.cov_params().iloc[<span class="dv">1</span>:, <span class="dv">1</span>:]  </span>
+<span id="cb9-4"><a></a></span>
+<span id="cb9-5"><a></a><span class="co"># Compute the cumulative effects</span></span>
+<span id="cb9-6"><a></a>cumulative_effects <span class="op">=</span> dummy_coefficients.cumsum()</span>
+<span id="cb9-7"><a></a></span>
+<span id="cb9-8"><a></a><span class="co"># Compute the standard errors of the cumulative effects</span></span>
+<span id="cb9-9"><a></a>cumulative_se <span class="op">=</span> np.zeros(<span class="bu">len</span>(cumulative_effects))</span>
+<span id="cb9-10"><a></a><span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(cumulative_effects) <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb9-11"><a></a>    <span class="co"># Create a vector of ones up to day t and zeros afterwards</span></span>
+<span id="cb9-12"><a></a>    indicator_vector <span class="op">=</span> np.concatenate(</span>
+<span id="cb9-13"><a></a>        [np.ones(t), np.zeros(<span class="bu">len</span>(cumulative_effects) <span class="op">-</span> t)]</span>
+<span id="cb9-14"><a></a>    )</span>
+<span id="cb9-15"><a></a></span>
+<span id="cb9-16"><a></a>    <span class="co"># Compute the SE of the cumulative effect</span></span>
+<span id="cb9-17"><a></a>    cumulative_se[t <span class="op">-</span> <span class="dv">1</span>] <span class="op">=</span> np.sqrt(</span>
+<span id="cb9-18"><a></a>        indicator_vector <span class="op">@</span> dummy_cov_matrix <span class="op">@</span> indicator_vector</span>
+<span id="cb9-19"><a></a>    )</span>
+<span id="cb9-20"><a></a></span>
+<span id="cb9-21"><a></a><span class="co"># Create a DataFrame to store the results</span></span>
+<span id="cb9-22"><a></a>results <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb9-23"><a></a>    {</span>
+<span id="cb9-24"><a></a>        <span class="st">"Day"</span>: factor_model.params.index[<span class="dv">1</span>:].<span class="bu">map</span>(<span class="kw">lambda</span> x: x[<span class="dv">4</span>:]),</span>
+<span id="cb9-25"><a></a>        <span class="st">"Cumulative Effect"</span>: cumulative_effects,</span>
+<span id="cb9-26"><a></a>        <span class="st">"SE"</span>: cumulative_se,</span>
+<span id="cb9-27"><a></a>    }</span>
+<span id="cb9-28"><a></a>)</span>
+<span id="cb9-29"><a></a></span>
+<span id="cb9-30"><a></a><span class="co"># Prepend day 0 as a reference</span></span>
+<span id="cb9-31"><a></a>day0_df <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb9-32"><a></a>    {</span>
+<span id="cb9-33"><a></a>        <span class="st">"Day"</span>: <span class="dv">0</span>,</span>
+<span id="cb9-34"><a></a>        <span class="st">"Cumulative Effect"</span>: <span class="dv">0</span>,</span>
+<span id="cb9-35"><a></a>        <span class="st">"SE"</span>: <span class="dv">0</span>,</span>
+<span id="cb9-36"><a></a>    },</span>
+<span id="cb9-37"><a></a>    index <span class="op">=</span> np.array([<span class="st">'day_0'</span>])</span>
+<span id="cb9-38"><a></a>)</span>
+<span id="cb9-39"><a></a>results <span class="op">=</span> pd.concat([day0_df, results])</span>
+<span id="cb9-40"><a></a></span>
+<span id="cb9-41"><a></a><span class="co"># Construct confidence intervals</span></span>
+<span id="cb9-42"><a></a>results[<span class="st">"ci_upper"</span>] <span class="op">=</span> results[<span class="st">"Cumulative Effect"</span>] <span class="op">+</span> <span class="fl">1.96</span> <span class="op">*</span> results[<span class="st">"SE"</span>]</span>
+<span id="cb9-43"><a></a>results[<span class="st">"ci_lower"</span>] <span class="op">=</span> results[<span class="st">"Cumulative Effect"</span>] <span class="op">-</span> <span class="fl">1.96</span> <span class="op">*</span> results[<span class="st">"SE"</span>]</span>
+<span id="cb9-44"><a></a></span>
+<span id="cb9-45"><a></a><span class="co"># Set index</span></span>
+<span id="cb9-46"><a></a>results.index <span class="op">=</span> abnormal_returns_mean.index[<span class="dv">6</span>:]</span>
+<span id="cb9-47"><a></a></span>
+<span id="cb9-48"><a></a><span class="co"># Print the results</span></span>
+<span id="cb9-49"><a></a><span class="bu">print</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>           Day  Cumulative Effect        SE  ci_upper  ci_lower
+Date                                                           
+2023-03-07   0           0.000000  0.000000  0.000000  0.000000
+2023-03-08   1           0.157654  0.130041  0.412535 -0.097226
+2023-03-09   2          -2.043763  0.300018 -1.455727 -2.631799
+2023-03-10   3          -2.433204  0.529112 -1.396145 -3.470263
+2023-03-13   6          -7.798358  1.112385 -5.618084 -9.978632
+2023-03-14   7          -6.004565  1.236544 -3.580938 -8.428191
+2023-03-15   8          -4.436727  1.320864 -1.847834 -7.025620
+2023-03-16   9          -2.788908  1.383443 -0.077360 -5.500455
+2023-03-17  10          -4.376868  1.426044 -1.581822 -7.171915</code></pre>
+</div>
+</div>
+<div class="footer">
+
+</div>
+</section>
+<section id="visualizing-cumulative-effects" class="slide level4">
+<h4>Visualizing Cumulative Effects</h4>
+<div id="5084fd8a" class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="event-studies_files/figure-revealjs/cell-12-output-1.png" width="1110" height="457"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="testing-joint-zero-effect" class="slide level4">
+<h4>Testing Joint Zero Effect</h4>
+<p>Can also formally test our null that <span class="math inline">\(H_0: \beta_{\tau}=0\)</span> for all <span class="math inline">\(\tau\)</span></p>
+<p><br></p>
+<div class="fragment">
+<p>Use Wald test:</p>
+<div id="298d44d0" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>R <span class="op">=</span> np.concatenate( (np.zeros((<span class="dv">8</span>, <span class="dv">1</span>)), np.eye(<span class="bu">len</span>(factor_model.params)<span class="op">-</span><span class="dv">1</span>)), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb11-2"><a></a>wald_results <span class="op">=</span> factor_model.wald_test(R,  scalar<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-3"><a></a><span class="bu">print</span>(wald_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;Wald test (chi2): statistic=202.03504711033924, p-value=2.3803784551535144e-39, df_denom=8&gt;</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="empirical-conclusions" class="slide level4">
+<h4>Empirical Conclusions</h4>
+<p>So what is the final conclusion?</p>
+<p><br></p>
+<div class="rounded-box">
+<p>Find that collapse of the SVB had significant negative effects on returns over the next 10 days</p>
+</div>
+</section>
+</section>
 <section>
 <section id="recap-and-conclusions" class="title-slide slide level2 center" data-background="#00100F">
 <h2>Recap and Conclusions</h2>
@@ -981,10 +1766,28 @@ H_0: \beta_{\tau} = 0, \quad \tau = t_0, \dots, T
 </section>
 <section id="recap" class="slide level4">
 <h4>Recap</h4>
+<p>In this lecture we</p>
+<ol type="1">
+<li class="fragment">Introduced event studies — the simplest panel causal estimator</li>
+<li class="fragment">Discussed causal properties under various assumptions of no trends</li>
+<li class="fragment">Considered dynamic treatment effects</li>
+<li class="fragment">Expressed event studies as regression</li>
+<li class="fragment">Did a detailed study on the collapse of the SVB</li>
+</ol>
+</section>
+<section id="next-questions" class="slide level4">
+<h4>Next Questions</h4>
+<ul>
+<li class="fragment">What if the assumption of no trends is unreasonable?</li>
+<li class="fragment">What if the treatment is not binary?</li>
+</ul>
 </section>
 <section id="references-1" class="slide level4 allowframebreaks smaller scrollable" data-visibility="uncounted">
 <h4>References</h4>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Fama2014TwoPillarsAsset" class="csl-entry" role="listitem">
+Fama, Eugene F. 2014. <span>“Two <span>Pillars</span> of <span>Asset Pricing</span>.”</span> <em>American Economic Review</em> 104 (6): 1467–85. <a href="https://doi.org/10.1257/aer.104.6.1467">https://doi.org/10.1257/aer.104.6.1467</a>.
+</div>
 <div id="ref-Freyaldenhoven2021VisualizationIdentificationEstimation" class="csl-entry" role="listitem">
 Freyaldenhoven, Simon, Christian Hansen, Jorge Pérez Pérez, and Jesse Shapiro. 2021. <span>“Visualization, <span>Identification</span>, and <span>Estimation</span> in the <span>Linear Panel Event-Study Design</span>.”</span> w29170. Cambridge, MA: National Bureau of Economic Research. <a href="https://doi.org/10.3386/w29170">https://doi.org/10.3386/w29170</a>.
 </div>

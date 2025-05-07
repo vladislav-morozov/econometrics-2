@@ -185,7 +185,7 @@ tickers = [
 ## Two Periods {background="#00100F"}
  
  
-
+### Estimator {background="#43464B" visibility="uncounted"}
 
 
 #### Simple Event Study Setting
@@ -218,7 +218,7 @@ Possible empirical framework
 - Units $i$: firms that make phones
 - Outcome $Y_{it}$: their stock price
 - Periods:
-  1. One week before Apple announces the iPhone. 
+  1. One week before Apple announces the iPhone
   2. One week after the announcement
 
 . . .
@@ -751,7 +751,7 @@ We need
 
 - Outcome variables (which returns?)
 - Time context $t$
-- How to define the treatment $D_{it}$
+- How to define the treatment 
 
 #### Some Finance Background: Abnormal Returns 
 
@@ -788,11 +788,16 @@ Assume that $\E[AR_{it}^0] = 0$ and $AR_{it}^0$ uncorrelated with broader market
 
 </div>  
 
+::: footer
+
+
+:::
+
 #### Computing Expected and Abnormal Returns
 
 Expected returns usually given by some model:
 
-- Simple mean: let $R_{it}$ be return of asset $i$ on $t$. Expected return $ER_{it} = \E[R_{it}]$
+- Simple mean model: let $R_{it}$ be return of asset $i$ on $t$. Expected return $ER_{it} = \E[R_{it}]$
 - Factor models: 
 $$\small
 ER_{it} = f_i\left( \text{Some market characteristics on }t \right)
@@ -1168,7 +1173,7 @@ print(factor_model.summary())
 :::
 
 
-#### Reporting Cumulative Effects {.scrollable}
+#### Cumulative Effects {.scrollable}
 
 There are (at least) two kinds parameters of interest:
 
@@ -1177,6 +1182,7 @@ There are (at least) two kinds parameters of interest:
 
 Can compute cumulative effects and their variances as linear combinations of $\beta_{\tau}$
 
+#### Computing Cumulative Effects {.scrollable}
 
 ```{python}
 #| echo: true 
