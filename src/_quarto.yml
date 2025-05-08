@@ -40,6 +40,7 @@ website:
         - slides/vector/ols-delta-method.qmd
       - section: "Panel Data"
         contents:
+        - slides/panel/data-types.qmd
         - slides/panel/event-studies.qmd
 
 execute:
