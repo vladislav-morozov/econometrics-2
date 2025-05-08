@@ -1,6 +1,6 @@
 ---
-title: "Panel Data"
-subtitle: "Linear Models for Panel Data"
+title: "Data Types"
+subtitle: "A Brief Classification"
 author: Vladislav Morozov  
 format:
   revealjs:
@@ -8,369 +8,639 @@ format:
     slide-number: true
     sc-sb-title: true
     incremental: true   
-    logo: ../themes/favicon.ico
-    footer: Panel Data
+    logo: ../../themes/favicon.ico
+    footer: "Panel Data I: Event Studies"
     footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
-    theme: ../themes/slides_theme.scss
+    theme: ../../themes/slides_theme.scss
     toc: TRUE
     toc-depth: 2
     toc-title: Contents
     transition: convex
     transition-speed: fast
-slide-level: 3
+slide-level: 4
 title-slide-attributes:
     data-background-color: "#045D5D"
     data-footer: " "
 filters:
-  - reveal-header 
-embed-resources: true
-include-in-header: ../themes/mathjax.html 
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
 ---
 
-### This Block
-
-We will do something
-
-### Learning Outcomes
-
-### References
-
--
-- Chapter 17 in @Huntington-Klein2025EffectIntroductionResearch: <https://www.theeffectbook.net/ch-EventStudies.html>
-- @Freyaldenhoven2021VisualizationIdentificationEstimation
-- @Wooldridge2020IntroductoryEconometricsModern
+## Introduction {background="#00100F"}
   
-
-# TYPES OF DATA {background="#014D4E"}
-
-### The Three Types of Data
-
-Most (economic) research today uses panel
+### Lecture Info {background="#43464B" visibility="uncounted"}
 
 
-### Why Panel Data
+#### Learning Outcomes
 
-Key advantage of panel data: several observations of potential outcomes per unit
+This lecture offers a brief classification of data types
 
-. . .
+
+<br>
+
+By the end, you should be able to
+
+- State the main ways how we classify data
+- Describe the four main data kinds
+  
+#### Textbook References
+ 
 
 ::: {.nonincremental}
-- Units with different treatments in different periods: (partially) observe the individual effect
-- Units with no change in treatment: still can be used for learning about changes in other units
-:::
- 
-
-# BINARY TREATMENT {background="#014D4E"}
-
-## EVENT STUDIES {background="#43464B"}
- 
 
 
-### Simple Event Study Setting
+- Section 1.3 in @Wooldridge2020IntroductoryEconometricsModern
+- Section 1.5 in @Hansen2022Econometrics
 
-Begin with the simplest possible panel setting with binary treatment: 
- 
-- Two periods with $N$ units:
-  - No treatment in period 1.
-  - All units treated in period 2.
-- Data: outcomes $(Y_{i1}, Y_{i2})$.
+:::  
 
-. . .
 
-Object of interest: "average effect of treatment"
+```{python} 
+import geopandas as gpd
+import pandas as pd
+import plotly.express as px
+import pycountry
 
-### Simple Estimator — Average Change
-
-Simplest approach: compute average change in $Y_{it}$ across periods
-  $$
-  \widehat{AE}_{ES} = \dfrac{1}{N}\sum_{i=1}^N (Y_{i2}- Y_{i1}).
-  $$ {#eq-causal-event-studies-naive-panel-contrast}
-  
-
-Estimator ([-@eq-causal-event-studies-naive-panel-contrast]) — simplest example of *event study* estimators [see @Freyaldenhoven2021VisualizationIdentificationEstimation;@Miller2023IntroductoryGuideEvent].
-
-### Example Framework {#sec-event-study-example}
-
-Possible empirical framework
-
-- Units $i$: firms that make phones
-- Outcome $Y_{it}$: their stock price
-- Periods:
-  1. One week before Apple announces the iPhone. 
-  2. One week after the announcement
-
-. . .
-
-Effect of interest: change in stock prices due to the announcement of iPhone
+BG_COLOR = "whitesmoke"
+FONT_COLOR = "black"
+```
 
 
 
+```{python}
 
-### What Does ([-@eq-causal-event-studies-naive-panel-contrast]) Do?
+# Load the data
+unemp_df = pd.read_csv("data/europe-unemployment.csv")
+
+# Eurostat uses 2-position codes. For plotting, we need to transform those codes
+# into ISO-3 codes
+def iso2_to_iso3(iso2_code):
+    try:
+        country = pycountry.countries.get(alpha_2=iso2_code.upper())
+        return country.alpha_3 if country else None
+    except KeyError:
+        return None
+
+# Add country codes and set as index
+unemp_df["ISO3_CODE"] = unemp_df["geo"].apply(iso2_to_iso3)
+```
+
+
+## Classifying Data {background="#00100F"}
+
+#### How Do We Classify Data?
+
+Main kinds of data classification:
+
+
+<br>
+
+
+:::: {.columns}
+
+::: {.column width="33%"}
 
 
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-
-::: {#prp-event-study-limit}
-
-## Asymptotics for $\widehat{AE}_{ES}$
-
-Let 
-
-::: {.nonincremental}
-- *(Cross-sectional random sampling)*: $(Y_{i1}, Y_{i2})$ be independent and identically distributed (IID)
-- *Finite first moments*: $\E[\abs{Y_{it}}]<\infty$
-:::
  
-Then
-$$
-\widehat{AE}_{ES} \xrightarrow{p} \E[Y_{i2} - Y_{i1}].
-$$ 
-:::
+Based on number of units and observations per unit  
 
 </div>
 
-### Causal Framework
-
-
-Is $\E[Y_{i2} - Y_{i1}]$ interesting (=causal)?
-
-. . .
-
-::: {.callout-important appearance="minimal"}
-
-Need a causal framework to talk about causal effects!
-
-:::
-
-. . .
-
-Work in the familiar potential outcomes framework: 
-
-- $Y_{it}^0$ — outcome for $i$ in period $t$ if *not treated*
-- $Y_{i1}^1$ — outcome for $i$ in period $t$ if *treated*
-- Treatment effect for $i$ in $t$: $Y_{it}^1- Y_{it}^0$
-
-. . .
-
-For short, use $Y_{it}^d$ where $d=0, 1$
-
-
-
-### Limit of ES Estimator and Causality
-
-Potential and *realized* outcomes are connected as
-$$
-Y_{i2} = Y_{i2}^1, \quad Y_{i1} = Y_{i1}^0.
-$$
-
-
-. . .
-
-It follows that
-$$
-\widehat{AE}_{ES} \xrightarrow{p} \E[Y_{i2}^2- Y_{i1}^1].
-$$
-
-::: {.callout-important appearance="minimal"}
- 
-$\E[Y_{i2}^2- Y_{i1}^1]$ is not necessarily a treatment effect — mixes effect of treatment and effects of time!
 ::: 
 
-### Example
+::: {.column width="30%"}
 
-[[Context]{.button}](#sec-event-study-example) Again consider the iPhone example. Then 
-
-- $Y_{i2}^1 - Y_{i2}^0$ — treatment effect, change in price *because* of the iPhone announcement
-- $Y_{i2}^0 - Y_{i0}^0$ — change in a world *without* iPhone
-  
-. . . 
-
-We see combination of both changes
-$$
-Y_{i2} - Y_{i1} = Y_{i2}^1- Y_{i1}^0 = [Y_{i2}^1- Y_{i2}^0] + [Y_{i2}^0 - Y_{i0}^0]
-$$
-
-
-
-### Solution: Restrict Changes over Time
-
-Simple solution: rule out changes over time
 
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-
-**Assumption**: no variation in potential outcomes
-$$
-Y_{i2}^d= Y_{i1}^d, \quad d=0, 1
-$$ 
  
+
+Based on sampling assumptions
+
+<br> 
 
 </div>
 
-Then $\widehat{AE}_{ES}$ is estimating a *causal* parameter — average effects
-$$
-\begin{aligned}
-\widehat{AE}_{ES} & \xrightarrow{p} \E[Y_{i1}^1- Y_{i1}^0]  =  \E[Y_{i2}^1- Y_{i2}^0]
-\end{aligned}
-$$ 
+:::
 
-### Relaxing Time Invariance: No Trends
+::: {.column width="36%"}
 
-Time invariance very strict. Why use it if we only work with averages?
+
+<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+
+<br> 
+
+By nature of data
+
+<br> 
+
+</div>
+
+:::
+
+::::
 
 . . .
 
-Weaker assumption:
+All these difference affect identification, estimation, and inference
 
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+#### Kinds of Data by Observations
 
-**Assumption** (*no trends*):  
-$$
-\E[Y_{i2}^d] = \E[Y_{i1}^d], \quad d=0, 1
-$$
+<br>
+
+- Cross-sectional data
+- Time series
+- Panel data
+- Repeated cross-sectional data
+
  
 
+
+
+
+#### Sampling Assumptions
+
+<br>
+
+
+- From an infinitely large population:
+  - Independent samples 
+  - Dependent samples (network or spatial dependence)
+- From a finite population
+
+ 
+
+#### Data Nature
+ 
+
+- Numerical vectors 
+- Images
+- Text
+- Functional data 
+
+. . .
+
+<br>
+
+In this class mostly numerical data, but other data also hugely important!
+
+## Types of Data by Observation {background="#00100F"}
+ 
+
+
+  
+
+#### Cross-Sectional Data
+
+Simplest type of data — cross-sectional
+ 
+
+<div class="rounded-box">
+ 
+::: {.nonincremental}
+
+- <span class="highlight">One</span> observation per unit
+- Time of collection <span class="highlight">not important</span>
+
+:::
+
 </div>
-Allows random variation in potential outcomes between times
 
-### Summary so Far
+<br>
+
+- Example: unemployment in different European countries in the last quarter of 2024
+- Often indexed by $i$, as in $(Y_i, \bX_i)$ 
+
+#### Visual Example: Cross-Sectional Data
+
+```{python}
+ 
+#| code-fold: true
+#| code-summary: "Visualizing a cross-section of data"
+# Extract data
+unemp_2024_4 = unemp_df.loc[unemp_df.loc[:, "date"]=="2024-Q4", :]
+ 
+# Create root choropleth
+fig = px.choropleth(
+    unemp_2024_4, 
+    locations=unemp_2024_4["ISO3_CODE"],
+    locationmode="ISO-3",
+    color="unemp_rate",
+    color_continuous_scale="Oranges",
+    hover_name="entity", 
+    range_color=(0, unemp_2024_4["unemp_rate"].max()), 
+)
+
+# Apply dark theme settings
+fig.update_layout(
+    font_family="Arial",
+    plot_bgcolor=BG_COLOR,
+    paper_bgcolor=BG_COLOR,
+    font=dict(color=FONT_COLOR),
+    title=dict(
+        text="<b>European Unemployment Rates (2024 Q4)</b>",
+        x=0.03,
+        xanchor="left",
+        y=0.95,
+        yanchor="top",
+        font=dict(color=FONT_COLOR, size=20)
+    ),
+    margin=dict(l=20, r=20, t=50, b=20),  # Adjusted for title
+    coloraxis_colorbar=dict(
+        title=dict(
+            text="Unemployment Rate (%)",
+            font=dict(color=FONT_COLOR, size=12),
+            side="right"
+        ),
+        tickfont=dict(color=FONT_COLOR, size=10),
+        tickvals=[0, unemp_2024_4["unemp_rate"].max()],
+        ticktext=["0%", f"{unemp_2024_4['unemp_rate'].max():.1f}%"],
+        len=0.7,
+        thickness=20,
+        x=1.02,
+        yanchor="middle",
+        y=0.5
+    ),
+)
+
+# Update geo settings for dark theme
+fig.update_geos(
+    visible=False,
+    center={"lat": 50, "lon": 10},
+    projection_scale=5,
+    bgcolor=BG_COLOR,  # Map background
+    landcolor=BG_COLOR,  # Land color
+    lakecolor=BG_COLOR,  # Water color
+    showocean=True,
+    oceancolor="rgb(237, 237, 237)", 
+    showcountries=True,
+    showframe=True, 
+    framecolor="black",
+)
+
+ 
+
+# Custom hover template 
+def custom_hover_text(row):
+    country_name = row['entity']
+    unemp_rate = row['unemp_rate']
+
+    if unemp_rate == -1:
+        return f"<b>{country_name}</b><br>Unemployment: N/A"
+    else:
+        return f"<b>{country_name}</b><br>Unemployment: {unemp_rate:.1f}%"
+
+# Apply the combined hover text 
+fig.update_traces(
+    hovertext=[custom_hover_text(row) for _, row in unemp_2024_4.iterrows()],
+    hoverinfo="text",  # This is the key - only show custom text
+    hovertemplate=None,  # Explicitly remove default template
+    marker=dict(line=dict(width=0.5, color='gray'))
+)
+
+fig.show()
+```
 
 
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 
-::: {#prp-event-study-no-trends}
+#### Time Series Data
 
-## Causal asymptotics for $\widehat{AE}_{ES}$
+Data collected over time:
 
-Let 
+<br>
+
+<div class="rounded-box">
+ 
+::: {.nonincremental}
+
+<span class="highlight">One</span> unit with <span class="highlight">multiple</span> observations
+
+
+:::
+
+</div>
+
+<br>
+
+- Example: unemployment in Spain over 1998-2024
+- Indexed by time $t$: $(Y_i, \bX_t)$
+
+#### Visual Example of Time Series
+
+```{python}
+#| code-fold: true
+#| code-summary: "Visualizing unemployment in Spain"
+# Extract data for Spain
+unemp_esp = unemp_df.loc[unemp_df["ISO3_CODE"]=="ESP", :].copy()
+unemp_esp ['date'] = pd.PeriodIndex(unemp_esp['date'], freq='Q').to_timestamp() 
+unemp_esp = unemp_esp.sort_values('date')
+
+# Add line
+fig = px.line(
+    unemp_esp,
+    x="date",
+    y="unemp_rate", )
+
+# Update syling
+fig.update_layout(
+    font_family="Arial",
+    plot_bgcolor=BG_COLOR,
+    paper_bgcolor=BG_COLOR,
+    font=dict(color=FONT_COLOR),
+    title=dict(
+        text="<b>Unemployment Rate in Spain\n</b>",
+        x=0.07,
+        xanchor="left",
+        y=0.95,
+        yanchor="top",
+        font=dict(color=FONT_COLOR, size=24)
+    ),
+    margin=dict(l=20, r=20, t=50, b=20),   
+)
+
+# Set axes
+fig.update_xaxes(showline=True,
+        linewidth=3,
+        linecolor=FONT_COLOR,
+        mirror=True,
+        title=dict(
+            text="Date"
+        ))
+
+fig.update_yaxes(showline=True,
+         linewidth=3,
+         linecolor=FONT_COLOR,
+         mirror=True,
+         title=dict(
+            text="Unemployment Rate, %"
+         )
+         )
+
+# Correct hover text
+fig.update_traces(
+    line=dict(color="rgb(0, 138, 165)"),
+    hovertemplate=None,
+)
+
+fig.show()
+``` 
+
+
+#### Panel Data
+
+Multidimensional kind of data: 
+
+<br> 
+
+<div class="rounded-box">
+ 
 
 ::: {.nonincremental}
-- Assumptions of @prp-event-study-limit hold
-- No trends assumption hold
-:::
- 
-Then $\widehat{AE}_{ES}$ consistent for causal parameters:
-$$
-\widehat{AE}_{ES} \xrightarrow{p} \E[Y_{i1}^1- Y_{i1}^0]  =  \E[Y_{i2}^1- Y_{i2}^0]
-$$ 
-:::
 
+<span class="highlight">Multiple</span> units with <span class="highlight">multiple</span> observations
+
+
+:::
 
 </div>
 
 
+<br> 
 
-### Regression Setting
+- Sometimes but not always — combination of cross-sections and time series
+- Can be two- $(Y_{it})$ or higher-dimensional $(Y_{ijt})$
 
-Can also connect $\widehat{AE}_{ES}$ and OLS 
 
-. . . 
+#### Panel Data Examples
+
+<br>
+
+- Two-dimensional:
+  - Unit $\times$ time: unemployment in European country $i$ over years $t$
+  - Various groups: grades of student $i$ under teacher $j$
+- Higher-dimensional: price of beer $i$ in store $j$ on day $t$ 
  
-Consider regression model
-$$
-\begin{aligned}
-Y_{it} & = \beta_0 + \beta_1 D_{it} + u_{it}, \\
-D_{it} & = \begin{cases}
-1, & t= 1 \\
-0, & t =0
-\end{cases}
-\end{aligned}
-$${#eq-event-study-simple-regression}
-where we simply treat $(Y_{i1}, D_{i1})$ and $(Y_{i2}, D_{i2})$ as separate observations
+ 
 
+#### Visual Example: Panel Data
 
+```{python}
+#| code-fold: true
+#| code-summary: "Rectangularizing the data"
+# Get all unique values
+countries = unemp_df["ISO3_CODE"].unique()
+dates = unemp_df["date"].unique()
+# Create a dictionary of code: country name pairs
+countries_dict= (
+    unemp_df.loc[:, ["ISO3_CODE", "entity"]]
+    .drop_duplicates()
+    .set_index("ISO3_CODE")
+    .to_dict()['entity']
+)
 
-### Event Study and OLS
+# Create full index using Cartesian product
+full_index = pd.MultiIndex.from_product([countries, dates], names=["ISO3_CODE", "date"])
 
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
+# Reindex dataframe to ensure all combinations exist
+unemp_df = (
+    unemp_df.set_index(["ISO3_CODE", "date"])
+    .reindex(full_index)
+    .reset_index()
+)
 
-::: {#prp-event-study-no-trends}
+# Fill missing unemployment and country name values
+unemp_df["unemp_rate"] = unemp_df["unemp_rate"].fillna(-1)   
+unemp_df["entity"] = (
+    unemp_df.set_index("ISO3_CODE")["entity"]
+    .fillna(countries_dict)
+    .reset_index()["entity"]    
+)
+```
 
-## $\widehat{AE}_{ES}$ is OLS
+```{python} 
+#| code-fold: true
+#| code-summary: "Visualizing the panel nature of the data"
+# Convert time column to proper datetime format
 
-For $\beta_1$ of regression  ([-@eq-event-study-simple-regression])
-$$
-\widehat{AE}_{ES} = \hat{\beta}_1^{OLS}
-$$ 
+unemp_df = unemp_df.sort_values(by="date")
+ 
+color_scale = [
+    [0.0, "rgb(44, 44, 44)"],  # Missing data
+    [0.0001, "rgb(255, 221, 192)"],   
+    [1.0, "rgb(255, 124, 9)"]   
+]
+
+# Create figure with dark theme
+fig = px.choropleth(
+    unemp_df, 
+    locationmode = "ISO-3",
+    locations=unemp_df["ISO3_CODE"],
+    color="unemp_rate",
+    color_continuous_scale=color_scale,
+    hover_name="entity", 
+    animation_frame="date", 
+    range_color=(-1, 25), 
+)
+ 
+
+# Custom hover template function
+def custom_hover_text(row):
+    country_name = row['entity']
+    unemp_rate = row['unemp_rate']
+    date = row['date'].strftime('%Y-Q%q') if hasattr(row['date'], 'strftime') else str(row['date'])
+
+    if unemp_rate == -1:
+        return f"<b>{country_name}</b><br>{date}<br>Unemployment: N/A"
+    else:
+        return f"<b>{country_name}</b><br>{date}<br>Unemployment: {unemp_rate:.1f}%"
+
+# Apply custom hover formatting to ALL frames
+for frame in fig.frames:
+    # Get the data for this frame
+    frame_data = frame.data[0]
+    # Find the corresponding data in unemp_df
+    quarter = frame.name
+    quarter_df = unemp_df[unemp_df['date'] == quarter]
+    # Update hover text for this frame
+    frame_data.hovertext = [custom_hover_text(row) for _, row in quarter_df.iterrows()]
+    frame_data.hoverinfo = "text"
+    frame.data[0].hovertemplate=None
+
+fig.data[0].hovertext = [custom_hover_text(row) for _, row in unemp_df[unemp_df['date'] == unemp_df['date'].min()].iterrows()]
+fig.data[0].hoverinfo = "text"
+fig.data[0].hovertemplate = None
+
+# Apply dark theme settings
+fig.update_layout(
+    font_family="Arial",
+    plot_bgcolor=BG_COLOR,
+    paper_bgcolor=BG_COLOR,
+    font=dict(color=FONT_COLOR),
+    title=dict(
+        text="<b>European Unemployment Rates: Evolution 1998-2024</b>",
+        x=0.03,
+        xanchor="left",
+        y=0.95,
+        yanchor="top",
+        font=dict(color=FONT_COLOR, size=20)
+    ),
+    margin=dict(l=20, r=20, t=50, b=20),  # Adjusted for title
+    coloraxis_colorbar=dict(
+        title=dict(
+            text="Unemployment Rate (%)",
+            font=dict(color=FONT_COLOR, size=12),
+            side="right"
+        ),
+        tickfont=dict(color=FONT_COLOR, size=10),
+        tickvals=[0, 25],
+        ticktext=["0%", "25%+"],
+        len=0.7,
+        thickness=20,
+        x=1.02,
+        yanchor="middle",
+        y=0.5
+    ),
+    updatemenus=[
+        dict(
+            type="buttons", 
+            buttons=[
+                dict(label="Play",
+                     method="animate",
+                     args=[None, {"frame": {"duration": 500, "redraw": True}, "fromcurrent": True}]
+                     ),
+                dict(label="Pause",
+                     method="animate",
+                     args=[[None], {"frame": {"duration": 0, "redraw": False}, "mode": "immediate"}]
+                     )
+            ]
+        )
+    ],
+    annotations=[dict(
+        text="Quarter", 
+        x=0.5, 
+        y=-0.27,  # Positioning below the slider
+        showarrow=False,
+        font_size=14
+    )],
+)
+
+# Update geo settings for dark theme
+fig.update_geos(
+    visible=False,
+    center={"lat": 50, "lon": 10},
+    projection_scale=5,
+    bgcolor=BG_COLOR,  # Map background
+    landcolor=BG_COLOR,  # Land color
+    lakecolor=BG_COLOR,  # Water color
+    showocean=True,
+    oceancolor="rgb(222, 222, 222)", 
+    showcountries=True,
+    showframe=True, 
+    framecolor="black",
+)
+
+fig.show()
+```
+ 
+#### Repeated Cross-Sectional Data
+ 
+ 
+<div class="rounded-box">
+ 
+::: {.nonincremental}
+
+- One observation per unit
+- Time of collection <span class="highlight">important</span>
+
 :::
 
+</div>
+
+
+<br> 
+
+
+Example
+
+- Surveying different households in different years
+- Changes over time cannot be ignored in many contexts
+
+#### Data with Panel and Repeated Cross-Sectional Features
+
+<br> 
+
+<div class="rounded-box">
+<span class="highlight">Rotating panels</span> have features of both panel and repeated cross-sectional data
 
 </div> 
-
-1. Can use all results developed for OLS for $\widehat{AE}_{ES}$
-2. Regressing $Y_{it}$ on $D_{it}$ gives a causal parameter
-   - Under no trends
-   - No experiment was necessary
-   
-
-### Event Study and Regression
-
-A way to think about regression in causal settings:
-
-- Write down the regression in terms of parameters of interest: e.g. let
-$$ 
-\beta_0 = \E[Y_{i0}^0], \quad
-\beta_1  =  \E[Y_{i2}^1- Y_{i2}^0] 
-$$
-- Connect regression to potential outcomes: *what is $u_{it}$ in terms of potential outcomes?*
  
-- Check properties of this $u_{it}$. If $u_{it}$ is "nice", apply OLS (or another method)
 
+#### Example of Rotating Panel
 
-### Extending to Multiple Periods and Adding Covariates
+Example: US consumer expenditure survey (quarterly)
 
-### Expanded Regression
+- Each household asked about their spending for four consecutive quarters, then dropped
+- Each quarter new 2500 households recruited into survey
+  - 2014 and 2016: totally different households
+  - 2014Q1 and 2014Q2: 7500 households in common, 2500 only in one of the two datasets
 
-- Suppose $T$ periods, treatment begins at $t_0$.
-- Regression model:
-  $$
-  Y_{it} = \beta_0 +  \sum_{\tau = t_0}^{T} \beta_\tau D_{it} + u_{it}.
-  $$
-- Estimates:
-  $$
-  \hat{\beta}^{OLS} = \dfrac{1}{N} \sum_{i=1}^N (Y_{i\tau} - Y_{i1}).
-  $$
+::: footer
 
-### Dynamic Treatment Effects
+Read more about CES [here](https://www.bls.gov/cex/)
 
-- No trends assumption rules out dynamic effects.
-- Relax assumption: impose "no trends" on untreated outcome $Y_{it}(0)$.
-- Under this assumption:
-  $$
-  \dfrac{1}{N} \sum_{i=1}^N (Y_{i\tau} - Y_{i1}) \xrightarrow{p} \E[Y_{i\tau}(1)- Y_{i1}(0)] = \E[Y_{i\tau}(1) - Y_{i\tau}(0)].
-  $$
-- Consistently estimates average effects in period $\tau$.
+:::
 
-### Event Study Origins
+## Recap and Conclusions {background="#00100F"}
 
-- Common in financial research.
-- Cited in: [@Freyaldenhoven2021VisualizationIdentificationEstimation;@Miller2023IntroductoryGuideEvent].
+#### Recap
 
-### Pretrend Test
+In this lecture we
 
-- Cannot directly test "no trends" assumption.
-- Can examine pre-treatment period outcomes:
-  - If outcomes change over time, assumption might be problematic.
-
-
-## DiD {background="#43464B"}
-
-### Slide
-
-Things happen
-
-# LINEAR MODELS {background="#014D4E"}
-
-## SUBSECTION {background="#43464B"}
-
-### Beyond Binary Treatments
-
-We want
-
-
-
-### References {.allowframebreaks visibility="uncounted"}
+1. Discussed approaches to classifying data
+2. Discussed the four main kinds of data in terms of observation structure
+   
+#### References {.allowframebreaks visibility="uncounted"}
 
 ::: {#refs}
 :::
