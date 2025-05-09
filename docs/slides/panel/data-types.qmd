@@ -9,7 +9,7 @@ format:
     sc-sb-title: true
     incremental: true   
     logo: ../../themes/favicon.ico
-    footer: "Panel Data I: Event Studies"
+    footer: "Classification of Data Types"
     footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
     theme: ../../themes/slides_theme.scss
     toc: TRUE
@@ -41,8 +41,8 @@ This lecture offers a brief classification of data types
 
 By the end, you should be able to
 
-- State the main ways how we classify data
-- Describe the four main data kinds
+- State the main ways to we classify data
+- Describe the four main kinds data in terms of observations
   
 #### Textbook References
  
@@ -324,7 +324,7 @@ Data collected over time:
 <br>
 
 - Example: unemployment in Spain over 1998-2024
-- Indexed by time $t$: $(Y_i, \bX_t)$
+- Indexed by time $t$: $(Y_t, \bX_t)$
 
 #### Visual Example of Time Series
 
