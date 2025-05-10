@@ -1,0 +1,102 @@
+---
+title: "Difference-in-Differences"
+subtitle: "Causal Inference of Binary Treatment under Parallel Trends"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Panel Data: Difference-in-Differences"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+---
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture    
+
+<br>
+
+By the end, you should be able to
+
+- Write  
+  
+#### References
+ 
+
+::: {.nonincremental}
+
+
+- Chapt 
+:::  
+
+ 
+
+### Empirical Motivation {background="#43464B" visibility="uncounted"}
+
+#### Context {#sec-event-study-svb-example}
+
+<div class="rounded-box">
+
+@Card1994MinimumWagesEmployment
+
+#### Empirical Question {.scrollable}
+
+<div class="rounded-box">
+
+ 
+</div>
+ 
+
+## Two Periods {background="#00100F"}
+ 
+ 
+### Estimator {background="#43464B" visibility="uncounted"}
+
+#### A
+
+
+## Beyond 2x2 {background="#00100F"}
+ 
+
+#### B
+
+
+## Recap and Conclusions {background="#00100F"}
+  
+#### Recap
+
+In this lecture we
+
+1. Introduced 
+
+#### Next Questions
+
+- How is the TWFE regression actually estimated? 
+- What if the treatment is not binary
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
