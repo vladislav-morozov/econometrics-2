@@ -395,17 +395,17 @@ Can also connect $\widehat{AE}_{ES}$ and OLS
 
 . . . 
  
-Consider regression model
+Consider regressing $Y_{it}$ on $(1, D_{it})$ where
 $$
 \begin{aligned}
-Y_{it} & = \beta_0 + \beta_1 D_{it} + u_{it}, \\
+% Y_{it} & = \beta_0 + \beta_1 D_{it} + U_{it}, \\
 D_{it} & = \begin{cases}
 1, & t= 1 \\
 0, & t =0
 \end{cases}
 \end{aligned}
 $${#eq-event-study-simple-regression}
-where we simply treat $(Y_{i1}, D_{i1})$ and $(Y_{i2}, D_{i2})$ as separate observations
+and where we simply treat $(Y_{i1}, D_{i1})$ and $(Y_{i2}, D_{i2})$ as separate observations
 
 
 
@@ -421,7 +421,7 @@ For $\beta_1$ of regression  ([-@eq-event-study-simple-regression])
 $$
 \widehat{AE}_{ES} = \hat{\beta}_1,
 $$ 
-where $\hat{\beta}_1$ is the OLS estimator of $\beta_1$
+where $\hat{\beta}_1$ is the estimator of the coefficient on $D_{it}$
 :::
 
 
@@ -431,18 +431,47 @@ Can use all results developed for OLS for $\widehat{AE}_{ES}$
  
    
 
-#### Event Study and Regression
+#### Event Study and Regression I
 
 A way to think about regression in causal settings:
 
 - Write down the regression in terms of parameters of interest: e.g. let
 $$ 
-\beta_0 = \E[Y_{i1}^0], \quad
+\begin{aligned}
+Y_{it} & = \beta_0 + \beta_1 D_{it} + U_{it},
+\\
+\beta_0 & = \E[Y_{i1}^0], \quad
 \beta_1  =  \E[Y_{i2}^1- Y_{i2}^0] 
+\end{aligned}
 $$
-- Connect regression to potential outcomes: *what is $u_{it}$ in terms of potential outcomes? (exercise)* 
+- Connect regression to potential outcomes: *what is $U_{it}$ in terms of potential outcomes? (exercise)* 
  
-- Check properties of this $u_{it}$. If $u_{it}$ is "nice", apply OLS (or another method)
+#### Event Study and Regression II
+
+Let $\bX_{it} = (1, D_{it})'$. Then
+
+- By properties of OLS know that OLS is consistent for $\bbeta = (\beta_0, \beta_1)$ if
+  -  $\E[\bX_{it}U_{it}] =0$  
+  -  $\E[\bX_{it}\bX_{it}']$ invertible
+
+- So just need to check if this $U_{it}$ satisfies $\E[\bX_{it}U_{it}] =0$ 
+- If yes, OLS can estimate average effects of interest
+ 
+
+. . .
+
+::: {.callout-important appearance="minimal"}
+
+Remember: the OLS "model" and the underlying causal model are separate things! Here the causal model is "nonparametric"
+:::
+
+
+::: footer
+
+:::
+
+
+
 
 ## Multiple Periods {background="#00100F"}
 
