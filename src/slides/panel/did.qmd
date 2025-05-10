@@ -47,8 +47,15 @@ By the end, you should be able to
 
 ::: {.nonincremental}
 
+Textbooks: 
 
-- Chapt 
+- Chapter 18 in @Huntington-Klein2025EffectIntroductionResearch
+- "Difference-in-Differences" in @Cunningham2021CausalInferenceMixtape
+- Chapter 13.2 in @Wooldridge2020IntroductoryEconometricsModern
+- Chapter 18 in @Hansen2022Econometrics
+
+@Roth2023WhatsTrendingDifferenceinDifferences: good overview of recent advances
+
 :::  
 
  
@@ -57,31 +64,196 @@ By the end, you should be able to
 
 #### Context {#sec-event-study-svb-example}
 
-<div class="rounded-box">
-
+ 
 @Card1994MinimumWagesEmployment
+ 
 
 #### Empirical Question {.scrollable}
 
 <div class="rounded-box">
+
+Does raising the minimum wage reduce employment? 
 
  
 </div>
  
 
 ## Two Periods {background="#00100F"}
- 
- 
-### Estimator {background="#43464B" visibility="uncounted"}
 
-#### A
 
+#### Motivation
+
+Previous lecture — "event studies" with "no trends" in average untreated outcome: $\E[Y_{it}^0]$ does not depend on $t$
+ 
+<br>
+ 
+<div class="rounded-box">
+
+Assumption of no trends <span class="highlight">difficult to justify</span> unless time horizon very short 
+
+</div>
+
+- If there are trends, event studies do not work
+- What can we do?
+ 
+
+### Two-Unit Thought Experiment {background="#43464B" visibility="uncounted"}
+
+#### Setting: Two Units with Binary Treatment
+
+To start: very simplified case
+
+- Two periods of time: $t=1, 2$
+- Two units: unit 1 with outcomes $Y$ and unit 2 with outcome $Z$
+- Second unit treated between $t=1$ and $t=2$. First unit not treated
+
+. . .
+
+Potential outcomes at time $t$: $Y_t^d$ and $Z_t^d$ for treatment values $d=0, 1$
+
+#### Object of Interest 
+
+<br>
+
+Object of interest: <span class="highlight">treatment effect</span> of unit 2 at $t=2$:
+$$
+\delta_Z = Z_2^1- Z_2^0
+$$
+
+
+#### Change in Outcomes
+
+Observed outcomes satisfy
+$$
+Z_{1} = Z_1^0, \quad Z_{2} = Z_{2}^1
+$$
+
+. . .
+
+Doing every study difference in outcomes gives
+$$
+\begin{aligned}
+Z_2 - Z_1 & = \gamma_T + \delta_T\\
+\gamma_T & = Z_{2}^0 - Z_{1}^0
+\end{aligned}
+$$
+$\gamma_T$ — trend in outcomes without treatment
+
+#### Role of Assumptions of No Trends
+
+Strict no trends assumption from previous lecture:
+$$
+\gamma_T = 0
+$$ {#eq-panel-did-no-trends}
+
+. . .
+
+- Under ([-@eq-panel-did-no-trends]) $Z_2-Z_1=\delta_T$ — identification of treatment effect
+- Without ([-@eq-panel-did-no-trends]) change in outcome — sum of treatment effect and evolution over time
+- Hard to justify ([-@eq-panel-did-no-trends]) outside of high-frequency data
+
+#### Trend for Other Unit
+
+Outcomes of other unit satisfy:
+$$
+Y_1 = Y_1^0, \quad Y_2 = Y_2^0
+$$
+
+
+. . .
+
+<br> 
+
+Difference in outcomes: only trend in outcomes without treatment
+$$
+\begin{aligned}
+Y_2 - Y_1 & = \gamma_U\\
+\gamma_U & = Y_2^0 - Y_1^0
+\end{aligned}
+$$
+
+#### Parallel Trends 
+
+Difference in difference in outcomes of units:
+$$
+\begin{aligned}
+(Z_2- Z_1) - (Y_2- Y_1) = \delta_T + \gamma_T - \gamma_U
+\end{aligned}
+$$
+
+. . .
+
+<br>
+
+What if the two units had the same evolution? 
+<div class="rounded-box">
+
+**Assumption** (*literal parallel trends*):
+$$
+\gamma_T = \gamma_U
+$$
+
+</div>
+
+#### Difference-in-Differences with Two Units
+
+Under parallel trends identify $\delta_T$ as 
+$$
+\delta_T = (Z_2- Z_1) - (Y_2- Y_1)
+$$ 
+
+- Differences two unit-specific differences — hence called difference-in-difference<span class="highlight">s</span>
+- Old argument, goes back at least to @Snow1856ModeCommunicationCholera
+
+ 
+
+### Differences-in-Differences {background="#43464B" visibility="uncounted"}
+
+#### Limitations of Two Unit Approach
+
+Two unit situation might be
+
+- Infeasible: literal parallel trends might not hold
+- Uninteresting: if you want to predict the effect for a new unit
+
+. . .
+
+<br>
+
+$\Rightarrow$ Now consider an approach with <span class="highlight">multiple</span> units
+
+
+#### Setting
+
+- Units indexed by $i=1, \dots, N$, time indexed by $t=1, 2$
+- All outcomes labeled $Y_{it}$
+- Treatment pattern: realized treatment indicator $D_{it}$
+  - Untreated/control group (group $U$): $D_{i1}=D_{i2}=0$
+  - Treated group (group $T$): $D_{i1}=0$, $D_{i2}=1$
+
+#### Potential Outcomes
+
+Potential outcomes $Y_{it}^d$ for $d=0, 1$
+
+- Units in group $T$
+- Units in group $U$ 
+
+#### Decomposition of Second Period Outcomes
+
+#### Parallel Trends Assumption
 
 ## Beyond 2x2 {background="#00100F"}
  
 
 #### B
 
+
+## Empirical Estimation {background="#00100F"}
+ 
+ 
+### Subsection {background="#43464B" visibility="uncounted"}
+
+####
 
 ## Recap and Conclusions {background="#00100F"}
   
