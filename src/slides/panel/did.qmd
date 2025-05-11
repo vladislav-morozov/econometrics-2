@@ -78,7 +78,7 @@ Does raising the minimum wage reduce employment?
 </div>
  
 
-## 2x2 Design {background="#00100F"}
+## Identification {background="#00100F"}
 
 
 #### Motivation
@@ -327,9 +327,103 @@ What does DiD actually do?
   - Identifies trend from untreated unit
 
  
-### Estimation and Regression View {background="#43464B" visibility="uncounted"}
+
+## Estimation and Regression View {background="#00100F"}
+
+<!-- ### Estimation and Regression View {background="#43464B" visibility="uncounted"} -->
 
 #### DiD Estimator
+
+We have $ATT = \E[Y_{i2}-Y_{i1}|T] - \E[Y_{i2}-Y_{i1}|U]$
+
+. . .
+
+
+Sample version: the <span class="highlight">DiD estimator</span>:
+<div class="rounded-box">
+$$
+\begin{aligned}
+ \hspace{-2.6cm} & \hspace{-2.6cm}\widehat{ATT}^{DID} \\
+ \hspace{-2.6cm} & \hspace{-2.6cm} = \dfrac{1}{N_T}\sum_{Treated} (Y_{i2}-Y_{i1}) - \dfrac{1}{N_U}\sum_{Untreated} (Y_{i2}-Y_{i1})
+\end{aligned}
+$$ {#eq-causal-did-canonical-did-estimator}
+</div>
+$N_T$ — number of treated units, $N_U$ — of untreated units
+
+
+#### Regression Representation: Coefficients
+
+Can frame DiD estimator differently
+
+. . . 
+
+Define  "coefficients":
+$$
+\begin{aligned}
+\alpha_i & = Y_{it}^0, \\
+\gamma & = \E[Y_{i2}^0 - Y_{i1}^0 |T], \\
+\delta & = \E[Y_{i2}^1 - Y_{i2}^0 |U].
+\end{aligned}
+$$
+
+By parallel trends, can also have $\gamma = \E[Y_{i2}^0 - Y_{i1}^0 |U]$ 
+
+#### Regression Representation: Outcomes
+
+Recall $D_{it}$. Define indicator of second period:
+$$
+SP_{it} = \I\curl{t=2}
+$$ 
+
+. . . 
+
+Can express outcomes as
+$$
+Y_{it} = \begin{cases}
+\alpha_i + u_{it}, & SP_{it} =0, D_{i2}= 0, 1, \\
+\alpha_i + \gamma + u_{it}, & SP_{it} = 1, D_{i2} = 0, \\
+\alpha_ i + \gamma + \delta + u_{it}, & SP_{it}, D_{i2} = 1,
+\end{cases}
+$$
+What is the $u_{it}$?
+
+#### TWFE Representation
+
+Compact form of representation: 
+$$
+Y_{it} = \alpha_i + \gamma SP_{it} + \delta D_{it} + u_{it}
+$$ {#eq-causal-did-twfe-general}
+@eq-causal-did-twfe-general is called <span class="highlight">two-way fixed effect</span> model (more on that in next lecture)
+
+. . .
+
+Can eliminate $\alpha_i$ by taking <span class="highlight">first differences</span> across time to get
+$$
+Y_{i2}- Y_{i1} = \gamma + \delta D_{it} + u_{i2}
+$$ {#eq-causal-did-twfe}
+
+#### Regression Representation: Result
+
+<div class="rounded-box">
+
+
+
+::: {#prp-causal-did-canonical-did-is-twfe}
+
+## Canonical DiD is TWFE
+
+The OLS estimator $\hat{\delta}$ in @eq-causal-did-twfe satisfies
+$$
+\hat{\delta} = \widehat{ATT}^{DID},
+$$
+for the ATT estimator of @eq-causal-did-canonical-did-estimator.
+
+:::
+
+
+</div>
+
+Proof: by brute force evaluating the OLS estimator, see exercise set 3
 
 
 #### Comments
