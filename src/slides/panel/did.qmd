@@ -78,7 +78,7 @@ Does raising the minimum wage reduce employment?
 </div>
  
 
-## Two Periods {background="#00100F"}
+## 2x2 Design {background="#00100F"}
 
 
 #### Motivation
@@ -130,7 +130,7 @@ $$
 
 . . .
 
-Doing every study difference in outcomes gives
+Difference in outcomes (like in event studies):
 $$
 \begin{aligned}
 Z_2 - Z_1 & = \gamma_T + \delta_T\\
@@ -174,10 +174,10 @@ $$
 
 #### Parallel Trends 
 
-Difference in difference in outcomes of units:
+Difference in differences of outcomes of units:
 $$
 \begin{aligned}
-(Z_2- Z_1) - (Y_2- Y_1) = \delta_T + \gamma_T - \gamma_U
+(Z_2- Z_1) - (Y_2- Y_1) = \delta_T + (\gamma_T - \gamma_U)
 \end{aligned}
 $$
 
@@ -213,7 +213,7 @@ $$
 
 Two unit situation might be
 
-- Infeasible: literal parallel trends might not hold
+- Unrealistic: literal parallel trends might not hold
 - Uninteresting: if you want to predict the effect for a new unit
 
 . . .
@@ -235,15 +235,112 @@ $\Rightarrow$ Now consider an approach with <span class="highlight">multiple</sp
 
 Potential outcomes $Y_{it}^d$ for $d=0, 1$
 
-- Units in group $T$
+- Units in group $T$:
+$$
+Y_{i1} = Y_{i1}^0, \quad Y_{i2} = Y_{i2}^1
+$$
 - Units in group $U$ 
+$$
+Y_{i1} = Y_{i1}^0, \quad Y_{i2}= Y_{i2}^0
+$$
 
-#### Decomposition of Second Period Outcomes
+#### Change in Outcomes for Treated
+
+Decompose average of $Y_{i2}-Y_{i1}$ for treated units ($T$):
+$$
+\E[Y_{i2} - Y_{i1}|T] = \E[Y_{i2}^1 - Y_{i2}^0|T]  + \E[Y_{i2}^0- Y_{i1}^0|T]
+$$
+
+- $\E[Y_{i2}^1 - Y_{i2}^0|T]$ — parameter of interest, the <span class="highlight">average treatment effect for the treated</span> (ATT)
+- $\E[Y_{i2}^0- Y_{i1}^0|T]$ trend in outcomes without treatment
+
+#### Change in Outcomes for Untreated
+
+<br>
+
+For untreated units ($U$):
+$$
+\E[Y_{i2}-Y_{i1}|U] = \E[Y_{i2}^0 - Y_{i1}^0|U]
+$$
+
+<br>
+
+Only the time trend is present
 
 #### Parallel Trends Assumption
 
-## Beyond 2x2 {background="#00100F"}
+Same trends on average:
+<div class="rounded-box">
+
+**Assumption** (*average parallel trends*):
+$$
+\E[Y_{i2}^0 - Y_{i1}^0|T] = \E[Y_{i2}^0 - Y_{i1}^0|U] 
+$$
+
+</div>
  
+
+Then <span class="highlight">difference-in-differences</span> 
+$$
+\begin{aligned}
+\E[Y_{i2}^1 - Y_{i2}^0|T] & = \E[Y_{i2}-Y_{i1}|T] - \E[Y_{i2}-Y_{i1}|U] 
+\end{aligned}
+$$
+Expressed ATT in terms of distribution of the data
+
+#### Result Statement
+
+<div class="rounded-box">
+ 
+
+::: {#prp-causal-did-att-canonical}
+
+## DiD Identification
+
+Suppose that $P(D_{i1}=D_{i2} =0)>0$ and $P(D_{i1}=0, D_{i2}=1)>0$. 
+
+Then the ATT is $\E[Y_{i2}^1 - Y_{i2}^0|T]$ is identified in terms of a difference in differences:
+$$
+\begin{aligned}
+\E[Y_{i2}^1 - Y_{i2}^0|T] & = \E[Y_{i2}-Y_{i1}|T] - \E[Y_{i2}-Y_{i1}|U] 
+\end{aligned}
+$$
+
+:::
+
+
+</div>
+
+<br> 
+
+Assumption means that both treated and untreated units exist
+
+#### Discussion
+
+What does DiD actually do? 
+
+- Solves selection in treatment by
+  - Considering effects only for the treated (ATT instead of ATE$=\E[Y_{i2}^1 - Y_{i2}^0]$)
+  - Compares treated units to themselves
+- Solves evolution over time by
+  - Assuming parallel trends without treatment
+  - Identifies trend from untreated unit
+
+ 
+### Estimation and Regression View {background="#43464B" visibility="uncounted"}
+
+#### DiD Estimator
+
+
+#### Comments
+
+As with event studies: underlying causal model and identification is nonparametric — linearity is not an assumption
+
+## Some Extensions {background="#00100F"}
+ 
+#### 
+
+Dynamic 
 
 #### B
 
@@ -254,6 +351,8 @@ Potential outcomes $Y_{it}^d$ for $d=0, 1$
 ### Subsection {background="#43464B" visibility="uncounted"}
 
 ####
+
+Units $i$ are restaurants Groups correspond to states
 
 ## Recap and Conclusions {background="#00100F"}
   
