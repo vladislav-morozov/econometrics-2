@@ -360,9 +360,9 @@ Can frame DiD estimator differently
 Define  "coefficients":
 $$
 \begin{aligned}
-\alpha_i & = Y_{it}^0, \\
+\alpha_i & = Y_{i1}^0, \\
 \gamma & = \E[Y_{i2}^0 - Y_{i1}^0 |T], \\
-\delta & = \E[Y_{i2}^1 - Y_{i2}^0 |U].
+\delta & = \E[Y_{i2}^1 - Y_{i2}^0 |T].
 \end{aligned}
 $$
 
@@ -426,20 +426,118 @@ for the ATT estimator of @eq-causal-did-canonical-did-estimator.
 Proof: by brute force evaluating the OLS estimator, see exercise set 3
 
 
-#### Comments
+#### Regression Representation: Discussion
 
-As with event studies: underlying causal model and identification is nonparametric — linearity is not an assumption
+- Like for event studies: managed to get linear regression in a nonparametric context
+- Consistency of OLS = consistency of $\widehat{ATT}^{DID}$ (exercise: prove that parallel trends equivalent to strict exogeneity of $D_{it}$)
+- Regression results: can use all results for OLS, including limit theory and inference
 
-## Some Extensions {background="#00100F"}
- 
+#### Limitations
+
+Two obvious ones:
+
+- Need parallel trends 
+- Do not identify average effect for the untreated and the overall ATE
+
+<br> 
+
+. . .
+
+Can relax a bit if we have another "control" group — DDD identification and estimator (see @Cunningham2021CausalInferenceMixtape or @Wooldridge2020IntroductoryEconometricsModern) 
+
 #### 
 
-Dynamic 
+## Some Extensions {background="#00100F"}
 
-#### B
+#### Adding Covariates I: Conditioning
+
+What if there are extra covariates $\bX_i = (\bX_{i1}, \bX_{i2})$?
+
+. . . 
+
+Can relax parallel trends to conditional parallel trends: for each (or some) values $\bx=(\bx_1, \bx_2)$
+$$ \small
+\E[Y_{i2}^0 - Y_{i1}^0 |T, \bX_{it}=\bx] = \E[Y_{i2}^0 - Y_{i1}^0 |T, \bX_{i}=\bx] 
+$$
+
+. . .
+
+Same argument as before: identify <span class="highlight">conditional ATT</span>
+$$\small
+CATT(\bx) = \E[Y_{i2}^0 - Y_{i1}^0 |T, \bX_{i}=\bx]
+$$
+
+. . . 
+
+If parallel trends hold for all possible $\bx$, can also identify the overall ($\bX$-unconditional) ATT
+
+::: footer
+
+:::
+
+#### Adding Covariates II: Assuming Linearity
+
+Often see <span class="highlight">linearity assumptions</span> on the causal model in the form:
+$$
+\begin{aligned}
+Y_{it}^d = Y_{it}^0 + d(Y_{i2}^1- Y_{i2}^0) + \bX_{it}'\bbeta_i
+\end{aligned}
+$$
+
+. . . 
+
+Can estimate ATT consistently from TWFE regression
+$$
+Y_{i2}-Y_{i1} = \gamma + \delta D_{it} + (\bX_{i2}-\bX_{i1})'\bbeta + u_{it},
+$$
+if $\bbeta$ appropriately defined (think of OLS estimator under heterogeneous coefficient causal model)
+
+#### Adding More Periods: Setting
+
+Can accommodate more periods of data
+
+- $T\geq 2$
+- Two groups: never treated ($U$) and treated, treatment starts between $t_0-1$ and $t_0$
+- Treatment indicators $D_{it\tau}$, $t, \tau=1,\dots, T$: 
+  - Untreated units have $D_{it\tau}=0$ for all $t, \tau$
+  - Treated units $D_{it\tau}=1$ if and only if $t=\tau$ and $t\geq t_0$
+ 
+#### Adding More Periods: TWFE
+
+Multi-period specification:
+$$ \small
+\begin{aligned}
+Y_{it} &  = \alpha_i + \gamma_t + \sum_{\tau=t_0}^T \delta_\tau D_{it\tau}  + U_{it},\\
+\alpha_i & = Y_{i1}^0, \\
+\gamma_t & = \E[Y_{it}^0- Y_{i1}^0|T],\\
+\delta_t & = \E[Y_{i2}^1- Y_{i1}^0|T]
+\end{aligned}
+$$ 
+OLS consistent for dynamic ATTs $\delta_T$ if   
+$$ \small
+\E[Y_{it}^0- Y_{i1}^0|T]=\E[Y_{it}^0- Y_{i1}^0|U]
+$$
+
+::: footer
 
 
-## Empirical Estimation {background="#00100F"}
+:::
+
+#### Adding More Groups
+
+- So far: had two groups (untreated and treated at some specific point in time)
+- In many settings: different units receive treatment in different periods (e.g. states implement same laws at different times)
+- Can learn with such <span class="highlight">staggered timing</span>
+- Need to be careful, cannot just do TWFE, need more sophisticated approaches
+
+. . .
+
+See section 3 in @Roth2023WhatsTrendingDifferenceinDifferences
+
+ 
+
+
+## Empirical Application {background="#00100F"}
  
  
 ### Subsection {background="#43464B" visibility="uncounted"}
