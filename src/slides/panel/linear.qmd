@@ -1,0 +1,123 @@
+---
+title: "Linear Models for Panel Data"
+subtitle: "Beyond Binary Treatments: Fixed Effects and Mean Group Estimation"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Panel Data: Linear Panel Data Models"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+---
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture is about handling more general treatments in panel data with linear models
+
+<br>
+
+By the end, you should be able to
+
+- State the parallel trends assumption
+- Identify the ATT using a difference-in-differences (DiD) strategy 
+- Give a regression characterization of DiD
+
+
+```{python}
+import linearmodels as lm
+import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
+import statsmodels.api as sm
+
+from plotly.subplots import make_subplots
+```
+
+#### References
+ 
+
+::: {.nonincremental}
+
+Textbooks: 
+
+- Chapter 16 in @Huntington-Klein2025EffectIntroductionResearch 
+- Chapter 13, 14-1, 14-4, 14-5 in @Wooldridge2020IntroductoryEconometricsModern
+- Chapter 17 in @Hansen2022Econometrics (except dynamic panels and random effects)
+
+:::  
+
+ 
+
+### Empirical Motivation {background="#43464B" visibility="uncounted"}
+
+
+#### Empirical Question {.scrollable}
+
+<div class="rounded-box">
+
+ 
+ 
+</div>
+ 
+
+## Something {background="#00100F"}
+
+ 
+### Subsection {background="#43464B" visibility="uncounted"}
+
+#### Slide
+
+ 
+
+## Empirical Application {background="#00100F"}
+ 
+ 
+### Context and Setting {background="#43464B" visibility="uncounted"}
+
+#### Context  
+ 
+
+## Recap and Conclusions {background="#00100F"}
+  
+#### Recap
+
+In this lecture we
+
+1. Did
+
+#### Next Questions
+
+- Can you relax strict exogeneity?
+- What kind of regressors can you use?
+- What does panel data permit you when working with nonlinear models?
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
+
+::: footer
+
+:::
