@@ -42,6 +42,7 @@ website:
         contents:
         - slides/panel/data-types.qmd
         - slides/panel/event-studies.qmd
+        - slides/panel/did.qmd
 
 execute:
   freeze: auto  # re-render only when source changes

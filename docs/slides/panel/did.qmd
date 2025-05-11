@@ -1,0 +1,911 @@
+---
+title: "Difference-in-Differences"
+subtitle: "Causal Inference of Binary Treatment under Parallel Trends"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Panel Data: Difference-in-Differences"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+---
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture is about handling changes over time in causal studies with a binary treatment
+
+<br>
+
+By the end, you should be able to
+
+- State the parallel trends assumption
+- Identify the ATT using a difference-in-differences (DiD) strategy 
+- Give a regression characterization of DiD
+
+
+```{python}
+import linearmodels as lm
+import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
+import statsmodels.api as sm
+
+from plotly.subplots import make_subplots
+```
+
+#### References
+ 
+
+::: {.nonincremental}
+
+Textbooks: 
+
+- Chapter 18 in @Huntington-Klein2025EffectIntroductionResearch
+- "Difference-in-Differences" in @Cunningham2021CausalInferenceMixtape
+- Chapter 13.2 in @Wooldridge2020IntroductoryEconometricsModern
+- Chapter 18 in @Hansen2022Econometrics
+
+@Roth2023WhatsTrendingDifferenceinDifferences: good overview of recent advances
+
+:::  
+
+ 
+
+### Empirical Motivation {background="#43464B" visibility="uncounted"}
+
+
+#### Empirical Question {.scrollable}
+
+<div class="rounded-box">
+
+Does raising the minimum wage reduce employment? 
+
+ 
+</div>
+
+- Micro 1 with perfectly competitive markets and elastic labor demand say yes
+- But what about imperfect competition, general equilibrium effects of some workers having more spending power, inelastic labor demand, ...? 
+
+. . .
+
+Not necessarily obvious what the overall effect is. See @Neumark2014RevisitingMinimumWage for history of question
+
+## Identification {background="#00100F"}
+
+
+#### Motivation
+
+Previous lecture — "event studies" with "no trends" in average untreated outcome: $\E[Y_{it}^0]$ does not depend on $t$
+ 
+<br>
+ 
+<div class="rounded-box">
+
+Assumption of no trends <span class="highlight">difficult to justify</span> unless time horizon very short 
+
+</div>
+
+- If there are trends, event studies do not work
+- What can we do?
+ 
+
+### Two-Unit Thought Experiment {background="#43464B" visibility="uncounted"}
+
+#### Setting: Two Units with Binary Treatment
+
+To start: very simplified case
+
+- Two periods of time: $t=1, 2$
+- Two units: unit 1 with outcomes $Y$ and unit 2 with outcome $Z$
+- Second unit treated between $t=1$ and $t=2$. First unit not treated
+
+. . .
+
+Potential outcomes at time $t$: $Y_t^d$ and $Z_t^d$ for treatment values $d=0, 1$
+
+#### Object of Interest 
+
+<br>
+
+Object of interest: <span class="highlight">treatment effect</span> of unit 2 at $t=2$:
+$$
+\delta_Z = Z_2^1- Z_2^0
+$$
+
+
+#### Change in Outcomes
+
+Observed outcomes satisfy
+$$
+Z_{1} = Z_1^0, \quad Z_{2} = Z_{2}^1
+$$
+
+. . .
+
+Difference in outcomes (like in event studies):
+$$
+\begin{aligned}
+Z_2 - Z_1 & = \gamma_T + \delta_T\\
+\gamma_T & = Z_{2}^0 - Z_{1}^0
+\end{aligned}
+$$
+$\gamma_T$ — trend in outcomes without treatment
+
+#### Role of Assumptions of No Trends
+
+Strict no trends assumption from previous lecture:
+$$
+\gamma_T = 0
+$$ {#eq-panel-did-no-trends}
+
+. . .
+
+- Under ([-@eq-panel-did-no-trends]) $Z_2-Z_1=\delta_T$ — identification of treatment effect
+- Without ([-@eq-panel-did-no-trends]) change in outcome — sum of treatment effect and evolution over time
+- Hard to justify ([-@eq-panel-did-no-trends]) outside of high-frequency data
+
+#### Trend for Other Unit
+
+Outcomes of other unit satisfy:
+$$
+Y_1 = Y_1^0, \quad Y_2 = Y_2^0
+$$
+
+
+. . .
+
+<br> 
+
+Difference in outcomes: only trend in outcomes without treatment
+$$
+\begin{aligned}
+Y_2 - Y_1 & = \gamma_U\\
+\gamma_U & = Y_2^0 - Y_1^0
+\end{aligned}
+$$
+
+#### Parallel Trends 
+
+Difference in differences of outcomes of units:
+$$
+\begin{aligned}
+(Z_2- Z_1) - (Y_2- Y_1) = \delta_T + (\gamma_T - \gamma_U)
+\end{aligned}
+$$
+
+. . .
+
+<br>
+
+What if the two units had the same evolution? 
+<div class="rounded-box">
+
+**Assumption** (*literal parallel trends*):
+$$
+\gamma_T = \gamma_U
+$$
+
+</div>
+
+#### Difference-in-Differences with Two Units
+
+Under parallel trends identify $\delta_T$ as 
+$$
+\delta_T = (Z_2- Z_1) - (Y_2- Y_1)
+$$ 
+
+- Differences two unit-specific differences — hence called difference-in-difference<span class="highlight">s</span>
+- Old argument, goes back at least to @Snow1856ModeCommunicationCholera
+
+ 
+
+### Differences-in-Differences {background="#43464B" visibility="uncounted"}
+
+#### Limitations of Two Unit Approach
+
+Two unit situation might be
+
+- Unrealistic: literal parallel trends might not hold
+- Uninteresting: if you want to predict the effect for a new unit
+
+. . .
+
+<br>
+
+$\Rightarrow$ Now consider an approach with <span class="highlight">multiple</span> units
+
+
+#### Setting
+
+- Units indexed by $i=1, \dots, N$, time indexed by $t=1, 2$
+- All outcomes labeled $Y_{it}$
+- Treatment pattern: realized treatment indicator $D_{it}$
+  - Untreated/control group (group $U$): $D_{i1}=D_{i2}=0$
+  - Treated group (group $T$): $D_{i1}=0$, $D_{i2}=1$
+
+#### Potential Outcomes
+
+Potential outcomes $Y_{it}^d$ for $d=0, 1$
+
+- Units in group $T$:
+$$
+Y_{i1} = Y_{i1}^0, \quad Y_{i2} = Y_{i2}^1
+$$
+- Units in group $U$ 
+$$
+Y_{i1} = Y_{i1}^0, \quad Y_{i2}= Y_{i2}^0
+$$
+
+#### Change in Outcomes for Treated
+
+Decompose average of $Y_{i2}-Y_{i1}$ for treated units ($T$):
+$$
+\E[Y_{i2} - Y_{i1}|T] = \E[Y_{i2}^1 - Y_{i2}^0|T]  + \E[Y_{i2}^0- Y_{i1}^0|T]
+$$
+
+- $\E[Y_{i2}^1 - Y_{i2}^0|T]$ — parameter of interest, the <span class="highlight">average treatment effect for the treated</span> (ATT)
+- $\E[Y_{i2}^0- Y_{i1}^0|T]$ trend in outcomes without treatment
+
+#### Change in Outcomes for Untreated
+
+<br>
+
+For untreated units ($U$):
+$$
+\E[Y_{i2}-Y_{i1}|U] = \E[Y_{i2}^0 - Y_{i1}^0|U]
+$$
+
+<br>
+
+Only the time trend is present
+
+#### Parallel Trends Assumption
+
+Same trends on average:
+<div class="rounded-box">
+
+**Assumption** (*average parallel trends*):
+$$
+\E[Y_{i2}^0 - Y_{i1}^0|T] = \E[Y_{i2}^0 - Y_{i1}^0|U] 
+$$
+
+</div>
+ 
+
+Then <span class="highlight">difference-in-differences</span> 
+$$
+\begin{aligned}
+\E[Y_{i2}^1 - Y_{i2}^0|T] & = \E[Y_{i2}-Y_{i1}|T] - \E[Y_{i2}-Y_{i1}|U] 
+\end{aligned}
+$$
+Expressed ATT in terms of distribution of the data
+
+#### Result Statement
+
+<div class="rounded-box">
+ 
+
+::: {#prp-causal-did-att-canonical}
+
+## DiD Identification
+
+Suppose that $P(D_{i1}=D_{i2} =0)>0$ and $P(D_{i1}=0, D_{i2}=1)>0$. 
+
+Then the ATT is $\E[Y_{i2}^1 - Y_{i2}^0|T]$ is identified in terms of a difference in differences:
+$$
+\begin{aligned}
+\E[Y_{i2}^1 - Y_{i2}^0|T] & = \E[Y_{i2}-Y_{i1}|T] - \E[Y_{i2}-Y_{i1}|U] 
+\end{aligned}
+$$
+
+:::
+
+
+</div>
+
+<br> 
+
+Assumption means that both treated and untreated units exist
+
+#### Discussion
+
+What does DiD actually do? 
+
+- Solves selection in treatment by
+  - Considering effects only for the treated (ATT instead of ATE$=\E[Y_{i2}^1 - Y_{i2}^0]$)
+  - Compares treated units to themselves
+- Solves evolution over time by
+  - Assuming parallel trends without treatment
+  - Identifies trend from untreated unit
+
+ 
+
+## Estimation and Regression View {background="#00100F"}
+
+<!-- ### Estimation and Regression View {background="#43464B" visibility="uncounted"} -->
+
+#### DiD Estimator
+
+We have $ATT = \E[Y_{i2}-Y_{i1}|T] - \E[Y_{i2}-Y_{i1}|U]$
+
+. . .
+
+
+Sample version: the <span class="highlight">DiD estimator</span>:
+<div class="rounded-box">
+$$
+\begin{aligned}
+ \hspace{-2.6cm} & \hspace{-2.6cm}\widehat{ATT}^{DID} \\
+ \hspace{-2.6cm} & \hspace{-2.6cm} = \dfrac{1}{N_T}\sum_{Treated} (Y_{i2}-Y_{i1}) - \dfrac{1}{N_U}\sum_{Untreated} (Y_{i2}-Y_{i1})
+\end{aligned}
+$$ {#eq-causal-did-canonical-did-estimator}
+</div>
+$N_T$ — number of treated units, $N_U$ — of untreated units
+
+
+#### Regression Representation: Coefficients
+
+Can frame DiD estimator differently
+
+. . . 
+
+Define  "coefficients":
+$$
+\begin{aligned}
+\alpha_i & = Y_{i1}^0, \\
+\gamma & = \E[Y_{i2}^0 - Y_{i1}^0 |T], \\
+\delta & = \E[Y_{i2}^1 - Y_{i2}^0 |T].
+\end{aligned}
+$$
+
+By parallel trends, can also have $\gamma = \E[Y_{i2}^0 - Y_{i1}^0 |U]$ 
+
+#### Regression Representation: Outcomes
+
+Recall $D_{it}$. Define indicator of second period:
+$$
+SP_{it} = \I\curl{t=2}
+$$ 
+
+. . . 
+
+Can express outcomes as
+$$
+Y_{it} = \begin{cases}
+\alpha_i + u_{it}, & SP_{it} =0, D_{i2}= 0, 1, \\
+\alpha_i + \gamma + u_{it}, & SP_{it} = 1, D_{i2} = 0, \\
+\alpha_ i + \gamma + \delta + u_{it}, & SP_{it}, D_{i2} = 1,
+\end{cases}
+$$
+What is the $u_{it}$?
+
+#### TWFE Representation
+
+Compact form of representation: 
+$$
+Y_{it} = \alpha_i + \gamma SP_{it} + \delta D_{it} + u_{it}
+$$ {#eq-causal-did-twfe-general}
+@eq-causal-did-twfe-general is called <span class="highlight">two-way fixed effect</span> model (more on that in next lecture)
+
+. . .
+
+Can eliminate $\alpha_i$ by taking <span class="highlight">first differences</span> across time to get
+$$
+Y_{i2}- Y_{i1} = \gamma + \delta D_{it} + u_{i2}
+$$ {#eq-causal-did-twfe}
+
+#### Regression Representation: Result
+
+<div class="rounded-box">
+
+
+
+::: {#prp-causal-did-canonical-did-is-twfe}
+
+## Canonical DiD is TWFE
+
+The OLS estimator $\hat{\delta}$ in @eq-causal-did-twfe satisfies
+$$
+\hat{\delta} = \widehat{ATT}^{DID},
+$$
+for the ATT estimator of @eq-causal-did-canonical-did-estimator.
+
+:::
+
+
+</div>
+
+Proof: by brute force evaluating the OLS estimator, see exercise set 3
+
+
+#### Regression Representation: Discussion
+
+- Like for event studies: managed to get linear regression in a nonparametric context
+- Consistency of OLS = consistency of $\widehat{ATT}^{DID}$ (exercise: prove that parallel trends equivalent to strict exogeneity of $D_{it}$)
+- Regression results: can use all results for OLS, including limit theory and inference
+
+#### Limitations
+
+Two obvious ones:
+
+- Need parallel trends 
+- We did not identify average effect for the untreated and the overall ATE
+
+<br> 
+
+. . .
+
+Can relax a bit if we have another "control" group — DDD identification and estimator (see @Cunningham2021CausalInferenceMixtape or @Wooldridge2020IntroductoryEconometricsModern) 
+ 
+## Some Extensions {background="#00100F"}
+
+#### Adding Covariates I: Conditioning
+
+What if there are extra covariates $\bX_i = (\bX_{i1}, \bX_{i2})$?
+
+. . . 
+
+Can relax parallel trends to conditional parallel trends: for each (or some) values $\bx=(\bx_1, \bx_2)$
+$$ \small
+\E[Y_{i2}^0 - Y_{i1}^0 |T, \bX_{it}=\bx] = \E[Y_{i2}^0 - Y_{i1}^0 |T, \bX_{i}=\bx] 
+$$
+
+. . .
+
+Same argument as before: identify <span class="highlight">conditional ATT</span>
+$$\small
+CATT(\bx) = \E[Y_{i2}^0 - Y_{i1}^0 |T, \bX_{i}=\bx]
+$$
+
+. . . 
+
+If parallel trends hold for all possible $\bx$, can also identify the overall ($\bX$-unconditional) ATT
+
+::: footer
+
+:::
+
+#### Adding Covariates II: Assuming Linearity
+
+Often see <span class="highlight">linearity assumptions</span> on the causal model in the form:
+$$
+\begin{aligned}
+Y_{it}^d = Y_{it}^0 + d(Y_{i2}^1- Y_{i2}^0) + \bX_{it}'\bbeta_i
+\end{aligned}
+$$
+
+. . . 
+
+Can estimate ATT consistently from TWFE regression
+$$
+Y_{i2}-Y_{i1} = \gamma + \delta D_{it} + (\bX_{i2}-\bX_{i1})'\bbeta + u_{it},
+$$
+if $\bbeta$ appropriately defined (think of OLS estimator under heterogeneous coefficient causal model)
+
+#### Adding More Periods: Setting
+
+Can accommodate more periods of data
+
+- $T\geq 2$
+- Two groups: never treated ($U$) and treated, treatment starts between $t_0-1$ and $t_0$
+- Treatment indicators $D_{it\tau}$, $t, \tau=1,\dots, T$: 
+  - Untreated units have $D_{it\tau}=0$ for all $t, \tau$
+  - Treated units $D_{it\tau}=1$ if and only if $t=\tau$ and $t\geq t_0$
+ 
+#### Adding More Periods: TWFE
+
+Multi-period specification:
+$$ \small
+\begin{aligned}
+Y_{it} &  = \alpha_i + \gamma_t + \sum_{\tau=t_0}^T \delta_\tau D_{it\tau}  + U_{it},\\
+\alpha_i & = Y_{i1}^0, \\
+\gamma_t & = \E[Y_{it}^0- Y_{i1}^0|T],\\
+\delta_t & = \E[Y_{it}^1- Y_{it}^0|T]
+\end{aligned}
+$$ 
+OLS consistent for dynamic ATTs $\delta_T$ if   
+$$ \small
+\E[Y_{it}^0- Y_{i1}^0|T]=\E[Y_{it}^0- Y_{i1}^0|U]
+$$
+
+::: footer
+
+
+:::
+
+#### Adding More Groups
+
+- So far: had two groups (untreated and treated at some specific point in time)
+- In many settings: different units receive treatment in different periods (e.g. states implement same laws at different times)
+- Can learn with such <span class="highlight">staggered timing</span>
+- Need to be careful, cannot just do TWFE, need more sophisticated approaches
+
+. . .
+
+See section 3 in @Roth2023WhatsTrendingDifferenceinDifferences
+
+ 
+
+
+## Empirical Application {background="#00100F"}
+ 
+ 
+### Context and Setting {background="#43464B" visibility="uncounted"}
+
+#### Context  
+
+Recall: interested in effect of raising minimum wage
+
+. . . 
+ 
+We replicate classical paper of  
+@Card1994MinimumWagesEmployment. Background of their analysis
+
+- New Jersey (NJ) raised its minimum wage in 1992 
+- Neighboring Pennsylvania (PA) did not  
+- NJ and PA touch in Philadelphia area — likely fairly similar populations there
+ 
+
+#### Data Description {.scrollable}
+
+@Card1994MinimumWagesEmployment collect data on fast food restaurants in NJ and PA before and after NJ minimum wage raise:
+
+- Units $i$ are restaurants 
+- Groups $T$ and $U$ are $i$ in NJ and in PA, respectively
+- Outcome: number of "full-time equivalent" workers (sum of full-time, managers, and half of part-time workers)
+
+::: footer
+
+Data can be obtained from [Card's website](https://davidcard.berkeley.edu/data_sets.html)
+
+:::
+
+#### Loading and Looking at the Data
+
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Loading and processing the data"
+ck_data = pd.read_csv("data/card-krueger-1994.csv")
+
+# Compute the number of full time employees
+ck_data = ck_data.replace(".", np.nan)
+ck_data = ck_data.astype("float64")
+ck_data["emp_ft"] = (
+    ck_data["empft"] + 
+    0.5*ck_data["emppt"] +
+    ck_data["nmgrs"]
+)
+
+# Extract only the necessary columns
+ck_data = ck_data.loc[:, ["store", "state", "time", "emp_ft", "hoursopen"]]
+
+# Insert any missing (store, time) rows
+full_index = pd.MultiIndex.from_product(
+    [ck_data["store"].unique(), ck_data["time"].unique()],
+    names = ["store", "time"]
+)
+ck_data = (
+    ck_data.set_index(["store", "time"])
+        .reindex(full_index)
+        .reset_index()
+)
+
+# Drop stores with missing employee numbers
+stores_with_nan = (
+    ck_data.groupby("store")["emp_ft"]
+    .apply(lambda g: g.isnull().any())
+)
+stores_with_nan = stores_with_nan[stores_with_nan].index 
+ck_data = (
+    ck_data.loc[
+        ~ck_data["store"].isin(stores_with_nan), 
+        :
+        ]
+)
+
+# Recode states and times more descriptively
+states_dict = {0: "PA", 1: "NJ"}
+ck_data["state_name"] = ck_data["state"].replace(states_dict)
+time_dict = {0:"Before", 1:"After"}
+ck_data["time_name"] = ck_data["time"].replace(time_dict)
+
+# Set index
+ck_data = ck_data.set_index(["store", "time_name"])
+ck_data.head()
+```
+
+::: footer
+
+Note: our data is <span class="highlight">multi-indexed</span> by `store` and `time_name` — frequent way to work with panel data
+
+:::
+
+### Estimation Results {background="#43464B" visibility="uncounted"}
+
+#### Tabulating Averages  
+
+The key components of difference-in-differences are the (state, year)-specific average outcomes: 
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Computing (state, year)-averages"
+emp_means = ck_data.groupby(by=["state_name", "time_name"])["emp_ft"].mean()
+print(emp_means)
+```
+
+#### Applying DiD
+
+It is easy to compute averages now. Recall that `NJ` is the treated group. Applying DiD:
+```{python} 
+#| echo: true
+#| code-fold: true
+#| code-summary: "Applying DiD manually"
+( 
+    (emp_means.loc[("NJ", "After")] - emp_means.loc[("NJ", "Before")])
+    - (emp_means.loc[("PA", "After")] - emp_means.loc[("PA", "Before")])
+).round(2)
+```
+Positive estimate! Increasing minimum wage lead to average gain of 2.75 full-time equivalent workers in fast food in NJ
+
+#### Visualizing 1992 Employment Levels
+
+
+```{python}
+#| code-fold: true
+#| code-summary: "Visualizing changes"
+BG_COLOR = "whitesmoke"
+FONT_COLOR = "black"
+GEO_COLOR = "rgb(201, 201, 201)"
+OCEAN_COLOR = "rgb(136, 136, 136)"
+CMAP = "Blues"
+
+change_data = (-emp_means.groupby(by="state_name").diff().dropna()).reset_index()
+factual_data = emp_means.loc[(slice(None), "After")]
+no_treat_data = factual_data.copy()
+no_treat_data.loc["NJ"] = (
+    emp_means.loc[("NJ", "Before")] + 
+    change_data.loc[change_data["state_name"]=="PA", "emp_ft"]
+).to_numpy()
+
+fig = make_subplots(rows=1, cols=2, 
+                    subplot_titles=("Actual employment", "Employment without minimum wage changes"),
+                    specs=[[{"type": "choropleth"}, {"type": "choropleth"}]])
+
+fig.add_trace(go.Choropleth(
+    locations=factual_data.index, 
+    z=factual_data,
+    locationmode='USA-states',
+    colorscale=CMAP,
+    zmin=18,
+    zmax=22,
+    showscale=False,
+    hovertemplate="<b>%{location}</b><br>FT-equivalent workers: %{z:.2f}",
+    name="Actual"
+), row=1, col=1)
+
+fig.add_trace(go.Choropleth(
+    locations=no_treat_data.index, 
+    z=no_treat_data,
+    locationmode='USA-states',
+    colorscale=CMAP,
+    zmin=18,
+    zmax=22,
+    colorbar=dict( 
+        title=dict(
+            text="Number of Workers",
+            font=dict(color=FONT_COLOR, size=12),
+            side="right"
+        ),
+        tickvals=[18, 22],      # Explicit tick positions 
+        len=0.8,                        # Adjust length
+        thickness=15,                    # Control thickness
+        x=1,                         # Position on the figure
+        y=0.5                            # Center vertically
+    ),
+    name="Counterfactual",
+    hovertemplate="<b>%{location}</b><br>FT-equivalent workers: %{z:.2f}",
+), row=1, col=2)
+
+fig.update_layout(
+    # height=400,  # Ensures reasonable proportions
+    geo=dict(domain=dict(x=[0, 0.48], y=[0, 1]), projection=dict(type="mercator")),
+    geo2=dict(domain=dict(x=[0.52, 1], y=[0, 1]), projection=dict(type="mercator")),
+    font_family="Arial",
+    plot_bgcolor=BG_COLOR,
+    paper_bgcolor=BG_COLOR,
+    font=dict(color=FONT_COLOR), 
+    title=dict(
+        text="<b>Realized vs. Counterfactual Employment</b>",
+        x=0.03,
+        xanchor="left",
+        y=0.97,
+        yanchor="top",
+        font=dict(color=FONT_COLOR, size=20)
+    ),
+    margin=dict(l=20, r=20, t=60, b=20),  
+)
+
+fig.update_geos(
+    visible=False,
+    center={"lat": 39.9, "lon": -75.10},
+    projection_scale=40,
+    bgcolor=GEO_COLOR,  # Map background
+    landcolor=GEO_COLOR,  # Land color
+    lakecolor=GEO_COLOR,  # Water color
+    showocean=True,
+    oceancolor=OCEAN_COLOR,  
+)
+
+fig.show()
+
+
+## Example how to get full state names
+# # State Name Mapping
+# state_names = {"NJ": "New Jersey", "TX": "Texas", "CA": "California", "FL": "Florida", "NY": "New York"}
+
+# # Generate Custom Hover Text
+# df["hover_text"] = df["state_code"].map(state_names) + "<br>Workers: " + df["workers"].astype(str)
+
+# # Create subplot figure
+# fig = make_subplots(rows=1, cols=2, subplot_titles=["Map 1", "Map 2"], specs=[[{"type": "choropleth"}, {"type": "choropleth"}]])
+
+# # First Choropleth with full state names in hover
+# fig.add_trace(go.Choropleth(
+#     locations=df["state_code"],
+#     z=df["workers"],
+#     locationmode="USA-states",
+#     colorscale="Blues",
+#     hovertext=df["hover_text"],  # Custom hover text
+#     hovertemplate="%{hovertext}"  # Ensures default hovertemplate is removed
+# ), row=1, col=1)
+```
+
+#### Regression Implementation I {.scrollable}
+
+Easiest way to obtain standard error of estimated effect — use regression characterization
+
+. . . 
+
+We have a choice 
+
+- Differenced equation
+$$ 
+Y_{i2} - Y_{i1} = \gamma + \delta D_{i2} + U_{i2}
+$$
+- Undifferenced equation 
+$$
+Y_{it} = \alpha_i + \gamma SP_{it} + \delta D_{i2} + U_{it}
+$$
+
+#### Estimation of Differenced Equation {.scrollable}
+
+Differenced equation — easy to estimate with `OLS` in `statsmodels`
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Regression with differenced equation"
+endog = ck_data.groupby(by="store")["emp_ft"].diff().dropna()
+exog = ck_data.loc[(slice(None),"After"), "state"]
+exog.name = "Treated"
+exog = sm.add_constant(exog)
+
+# Run OLS
+fitted_model = sm.OLS(endog, exog).fit(cov_type="HC0")
+print(fitted_model.summary())
+``` 
+
+::: footer
+
+:::
+
+#### Estimation of Full TWFE Equation {.scrollable}
+
+- Can estimate without differencing data ourselves using `linearmodels` or `pyfixest` (more details in next lecture)
+- Here use `PanelOLS` from `linearmodels` with `entity_effects` ($\alpha_i$) and `time_effects` ($\gamma$)
+
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Estimation using `linearmodels`"
+ck_data = ck_data.reset_index().set_index(["store", "time"])
+endog = ck_data["emp_ft"]
+exog = ck_data.index.get_level_values(1) * ck_data.loc[:, "state"]
+exog.name = "Treated"
+
+twfe_results = lm.PanelOLS(
+  endog, 
+  exog,  
+  entity_effects=True, 
+  time_effects=True, 
+  drop_absorbed=True,
+).fit(cov_type="robust")
+print(twfe_results)
+```
+
+::: footer
+
+:::
+
+#### Discussion of Estimation Results
+
+<br>
+
+- In both cases same estimate — 2.75 workers
+- Same standard errors — 1.34
+- Effect is significantly different from zero (at 5% level), though evidence is not overwhelming
+
+#### Including Covariates {.scrollable}
+
+- Restaurants that open for longer tend to have more workers — want to include this
+- Easy to do with `linearmodels`, just add variable to `exog`
+- Find similar effect
+
+. . .
+
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Adding linear covariates to TWFE DiD regression"
+exog = pd.DataFrame(exog)
+exog["hoursopen"] = ck_data["hoursopen"]
+exog = exog.dropna() 
+# Align index of endog with exog
+endog = endog[exog.index]
+
+twfe_results = lm.PanelOLS(endog, exog,  entity_effects=True, time_effects=True, drop_absorbed=True).fit(cov_type="robust")
+print(twfe_results)
+```
+
+::: footer
+
+
+:::
+
+
+## Recap and Conclusions {background="#00100F"}
+  
+#### Recap
+
+In this lecture we
+
+1. Discussed a way to handle changes over time — parallel trends
+2. Identified ATT for binary treatment with difference-in-differences strategy 
+3. Gave a regression (TWFE) characterization of DiD estimation
+4. Proposed some extensions
+
+#### Next Questions
+
+- How is the TWFE regression actually estimated? 
+- What if the treatment is not binary?
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
+
+::: footer
+
+:::
