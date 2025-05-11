@@ -899,7 +899,7 @@ print(wald_results)
  
 #### Why Normalize by $( \bR\avar(\bbeta)\bR')^{-1}$
 
-- Under $H_0: \R\bbeta=\bq$ it holds that 
+- Under $H_0: \bR\bbeta=\bq$ it holds that 
 $$
 \sqrt{N}(\bR\hat{\bbeta}-\bq) \xrightarrow{d} N(0, \bR\avar(\bbeta)\bR')
 $$
