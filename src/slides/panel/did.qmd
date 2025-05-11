@@ -34,14 +34,17 @@ highlight-style: tango
 
 #### Learning Outcomes
 
-This lecture    
+This lecture is about causal studies with panel data and handling changes over time
 
 <br>
 
 By the end, you should be able to
 
-- Write  
-  
+- State the parallel trends assumption
+- Identify the ATT using a difference-in-differences (DiD) strategy 
+- Give a regression characterization of DiD
+
+
 #### References
  
 
@@ -62,11 +65,6 @@ Textbooks:
 
 ### Empirical Motivation {background="#43464B" visibility="uncounted"}
 
-#### Context {#sec-event-study-svb-example}
-
- 
-@Card1994MinimumWagesEmployment
- 
 
 #### Empirical Question {.scrollable}
 
@@ -76,7 +74,13 @@ Does raising the minimum wage reduce employment?
 
  
 </div>
- 
+
+- Micro 1 with perfectly competitive markets and elastic labor demand say yes
+- But what about imperfect competition, general equilibrium effects of some workers having more spending power, inelastic labor demand, ...? 
+
+. . .
+
+Not necessarily obvious what the overall effect is. See @Neumark2014RevisitingMinimumWage for history of question
 
 ## Identification {background="#00100F"}
 
@@ -444,9 +448,7 @@ Two obvious ones:
 . . .
 
 Can relax a bit if we have another "control" group — DDD identification and estimator (see @Cunningham2021CausalInferenceMixtape or @Wooldridge2020IntroductoryEconometricsModern) 
-
-#### 
-
+ 
 ## Some Extensions {background="#00100F"}
 
 #### Adding Covariates I: Conditioning
@@ -540,11 +542,28 @@ See section 3 in @Roth2023WhatsTrendingDifferenceinDifferences
 ## Empirical Application {background="#00100F"}
  
  
-### Subsection {background="#43464B" visibility="uncounted"}
+### Context and Setting {background="#43464B" visibility="uncounted"}
 
-####
+#### Context  
+
+Recall: interested in effect of raising minimum wage
+
+. . . 
+ 
+Will replicate classical paper of  
+@Card1994MinimumWagesEmployment
+ 
+ 
+
+#### Data
+
+
 
 Units $i$ are restaurants Groups correspond to states
+
+
+### Estimation Results {background="#43464B" visibility="uncounted"}
+
 
 ## Recap and Conclusions {background="#00100F"}
   
@@ -552,14 +571,21 @@ Units $i$ are restaurants Groups correspond to states
 
 In this lecture we
 
-1. Introduced 
+1. Discussed a way to handle changes over time — parallel trends
+2. Identified ATT for binary treatment with difference-in-differences strategy 
+3. Gave a regression (TWFE) characterization of DiD estimation
+4. Proposed some extensions
 
 #### Next Questions
 
 - How is the TWFE regression actually estimated? 
-- What if the treatment is not binary
+- What if the treatment is not binary?
 
 #### References {.allowframebreaks visibility="uncounted"}
 
 ::: {#refs}
+:::
+
+::: footer
+
 :::
