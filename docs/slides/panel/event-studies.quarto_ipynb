@@ -63,7 +63,7 @@
         "  \n",
         ":::  \n"
       ],
-      "id": "ae116ea4"
+      "id": "68f9604f"
     },
     {
       "cell_type": "code",
@@ -84,7 +84,7 @@
         "\n",
         "BG_COLOR = \"whitesmoke\""
       ],
-      "id": "b3cd51d3",
+      "id": "25ccd386",
       "execution_count": null,
       "outputs": []
     },
@@ -120,7 +120,7 @@
         "- Causal question: comparing prices after collapse with prices without collapse\n",
         "- How to do this comparison? What assumptions do we need?\n"
       ],
-      "id": "737e0df2"
+      "id": "4f218206"
     },
     {
       "cell_type": "code",
@@ -198,7 +198,7 @@
         "    \"WTFC\",  # Wintrust Financial Corporation\n",
         "]"
       ],
-      "id": "4a978bf2",
+      "id": "c0fd82bc",
       "execution_count": null,
       "outputs": []
     },
@@ -907,7 +907,7 @@
         "\n",
         ". . .\n"
       ],
-      "id": "bf003e56"
+      "id": "358ee01d"
     },
     {
       "cell_type": "code",
@@ -917,7 +917,7 @@
         "event_date = pd.Timestamp(\"2023-03-08\")\n",
         "event_window = pd.Timedelta(days=10)  "
       ],
-      "id": "60bda6fe",
+      "id": "3b4e2d0d",
       "execution_count": null,
       "outputs": []
     },
@@ -931,7 +931,7 @@
         "\n",
         "For estimation, use long window before SVB collapse:\n"
       ],
-      "id": "4ab3e9ca"
+      "id": "01ac18bb"
     },
     {
       "cell_type": "code",
@@ -941,7 +941,7 @@
         "estimation_window = pd.Timedelta(days=500) \n",
         "start_date = event_date - event_window - estimation_window "
       ],
-      "id": "0d64bacd",
+      "id": "98689857",
       "execution_count": null,
       "outputs": []
     },
@@ -960,7 +960,7 @@
         "\n",
         "Can obtain ticker data from Yahoo Finance directly with  `yfinance` package (abbreviated as `yf`)\n"
       ],
-      "id": "3f317e88"
+      "id": "d73e7910"
     },
     {
       "cell_type": "code",
@@ -1002,7 +1002,7 @@
         "    axis=1\n",
         ").dropna(axis=0)"
       ],
-      "id": "b8c295ab",
+      "id": "60cb1382",
       "execution_count": null,
       "outputs": []
     },
@@ -1024,7 +1024,7 @@
         "\n",
         "For contrast, also estimate mean model\n"
       ],
-      "id": "bc5048f4"
+      "id": "42b94ff0"
     },
     {
       "cell_type": "code",
@@ -1077,7 +1077,7 @@
         "    abnormal_returns_factor[ticker] = event_data - expected_returns\n",
         "    abnormal_returns_mean[ticker] = event_data - y.mean()"
       ],
-      "id": "21dd249f",
+      "id": "1208ba98",
       "execution_count": null,
       "outputs": []
     },
@@ -1091,7 +1091,7 @@
         "\n",
         "#### Visualizing Average Abnormal Returns\n"
       ],
-      "id": "af560aca"
+      "id": "26143668"
     },
     {
       "cell_type": "code",
@@ -1218,7 +1218,7 @@
         "\n",
         "#### Generate Event Study Data {.scrollable}\n"
       ],
-      "id": "83fb4dbb"
+      "id": "85e0dc81"
     },
     {
       "cell_type": "code",
@@ -1264,7 +1264,7 @@
         "# View\n",
         "ar_factor_days.head()"
       ],
-      "id": "7fe2329b",
+      "id": "9d0835a3",
       "execution_count": null,
       "outputs": []
     },
@@ -1281,7 +1281,7 @@
         "\n",
         "Can now apply the event study estimator \n"
       ],
-      "id": "1155e0d8"
+      "id": "f1602757"
     },
     {
       "cell_type": "code",
@@ -1292,7 +1292,7 @@
         "factor_model = sm.OLS(endog, exog).fit(cov_type=\"HC0\")\n",
         "print(factor_model.summary())"
       ],
-      "id": "f8eafdf8",
+      "id": "513e02de",
       "execution_count": null,
       "outputs": []
     },
@@ -1316,7 +1316,7 @@
         "\n",
         "#### Computing Cumulative Effects {.scrollable}\n"
       ],
-      "id": "7632cfa6"
+      "id": "8a73c2ce"
     },
     {
       "cell_type": "code",
@@ -1375,7 +1375,7 @@
         "# Print the results\n",
         "print(results)"
       ],
-      "id": "6521c72a",
+      "id": "b391a3c0",
       "execution_count": null,
       "outputs": []
     },
@@ -1390,7 +1390,7 @@
         "\n",
         "#### Visualizing Cumulative Effects\n"
       ],
-      "id": "8948037a"
+      "id": "61026a3b"
     },
     {
       "cell_type": "code",
@@ -1469,7 +1469,7 @@
         "# Show the plot\n",
         "plt.show()"
       ],
-      "id": "5ca65e43",
+      "id": "f65872a4",
       "execution_count": null,
       "outputs": []
     },
@@ -1488,7 +1488,7 @@
         "\n",
         "Use Wald test: "
       ],
-      "id": "988e2ec0"
+      "id": "621c4a5b"
     },
     {
       "cell_type": "code",
@@ -1499,7 +1499,7 @@
         "wald_results = factor_model.wald_test(R,  scalar=True)\n",
         "print(wald_results)"
       ],
-      "id": "d217cd41",
+      "id": "41f7dff1",
       "execution_count": null,
       "outputs": []
     },
@@ -1544,7 +1544,7 @@
         "::: {#refs}\n",
         ":::"
       ],
-      "id": "fd38c874"
+      "id": "bd8b131e"
     }
   ],
   "metadata": {

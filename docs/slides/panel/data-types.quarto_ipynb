@@ -62,7 +62,7 @@
         "\n",
         ":::  \n"
       ],
-      "id": "c41c26bd"
+      "id": "b9682e4e"
     },
     {
       "cell_type": "code",
@@ -76,7 +76,7 @@
         "BG_COLOR = \"whitesmoke\"\n",
         "FONT_COLOR = \"black\""
       ],
-      "id": "0af1dfc6",
+      "id": "79b38102",
       "execution_count": null,
       "outputs": []
     },
@@ -99,7 +99,7 @@
         "# Add country codes and set as index\n",
         "unemp_df[\"ISO3_CODE\"] = unemp_df[\"geo\"].apply(iso2_to_iso3)"
       ],
-      "id": "2ec19594",
+      "id": "3202f6ae",
       "execution_count": null,
       "outputs": []
     },
@@ -234,7 +234,7 @@
         "\n",
         "#### Visual Example: Cross-Sectional Data\n"
       ],
-      "id": "5e1e7d9c"
+      "id": "9b823eb5"
     },
     {
       "cell_type": "code",
@@ -325,7 +325,7 @@
         "\n",
         "fig.show()"
       ],
-      "id": "600ffe8f",
+      "id": "5a0bdecf",
       "execution_count": null,
       "outputs": []
     },
@@ -357,7 +357,7 @@
         "\n",
         "#### Visual Example of Time Series\n"
       ],
-      "id": "2dce72a6"
+      "id": "919237e3"
     },
     {
       "cell_type": "code",
@@ -419,7 +419,7 @@
         "\n",
         "fig.show()"
       ],
-      "id": "b1427fea",
+      "id": "0994b6f1",
       "execution_count": null,
       "outputs": []
     },
@@ -465,7 +465,7 @@
         "\n",
         "#### Visual Example: Panel Data\n"
       ],
-      "id": "7b1afca3"
+      "id": "5eeafd59"
     },
     {
       "cell_type": "code",
@@ -502,7 +502,7 @@
         "    .reset_index()[\"entity\"]    \n",
         ")"
       ],
-      "id": "f1b2be34",
+      "id": "b5bc7adf",
       "execution_count": null,
       "outputs": []
     },
@@ -633,7 +633,7 @@
         "\n",
         "fig.show()"
       ],
-      "id": "f452a3b1",
+      "id": "4c1f2799",
       "execution_count": null,
       "outputs": []
     },
@@ -703,7 +703,7 @@
         "::: {#refs}\n",
         ":::"
       ],
-      "id": "eb8f7e64"
+      "id": "15736e18"
     }
   ],
   "metadata": {
