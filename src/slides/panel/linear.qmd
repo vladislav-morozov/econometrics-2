@@ -40,20 +40,7 @@ This lecture is about handling more general treatments in panel data with linear
 
 By the end, you should be able to
 
-- State the parallel trends assumption
-- Identify the ATT using a difference-in-differences (DiD) strategy 
-- Give a regression characterization of DiD
-
-
-```{python}
-import linearmodels as lm
-import numpy as np
-import pandas as pd
-import plotly.graph_objects as go
-import statsmodels.api as sm
-
-from plotly.subplots import make_subplots
-```
+- State 
 
 #### References
  
@@ -82,14 +69,71 @@ Textbooks:
 </div>
  
 
-## Something {background="#00100F"}
+## Fixed Effect Estimation {background="#00100F"}
 
  
 ### Subsection {background="#43464B" visibility="uncounted"}
 
+
+#### Reminder TWFE
+
+Where
+
+where $\alpha_i$
+
+####
+
+Goal — understand estimation approaches
+
+- What if we apply the same to more general $\bX_{it}$? Can we generalize?
+
+####
+
+
+
 #### Slide
 
+Start a bit different — with an estimator and understanding what it does
+
+
+::: footer
+
+Can find the matrix formula in section 3.2 of @Baltagi2021EconometricAnalysisPanel
+
+:::
+
+#### 
+
+Other specifications
+
+- Unit-level
+- No random intercepts — pooled OLS
+- More complicated combinations
+
+#### Matrix Forms
+
+## Causal Properties {background="#00100F"}
  
+ 
+
+
+#### Terminology: FE vs. RE vs. CRE
+
+::: {.callout-important appearance="minimal"}
+
+This terminology is confusing. Best to always say what you mean (e.g. "no restriction on the dependence between $\bbeta_i$ and $\bX_{it}$" or "random intercept")
+
+:::
+
+#### 
+
+More general model: 
+
+#### Factor Models
+
+Can generalize 
+
+@Pesaran2015TimeSeriesPanel chapter 29
 
 ## Empirical Application {background="#00100F"}
  
