@@ -1069,7 +1069,7 @@ $$
 
 Such an interval takes form
 $$
-[\hat{\beta}_k - \hat{c}, \hat{\beta}_k + \hat{c}]
+[\hat{\beta}_k - \hat{c}_N, \hat{\beta}_k + \hat{c}_N]
 $$
 Here $\hat{c}_N\geq 0$ can depend on the sample and  $N$
 
