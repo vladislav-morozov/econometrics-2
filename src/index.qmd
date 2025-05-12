@@ -50,8 +50,6 @@ The course is structured into the following main parts (*Subject to modification
    - Differences-in-differences.
    - Two-way fixed effect approaches with multivalued treatment.
    - Mean group estimation.
-   - Linear generalized method of moments (GMM).
-   - IV estimation of dynamic panel data models.
 3. Introduction to forecasting:
    - Causal inference vs. forecasting I.
    - Notions of forecast optimality.
@@ -61,7 +59,11 @@ The course is structured into the following main parts (*Subject to modification
    - Discrete outcomes in causal settings. 
    - Elements of asymptotic theory for nonlinear models.
    - Classification as forecasting with discrete outcomes.
-5. Time series:
+5. (*Time allowing*) Generalized method of moments.
+   - Linear generalized method of moments (GMM).
+   - IV estimation of dynamic panel data models.
+   - Fundamentals of nonlinear GMM.
+5. (*Time allowing*) Time series:
    - Time series as probabilistic objects and their properties.
    - Univariate models: ARIMA(X).
    - Multivariate time series: VARIMA(X).
