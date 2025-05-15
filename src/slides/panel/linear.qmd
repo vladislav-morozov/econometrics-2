@@ -72,28 +72,59 @@ Textbooks:
 ## Fixed Effect Estimation {background="#00100F"}
 
  
-### Subsection {background="#43464B" visibility="uncounted"}
+### Motivation and Questions {background="#43464B" visibility="uncounted"}
 
 
-#### Reminder TWFE
+#### Reminder: TWFE
 
-Where
+Recall: for difference-in-differences showed that
+$$ \small
+\widehat{ATT}^{DiD} = \hat{\delta}
+$$
+where $\hat{\delta}$ was the OLS estimator in regression
+$$\small
+Y_{i2}- Y_{i1} = \gamma + \delta D_{it} + U_{i2}
+$$ {#eq-panel-twfe-did-diff}
+where $\delta$ --- the ATT;  $\gamma$ --- average change in outcomes (trend)
 
-where $\alpha_i$
+#### Reminder: More General Equation
 
+@eq-panel-twfe-did-diff obtained by differencing the *two-way fixed effect* equation:
+$$
+Y_{it} = \alpha_i + \gamma_t + \delta D_{it} + U_{it},
+$$ {#eq-panel-twfe-did-undiff}
+where 
+$$
+\gamma_1 = 0, \quad \gamma_2 = \gamma
+$$
+and $\alpha_i = Y_{i1}^0$ --- baseline differences between units
+
+#### Reminder: Estimation
+
+- We know how to apply OLS based on @eq-panel-twfe-did-diff: just regress $(Y_{i1}, Y_{i2})$ on $(1, D_{it})$ with OLS
+- Last time said that can also apply OLS based on @eq-panel-twfe-did-undiff directly (e.g. `PanelOLS` from `linearmodels`)
+  - Treated $\alpha_i$ as <span class="highlight"> parameters </span> 
+  - Got exactly the same results from two approaches
+
+
+#### Lecture Questions
+
+
+1. How to apply OLS on @eq-panel-twfe-did-undiff? 
+  - What are the regressors? How to "treat $\alpha_i$ as parameters"?
+  - How does it work in practice?
+  - Is the estimator inspired by @eq-panel-twfe-did-undiff always equal to the one based on @eq-panel-twfe-did-diff?
+2. Can we apply the same approach with general (not just 0/1) treatment? What are the causal properties?
+  
+### Fixed Effect (Within) Estimators {background="#43464B" visibility="uncounted"}
+ 
 ####
 
-Goal — understand estimation approaches
+First goal: understand the estimation procedure done by `linearmodels`
 
-- What if we apply the same to more general $\bX_{it}$? Can we generalize?
-
-####
-
-
+--- generically called fixed effect estimators
 
 #### Slide
-
-Start a bit different — with an estimator and understanding what it does
 
 
 ::: footer
@@ -112,7 +143,7 @@ Other specifications
 
 #### Matrix Forms
 
-## Causal Properties {background="#00100F"}
+## Causal Properties with General Treatment {background="#00100F"}
  
  
 
@@ -128,6 +159,12 @@ This terminology is confusing. Best to always say what you mean (e.g. "no restri
 #### 
 
 More general model: 
+
+####
+
+Start a bit different — with an estimator and understanding what it does
+
+For historic reasons --- estimators came first, people started actually thinking about the meaning more recently
 
 #### Factor Models
 
