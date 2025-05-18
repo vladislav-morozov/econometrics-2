@@ -9,18 +9,116 @@ format:
 
 ## Theoretical Exercises 
 
-### E1
+### Testing Scalar Restrictions
 
-Suppose 
+Let the outcome $Y_i$, the covariates $\bX_i$, and an unobserved component $U_i$ be linked through the linear causal model
+$$
+Y_i^{\bx} = \bx'\bbeta + U_i.
+$$
+Suppose that we observe an IID sample of data on $Y_i, \bX_i$, that $\E[U_i|\bX_i]=0$, that $\E[\bX_i\bX_i']$ is invertible, and that $\E[U_i^2\bX_i\bX_i']$ has maximal rank.
+
+1. Consider the hypotheses $H_0: \beta_k = c$ and $H_1: \beta_k\neq c$, where $\beta_k$ is the $k$th coordinate of the $\bbeta$ vector. Propose a consistent test for $H_0$ vs $H_1$ that has asymptotic size $\alpha$.
+2. Now let $\ba\neq 0$ be some known constant vector of the same dimension as $\bbeta$. Consider the hypotheses $H_0: \ba'\bbeta = c$ and $H_1: \ba'\bbeta\neq c$. Propose a consistent $t$-test for $H_0$ vs $H_1$ that has asymptotic size $\alpha$.
+3. Why do we require that $\ba\neq 0$ in the previous question?
+
+In both cases remember to show that your test is consistent and has the desired asymptotic size. 
 
 <details>
   <summary>Click to see the solution</summary>
 
-*First subquestion*: 
+*First subquestion*: to choose our test statistic, we observe two facts:
+
+- We are dealing with a scalar hypothesis, 
+- The OLS estimator is consistent and asymptotically normal (why?).
+
+Accordingly, we can use the t-test. The t-statistic is given by
+$$
+t = \dfrac{\hat{\bbeta}_k - c}{ \sqrt{ \widehat{\avar}(\hat{\bbeta})/N  } },
+$$
+where $\hat{\bbeta}$ is the OLS estimator,  $\widehat{\avar}(\hat{\bbeta})$ is some consistent estimator of $\avar(\bbeta)$ (e.g. the HC0 estimator from the lectures) 
  
+Our test is based on the following decision rule. Let $z_{1-\alpha/2}$ be the $(1-\alpha/2)$th quantile of the standard normal distribution. Then:
+
+- If $\abs{t}>z_{1-\alpha/2}$, we reject $H_0$.
+- If $\abs{t}\leq z_{1-\alpha/2}$, we do not reject $H_0$.
+
+We now need to show that this test is consistent and has the desired asymptotic size.
+
+- **Consistency**: We need to show that the probability of rejecting $H_0$ converges to 1 when $H_0$ is false. Let $\beta_k$ be the true value of the coefficient of interest, and write
+$$
+t = \dfrac{\hat{\bbeta}_k - \beta_k}{ \sqrt{ \widehat{\avar}(\hat{\bbeta})/N  } } + \dfrac{ \beta_k- c}{ \sqrt{ \widehat{\avar}(\hat{\bbeta})/N  } }.
+$$
+By our asymptotic normality results, the first term converges in distribution to a $N(0, 1)$ random variable. By our assumptions, $\widehat{\avar}(\hat{\bbeta})\xrightarrow{p} \avar(\hat{\bbeta})\neq 0$.  Under the alternative, $\beta_k\neq c$, and so the second term diverges to $\pm \infty$. It then follows that with probability approaching one $\abs{t}> z_{1-\alpha/2}$ for any $\beta_k\neq c$. In other words, consistency holds. 
+
+- **Asymptotic size**: We need to show that the probability of rejecting $H_0$ converges to $\alpha$ when $H_0$ is true. Under $H_0$ it holds that $\beta_k=c$, and thus our asymptotic results and Slutsky's theorem imply that
+$$
+t = \dfrac{\hat{\bbeta}_k - \beta_k}{ \sqrt{ \widehat{\avar}(\hat{\bbeta})/N  } } \xrightarrow{d} N(0, 1).
+$$ 
+By definition of convergence of probability, definition of $z_{1-\alpha/2}$ and the fact that $z_{1-\alpha/2} = -z_{\alpha/2}$, it holds that
+$$
+\begin{aligned}
+& P\left(\text{Reject} H_0|H_0 \right) = P\left(\abs{t}>z_{1-\alpha/2} |H_0\right) \\
+& = P\left( \abs{ \dfrac{\hat{\beta}_k-c}{\sqrt{ \widehat{\avar}(\hat{\beta}_k)/N }  }}> z_{1-\alpha/2}\Bigg|H_0 \right)\\
+& \to \Phi(z_{\alpha/2}) + (1- \Phi(z_{1-\alpha/2})) = \alpha 
+\end{aligned}.
+$$
+The test has asymptotic size $\alpha$.
+
+<br>
+
+*Second subquestion*: the question explicitly asks for a $t$-test, and so we use the following $t$-statistic as the basis for our test:
+$$
+t = \dfrac{\ba'\hat{\bbeta} - c}{ \sqrt{ \widehat{\avar}(\ba'\hat{\bbeta})/N  } },
+$$ {#eq-exercises-inference-t-single-linear}
+The key question is how to construct a suitable estimator $\widehat{\avar}(\ba'\bbeta)$ for $\avar(\ba'\bbeta)$. 
+
+By the continuous mapping theorem it holds that
+$$
+\sqrt{N}(\ba'\hat{\bbeta}- \ba'\bbeta) \xrightarrow{d} N(0, \ba'\avar(\bbeta)\ba).
+$$
+By the continuous mapping theorem again:
+$$
+\ba'\widehat{\avar}(\hat{\bbeta})\ba \xrightarrow{p}\ba'{\avar}(\hat{\bbeta})\ba  = \avar(\ba'\hat{\bbeta})
+$$
+Hence, we can use $\ba'\widehat{\avar}(\hat{\bbeta})\ba$ as $\widehat{\avar}(\ba'\bbeta)$ in @eq-exercises-inference-t-single-linear. With this choice, it follows by Slutsky's theorem that 
+$$
+\dfrac{\ba'\hat{\bbeta} - \ba'\bbeta}{ \sqrt{ \widehat{\avar}(\ba'\hat{\bbeta})/N  } } \xrightarrow{d} N(0, 1).
+$$ {#eq-exercises-inference-t-single-linear-limit}
+
+Our decision rule is analogous to the above one:
+
+- If $\abs{t}>z_{1-\alpha/2}$, we reject $H_0$.
+- If $\abs{t}\leq z_{1-\alpha/2}$, we do not reject $H_0$.
+
+Consistency and asymptotic size can be shown entirely analogously to the above case by using @eq-exercises-inference-t-single-linear-limit (show them regardless to practice!).
+
+<br>
+
+*Third subquestion*: if $\ba=0$, then the null hypothesis is trivially true and reduces to $H_0: 0=c$. It is either trivially true or trivially false, depending on $c$. 
+
+
+<br> 
  
+
+
 </details>
  
+### Testing Several Linear Restrictions
+
+### Inference on a Nonlinear Function of Parameters
+
+
+<details>
+  <summary>Click to see the solution</summary>
+
+If the transformation were vector-valued, we would only be able to use the Wald test (as in the lectures)
+
+</details>
+
+### Consistency of the HC0 Asymptotic Variance Estimator
+
+
+
 ## Applied Exercises
 
 Applied exercises in this list  
