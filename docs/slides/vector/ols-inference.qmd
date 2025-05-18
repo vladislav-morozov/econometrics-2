@@ -542,7 +542,7 @@ $$
 
 $t$-statistic
 $$
-t = \dfrac{\hat{\beta}_2 - c}{\sqrt{ \widehat{\avar}(\hat{\beta}_k)/N }  }
+t = \dfrac{\hat{\beta}_k - c}{\sqrt{ \widehat{\avar}(\hat{\beta}_k)/N }  }
 $$ {#eq-vector-inference-t-general}
 
 Same decision rule: compare $t$ to $z_{1-\alpha/2}$
