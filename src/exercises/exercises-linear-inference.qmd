@@ -9,6 +9,8 @@ format:
 
 ## Theoretical Exercises 
 
+ 
+
 ### Testing Scalar Restrictions
 
 Let the outcome $Y_i$, the covariates $\bX_i$, and an unobserved component $U_i$ be linked through the linear causal model
@@ -105,12 +107,7 @@ Consistency and asymptotic size can be shown entirely analogously to the above c
  
 ### Testing Several Linear Restrictions
 
-Let the outcome $Y_i$, the covariates $\bX_i$, and an unobserved component $U_i$ be linked through the linear causal model
-$$
-Y_i^{\bx} = \bx'\bbeta + U_i.
-$$
-Suppose that we observe an IID sample of data on $Y_i, \bX_i$, that $\E[U_i|\bX_i]=0$, that $\E[\bX_i\bX_i']$ is invertible, and that $\E[U_i^2\bX_i\bX_i']$ has maximal rank. Let $\bbeta = (\beta_1, \beta_2, \dots, \beta_p)$ with $p\geq 4$.
-
+Let $\bbeta = (\beta_1, \beta_2, \dots, \beta_p)$ with $p\geq 4$.
 Consider the following two hypotheses on $\bbeta$:
 $$
 H_0: \begin{cases}
@@ -195,13 +192,89 @@ It follows that the probability of rejecting tends to 1 for any $\bbeta$ in $H_1
 
 ### Inference on a Nonlinear Function of Parameters
 
-1. Hypothesis test
-2. Confidence
+Let the outcome $Y_i$, the covariates $\bX_i$, and an unobserved component $U_i$ be linked through the linear causal model
+$$
+Y_i^{\bx} = \bx'\bbeta + U_i.
+$$
+Suppose that we observe an IID sample of data on $Y_i, \bX_i$, that $\E[U_i|\bX_i]=0$, that $\E[\bX_i\bX_i']$ is invertible, and that $\E[U_i^2\bX_i\bX_i']$ has maximal rank. Also suppose that $\bbeta$ has $p\geq 2$ components, that $\beta_1>0$ and $\beta_2>0$, and that you are interested in 
+$$
+\gamma = \sqrt{\beta_1\beta_2}.
+$$
+
+1. Construct a confidence interval for $\gamma$ with asymptotic coverage $(1-\alpha)$.
+2. Consider $H_0: \gamma=1$ vs. $H_1:\gamma\neq 1$. Construct a consistent test for $H_0$ vs. $H_1$ with asymptotic size $\alpha$.
+
+Remember to prove coverage, consistency, and size properties. 
 
 <details>
   <summary>Click to see the solution</summary>
 
-If the transformation were vector-valued, we would only be able to use the Wald test (as in the lectures)
+*First subquestion*: we can use the delta method to construct a confidence interval for $\gamma$. The delta method states that if $\hat{\bbeta}$ is consistent and asymptotically normal, then $g(\hat{\bbeta})$ is also consistent and asymptotically normal for any continuously differentiable function $g(\cdot)$.
+
+For our $\gamma$, we take $g(\bw) = \sqrt{w_1w_2}$. This $g(\cdot)$ differentiable in a neighborhood of $\bbeta$. The Jacobian $\bG(\cdot)$ of $g(\cdot)$ is a $1\times p$ matrix given by
+$$
+\bG(\bw) = \left( \dfrac{w_2}{2\sqrt{w_1w_2}}, \dfrac{w_1}{2\sqrt{w_1w_2}}, 0, \dots, 0 \right).
+$$
+By assumptions of the problem, $G(\bbeta)$ has maximal rank.
+
+Since $g(\bbeta) = \gamma$, the delta method tells us that 
+$$  
+\begin{aligned}
+\sqrt{N}(g(\hat{\bbeta}) -  \gamma) & \xrightarrow{d} N(0, \bG(\bbeta)\avar(\hat{\bbeta})\bG(\bbeta)'). 
+\end{aligned} 
+$$ {#eq-exercises-inference-delta-normality}
+
+We can now construct a confidence interval in a standard way by using $g(\hat{\bbeta})$ as the estimator and @eq-exercises-inference-delta-normality as the distributional base. Consider the following interval:
+$$
+\begin{aligned}
+S & = \left[g(\hat{\bbeta}) - z_{1-\alpha/2}\sqrt{\dfrac{\widehat{\avar}(g(\hat{\bbeta})) }{N}  }, g(\hat{\bbeta}) + z_{1-\alpha/2}\sqrt{\dfrac{\widehat{\avar}(g(\hat{\bbeta})) }{N}  } \right],
+\end{aligned}
+$$
+where $z_{1-\alpha/2}$ is the $(1-\alpha/2)$th quantile of the standard normal distribution and
+$$
+\widehat{\avar}(g(\hat{\bbeta})) = \bG(\hat{\bbeta})\widehat{\avar}(\hat{\bbeta})G(\hat{\bbeta})',
+$$
+for some consistent estimator $\widehat{\avar}(\hat{\bbeta})$. It follows that $\widehat{\avar}(g(\hat{\bbeta})) \xrightarrow{p} {\avar}(g(\hat{\bbeta}))$
+
+To compute asymptotic coverage, we first observe that by Slutsky's theorem and @eq-exercises-inference-delta-normality it holds that 
+$$
+\sqrt{N}\dfrac{g(\hat{\bbeta})- \gamma }{\sqrt{\widehat{\avar}(g(\hat{\bbeta}))} } \xrightarrow{d} N(0, 1)
+$$
+Then by definition of convergence in distribution
+$$
+\begin{aligned}
+& P\left(\gamma \in S  \right) = P(g(\bbeta)\in S)\\
+&   = P\left( -z_{1-\alpha/2} \leq  \sqrt{N}\dfrac{g(\hat{\bbeta})- g(\bbeta) }{\sqrt{\widehat{\avar}(g(\hat{\bbeta}))} } \leq  z_{1-\alpha/2}  \right)   \\
+%
+&  \to \Phi(z_{1-\alpha/2})  - \Phi(-z_{1-\alpha/2}) \\
+& = 1-\alpha.
+\end{aligned}
+$$
+In other words, $S$ has asymptotic coverage $1-\alpha$.
+
+<br>
+
+
+*Second subquestion*: we are dealing with a scalar transformation, and so we can use a $t$-test. Define the following statistic:
+$$
+t = \dfrac{ \sqrt{ \hat{\beta}_1\hat{\beta}_2} - 1}{\sqrt{\widehat{\avar}(g(\hat{\bbeta}))/N} }.
+$$
+Here $\sqrt{ \hat{\beta}_1\hat{\beta}_2 } =g(\hat{\bbeta})$.
+
+
+Our test proceeds as follows:
+
+- If $\abs{t}>z_{1-\alpha/2}$, then we reject $H_0$.
+- If $\abs{t}\leq z_{1-\alpha/2}$, then we do not reject $H_0$.
+
+Consistency and asymptotic size are established exactly as before. As always, the key and only ingredient is the asymptotic normality result ([-@eq-exercises-inference-delta-normality]). Please write out the proofs in detail.
+
+Note: if the transformation were vector-valued, we would only be able to use the Wald test. The Wald test can also be used here, please solve this question using a Wald test like in the lectures to practice!
+ 
+
+
+
+
 
 </details>
 
