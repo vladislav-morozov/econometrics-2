@@ -24,7 +24,14 @@ website:
   repo-actions: [edit, issue]
   sidebar:
     style: "floating"
-    search: true
+    search: true 
+    tools:
+      - icon: person-arms-up
+        href: https://vladislav-morozov.github.io/
+      - icon: github
+        href: https://github.com/vladislav-morozov/
+      - icon: linkedin
+        href: https://www.linkedin.com/in/vladislavvmorozov/
     contents: 
       - section: "Course Info"
         contents:
