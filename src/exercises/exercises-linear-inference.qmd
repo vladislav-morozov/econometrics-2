@@ -1,0 +1,30 @@
+---
+title: "Exercises: Vector Linear Model and Asymptotics"
+format:
+  html:
+    toc: true
+---
+
+
+
+## Theoretical Exercises 
+
+### E1
+
+Suppose 
+
+<details>
+  <summary>Click to see the solution</summary>
+
+*First subquestion*: 
+ 
+ 
+</details>
+ 
+## Applied Exercises
+
+Applied exercises in this list  
+
+- @Wooldridge2020IntroductoryEconometricsModern   
+
+Check out chapter 3 in @Heiss2024UsingPythonIntroductory 
