@@ -280,7 +280,74 @@ Note: if the transformation were vector-valued, we would only be able to use the
 
 ### Consistency of the HC0 Asymptotic Variance Estimator
 
+Let the outcome $Y_i$, the scalar covariate $X_i$, and an unobserved component $U_i$ be linked through the linear potential outcomes model
+$$
+Y_i^{\bx} = \beta X_i + U_i
+$$ {#eq-exercises-inference-ex4-scalar-model}
+Suppose that we observe an IID sample of data on $Y_i, X_i$, that $\E[U_i|X_i]=0$, that $\E[X_i^2]\neq 0$, and that $\E[U_i^2 X_i^2]$ exists. Let  $\hat{\beta}$ be the OLS estimator obtained by regressing $Y_i$ on $X_i$.
 
+
+Recall the HC0 [@White1980HeteroskedasticityConsistentCovarianceMatrix] estimator for $\avar(\hat{\beta})$. In the scalar model ([-@eq-exercises-inference-ex4-scalar-model]) it is given by
+$$
+\begin{aligned}
+\widehat{\avar}(\hat{\beta}) & = \dfrac{  N^{-1} \sum_{i=1}^N \hat{U_i}^2 X_i^2 }{  \left( N^{-1}\sum_{i=1}^N X_i^2 \right)^2  }.
+\end{aligned}
+$$
+Show that 
+$$
+\widehat{\avar}(\hat{\beta}) \xrightarrow{p} \avar(\hat{\beta}) \equiv \dfrac{ \E[U_i^2X_i^2]  }{\left(\E[X_i^2] \right)^2 }.
+$$
+State explicitly any additional moment assumptions you make. 
+
+<details>
+  <summary>Click to see the solution</summary>
+
+First, we substitute our model ([-@eq-exercises-inference-ex4-scalar-model]) in place of $Y_i$ in $\hat{U}_i$:
+$$
+\begin{aligned}
+\hat{U}_i^2 & = (Y_i - X_i\hat{\beta})^2 =  (X_i(\beta-\hat{\beta}) + U_i)^2\\
+& = U_i^2 + 2(\beta-\hat{\beta})  U_iX_i+ (\beta-\hat{\beta})^2 X_i
+\end{aligned}
+$$
+
+We then substitute this expression for $\hat{U}_i$ into the middle term of our asymptotic variance estimator:
+$$
+\begin{aligned}
+& \dfrac{1}{N} \sum_{i=1}^N \hat{U}_i^2 X_i^2 \\
+& = \dfrac{1}{N} \sum_{i=1}^N U_i^2X_i^2 + (\beta-\hat{\beta}) \dfrac{2}{N}\sum_{i=1}^N U_i X_i^3 \\
+& \quad  + (\beta-\hat{\beta})^2 \dfrac{1}{N}\sum_{i=1}^N X_i^4.
+\end{aligned}
+$$ {#eq-exercises-inference-ex4-expansion}
+
+To handle the averages in @eq-exercises-inference-ex4-expansion, we use the law of large numbers. By assumption, $\E[U_i^2X_i^2]$ exists. We also assume that $\E[U_iX_i^3]$ and $\E[X_i^4]$ also exist. Then by the law of large numbers it holds that
+$$
+\begin{aligned}
+\dfrac{1}{N} \sum_{i=1}^N U_i^2X_i^2 & \xrightarrow{p} \E[U_i^2 X_i^2],\\
+ \dfrac{1}{N}\sum_{i=1}^N U_i X_i^3 & \xrightarrow{p} \E[U_iX_i^3], \\  \dfrac{1}{N}\sum_{i=1}^N X_i^4  & \xrightarrow{p} \E[X_i^4].
+\end{aligned}
+$$
+At the same time, all the conditions of our consistency result hold, and so $\hat{\beta}-\beta \xrightarrow{p} 0$. By the continuous mapping theorem
+$$
+\begin{aligned}
+(\beta-\hat{\beta}) \dfrac{2}{N}\sum_{i=1}^N U_i X_i^3 \xrightarrow{p} 0, \\
+(\beta-\hat{\beta})^2 \dfrac{1}{N}\sum_{i=1}^N X_i^4. \xrightarrow{p} 0.
+\end{aligned}
+$$
+By combining the above convergence results, the result on equivalence of  separate and joint convergence in probability, and the continuous mapping theorem, we conclude that
+$$
+\dfrac{1}{N} \sum_{i=1}^N \hat{U}_i^2 X_i^2 \xrightarrow{p}  \E[U_i^2X_i^2].
+$$
+At the same time, by the law of large numbers, continuous mapping theorem, and the assumption that $\E[X_i^2]\neq 0$ it holds that
+$$
+\dfrac{1}{ \left(N^{-1}\sum_{i=1}^N X_i^2\right)^2 } \xrightarrow{p} \dfrac{1}{\left(
+    \E[X_i^2]
+\right)^2
+}.
+$$
+Combining the previous two equations with the continuous mapping theorem, we obtain the desired result. In terms of assumptions, we have assumed the existence of  $\E[U_iX_i^3]$ and $\E[X_i^4]$, in addition to the assumptions of the problem.
+
+
+</details>
 
 ## Applied Exercises
 
