@@ -36,8 +36,11 @@ website:
         - slides/vector/ols-consistency.qmd 
         - slides/vector/ols-limit-distribution.qmd 
         - exercises/exercises-linear-asymptotic.qmd
+      - section: "Asymptotic Inference" 
+        contents:
         - slides/vector/ols-inference.qmd
         - slides/vector/ols-delta-method.qmd 
+        - exercises/exercises-linear-inference.qmd
 
 execute:
   freeze: auto  # re-render only when source changes
