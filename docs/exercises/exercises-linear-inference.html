@@ -625,7 +625,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="theoretical-exercises">Theoretical Exercises</h2>
 <section id="testing-scalar-restrictions" class="level3">
 <h3 class="anchored" data-anchor-id="testing-scalar-restrictions">Testing Scalar Restrictions</h3>
-<p>Let the outcome <span class="math inline">\(Y_i\)</span>, the covariates <span class="math inline">\(\bX_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear causal model <span class="math display">\[
+<p>Let the outcome <span class="math inline">\(Y_i\)</span>, the covariates <span class="math inline">\(\bX_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear potential outcomes model <span class="math display">\[
 Y_i^{\bx} = \bx'\bbeta + U_i.
 \]</span> Suppose that we observe an IID sample of data on <span class="math inline">\(Y_i, \bX_i\)</span>, that <span class="math inline">\(\E[U_i|\bX_i]=0\)</span>, that <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is invertible, and that <span class="math inline">\(\E[U_i^2\bX_i\bX_i']\)</span> has maximal rank.</p>
 <ol type="1">
@@ -637,6 +637,9 @@ Y_i^{\bx} = \bx'\bbeta + U_i.
 </section>
 <section id="testing-several-linear-restrictions" class="level3">
 <h3 class="anchored" data-anchor-id="testing-several-linear-restrictions">Testing Several Linear Restrictions</h3>
+<p>Let the outcome <span class="math inline">\(Y_i\)</span>, the covariates <span class="math inline">\(\bX_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear potential outcomes model <span class="math display">\[
+Y_i^{\bx} = \bx'\bbeta + U_i.
+\]</span> Suppose that we observe an IID sample of data on <span class="math inline">\(Y_i, \bX_i\)</span>, that <span class="math inline">\(\E[U_i|\bX_i]=0\)</span>, that <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is invertible, and that <span class="math inline">\(\E[U_i^2\bX_i\bX_i']\)</span> has maximal rank.</p>
 <p>Let <span class="math inline">\(\bbeta = (\beta_1, \beta_2, \dots, \beta_p)\)</span> with <span class="math inline">\(p\geq 4\)</span>. Consider the following two hypotheses on <span class="math inline">\(\bbeta\)</span>: <span class="math display">\[
 H_0: \begin{cases}
 \beta_1 = 0, \\
@@ -647,7 +650,10 @@ H_0: \begin{cases}
 </section>
 <section id="inference-on-a-nonlinear-function-of-parameters" class="level3">
 <h3 class="anchored" data-anchor-id="inference-on-a-nonlinear-function-of-parameters">Inference on a Nonlinear Function of Parameters</h3>
-<p>Let the outcome <span class="math inline">\(Y_i\)</span>, the covariates <span class="math inline">\(\bX_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear causal model <span class="math display">\[
+<p>Let the outcome <span class="math inline">\(Y_i\)</span>, the covariates <span class="math inline">\(\bX_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear potential outcomes model <span class="math display">\[
+Y_i^{\bx} = \bx'\bbeta + U_i.
+\]</span> Suppose that we observe an IID sample of data on <span class="math inline">\(Y_i, \bX_i\)</span>, that <span class="math inline">\(\E[U_i|\bX_i]=0\)</span>, that <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is invertible, and that <span class="math inline">\(\E[U_i^2\bX_i\bX_i']\)</span> has maximal rank.</p>
+<p>Let the outcome <span class="math inline">\(Y_i\)</span>, the covariates <span class="math inline">\(\bX_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear potential outcomes model <span class="math display">\[
 Y_i^{\bx} = \bx'\bbeta + U_i.
 \]</span> Suppose that we observe an IID sample of data on <span class="math inline">\(Y_i, \bX_i\)</span>, that <span class="math inline">\(\E[U_i|\bX_i]=0\)</span>, that <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is invertible, and that <span class="math inline">\(\E[U_i^2\bX_i\bX_i']\)</span> has maximal rank. Also suppose that <span class="math inline">\(\bbeta\)</span> has <span class="math inline">\(p\geq 2\)</span> components, that <span class="math inline">\(\beta_1&gt;0\)</span> and <span class="math inline">\(\beta_2&gt;0\)</span>, and that you are interested in <span class="math display">\[
 \gamma = \sqrt{\beta_1\beta_2}.
