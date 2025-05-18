@@ -105,8 +105,98 @@ Consistency and asymptotic size can be shown entirely analogously to the above c
  
 ### Testing Several Linear Restrictions
 
+Let the outcome $Y_i$, the covariates $\bX_i$, and an unobserved component $U_i$ be linked through the linear causal model
+$$
+Y_i^{\bx} = \bx'\bbeta + U_i.
+$$
+Suppose that we observe an IID sample of data on $Y_i, \bX_i$, that $\E[U_i|\bX_i]=0$, that $\E[\bX_i\bX_i']$ is invertible, and that $\E[U_i^2\bX_i\bX_i']$ has maximal rank. Let $\bbeta = (\beta_1, \beta_2, \dots, \beta_p)$ with $p\geq 4$.
+
+Consider the following two hypotheses on $\bbeta$:
+$$
+H_0: \begin{cases}
+\beta_1 = 0, \\
+\beta_2 - \beta_3 = 1, \\
+\beta_2 = 4\beta_4 + 5,
+\end{cases} \quad H_1: \text{at least one equality in $H_0$ fails}
+$$
+Propose a consistent test for $H_0$ vs. $H_1$ with asymptotic size $\alpha$. Show that the test possesses these properties. 
+
+<details>
+  <summary>Click to see the solution</summary>
+
+First, we write the null hypothesis in matrix form. We can do this by stacking the three equations in $H_0$ into a single vector equation:
+$$
+\begin{aligned}
+H_0: & \bR\bbeta = \bq, \\
+\bR & = \begin{pmatrix}
+1 & 0 & 0 & 0 & \cdots\\
+0 & 1 & -1 & 0 & \cdots\\
+0 & 1 & 0 & -4 & \cdots
+\end{pmatrix}, \quad \bq = \begin{pmatrix}
+0\\
+1\\
+5
+\end{pmatrix},
+\end{aligned}
+$$
+where $\bR$ has zero columns starting from the fifth column. 
+
+We can construct a Wald test for $H_0$ vs. $H_1$. The Wald statistic is defined as
+$$
+W = N\left(\bR\hat{\bbeta} - \bq \right)' \left(\bR\widehat{\avar}(\hat{\bbeta})\bR' \right)^{-1} \left( \bR\hat{\bbeta} - \bq  \right)
+$$
+ 
+We propose the following test. Let $c_{1-\alpha}$ be the $(1-\alpha)$th quantile of the $\chi^2_{3}$ distribution (3 is the number of constraints in $H_0$). Then
+
+- If $W>c_{1-\alpha}$, we reject $H_0$.
+- If $W\leq c_{1-\alpha}$, we do not reject $H_0$.
+
+
+
+We now need to show that this test is consistent and has the desired asymptotic size.
+
+
+- **Asymptotic size**: Under $H_0$ it holds that  $\bR\bbeta=\bq$, and so by our asymptotic results for the OLS estimator and the continuous mapping theorem under $H_0$
+$$
+\sqrt{N}(\bR\hat{\bbeta}-\bq) \xrightarrow{d} N(0, \bR\avar(\hat{\bbeta})\bR').
+$$ 
+By Slutsky's theorem and the definition of $\chi^2_{\cdot}$ random variables, it holds under $H_0$ that
+$$
+W \xrightarrow{d} \chi^2_3.
+$$
+By definition of $c_{1-\alpha}$ and the definition of convergence in distribution
+$$
+\begin{aligned}
+& P\left(\text{Reject} H_0|H_0 \right) = P\left(W>c_{1-\alpha} |H_0\right) \\
+& \to P(\chi^2_3> c_{1-\alpha}) = \alpha .
+\end{aligned}
+$$
+The test has asymptotic size $\alpha$.
+
+
+- **Consistency**: Under $H_1$ we have that $\bR\hat{\bbeta}\xrightarrow{p} \bR\bbeta\neq \bq$. In words, the outside terms in $W$ converge to something $\neq 0$. At the same time $\left(\bR\widehat{\avar}(\hat{\bbeta})\bR' \right)^{-1} \xrightarrow{p} \left(\bR\avar(\hat{\bbeta})\bR'\right)^{-1}$ — a positive definite matrix. We conclude that 
+$$
+\begin{aligned}
+& \left(\bR\hat{\bbeta} - \bq \right)' \left(\bR\widehat{\avar}(\hat{\bbeta})\bR' \right)^{-1} \left( \bR\hat{\bbeta} - \bq  \right) \\
+& \xrightarrow{p} \left(\bR\bbeta -\bq\right)' \left(\bR\avar(\hat{\bbeta})\bR'\right)^{-1}(\bR\bbeta-\bq) \\
+& >0,
+\end{aligned}
+$$
+where we use the definition of positive definitiness. 
+Finally, recall that there is also an $N$ term in $W$. We conclude that overall
+$$
+W\xrightarrow{p} \infty
+$$
+It follows that the probability of rejecting tends to 1 for any $\bbeta$ in $H_1$. In other words, consistency holds.
+
+
+
+</details>
+
 ### Inference on a Nonlinear Function of Parameters
 
+1. Hypothesis test
+2. Confidence
 
 <details>
   <summary>Click to see the solution</summary>
