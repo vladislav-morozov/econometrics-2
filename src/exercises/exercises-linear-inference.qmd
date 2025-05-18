@@ -211,8 +211,10 @@ If the transformation were vector-valued, we would only be able to use the Wald 
 
 ## Applied Exercises
 
-Applied exercises in this list  
+Applied exercises are from @Wooldridge2020IntroductoryEconometricsModern. In all cases, use asymptotic $t$- and Wald tests with robust standard errors:
 
-- @Wooldridge2020IntroductoryEconometricsModern   
+- C9 in chapter 4,
+- C4 and C6 in chapter 5, 
+- C8 in chapter 7.
 
-Check out chapter 3 in @Heiss2024UsingPythonIntroductory 
+For some more code examples and discussion, look at chapters 4, 5, 7 in @Heiss2024UsingPythonIntroductory 
