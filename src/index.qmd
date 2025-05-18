@@ -44,24 +44,29 @@ The course is structured into the following main parts (*Subject to modification
 
 1. A deeper look at linear regression:
    - A vector-matrix form approach to linear regression.
-   - Asymptotic theory for the OLS estimator. Wald tests.
-2. Panel data in causal settings:
+   - Basics of identification analysis. 
+   - Asymptotic theory for the OLS estimator.
+2. Asymptotic inference:
+   - Refresher: key definitions and intuition of hypothesis testing.
+   - Tests for linear hypotheses: $t$- and Wald tests.
+   - The delta method and nonlinear Wald tests.
+3. Panel data in causal settings:
    - Event studies.
    - Differences-in-differences.
    - Two-way fixed effect approaches with multivalued treatment.
    - Mean group estimation.
    - Linear generalized method of moments (GMM).
    - IV estimation of dynamic panel data models.
-3. Introduction to forecasting:
+4. Introduction to forecasting:
    - Causal inference vs. forecasting I.
    - Notions of forecast optimality.
    - Forecasting in cross-sections.
-4. Parametric nonlinear models:
+5. Parametric nonlinear models:
    - Beyond linearity: nonlinear regression and nonlinear least squares.
    - Discrete outcomes in causal settings. 
    - Elements of asymptotic theory for nonlinear models.
    - Classification as forecasting with discrete outcomes.
-5. Time series:
+6. Time series:
    - Time series as probabilistic objects and their properties.
    - Univariate models: ARIMA(X).
    - Multivariate time series: VARIMA(X).
