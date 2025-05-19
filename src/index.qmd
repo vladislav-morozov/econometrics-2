@@ -40,7 +40,9 @@ Advanced Econometrics builds on the basic econometrics course in three direction
  
   
 ### Content 
-The course is structured into the following main parts (*Subject to modification based on progress*):
+
+
+The course is structured as follows (subject to change):
 
 1. A deeper look at linear regression:
    - A vector-matrix form approach to linear regression.
@@ -50,13 +52,12 @@ The course is structured into the following main parts (*Subject to modification
    - Refresher: key definitions and intuition of hypothesis testing.
    - Tests for linear hypotheses: $t$- and Wald tests.
    - The delta method and nonlinear Wald tests.
+
 3. Panel data in causal settings:
    - Event studies.
    - Differences-in-differences.
    - Two-way fixed effect approaches with multivalued treatment.
    - Mean group estimation.
-   - Linear generalized method of moments (GMM).
-   - IV estimation of dynamic panel data models.
 4. Introduction to forecasting:
    - Causal inference vs. forecasting I.
    - Notions of forecast optimality.
@@ -66,15 +67,22 @@ The course is structured into the following main parts (*Subject to modification
    - Discrete outcomes in causal settings. 
    - Elements of asymptotic theory for nonlinear models.
    - Classification as forecasting with discrete outcomes.
-6. Time series:
-   - Time series as probabilistic objects and their properties.
-   - Univariate models: ARIMA(X).
-   - Multivariate time series: VARIMA(X).
-   - Elements of causal inference with time series. 
-   - Forecasting with time series vs. forecasting with panel data.
 
+If time allows, we will further discuss:
 
-Further topics may include quantile and distributional regression, big data, and experimentation in settings with interference. 
+6. Generalized method of moments.
+   - Linear generalized method of moments (GMM).
+   - IV estimation of dynamic panel data models.
+   - Fundamentals of nonlinear GMM.
+7.  Time series:
+    - Time series as probabilistic objects and their properties.
+    - Univariate models: ARIMA(X).
+    - Multivariate time series: VARIMA(X).
+    - Elements of causal inference with time series. 
+    - Forecasting with time series vs. forecasting with panel data
+
+Even further topics such as quantile regression, experimentation under interference, and high-dimensional data may be introduced as time allows.
+
  
 
 

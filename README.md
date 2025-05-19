@@ -31,7 +31,7 @@ The course is designed for students with prior exposure to basic statistics and 
 
 
 
-The course is structured around five major components (subject to change):
+The course is structured around the following major components (subject to change):
 
 1. A deeper look at linear regression:
    - A vector-matrix form approach to linear regression.
