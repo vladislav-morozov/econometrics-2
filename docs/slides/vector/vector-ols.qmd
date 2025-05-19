@@ -4,6 +4,9 @@ subtitle: "A Concise and General Approach"
 author: Vladislav Morozov  
 format:
   revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="Explore vector-matrix form of linear regression - scalar, vector, and matrix representations and OLS estimator derivation (lecture notes slides)."/> 
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -25,8 +28,7 @@ filters:
   - reveal-header 
 embed-resources: true
 include-in-header: ../../themes/mathjax.html 
-highlight-style: tango
-description: "Explore vector-matrix form of linear regression: scalar, vector, and matrix representations and OLS estimator derivation (lecture notes slides)."
+highlight-style: tango 
 open-graph:
     description: "Explore vector-matrix form of linear regression: scalar, vector, and matrix representations and OLS estimator derivation (lecture notes slides)." 
 ---

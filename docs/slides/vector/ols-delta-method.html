@@ -539,11 +539,9 @@
 
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
   
-
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-
+  <meta name="description" content="Explore the delta method for nonlinear functions of parameters: asymptotic distribution, confidence intervals, hypothesis testing (lecture notes slides).">
 <meta property="og:title" content="Inference II: Nonlinear Hypotheses – Advanced Econometrics">
 <meta property="og:description" content="Explore the delta method for nonlinear functions of parameters: asymptotic distribution, confidence intervals, hypothesis testing (lecture notes slides).">
 <meta property="og:site_name" content="Advanced Econometrics">
@@ -627,7 +625,7 @@ Vladislav Morozov
 <h4>Reminder: Estimation Results</h4>
 <div class="sourceCode" id="cb1" data-code-line-numbers="0-1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a>results <span class="op">=</span> OLS(endog, exog).fit(cov_type<span class="op">=</span><span class="st">'HC0'</span>) <span class="co"># Robust covariance matrix estimator</span></span>
 <span id="cb1-2"><a></a><span class="bu">print</span>(results.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="33cf6548" class="cell" data-execution_count="1">
+<div id="689ec111" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
@@ -635,7 +633,7 @@ Dep. Variable:               log_wage   R-squared:                       0.226
 Model:                            OLS   Adj. R-squared:                  0.226
 Method:                 Least Squares   F-statistic:                     862.5
 Date:                Mon, 19 May 2025   Prob (F-statistic):               0.00
-Time:                        12:55:06   Log-Likelihood:                -8152.9
+Time:                        17:37:41   Log-Likelihood:                -8152.9
 No. Observations:               10402   AIC:                         1.631e+04
 Df Residuals:                   10398   BIC:                         1.634e+04
 Df Model:                           3                                         
@@ -918,7 +916,7 @@ S = \left[ \dfrac{\hat{\beta}_1}{\hat{\beta_2}} - z_{1-\alpha/2} \sqrt{\dfrac{\w
 <section id="documentation-of-nonlineardeltacov" class="slide level4 scrollable">
 <h4>Documentation of <code>NonlinearDeltaCov</code></h4>
 <p>Functionality not documented, but <a href="https://github.com/statsmodels/statsmodels/blob/main/statsmodels/stats/_delta_method.py">in code</a> with good docstrings</p>
-<div id="1a910186" class="cell" data-execution_count="2">
+<div id="f384add5" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="im">from</span> statsmodels.stats._delta_method <span class="im">import</span> NonlinearDeltaCov</span>
 <span id="cb3-2"><a></a><span class="bu">help</span>(NonlinearDeltaCov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1109,14 +1107,14 @@ class NonlinearDeltaCov(builtins.object)
 <section id="creating-an-instance-of-nonlineardeltacov" class="slide level4">
 <h4>Creating an Instance of <code>NonlinearDeltaCov</code></h4>
 <p>In our example, define the function <span class="math inline">\(a(\cdot)\)</span>:</p>
-<div id="e0add94d" class="cell" data-execution_count="3">
+<div id="0c0c05bf" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="kw">def</span> max_earn(beta: pd.Series):</span>
 <span id="cb5-2"><a></a>    <span class="cf">return</span> np.array([<span class="op">-</span><span class="dv">50</span><span class="op">*</span>beta.loc[<span class="st">"experience"</span>]<span class="op">/</span>beta.loc[<span class="st">"experience_sq_div"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
 <p><br></p>
 <p>Then we supply <span class="math inline">\(a(\cdot)\)</span> together with parameters and standard errors:</p>
-<div id="7f26c8a7" class="cell" data-execution_count="4">
+<div id="21fae2d5" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a>delta_ratio <span class="op">=</span> NonlinearDeltaCov(max_earn, results.params, results.cov_params())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
@@ -1124,14 +1122,14 @@ class NonlinearDeltaCov(builtins.object)
 <section id="constructing-cis-with-nonlineardeltacov" class="slide level4">
 <h4>Constructing CIs with <code>NonlinearDeltaCov</code></h4>
 <p>Can construct a 95% confidence interval with the <code>conf_int()</code> method</p>
-<div id="fa2f865b" class="cell" data-execution_count="5">
+<div id="2a005b0d" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>delta_ratio.conf_int(alpha<span class="op">=</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>array([[30.36791181, 35.41407441]])</code></pre>
 </div>
 </div>
 <p>or the <code>summary()</code> method</p>
-<div id="467961dd" class="cell" data-execution_count="6">
+<div id="e9c6d2a4" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>delta_ratio.summary(alpha<span class="op">=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <table class="simpletable caption-top" data-quarto-postprocess="true">
@@ -1236,7 +1234,7 @@ W = N\ba(\hat{\bbeta})'\left( \bA(\hat{\bbeta})\widehat{\avar}(\hat{\bbeta})\bA(
 <section id="illustration-nonlinear-wald-test-with-statsmodels" class="slide level4">
 <h4>Illustration: Nonlinear Wald Test with <code>statsmodels</code></h4>
 <p>Can do the Wald test with the <code>wald_test</code> method of <code>NonlinearDeltaCov</code>:</p>
-<div id="2aad7e8e" class="cell" data-execution_count="7">
+<div id="5fe4e561" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>delta_ratio.wald_test(np.array([<span class="dv">15</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>(np.float64(193.1535027123987), np.float64(6.516561763470986e-44))</code></pre>
