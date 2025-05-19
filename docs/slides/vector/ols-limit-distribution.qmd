@@ -4,6 +4,9 @@ subtitle: "Key Step Towards Inference"
 author: Vladislav Morozov  
 format:
   revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="Explore the asymptotic distribution of the OLS estimator: definitions, central limit and Slutsky's theorems, asymptotic normality (lecture notes slides)."/> 
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -24,8 +27,7 @@ title-slide-attributes:
 filters:
   - reveal-header  
 include-in-header: ../../themes/mathjax.html 
-highlight-style: tango
-description: "Explore the asymptotic distribution of the OLS estimator: definitions, central limit and Slutsky's theorems, asymptotic normality (lecture notes slides)."
+highlight-style: tango 
 open-graph:
     description: "Explore the asymptotic distribution of the OLS estimator: definitions, central limit and Slutsky's theorems, asymptotic normality (lecture notes slides)." 
 ---

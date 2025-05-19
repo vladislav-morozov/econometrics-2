@@ -538,6 +538,7 @@
     };
 
   </script>
+  <meta name="description" content="Explore the asymptotic distribution of the OLS estimator: definitions, central limit and Slutsky's theorems, asymptotic normality (lecture notes slides).">
 <meta property="og:title" content="Limit Distribution of the OLS Estimator – Advanced Econometrics">
 <meta property="og:description" content="Explore the asymptotic distribution of the OLS estimator: definitions, central limit and Slutsky’s theorems, asymptotic normality (lecture notes slides).">
 <meta property="og:site_name" content="Advanced Econometrics">
@@ -668,7 +669,7 @@ Y_i^\bx = \bx'\bbeta + U_i
 <li class="fragment">Sample: married white women with present spouses</li>
 </ul>
 <p><br></p>
-<div id="a19708d8" class="cell" data-execution_count="1">
+<div id="b8b1f041" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Expand for full data preparation code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -707,7 +708,7 @@ Y_i^\bx = \bx'\bbeta + U_i
 <h4>Motivating Empirical Example: Estimation Results</h4>
 <div class="sourceCode" id="cb2" data-code-line-numbers="0-1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>results <span class="op">=</span> OLS(endog, exog).fit(cov_type<span class="op">=</span><span class="st">'HC0'</span>) <span class="co"># Robust covariance matrix estimator</span></span>
 <span id="cb2-2"><a></a><span class="bu">print</span>(results.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="36f8dc66" class="cell" data-execution_count="2">
+<div id="a51b3721" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
@@ -715,7 +716,7 @@ Dep. Variable:               log_wage   R-squared:                       0.226
 Model:                            OLS   Adj. R-squared:                  0.226
 Method:                 Least Squares   F-statistic:                     862.5
 Date:                Mon, 19 May 2025   Prob (F-statistic):               0.00
-Time:                        12:55:14   Log-Likelihood:                -8152.9
+Time:                        17:37:49   Log-Likelihood:                -8152.9
 No. Observations:               10402   AIC:                         1.631e+04
 Df Residuals:                   10398   BIC:                         1.634e+04
 Df Model:                           3                                         
