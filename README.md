@@ -1,5 +1,12 @@
 # Advanced Econometrics (Econometrics II)
 
+![Course header image](src/images/ecm-2-header-img.png)
+
+## Short Description
+
+[![DOI](https://zenodo.org/badge/947354285.svg)](https://doi.org/10.5281/zenodo.15463535)
+ 
+
 This repository contains the lecture materials and supporting content for the undergraduate course *Advanced Econometrics (Econometrics II)* that I offered at the University of Bonn.
 
 The course builds on the basic econometrics course in three directions:
@@ -10,7 +17,7 @@ The course builds on the basic econometrics course in three directions:
 
 The course is designed for students with prior exposure to basic statistics and econometrics. The empirical illustrations are implemented in Python.
 
-## Course Information
+## Course Overview
 
 **Instructor:** Vladislav Morozov 
 
@@ -22,9 +29,9 @@ The course is designed for students with prior exposure to basic statistics and 
 
 **Current course status**: In progress, these materials get updated regularly
 
-## Course Overview
 
-The course is structured around five major components (subject to change):
+
+The course is structured around the following major components (subject to change):
 
 1. A deeper look at linear regression:
    - A vector-matrix form approach to linear regression.
@@ -57,11 +64,11 @@ If time allows, we will further discuss:
    - IV estimation of dynamic panel data models.
    - Fundamentals of nonlinear GMM.
 7.  Time series:
-   - Time series as probabilistic objects and their properties.
-   - Univariate models: ARIMA(X).
-   - Multivariate time series: VARIMA(X).
-   - Elements of causal inference with time series. 
-   - Forecasting with time series vs. forecasting with panel data
+    - Time series as probabilistic objects and their properties.
+    - Univariate models: ARIMA(X).
+    - Multivariate time series: VARIMA(X).
+    - Elements of causal inference with time series. 
+    - Forecasting with time series vs. forecasting with panel data
 
 Even further topics such as quantile regression, experimentation under interference, and high-dimensional data may be introduced as time allows.
 
