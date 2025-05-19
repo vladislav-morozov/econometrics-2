@@ -23,6 +23,9 @@ title-slide-attributes:
     data-footer: " "  
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
+description: "Explore the basics of identification, estimation, and inference: definitions, parametric models, and linear model identification (lecture notes slides)."
+open-graph:
+    description: "Explore the basics of identification, estimation, and inference: definitions, parametric models, and linear model identification (lecture notes slides)." 
 ---
 
 
