@@ -26,7 +26,12 @@ filters:
 embed-resources: true
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
+description: "Explore vector-matrix form of linear regression: scalar, vector, and matrix representations and OLS estimator derivation (lecture notes slides)."
+open-graph:
+    description: "Explore vector-matrix form of linear regression: scalar, vector, and matrix representations and OLS estimator derivation (lecture notes slides)." 
 ---
+
+
 
 ## Introduction {background="#00100F"}
   

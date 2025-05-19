@@ -25,7 +25,11 @@ filters:
   - reveal-header  
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
+description: "Explore testing linear hypotheses and constructing confidence intervals: t-tests, Wald tests, and asymptotic confidence intervals (lecture notes slides)."
+open-graph:
+    description: "Explore testing linear hypotheses and constructing confidence intervals: t-tests, Wald tests, and asymptotic confidence intervals (lecture notes slides)." 
 ---
+
 
 
 
