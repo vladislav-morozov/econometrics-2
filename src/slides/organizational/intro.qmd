@@ -26,6 +26,9 @@ filters:
 embed-resources: true
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
+description: "Course introduction for advanced econometrics (econometrics 2), covering course overview, logistics, and reference books (lecture notes slides)."
+open-graph:
+    description: "Course introduction for advanced econometrics (econometrics 2), covering course overview, logistics, and reference books (lecture notes slides)." 
 ---
 
 
