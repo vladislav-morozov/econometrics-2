@@ -600,7 +600,7 @@ $$
 \widehat{\avar}(\hat{\bbeta}) \xrightarrow{p} {\avar}(\hat{\bbeta})
 $$
 
-- Catn use in test statistics
+- Can use in test statistics
 - $N^{-1}\widehat{\avar}(\hat{\bbeta})$ is called  *robust* (or *heteroskedasticity robust*) standard errors — specifically,  <span class="highlight">HC0</span>
 - In `statsmodels`, we used them by called `OLS(endog, exog).fit(cov_type='HC0')`
 
