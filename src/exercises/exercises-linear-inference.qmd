@@ -3,7 +3,11 @@ title: "Exercises: Asymptotic Inference"
 format:
   html:
     toc: true
+description: "Theoretical and applied exercises on inference: hypothesis testing, nonlinear functions of parameters, consistency of HC0 asymptotic variance estimator."
+open-graph:
+    description: "Theoretical and applied exercises on inference: hypothesis testing, nonlinear functions of parameters, consistency of HC0 asymptotic variance estimator." 
 ---
+
 
 
 
