@@ -69,9 +69,6 @@ Textbooks:
 </div>
  
 
-## Fixed Effect Estimation {background="#00100F"}
-
- 
 ### Motivation and Questions {background="#43464B" visibility="uncounted"}
 
 
@@ -85,7 +82,7 @@ where $\hat{\delta}$ was the OLS estimator in regression
 $$\small
 Y_{i2}- Y_{i1} = \gamma + \delta D_{it} + U_{i2}
 $$ {#eq-panel-twfe-did-diff}
-where $\delta$ --- the ATT;  $\gamma$ --- average change in outcomes (trend)
+for $\delta$ --- the ATT;  $\gamma$ --- average change in outcomes (trend)
 
 #### Reminder: More General Equation
 
@@ -100,6 +97,8 @@ $$
 and $\alpha_i = Y_{i1}^0$ --- baseline differences between units
 
 #### Reminder: Estimation
+
+<br> 
 
 - We know how to apply OLS based on @eq-panel-twfe-did-diff: just regress $(Y_{i1}, Y_{i2})$ on $(1, D_{it})$ with OLS
 - Last time said that can also apply OLS based on @eq-panel-twfe-did-undiff directly (e.g. `PanelOLS` from `linearmodels`)
@@ -116,16 +115,250 @@ and $\alpha_i = Y_{i1}^0$ --- baseline differences between units
   - Is the estimator inspired by @eq-panel-twfe-did-undiff always equal to the one based on @eq-panel-twfe-did-diff?
 2. Can we apply the same approach with general (not just 0/1) treatment? What are the causal properties?
   
-### Fixed Effect (Within) Estimators {background="#43464B" visibility="uncounted"}
+
+## Fixed Effect Estimation {background="#00100F"}
+
  
-####
 
-First goal: understand the estimation procedure done by `linearmodels`
+### Random Intercept (Fixed Effect) Models {background="#43464B" visibility="uncounted"}
+ 
+#### First Goal: Vector-Matrix Representation
 
---- generically called fixed effect estimators
+First question: "treating $\alpha_i$ as parameters"?
 
-#### Slide
+. . .
 
+<br>
+
+
+For now forget about $D_{it}$ and $\gamma$ and consider:
+$$
+Y_{it} = \alpha_i + U_{it}, \quad i=1,\dots, N; t=1, \dots, T
+$$ {#eq-panel-twfe-simplified-ind-intercept}
+$\alpha_i$ — individual-specific intercept. Data assumed balanced (same $T$ for all units)
+
+<br>
+
+
+Want to represent @eq-panel-twfe-simplified-ind-intercept in vector-matrix form
+
+#### Vector-Matrix Forms for Panel Data I
+
+Before that: more info on matrix forms for panel data.
+
+. . . 
+
+<br>
+
+Vector form as before: single observation (now fixed $i$ and $t$) with vector of covariates: 
+$$
+Y_{it} = \bX_{it}'\bbeta + U_{it}
+$$
+
+#### Vector-Matrix Forms for Panel Data II
+
+Two key matrix forms:
+
+- Individual level. Let $\bY_i = (Y_{i1}, \dots, Y_{iT})$, $\bX_i = (\bX_{i1}, \dots, \bX_{iT})'$, then
+$$
+\bY_i = \bX_i\bbeta + \bU_i
+$$
+
+
+- Full sample. Let $\bY = (\bY_1, \dots, \bY_N)$, $\bX= (\bX_1', \dots, \bX_N')'$. Then 
+$$
+\bY = \bX\bbeta + \bU
+$$
+
+#### Individual Matrix Form with Individual Intercepts
+
+<br> 
+
+Model ([-@eq-panel-twfe-simplified-ind-intercept]) in individual matrix form:
+$$
+\bY_i = \alpha_i \mathbf{1}_T + \bU_i
+$$
+where $\mathbf{1}_T$ — $T$-vector of ones 
+
+. . .
+
+<br> 
+
+Not that insightful
+
+#### Full Sample Matrix Form with Individual Intercepts
+
+Model ([-@eq-panel-twfe-simplified-ind-intercept]) in full sample matrix form
+$$
+\begin{aligned}
+\bY & = \bF \bLambda + \bU, \\
+\bLambda & = (\alpha_1, \dots, \alpha_N)', \\
+\bF & =  \bI_N \otimes \mathbf{1}_T,
+\end{aligned}
+$$ {#eq-panel-twfe-one-way-matrix-form}
+where $\otimes$ is the [Kronecker product](https://en.wikipedia.org/wiki/Kronecker_product). Intuition: 
+
+- There are $N$ regressors, $i$th regressor is the dummy of being the $i$th unit (0/1 regressor values)
+- $\bLambda$ --- associated parameter vector
+
+#### More Complex Example: Two-Way Intercept Model
+
+Now consider more general model:
+$$
+Y_{it} = \alpha_i + \gamma_t + U_{it}
+$$
+Here want to treat both $\alpha_i$ and $\gamma_t$ as parameters
+
+. . . 
+
+<br>
+
+Individual matrix form:
+$$
+\begin{aligned}
+\bY_i & = \alpha_i \mathbf{1}_T + \bI_T \bgamma + \bU_i\\
+\bgamma & = (\gamma_1, \dots, \gamma_T)'
+\end{aligned}
+$$
+
+#### Two-Way Model: Full Sample Matrix Form
+
+Can write
+$$
+\begin{aligned}
+\bY & = \bF\bLambda + \bU, \\
+\bF & =  \left(\bI_N \otimes \mathbf{1}_T, \mathbf{1}_N\otimes \bI_T \right)\\ 
+\bLambda & = (\alpha_1, \dots, \alpha_N, \gamma_1, \dots, \gamma_T)
+\end{aligned}
+$$
+
+- Both $\alpha_{\cdot}$ and $\gamma_{\cdot}$ treated as parameters
+- Regressors in $\bF$: $N$ dummy regressors from before; $T$ new dummy regressors, $t$th new regressors — indicator of $t$th period
+
+#### Adding Other Covariates
+
+Can write @eq-panel-twfe-did-undiff as
+$$
+Y_{it} = \alpha_i + \gamma_t + \bX_{it}'\bbeta + U_{it},
+$$
+for $\bX_{it} = (D_{it})$ and $\bbeta = (\delta)$
+
+. . .
+
+<br>
+
+Its matrix form is 
+$$
+\bY = \bF\bLambda + \bX\beta + \bU
+$$
+
+#### Random-Intercept (Fixed Effects) Models
+
+<div class="rounded-box">
+
+::: {#def-panel-twfe-fe-model}
+
+Models of the kind
+$$ \small
+\bY = \bF\bLambda +\bX\bbeta + \bU,
+$$ {#eq-panel-twfe-fixeff-def}
+where $\bF$ is a matrix of 0s and 1s are called *fixed effects* or *random intercept* models
+
+:::
+
+</div>
+
+. . .
+
+- Fixed effects and random intercepts — usually means the same
+- <span class="highlight">Random intercepts</span> — less ambiguous
+
+#### Examples of Model ([-@eq-panel-twfe-fixeff-def])
+
+ 
+- Individual fixed effects/intercepts (one-way)
+$$
+Y_{it} = \alpha_i + \bX_i'\bbeta + U_{it}
+$$
+- Two-way models (time and individual effects):
+$$
+Y_{it} = \alpha_i + \gamma_t + \bX_i'\bbeta + U_{it}
+$$
+- Can include more complicated effects, see empirical illustration (where $i$ — US counties, $t$ — quarters; effects — county-season and state-year)
+
+### Fixed Effect (Within) Estimators {background="#43464B" visibility="uncounted"}
+   
+
+#### Estimation Strategies
+
+Suppose $\E[U_{it}|\bX_i]=0$. How to estimate parameters of Model ([-@eq-panel-twfe-fixeff-def])?
+
+. . . 
+
+<br>
+
+There are two main strategies:
+
+- Estimate including $\bF$ and $\bX$ as regressors — <span class="highlight">least squares dummy  variable</span> (LSDV) 
+- Get rid of $\bF$ — <span class="highlight">within transformation</span> 
+
+
+#### LSDV Estimation
+
+LSDV — simply regress $\bY$ on $(\bF, \bX)$:
+$$
+(\hat{\bLambda}, \hat{\bbeta}^{LSDV}) = \argmin_{\bL, \bb} \norm{\bY - \bF\bL -\bX\bb  }_2^2
+$$
+
+. . . 
+
+For example with two-way effects:
+
+$$\small
+\begin{aligned}
+& \left(\hat{\alpha}_1, \dots, \hat{\alpha}_N, \hat{\gamma}_1, \dots, \hat{\gamma}_T, \hat{\bbeta}^{LSDV} \right)\\
+& = \argmin_{a_1, \dots, a_N, g_1, \dots, g_T, \bb}\sum_{i=1}^N \sum_{t=1}^T \left(Y_{it} - a_i - g_t - \bX_{it}'\bb \right)^{2}
+\end{aligned}
+$$
+
+
+#### Within Estimation I: One-Way Transformation
+<!-- 
+Within transformations <span class="highlight">eliminate </span> fixed effects (=$\bF$)
+
+. . . 
+
+<br> -->
+
+First consider one-way model $Y_{it} = \alpha_{i} + \bX_{it}' + U_{it}$. For $\bW_{it} = Y_{it}, \bX_{it}, U_{it}$, define the (one-way) <span class="highlight">within-transformed</span> version of $W_{it}$ as
+$$ \small
+\tilde{W}_{it} = W_{it} - \dfrac{1}{T}\sum_{i=1}^T W_{it}
+$$
+
+. . . 
+
+Within transformation <span class="highlight">eliminated </span> fixed effects (=$\bF$)
+$$ \small
+\tilde{Y}_{it} = \tilde{\bX}_{it}'\bbeta + \tilde{U}_{it}
+$$
+
+
+
+
+
+#### Within Estimation II: Two-Way Transformations
+
+Suppose $Y_{it} = \alpha_i + \gamma_t + \bX_{it}'\bbeta + U_{it}$. Define (two-way) <span class="highlight">within-transformed</span> variables as 
+$$
+\tilde{W}_{it} = W_{it} - \dfrac{1}{T}\sum_{t=1}^T W_{it} - \dfrac{1}{N} \sum_{i=1}^N W_{it} + \dfrac{1}{NT} \sum_{i=1}^N \sum_{t=1}^T W_{it}
+$$
+
+. . . 
+
+Again <span class="highlight">eliminated </span> fixed effects (=$\bF$)
+$$ \small
+\tilde{Y}_{it} = \tilde{\bX}_{it}'\bbeta + \tilde{U}_{it}
+$$
 
 ::: footer
 
@@ -133,22 +366,101 @@ Can find the matrix formula in section 3.2 of @Baltagi2021EconometricAnalysisPan
 
 :::
 
-#### 
+#### More General Within Transformation
 
-Other specifications
+<div class="rounded-box">
 
-- Unit-level
-- No random intercepts — pooled OLS
-- More complicated combinations
+Consider general model: 
+$$ \small
+\bY = \bF\bLambda + \bX\bbeta + \bU
+$$
 
-#### Matrix Forms
+There exists a linear transformation that eliminate $\bF$:
+$$ \small
+\tilde{\bY} = \tilde{\bX}\bbeta + \tilde{\bU}
+$$ 
+
+</div>
+Call this the FWL or the (generalized) <span class="highlight">within </span> transformation
+
+::: footer
+
+Transformations — just application of the Frisch-Waugh-Lowell ("anatomy of regression") theorem. See E1a in @Wooldridge2020IntroductoryEconometricsModern
+
+:::
+
+#### Within Estimation
+
+Within estimation: just regressing $\tilde{\bY}$ on $\tilde{\bX}$ with OLS:
+$$
+\hat{\bbeta}^{W} = \argmin_{\bb} \sum_{i=1}^N \sum_{t=1}^N (\tilde{Y}_{it} - \tilde{\bX}_{it}'\bb)^2
+$$
+
+- $\tilde{\bX}$ must have maximum column rank (no collinearity in transformed regressors)
+- Intuition in one-way case (only $\alpha_i$): some variation in $\bX_{it}$ over time 
+  
+#### Equivalence of Approaches
+
+
+
+<div class="rounded-box">
+
+::: {#prp-panel-twfe-equivalence-lsdv-w}
+
+$$
+\hat{\bbeta}^{LSDV} = \hat{\bbeta}^{W}
+$$
+
+
+:::
+ 
+</div>
+
+
+- Same results for $\bbeta$ from both approaches
+- Not examinable: proof is a consequence of Frisch-Waugh-Lowell theorem [E1a in @Wooldridge2020IntroductoryEconometricsModern]
+ 
+
+#### Which Approach to Use?
+
+When to use LSDV vs. within estimation? 
+
+- LSDV: only when you care about $\Lambda$ and they have some economic meaning. Example: $\alpha_i$ is the innate skill of worker $i$ [@delaRoca2017LearningWorkingBig]
+- Within: in all other cases
+
+. . . 
+
+::: {.callout-important appearance="minimal"}
+
+Sometimes impossible to compute LSDV estimator: number of fixed effects is too large to even simply store the data matrix: 
+
+- Called the "high-dimensional" fixed effect case
+- In practice the within transformation is cleverly done indirectly [@Correia2016FeasibleEstimatorLinear]
+:::
+
+#### Pooled OLS 
+
+<br> 
+
+Another special case of model ([-@eq-panel-twfe-fixeff-def]) — <span class="highlight"> pooled OLS</span>:
+
+- No fixed effects, directly regressing $Y_{it}$ on $\bX_{it}$
+- Fully ignoring the panel structure
+- Involves no transformations and no $\bF$
+- Interpretation: the *least flexible* example of  ([-@eq-panel-twfe-fixeff-def])
+ 
 
 ## Causal Properties with General Treatment {background="#00100F"}
  
- 
+#### 
+
+Can apply to our problem
 
 
-#### Terminology: FE vs. RE vs. CRE
+#### About Terminology: FE vs. RE vs. CRE
+
+
+
 
 ::: {.callout-important appearance="minimal"}
 
