@@ -4,6 +4,9 @@ subtitle: "Advanced Econometrics"
 author: Vladislav Morozov  
 format:
   revealjs:
+    include-in-header: 
+      text:
+        <meta name="description" content="Course introduction for advanced econometrics (econometrics 2), covering course overview, logistics, and reference books (lecture notes slides)."/> 
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -26,7 +29,6 @@ filters:
 embed-resources: true
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
-description: "Course introduction for advanced econometrics (econometrics 2), covering course overview, logistics, and reference books (lecture notes slides)."
 open-graph:
     description: "Course introduction for advanced econometrics (econometrics 2), covering course overview, logistics, and reference books (lecture notes slides)." 
 ---
