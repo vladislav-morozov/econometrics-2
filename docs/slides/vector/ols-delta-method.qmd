@@ -25,6 +25,9 @@ filters:
   - reveal-header  
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
+description: "Explore the delta method for nonlinear functions of parameters: asymptotic distribution, confidence intervals, hypothesis testing (lecture notes slides)."
+open-graph:
+    description: "Explore the delta method for nonlinear functions of parameters: asymptotic distribution, confidence intervals, hypothesis testing (lecture notes slides)." 
 ---
 
 

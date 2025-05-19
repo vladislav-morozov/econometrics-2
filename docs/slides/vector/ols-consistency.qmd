@@ -25,6 +25,9 @@ filters:
   - reveal-header  
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
+description: "Learn about the consistency of the OLS estimator: definitions, intuition, proof of consistency in model-free and causal frameworks (lecture notes slides)."
+open-graph:
+    description: "Learn about the consistency of the OLS estimator: definitions, intuition, proof of consistency in model-free and causal frameworks (lecture notes slides)." 
 ---
 
 
