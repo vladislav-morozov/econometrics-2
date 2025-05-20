@@ -408,6 +408,35 @@ ul.task-list li input[type="checkbox"] {
   </style>
   
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <meta property="og:title" content="Advanced Econometrics">
 <meta property="og:description" content="Econometrics 2 covers theory and applications of causal inference and forecasting. Topics include linear and nonlinear models, panel data, and time series.">
@@ -445,7 +474,10 @@ ul.task-list li input[type="checkbox"] {
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Advanced Econometrics</a> 
-        <div class="sidebar-tools-main">
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://vladislav-morozov.github.io/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-person-arms-up"></i></a>
+    <a href="https://github.com/vladislav-morozov/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+    <a href="https://www.linkedin.com/in/vladislavvmorozov/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
@@ -513,6 +545,17 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Exercises: Vector Linear Model and Asymptotics</span></a>
   </div>
 </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Asymptotic Inference</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./slides/vector/ols-inference.html" class="sidebar-item-text sidebar-link">
@@ -523,6 +566,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="./slides/vector/ols-delta-method.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Inference II: Nonlinear Hypotheses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./exercises/exercises-linear-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exercises: Asymptotic Inference</span></a>
   </div>
 </li>
       </ul>
@@ -580,7 +629,8 @@ ul.task-list li input[type="checkbox"] {
 <strong>Office Hours:</strong> Virtual, by appointment<br>
 <strong>Course Website:</strong> eCampus and this website<br>
 <strong>Lectures:</strong> 8:30-10:00; Wednesdays (Room 0.042), Fridays (Lecture Hall N)<br>
-<strong>Schedule Changes and Holidays</strong>: See eCampus and BASIS</p>
+<strong>Schedule Changes and Holidays</strong>: See eCampus and BASIS<br>
+<strong>DOI</strong>: <a href="https://doi.org/10.5281/zenodo.15463535"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.15463535-gold" class="img-fluid" alt="DOI"></a></p>
 <p><strong>Level:</strong> Undergraduate<br>
 <strong>Prerequisites:</strong> basic courses in statistics and econometrics</p>
 <section id="in-slide-form" class="level3">
@@ -596,12 +646,19 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="course-content">Course Content</h2>
 <section id="content" class="level3">
 <h3 class="anchored" data-anchor-id="content">Content</h3>
-<p>The course is structured into the following main parts (<em>Subject to modification based on progress</em>):</p>
+<p>The course is structured as follows (subject to change):</p>
 <ol type="1">
 <li>A deeper look at linear regression:
 <ul>
 <li>A vector-matrix form approach to linear regression.</li>
-<li>Asymptotic theory for the OLS estimator. Wald tests.</li>
+<li>Basics of identification analysis.</li>
+<li>Asymptotic theory for the OLS estimator.</li>
+</ul></li>
+<li>Asymptotic inference:
+<ul>
+<li>Refresher: key definitions and intuition of hypothesis testing.</li>
+<li>Tests for linear hypotheses: <span class="math inline">\(t\)</span>- and Wald tests.</li>
+<li>The delta method and nonlinear Wald tests.</li>
 </ul></li>
 <li>Panel data in causal settings:
 <ul>
@@ -609,8 +666,6 @@ ul.task-list li input[type="checkbox"] {
 <li>Differences-in-differences.</li>
 <li>Two-way fixed effect approaches with multivalued treatment.</li>
 <li>Mean group estimation.</li>
-<li>Linear generalized method of moments (GMM).</li>
-<li>IV estimation of dynamic panel data models.</li>
 </ul></li>
 <li>Introduction to forecasting:
 <ul>
@@ -625,16 +680,25 @@ ul.task-list li input[type="checkbox"] {
 <li>Elements of asymptotic theory for nonlinear models.</li>
 <li>Classification as forecasting with discrete outcomes.</li>
 </ul></li>
+</ol>
+<p>If time allows, we will further discuss:</p>
+<ol start="6" type="1">
+<li>Generalized method of moments.
+<ul>
+<li>Linear generalized method of moments (GMM).</li>
+<li>IV estimation of dynamic panel data models.</li>
+<li>Fundamentals of nonlinear GMM.</li>
+</ul></li>
 <li>Time series:
 <ul>
 <li>Time series as probabilistic objects and their properties.</li>
 <li>Univariate models: ARIMA(X).</li>
 <li>Multivariate time series: VARIMA(X).</li>
 <li>Elements of causal inference with time series.</li>
-<li>Forecasting with time series vs.&nbsp;forecasting with panel data.</li>
+<li>Forecasting with time series vs.&nbsp;forecasting with panel data</li>
 </ul></li>
 </ol>
-<p>Further topics may include quantile and distributional regression, big data, and experimentation in settings with interference.</p>
+<p>Even further topics such as quantile regression, experimentation under interference, and high-dimensional data may be introduced as time allows.</p>
 <hr>
 </section>
 </section>

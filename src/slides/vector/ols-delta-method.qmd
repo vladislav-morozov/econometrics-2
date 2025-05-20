@@ -4,6 +4,9 @@ subtitle: "Handling Nonlinearities with the Delta Method"
 author: Vladislav Morozov   
 format:
   revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="Explore the delta method for nonlinear functions of parameters: asymptotic distribution, confidence intervals, hypothesis testing (lecture notes slides)."/> 
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -24,7 +27,9 @@ title-slide-attributes:
 filters:
   - reveal-header  
 include-in-header: ../../themes/mathjax.html 
-highlight-style: tango
+highlight-style: tango 
+open-graph:
+    description: "Explore the delta method for nonlinear functions of parameters: asymptotic distribution, confidence intervals, hypothesis testing (lecture notes slides)." 
 ---
 
 
@@ -46,6 +51,10 @@ By the end, you should be able to
 - Construct confidence intervals and hypothesis test for potentially nonlinear hypotheses
 - Discuss the connection between these results and those for linear hypotheses
 
+::: footer
+
+:::
+
 #### References
  
 
@@ -58,6 +67,7 @@ By the end, you should be able to
 - *Or* 6.5, 7.10 in @Hansen2022Econometrics
 
 ::: 
+ 
 
  
 
@@ -242,8 +252,8 @@ More properly called the <span class="highlight">first-order</span> delta method
  
 @prp-vector-inference-delta-1d has two limitations:
 
-- $Y_N$ is scalar, but we deal with whole vector $\hat{\bbeta}$
-- $f(\cdot)$ is scalar-valued — but we may have multiple transformations of $\bbeta$
+- $Y_N$ is scalar, but we deal with vectors like $\hat{\bbeta}$
+- $f(\cdot)$ is scalar-valued — but we may have multiple transformations of $\bbeta$ at the same time
 
 . . . 
 
@@ -440,6 +450,9 @@ from statsmodels.stats._delta_method import NonlinearDeltaCov
 help(NonlinearDeltaCov)
 ```
 
+::: footer 
+
+:::
 
 #### Creating an Instance of `NonlinearDeltaCov`
 
@@ -460,7 +473,7 @@ Then we supply $a(\cdot)$ together with parameters and standard errors:
 delta_ratio = NonlinearDeltaCov(max_earn, results.params, results.cov_params())
 ```
 
-#### Constructing Confidence Intervals with `NonlinearDeltaCov`
+#### Constructing CIs with `NonlinearDeltaCov`
 
 Can construct a 95\% confidence interval with the `conf_int()` method
 ```{python}

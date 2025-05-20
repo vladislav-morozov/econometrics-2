@@ -4,6 +4,9 @@ subtitle: "Testing Linear Hypotheses. Confidence Intervals"
 author: Vladislav Morozov   
 format:
   revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="Explore testing linear hypotheses and constructing confidence intervals: t-tests, Wald tests, and asymptotic confidence intervals (lecture notes slides)."/> 
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -24,8 +27,11 @@ title-slide-attributes:
 filters:
   - reveal-header  
 include-in-header: ../../themes/mathjax.html 
-highlight-style: tango
+highlight-style: tango 
+open-graph:
+    description: "Explore testing linear hypotheses and constructing confidence intervals: t-tests, Wald tests, and asymptotic confidence intervals (lecture notes slides)." 
 ---
+
 
 
 
@@ -542,7 +548,7 @@ $$
 
 $t$-statistic
 $$
-t = \dfrac{\hat{\beta}_2 - c}{\sqrt{ \widehat{\avar}(\hat{\beta}_k)/N }  }
+t = \dfrac{\hat{\beta}_k - c}{\sqrt{ \widehat{\avar}(\hat{\beta}_k)/N }  }
 $$ {#eq-vector-inference-t-general}
 
 Same decision rule: compare $t$ to $z_{1-\alpha/2}$
@@ -596,7 +602,7 @@ $$
 \widehat{\avar}(\hat{\bbeta}) \xrightarrow{p} {\avar}(\hat{\bbeta})
 $$
 
-- Catn use in test statistics
+- Can use in test statistics
 - $N^{-1}\widehat{\avar}(\hat{\bbeta})$ is called  *robust* (or *heteroskedasticity robust*) standard errors — specifically,  <span class="highlight">HC0</span>
 - In `statsmodels`, we used them by called `OLS(endog, exog).fit(cov_type='HC0')`
 
@@ -899,7 +905,7 @@ print(wald_results)
  
 #### Why Normalize by $( \bR\avar(\bbeta)\bR')^{-1}$
 
-- Under $H_0: \R\bbeta=\bq$ it holds that 
+- Under $H_0: \bR\bbeta=\bq$ it holds that 
 $$
 \sqrt{N}(\bR\hat{\bbeta}-\bq) \xrightarrow{d} N(0, \bR\avar(\bbeta)\bR')
 $$
@@ -1069,7 +1075,7 @@ $$
 
 Such an interval takes form
 $$
-[\hat{\beta}_k - \hat{c}, \hat{\beta}_k + \hat{c}]
+[\hat{\beta}_k - \hat{c}_N, \hat{\beta}_k + \hat{c}_N]
 $$
 Here $\hat{c}_N\geq 0$ can depend on the sample and  $N$
 

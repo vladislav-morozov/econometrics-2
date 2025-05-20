@@ -4,6 +4,9 @@ subtitle: "The Three Parts of Statistics"
 author: Vladislav Morozov  
 format:
   revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="Explore the basics of identification, estimation, and inference: definitions, parametric models, and linear model identification (lecture notes slides)."/> 
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -23,6 +26,9 @@ title-slide-attributes:
     data-footer: " "  
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
+description: "Explore the basics of identification, estimation, and inference: definitions, parametric models, and linear model identification (lecture notes slides)."
+open-graph:
+    description: "Explore the basics of identification, estimation, and inference: definitions, parametric models, and linear model identification (lecture notes slides)." 
 ---
 
 

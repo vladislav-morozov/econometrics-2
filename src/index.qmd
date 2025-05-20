@@ -22,16 +22,15 @@ Advanced Econometrics builds on the basic econometrics course in three direction
 **Office Hours:** Virtual, by appointment\
 **Course Website:** eCampus and this website\
 **Lectures:** 8:30-10:00; Wednesdays (Room 0.042), Fridays (Lecture Hall N)\
-**Schedule Changes and Holidays**: See eCampus and BASIS
-
+**Schedule Changes and Holidays**: See eCampus and BASIS\
+**DOI**: [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.15463535-gold)](https://doi.org/10.5281/zenodo.15463535)
 
 **Level:** Undergraduate\
 **Prerequisites:** basic courses in statistics and econometrics
 
 
 ### In Slide Form
-
-
+ 
 
 {{< revealjs file="slides/organizational/intro.html" height="500px" class="ratio ratio-16x9" >}}
 
@@ -40,36 +39,49 @@ Advanced Econometrics builds on the basic econometrics course in three direction
  
   
 ### Content 
-The course is structured into the following main parts (*Subject to modification based on progress*):
+
+
+The course is structured as follows (subject to change):
 
 1. A deeper look at linear regression:
    - A vector-matrix form approach to linear regression.
-   - Asymptotic theory for the OLS estimator. Wald tests.
-2. Panel data in causal settings:
+   - Basics of identification analysis. 
+   - Asymptotic theory for the OLS estimator.
+2. Asymptotic inference:
+   - Refresher: key definitions and intuition of hypothesis testing.
+   - Tests for linear hypotheses: $t$- and Wald tests.
+   - The delta method and nonlinear Wald tests.
+
+3. Panel data in causal settings:
    - Event studies.
    - Differences-in-differences.
    - Two-way fixed effect approaches with multivalued treatment.
    - Mean group estimation.
-   - Linear generalized method of moments (GMM).
-   - IV estimation of dynamic panel data models.
-3. Introduction to forecasting:
+4. Introduction to forecasting:
    - Causal inference vs. forecasting I.
    - Notions of forecast optimality.
    - Forecasting in cross-sections.
-4. Parametric nonlinear models:
+5. Parametric nonlinear models:
    - Beyond linearity: nonlinear regression and nonlinear least squares.
    - Discrete outcomes in causal settings. 
    - Elements of asymptotic theory for nonlinear models.
    - Classification as forecasting with discrete outcomes.
-5. Time series:
-   - Time series as probabilistic objects and their properties.
-   - Univariate models: ARIMA(X).
-   - Multivariate time series: VARIMA(X).
-   - Elements of causal inference with time series. 
-   - Forecasting with time series vs. forecasting with panel data.
 
+If time allows, we will further discuss:
 
-Further topics may include quantile and distributional regression, big data, and experimentation in settings with interference. 
+6. Generalized method of moments.
+   - Linear generalized method of moments (GMM).
+   - IV estimation of dynamic panel data models.
+   - Fundamentals of nonlinear GMM.
+7.  Time series:
+    - Time series as probabilistic objects and their properties.
+    - Univariate models: ARIMA(X).
+    - Multivariate time series: VARIMA(X).
+    - Elements of causal inference with time series. 
+    - Forecasting with time series vs. forecasting with panel data
+
+Even further topics such as quantile regression, experimentation under interference, and high-dimensional data may be introduced as time allows.
+
  
 
 

@@ -61,7 +61,7 @@
     "section": "Introduction",
     "text": "Introduction",
     "crumbs": [
-      "Linear Regression II",
+      "Asymptotic Inference",
       "Inference II: Nonlinear Hypotheses"
     ]
   },
@@ -72,7 +72,7 @@
     "section": "The Delta Method",
     "text": "The Delta Method",
     "crumbs": [
-      "Linear Regression II",
+      "Asymptotic Inference",
       "Inference II: Nonlinear Hypotheses"
     ]
   },
@@ -83,7 +83,7 @@
     "section": "Inference on Nonlinear Transformations",
     "text": "Inference on Nonlinear Transformations",
     "crumbs": [
-      "Linear Regression II",
+      "Asymptotic Inference",
       "Inference II: Nonlinear Hypotheses"
     ]
   },
@@ -94,7 +94,7 @@
     "section": "Recap and Conclusions",
     "text": "Recap and Conclusions",
     "crumbs": [
-      "Linear Regression II",
+      "Asymptotic Inference",
       "Inference II: Nonlinear Hypotheses"
     ]
   },
@@ -292,11 +292,15 @@
     "text": "Textbooks: the course draws on several textbooks:\n\nBrockwell, P. J., & Davis, R. A. (2016). Introduction to Time Series and Forecasting. Springer International Publishing.\nCunningham, S. (2021). Causal Inference: The Mixtape. Yale University Press.\nHuntington-Klein, N. (2025). The Effect: An Introduction to Research Design and Causality. Chapman and Hall/CRC.\nJames, G., Witten, D., Hastie, T., Tibshirani, R., & Taylor, J. E. (2023). An Introduction to Statistical Learning: With Applications in Python. Springer.\nWooldridge, J. M. (2020). Introductory Econometrics: A Modern Approach (Seventh edition). Cengage.\n\nAll books minus Wooldridge are available online (openly or through our university network). The Wooldridge book is available in our library. For specific chapters, please refer to each specific set of slides."
   },
   {
-    "objectID": "index.html#course-policies",
-    "href": "index.html#course-policies",
-    "title": "Advanced Econometrics (Econometrics II)",
-    "section": "",
-    "text": "The final grade for this course is based on a 90 minute closed-book written exam. The date of the exam will be announced separately by the Examination Office.\n\n\n\nAttendance and Participation:\nRegular attendance and active participation are strongly encouraged.\nAcademic Integrity:\nStudents must adhere to the university’s policies on academic integrity and plagiarism. Any violations will be subject to disciplinary action.\nAccommodations:\nIf you require any accommodations due to a disability or other circumstances, please contact the relevant office as soon as possible."
+    "objectID": "slides/organizational/intro.html#course-logistics",
+    "href": "slides/organizational/intro.html#course-logistics",
+    "title": "Course Introduction",
+    "section": "Course Logistics",
+    "text": "Course Logistics",
+    "crumbs": [
+      "Course Info",
+      "Course Introduction"
+    ]
   },
   {
     "objectID": "slides/panel/data-types.html#introduction",
@@ -448,7 +452,7 @@
     "section": "Introduction",
     "text": "Introduction",
     "crumbs": [
-      "Linear Regression II",
+      "Asymptotic Inference",
       "Inference I: Linear Hypotheses"
     ]
   },
@@ -459,7 +463,7 @@
     "section": "Background and Definitions for Testing",
     "text": "Background and Definitions for Testing",
     "crumbs": [
-      "Linear Regression II",
+      "Asymptotic Inference",
       "Inference I: Linear Hypotheses"
     ]
   },
@@ -470,7 +474,7 @@
     "section": "One Linear Hypothesis",
     "text": "One Linear Hypothesis",
     "crumbs": [
-      "Linear Regression II",
+      "Asymptotic Inference",
       "Inference I: Linear Hypotheses"
     ]
   },
@@ -481,7 +485,7 @@
     "section": "General Linear Hypotheses",
     "text": "General Linear Hypotheses",
     "crumbs": [
-      "Linear Regression II",
+      "Asymptotic Inference",
       "Inference I: Linear Hypotheses"
     ]
   },
@@ -492,7 +496,7 @@
     "section": "Confidence Intervals and Sets",
     "text": "Confidence Intervals and Sets",
     "crumbs": [
-      "Linear Regression II",
+      "Asymptotic Inference",
       "Inference I: Linear Hypotheses"
     ]
   },
@@ -503,7 +507,7 @@
     "section": "Recap and Conclusions",
     "text": "Recap and Conclusions",
     "crumbs": [
-      "Linear Regression II",
+      "Asymptotic Inference",
       "Inference I: Linear Hypotheses"
     ]
   },

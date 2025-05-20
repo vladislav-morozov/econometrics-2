@@ -3,6 +3,9 @@ title: "Exercises: Vector Linear Model and Asymptotics"
 format:
   html:
     toc: true
+description: "Theoretical and applied exercises on asymptotic properties of the OLS estimator: consistency, distributions, measurement error, omitted variable bias."
+open-graph:
+    description: "Theoretical and applied exercises on asymptotic properties of the OLS estimator: consistency, distributions, measurement error, omitted variable bias." 
 ---
 
 
