@@ -431,9 +431,16 @@ $$
 </div>
 
 
-- Same results for $\bbeta$ from both approaches
-- Not examinable: proof is a consequence of Frisch-Waugh-Lowell theorem [E1a in @Wooldridge2020IntroductoryEconometricsModern]
+- Both approaches: same estimated values
 - Explains why we got same results from two regression approaches to DiD last time
+- Allows to use single name for both estimators. Usually called <span class="highlight">fixed effects</span> or <span class="highlight">random intercept</span> estimators
+ 
+
+::: footer
+
+Not examinable: proof is a consequence of Frisch-Waugh-Lowell theorem [E1a in @Wooldridge2020IntroductoryEconometricsModern]
+
+:::
 
 #### Which Approach to Use?
 
@@ -476,33 +483,123 @@ Another special case of model ([-@eq-panel-twfe-fixeff-def]) — <span class="hi
 
 ## Causal Properties with General Treatment {background="#00100F"}
  
-#### Problem Statement
+#### Question: Causal Properties of FE Estimators
 
-- Now have describ
+So far: 
 
-Can apply to our problem
+- Now have described the estimation approach underlying DiD regression estimation
+- Noticed that it can handle general treatments $\bX_{it}$, not just scalar binary $D_{it}$
+
+. . . 
+
+<div class="rounded-box"> 
+
+What are the causal properties of such estimators? Under which models do they give meaningful results?
+
+</div>
 
 
-#### About Terminology: FE vs. RE vs. CRE
+ 
+#### Reflection on our Approach
+
+Note:
+
+- Approach this problem differently:
+  - Here first formulate an estimator and only now start understanding causal properties
+  - Usually goes the other way: fix causal problem, try to figure out identification and estimation
+- Doing so for historic reasons — these estimators came first, serious causal thinking more recently 
+
+
+#### Models Considered
+
+<br>
+
+Will consider two kinds of models under strict exogeneity
+
+- Random intercept causal process with same $\bbeta$ for everyone 
+- Model with heterogeneous effects $\bbeta_i$
+
+
+### Properties under Random Intercept Model {background="#43464B" visibility="uncounted"}
+
+#### Causal Framework
+
+- Some vector of treatments $\bX_{it}$
+- Potential outcome of unit $i$ in time $t$ given by
+$$
+Y^{\bx}_{it} = \alpha_i + \gamma_t + \bx'\bbeta + U_{it}
+$$ {#eq-panel-twfe-causal-random-intercept}
+- Will think about about exogeneity conditions later
+- Object of interest — $\bbeta$ (plays the role of ATE, ATT, ...)
 
 
 
+::: {.callout-note appearance="minimal"}
 
-::: {.callout-important appearance="minimal"}
-
-This terminology is confusing. Best to always say what you mean (e.g. "no restriction on the dependence between $\bbeta_i$ and $\bX_{it}$" or "random intercept")
+For definiteness, we do two-way effects, but can apply same analysis  for any configuration of random intercepts, just need to define $\tilde{Y}_{it}$ appropriately
 
 :::
 
-#### 
+#### Sampling Setting
 
-More general model: 
+Work in the following setting
+
+- Units drawn IID
+- $N$ large, $T$ fixed
+  - More typical kind of panel data ("micro" panel)
+  - Contrast with "large" panel data with both $N$ and $T$ large
+ 
+
+
+#### Causal Framework: Discussion of Model ([-@eq-panel-twfe-causal-random-intercept])
+ 
+- Contrast with less flexible causal model discussed before:
+$$
+Y_{it}^{\bx} = \bx'\bbeta + U_{it}
+$$ 
+- Interpretations:
+  - $\alpha_i$ — often some characteristic of $i$ that does not change over considered sample (e.g. innate intellect)
+  - $\gamma_t$ — shocks that affect everyone equally
+  - Similar logic for other types of random interecepts 
+
+
+::: footer
+
+
+:::
+
+#### Estimator
+
+by @prp-panel-twfe-equivalence-lsdv-w can directl
+
+#### Strict Exogeneity
+
+a
+
+#### Rank (Nonsingularity) Conditions
+
+- Need some variation
+
+### Properties under Heterogeneous Coefficient Model {background="#43464B" visibility="uncounted"}
 
 ####
 
-Start a bit different — with an estimator and understanding what it does
+Aside
 
-For historic reasons --- estimators came first, people started actually thinking about the meaning more recently
+Technically can include into the previous case , but 
+
+####
+
+Most data observations
+
+#### 
+
+Can do the even more general model
+$$
+Y_{it}^{\bx} = \bx'\bbeta_{i\textcolor{teal}{t}} + U_{it}
+$$
+
+Spirit of results remains the same 
 
 #### Factor Models
 
@@ -530,10 +627,10 @@ In this lecture we
 1. Did
 
 #### Next Questions
-
-- Can you relax strict exogeneity?
-- What kind of regressors can you use?
-- What does panel data permit you when working with nonlinear models?
+ 
+- What if you want to estimate $\E[\bbeta_i]$? 
+- When does strict exogeneity fail? Can you relax it? 
+- What does panel data let you do in nonlinear settings?
 
 #### References {.allowframebreaks visibility="uncounted"}
 
