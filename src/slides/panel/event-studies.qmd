@@ -4,6 +4,9 @@ subtitle: "Simple Panel Data Approaches with Binary Treatment"
 author: Vladislav Morozov  
 format:
   revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="Panel data event studies: causal analysis, regression interpretation, and applications to Silicon Valley Bank collapse (lecture notes slides)."/>
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -25,7 +28,11 @@ filters:
   - reveal-header  
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
+open-graph:
+    description: "Panel data event studies: causal analysis, regression interpretation, and applications to Silicon Valley Bank collapse (lecture notes slides)."
 ---
+
+
 
 ## Introduction {background="#00100F"}
   
