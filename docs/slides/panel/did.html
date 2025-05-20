@@ -539,43 +539,28 @@
 
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
   
-
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-
   <script type="text/javascript">
-
   window.PlotlyConfig = {MathJaxConfig: 'local'};
-
   if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
-
   if (typeof require !== 'undefined') {
-
   require.undef("plotly");
-
   requirejs.config({
-
       paths: {
-
           'plotly': ['https://cdn.plot.ly/plotly-2.35.2.min']
-
       }
-
   });
-
   require(['plotly'], function(Plotly) {
-
       window._Plotly = Plotly;
-
   });
-
   }
-
   </script>
 
-  
-
+  <meta name="description" content="Difference-in-differences estimation: parallel trends, ATT identification, regression characterization, application to minimum wage (lecture notes slides).">
+<meta property="og:title" content="Difference-in-Differences – Advanced Econometrics">
+<meta property="og:description" content="Difference-in-differences estimation: parallel trends, ATT identification, regression characterization, application to minimum wage (lecture notes slides).">
+<meta property="og:site_name" content="Advanced Econometrics">
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -1082,7 +1067,7 @@ Y_{it} &amp;  = \alpha_i + \gamma_t + \sum_{\tau=t_0}^T \delta_\tau D_{it\tau}  
 </section>
 <section id="loading-and-looking-at-the-data" class="slide level4">
 <h4>Loading and Looking at the Data</h4>
-<div id="c86a6c2d" class="cell" data-execution_count="2">
+<div id="cbd0fb04" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Loading and processing the data</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a>ck_data <span class="op">=</span> pd.read_csv(<span class="st">"data/card-krueger-1994.csv"</span>)</span>
@@ -1133,7 +1118,7 @@ Y_{it} &amp;  = \alpha_i + \gamma_t + \sum_{\tau=t_0}^T \delta_\tau D_{it\tau}  
 <span id="cb1-46"><a></a>ck_data <span class="op">=</span> ck_data.set_index([<span class="st">"store"</span>, <span class="st">"time_name"</span>])</span>
 <span id="cb1-47"><a></a>ck_data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1232,7 +1217,7 @@ Y_{it} &amp;  = \alpha_i + \gamma_t + \sum_{\tau=t_0}^T \delta_\tau D_{it\tau}  
 <section id="tabulating-averages" class="slide level4">
 <h4>Tabulating Averages</h4>
 <p>The key components of difference-in-differences are the (state, year)-specific average outcomes:</p>
-<div id="87e4de70" class="cell" data-execution_count="3">
+<div id="c0d63167" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Computing (state, year)-averages</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>emp_means <span class="op">=</span> ck_data.groupby(by<span class="op">=</span>[<span class="st">"state_name"</span>, <span class="st">"time_name"</span>])[<span class="st">"emp_ft"</span>].mean()</span>
@@ -1251,7 +1236,7 @@ Name: emp_ft, dtype: float64</code></pre>
 <section id="applying-did" class="slide level4">
 <h4>Applying DiD</h4>
 <p>It is easy to compute averages now. Recall that <code>NJ</code> is the treated group. Applying DiD:</p>
-<div id="a9566748" class="cell" data-execution_count="4">
+<div id="46ffc2d6" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Applying DiD manually</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a>( </span>
@@ -1259,7 +1244,7 @@ Name: emp_ft, dtype: float64</code></pre>
 <span id="cb4-3"><a></a>    <span class="op">-</span> (emp_means.loc[(<span class="st">"PA"</span>, <span class="st">"After"</span>)] <span class="op">-</span> emp_means.loc[(<span class="st">"PA"</span>, <span class="st">"Before"</span>)])</span>
 <span id="cb4-4"><a></a>).<span class="bu">round</span>(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>np.float64(2.75)</code></pre>
 </div>
 </div>
@@ -1267,11 +1252,11 @@ Name: emp_ft, dtype: float64</code></pre>
 </section>
 <section id="visualizing-1992-employment-levels" class="slide level4">
 <h4>Visualizing 1992 Employment Levels</h4>
-<div id="d9bf365f" class="cell" data-execution_count="5">
+<div id="cb862309" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
-<div>                            <div id="d0658b1c-617f-4735-8d52-ac9f64a62108" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("d0658b1c-617f-4735-8d52-ac9f64a62108")) {                    Plotly.newPlot(                        "d0658b1c-617f-4735-8d52-ac9f64a62108",                        [{"colorscale":[[0.0,"rgb(247,251,255)"],[0.125,"rgb(222,235,247)"],[0.25,"rgb(198,219,239)"],[0.375,"rgb(158,202,225)"],[0.5,"rgb(107,174,214)"],[0.625,"rgb(66,146,198)"],[0.75,"rgb(33,113,181)"],[0.875,"rgb(8,81,156)"],[1.0,"rgb(8,48,107)"]],"hovertemplate":"\u003cb\u003e%{location}\u003c\u002fb\u003e\u003cbr\u003eFT-equivalent workers: %{z:.2f}","locationmode":"USA-states","locations":["NJ","PA"],"name":"Actual","showscale":false,"z":[20.92556634304207,21.14],"zmax":22,"zmin":18,"type":"choropleth","geo":"geo"},{"colorbar":{"len":0.8,"thickness":15,"tickvals":[18,22],"title":{"font":{"color":"black","size":12},"side":"right","text":"Number of Workers"},"x":1,"y":0.5},"colorscale":[[0.0,"rgb(247,251,255)"],[0.125,"rgb(222,235,247)"],[0.25,"rgb(198,219,239)"],[0.375,"rgb(158,202,225)"],[0.5,"rgb(107,174,214)"],[0.625,"rgb(66,146,198)"],[0.75,"rgb(33,113,181)"],[0.875,"rgb(8,81,156)"],[1.0,"rgb(8,48,107)"]],"hovertemplate":"\u003cb\u003e%{location}\u003c\u002fb\u003e\u003cbr\u003eFT-equivalent workers: %{z:.2f}","locationmode":"USA-states","locations":["NJ","PA"],"name":"Counterfactual","z":[18.175728155339804,21.14],"zmax":22,"zmin":18,"type":"choropleth","geo":"geo2"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"geo":{"domain":{"x":[0,0.48],"y":[0.0,1.0]},"projection":{"type":"mercator","scale":40},"center":{"lat":39.9,"lon":-75.1},"visible":false,"bgcolor":"rgb(201, 201, 201)","landcolor":"rgb(201, 201, 201)","lakecolor":"rgb(201, 201, 201)","showocean":true,"oceancolor":"rgb(136, 136, 136)"},"geo2":{"domain":{"x":[0.52,1],"y":[0.0,1.0]},"projection":{"type":"mercator","scale":40},"center":{"lat":39.9,"lon":-75.1},"visible":false,"bgcolor":"rgb(201, 201, 201)","landcolor":"rgb(201, 201, 201)","lakecolor":"rgb(201, 201, 201)","showocean":true,"oceancolor":"rgb(136, 136, 136)"},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Actual employment","x":0.225,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Employment without minimum wage changes","x":0.775,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"}],"font":{"family":"Arial","color":"black"},"title":{"font":{"color":"black","size":20},"text":"\u003cb\u003eRealized vs. Counterfactual Employment\u003c\u002fb\u003e","x":0.03,"xanchor":"left","y":0.97,"yanchor":"top"},"margin":{"l":20,"r":20,"t":60,"b":20},"plot_bgcolor":"whitesmoke","paper_bgcolor":"whitesmoke"},                        {"responsive": true}                    ).then(function(){
+<div>                            <div id="5a1c4f5c-0600-4164-b7b2-380749b6fb40" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("5a1c4f5c-0600-4164-b7b2-380749b6fb40")) {                    Plotly.newPlot(                        "5a1c4f5c-0600-4164-b7b2-380749b6fb40",                        [{"colorscale":[[0.0,"rgb(247,251,255)"],[0.125,"rgb(222,235,247)"],[0.25,"rgb(198,219,239)"],[0.375,"rgb(158,202,225)"],[0.5,"rgb(107,174,214)"],[0.625,"rgb(66,146,198)"],[0.75,"rgb(33,113,181)"],[0.875,"rgb(8,81,156)"],[1.0,"rgb(8,48,107)"]],"hovertemplate":"\u003cb\u003e%{location}\u003c\u002fb\u003e\u003cbr\u003eFT-equivalent workers: %{z:.2f}","locationmode":"USA-states","locations":["NJ","PA"],"name":"Actual","showscale":false,"z":[20.92556634304207,21.14],"zmax":22,"zmin":18,"type":"choropleth","geo":"geo"},{"colorbar":{"len":0.8,"thickness":15,"tickvals":[18,22],"title":{"font":{"color":"black","size":12},"side":"right","text":"Number of Workers"},"x":1,"y":0.5},"colorscale":[[0.0,"rgb(247,251,255)"],[0.125,"rgb(222,235,247)"],[0.25,"rgb(198,219,239)"],[0.375,"rgb(158,202,225)"],[0.5,"rgb(107,174,214)"],[0.625,"rgb(66,146,198)"],[0.75,"rgb(33,113,181)"],[0.875,"rgb(8,81,156)"],[1.0,"rgb(8,48,107)"]],"hovertemplate":"\u003cb\u003e%{location}\u003c\u002fb\u003e\u003cbr\u003eFT-equivalent workers: %{z:.2f}","locationmode":"USA-states","locations":["NJ","PA"],"name":"Counterfactual","z":[18.175728155339804,21.14],"zmax":22,"zmin":18,"type":"choropleth","geo":"geo2"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"geo":{"domain":{"x":[0,0.48],"y":[0.0,1.0]},"projection":{"type":"mercator","scale":40},"center":{"lat":39.9,"lon":-75.1},"visible":false,"bgcolor":"rgb(201, 201, 201)","landcolor":"rgb(201, 201, 201)","lakecolor":"rgb(201, 201, 201)","showocean":true,"oceancolor":"rgb(136, 136, 136)"},"geo2":{"domain":{"x":[0.52,1],"y":[0.0,1.0]},"projection":{"type":"mercator","scale":40},"center":{"lat":39.9,"lon":-75.1},"visible":false,"bgcolor":"rgb(201, 201, 201)","landcolor":"rgb(201, 201, 201)","lakecolor":"rgb(201, 201, 201)","showocean":true,"oceancolor":"rgb(136, 136, 136)"},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Actual employment","x":0.225,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Employment without minimum wage changes","x":0.775,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"}],"font":{"family":"Arial","color":"black"},"title":{"font":{"color":"black","size":20},"text":"\u003cb\u003eRealized vs. Counterfactual Employment\u003c\u002fb\u003e","x":0.03,"xanchor":"left","y":0.97,"yanchor":"top"},"margin":{"l":20,"r":20,"t":60,"b":20},"plot_bgcolor":"whitesmoke","paper_bgcolor":"whitesmoke"},                        {"responsive": true}                    ).then(function(){
                             
-var gd = document.getElementById('d0658b1c-617f-4735-8d52-ac9f64a62108');
+var gd = document.getElementById('5a1c4f5c-0600-4164-b7b2-380749b6fb40');
 var x = new MutationObserver(function (mutations, observer) {{
         var display = window.getComputedStyle(gd).display;
         if (!display || display === 'none') {{
@@ -1315,7 +1300,7 @@ Y_{it} = \alpha_i + \gamma SP_{it} + \delta D_{i2} + U_{it}
 <section id="estimation-of-differenced-equation" class="slide level4 scrollable">
 <h4>Estimation of Differenced Equation</h4>
 <p>Differenced equation — easy to estimate with <code>OLS</code> in <code>statsmodels</code></p>
-<div id="b35f3178" class="cell" data-execution_count="6">
+<div id="db8578d0" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Regression with differenced equation</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a>endog <span class="op">=</span> ck_data.groupby(by<span class="op">=</span><span class="st">"store"</span>)[<span class="st">"emp_ft"</span>].diff().dropna()</span>
@@ -1333,8 +1318,8 @@ Y_{it} = \alpha_i + \gamma SP_{it} + \delta D_{i2} + U_{it}
 Dep. Variable:                 emp_ft   R-squared:                       0.015
 Model:                            OLS   Adj. R-squared:                  0.012
 Method:                 Least Squares   F-statistic:                     4.246
-Date:                Sun, 11 May 2025   Prob (F-statistic):             0.0400
-Time:                        17:31:44   Log-Likelihood:                -1385.7
+Date:                Tue, 20 May 2025   Prob (F-statistic):             0.0400
+Time:                        21:48:14   Log-Likelihood:                -1385.7
 No. Observations:                 384   AIC:                             2775.
 Df Residuals:                     382   BIC:                             2783.
 Df Model:                           1                                         
@@ -1365,7 +1350,7 @@ Notes:
 <li class="fragment">Can estimate without differencing data ourselves using <code>linearmodels</code> or <code>pyfixest</code> (more details in next lecture)</li>
 <li class="fragment">Here use <code>PanelOLS</code> from <code>linearmodels</code> with <code>entity_effects</code> (<span class="math inline">\(\alpha_i\)</span>) and <code>time_effects</code> (<span class="math inline">\(\gamma\)</span>)</li>
 </ul>
-<div id="05b21a84" class="cell" data-execution_count="7">
+<div id="376a6025" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Estimation using <code>linearmodels</code></summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>ck_data <span class="op">=</span> ck_data.reset_index().set_index([<span class="st">"store"</span>, <span class="st">"time"</span>])</span>
@@ -1388,8 +1373,8 @@ Notes:
 Dep. Variable:                 emp_ft   R-squared:                        0.0147
 Estimator:                   PanelOLS   R-squared (Between):              0.0865
 No. Observations:                 768   R-squared (Within):              -0.0506
-Date:                Sun, May 11 2025   R-squared (Overall):              0.0813
-Time:                        17:31:44   Log-likelihood                   -2239.1
+Date:                Tue, May 20 2025   R-squared (Overall):              0.0813
+Time:                        21:48:14   Log-likelihood                   -2239.1
 Cov. Estimator:                Robust                                           
                                         F-statistic:                      5.6903
 Entities:                         384   P-value                           0.0175
@@ -1437,7 +1422,7 @@ Included effects: Entity, Time</code></pre>
 <li class="fragment">Find similar effect</li>
 </ul>
 <div class="fragment">
-<div id="cee16780" class="cell" data-execution_count="8">
+<div id="a5b97249" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Adding linear covariates to TWFE DiD regression</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>exog <span class="op">=</span> pd.DataFrame(exog)</span>
@@ -1455,8 +1440,8 @@ Included effects: Entity, Time</code></pre>
 Dep. Variable:                 emp_ft   R-squared:                        0.0312
 Estimator:                   PanelOLS   R-squared (Between):              0.8836
 No. Observations:                 761   R-squared (Within):              -0.0262
-Date:                Sun, May 11 2025   R-squared (Overall):              0.8501
-Time:                        17:31:44   Log-likelihood                   -2203.5
+Date:                Tue, May 20 2025   R-squared (Overall):              0.8501
+Time:                        21:48:14   Log-likelihood                   -2203.5
 Cov. Estimator:                Robust                                           
                                         F-statistic:                      6.0137
 Entities:                         384   P-value                           0.0027
