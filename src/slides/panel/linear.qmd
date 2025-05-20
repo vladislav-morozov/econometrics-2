@@ -804,7 +804,7 @@ $$
 
 - $\bgamma_t$ — unobserved "factors", $\balpha_i$ — factor loadings
 - Allows people to react differently to same shocks in $\bgamma_t$
-- See [chapter 29, @Pesaran2015TimeSeriesPanel]  
+- See chapter 29 in @Pesaran2015TimeSeriesPanel  
 
 ## Empirical Application {background="#00100F"}
  
