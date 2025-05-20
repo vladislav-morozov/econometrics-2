@@ -1,6 +1,6 @@
 ---
-title: "Linear Models for Panel Data"
-subtitle: "Beyond Binary Treatments: Fixed Effects and Mean Group Estimation"
+title: "Fixed Effect Estimation"
+subtitle: "Beyond Binary Treatments: Fixed Effects Estimators and their Properties"
 author: Vladislav Morozov  
 format:
   revealjs:
@@ -100,7 +100,7 @@ and $\alpha_i = Y_{i1}^0$ --- baseline differences between units
 
 <br> 
 
-- We know how to apply OLS based on @eq-panel-twfe-did-diff: just regress $(Y_{i1}, Y_{i2})$ on $(1, D_{it})$ with OLS
+- We know how to apply OLS based on @eq-panel-twfe-did-diff: just regress $(Y_{i2}-Y_{i1})$ on $(1, D_{it})$ with OLS
 - Last time said that can also apply OLS based on @eq-panel-twfe-did-undiff directly (e.g. `PanelOLS` from `linearmodels`)
   - Treated $\alpha_i$ as <span class="highlight"> parameters </span> 
   - Got exactly the same results from two approaches
@@ -135,7 +135,7 @@ For now forget about $D_{it}$ and $\gamma$ and consider:
 $$
 Y_{it} = \alpha_i + U_{it}, \quad i=1,\dots, N; t=1, \dots, T
 $$ {#eq-panel-twfe-simplified-ind-intercept}
-$\alpha_i$ — individual-specific intercept. Data assumed balanced (same $T$ for all units)
+$\alpha_i$ — individual-specific intercept ("unit fixed effect"). Data assumed balanced (same $T$ for all units)
 
 <br>
 
@@ -160,15 +160,20 @@ $$
 Two key matrix forms:
 
 - Individual level. Let $\bY_i = (Y_{i1}, \dots, Y_{iT})$, $\bX_i = (\bX_{i1}, \dots, \bX_{iT})'$, then
-$$
+$$\small
 \bY_i = \bX_i\bbeta + \bU_i
 $$
 
 
 - Full sample. Let $\bY = (\bY_1, \dots, \bY_N)$, $\bX= (\bX_1', \dots, \bX_N')'$. Then 
-$$
+$$ \small
 \bY = \bX\bbeta + \bU
 $$
+What are the dimensions of $\bY_i, \bX_i, \bY, \bX$?
+
+::: footer
+
+:::
 
 #### Individual Matrix Form with Individual Intercepts
 
@@ -176,7 +181,7 @@ $$
 
 Model ([-@eq-panel-twfe-simplified-ind-intercept]) in individual matrix form:
 $$
-\bY_i = \alpha_i \mathbf{1}_T + \bU_i
+\bY_i = \mathbf{1}_T\alpha_i + \bU_i
 $$
 where $\mathbf{1}_T$ — $T$-vector of ones 
 
@@ -216,7 +221,7 @@ Here want to treat both $\alpha_i$ and $\gamma_t$ as parameters
 Individual matrix form:
 $$
 \begin{aligned}
-\bY_i & = \alpha_i \mathbf{1}_T + \bI_T \bgamma + \bU_i\\
+\bY_i & = \mathbf{1}_T \alpha_i  + \bI_T \bgamma + \bU_i\\
 \bgamma & = (\gamma_1, \dots, \gamma_T)'
 \end{aligned}
 $$
@@ -233,7 +238,7 @@ $$
 $$
 
 - Both $\alpha_{\cdot}$ and $\gamma_{\cdot}$ treated as parameters
-- Regressors in $\bF$: $N$ dummy regressors from before; $T$ new dummy regressors, $t$th new regressors — indicator of $t$th period
+- Regressors in $\bF$: $N$ dummy regressors from before; $T$ new dummy regressors, $t$th new regressor — indicator of $t$th period
 
 #### Adding Other Covariates
 
@@ -243,6 +248,11 @@ Y_{it} = \alpha_i + \gamma_t + \bX_{it}'\bbeta + U_{it},
 $$
 for $\bX_{it} = (D_{it})$ and $\bbeta = (\delta)$
 
+
+. . .
+
+More generally, consider any vector $\bX_{it}$ — <span class="highlight"> not just binary treatments </span>
+
 . . .
 
 <br>
@@ -251,6 +261,10 @@ Its matrix form is
 $$
 \bY = \bF\bLambda + \bX\beta + \bU
 $$
+
+::: footer
+
+:::
 
 #### Random-Intercept (Fixed Effects) Models
 
@@ -270,7 +284,7 @@ where $\bF$ is a matrix of 0s and 1s are called *fixed effects* or *random inter
 
 . . .
 
-- Fixed effects and random intercepts — usually means the same
+- Fixed effects and random intercepts — often used interchangeably 
 - <span class="highlight">Random intercepts</span> — less ambiguous
 
 #### Examples of Model ([-@eq-panel-twfe-fixeff-def])
@@ -299,8 +313,8 @@ Suppose $\E[U_{it}|\bX_i]=0$. How to estimate parameters of Model ([-@eq-panel-t
 
 There are two main strategies:
 
-- Estimate including $\bF$ and $\bX$ as regressors — <span class="highlight">least squares dummy  variable</span> (LSDV) 
-- Get rid of $\bF$ — <span class="highlight">within transformation</span> 
+- Estimate including $\bF$ and $\bX$ as regressors — <span class="highlight">least squares dummy  variable</span> (LSDV) estimator
+- Get rid of $\bF$, estimate after — <span class="highlight">within</span> estimator
 
 
 #### LSDV Estimation
@@ -332,7 +346,7 @@ Within transformations <span class="highlight">eliminate </span> fixed effects (
 
 First consider one-way model $Y_{it} = \alpha_{i} + \bX_{it}' + U_{it}$. For $\bW_{it} = Y_{it}, \bX_{it}, U_{it}$, define the (one-way) <span class="highlight">within-transformed</span> version of $W_{it}$ as
 $$ \small
-\tilde{W}_{it} = W_{it} - \dfrac{1}{T}\sum_{i=1}^T W_{it}
+\tilde{W}_{it} = W_{it} - \dfrac{1}{T}\sum_{s=1}^T W_{is}
 $$
 
 . . . 
@@ -350,7 +364,7 @@ $$
 
 Suppose $Y_{it} = \alpha_i + \gamma_t + \bX_{it}'\bbeta + U_{it}$. Define (two-way) <span class="highlight">within-transformed</span> variables as 
 $$
-\tilde{W}_{it} = W_{it} - \dfrac{1}{T}\sum_{t=1}^T W_{it} - \dfrac{1}{N} \sum_{i=1}^N W_{it} + \dfrac{1}{NT} \sum_{i=1}^N \sum_{t=1}^T W_{it}
+\tilde{W}_{it} = W_{it} - \dfrac{1}{T}\sum_{s=1}^T W_{is} - \dfrac{1}{N} \sum_{j=1}^N W_{jt} + \dfrac{1}{NT} \sum_{j=1}^N \sum_{s=1}^T W_{js}
 $$
 
 . . . 
@@ -375,13 +389,13 @@ $$ \small
 \bY = \bF\bLambda + \bX\bbeta + \bU
 $$
 
-There exists a linear transformation that eliminate $\bF$:
+There exists a linear transformation that eliminates $\bF$:
 $$ \small
 \tilde{\bY} = \tilde{\bX}\bbeta + \tilde{\bU}
 $$ 
 
 </div>
-Call this the FWL or the (generalized) <span class="highlight">within </span> transformation
+Called the FWL or the (generalized) <span class="highlight">within </span> transformation
 
 ::: footer
 
@@ -419,13 +433,13 @@ $$
 
 - Same results for $\bbeta$ from both approaches
 - Not examinable: proof is a consequence of Frisch-Waugh-Lowell theorem [E1a in @Wooldridge2020IntroductoryEconometricsModern]
- 
+- Explains why we got same results from two regression approaches to DiD last time
 
 #### Which Approach to Use?
 
 When to use LSDV vs. within estimation? 
 
-- LSDV: only when you care about $\Lambda$ and they have some economic meaning. Example: $\alpha_i$ is the innate skill of worker $i$ [@delaRoca2017LearningWorkingBig]
+- LSDV: only when you care about $\Lambda$ and they have some economic meaning. Example: $\alpha_i$ is the innate skill of worker $i$ [e.g. @delaRoca2017LearningWorkingBig]
 - Within: in all other cases
 
 . . . 
@@ -449,10 +463,22 @@ Another special case of model ([-@eq-panel-twfe-fixeff-def]) — <span class="hi
 - Involves no transformations and no $\bF$
 - Interpretation: the *least flexible* example of  ([-@eq-panel-twfe-fixeff-def])
  
+#### Implementation in Python
+
+
+
+- `linearmodels` supports both LSDV and within transformations
+  - Defaults to eliminating effects
+  - LSDV can be used with `PanelOLS.fit(use_lsdv=True)`
+- `pyfixest` was designed for high-dimensional FE estimation (can handle small examples too)
+  - LSDV not available (to the best of my knowledge)
+  - See empirical application for example usage
 
 ## Causal Properties with General Treatment {background="#00100F"}
  
-#### 
+#### Problem Statement
+
+- Now have describ
 
 Can apply to our problem
 
@@ -491,6 +517,9 @@ Can generalize
 
 #### Context  
  
+####
+
+High-dimensional case!
 
 ## Recap and Conclusions {background="#00100F"}
   
