@@ -694,47 +694,117 @@ See first block for key properties of conditional expectation
 
 #### Consistency Result
 
+<div class="rounded-box">
+
+
+::: {#prp-panel-twfe-fe-consistency}
+
+Let 
+
+1. $(\bX_i, \bU_i)$ be IID and model ([-@eq-panel-twfe-causal-random-intercept]) be true
+2. $\E[\tilde{\bX}_i'\tilde{\bX}_i]$ exist and be invertible
+3. $\E[U_{it} | \bX_{i1}, \dots, \bX_{iT}] =0$
+
+Then as $N\to\infty$
+
+$$
+\hat{\bbeta}^{FE} \xrightarrow{p} \bbeta
+$$
+
+:::
+
+</div>
+
+
 #### Asymptotic Distribution
 
-#### Inference with FE Estimators
 
-- s
+<div class="rounded-box">
 
-#### Some Further Comments
 
-Some minor technical points (not examinable)
+::: {#prp-panel-twfe-fe-consistency}
 
-- Within transformation can create dependence (e.g. in two-way transformation )
-- Technically distribution of $\tilde{\bX}_{it}$ changing with $N$
-- That's not a problem and does not affect asymptotics
+Let 
 
+1. $(\bX_i, \bU_i)$ be IID and model ([-@eq-panel-twfe-causal-random-intercept]) be true
+2. $\E[\tilde{\bX}_i'\tilde{\bX}_i]$ exist and be invertible; $\E\left[\norm{\tilde{\bX}_i'\tilde{\bU}_i}^2\right]<\infty$
+3. $\E[U_{it} | \bX_{i1}, \dots, \bX_{iT}] =0$
+  
+
+Then as $N\to\infty$
+
+$$ \scriptsize
+\sqrt{N}\left(\hat{\bbeta}^{FE} - \bbeta\right) \xrightarrow{d} N\left(0, \left(\E[\tilde{\bX}_i'\tilde{\bX}_i] \right)^{-1} \E[\tilde{\bX}_i'\tilde{\bU}_i\tilde{\bU}_i'\tilde{\bX}_i] \left(\E[\tilde{\bX}_i'\tilde{\bX}_i] \right)^{-1}\right)
+$$
+
+:::
+
+</div>
+
+
+::: footer
+
+:::
+
+#### Discussion of Asymptotic Results for $\hat{\bbeta}^{FE}$
+
+- Can do inference and estimate errors in more or less standard way (confidence intervals, hypothesis tests, ...)
+- Proof of asymptotic normality — exercise
+- *Not examinable* technical point: some within transformations (e.g. two-way) can create dependence across $i$. This dependence disappears as $N\to\infty$ and does not affect asymptotics 
 
 ### Properties under Heterogeneous Coefficient Model {background="#43464B" visibility="uncounted"}
 
-####
+#### Causal Framework with Heterogeneous Coefficients
 
-Aside
+Consider different potential outcomes setting:
+$$ \small
+Y_{it}^{\bx} = \bx'\bbeta_{\textcolor{teal}{i}} + U_{it}
+$$ {#eq-panel-twfe-causal-unit-coefs}
+under strict exogeneity $\E[U_{it} | \bX_{i1}, \dots, \bX_{iT}] =0$
 
-Technically can include into the previous case , but 
 
-####
+- Special case: unit-specific intercepts
+- Does not nest two-way or other random intercepts with time variation
+- ([-@eq-panel-twfe-causal-unit-coefs]) interesting because it allows heterogeneous effects of same change in $\bX_{it}$
 
-Most data observations
+::: footer
 
+If $\E[\bbeta_i|\bX_{i1}, \dots, \bX_{iT}] = \E[\bbeta_i]$, then ([-@eq-panel-twfe-causal-unit-coefs]) — special case of  ([-@eq-panel-twfe-causal-random-intercept]). This assumption usually unrealistic for panel data
+
+
+:::
+
+#### FE Estimator
+
+Can still use the FE estimator:
+$$
+\hat{\bbeta}^{FE} = \left(\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i \right)^{-1}\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bY}_i
+$$
+Can do any transformation such that $\E[\tilde{\bX}_i\tilde{\bX}_i]$ is invertible
+
+. . . 
+
+<br>
+
+<div class="rounded-box">
+
+What does $\hat{\bbeta}^{FE}$ do under model ([-@eq-panel-twfe-causal-unit-coefs])?
+
+</div>
+ 
 #### 
+ 
 
-Can do the even more general model
+#### Extension Factor Models
+
+Can generalize random intercept models to the form
 $$
-Y_{it}^{\bx} = \bx'\bbeta_{i\textcolor{teal}{t}} + U_{it}
+Y_{it}^{\bx} = \balpha_i'\bgamma_t + \bx'\bbeta_i + U_{it}
 $$
 
-Spirit of results remains the same 
-
-#### Factor Models
-
-Can generalize 
-
-@Pesaran2015TimeSeriesPanel chapter 29
+- $\bgamma_t$ — unobserved "factors", $\balpha_i$ — factor loadings
+- Allows people to react differently to same shocks in $\bgamma_t$
+- See [chapter 29, @Pesaran2015TimeSeriesPanel]  
 
 ## Empirical Application {background="#00100F"}
  
