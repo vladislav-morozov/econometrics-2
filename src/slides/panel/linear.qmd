@@ -792,10 +792,32 @@ What does $\hat{\bbeta}^{FE}$ do under model ([-@eq-panel-twfe-causal-unit-coefs
 
 </div>
  
-#### 
- 
+#### Expanding Estimator and Taking Limits
 
-#### Extension Factor Models
+Substituting model ([-@eq-panel-twfe-causal-unit-coefs]) gets us
+$$ \small
+\begin{aligned}
+\hat{\bbeta}^{FE} & = \left(\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i \right)^{-1}\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i\bbeta_i\\
+& = \left(\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i \right)^{-1}\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i\\
+& \xrightarrow{p} \E\left[ \bW(\tilde{\bX}_i) \bbeta_i\right]
+\end{aligned}
+$$
+for $\small\bW(\tilde{\bX}_i) = \left(\E\left[\tilde{\bX}_i\tilde{\bX}_i\right] \right)^{-1} \tilde{\bX}_i\tilde{\bX}_i$
+
+::: footer
+
+
+:::
+
+#### Discussion of $\hat{\bbeta}^{FE}$ under Heterogeneous Effects  
+ 
+- Result: FE estimator estimate weighted average of $\bbeta_i$
+  - Weights are positive definite and sum to one  
+  - Weights depend on within transformation used
+- In general $\E\left[ \bW(\tilde{\bX}_i) \bbeta_i\right]\neq \E[\bbeta_i]$ (true in RCTs)
+- Careful: $\E\left[ \bW(\tilde{\bX}_i) \bbeta_i\right]$ and $\E[\bbeta_i]$ can even have different signs sometimes
+
+#### Extension: Factor Models
 
 Can generalize random intercept models to the form
 $$
