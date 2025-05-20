@@ -4,6 +4,9 @@ subtitle: "A Brief Classification"
 author: Vladislav Morozov  
 format:
   revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="Explore different data types: cross-sectional, time series, panel, and repeated cross-sectional data classifications (lecture notes slides)."/> 
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -25,7 +28,11 @@ filters:
   - reveal-header  
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
+open-graph:
+    description: "Explore different data types: cross-sectional, time series, panel, and repeated cross-sectional data classifications (lecture notes slides)."
 ---
+
+
 
 ## Introduction {background="#00100F"}
   
@@ -218,6 +225,7 @@ Simplest type of data — cross-sectional
  
 #| code-fold: true
 #| code-summary: "Visualizing a cross-section of data"
+#| fig-alt: "Visualizing cross-sectional data"
 # Extract data
 unemp_2024_4 = unemp_df.loc[unemp_df.loc[:, "date"]=="2024-Q4", :]
  
@@ -230,6 +238,7 @@ fig = px.choropleth(
     color_continuous_scale="Oranges",
     hover_name="entity", 
     range_color=(0, unemp_2024_4["unemp_rate"].max()), 
+    width=1150, height=550,
 )
 
 # Apply dark theme settings
@@ -340,7 +349,9 @@ unemp_esp = unemp_esp.sort_values('date')
 fig = px.line(
     unemp_esp,
     x="date",
-    y="unemp_rate", )
+    y="unemp_rate", 
+        width=1150, height=550,
+    )
 
 # Update syling
 fig.update_layout(
@@ -481,6 +492,7 @@ fig = px.choropleth(
     hover_name="entity", 
     animation_frame="date", 
     range_color=(-1, 25), 
+        width=1150, height=550,
 )
  
 

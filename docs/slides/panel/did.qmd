@@ -4,6 +4,9 @@ subtitle: "Causal Inference of Binary Treatment under Parallel Trends"
 author: Vladislav Morozov  
 format:
   revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="Difference-in-differences estimation: parallel trends, ATT identification, regression characterization, application to minimum wage (lecture notes slides)."/>
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -25,7 +28,11 @@ filters:
   - reveal-header  
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
+open-graph:
+    description: "Difference-in-differences estimation: parallel trends, ATT identification, regression characterization, application to minimum wage (lecture notes slides)."
 ---
+
+
 
 ## Introduction {background="#00100F"}
   

@@ -4,6 +4,9 @@ subtitle: "Convergence as Sample Size Grows"
 author: Vladislav Morozov  
 format:
   revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="Learn about the consistency of the OLS estimator: definitions, intuition, proof of consistency in model-free and causal frameworks (lecture notes slides)."/> 
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -24,7 +27,9 @@ title-slide-attributes:
 filters:
   - reveal-header  
 include-in-header: ../../themes/mathjax.html 
-highlight-style: tango
+highlight-style: tango 
+open-graph:
+    description: "Learn about the consistency of the OLS estimator: definitions, intuition, proof of consistency in model-free and causal frameworks (lecture notes slides)." 
 ---
 
 

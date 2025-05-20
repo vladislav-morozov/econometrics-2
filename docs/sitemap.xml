@@ -6,17 +6,18 @@
   </url>
   <url>
     <loc>https://vladislav-morozov.github.io/econometrics-2/slides/vector/ols-limit-distribution.html</loc>
-    <lastmod>2025-05-07T14:49:06.705Z</lastmod>
+    <lastmod>2025-05-20T18:52:29.626Z</lastmod>
   </url>
   <url>
     <loc>https://vladislav-morozov.github.io/econometrics-2/slides/vector/ols-delta-method.html</loc>
-    <lastmod>2025-05-07T14:49:06.705Z</lastmod>
+    <lastmod>2025-05-20T19:00:33.565Z</lastmod>
   </url>
   <url>
     <loc>https://vladislav-morozov.github.io/econometrics-2/slides/vector/identification-inference.html</loc>
-    <lastmod>2025-05-07T14:49:06.705Z</lastmod>
+    <lastmod>2025-05-20T18:52:29.625Z</lastmod>
   </url>
   <url>
+<<<<<<< HEAD
     <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html</loc>
     <lastmod>2025-05-11T17:18:24.341Z</lastmod>
   </url>
@@ -27,12 +28,25 @@
   <url>
     <loc>https://vladislav-morozov.github.io/econometrics-2/index.html</loc>
     <lastmod>2025-05-12T17:30:34.999Z</lastmod>
+=======
+    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html</loc>
+    <lastmod>2025-05-20T19:47:40.833Z</lastmod>
+  </url>
+  <url>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/organizational/intro.html</loc>
+    <lastmod>2025-05-20T18:52:29.625Z</lastmod>
+  </url>
+  <url>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/exercises/exercises-linear-inference.html</loc>
+    <lastmod>2025-05-20T18:52:29.624Z</lastmod>
+>>>>>>> block/panel
   </url>
   <url>
     <loc>https://vladislav-morozov.github.io/econometrics-2/exercises/exercises-linear-asymptotic.html</loc>
-    <lastmod>2025-05-07T14:49:06.673Z</lastmod>
+    <lastmod>2025-05-20T18:52:29.624Z</lastmod>
   </url>
   <url>
+<<<<<<< HEAD
     <loc>https://vladislav-morozov.github.io/econometrics-2/slides/organizational/intro.html</loc>
     <lastmod>2025-05-07T14:49:06.689Z</lastmod>
   </url>
@@ -43,17 +57,33 @@
   <url>
     <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/linear.html</loc>
     <lastmod>2025-05-12T17:04:47.088Z</lastmod>
+=======
+    <loc>https://vladislav-morozov.github.io/econometrics-2/index.html</loc>
+    <lastmod>2025-05-20T18:52:29.624Z</lastmod>
+  </url>
+  <url>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/data-types.html</loc>
+    <lastmod>2025-05-20T19:26:27.263Z</lastmod>
+  </url>
+  <url>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html</loc>
+    <lastmod>2025-05-20T19:30:21.972Z</lastmod>
+>>>>>>> block/panel
   </url>
   <url>
     <loc>https://vladislav-morozov.github.io/econometrics-2/slides/vector/ols-consistency.html</loc>
-    <lastmod>2025-05-07T14:49:06.705Z</lastmod>
+    <lastmod>2025-05-20T18:52:29.625Z</lastmod>
   </url>
   <url>
     <loc>https://vladislav-morozov.github.io/econometrics-2/slides/vector/ols-inference.html</loc>
+<<<<<<< HEAD
     <lastmod>2025-05-11T17:18:24.343Z</lastmod>
+=======
+    <lastmod>2025-05-20T18:52:29.626Z</lastmod>
+>>>>>>> block/panel
   </url>
   <url>
     <loc>https://vladislav-morozov.github.io/econometrics-2/slides/vector/vector-ols.html</loc>
-    <lastmod>2025-05-07T14:49:06.705Z</lastmod>
+    <lastmod>2025-05-20T18:52:29.626Z</lastmod>
   </url>
 </urlset>

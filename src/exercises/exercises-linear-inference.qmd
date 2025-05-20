@@ -1,0 +1,104 @@
+---
+title: "Exercises: Asymptotic Inference"
+format:
+  html:
+    toc: true
+description: "Theoretical and applied exercises on inference: hypothesis testing, nonlinear functions of parameters, consistency of HC0 asymptotic variance estimator."
+open-graph:
+    description: "Theoretical and applied exercises on inference: hypothesis testing, nonlinear functions of parameters, consistency of HC0 asymptotic variance estimator." 
+---
+
+
+
+
+## Theoretical Exercises 
+
+ 
+
+### Testing Scalar Restrictions
+
+Let the outcome $Y_i$, the covariates $\bX_i$, and an unobserved component $U_i$ be linked through the linear potential outcomes model
+$$
+Y_i^{\bx} = \bx'\bbeta + U_i.
+$$
+Suppose that we observe an IID sample of data on $Y_i, \bX_i$, that $\E[U_i|\bX_i]=0$, that $\E[\bX_i\bX_i']$ is invertible, and that $\E[U_i^2\bX_i\bX_i']$ has maximal rank.
+
+1. Consider the hypotheses $H_0: \beta_k = c$ and $H_1: \beta_k\neq c$, where $\beta_k$ is the $k$th coordinate of the $\bbeta$ vector. Propose a consistent test for $H_0$ vs $H_1$ that has asymptotic size $\alpha$.
+2. Now let $\ba\neq 0$ be some known constant vector of the same dimension as $\bbeta$. Consider the hypotheses $H_0: \ba'\bbeta = c$ and $H_1: \ba'\bbeta\neq c$. Propose a consistent $t$-test for $H_0$ vs $H_1$ that has asymptotic size $\alpha$.
+3. Why do we require that $\ba\neq 0$ in the previous question?
+
+In both cases remember to show that your test is consistent and has the desired asymptotic size. 
+ 
+### Testing Several Linear Restrictions
+
+Let the outcome $Y_i$, the covariates $\bX_i$, and an unobserved component $U_i$ be linked through the linear potential outcomes model
+$$
+Y_i^{\bx} = \bx'\bbeta + U_i.
+$$
+Suppose that we observe an IID sample of data on $Y_i, \bX_i$, that $\E[U_i|\bX_i]=0$, that $\E[\bX_i\bX_i']$ is invertible, and that $\E[U_i^2\bX_i\bX_i']$ has maximal rank.
+
+Let $\bbeta = (\beta_1, \beta_2, \dots, \beta_p)$ with $p\geq 4$.
+Consider the following two hypotheses on $\bbeta$:
+$$
+H_0: \begin{cases}
+\beta_1 = 0, \\
+\beta_2 - \beta_3 = 1, \\
+\beta_2 = 4\beta_4 + 5,
+\end{cases} \quad H_1: \text{at least one equality in $H_0$ fails}
+$$
+Propose a consistent test for $H_0$ vs. $H_1$ with asymptotic size $\alpha$. Show that the test possesses these properties. 
+ 
+### Inference on a Nonlinear Function of Parameters
+
+Let the outcome $Y_i$, the covariates $\bX_i$, and an unobserved component $U_i$ be linked through the linear potential outcomes model
+$$
+Y_i^{\bx} = \bx'\bbeta + U_i.
+$$
+Suppose that we observe an IID sample of data on $Y_i, \bX_i$, that $\E[U_i|\bX_i]=0$, that $\E[\bX_i\bX_i']$ is invertible, and that $\E[U_i^2\bX_i\bX_i']$ has maximal rank.
+
+Let the outcome $Y_i$, the covariates $\bX_i$, and an unobserved component $U_i$ be linked through the linear potential outcomes model
+$$
+Y_i^{\bx} = \bx'\bbeta + U_i.
+$$
+Suppose that we observe an IID sample of data on $Y_i, \bX_i$, that $\E[U_i|\bX_i]=0$, that $\E[\bX_i\bX_i']$ is invertible, and that $\E[U_i^2\bX_i\bX_i']$ has maximal rank. Also suppose that $\bbeta$ has $p\geq 2$ components, that $\beta_1>0$ and $\beta_2>0$, and that you are interested in 
+$$
+\gamma = \sqrt{\beta_1\beta_2}.
+$$
+
+1. Construct a confidence interval for $\gamma$ with asymptotic coverage $(1-\alpha)$.
+2. Consider $H_0: \gamma=1$ vs. $H_1:\gamma\neq 1$. Construct a consistent test for $H_0$ vs. $H_1$ with asymptotic size $\alpha$.
+
+Remember to prove coverage, consistency, and size properties. 
+ 
+
+### Consistency of the HC0 Asymptotic Variance Estimator
+
+Let the outcome $Y_i$, the scalar covariate $X_i$, and an unobserved component $U_i$ be linked through the linear potential outcomes model
+$$
+Y_i^{\bx} = \beta X_i + U_i
+$$ {#eq-exercises-inference-ex4-scalar-model}
+Suppose that we observe an IID sample of data on $Y_i, X_i$, that $\E[U_i|X_i]=0$, that $\E[X_i^2]\neq 0$, and that $\E[U_i^2 X_i^2]$ exists. Let  $\hat{\beta}$ be the OLS estimator obtained by regressing $Y_i$ on $X_i$.
+
+
+Recall the HC0 [@White1980HeteroskedasticityConsistentCovarianceMatrix] estimator for $\avar(\hat{\beta})$. In the scalar model ([-@eq-exercises-inference-ex4-scalar-model]) it is given by
+$$
+\begin{aligned}
+\widehat{\avar}(\hat{\beta}) & = \dfrac{  N^{-1} \sum_{i=1}^N \hat{U_i}^2 X_i^2 }{  \left( N^{-1}\sum_{i=1}^N X_i^2 \right)^2  }.
+\end{aligned}
+$$
+Show that 
+$$
+\widehat{\avar}(\hat{\beta}) \xrightarrow{p} \avar(\hat{\beta}) \equiv \dfrac{ \E[U_i^2X_i^2]  }{\left(\E[X_i^2] \right)^2 }.
+$$
+State explicitly any additional moment assumptions you make. 
+ 
+
+## Applied Exercises
+
+Applied exercises are from @Wooldridge2020IntroductoryEconometricsModern. In all cases, use asymptotic $t$- and Wald tests with robust standard errors:
+
+- C9 in chapter 4,
+- C4 and C6 in chapter 5, 
+- C8 in chapter 7.
+
+For some more code examples and discussion, look at chapters 4, 5, 7 in @Heiss2024UsingPythonIntroductory 
