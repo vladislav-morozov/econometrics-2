@@ -51,6 +51,17 @@ By the end, you should be able to
 - Establish causal properties of such estimators under homogeneous and heterogeneous effects
 
 
+```{python}
+#| code-fold: true
+#| code-summary: "Imports"
+import geopandas as gpd
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+import plotly.express as px
+import pyfixest as pf
+```
+
 #### References
  
 
@@ -901,14 +912,60 @@ How does pollution affect labor market outcomes?
 - Need some "economic activity-exogenous" measure of pollution
 - Also need to control "predisposition" to such pollution
 
-#### Data and Pollution Measure
+#### Data  {.scrollable}
 
 Use data from @Borgschulte2024AirPollutionLabor
 
 - Quarterly data for all 3142 counties in the US over 2007-2019 ($T\approx 48$)
 - Data on average earnings and employment in county
 
-. . . 
+```{python} 
+#| echo: true
+#| code-fold: true
+#| code-summary: "Loading and preparing data"
+
+# Load data
+columns_to_load = [
+    "countyfip",                # FIPS
+    "rfrnc_yr",                 # Year
+    "rfrnc_qtroy",              # Quarter 
+    "d_pc_qwi_payroll",         # Earnings (annual diff) 
+    "hms_deep",                 # Number of smoke days
+    "fe_countyqtroy",
+    "fe_styr",
+    "fe_stqtros",
+    "seer_pop",                 # Population 
+]
+county_df = pd.read_csv(
+  "data/county_quarter.tab", 
+  sep="\t", 
+  usecols=columns_to_load,
+)
+
+# Rename columns
+column_rename_dict = {
+  "countyfip":"fips",
+  "rfrnc_yr":"year",
+  "rfrnc_qtroy":"quarter",
+  "d_pc_qwi_payroll":"diff_payroll", 
+  "hms_deep":"smoke_days",
+  "fe_countyqtroy":"fe_id_county_quarter",
+  "fe_styr":"fe_id_state_year",
+  "fe_stqtros":"fe_id_state_quarter",
+  "seer_pop":"population",
+}
+county_df = county_df.rename(columns=column_rename_dict)
+ 
+# View data
+county_df.dropna(inplace=True)
+county_df.head(2)
+```
+
+::: footer
+
+:::
+
+#### Pollution Measure
 
 Pollution — number of smoke days because of wildfires
 
@@ -921,10 +978,88 @@ Can download the data from the [Harvard dataverse](https://dataverse.harvard.edu
 
 :::
 
-#### Map
+#### Distribution of Pollution Measure
 
 
 
+```{python}
+
+BG_COLOR = "whitesmoke"
+FONT_COLOR = "black"
+GEO_COLOR = "rgb(201, 201, 201)"
+OCEAN_COLOR = "rgb(136, 136, 136)"
+
+# Load the shapefile
+shapefile_path = "data/us_counties/USA_Counties.shp"
+gdf = gpd.read_file(shapefile_path)
+gdf = gdf.to_crs(epsg=4326)
+# gdf["FIPS"] = gdf["FIPS"].astype("int64")
+gdf["geometry"] = gdf["geometry"].buffer(0)
+
+a = county_df.loc[county_df["year"]==2016, :].groupby("fips")["smoke_days"].sum().reset_index()
+a["fips"] = a["fips"].astype(str).str.zfill(5)
+
+merged_data = gdf.merge(a, left_on="FIPS", right_on="fips", how="right") 
+merged_data = merged_data.loc[:,["NAME", "fips", "geometry", "smoke_days"]]
+merged_data = merged_data.set_index('fips')
+ 
+
+# Create choropleth map
+fig = px.choropleth(merged_data, 
+                     geojson=merged_data.geometry,
+                     locations=merged_data.index, 
+                     color="smoke_days",
+                     scope="usa", 
+                     color_continuous_scale="inferno_r",
+                     custom_data=["NAME", "smoke_days"],
+                     range_color=(-4, 52),
+                     width=1150, height=550,
+)
+
+
+# Apply dark theme settings
+fig.update_layout( 
+    font_family="Arial",
+    plot_bgcolor=BG_COLOR,
+    paper_bgcolor=BG_COLOR,
+    font=dict(color=FONT_COLOR), 
+    title=dict(
+        text="<b>Wildfire-Linked Smoke Days in 2016</b>",
+        x=0.03,
+        xanchor="left",
+        y=0.97,
+        yanchor="top",
+        font=dict(color=FONT_COLOR, size=20)
+    ),
+    margin=dict(l=20, r=20, t=60, b=20),  
+    coloraxis_colorbar=dict(
+        title=dict(
+            text="Smoke days",
+            font=dict(color=FONT_COLOR, size=12),
+            side="right"
+        ),
+        tickfont=dict(color=FONT_COLOR, size=10), 
+        len=0.7,
+        thickness=20,
+        x=1.02,
+        yanchor="middle",
+        y=0.5
+    )
+)
+ 
+fig.update_geos(fitbounds="locations", visible=False,
+    bgcolor=BG_COLOR,  # Map background
+    landcolor=GEO_COLOR,  # Land color
+    lakecolor=OCEAN_COLOR,  # Water color
+    showocean=True,
+    oceancolor=OCEAN_COLOR, )
+
+fig.update_traces(
+    hovertemplate="<b>%{customdata[0]}</b><br>%{customdata[1]:.0f} smoke day(s)"
+)
+fig.show()
+
+```
 
 ### Specification and Estimation {background="#43464B" visibility="uncounted"}
 
@@ -963,7 +1098,8 @@ About 13000 different random intercepts (a bit more complicated than $\alpha_i$ 
 - Will use `pyfixest` this time to estimate
 - `feols` for fixed effect estimation
 - Regression formula in `fml`, random intercepts after `|`
-```
+```{python}
+#| echo: true
 import pyfixest as pf
 
 results = pf.feols(
@@ -975,7 +1111,20 @@ results = pf.feols(
 
 ```
 
-#### Estimation Results
+#### Estimation Results {.scrollable}
+
+- An additional day reduces quarterly earning about $5.20 on average — significant effect
+- Clustered standard errors [p. 77 in @Cunningham2021CausalInferenceMixtape]
+
+```{python}
+#| echo: true
+pf.etable(results)
+```
+
+::: footer
+
+:::
+
 
 ## Recap and Conclusions {background="#00100F"}
   
