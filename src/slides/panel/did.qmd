@@ -710,7 +710,7 @@ fig.add_trace(go.Choropleth(
     zmax=22,
     showscale=False,
     hovertemplate="<b>%{location}</b><br>FT-equivalent workers: %{z:.2f}",
-    name="Actual"
+    name="Actual",
 ), row=1, col=1)
 
 fig.add_trace(go.Choropleth(
@@ -737,7 +737,7 @@ fig.add_trace(go.Choropleth(
 ), row=1, col=2)
 
 fig.update_layout(
-    # height=400,  # Ensures reasonable proportions
+    width=1150, height=550,
     geo=dict(domain=dict(x=[0, 0.48], y=[0, 1]), projection=dict(type="mercator")),
     geo2=dict(domain=dict(x=[0.52, 1], y=[0, 1]), projection=dict(type="mercator")),
     font_family="Arial",
