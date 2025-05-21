@@ -53,7 +53,7 @@ website:
         - slides/panel/data-types.qmd
         - slides/panel/event-studies.qmd
         - slides/panel/did.qmd
-        - slides/panel/linear.qmd
+        - slides/panel/fe.qmd
 
 execute:
   freeze: auto  # re-render only when source changes
