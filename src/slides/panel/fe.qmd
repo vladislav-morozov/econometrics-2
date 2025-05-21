@@ -4,6 +4,9 @@ subtitle: "Beyond Binary Treatments: Fixed Effects Estimators and their Properti
 author: Vladislav Morozov  
 format:
   revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="Fixed effect estimation with panel data: random intercepts, within transformations, causal properties, pyfixest application (lecture notes slides)."/>
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -25,7 +28,11 @@ filters:
   - reveal-header  
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
+open-graph:
+    description: "Fixed effect estimation with panel data: random intercepts, within transformations, causal properties, pyfixest application (lecture notes slides)." 
 ---
+
+
 
 ## Introduction {background="#00100F"}
   
@@ -34,13 +41,15 @@ highlight-style: tango
 
 #### Learning Outcomes
 
-This lecture is about handling more general treatments in panel data with linear models
+This lecture is about handling more general treatments in panel data using "fixed effect/random intercepts" estimators
 
 <br>
 
 By the end, you should be able to
 
-- State 
+- Describe the fixed effect estimation procedure
+- Establish causal properties of such estimators under homogeneous and heterogeneous effects
+
 
 #### References
  
@@ -64,10 +73,51 @@ Textbooks:
 
 <div class="rounded-box">
 
- 
+How strongly does pollution affect labor market outcomes?
  
 </div>
+
+<br> 
+
+
+- We know that pollution is bad for health
+- But how does it affect economic activity, particularly earnings and employment?
+
  
+#### Challenge: Endogeneity
+
+::: {.callout-important appearance="minimal"}
+
+Cannot just regress labor market outcomes on overall pollution
+
+- Two-way causality, more economically active places tend to have more pollution
+- Simple regression will suffer from endogeneity
+:::
+
+. . .
+
+<br>
+
+- Can solve endogeneity with instrumental variables
+- But those are difficult to find
+
+
+#### Another Approach
+
+- Find pollution  not driven by  (your own) economic activity 
+- But some places may be more likely to have this pollution $\Rightarrow$ this would affect decisions of people to live there 
+
+. . . 
+
+<br>
+
+What if we could control for this likelihood? 
+
+- How — topic of lecture
+- Application: how @Borgschulte2024AirPollutionLabor solve the issue
+
+
+
 
 ### Motivation and Questions {background="#43464B" visibility="uncounted"}
 
@@ -407,7 +457,7 @@ Transformations — just application of the Frisch-Waugh-Lowell ("anatomy of reg
 
 Within estimation: just regressing $\tilde{\bY}$ on $\tilde{\bX}$ with OLS:
 $$
-\hat{\bbeta}^{W} = \argmin_{\bb} \sum_{i=1}^N \sum_{t=1}^N (\tilde{Y}_{it} - \tilde{\bX}_{it}'\bb)^2
+\hat{\bbeta}^{W} = \argmin_{\bb} \sum_{i=1}^N \sum_{t=1}^T (\tilde{Y}_{it} - \tilde{\bX}_{it}'\bb)^2
 $$
 
 - $\tilde{\bX}$ must have maximum column rank (no collinearity in transformed regressors)
@@ -504,8 +554,8 @@ What are the causal properties of such estimators? Under which models do they gi
 
 Note:
 
-- Approach this problem differently:
-  - Here first formulate an estimator and only now start understanding causal properties
+- Approach this problem differently from past lectures:
+  - Here first formulate an estimator and only after start understanding causal properties
   - Usually goes the other way: fix causal problem, try to figure out identification and estimation
 - Doing so for historic reasons — these estimators came first, serious causal thinking more recently 
 
@@ -558,7 +608,7 @@ $$
 Y_{it}^{\bx} = \bx'\bbeta + U_{it}
 $$ 
 - Interpretations:
-  - $\alpha_i$ — often some characteristic of $i$ that does not change over considered sample (e.g. innate intellect)
+  - $\alpha_i$ — often some characteristic of $i$ that does not change over $t$ in sample (e.g. innate intellect)
   - $\gamma_t$ — shocks that affect everyone equally
   - Similar logic for other types of random interecepts 
 
@@ -588,6 +638,7 @@ with variables transformed as in @eq-panel-twfe-two-way-transform
 #### Probability Limit of $\hat{\bbeta}^{FE}$
 
 Realized data satisfies $\tilde{\bY} = \tilde{\bX}_{it}'\bbeta + \tilde{U}_{it}$ 
+
 . . .
 
 <br>
@@ -637,7 +688,7 @@ What does this condition require of $\bX_{it}$ and $U_{it}$?
 
 Under one-way transformation ([-@eq-panel-twfe-one-way-transform]), @eq-panel-twfe-key-orthogonality becomes
 $$ \scriptsize 
-\E\left[\tilde{\bX}_{it} \tilde{U}_{it} \right] = \E\left[ \bX_{it}U_{it} - \dfrac{\bX_{it}}{T}\sum_{s=1}^T U_{it} - \dfrac{U_{it}}{T}\sum_{r=1}^T \bX_{it}  + \dfrac{1}{T^2} \sum_{s=1}^T\sum_{r=1}^T \bX_{it} U_{ir}\right] = 0 
+\E\left[\tilde{\bX}_{it} \tilde{U}_{it} \right] = \E\left[ \bX_{it}U_{it} - \dfrac{\bX_{it}}{T}\sum_{s=1}^T U_{is} - \dfrac{U_{it}}{T}\sum_{r=1}^T \bX_{ir}  + \dfrac{1}{T^2} \sum_{s=1}^T\sum_{r=1}^T \bX_{is} U_{ir}\right] = 0 
 $$
 
 Here would be sufficient that for all $t$, $s$
@@ -654,7 +705,7 @@ Problematic direction is usually $s<t$: predicting future $\bX_{it}$ from past $
 
 #### Strict Exogeneity in the Panel Case
 
-What about beyond one-way effects? Usually impose an assumption that covers all cases —  <span class="highlight"> panel data version of strict exogeneity </span> is imposed:
+What about beyond one-way effects? Usually impose an assumption that covers all cases —  <span class="highlight"> panel data version of strict exogeneity </span>:
 
 <div class="rounded-box">
 
@@ -780,7 +831,7 @@ Can still use the FE estimator:
 $$
 \hat{\bbeta}^{FE} = \left(\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i \right)^{-1}\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bY}_i
 $$
-Can do any transformation such that $\E[\tilde{\bX}_i\tilde{\bX}_i]$ is invertible
+Can do any transformation such that $\E[\tilde{\bX}_i'\tilde{\bX}_i]$ is invertible
 
 . . . 
 
@@ -797,12 +848,11 @@ What does $\hat{\bbeta}^{FE}$ do under model ([-@eq-panel-twfe-causal-unit-coefs
 Substituting model ([-@eq-panel-twfe-causal-unit-coefs]) gets us
 $$ \small
 \begin{aligned}
-\hat{\bbeta}^{FE} & = \left(\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i \right)^{-1}\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i\bbeta_i\\
-& = \left(\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i \right)^{-1}\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i\\
+\hat{\bbeta}^{FE} & = \left(\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i \right)^{-1}\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i\bbeta_i + \left(\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i \right)^{-1}\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i\\
 & \xrightarrow{p} \E\left[ \bW(\tilde{\bX}_i) \bbeta_i\right]
 \end{aligned}
 $$
-for $\small\bW(\tilde{\bX}_i) = \left(\E\left[\tilde{\bX}_i\tilde{\bX}_i\right] \right)^{-1} \tilde{\bX}_i\tilde{\bX}_i$
+for $\small\bW(\tilde{\bX}_i) = \left(\E\left[\tilde{\bX}_i'\tilde{\bX}_i\right] \right)^{-1} \tilde{\bX}_i'\tilde{\bX}_i$
 
 ::: footer
 
@@ -814,7 +864,7 @@ for $\small\bW(\tilde{\bX}_i) = \left(\E\left[\tilde{\bX}_i\tilde{\bX}_i\right] 
 - Result: FE estimator estimate weighted average of $\bbeta_i$
   - Weights are positive definite and sum to one  
   - Weights depend on within transformation used
-- In general $\E\left[ \bW(\tilde{\bX}_i) \bbeta_i\right]\neq \E[\bbeta_i]$ (true in RCTs)
+- In general $\E\left[ \bW(\tilde{\bX}_i) \bbeta_i\right]\neq \E[\bbeta_i]$ (except RCTs)
 - Careful: $\E\left[ \bW(\tilde{\bX}_i) \bbeta_i\right]$ and $\E[\bbeta_i]$ can even have different signs sometimes
 
 #### Extension: Factor Models
@@ -833,11 +883,99 @@ $$
  
 ### Context and Setting {background="#43464B" visibility="uncounted"}
 
-#### Context  
- 
-####
+#### Empirical Question  
 
-High-dimensional case!
+
+Recall empirical question:
+<div class="rounded-box">
+
+How does pollution affect labor market outcomes? 
+
+</div>
+
+. . .
+
+<br> 
+
+- Want to answer question without instruments
+- Need some "economic activity-exogenous" measure of pollution
+- Also need to control "predisposition" to such pollution
+
+#### Data and Pollution Measure
+
+Use data from @Borgschulte2024AirPollutionLabor
+
+- Quarterly data for all 3142 counties in the US over 2007-2019 ($T\approx 48$)
+- Data on average earnings and employment in county
+
+. . . 
+
+Pollution — number of smoke days because of wildfires
+
+- Wildfire smoke can travel far — "exogenous"
+- Some places at great risk of fires or persistent smoke — how to handle impact?
+
+::: footer
+
+Can download the data from the [Harvard dataverse](https://dataverse.harvard.edu/file.xhtml?fileId=6425134&version=1.0)
+
+:::
+
+#### Map
+
+
+
+
+### Specification and Estimation {background="#43464B" visibility="uncounted"}
+
+#### Key Variables and Homogeneity Assumption
+
+- Outcome: <span class="highlight">change</span> in average earnings (employment — exercise)
+- Treatment: number of smoke days in quarter
+- Analysis level: $i$ — counties, $t$ — quarters (no aggregation) 
+- Assumption: treatment has same effect in all $(i, t)$ and at all levels. Assumed potential outcomes model
+$$\small
+(\Delta \text{Earnings}_{it})^{\text{Smoke days}} = \beta\text{Smoke days} + \text{FEs} + U_{it}
+$$
+
+#### Random Intercepts
+
+<div class="rounded-box">
+
+Need to choose random intercepts/FEs so that strict exogeneity holds
+
+</div>
+
+. . .
+
+Specification of @Borgschulte2024AirPollutionLabor: include
+
+- County-season intercepts (capture effect of geography, differing per season)
+- State-year (capture overall economic trends)
+
+
+. . .
+
+About 13000 different random intercepts (a bit more complicated than $\alpha_i$ and $\delta_t$)
+
+#### Estimation
+
+- Will use `pyfixest` this time to estimate
+- `feols` for fixed effect estimation
+- Regression formula in `fml`, random intercepts after `|`
+```
+import pyfixest as pf
+
+results = pf.feols(
+    fml="diff_payroll ~ smoke_days | fe_id_state_year + fe_id_county_quarter", 
+    data=county_df, 
+    vcov={"CRV1": "fips + fe_id_state_quarter",}, 
+    weights="population",
+)
+
+```
+
+#### Estimation Results
 
 ## Recap and Conclusions {background="#00100F"}
   
@@ -845,10 +983,17 @@ High-dimensional case!
 
 In this lecture we
 
-1. Did
+1. Discussed fixed effect estimators for DiD and beyond
+   - LSDV
+   - Within transformation
+2. Proved causal properties of FE estimators under
+   - A random intercept model
+   - Model with unit-specific coefficients
 
 #### Next Questions
  
+ <br>
+
 - What if you want to estimate $\E[\bbeta_i]$? 
 - When does strict exogeneity fail? Can you relax it? 
 - What does panel data let you do in nonlinear settings?
