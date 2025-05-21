@@ -10,6 +10,9 @@
         "author: Vladislav Morozov  \n",
         "format:\n",
         "  revealjs:\n",
+        "    include-in-header: \n",
+        "      text: |\n",
+        "        <meta name=\"description\" content=\"Difference-in-differences estimation: parallel trends, ATT identification, regression characterization, application to minimum wage (lecture notes slides).\"/>\n",
         "    width: 1150\n",
         "    slide-number: true\n",
         "    sc-sb-title: true\n",
@@ -31,7 +34,11 @@
         "  - reveal-header  \n",
         "include-in-header: ../../themes/mathjax.html \n",
         "highlight-style: tango\n",
+        "open-graph:\n",
+        "    description: \"Difference-in-differences estimation: parallel trends, ATT identification, regression characterization, application to minimum wage (lecture notes slides).\"\n",
         "---\n",
+        "\n",
+        "\n",
         "\n",
         "\n",
         "## Introduction {background=\"#00100F\"}\n",
@@ -51,7 +58,7 @@
         "- Identify the ATT using a difference-in-differences (DiD) strategy \n",
         "- Give a regression characterization of DiD\n"
       ],
-      "id": "705e0035"
+      "id": "9d05a89b"
     },
     {
       "cell_type": "code",
@@ -65,7 +72,7 @@
         "\n",
         "from plotly.subplots import make_subplots"
       ],
-      "id": "951837de",
+      "id": "e14a9b21",
       "execution_count": null,
       "outputs": []
     },
@@ -375,7 +382,7 @@
         "<div class=\"rounded-box\">\n",
         "$$\n",
         "\\begin{aligned}\n",
-        " \\hspace{-2.6cm} & \\hspace{-2.6cm}\\widehat{ATT}^{DID} \\\\\n",
+        " \\hspace{-2.6cm} & \\hspace{-2.6cm}\\widehat{ATT}^{DiD} \\\\\n",
         " \\hspace{-2.6cm} & \\hspace{-2.6cm} = \\dfrac{1}{N_T}\\sum_{Treated} (Y_{i2}-Y_{i1}) - \\dfrac{1}{N_U}\\sum_{Untreated} (Y_{i2}-Y_{i1})\n",
         "\\end{aligned}\n",
         "$$ {#eq-causal-did-canonical-did-estimator}\n",
@@ -412,18 +419,18 @@
         "Can express outcomes as\n",
         "$$\n",
         "Y_{it} = \\begin{cases}\n",
-        "\\alpha_i + u_{it}, & SP_{it} =0, D_{i2}= 0, 1, \\\\\n",
-        "\\alpha_i + \\gamma + u_{it}, & SP_{it} = 1, D_{i2} = 0, \\\\\n",
-        "\\alpha_ i + \\gamma + \\delta + u_{it}, & SP_{it}, D_{i2} = 1,\n",
+        "\\alpha_i + U_{it}, & SP_{it} =0, D_{i2}= 0, 1, \\\\\n",
+        "\\alpha_i + \\gamma + U_{it}, & SP_{it} = 1, D_{i2} = 0, \\\\\n",
+        "\\alpha_ i + \\gamma + \\delta + U_{it}, & SP_{it}, D_{i2} = 1,\n",
         "\\end{cases}\n",
         "$$\n",
-        "What is the $u_{it}$?\n",
+        "What is the $U_{it}$?\n",
         "\n",
         "#### TWFE Representation\n",
         "\n",
         "Compact form of representation: \n",
         "$$\n",
-        "Y_{it} = \\alpha_i + \\gamma SP_{it} + \\delta D_{it} + u_{it}\n",
+        "Y_{it} = \\alpha_i + \\gamma SP_{it} + \\delta D_{it} + U_{it}\n",
         "$$ {#eq-causal-did-twfe-general}\n",
         "@eq-causal-did-twfe-general is called <span class=\"highlight\">two-way fixed effect</span> model (more on that in next lecture)\n",
         "\n",
@@ -431,7 +438,7 @@
         "\n",
         "Can eliminate $\\alpha_i$ by taking <span class=\"highlight\">first differences</span> across time to get\n",
         "$$\n",
-        "Y_{i2}- Y_{i1} = \\gamma + \\delta D_{it} + u_{i2}\n",
+        "Y_{i2}- Y_{i1} = \\gamma + \\delta D_{it} + U_{i2}\n",
         "$$ {#eq-causal-did-twfe}\n",
         "\n",
         "#### Regression Representation: Result\n",
@@ -446,7 +453,7 @@
         "\n",
         "The OLS estimator $\\hat{\\delta}$ in @eq-causal-did-twfe satisfies\n",
         "$$\n",
-        "\\hat{\\delta} = \\widehat{ATT}^{DID},\n",
+        "\\hat{\\delta} = \\widehat{ATT}^{DiD},\n",
         "$$\n",
         "for the ATT estimator of @eq-causal-did-canonical-did-estimator.\n",
         "\n",
@@ -461,7 +468,7 @@
         "#### Regression Representation: Discussion\n",
         "\n",
         "- Like for event studies: managed to get linear regression in a nonparametric context\n",
-        "- Consistency of OLS = consistency of $\\widehat{ATT}^{DID}$ (exercise: prove that parallel trends equivalent to strict exogeneity of $D_{it}$)\n",
+        "- Consistency of OLS = consistency of $\\widehat{ATT}^{DiD}$ (exercise: prove that parallel trends equivalent to strict exogeneity of $D_{it}$)\n",
         "- Regression results: can use all results for OLS, including limit theory and inference\n",
         "\n",
         "#### Limitations\n",
@@ -602,7 +609,7 @@
         "\n",
         "#### Loading and Looking at the Data\n"
       ],
-      "id": "5b2c5eaf"
+      "id": "b5f58274"
     },
     {
       "cell_type": "code",
@@ -659,7 +666,7 @@
         "ck_data = ck_data.set_index([\"store\", \"time_name\"])\n",
         "ck_data.head()"
       ],
-      "id": "56d47b85",
+      "id": "01b7bf74",
       "execution_count": null,
       "outputs": []
     },
@@ -679,7 +686,7 @@
         "\n",
         "The key components of difference-in-differences are the (state, year)-specific average outcomes: "
       ],
-      "id": "0175d274"
+      "id": "dc05548a"
     },
     {
       "cell_type": "code",
@@ -691,7 +698,7 @@
         "emp_means = ck_data.groupby(by=[\"state_name\", \"time_name\"])[\"emp_ft\"].mean()\n",
         "print(emp_means)"
       ],
-      "id": "f0d8cdbb",
+      "id": "9c104b15",
       "execution_count": null,
       "outputs": []
     },
@@ -703,7 +710,7 @@
         "\n",
         "It is easy to compute averages now. Recall that `NJ` is the treated group. Applying DiD:"
       ],
-      "id": "06e6b099"
+      "id": "c0f9674c"
     },
     {
       "cell_type": "code",
@@ -717,7 +724,7 @@
         "    - (emp_means.loc[(\"PA\", \"After\")] - emp_means.loc[(\"PA\", \"Before\")])\n",
         ").round(2)"
       ],
-      "id": "f5657dfd",
+      "id": "c0bbea38",
       "execution_count": null,
       "outputs": []
     },
@@ -729,7 +736,7 @@
         "\n",
         "#### Visualizing 1992 Employment Levels\n"
       ],
-      "id": "9cc45286"
+      "id": "c8c06308"
     },
     {
       "cell_type": "code",
@@ -764,7 +771,7 @@
         "    zmax=22,\n",
         "    showscale=False,\n",
         "    hovertemplate=\"<b>%{location}</b><br>FT-equivalent workers: %{z:.2f}\",\n",
-        "    name=\"Actual\"\n",
+        "    name=\"Actual\",\n",
         "), row=1, col=1)\n",
         "\n",
         "fig.add_trace(go.Choropleth(\n",
@@ -791,7 +798,7 @@
         "), row=1, col=2)\n",
         "\n",
         "fig.update_layout(\n",
-        "    # height=400,  # Ensures reasonable proportions\n",
+        "    width=1150, height=550,\n",
         "    geo=dict(domain=dict(x=[0, 0.48], y=[0, 1]), projection=dict(type=\"mercator\")),\n",
         "    geo2=dict(domain=dict(x=[0.52, 1], y=[0, 1]), projection=dict(type=\"mercator\")),\n",
         "    font_family=\"Arial\",\n",
@@ -843,7 +850,7 @@
         "#     hovertemplate=\"%{hovertext}\"  # Ensures default hovertemplate is removed\n",
         "# ), row=1, col=1)"
       ],
-      "id": "9466fd86",
+      "id": "2c968d81",
       "execution_count": null,
       "outputs": []
     },
@@ -872,7 +879,7 @@
         "\n",
         "Differenced equation — easy to estimate with `OLS` in `statsmodels`"
       ],
-      "id": "d47f2902"
+      "id": "6353d4be"
     },
     {
       "cell_type": "code",
@@ -890,7 +897,7 @@
         "fitted_model = sm.OLS(endog, exog).fit(cov_type=\"HC0\")\n",
         "print(fitted_model.summary())"
       ],
-      "id": "451ec9d5",
+      "id": "aa68cd84",
       "execution_count": null,
       "outputs": []
     },
@@ -907,7 +914,7 @@
         "- Can estimate without differencing data ourselves using `linearmodels` or `pyfixest` (more details in next lecture)\n",
         "- Here use `PanelOLS` from `linearmodels` with `entity_effects` ($\\alpha_i$) and `time_effects` ($\\gamma$)\n"
       ],
-      "id": "9d381586"
+      "id": "c849b30d"
     },
     {
       "cell_type": "code",
@@ -930,7 +937,7 @@
         ").fit(cov_type=\"robust\")\n",
         "print(twfe_results)"
       ],
-      "id": "7aae9659",
+      "id": "67d71f47",
       "execution_count": null,
       "outputs": []
     },
@@ -958,7 +965,7 @@
         "\n",
         ". . .\n"
       ],
-      "id": "ce45f93f"
+      "id": "9de25770"
     },
     {
       "cell_type": "code",
@@ -976,7 +983,7 @@
         "twfe_results = lm.PanelOLS(endog, exog,  entity_effects=True, time_effects=True, drop_absorbed=True).fit(cov_type=\"robust\")\n",
         "print(twfe_results)"
       ],
-      "id": "613d737c",
+      "id": "384420f0",
       "execution_count": null,
       "outputs": []
     },
@@ -1015,7 +1022,7 @@
         "\n",
         ":::"
       ],
-      "id": "263415f2"
+      "id": "2b14cd33"
     }
   ],
   "metadata": {

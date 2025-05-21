@@ -364,7 +364,7 @@ Sample version: the <span class="highlight">DiD estimator</span>:
 <div class="rounded-box">
 $$
 \begin{aligned}
- \hspace{-2.6cm} & \hspace{-2.6cm}\widehat{ATT}^{DID} \\
+ \hspace{-2.6cm} & \hspace{-2.6cm}\widehat{ATT}^{DiD} \\
  \hspace{-2.6cm} & \hspace{-2.6cm} = \dfrac{1}{N_T}\sum_{Treated} (Y_{i2}-Y_{i1}) - \dfrac{1}{N_U}\sum_{Untreated} (Y_{i2}-Y_{i1})
 \end{aligned}
 $$ {#eq-causal-did-canonical-did-estimator}
@@ -401,18 +401,18 @@ $$
 Can express outcomes as
 $$
 Y_{it} = \begin{cases}
-\alpha_i + u_{it}, & SP_{it} =0, D_{i2}= 0, 1, \\
-\alpha_i + \gamma + u_{it}, & SP_{it} = 1, D_{i2} = 0, \\
-\alpha_ i + \gamma + \delta + u_{it}, & SP_{it}, D_{i2} = 1,
+\alpha_i + U_{it}, & SP_{it} =0, D_{i2}= 0, 1, \\
+\alpha_i + \gamma + U_{it}, & SP_{it} = 1, D_{i2} = 0, \\
+\alpha_ i + \gamma + \delta + U_{it}, & SP_{it}, D_{i2} = 1,
 \end{cases}
 $$
-What is the $u_{it}$?
+What is the $U_{it}$?
 
 #### TWFE Representation
 
 Compact form of representation: 
 $$
-Y_{it} = \alpha_i + \gamma SP_{it} + \delta D_{it} + u_{it}
+Y_{it} = \alpha_i + \gamma SP_{it} + \delta D_{it} + U_{it}
 $$ {#eq-causal-did-twfe-general}
 @eq-causal-did-twfe-general is called <span class="highlight">two-way fixed effect</span> model (more on that in next lecture)
 
@@ -420,7 +420,7 @@ $$ {#eq-causal-did-twfe-general}
 
 Can eliminate $\alpha_i$ by taking <span class="highlight">first differences</span> across time to get
 $$
-Y_{i2}- Y_{i1} = \gamma + \delta D_{it} + u_{i2}
+Y_{i2}- Y_{i1} = \gamma + \delta D_{it} + U_{i2}
 $$ {#eq-causal-did-twfe}
 
 #### Regression Representation: Result
@@ -435,7 +435,7 @@ $$ {#eq-causal-did-twfe}
 
 The OLS estimator $\hat{\delta}$ in @eq-causal-did-twfe satisfies
 $$
-\hat{\delta} = \widehat{ATT}^{DID},
+\hat{\delta} = \widehat{ATT}^{DiD},
 $$
 for the ATT estimator of @eq-causal-did-canonical-did-estimator.
 
@@ -450,7 +450,7 @@ Proof: by brute force evaluating the OLS estimator, see exercise set 3
 #### Regression Representation: Discussion
 
 - Like for event studies: managed to get linear regression in a nonparametric context
-- Consistency of OLS = consistency of $\widehat{ATT}^{DID}$ (exercise: prove that parallel trends equivalent to strict exogeneity of $D_{it}$)
+- Consistency of OLS = consistency of $\widehat{ATT}^{DiD}$ (exercise: prove that parallel trends equivalent to strict exogeneity of $D_{it}$)
 - Regression results: can use all results for OLS, including limit theory and inference
 
 #### Limitations
@@ -710,7 +710,7 @@ fig.add_trace(go.Choropleth(
     zmax=22,
     showscale=False,
     hovertemplate="<b>%{location}</b><br>FT-equivalent workers: %{z:.2f}",
-    name="Actual"
+    name="Actual",
 ), row=1, col=1)
 
 fig.add_trace(go.Choropleth(
@@ -737,7 +737,7 @@ fig.add_trace(go.Choropleth(
 ), row=1, col=2)
 
 fig.update_layout(
-    # height=400,  # Ensures reasonable proportions
+    width=1150, height=550,
     geo=dict(domain=dict(x=[0, 0.48], y=[0, 1]), projection=dict(type="mercator")),
     geo2=dict(domain=dict(x=[0.52, 1], y=[0, 1]), projection=dict(type="mercator")),
     font_family="Arial",

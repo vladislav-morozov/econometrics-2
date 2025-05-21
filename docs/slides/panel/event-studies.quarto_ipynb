@@ -10,6 +10,9 @@
         "author: Vladislav Morozov  \n",
         "format:\n",
         "  revealjs:\n",
+        "    include-in-header: \n",
+        "      text: |\n",
+        "        <meta name=\"description\" content=\"Panel data event studies: causal analysis, regression interpretation, and applications to Silicon Valley Bank collapse (lecture notes slides).\"/>\n",
         "    width: 1150\n",
         "    slide-number: true\n",
         "    sc-sb-title: true\n",
@@ -31,7 +34,11 @@
         "  - reveal-header  \n",
         "include-in-header: ../../themes/mathjax.html \n",
         "highlight-style: tango\n",
+        "open-graph:\n",
+        "    description: \"Panel data event studies: causal analysis, regression interpretation, and applications to Silicon Valley Bank collapse (lecture notes slides).\"\n",
         "---\n",
+        "\n",
+        "\n",
         "\n",
         "\n",
         "## Introduction {background=\"#00100F\"}\n",
@@ -63,7 +70,7 @@
         "  \n",
         ":::  \n"
       ],
-      "id": "68f9604f"
+      "id": "47fc5db4"
     },
     {
       "cell_type": "code",
@@ -84,7 +91,7 @@
         "\n",
         "BG_COLOR = \"whitesmoke\""
       ],
-      "id": "25ccd386",
+      "id": "4b0aed68",
       "execution_count": null,
       "outputs": []
     },
@@ -120,7 +127,7 @@
         "- Causal question: comparing prices after collapse with prices without collapse\n",
         "- How to do this comparison? What assumptions do we need?\n"
       ],
-      "id": "4f218206"
+      "id": "4d4c2495"
     },
     {
       "cell_type": "code",
@@ -198,7 +205,7 @@
         "    \"WTFC\",  # Wintrust Financial Corporation\n",
         "]"
       ],
-      "id": "c0fd82bc",
+      "id": "763c35da",
       "execution_count": null,
       "outputs": []
     },
@@ -907,7 +914,7 @@
         "\n",
         ". . .\n"
       ],
-      "id": "358ee01d"
+      "id": "f9419deb"
     },
     {
       "cell_type": "code",
@@ -917,7 +924,7 @@
         "event_date = pd.Timestamp(\"2023-03-08\")\n",
         "event_window = pd.Timedelta(days=10)  "
       ],
-      "id": "3b4e2d0d",
+      "id": "3e186c52",
       "execution_count": null,
       "outputs": []
     },
@@ -931,7 +938,7 @@
         "\n",
         "For estimation, use long window before SVB collapse:\n"
       ],
-      "id": "01ac18bb"
+      "id": "c44b9ce1"
     },
     {
       "cell_type": "code",
@@ -941,7 +948,7 @@
         "estimation_window = pd.Timedelta(days=500) \n",
         "start_date = event_date - event_window - estimation_window "
       ],
-      "id": "98689857",
+      "id": "080a7b1b",
       "execution_count": null,
       "outputs": []
     },
@@ -960,7 +967,7 @@
         "\n",
         "Can obtain ticker data from Yahoo Finance directly with  `yfinance` package (abbreviated as `yf`)\n"
       ],
-      "id": "d73e7910"
+      "id": "71c0d079"
     },
     {
       "cell_type": "code",
@@ -1002,7 +1009,7 @@
         "    axis=1\n",
         ").dropna(axis=0)"
       ],
-      "id": "60cb1382",
+      "id": "d735fd72",
       "execution_count": null,
       "outputs": []
     },
@@ -1024,7 +1031,7 @@
         "\n",
         "For contrast, also estimate mean model\n"
       ],
-      "id": "42b94ff0"
+      "id": "b1c35e84"
     },
     {
       "cell_type": "code",
@@ -1077,7 +1084,7 @@
         "    abnormal_returns_factor[ticker] = event_data - expected_returns\n",
         "    abnormal_returns_mean[ticker] = event_data - y.mean()"
       ],
-      "id": "1208ba98",
+      "id": "50afe2c2",
       "execution_count": null,
       "outputs": []
     },
@@ -1091,7 +1098,7 @@
         "\n",
         "#### Visualizing Average Abnormal Returns\n"
       ],
-      "id": "26143668"
+      "id": "2bf582cf"
     },
     {
       "cell_type": "code",
@@ -1218,7 +1225,7 @@
         "\n",
         "#### Generate Event Study Data {.scrollable}\n"
       ],
-      "id": "85e0dc81"
+      "id": "db953113"
     },
     {
       "cell_type": "code",
@@ -1264,7 +1271,7 @@
         "# View\n",
         "ar_factor_days.head()"
       ],
-      "id": "9d0835a3",
+      "id": "b0403142",
       "execution_count": null,
       "outputs": []
     },
@@ -1281,7 +1288,7 @@
         "\n",
         "Can now apply the event study estimator \n"
       ],
-      "id": "f1602757"
+      "id": "36840b88"
     },
     {
       "cell_type": "code",
@@ -1292,7 +1299,7 @@
         "factor_model = sm.OLS(endog, exog).fit(cov_type=\"HC0\")\n",
         "print(factor_model.summary())"
       ],
-      "id": "513e02de",
+      "id": "1816daa0",
       "execution_count": null,
       "outputs": []
     },
@@ -1316,7 +1323,7 @@
         "\n",
         "#### Computing Cumulative Effects {.scrollable}\n"
       ],
-      "id": "8a73c2ce"
+      "id": "cb601dc2"
     },
     {
       "cell_type": "code",
@@ -1375,7 +1382,7 @@
         "# Print the results\n",
         "print(results)"
       ],
-      "id": "b391a3c0",
+      "id": "4928a1d1",
       "execution_count": null,
       "outputs": []
     },
@@ -1390,7 +1397,7 @@
         "\n",
         "#### Visualizing Cumulative Effects\n"
       ],
-      "id": "61026a3b"
+      "id": "52bc2fc2"
     },
     {
       "cell_type": "code",
@@ -1469,7 +1476,7 @@
         "# Show the plot\n",
         "plt.show()"
       ],
-      "id": "f65872a4",
+      "id": "a45373c4",
       "execution_count": null,
       "outputs": []
     },
@@ -1488,7 +1495,7 @@
         "\n",
         "Use Wald test: "
       ],
-      "id": "621c4a5b"
+      "id": "aba021d2"
     },
     {
       "cell_type": "code",
@@ -1499,7 +1506,7 @@
         "wald_results = factor_model.wald_test(R,  scalar=True)\n",
         "print(wald_results)"
       ],
-      "id": "41f7dff1",
+      "id": "ebd90fc6",
       "execution_count": null,
       "outputs": []
     },
@@ -1544,7 +1551,7 @@
         "::: {#refs}\n",
         ":::"
       ],
-      "id": "bd8b131e"
+      "id": "222630fa"
     }
   ],
   "metadata": {
