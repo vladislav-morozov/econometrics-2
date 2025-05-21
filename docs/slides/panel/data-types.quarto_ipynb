@@ -10,6 +10,9 @@
         "author: Vladislav Morozov  \n",
         "format:\n",
         "  revealjs:\n",
+        "    include-in-header: \n",
+        "      text: |\n",
+        "        <meta name=\"description\" content=\"Explore different data types: cross-sectional, time series, panel, and repeated cross-sectional data classifications (lecture notes slides).\"/> \n",
         "    width: 1150\n",
         "    slide-number: true\n",
         "    sc-sb-title: true\n",
@@ -31,7 +34,11 @@
         "  - reveal-header  \n",
         "include-in-header: ../../themes/mathjax.html \n",
         "highlight-style: tango\n",
+        "open-graph:\n",
+        "    description: \"Explore different data types: cross-sectional, time series, panel, and repeated cross-sectional data classifications (lecture notes slides).\"\n",
         "---\n",
+        "\n",
+        "\n",
         "\n",
         "\n",
         "## Introduction {background=\"#00100F\"}\n",
@@ -62,7 +69,7 @@
         "\n",
         ":::  \n"
       ],
-      "id": "c41c26bd"
+      "id": "da63e9ef"
     },
     {
       "cell_type": "code",
@@ -76,7 +83,7 @@
         "BG_COLOR = \"whitesmoke\"\n",
         "FONT_COLOR = \"black\""
       ],
-      "id": "0af1dfc6",
+      "id": "c3917852",
       "execution_count": null,
       "outputs": []
     },
@@ -99,7 +106,7 @@
         "# Add country codes and set as index\n",
         "unemp_df[\"ISO3_CODE\"] = unemp_df[\"geo\"].apply(iso2_to_iso3)"
       ],
-      "id": "2ec19594",
+      "id": "b7b75434",
       "execution_count": null,
       "outputs": []
     },
@@ -234,7 +241,7 @@
         "\n",
         "#### Visual Example: Cross-Sectional Data\n"
       ],
-      "id": "5e1e7d9c"
+      "id": "9913b0ec"
     },
     {
       "cell_type": "code",
@@ -242,6 +249,7 @@
       "source": [
         "#| code-fold: true\n",
         "#| code-summary: \"Visualizing a cross-section of data\"\n",
+        "#| fig-alt: \"Visualizing cross-sectional data\"\n",
         "# Extract data\n",
         "unemp_2024_4 = unemp_df.loc[unemp_df.loc[:, \"date\"]==\"2024-Q4\", :]\n",
         " \n",
@@ -254,6 +262,7 @@
         "    color_continuous_scale=\"Oranges\",\n",
         "    hover_name=\"entity\", \n",
         "    range_color=(0, unemp_2024_4[\"unemp_rate\"].max()), \n",
+        "    width=1150, height=550,\n",
         ")\n",
         "\n",
         "# Apply dark theme settings\n",
@@ -325,7 +334,7 @@
         "\n",
         "fig.show()"
       ],
-      "id": "600ffe8f",
+      "id": "a3d88941",
       "execution_count": null,
       "outputs": []
     },
@@ -357,7 +366,7 @@
         "\n",
         "#### Visual Example of Time Series\n"
       ],
-      "id": "2dce72a6"
+      "id": "27bfd3e2"
     },
     {
       "cell_type": "code",
@@ -374,7 +383,9 @@
         "fig = px.line(\n",
         "    unemp_esp,\n",
         "    x=\"date\",\n",
-        "    y=\"unemp_rate\", )\n",
+        "    y=\"unemp_rate\", \n",
+        "        width=1150, height=550,\n",
+        "    )\n",
         "\n",
         "# Update syling\n",
         "fig.update_layout(\n",
@@ -419,7 +430,7 @@
         "\n",
         "fig.show()"
       ],
-      "id": "b1427fea",
+      "id": "0f74c6fb",
       "execution_count": null,
       "outputs": []
     },
@@ -465,7 +476,7 @@
         "\n",
         "#### Visual Example: Panel Data\n"
       ],
-      "id": "7b1afca3"
+      "id": "28410f67"
     },
     {
       "cell_type": "code",
@@ -502,7 +513,7 @@
         "    .reset_index()[\"entity\"]    \n",
         ")"
       ],
-      "id": "f1b2be34",
+      "id": "5c997c9f",
       "execution_count": null,
       "outputs": []
     },
@@ -532,6 +543,7 @@
         "    hover_name=\"entity\", \n",
         "    animation_frame=\"date\", \n",
         "    range_color=(-1, 25), \n",
+        "        width=1150, height=550,\n",
         ")\n",
         " \n",
         "\n",
@@ -633,7 +645,7 @@
         "\n",
         "fig.show()"
       ],
-      "id": "f452a3b1",
+      "id": "79aeb75d",
       "execution_count": null,
       "outputs": []
     },
@@ -703,7 +715,7 @@
         "::: {#refs}\n",
         ":::"
       ],
-      "id": "eb8f7e64"
+      "id": "fd7deb37"
     }
   ],
   "metadata": {
