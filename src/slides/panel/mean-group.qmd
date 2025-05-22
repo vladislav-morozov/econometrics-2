@@ -1,0 +1,102 @@
+---
+title: "Mean Group Estimation"
+subtitle: "Learning Average Effects in Linear Panel Data Models"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="  (lecture notes slides)."/>
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Panel Data: Mean Group"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+open-graph:
+    description: " "
+---
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture is about  
+
+<br>
+
+By the end, you should be able to
+
+- State the  
+
+#### References
+ 
+
+::: {.nonincremental}
+
+ 
+:::  
+
+ 
+
+### Empirical Motivation {background="#43464B" visibility="uncounted"}
+
+
+#### Empirical Question {.scrollable}
+
+<div class="rounded-box">
+ 
+</div>
+ 
+
+## Identification {background="#00100F"}
+
+
+#### Motivation
+ 
+
+### Subsection {background="#43464B" visibility="uncounted"}
+
+#### Set 
+
+
+## Recap and Conclusions {background="#00100F"}
+  
+#### Recap
+
+In this lecture we
+
+1. Discussed 
+
+#### Next Questions
+
+- How 
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
+
+::: footer
+
+:::
