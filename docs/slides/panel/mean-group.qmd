@@ -1,0 +1,186 @@
+---
+title: "Mean Group Estimation"
+subtitle: "Learning Average Effects in Linear Panel Data Models"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="  (lecture notes slides)."/>
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Panel Data: Mean Group"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+open-graph:
+    description: " "
+---
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture is about  
+
+<br>
+
+By the end, you should be able to
+
+- State the  
+
+#### References
+ 
+Mean group estimation rarely discussed in textbooks
+
+<br>
+
+Just two references:
+
+::: {.nonincremental}
+
+- 28.5 in @Pesaran2015TimeSeriesPanel
+- Some discussion in section 6 of [notes from my graduate class](https://vladislav-morozov.github.io/econometrics-heterogeneity/linear/linear-mean-group.html) on estimation with unobserved heterogeneity
+:::  
+
+ 
+
+### Motivation {background="#43464B" visibility="uncounted"}
+
+#### Theoretical Motivation: Model and Object of Interest
+
+Consider potential outcome model:
+$$
+Y_{it}^{\bx} = \bx'\bbeta_{\textcolor{teal}{i}} + U_{it}
+$$ {#eq-panel-mg-causal-model}
+
+<span class="highlight">Heterogeneous</span> coefficients realistic:
+
+- Different people react differently to same change in $\bx$
+- Average effect of going from $\bx_1$ to $\bx_2$ is $(\bx_2-\bx_1)'\E[\bbeta_i]$
+
+. . . 
+
+<div class="rounded-box">
+
+Want to learn $\E[\bbeta_i]$
+
+</div>
+
+#### Issue with FE Estimators and This Lecture
+
+Last time proved that under model ([-@eq-panel-mg-causal-model]) FE estimators estimate <span class="highlight">weighted</span> average 
+$$
+\hat{\bbeta}^{FE} \xrightarrow{p} \E[\bW(\tilde{\bX}_i)\bbeta_i]
+$$
+Outside of RCTs usually $\E[\bW(\tilde{\bX}_i)\bbeta_i]\neq \E[\bbeta_i]$
+
+- Weights $\bW(\cdot)$ "nice": positive definite and integrate to 1
+- But $\bW(\cdot)$ — difficult to interpret
+
+<div class="rounded-box">
+
+This lecture — way to estimate $\E[\bbeta_i]$ with panel data
+
+</div>
+
+::: footer
+
+:::
+
+#### Empirical Motivation {.scrollable}
+
+Last time discussed relationship between pollution 
+
+
+- f
+- Different resilience 
+. . . 
+
+But if coefficients heterogeneous, then what is the 
+
+<div class="rounded-box">
+ 
+</div>
+ 
+
+## Theory {background="#00100F"}
+
+### Construction {background="#43464B" visibility="uncounted"}
+
+
+#### Idea
+
+#### Individual Estimator
+
+#### Mean Group Estimator
+
+
+### Asymptotic Properties {background="#43464B" visibility="uncounted"}
+
+
+#### Consistency
+
+
+#### Asymptotic Distribution
+ 
+
+
+#### Set 
+
+## Theory {background="#00100F"}
+
+### Setting {background="#43464B" visibility="uncounted"}
+
+####
+
+A
+@Borgschulte2024AirPollutionLabor
+
+
+### Estimation and Results {background="#43464B" visibility="uncounted"}
+
+####
+
+f
+
+## Recap and Conclusions {background="#00100F"}
+  
+#### Recap
+
+In this lecture we
+
+1. Discussed 
+
+#### Next Questions
+
+- How 
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
+
+::: footer
+
+:::
