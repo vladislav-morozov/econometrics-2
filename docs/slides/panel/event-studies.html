@@ -543,11 +543,8 @@
 
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
   
-
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-
   <meta name="description" content="Panel data event studies: causal analysis, regression interpretation, and applications to Silicon Valley Bank collapse (lecture notes slides).">
 <meta property="og:title" content="Event Studies – Advanced Econometrics">
 <meta property="og:description" content="Panel data event studies: causal analysis, regression interpretation, and applications to Silicon Valley Bank collapse (lecture notes slides).">
@@ -636,7 +633,7 @@ Vladislav Morozov
 <li class="fragment">Causal question: comparing prices after collapse with prices without collapse</li>
 <li class="fragment">How to do this comparison? What assumptions do we need?</li>
 </ul>
-<div id="64e0d64f" class="cell" data-execution_count="2">
+<div id="461fc51f" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Expand for list of institutions of interest</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a>tickers <span class="op">=</span> [</span>
@@ -1309,7 +1306,7 @@ R_{it} = \bbeta_i'\bx_t + AR_{it}^0, \quad \E[AR_{it}^0\bx_t] =0
 <li class="fragment">Look for 10 days around (<span class="math inline">\(T=20\)</span>)</li>
 </ul>
 <div class="fragment">
-<div id="74f1b93d" class="cell" data-execution_count="3">
+<div id="80302273" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>event_date <span class="op">=</span> pd.Timestamp(<span class="st">"2023-03-08"</span>)</span>
 <span id="cb2-2"><a></a>event_window <span class="op">=</span> pd.Timedelta(days<span class="op">=</span><span class="dv">10</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1317,7 +1314,7 @@ R_{it} = \bbeta_i'\bx_t + AR_{it}^0, \quad \E[AR_{it}^0\bx_t] =0
 </div>
 <div class="fragment">
 <p>For estimation, use long window before SVB collapse:</p>
-<div id="644fc3e6" class="cell" data-execution_count="4">
+<div id="ada7e277" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>estimation_window <span class="op">=</span> pd.Timedelta(days<span class="op">=</span><span class="dv">500</span>) </span>
 <span id="cb3-2"><a></a>start_date <span class="op">=</span> event_date <span class="op">-</span> event_window <span class="op">-</span> estimation_window </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1332,7 +1329,7 @@ R_{it} = \bbeta_i'\bx_t + AR_{it}^0, \quad \E[AR_{it}^0\bx_t] =0
 </ul>
 <div class="fragment">
 <p>Can obtain ticker data from Yahoo Finance directly with <code>yfinance</code> package (abbreviated as <code>yf</code>)</p>
-<div id="3a7f7dac" class="cell" data-execution_count="5">
+<div id="b4cbd4ac" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Expand for data call and data preparation</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="co"># Download the tickers and rename columns to only retain ticker names</span></span>
@@ -1381,7 +1378,7 @@ R_{it} = \bbeta_i'\bx_t + AR_{it}^0, \quad \E[AR_{it}^0\bx_t] =0
 <li class="fragment">Compute <span class="math inline">\(\widehat{AR}_{it}\)</span>} and store</li>
 </ul>
 <p>For contrast, also estimate mean model</p>
-<div id="f1e820e5" class="cell" data-execution_count="6">
+<div id="043d2cb6" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Expand for estimation of abnormal returns</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="co"># Create arrays to hold abnormal returns   </span></span>
@@ -1482,7 +1479,7 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
 </section>
 <section id="generate-event-study-data" class="slide level4 scrollable">
 <h4>Generate Event Study Data</h4>
-<div id="6b584dff" class="cell" data-execution_count="8">
+<div id="03c066e0" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Expand for construction of data matrices</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="co"># Create an array for day dummies</span></span>
@@ -1559,7 +1556,7 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
 <td data-quarto-table-cell-role="th">0</td>
 <td>2023-02-27</td>
 <td>ALLY</td>
-<td>-2.330220</td>
+<td>-2.330199</td>
 <td>False</td>
 <td>False</td>
 <td>False</td>
@@ -1573,7 +1570,7 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
 <td data-quarto-table-cell-role="th">1</td>
 <td>2023-02-28</td>
 <td>ALLY</td>
-<td>2.108663</td>
+<td>2.108646</td>
 <td>False</td>
 <td>False</td>
 <td>False</td>
@@ -1587,7 +1584,7 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
 <td data-quarto-table-cell-role="th">2</td>
 <td>2023-03-01</td>
 <td>ALLY</td>
-<td>0.247488</td>
+<td>0.247480</td>
 <td>False</td>
 <td>False</td>
 <td>False</td>
@@ -1601,7 +1598,7 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
 <td data-quarto-table-cell-role="th">3</td>
 <td>2023-03-02</td>
 <td>ALLY</td>
-<td>-0.029412</td>
+<td>-0.029403</td>
 <td>False</td>
 <td>False</td>
 <td>False</td>
@@ -1615,7 +1612,7 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
 <td data-quarto-table-cell-role="th">4</td>
 <td>2023-03-03</td>
 <td>ALLY</td>
-<td>-1.057665</td>
+<td>-1.057684</td>
 <td>False</td>
 <td>False</td>
 <td>False</td>
@@ -1638,7 +1635,7 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
 <section id="event-study-ols" class="slide level4 scrollable">
 <h4>Event Study OLS</h4>
 <p>Can now apply the event study estimator</p>
-<div id="4f91940f" class="cell" data-execution_count="9">
+<div id="07ed495c" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>factor_model <span class="op">=</span> sm.OLS(endog, exog).fit(cov_type<span class="op">=</span><span class="st">"HC0"</span>)</span>
 <span id="cb7-2"><a></a><span class="bu">print</span>(factor_model.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1647,8 +1644,8 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
 Dep. Variable:                  value   R-squared:                       0.253
 Model:                            OLS   Adj. R-squared:                  0.247
 Method:                 Least Squares   F-statistic:                     25.25
-Date:                Tue, 20 May 2025   Prob (F-statistic):           1.50e-35
-Time:                        21:48:24   Log-Likelihood:                -2430.0
+Date:                Fri, 23 May 2025   Prob (F-statistic):           1.50e-35
+Time:                        15:56:44   Log-Likelihood:                -2430.0
 No. Observations:                 975   AIC:                             4878.
 Df Residuals:                     966   BIC:                             4922.
 Df Model:                           8                                         
@@ -1667,7 +1664,7 @@ day_9          1.6477      0.349      4.715      0.000       0.963       2.333
 day_10        -1.5878      0.254     -6.240      0.000      -2.087      -1.089
 ==============================================================================
 Omnibus:                      714.350   Durbin-Watson:                   1.914
-Prob(Omnibus):                  0.000   Jarque-Bera (JB):            46544.049
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):            46544.104
 Skew:                          -2.701   Prob(JB):                         0.00
 Kurtosis:                      36.414   Cond. No.                         5.88
 ==============================================================================
@@ -1691,7 +1688,7 @@ Notes:
 </section>
 <section id="computing-cumulative-effects" class="slide level4 scrollable">
 <h4>Computing Cumulative Effects</h4>
-<div id="534a6603" class="cell" data-execution_count="10">
+<div id="e1f6af8c" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Expand to see computation of cumulative effects</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a><span class="co"># Extract coefs and SEs of daily indicators</span></span>
@@ -1748,14 +1745,14 @@ Notes:
 <pre><code>           Day  Cumulative Effect        SE  ci_upper  ci_lower
 Date                                                           
 2023-03-07   0           0.000000  0.000000  0.000000  0.000000
-2023-03-08   1           0.157665  0.130041  0.412546 -0.097216
-2023-03-09   2          -2.043602  0.300032 -1.455538 -2.631665
-2023-03-10   3          -2.433045  0.529120 -1.395970 -3.470119
-2023-03-13   6          -7.797969  1.112404 -5.617657 -9.978280
-2023-03-14   7          -6.004278  1.236561 -3.580619 -8.427937
-2023-03-15   8          -4.436278  1.320873 -1.847366 -7.025189
-2023-03-16   9          -2.788578  1.383458 -0.077000 -5.500156
-2023-03-17  10          -4.376390  1.426062 -1.581308 -7.171473</code></pre>
+2023-03-08   1           0.157668  0.130041  0.412547 -0.097212
+2023-03-09   2          -2.043599  0.300032 -1.455537 -2.631662
+2023-03-10   3          -2.433041  0.529120 -1.395967 -3.470115
+2023-03-13   6          -7.797964  1.112404 -5.617652 -9.978275
+2023-03-14   7          -6.004274  1.236561 -3.580614 -8.427934
+2023-03-15   8          -4.436272  1.320874 -1.847359 -7.025184
+2023-03-16   9          -2.788573  1.383458 -0.076994 -5.500151
+2023-03-17  10          -4.376382  1.426063 -1.581299 -7.171465</code></pre>
 </div>
 </div>
 <div class="footer">
@@ -1764,7 +1761,7 @@ Date
 </section>
 <section id="visualizing-cumulative-effects" class="slide level4">
 <h4>Visualizing Cumulative Effects</h4>
-<div id="d57427be" class="cell" data-execution_count="11">
+<div id="fee21923" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1780,12 +1777,12 @@ Date
 <p><br></p>
 <div class="fragment">
 <p>Use Wald test:</p>
-<div id="80845c95" class="cell" data-execution_count="12">
+<div id="e83bd43b" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>R <span class="op">=</span> np.concatenate( (np.zeros((<span class="dv">8</span>, <span class="dv">1</span>)), np.eye(<span class="bu">len</span>(factor_model.params)<span class="op">-</span><span class="dv">1</span>)), axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb11-2"><a></a>wald_results <span class="op">=</span> factor_model.wald_test(R,  scalar<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb11-3"><a></a><span class="bu">print</span>(wald_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;Wald test (chi2): statistic=201.99417148348502, p-value=2.428069144484446e-39, df_denom=8&gt;</code></pre>
+<pre><code>&lt;Wald test (chi2): statistic=201.9941757331782, p-value=2.4280641369334108e-39, df_denom=8&gt;</code></pre>
 </div>
 </div>
 </div>

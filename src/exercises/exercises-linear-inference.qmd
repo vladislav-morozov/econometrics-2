@@ -340,7 +340,7 @@ At the same time, all the conditions of our consistency result hold, and so $\ha
 $$
 \begin{aligned}
 (\beta-\hat{\beta}) \dfrac{2}{N}\sum_{i=1}^N U_i X_i^3 \xrightarrow{p} 0, \\
-(\beta-\hat{\beta})^2 \dfrac{1}{N}\sum_{i=1}^N X_i^4. \xrightarrow{p} 0.
+(\beta-\hat{\beta})^2 \dfrac{1}{N}\sum_{i=1}^N X_i^4 \xrightarrow{p} 0.
 \end{aligned}
 $$
 By combining the above convergence results, the result on equivalence of  separate and joint convergence in probability, and the continuous mapping theorem, we conclude that
