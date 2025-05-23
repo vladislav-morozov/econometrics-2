@@ -543,23 +543,42 @@
 
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
   
+
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
   <script type="text/javascript">
+
   window.PlotlyConfig = {MathJaxConfig: 'local'};
+
   if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+
   if (typeof require !== 'undefined') {
+
   require.undef("plotly");
+
   requirejs.config({
+
       paths: {
+
           'plotly': ['https://cdn.plot.ly/plotly-2.35.2.min']
+
       }
+
   });
+
   require(['plotly'], function(Plotly) {
+
       window._Plotly = Plotly;
+
   });
+
   }
+
   </script>
+
+  
 
   <meta name="description" content="Fixed effect estimation with panel data: random intercepts, within transformations, causal properties, pyfixest application (lecture notes slides).">
 <meta property="og:title" content="Fixed Effect Estimation – Advanced Econometrics">

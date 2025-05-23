@@ -1,5 +1,5 @@
 ---
-title: "Exercises: Vector Linear Model and Asymptotics"
+title: "Exercises: Asymptotic Inference"
 format:
   html:
     toc: true
