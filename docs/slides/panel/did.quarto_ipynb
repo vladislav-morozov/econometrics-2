@@ -58,7 +58,7 @@
         "- Identify the ATT using a difference-in-differences (DiD) strategy \n",
         "- Give a regression characterization of DiD\n"
       ],
-      "id": "9d05a89b"
+      "id": "f3f7d1a6"
     },
     {
       "cell_type": "code",
@@ -72,7 +72,7 @@
         "\n",
         "from plotly.subplots import make_subplots"
       ],
-      "id": "e14a9b21",
+      "id": "c793b825",
       "execution_count": null,
       "outputs": []
     },
@@ -609,7 +609,7 @@
         "\n",
         "#### Loading and Looking at the Data\n"
       ],
-      "id": "b5f58274"
+      "id": "2f7c8ac1"
     },
     {
       "cell_type": "code",
@@ -666,7 +666,7 @@
         "ck_data = ck_data.set_index([\"store\", \"time_name\"])\n",
         "ck_data.head()"
       ],
-      "id": "01b7bf74",
+      "id": "0423438b",
       "execution_count": null,
       "outputs": []
     },
@@ -686,7 +686,7 @@
         "\n",
         "The key components of difference-in-differences are the (state, year)-specific average outcomes: "
       ],
-      "id": "dc05548a"
+      "id": "85f3deeb"
     },
     {
       "cell_type": "code",
@@ -698,7 +698,7 @@
         "emp_means = ck_data.groupby(by=[\"state_name\", \"time_name\"])[\"emp_ft\"].mean()\n",
         "print(emp_means)"
       ],
-      "id": "9c104b15",
+      "id": "bf0a06d6",
       "execution_count": null,
       "outputs": []
     },
@@ -710,7 +710,7 @@
         "\n",
         "It is easy to compute averages now. Recall that `NJ` is the treated group. Applying DiD:"
       ],
-      "id": "c0f9674c"
+      "id": "8f05d2fb"
     },
     {
       "cell_type": "code",
@@ -724,7 +724,7 @@
         "    - (emp_means.loc[(\"PA\", \"After\")] - emp_means.loc[(\"PA\", \"Before\")])\n",
         ").round(2)"
       ],
-      "id": "c0bbea38",
+      "id": "93251519",
       "execution_count": null,
       "outputs": []
     },
@@ -736,7 +736,7 @@
         "\n",
         "#### Visualizing 1992 Employment Levels\n"
       ],
-      "id": "c8c06308"
+      "id": "6d500de7"
     },
     {
       "cell_type": "code",
@@ -850,7 +850,7 @@
         "#     hovertemplate=\"%{hovertext}\"  # Ensures default hovertemplate is removed\n",
         "# ), row=1, col=1)"
       ],
-      "id": "2c968d81",
+      "id": "1d70985a",
       "execution_count": null,
       "outputs": []
     },
@@ -879,7 +879,7 @@
         "\n",
         "Differenced equation — easy to estimate with `OLS` in `statsmodels`"
       ],
-      "id": "6353d4be"
+      "id": "809b7119"
     },
     {
       "cell_type": "code",
@@ -897,7 +897,7 @@
         "fitted_model = sm.OLS(endog, exog).fit(cov_type=\"HC0\")\n",
         "print(fitted_model.summary())"
       ],
-      "id": "aa68cd84",
+      "id": "f51c601a",
       "execution_count": null,
       "outputs": []
     },
@@ -914,7 +914,7 @@
         "- Can estimate without differencing data ourselves using `linearmodels` or `pyfixest` (more details in next lecture)\n",
         "- Here use `PanelOLS` from `linearmodels` with `entity_effects` ($\\alpha_i$) and `time_effects` ($\\gamma$)\n"
       ],
-      "id": "c849b30d"
+      "id": "fbc0a1b7"
     },
     {
       "cell_type": "code",
@@ -937,7 +937,7 @@
         ").fit(cov_type=\"robust\")\n",
         "print(twfe_results)"
       ],
-      "id": "67d71f47",
+      "id": "32b2da8c",
       "execution_count": null,
       "outputs": []
     },
@@ -965,7 +965,7 @@
         "\n",
         ". . .\n"
       ],
-      "id": "9de25770"
+      "id": "801c2e94"
     },
     {
       "cell_type": "code",
@@ -983,7 +983,7 @@
         "twfe_results = lm.PanelOLS(endog, exog,  entity_effects=True, time_effects=True, drop_absorbed=True).fit(cov_type=\"robust\")\n",
         "print(twfe_results)"
       ],
-      "id": "384420f0",
+      "id": "e89d2ecd",
       "execution_count": null,
       "outputs": []
     },
@@ -1022,7 +1022,7 @@
         "\n",
         ":::"
       ],
-      "id": "2b14cd33"
+      "id": "632a2457"
     }
   ],
   "metadata": {

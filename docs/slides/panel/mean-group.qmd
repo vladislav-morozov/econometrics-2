@@ -6,7 +6,7 @@ format:
   revealjs:
     include-in-header: 
       text: |
-        <meta name="description" content="  (lecture notes slides)."/>
+        <meta name="description" content="Mean group estimator for average heterogeneous coefficients, its asymptotic properties, empirical Python example (lecture notes slides)."/>
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -29,7 +29,7 @@ filters:
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
 open-graph:
-    description: " "
+    description: "Mean group estimator for average heterogeneous coefficients, its asymptotic properties, empirical Python example (lecture notes slides)."
 ---
 
 
@@ -41,13 +41,28 @@ open-graph:
 
 #### Learning Outcomes
 
-This lecture is about  
+This lecture is about estimating the average of heterogeneous coefficients
 
 <br>
 
 By the end, you should be able to
 
-- State the  
+- Discuss when heterogeneous coefficients may arise
+- State the definition of the mean group estimator
+- Prove its theoretical properties
+
+
+```{python}
+#| code-fold: true
+#| code-summary: "Imports"
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import statsmodels.api as sm
+import plotly.express as px 
+```
 
 #### References
  
@@ -60,7 +75,7 @@ Just two references:
 ::: {.nonincremental}
 
 - 28.5 in @Pesaran2015TimeSeriesPanel
-- Some discussion in section 6 of [notes from my graduate class](https://vladislav-morozov.github.io/econometrics-heterogeneity/linear/linear-mean-group.html) on estimation with unobserved heterogeneity
+- Some discussion in section 6 of [notes from my graduate class](https://vladislav-morozov.github.io/econometrics-heterogeneity/linear/linear-mean-group.html) on estimation with unobserved heterogeneity [section 6, @Morozov2025EconometricsUnobservedHeterogeneity]
 :::  
 
  
@@ -110,18 +125,21 @@ This lecture — way to estimate $\E[\bbeta_i]$ with panel data
 
 #### Empirical Motivation {.scrollable}
 
-Last time discussed relationship between pollution 
+Last time discussed relationship between pollution and labor market outcomes using US county-level data
 
-
-- f
-- Different resilience 
 . . . 
 
-But if coefficients heterogeneous, then what is the 
 
 <div class="rounded-box">
  
+What if pollution effect differs between counties?
+
 </div>
+
+
+- E.g. due to different population characteristics (age, health, ...)
+- Would be an example of model ([-@eq-panel-mg-causal-model]). FE estimate from last time would be $\E[\bW(\tilde{\bX})\bbeta_i]$
+- <span class="highlight">What is $\E[\bbeta_i]$? </span>
  
 
 ## Theory {background="#00100F"}
@@ -129,52 +147,595 @@ But if coefficients heterogeneous, then what is the
 ### Construction {background="#43464B" visibility="uncounted"}
 
 
-#### Idea
+#### Model and Data
+
+Vector form of realized outcomes in model ([-@eq-panel-mg-causal-model]):
+$$
+\bY_i = \bX_i\bbeta_i + \bU_i
+$$
+$\bbeta_i$ — $p$-vector. Interested in $\E[\bbeta_i]$
+
+. . .
+
+<br>
+
+<div class="rounded-box">
+
+**Assumption**: $T\geq p$
+
+</div>
+At least as many observations as there are coefficients
 
 #### Individual Estimator
 
+Key component — <span class="highlight"> individual estimators </span>
+$$
+\hat{\bbeta}_i = (\bX_i'\bX_i)^{-1}\bX_i'\bY_i
+$$
+
+- $\hat{\bbeta}_i$ — simply running OLS using the data only on unit $i$
+- We assume that $(\bX_i'\bX_i)^{-1}$ exists
+  - Assumption of variation in $\bX_{it}$ for unit $i$
+  - May be tougher to satisfy if $T$ is small and $\bX_{it}$ has discrete regressors
+
+
 #### Mean Group Estimator
+
+<br>
+
+<div class="rounded-box">
+
+::: {#def-panel-mg-mg-estimator}
+
+The mean group (MG) estimator is defined as
+$$
+\hat{\bbeta}^{MG} = \dfrac{1}{N}\sum_{i=1}^N \hat{\bbeta}_i
+$$
+
+:::
+
+</div>
+
+Cross-sectional average of individual OLS estimators
+
+#### MG Estimation with Singular $(\bX_i'\bX_i)$
+
+- So far: assumed that all units had invertible $(\bX_i'\bX_i)$
+- If not true, can average only units which have invertible $(\bX_i'\bX_i)$ (=can compute $\hat{\bbeta}_i$)
+
+. . . 
+
+Can define MG estimator over such units as
+
+$$ \small
+\hat{\bbeta}^{MG, +}  = \dfrac{1}{\sum_{i=1}^N \I\curl{\det(\bX_i'\bX_i)>0} } \sum_{i=1}^N \I\curl{\det(\bX_i'\bX_i)>0} \hat{\bbeta}_i
+$$
+
+ 
+
+
 
 
 ### Asymptotic Properties {background="#43464B" visibility="uncounted"}
 
+#### Representation of $\hat{\bbeta}^{MG}$
 
-#### Consistency
+Key expansion:
+$$
+\begin{aligned}
+\hat{\bbeta}^{MG} & = \dfrac{1}{N}\sum_{i=1}^N \bbeta_i + \dfrac{1}{N} \sum_{i=1}^N (\bX_i'\bX_i)^{-1}\bX_i'\bU_i
+\end{aligned} 
+$$
 
+. . .
+
+<br>
+
+
+- How to prove asymptotic properties? 
+- Recall: usually want to impose assumptions on the "primitive" components $(\bbeta_i, \bX_i, \bU_i)$
+
+#### Technique: Represent in Terms of One Vector
+
+ 
+
+Represent $\hat{\bbeta}^{MG}$ as a continuous transformation of a single vector average:
+$$
+\hat{\bbeta}^{MG}  = \begin{pmatrix}
+\bI_p & \bI_p
+\end{pmatrix} \left[ \dfrac{1}{N} \sum_{i=1}^N \underbrace{\begin{pmatrix}
+\bbeta_i \\
+(\bX_i'\bX_i)^{-1}\bX_i'\bU_i
+\end{pmatrix}}_{=\bW_i} \right]
+$$
+
+. . . 
+
+Can now prove consistency and asymptotic normality results by applying LLN+CLT to $\bW_i$, then use CMT (<span class="highlight">exercise</span>)
+
+
+#### Consistency of the MG Estimator
+
+<div class="rounded-box">
+
+::: {#prp-panel-mg-consistency}
+
+If 
+
+1. Units are IID
+2. $\E[\bU_i|\bX_i]=0$
+3. $\E\left[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}\right]<\infty$, $\E[\norm{\bbeta_i}]<\infty$
+
+Then as $N\to\infty$, $T\geq p$ fixed
+$$
+\hat{\bbeta}^{MG} \xrightarrow{p} \E[\bbeta_i]
+$$
+
+:::
+
+</div>
+
+::: footer
+
+Assuming that $\E[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}]<\infty$ — assumption of sufficient variation on $\bX_i$
+
+::: 
 
 #### Asymptotic Distribution
  
+<div class="rounded-box">
+
+::: {#prp-panel-mg-distribution}
+
+If 
+
+1. Units are IID
+2. $\E[\bU_i|\bbeta_i, \bX_i]=0$
+3. $\E\left[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}^2r\right]<\infty$, $\E[\norm{\bbeta_i}^2]<\infty$
+
+Then as $N\to\infty$, $T\geq p$ fixed
+$$\small
+\sqrt{N}\left(\hat{\bbeta}^{MG} - \E[\bbeta_i] \right) \xrightarrow{d} N(0, \var(\bbeta_i) + \var\left( (\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right)
+$$
+
+:::
+
+</div>
+
+::: footer
+
+Notice stronger form of strict exogeneity!
+
+:::
+
+#### Estimating the Asymptotic Variance
+
+Need $\widehat{\avar}(\hat{\bbeta}^{MG})$ if we want to do inference on $\E[\bbeta_i]$
+
+. . .
+
+<br>
+
+Correct answer — the simplest one: 
+
+- $\hat{\bbeta}^{MG}$ — sample average of $\hat{\bbeta}_i$
+- Way to estimate variance — sample variance of $\hat{\bbeta}_i$:
+$$ \small
+\begin{aligned}
+& \dfrac{1}{N}\sum_{i=1}^N(\hat{\bbeta_i}-\hat{\bbeta}^{MG})(\hat{\bbeta_i}-\hat{\bbeta}^{MG})'\xrightarrow{p} \var\left(\hat{\bbeta}_i \right) = \avar\left(\hat{\bbeta}^{MG}\right)
+\end{aligned}
+$$
+
+::: footer
+
+Pretty obvious result and follows directly from LLN and CLT. But useful to express the MG estimator in terms of the "primitive" data $(\bX_i, \bU_i)$
+
+:::
 
 
-#### Set 
+## Empirical Illustration {background="#00100F"}
 
-## Theory {background="#00100F"}
+### Context and Setting {background="#43464B" visibility="uncounted"}
 
-### Setting {background="#43464B" visibility="uncounted"}
+#### Reminder: Empirical Question
 
-####
+Recall: studying relationship between pollution and earnings using approach of @Borgschulte2024AirPollutionLabor
 
-A
-@Borgschulte2024AirPollutionLabor
+- Data: quarterly county-level data from the USA
+- Exogenous measure of pollution: number of days with wildfire smoke
+- Outcomes: average earnings in county
 
+
+#### Reminder: Previous Empirical Strategy
+ 
+Last time assumed that two random intercepts <span class="highlight"> sufficient </span> to capture important unobserved components:
+
+- County-season
+- State-year
+
+. . .
+
+Unit of analysis effectively county in given season (e.g. King County in summer is a single $i$)
+
+. . .
+
+<br>
+
+
+After that assumed that effect of pollution was same between places
+
+#### Allowing Different Effects
+
+What if pollution effects <span class="highlight">differ</span> between counties and seasons? 
+
+- Specify model as example of ([-@eq-panel-mg-causal-model])
+$$ \small
+Y_{it}^{\bx} = \alpha_i + \beta_i\text{Smoke Days}_{it} + \text{State-Year FE} + U_{it}
+$$
+$i$ — county in given season; $t$ — years
+- Keep state-year effect to capture "global" effects
+- $\E[\beta_i]$ — object of interest
+
+ 
 
 ### Estimation and Results {background="#43464B" visibility="uncounted"}
 
-####
+#### Estimation Steps
 
-f
+Our approach to estimating with $\E[\beta_i]$ with mean group estimator:
+
+1. Eliminate state-year FE
+2. Compute all individual effects
+3. Compute MG estimator
+
+. . . 
+
+<br>
+
+
+Step (1) not part of MG estimation, included here due to our model
+
+#### Eliminating State-Year FE {.scrollable}
+
+- How do we eliminate state-year random intercept?
+- One-way within transformation: 
+  - Average inside each (state-year)
+  - Take out that average from $Y_{it}$ and $X_{it}$
+
+```{python} 
+#| echo: true
+#| code-fold: true
+#| code-summary: "Loading, preparing data. Eliminating state-year random intercepts"
+
+# Load data
+columns_to_load = [
+    "countyfip",                # FIPS
+    "rfrnc_yr",                 # Year
+    "rfrnc_qtroy",              # Quarter 
+    "d_pc_qwi_payroll",         # Earnings (annual diff) 
+    "hms_deep",                 # Number of smoke days
+    "fe_countyqtroy",
+    "fe_styr",
+    "fe_stqtros",
+    "seer_pop",                 # Population 
+]
+county_df = pd.read_csv(
+  "data/county_quarter.tab", 
+  sep="\t", 
+  usecols=columns_to_load,
+)
+
+# Rename columns
+column_rename_dict = {
+  "countyfip":"fips",
+  "rfrnc_yr":"year",
+  "rfrnc_qtroy":"quarter",
+  "d_pc_qwi_payroll":"diff_payroll", 
+  "hms_deep":"smoke_days",
+  "fe_countyqtroy":"fe_id_county_quarter",
+  "fe_styr":"fe_id_state_year",
+  "fe_stqtros":"fe_id_state_quarter",
+  "seer_pop":"population",
+}
+county_df = county_df.rename(columns=column_rename_dict)
+ 
+# Drop missing rows
+county_df.dropna(inplace=True)
+
+# Subtract state-year averages
+county_df[["diff_payroll_no_state_year", "smoke_days_no_state_year"]] = (
+  county_df.groupby("fe_id_state_year")[["diff_payroll", "smoke_days"]]
+  .transform(lambda x: x-x.mean())
+)
+```
+
+
+::: footer
+
+:::
+
+#### Computing The MG Estimator {.scrollable}
+
+Mean group not implemented anywhere (to the best of my knowledge), but very easy to do by hand
+
+- With a `for`-loop
+- By grouping the data based on county-quarter ID
+
+ 
+. . .
+
+A small function for running individual regressions:
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Function for running unit-level OLS"
+
+def run_individual_regression(county_quarter_df: pd.DataFrame) -> np.float64:
+  """
+  Compute the OLS coefficient for 'smoke_days_no_state_year' on 'diff_payroll' 
+  for a given county-quarter DataFrame.
+
+  Parameters
+  ----------
+  county_quarter_df : pd.DataFrame
+    DataFrame containing at least the columns 'diff_payroll' and 'smoke_days_no_state_year'.
+
+  Returns
+  -------
+  np.float64
+    Estimated coefficient for 'smoke_days_no_state_year'.
+
+  Raises
+  ------
+  KeyError
+    If required columns are missing.
+  ValueError
+    If regression cannot be performed (e.g., insufficient data).
+  """ 
+
+  try:
+    y = county_quarter_df['diff_payroll_no_state_year']
+    X = sm.add_constant(county_quarter_df['smoke_days_no_state_year'])
+    model = sm.OLS(y, X)
+    results = model.fit()
+    coef = results.params['smoke_days_no_state_year']
+    return coef
+  except KeyError as e:  # Column missing
+      raise ValueError(f"Required column missing: {e}")
+  except ValueError as e:  # Regression-related issues
+      raise ValueError(f"Regression could not be performed: {e}")
+
+```
+
+Apply OLS to each $i$:
+
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Running individual estimation"
+
+ind_ests = (
+  county_df.groupby("fe_id_county_quarter") 
+  .apply(lambda x: run_individual_regression(x), include_groups=False)
+)
+ind_ests.name = "ind_estimates"
+
+# Merge back with data
+ind_ests = (
+  county_df[['fips', 'fe_id_county_quarter', 'quarter']]
+    .drop_duplicates()
+    .merge(ind_ests, left_on="fe_id_county_quarter", right_index=True)
+)
+```
+
+::: footer
+
+:::
+
+#### Results
+
+Our mean group estimates in Q3 (~summer)
+```{python}
+#|echo: true
+ind_ests.loc[ind_ests["quarter"]==3, "ind_estimates"].mean()
+```
+
+Negative and not far from FE value
+ 
+. . . 
+
+But:
+```{python}
+#|echo: true
+ind_ests.loc[ind_ests["quarter"]==3, "ind_estimates"].std()
+```
+
+Large standard deviation! Cannot reject $\E[\beta_i]=0$ — <span class="highlight">do not have</span> the finding of @Borgschulte2024AirPollutionLabor in this model
+
+#### Visualizing Density of $\hat{\beta}_i$
+
+
+
+```{python}
+#| code-fold: true
+#| code-summary: "Visualizing the density of individual estimates"
+
+# Set colors 
+
+BG_COLOR = "whitesmoke"
+FONT_COLOR = "black"
+GEO_COLOR = "rgb(201, 201, 201)"
+OCEAN_COLOR = "rgb(136, 136, 136)" 
+
+# Select quarter and extract data
+QUARTER = 3
+plot_data = ind_ests.loc[ind_ests["quarter"]==QUARTER, "ind_estimates"]
+ 
+fig, ax = plt.subplots(figsize=(14, 6.5))
+
+# Add density
+sns.kdeplot(
+  plot_data, 
+  ax=ax,
+  linewidth=3,
+  label='Density of $\\hat{\\beta}$',
+)
+
+# Add line at 0 and mean
+ax.axvline(0, color='whitesmoke', linestyle='--', linewidth=0.5, label='')
+ax.axvline(plot_data.mean(), linestyle='--', linewidth=0.5, label='$E[\\beta]$')
+
+# Colors
+fig.patch.set_facecolor(BG_COLOR)
+ax.set_facecolor(BG_COLOR) 
+ax.spines["top"].set_color(FONT_COLOR)
+ax.spines["bottom"].set_color(FONT_COLOR)
+ax.spines["left"].set_color(FONT_COLOR)
+ax.spines["right"].set_color(FONT_COLOR)
+ax.tick_params(colors=FONT_COLOR)
+
+# Limits, legend, text
+ax.set_xlim([-150, 100])
+ax.legend()
+ax.set_title('Density of Individual Estimators (Q3 Effects)', color=FONT_COLOR, loc='left', weight='bold')
+ax.set_xlabel('')
+plt.show()
+ 
+```
+
+#### Why Such a Large Standard Deviation?
+
+Density of $\hat{\beta}_i$ wide, could be due to two reasons: 
+
+- Large $\var(\beta_i)$. Means $\E[\beta_i]$ would be difficult to estimate even without estimation noise
+- Large $\var((\bX_i'\bX_i)^{-1}\bX_i'\bU_i)$ — estimation noise dominates
+
+
+. . . 
+
+<br> 
+
+In first case collecting more $T$ would not help
+
+
+
+
+::: footer
+
+Variance $\var(\beta_i)$ can be actually identified and estimated, see [some of my notes](https://vladislav-morozov.github.io/econometrics-heterogeneity/linear/linear-coefficient-variance.html) [section 7, @Morozov2025EconometricsUnobservedHeterogeneity]
+
+:::
+
+#### Visualizing Geography of Effects
+
+
+```{python}
+#| code-fold: true
+#| code-summary: "Geographic distribution of effects"
+
+
+
+# Load the shapefile
+shapefile_path = "data/us_counties/USA_Counties.shp"
+gdf = gpd.read_file(shapefile_path)
+gdf = gdf.to_crs(epsg=4326) 
+gdf["geometry"] = gdf["geometry"].buffer(0)
+ 
+ind_ests["fips"] = ind_ests["fips"].astype(str).str.zfill(5)
+
+merged_data = gdf.merge(ind_ests, left_on="FIPS", right_on="fips", how="right") 
+merged_data = merged_data.loc[merged_data["quarter"]==QUARTER,["NAME", "fips", "geometry", "ind_estimates"]]
+merged_data = merged_data.set_index('fips')
+
+# Define custom range limits
+vmin, vmax = -5, 5  # Trim extreme values while keeping a balance
+
+# Clip data values to avoid excessive white in the middle
+merged_data["scaled_value"] = np.clip(merged_data["ind_estimates"], vmin, vmax)  
+
+# Create choropleth map
+fig = px.choropleth(merged_data, 
+                     geojson=merged_data.geometry,
+                     locations=merged_data.index, 
+                     color="scaled_value",
+                     scope="usa", 
+                     color_continuous_scale="PuOr",
+                     custom_data=["NAME", "ind_estimates"], 
+                     color_continuous_midpoint=0,
+                     width=1150, height=550,
+)
+
+
+# Apply dark theme settings
+fig.update_layout( 
+    font_family="Arial",
+    plot_bgcolor=BG_COLOR,
+    paper_bgcolor=BG_COLOR,
+    font=dict(color=FONT_COLOR), 
+    title=dict(
+        text="<b>Effect of an Additional Day of Wildfire Smoke on Quarterly Earnings (Q3 Effects)</b>",
+        x=0.03,
+        xanchor="left",
+        y=0.97,
+        yanchor="top",
+        font=dict(color=FONT_COLOR, size=20)
+    ),
+    margin=dict(l=20, r=20, t=60, b=20),  
+    coloraxis_colorbar=dict(
+        title=dict(
+            text="Smoke days",
+            font=dict(color=FONT_COLOR, size=12),
+            side="right"
+        ),
+        tickfont=dict(color=FONT_COLOR, size=10), 
+        len=0.7,
+        thickness=20,
+        x=1.02,
+        yanchor="middle",
+        y=0.5
+    )
+)
+ 
+fig.update_geos(fitbounds="locations", visible=False,
+    bgcolor=BG_COLOR,  # Map background
+    landcolor=GEO_COLOR,  # Land color
+    lakecolor=OCEAN_COLOR,  # Water color
+    showocean=True,
+    oceancolor=OCEAN_COLOR, )
+
+fig.update_traces(
+    hovertemplate="<b>%{customdata[0]}</b><br>Estimated effect: earnings change by %{customdata[1]:.2f} dollars"
+)
+fig.show()
+
+```
+
+
+
+::: footer
+
+If the map on this slide is not showing up, reload the page
+
+:::
 
 ## Recap and Conclusions {background="#00100F"}
   
 #### Recap
 
+<br>
+
 In this lecture we
 
-1. Discussed 
+1. Proposed the mean group estimator as an approach to estimating $\E[\bbeta_i]$
+2. Discussed its asymptotic properties 
 
 #### Next Questions
 
-- How 
+<br>
+
+- What if we don't care about causal parameters and only want to predict outcomes?
+- When does strict exogeneity fail? What is the impact of that failure?  
+- How to work with panel data in nonlinear settings?
 
 #### References {.allowframebreaks visibility="uncounted"}
 
