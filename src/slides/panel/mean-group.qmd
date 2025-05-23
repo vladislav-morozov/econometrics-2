@@ -129,26 +129,179 @@ But if coefficients heterogeneous, then what is the
 ### Construction {background="#43464B" visibility="uncounted"}
 
 
-#### Idea
+#### Model and Data
+
+Vector form of realized outcomes in model ([-@eq-panel-mg-causal-model]):
+$$
+\bY_i = \bX_i\bbeta_i + \bU_i
+$$
+
+- $\bbeta_i$ — $p$-vector
+- Assume that $T\geq p$ (at least as many observations as there are coefficients)
+- Interested in $\E[\bbeta_i]$
+
 
 #### Individual Estimator
 
+Key component — <span class="highlight"> individual estimators </span>
+$$
+\hat{\bbeta}_i = (\bX_i'\bX_i)^{-1}\bX_i'\bY_i
+$$
+
+- $\hat{\bbeta}_i$ — simply running OLS using the data only on unit $i$
+- We assume that $(\bX_i'\bX_i)^{-1}$ exists
+  - Assumption of variation in $\bX_{it}$ for unit $i$
+  - May be tougher to satisfy if $T$ is small and and $\bX_{it}$ has discrete regressors
+
+
 #### Mean Group Estimator
+
+<br>
+
+<div class="rounded-box">
+
+::: {#def-panel-mg-mg-estimator}
+
+The mean group (MG) estimator is defined as
+$$
+\hat{\bbeta}^{MG} = \dfrac{1}{N}\sum_{i=1}^N \hat{\bbeta}_i
+$$
+
+:::
+
+</div>
+
+Cross-sectional average of individual OLS estimators
+
+#### MG Estimation with Singular $(\bX_i'\bX_i)$
+
+- Before assumed that all units had invertible $(\bX_i'\bX_i)$
+- If not true, can average only units which have invertible $(\bX_i'\bX_i)$ (=can compute $\hat{\bbeta}_i$)
+
+. . . 
+
+Can define MG estimator over such units as
+
+$$ \small
+\hat{\bbeta}^{MG, +}  = \dfrac{1}{\sum_{i=1}^N \I\curl{\det(\bX_i'\bX_i)>0} } \sum_{i=1}^N \I\curl{\det(\bX_i'\bX_i)>0} \hat{\bbeta}_i
+$$
+
+ 
+
+
 
 
 ### Asymptotic Properties {background="#43464B" visibility="uncounted"}
 
+#### Representation of $\hat{\bbeta}^{MG}$
 
-#### Consistency
+Key expansion:
+$$
+\begin{aligned}
+\hat{\bbeta}^{MG} & = \dfrac{1}{N}\sum_{i=1}^N \bbeta_i + \dfrac{1}{N} \sum_{i=1}^N (\bX_i'\bX_i)^{-1}\bX_i'\bU_i
+\end{aligned} 
+$$
 
+. . .
+
+<br>
+
+
+How to prove asymptotic properties? 
+
+#### Technique: Represent in Terms of One Vector
+
+ 
+
+Represent $\hat{\bbeta}^{MG}$ as a continuous transformation of a single vector average:
+$$
+\hat{\bbeta}^{MG}  = \begin{pmatrix}
+\bI_p & \bI_p
+\end{pmatrix} \left[ \dfrac{1}{N} \sum_{i=1}^N \underbrace{\begin{pmatrix}
+\bbeta_i \\
+(\bX_i'\bX_i)^{-1}\bX_i'\bU_i
+\end{pmatrix}}_{=\bW_i} \right]
+$$
+
+. . . 
+
+Can now prove consistency and asymptotic normality results by applying LLN+CLT to $\bW_i$, then use CMT (<span class="highlight">exercise</span>)
+
+
+#### Consistency of the MG Estimator
+
+<div class="rounded-box">
+
+::: {#prp-panel-mg-consistency}
+
+If 
+
+1. Units are IID
+2. $\E[\bU_i|\bX_i]=0$
+3. $\E[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}]<\infty$, $\E[\norm{\bbeta_i}]<\infty$
+
+Then as $N\to\infty$, $T$ fixed
+$$
+\hat{\bbeta}^{MG} \xrightarrow{p} \E[\bbeta_i]
+$$
+
+:::
+
+</div>
+
+::: footer
+
+Assuming that $\E[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}]<\infty$ — assumption of sufficient variation on $\bX_i$
+
+::: 
 
 #### Asymptotic Distribution
  
+<div class="rounded-box">
+
+::: {#prp-panel-mg-distribution}
+
+If 
+
+1. Units are IID
+2. $\E[\bU_i|\bbeta_i, \bX_i]=0$
+3. $\E[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}^2]<\infty$, $\E[\norm{\bbeta_i}^2]<\infty$
+
+Then as $N\to\infty$, $T$ fixed
+$$\small
+\sqrt{N}\left(\hat{\bbeta}^{MG} - \E[\bbeta_i] \right) \xrightarrow{d} N(0, \var(\bbeta_i) + \var\left( (\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right)
+$$
+
+:::
+
+</div>
+
+#### Estimating the Asymptotic Variance
+
+Need $\avar(\hat{\bbeta}^{MG})$ if we want to do inference on $\E[\bbeta_i]$
+
+. . .
+
+<br>
+
+Correct answer — the simplest one: 
+
+- $\hat{\bbeta}^{MG}$ — sample average of $\hat{\bbeta}_i$
+- Way to estimate variance — sample variance of $\hat{\bbeta}_i$:
+$$ \small
+\begin{aligned}
+& \dfrac{1}{N}\sum_{i=1}^N(\hat{\bbeta_i}-\hat{\bbeta}^{MG})(\hat{\bbeta_i}-\hat{\bbeta}^{MG})'\xrightarrow{p} \var\left(\hat{\bbeta}_i \right) = \avar\left(\hat{\bbeta}^{MG}\right)
+\end{aligned}
+$$
+
+::: footer
+
+Pretty obvious result and follows directly from LLN and CLT. But useful to express the MG estimator in terms of the "primitive" data $(\bX_i, \bU_i)$
+
+:::
 
 
-#### Set 
-
-## Theory {background="#00100F"}
+## Empirical Illustration {background="#00100F"}
 
 ### Setting {background="#43464B" visibility="uncounted"}
 
@@ -159,6 +312,10 @@ A
 
 
 ### Estimation and Results {background="#43464B" visibility="uncounted"}
+
+#### 
+
+Mean group not implemented anywhere (to the best of my knowledge), but very easy to do by hand
 
 ####
 
@@ -174,7 +331,8 @@ In this lecture we
 
 #### Next Questions
 
-- How 
+- What if we don't care about causal parameters and only want to predict outcomes?
+- When does strict exogeneity fail? What is the impact of that failure?  
 
 #### References {.allowframebreaks visibility="uncounted"}
 
