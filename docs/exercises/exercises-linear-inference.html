@@ -682,6 +682,59 @@ Y_i^{\bx} = \bx'\bbeta + U_i.
 <li>Why do we require that <span class="math inline">\(\ba\neq 0\)</span> in the previous question?</li>
 </ol>
 <p>In both cases remember to show that your test is consistent and has the desired asymptotic size.</p>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p><em>First subquestion</em>: to choose our test statistic, we observe two facts:</p>
+<ul>
+<li>We are dealing with a scalar hypothesis,</li>
+<li>The OLS estimator is consistent and asymptotically normal (why?).</li>
+</ul>
+<p>Accordingly, we can use the t-test. The t-statistic is given by <span class="math display">\[
+t = \dfrac{\hat{\bbeta}_k - c}{ \sqrt{ \widehat{\avar}(\hat{\bbeta})/N  } },
+\]</span> where <span class="math inline">\(\hat{\bbeta}\)</span> is the OLS estimator, <span class="math inline">\(\widehat{\avar}(\hat{\bbeta})\)</span> is some consistent estimator of <span class="math inline">\(\avar(\bbeta)\)</span> (e.g.&nbsp;the HC0 estimator from the lectures)</p>
+<p>Our test is based on the following decision rule. Let <span class="math inline">\(z_{1-\alpha/2}\)</span> be the <span class="math inline">\((1-\alpha/2)\)</span>th quantile of the standard normal distribution. Then:</p>
+<ul>
+<li>If <span class="math inline">\(\abs{t}&gt;z_{1-\alpha/2}\)</span>, we reject <span class="math inline">\(H_0\)</span>.</li>
+<li>If <span class="math inline">\(\abs{t}\leq z_{1-\alpha/2}\)</span>, we do not reject <span class="math inline">\(H_0\)</span>.</li>
+</ul>
+<p>We now need to show that this test is consistent and has the desired asymptotic size.</p>
+<ul>
+<li><p><strong>Consistency</strong>: We need to show that the probability of rejecting <span class="math inline">\(H_0\)</span> converges to 1 when <span class="math inline">\(H_0\)</span> is false. Let <span class="math inline">\(\beta_k\)</span> be the true value of the coefficient of interest, and write <span class="math display">\[
+t = \dfrac{\hat{\bbeta}_k - \beta_k}{ \sqrt{ \widehat{\avar}(\hat{\bbeta})/N  } } + \dfrac{ \beta_k- c}{ \sqrt{ \widehat{\avar}(\hat{\bbeta})/N  } }.
+\]</span> By our asymptotic normality results, the first term converges in distribution to a <span class="math inline">\(N(0, 1)\)</span> random variable. By our assumptions, <span class="math inline">\(\widehat{\avar}(\hat{\bbeta})\xrightarrow{p} \avar(\hat{\bbeta})\neq 0\)</span>. Under the alternative, <span class="math inline">\(\beta_k\neq c\)</span>, and so the second term diverges to <span class="math inline">\(\pm \infty\)</span>. It then follows that with probability approaching one <span class="math inline">\(\abs{t}&gt; z_{1-\alpha/2}\)</span> for any <span class="math inline">\(\beta_k\neq c\)</span>. In other words, consistency holds.</p></li>
+<li><p><strong>Asymptotic size</strong>: We need to show that the probability of rejecting <span class="math inline">\(H_0\)</span> converges to <span class="math inline">\(\alpha\)</span> when <span class="math inline">\(H_0\)</span> is true. Under <span class="math inline">\(H_0\)</span> it holds that <span class="math inline">\(\beta_k=c\)</span>, and thus our asymptotic results and Slutsky’s theorem imply that <span class="math display">\[
+t = \dfrac{\hat{\bbeta}_k - \beta_k}{ \sqrt{ \widehat{\avar}(\hat{\bbeta})/N  } } \xrightarrow{d} N(0, 1).
+\]</span> By definition of convergence of probability, definition of <span class="math inline">\(z_{1-\alpha/2}\)</span> and the fact that <span class="math inline">\(z_{1-\alpha/2} = -z_{\alpha/2}\)</span>, it holds that <span class="math display">\[
+\begin{aligned}
+&amp; P\left(\text{Reject} H_0|H_0 \right) = P\left(\abs{t}&gt;z_{1-\alpha/2} |H_0\right) \\
+&amp; = P\left( \abs{ \dfrac{\hat{\beta}_k-c}{\sqrt{ \widehat{\avar}(\hat{\beta}_k)/N }  }}&gt; z_{1-\alpha/2}\Bigg|H_0 \right)\\
+&amp; \to \Phi(z_{\alpha/2}) + (1- \Phi(z_{1-\alpha/2})) = \alpha
+\end{aligned}.
+\]</span> The test has asymptotic size <span class="math inline">\(\alpha\)</span>.</p></li>
+</ul>
+<p><br></p>
+<p><em>Second subquestion</em>: the question explicitly asks for a <span class="math inline">\(t\)</span>-test, and so we use the following <span class="math inline">\(t\)</span>-statistic as the basis for our test: <span id="eq-exercises-inference-t-single-linear"><span class="math display">\[
+t = \dfrac{\ba'\hat{\bbeta} - c}{ \sqrt{ \widehat{\avar}(\ba'\hat{\bbeta})/N  } },
+\tag{1}\]</span></span> The key question is how to construct a suitable estimator <span class="math inline">\(\widehat{\avar}(\ba'\bbeta)\)</span> for <span class="math inline">\(\avar(\ba'\bbeta)\)</span>.</p>
+<p>By the continuous mapping theorem it holds that <span class="math display">\[
+\sqrt{N}(\ba'\hat{\bbeta}- \ba'\bbeta) \xrightarrow{d} N(0, \ba'\avar(\bbeta)\ba).
+\]</span> By the continuous mapping theorem again: <span class="math display">\[
+\ba'\widehat{\avar}(\hat{\bbeta})\ba \xrightarrow{p}\ba'{\avar}(\hat{\bbeta})\ba  = \avar(\ba'\hat{\bbeta})
+\]</span> Hence, we can use <span class="math inline">\(\ba'\widehat{\avar}(\hat{\bbeta})\ba\)</span> as <span class="math inline">\(\widehat{\avar}(\ba'\bbeta)\)</span> in <a href="#eq-exercises-inference-t-single-linear" class="quarto-xref">Equation&nbsp;1</a>. With this choice, it follows by Slutsky’s theorem that <span id="eq-exercises-inference-t-single-linear-limit"><span class="math display">\[
+\dfrac{\ba'\hat{\bbeta} - \ba'\bbeta}{ \sqrt{ \widehat{\avar}(\ba'\hat{\bbeta})/N  } } \xrightarrow{d} N(0, 1).
+\tag{2}\]</span></span></p>
+<p>Our decision rule is analogous to the above one:</p>
+<ul>
+<li>If <span class="math inline">\(\abs{t}&gt;z_{1-\alpha/2}\)</span>, we reject <span class="math inline">\(H_0\)</span>.</li>
+<li>If <span class="math inline">\(\abs{t}\leq z_{1-\alpha/2}\)</span>, we do not reject <span class="math inline">\(H_0\)</span>.</li>
+</ul>
+<p>Consistency and asymptotic size can be shown entirely analogously to the above case by using <a href="#eq-exercises-inference-t-single-linear-limit" class="quarto-xref">Equation&nbsp;2</a> (show them regardless to practice!).</p>
+<p><br></p>
+<p><em>Third subquestion</em>: if <span class="math inline">\(\ba=0\)</span>, then the null hypothesis is trivially true and reduces to <span class="math inline">\(H_0: 0=c\)</span>. It is either trivially true or trivially false, depending on <span class="math inline">\(c\)</span>.</p>
+<p><br></p>
+</details>
 </section>
 <section id="testing-several-linear-restrictions" class="level3">
 <h3 class="anchored" data-anchor-id="testing-several-linear-restrictions">Testing Several Linear Restrictions</h3>
@@ -695,12 +748,58 @@ H_0: \begin{cases}
 \beta_2 = 4\beta_4 + 5,
 \end{cases} \quad H_1: \text{at least one equality in $H_0$ fails}
 \]</span> Propose a consistent test for <span class="math inline">\(H_0\)</span> vs.&nbsp;<span class="math inline">\(H_1\)</span> with asymptotic size <span class="math inline">\(\alpha\)</span>. Show that the test possesses these properties.</p>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p>First, we write the null hypothesis in matrix form. We can do this by stacking the three equations in <span class="math inline">\(H_0\)</span> into a single vector equation: <span class="math display">\[
+\begin{aligned}
+H_0: &amp; \bR\bbeta = \bq, \\
+\bR &amp; = \begin{pmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; \cdots\\
+0 &amp; 1 &amp; -1 &amp; 0 &amp; \cdots\\
+0 &amp; 1 &amp; 0 &amp; -4 &amp; \cdots
+\end{pmatrix}, \quad \bq = \begin{pmatrix}
+0\\
+1\\
+5
+\end{pmatrix},
+\end{aligned}
+\]</span> where <span class="math inline">\(\bR\)</span> has zero columns starting from the fifth column.</p>
+<p>We can construct a Wald test for <span class="math inline">\(H_0\)</span> vs.&nbsp;<span class="math inline">\(H_1\)</span>. The Wald statistic is defined as <span class="math display">\[
+W = N\left(\bR\hat{\bbeta} - \bq \right)' \left(\bR\widehat{\avar}(\hat{\bbeta})\bR' \right)^{-1} \left( \bR\hat{\bbeta} - \bq  \right)
+\]</span></p>
+<p>We propose the following test. Let <span class="math inline">\(c_{1-\alpha}\)</span> be the <span class="math inline">\((1-\alpha)\)</span>th quantile of the <span class="math inline">\(\chi^2_{3}\)</span> distribution (3 is the number of constraints in <span class="math inline">\(H_0\)</span>). Then</p>
+<ul>
+<li>If <span class="math inline">\(W&gt;c_{1-\alpha}\)</span>, we reject <span class="math inline">\(H_0\)</span>.</li>
+<li>If <span class="math inline">\(W\leq c_{1-\alpha}\)</span>, we do not reject <span class="math inline">\(H_0\)</span>.</li>
+</ul>
+<p>We now need to show that this test is consistent and has the desired asymptotic size.</p>
+<ul>
+<li><p><strong>Asymptotic size</strong>: Under <span class="math inline">\(H_0\)</span> it holds that <span class="math inline">\(\bR\bbeta=\bq\)</span>, and so by our asymptotic results for the OLS estimator and the continuous mapping theorem under <span class="math inline">\(H_0\)</span> <span class="math display">\[
+\sqrt{N}(\bR\hat{\bbeta}-\bq) \xrightarrow{d} N(0, \bR\avar(\hat{\bbeta})\bR').
+\]</span> By Slutsky’s theorem and the definition of <span class="math inline">\(\chi^2_{\cdot}\)</span> random variables, it holds under <span class="math inline">\(H_0\)</span> that <span class="math display">\[
+W \xrightarrow{d} \chi^2_3.
+\]</span> By definition of <span class="math inline">\(c_{1-\alpha}\)</span> and the definition of convergence in distribution <span class="math display">\[
+\begin{aligned}
+&amp; P\left(\text{Reject} H_0|H_0 \right) = P\left(W&gt;c_{1-\alpha} |H_0\right) \\
+&amp; \to P(\chi^2_3&gt; c_{1-\alpha}) = \alpha .
+\end{aligned}
+\]</span> The test has asymptotic size <span class="math inline">\(\alpha\)</span>.</p></li>
+<li><p><strong>Consistency</strong>: Under <span class="math inline">\(H_1\)</span> we have that <span class="math inline">\(\bR\hat{\bbeta}\xrightarrow{p} \bR\bbeta\neq \bq\)</span>. In words, the outside terms in <span class="math inline">\(W\)</span> converge to something <span class="math inline">\(\neq 0\)</span>. At the same time <span class="math inline">\(\left(\bR\widehat{\avar}(\hat{\bbeta})\bR' \right)^{-1} \xrightarrow{p} \left(\bR\avar(\hat{\bbeta})\bR'\right)^{-1}\)</span> — a positive definite matrix. We conclude that <span class="math display">\[
+\begin{aligned}
+&amp; \left(\bR\hat{\bbeta} - \bq \right)' \left(\bR\widehat{\avar}(\hat{\bbeta})\bR' \right)^{-1} \left( \bR\hat{\bbeta} - \bq  \right) \\
+&amp; \xrightarrow{p} \left(\bR\bbeta -\bq\right)' \left(\bR\avar(\hat{\bbeta})\bR'\right)^{-1}(\bR\bbeta-\bq) \\
+&amp; &gt;0,
+\end{aligned}
+\]</span> where we use the definition of positive definitiness. Finally, recall that there is also an <span class="math inline">\(N\)</span> term in <span class="math inline">\(W\)</span>. We conclude that overall <span class="math display">\[
+W\xrightarrow{p} \infty
+\]</span> It follows that the probability of rejecting tends to 1 for any <span class="math inline">\(\bbeta\)</span> in <span class="math inline">\(H_1\)</span>. In other words, consistency holds.</p></li>
+</ul>
+</details>
 </section>
 <section id="inference-on-a-nonlinear-function-of-parameters" class="level3">
 <h3 class="anchored" data-anchor-id="inference-on-a-nonlinear-function-of-parameters">Inference on a Nonlinear Function of Parameters</h3>
-<p>Let the outcome <span class="math inline">\(Y_i\)</span>, the covariates <span class="math inline">\(\bX_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear potential outcomes model <span class="math display">\[
-Y_i^{\bx} = \bx'\bbeta + U_i.
-\]</span> Suppose that we observe an IID sample of data on <span class="math inline">\(Y_i, \bX_i\)</span>, that <span class="math inline">\(\E[U_i|\bX_i]=0\)</span>, that <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is invertible, and that <span class="math inline">\(\E[U_i^2\bX_i\bX_i']\)</span> has maximal rank.</p>
 <p>Let the outcome <span class="math inline">\(Y_i\)</span>, the covariates <span class="math inline">\(\bX_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear potential outcomes model <span class="math display">\[
 Y_i^{\bx} = \bx'\bbeta + U_i.
 \]</span> Suppose that we observe an IID sample of data on <span class="math inline">\(Y_i, \bX_i\)</span>, that <span class="math inline">\(\E[U_i|\bX_i]=0\)</span>, that <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is invertible, and that <span class="math inline">\(\E[U_i^2\bX_i\bX_i']\)</span> has maximal rank. Also suppose that <span class="math inline">\(\bbeta\)</span> has <span class="math inline">\(p\geq 2\)</span> components, that <span class="math inline">\(\beta_1&gt;0\)</span> and <span class="math inline">\(\beta_2&gt;0\)</span>, and that you are interested in <span class="math display">\[
@@ -711,19 +810,98 @@ Y_i^{\bx} = \bx'\bbeta + U_i.
 <li>Consider <span class="math inline">\(H_0: \gamma=1\)</span> vs.&nbsp;<span class="math inline">\(H_1:\gamma\neq 1\)</span>. Construct a consistent test for <span class="math inline">\(H_0\)</span> vs.&nbsp;<span class="math inline">\(H_1\)</span> with asymptotic size <span class="math inline">\(\alpha\)</span>.</li>
 </ol>
 <p>Remember to prove coverage, consistency, and size properties.</p>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p><em>First subquestion</em>: we can use the delta method to construct a confidence interval for <span class="math inline">\(\gamma\)</span>. The delta method states that if <span class="math inline">\(\hat{\bbeta}\)</span> is consistent and asymptotically normal, then <span class="math inline">\(g(\hat{\bbeta})\)</span> is also consistent and asymptotically normal for any continuously differentiable function <span class="math inline">\(g(\cdot)\)</span>.</p>
+<p>For our <span class="math inline">\(\gamma\)</span>, we take <span class="math inline">\(g(\bw) = \sqrt{w_1w_2}\)</span>. This <span class="math inline">\(g(\cdot)\)</span> differentiable in a neighborhood of <span class="math inline">\(\bbeta\)</span>. The Jacobian <span class="math inline">\(\bG(\cdot)\)</span> of <span class="math inline">\(g(\cdot)\)</span> is a <span class="math inline">\(1\times p\)</span> matrix given by <span class="math display">\[
+\bG(\bw) = \left( \dfrac{w_2}{2\sqrt{w_1w_2}}, \dfrac{w_1}{2\sqrt{w_1w_2}}, 0, \dots, 0 \right).
+\]</span> By assumptions of the problem, <span class="math inline">\(G(\bbeta)\)</span> has maximal rank.</p>
+<p>Since <span class="math inline">\(g(\bbeta) = \gamma\)</span>, the delta method tells us that <span id="eq-exercises-inference-delta-normality"><span class="math display">\[  
+\begin{aligned}
+\sqrt{N}(g(\hat{\bbeta}) -  \gamma) &amp; \xrightarrow{d} N(0, \bG(\bbeta)\avar(\hat{\bbeta})\bG(\bbeta)').
+\end{aligned}
+\tag{3}\]</span></span></p>
+<p>We can now construct a confidence interval in a standard way by using <span class="math inline">\(g(\hat{\bbeta})\)</span> as the estimator and <a href="#eq-exercises-inference-delta-normality" class="quarto-xref">Equation&nbsp;3</a> as the distributional base. Consider the following interval: <span class="math display">\[
+\begin{aligned}
+S &amp; = \left[g(\hat{\bbeta}) - z_{1-\alpha/2}\sqrt{\dfrac{\widehat{\avar}(g(\hat{\bbeta})) }{N}  }, g(\hat{\bbeta}) + z_{1-\alpha/2}\sqrt{\dfrac{\widehat{\avar}(g(\hat{\bbeta})) }{N}  } \right],
+\end{aligned}
+\]</span> where <span class="math inline">\(z_{1-\alpha/2}\)</span> is the <span class="math inline">\((1-\alpha/2)\)</span>th quantile of the standard normal distribution and <span class="math display">\[
+\widehat{\avar}(g(\hat{\bbeta})) = \bG(\hat{\bbeta})\widehat{\avar}(\hat{\bbeta})G(\hat{\bbeta})',
+\]</span> for some consistent estimator <span class="math inline">\(\widehat{\avar}(\hat{\bbeta})\)</span>. It follows that <span class="math inline">\(\widehat{\avar}(g(\hat{\bbeta})) \xrightarrow{p} {\avar}(g(\hat{\bbeta}))\)</span></p>
+<p>To compute asymptotic coverage, we first observe that by Slutsky’s theorem and <a href="#eq-exercises-inference-delta-normality" class="quarto-xref">Equation&nbsp;3</a> it holds that <span class="math display">\[
+\sqrt{N}\dfrac{g(\hat{\bbeta})- \gamma }{\sqrt{\widehat{\avar}(g(\hat{\bbeta}))} } \xrightarrow{d} N(0, 1)
+\]</span> Then by definition of convergence in distribution <span class="math display">\[
+\begin{aligned}
+&amp; P\left(\gamma \in S  \right) = P(g(\bbeta)\in S)\\
+&amp;   = P\left( -z_{1-\alpha/2} \leq  \sqrt{N}\dfrac{g(\hat{\bbeta})- g(\bbeta) }{\sqrt{\widehat{\avar}(g(\hat{\bbeta}))} } \leq  z_{1-\alpha/2}  \right)   \\
+%
+&amp;  \to \Phi(z_{1-\alpha/2})  - \Phi(-z_{1-\alpha/2}) \\
+&amp; = 1-\alpha.
+\end{aligned}
+\]</span> In other words, <span class="math inline">\(S\)</span> has asymptotic coverage <span class="math inline">\(1-\alpha\)</span>.</p>
+<p><br></p>
+<p><em>Second subquestion</em>: we are dealing with a scalar transformation, and so we can use a <span class="math inline">\(t\)</span>-test. Define the following statistic: <span class="math display">\[
+t = \dfrac{ \sqrt{ \hat{\beta}_1\hat{\beta}_2} - 1}{\sqrt{\widehat{\avar}(g(\hat{\bbeta}))/N} }.
+\]</span> Here <span class="math inline">\(\sqrt{ \hat{\beta}_1\hat{\beta}_2 } =g(\hat{\bbeta})\)</span>.</p>
+<p>Our test proceeds as follows:</p>
+<ul>
+<li>If <span class="math inline">\(\abs{t}&gt;z_{1-\alpha/2}\)</span>, then we reject <span class="math inline">\(H_0\)</span>.</li>
+<li>If <span class="math inline">\(\abs{t}\leq z_{1-\alpha/2}\)</span>, then we do not reject <span class="math inline">\(H_0\)</span>.</li>
+</ul>
+<p>Consistency and asymptotic size are established exactly as before. As always, the key and only ingredient is the asymptotic normality result (<a href="#eq-exercises-inference-delta-normality" class="quarto-xref">3</a>). Please write out the proofs in detail.</p>
+<p>Note: if the transformation were vector-valued, we would only be able to use the Wald test. The Wald test can also be used here, please solve this question using a Wald test like in the lectures to practice!</p>
+</details>
 </section>
 <section id="consistency-of-the-hc0-asymptotic-variance-estimator" class="level3">
 <h3 class="anchored" data-anchor-id="consistency-of-the-hc0-asymptotic-variance-estimator">Consistency of the HC0 Asymptotic Variance Estimator</h3>
 <p>Let the outcome <span class="math inline">\(Y_i\)</span>, the scalar covariate <span class="math inline">\(X_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear potential outcomes model <span id="eq-exercises-inference-ex4-scalar-model"><span class="math display">\[
 Y_i^{\bx} = \beta X_i + U_i
-\tag{1}\]</span></span> Suppose that we observe an IID sample of data on <span class="math inline">\(Y_i, X_i\)</span>, that <span class="math inline">\(\E[U_i|X_i]=0\)</span>, that <span class="math inline">\(\E[X_i^2]\neq 0\)</span>, and that <span class="math inline">\(\E[U_i^2 X_i^2]\)</span> exists. Let <span class="math inline">\(\hat{\beta}\)</span> be the OLS estimator obtained by regressing <span class="math inline">\(Y_i\)</span> on <span class="math inline">\(X_i\)</span>.</p>
-<p>Recall the HC0 <span class="citation" data-cites="White1980HeteroskedasticityConsistentCovarianceMatrix">(<a href="#ref-White1980HeteroskedasticityConsistentCovarianceMatrix" role="doc-biblioref">White 1980</a>)</span> estimator for <span class="math inline">\(\avar(\hat{\beta})\)</span>. In the scalar model (<a href="#eq-exercises-inference-ex4-scalar-model" class="quarto-xref">1</a>) it is given by <span class="math display">\[
+\tag{4}\]</span></span> Suppose that we observe an IID sample of data on <span class="math inline">\(Y_i, X_i\)</span>, that <span class="math inline">\(\E[U_i|X_i]=0\)</span>, that <span class="math inline">\(\E[X_i^2]\neq 0\)</span>, and that <span class="math inline">\(\E[U_i^2 X_i^2]\)</span> exists. Let <span class="math inline">\(\hat{\beta}\)</span> be the OLS estimator obtained by regressing <span class="math inline">\(Y_i\)</span> on <span class="math inline">\(X_i\)</span>.</p>
+<p>Recall the HC0 <span class="citation" data-cites="White1980HeteroskedasticityConsistentCovarianceMatrix">(<a href="#ref-White1980HeteroskedasticityConsistentCovarianceMatrix" role="doc-biblioref">White 1980</a>)</span> estimator for <span class="math inline">\(\avar(\hat{\beta})\)</span>. In the scalar model (<a href="#eq-exercises-inference-ex4-scalar-model" class="quarto-xref">4</a>) it is given by <span class="math display">\[
 \begin{aligned}
 \widehat{\avar}(\hat{\beta}) &amp; = \dfrac{  N^{-1} \sum_{i=1}^N \hat{U_i}^2 X_i^2 }{  \left( N^{-1}\sum_{i=1}^N X_i^2 \right)^2  }.
 \end{aligned}
 \]</span> Show that <span class="math display">\[
 \widehat{\avar}(\hat{\beta}) \xrightarrow{p} \avar(\hat{\beta}) \equiv \dfrac{ \E[U_i^2X_i^2]  }{\left(\E[X_i^2] \right)^2 }.
 \]</span> State explicitly any additional moment assumptions you make.</p>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p>First, we substitute our model (<a href="#eq-exercises-inference-ex4-scalar-model" class="quarto-xref">4</a>) in place of <span class="math inline">\(Y_i\)</span> in <span class="math inline">\(\hat{U}_i\)</span>: <span class="math display">\[
+\begin{aligned}
+\hat{U}_i^2 &amp; = (Y_i - X_i\hat{\beta})^2 =  (X_i(\beta-\hat{\beta}) + U_i)^2\\
+&amp; = U_i^2 + 2(\beta-\hat{\beta})  U_iX_i+ (\beta-\hat{\beta})^2 X_i
+\end{aligned}
+\]</span></p>
+<p>We then substitute this expression for <span class="math inline">\(\hat{U}_i\)</span> into the middle term of our asymptotic variance estimator: <span id="eq-exercises-inference-ex4-expansion"><span class="math display">\[
+\begin{aligned}
+&amp; \dfrac{1}{N} \sum_{i=1}^N \hat{U}_i^2 X_i^2 \\
+&amp; = \dfrac{1}{N} \sum_{i=1}^N U_i^2X_i^2 + (\beta-\hat{\beta}) \dfrac{2}{N}\sum_{i=1}^N U_i X_i^3 \\
+&amp; \quad  + (\beta-\hat{\beta})^2 \dfrac{1}{N}\sum_{i=1}^N X_i^4.
+\end{aligned}
+\tag{5}\]</span></span></p>
+<p>To handle the averages in <a href="#eq-exercises-inference-ex4-expansion" class="quarto-xref">Equation&nbsp;5</a>, we use the law of large numbers. By assumption, <span class="math inline">\(\E[U_i^2X_i^2]\)</span> exists. We also assume that <span class="math inline">\(\E[U_iX_i^3]\)</span> and <span class="math inline">\(\E[X_i^4]\)</span> also exist. Then by the law of large numbers it holds that <span class="math display">\[
+\begin{aligned}
+\dfrac{1}{N} \sum_{i=1}^N U_i^2X_i^2 &amp; \xrightarrow{p} \E[U_i^2 X_i^2],\\
+\dfrac{1}{N}\sum_{i=1}^N U_i X_i^3 &amp; \xrightarrow{p} \E[U_iX_i^3], \\  \dfrac{1}{N}\sum_{i=1}^N X_i^4  &amp; \xrightarrow{p} \E[X_i^4].
+\end{aligned}
+\]</span> At the same time, all the conditions of our consistency result hold, and so <span class="math inline">\(\hat{\beta}-\beta \xrightarrow{p} 0\)</span>. By the continuous mapping theorem <span class="math display">\[
+\begin{aligned}
+(\beta-\hat{\beta}) \dfrac{2}{N}\sum_{i=1}^N U_i X_i^3 \xrightarrow{p} 0, \\
+(\beta-\hat{\beta})^2 \dfrac{1}{N}\sum_{i=1}^N X_i^4 \xrightarrow{p} 0.
+\end{aligned}
+\]</span> By combining the above convergence results, the result on equivalence of separate and joint convergence in probability, and the continuous mapping theorem, we conclude that <span class="math display">\[
+\dfrac{1}{N} \sum_{i=1}^N \hat{U}_i^2 X_i^2 \xrightarrow{p}  \E[U_i^2X_i^2].
+\]</span> At the same time, by the law of large numbers, continuous mapping theorem, and the assumption that <span class="math inline">\(\E[X_i^2]\neq 0\)</span> it holds that <span class="math display">\[
+\dfrac{1}{ \left(N^{-1}\sum_{i=1}^N X_i^2\right)^2 } \xrightarrow{p} \dfrac{1}{\left(
+    \E[X_i^2]
+\right)^2
+}.
+\]</span> Combining the previous two equations with the continuous mapping theorem, we obtain the desired result. In terms of assumptions, we have assumed the existence of <span class="math inline">\(\E[U_iX_i^3]\)</span> and <span class="math inline">\(\E[X_i^4]\)</span>, in addition to the assumptions of the problem.</p>
+</details>
 </section>
 </section>
 <section id="applied-exercises" class="level2">
