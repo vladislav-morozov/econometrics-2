@@ -110,18 +110,21 @@ This lecture — way to estimate $\E[\bbeta_i]$ with panel data
 
 #### Empirical Motivation {.scrollable}
 
-Last time discussed relationship between pollution 
+Last time discussed relationship between pollution and labor market outcomes using US county-level data
 
-
-- f
-- Different resilience 
 . . . 
 
-But if coefficients heterogeneous, then what is the 
 
 <div class="rounded-box">
  
+What if pollution effect differs between counties?
+
 </div>
+
+
+- E.g. due to different population characteristics (age, health, ...)
+- Would be an example of model ([-@eq-panel-mg-causal-model]). FE estimate from last time would be $\E[\bW(\tilde{\bX})\bbeta_i]$
+- <span class="highlight">What is $\E[\bbeta_i]$? </span>
  
 
 ## Theory {background="#00100F"}
@@ -135,11 +138,18 @@ Vector form of realized outcomes in model ([-@eq-panel-mg-causal-model]):
 $$
 \bY_i = \bX_i\bbeta_i + \bU_i
 $$
+$\bbeta_i$ — $p$-vector. Interested in $\E[\bbeta_i]$
 
-- $\bbeta_i$ — $p$-vector
-- Assume that $T\geq p$ (at least as many observations as there are coefficients)
-- Interested in $\E[\bbeta_i]$
+. . .
 
+<br>
+
+<div class="rounded-box">
+
+**Assumption**: $T\geq p$
+
+</div>
+At least as many observations as there are coefficients
 
 #### Individual Estimator
 
@@ -151,7 +161,7 @@ $$
 - $\hat{\bbeta}_i$ — simply running OLS using the data only on unit $i$
 - We assume that $(\bX_i'\bX_i)^{-1}$ exists
   - Assumption of variation in $\bX_{it}$ for unit $i$
-  - May be tougher to satisfy if $T$ is small and and $\bX_{it}$ has discrete regressors
+  - May be tougher to satisfy if $T$ is small and $\bX_{it}$ has discrete regressors
 
 
 #### Mean Group Estimator
@@ -175,7 +185,7 @@ Cross-sectional average of individual OLS estimators
 
 #### MG Estimation with Singular $(\bX_i'\bX_i)$
 
-- Before assumed that all units had invertible $(\bX_i'\bX_i)$
+- So far: assumed that all units had invertible $(\bX_i'\bX_i)$
 - If not true, can average only units which have invertible $(\bX_i'\bX_i)$ (=can compute $\hat{\bbeta}_i$)
 
 . . . 
@@ -207,7 +217,8 @@ $$
 <br>
 
 
-How to prove asymptotic properties? 
+- How to prove asymptotic properties? 
+- Recall: usually want to impose assumptions on the "primitive" components $(\bbeta_i, \bX_i, \bU_i)$
 
 #### Technique: Represent in Terms of One Vector
 
@@ -240,7 +251,7 @@ If
 2. $\E[\bU_i|\bX_i]=0$
 3. $\E[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}]<\infty$, $\E[\norm{\bbeta_i}]<\infty$
 
-Then as $N\to\infty$, $T$ fixed
+Then as $N\to\infty$, $T\geq p$ fixed
 $$
 \hat{\bbeta}^{MG} \xrightarrow{p} \E[\bbeta_i]
 $$
@@ -267,7 +278,7 @@ If
 2. $\E[\bU_i|\bbeta_i, \bX_i]=0$
 3. $\E[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}^2]<\infty$, $\E[\norm{\bbeta_i}^2]<\infty$
 
-Then as $N\to\infty$, $T$ fixed
+Then as $N\to\infty$, $T\geq p$ fixed
 $$\small
 \sqrt{N}\left(\hat{\bbeta}^{MG} - \E[\bbeta_i] \right) \xrightarrow{d} N(0, \var(\bbeta_i) + \var\left( (\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right)
 $$
@@ -278,7 +289,7 @@ $$
 
 #### Estimating the Asymptotic Variance
 
-Need $\avar(\hat{\bbeta}^{MG})$ if we want to do inference on $\E[\bbeta_i]$
+Need $\widehat{\avar}(\hat{\bbeta}^{MG})$ if we want to do inference on $\E[\bbeta_i]$
 
 . . .
 
@@ -303,13 +314,47 @@ Pretty obvious result and follows directly from LLN and CLT. But useful to expre
 
 ## Empirical Illustration {background="#00100F"}
 
-### Setting {background="#43464B" visibility="uncounted"}
+### Context and Setting {background="#43464B" visibility="uncounted"}
 
-####
+#### Reminder: Empirical Question
 
-A
-@Borgschulte2024AirPollutionLabor
+Recall: studying relationship between pollution and earnings using approach of @Borgschulte2024AirPollutionLabor
 
+- Data: quarterly county-level data from the USA
+- Exogenous measure of pollution: number of days with wildfire smoke
+- Outcomes: average earnings in county
+
+
+#### Reminder: Previous Empirical Strategy
+ 
+Last time assumed that two random intercepts <span class="highlight"> sufficient </span> to capture important unobserved components:
+
+- County-season
+- State-year
+
+. . .
+
+Unit of analysis effectively county in given season (e.g. King County in summer is a single $i$)
+
+. . .
+
+<br>
+
+
+After that assumed that effect of pollution was same between places
+
+#### Allowing Different Effects
+
+What if pollution effects different between counties and seasons? 
+
+- Specify model:
+$$
+Y_{it}^{\bx} = \alpha_i + \beta_i\text{Smoke Days}_{it} + \text{State-Year FE} + U_{it}
+$$
+- 
+
+
+ 
 
 ### Estimation and Results {background="#43464B" visibility="uncounted"}
 
@@ -319,7 +364,16 @@ Mean group not implemented anywhere (to the best of my knowledge), but very easy
 
 ####
 
-f
+So is it because of the larger estimation error contribution? OR just not enough data points (very large $\var(\bbeta_i))$
+
+- Can figure it out, but more advanced
+
+
+::: footer
+
+Variance can be identified and estimated, see 
+
+:::
 
 ## Recap and Conclusions {background="#00100F"}
   
