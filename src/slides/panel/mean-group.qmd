@@ -41,7 +41,7 @@ open-graph:
 
 #### Learning Outcomes
 
-This lecture is about a way to estimate an average of heterogeneous coefficients
+This lecture is about estimating the average of heterogeneous coefficients
 
 <br>
 
@@ -264,7 +264,7 @@ If
 
 1. Units are IID
 2. $\E[\bU_i|\bX_i]=0$
-3. $\E[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}]<\infty$, $\E[\norm{\bbeta_i}]<\infty$
+3. $\E\left[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}\right]<\infty$, $\E[\norm{\bbeta_i}]<\infty$
 
 Then as $N\to\infty$, $T\geq p$ fixed
 $$
@@ -291,7 +291,7 @@ If
 
 1. Units are IID
 2. $\E[\bU_i|\bbeta_i, \bX_i]=0$
-3. $\E[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}^2]<\infty$, $\E[\norm{\bbeta_i}^2]<\infty$
+3. $\E\left[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}^2r\right]<\infty$, $\E[\norm{\bbeta_i}^2]<\infty$
 
 Then as $N\to\infty$, $T\geq p$ fixed
 $$\small
@@ -301,6 +301,12 @@ $$
 :::
 
 </div>
+
+::: footer
+
+Notice stronger form of strict exogeneity!
+
+:::
 
 #### Estimating the Asymptotic Variance
 
@@ -360,7 +366,7 @@ After that assumed that effect of pollution was same between places
 
 #### Allowing Different Effects
 
-What if pollution effects different between counties and seasons? 
+What if pollution effects <span class="highlight">differ</span> between counties and seasons? 
 
 - Specify model as example of ([-@eq-panel-mg-causal-model])
 $$ \small
@@ -387,7 +393,7 @@ Our approach to estimating with $\E[\beta_i]$ with mean group estimator:
 <br>
 
 
-Step (1) not part of MG estimation, needed here due to our model
+Step (1) not part of MG estimation, included here due to our model
 
 #### Eliminating State-Year FE {.scrollable}
 
@@ -455,9 +461,7 @@ Mean group not implemented anywhere (to the best of my knowledge), but very easy
 - With a `for`-loop
 - By grouping the data based on county-quarter ID
 
-
-First approach more obvious, so will do second
-
+ 
 . . .
 
 A small function for running individual regressions:
@@ -593,7 +597,7 @@ ax.tick_params(colors=FONT_COLOR)
 # Limits, legend, text
 ax.set_xlim([-150, 100])
 ax.legend()
-ax.set_title('Density of individual estimators', color=FONT_COLOR, loc='left')
+ax.set_title('Density of Individual Estimators (Q3 Effects)', color=FONT_COLOR, loc='left', weight='bold')
 ax.set_xlabel('')
 plt.show()
  
@@ -618,7 +622,7 @@ In first case collecting more $T$ would not help
 
 ::: footer
 
-Variance $\var(\beta_i)$. can be identified and estimated, see [some of my notes](https://vladislav-morozov.github.io/econometrics-heterogeneity/linear/linear-coefficient-variance.html)
+Variance $\var(\beta_i)$ can be actually identified and estimated, see [some of my notes](https://vladislav-morozov.github.io/econometrics-heterogeneity/linear/linear-coefficient-variance.html) [section 7, @Morozov2025EconometricsUnobservedHeterogeneity]
 
 :::
 
@@ -669,7 +673,7 @@ fig.update_layout(
     paper_bgcolor=BG_COLOR,
     font=dict(color=FONT_COLOR), 
     title=dict(
-        text="<b>Effect of an additional smoke day on quarterly earnings (Q3)</b>",
+        text="<b>Effect of an Additional Day of Wildfire Smoke on Quarterly Earnings (Q3 Effects)</b>",
         x=0.03,
         xanchor="left",
         y=0.97,
@@ -727,8 +731,11 @@ In this lecture we
 
 #### Next Questions
 
+<br>
+
 - What if we don't care about causal parameters and only want to predict outcomes?
 - When does strict exogeneity fail? What is the impact of that failure?  
+- How to work with panel data in nonlinear settings?
 
 #### References {.allowframebreaks visibility="uncounted"}
 
