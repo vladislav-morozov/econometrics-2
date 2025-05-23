@@ -12,7 +12,7 @@ format:
     sc-sb-title: true
     incremental: true   
     logo: ../../themes/favicon.ico
-    footer: "Panel Data: Linear Panel Data Models"
+    footer: "Panel Data: Fixed Effect Estimation"
     footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
     theme: ../../themes/slides_theme.scss
     toc: TRUE
@@ -1060,6 +1060,13 @@ fig.update_traces(
 fig.show()
 
 ```
+
+
+::: footer
+
+If the map on this slide is not showing up, reload the page
+
+:::
 
 ### Specification and Estimation {background="#43464B" visibility="uncounted"}
 

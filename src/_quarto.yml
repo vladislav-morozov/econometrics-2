@@ -54,6 +54,7 @@ website:
         - slides/panel/event-studies.qmd
         - slides/panel/did.qmd
         - slides/panel/fe.qmd
+        - slides/panel/mean-group.qmd
 
 execute:
   freeze: auto  # re-render only when source changes
