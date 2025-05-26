@@ -27,10 +27,41 @@ Question
 
 </details>
  
+
+### Asymptotic Properties of the Mean Group Estimator
+
+Let $Y_{it}, \bX_{it}$, $\bbeta_i$, and $U_{it}$ be linked through the linear potential outcomes model with unit-specific coefficients:
+$$
+Y_{it}^{\bx} = \bx'\bbeta_i + U_{it}.
+$$
+We observe $(Y_{it}, \bX_{it})_{i=1, \dots, N}^{t=1, \dots, T}$. We assume that $T\geq p$, where $p$ is the number of coordinates of $\bbeta$. We also assume that $(\bX'\bX)$ is invertible for each unit $i$. 
+
+We are interested in learning $\E[\bbeta_i]$. We estimate it using the mean group estimator:
+$$
+\begin{aligned}
+\hat{\bbeta}^{MG} & = \dfrac{1}{N}\sum_{i=1}^N \hat{\bbeta}_i, \\
+\hat{\bbeta}_i & = (\bX_i'\bX_i)^{-1}\bX_i'\bY_i
+\end{aligned}
+$$
+
+
+1. Show that $\hat{\bbeta}^{MG}$ is consistent for $\E[\bbeta_i]$ under the assumptions of proposition 1 in the [slides on mean group estimation](https://vladislav-morozov.github.io/econometrics-2/slides/panel/mean-group.html#/consistency-of-the-mg-estimator).
+2. Show that $\hat{\bbeta}^{MG}$ is asymptotically normal under the the assumptions of proposition 1 in the [slides on mean group estimation](https://vladislav-morozov.github.io/econometrics-2/slides/panel/mean-group.html#/asymptotic-distribution).
+3. Suppose that $p=1$ (scalar case). Propose a confidence interval for $\E[\beta_i]$ with asymptotic coverage $1-\alpha$. 
+
+<details>
+  <summary>Click to see the solution</summary>
+
+*First subquestion*: Answer
+
+
+</details>
+ 
+
   
 ## Applied Exercises
  
 
 - (*Event studies*)
 - (*Difference-in-differences*)
-- (*Fixed effect and mean group estimation*)
+- (*Fixed effect and mean group estimation*) 
