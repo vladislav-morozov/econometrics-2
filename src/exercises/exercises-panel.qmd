@@ -1,0 +1,36 @@
+---
+title: "Exercises: Panel Data"
+format:
+  html:
+    toc: true
+description: "Theoretical and applied exercises on "
+open-graph:
+    description: "Theoretical and applied exercises on " 
+---
+
+
+
+
+## Theoretical Exercises 
+
+ 
+
+### Exercises
+ 
+Question
+
+<details>
+  <summary>Click to see the solution</summary>
+
+*First subquestion*: Answer
+
+
+</details>
+ 
+  
+## Applied Exercises
+ 
+
+- (*Event studies*)
+- (*Difference-in-differences*)
+- (*Fixed effect and mean group estimation*)
