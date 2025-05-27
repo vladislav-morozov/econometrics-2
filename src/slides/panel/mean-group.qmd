@@ -293,7 +293,7 @@ If
 
 Then as $N\to\infty$, $T\geq p$ fixed
 $$\small
-\sqrt{N}\left(\hat{\bbeta}^{MG} - \E[\bbeta_i] \right) \xrightarrow{d} N(0, \var(\bbeta_i) + \var\left( (\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right)
+\sqrt{N}\left(\hat{\bbeta}^{MG} - \E[\bbeta_i] \right) \xrightarrow{d} N\left(0, \var(\bbeta_i) + \var\left( (\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right) \right)
 $$
 
 :::
