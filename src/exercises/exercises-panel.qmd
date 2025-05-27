@@ -46,14 +46,151 @@ $$
 
 
 1. Show that $\hat{\bbeta}^{MG}$ is consistent for $\E[\bbeta_i]$ under the assumptions of proposition 1 in the [slides on mean group estimation](https://vladislav-morozov.github.io/econometrics-2/slides/panel/mean-group.html#/consistency-of-the-mg-estimator).
-2. Show that $\hat{\bbeta}^{MG}$ is asymptotically normal under the the assumptions of proposition 1 in the [slides on mean group estimation](https://vladislav-morozov.github.io/econometrics-2/slides/panel/mean-group.html#/asymptotic-distribution).
+2. Show that $\hat{\bbeta}^{MG}$ is asymptotically normal under the the assumptions of proposition 2 in the [slides on mean group estimation](https://vladislav-morozov.github.io/econometrics-2/slides/panel/mean-group.html#/asymptotic-distribution).
 3. Suppose that $p=1$ (scalar case). Propose a confidence interval for $\E[\beta_i]$ with asymptotic coverage $1-\alpha$. 
 
 <details>
   <summary>Click to see the solution</summary>
 
-*First subquestion*: Answer
+*First subquestion*: We substitute $Y_{it} = \bX_{it}'\bbeta_i  + U_{it}$  into the individual estimators $\hat{\bbeta}_i$:
+$$
+\hat{\bbeta}_i = \bbeta_i +  (\bX_i'\bX_i)^{-1}\bX_i'\bU_i
+$$
+We can then represent the mean group estimator as
+$$
+\hat{\bbeta}^{MG} = \dfrac{1}{N}\sum_{i=1}^N \bbeta_i + \dfrac{1}{N}\sum_{i=1}^N(\bX_i'\bX_i)^{-1}\bX_i'\bU_i.
+$$
+By assumptions of proposition 1, $(\bX_i, \bU_i, \bbeta_i)$ are IID random vectors and the expected value of $\bbeta_i$ exists. Then by the law of large numbers
+$$
+\dfrac{1}{N}\sum_{i=1}^N \bbeta_i \xrightarrow{p} \E[\bbeta_i].
+$$
+Likewise, $(\bX_i'\bX_i)^{-1}\bX_i'\bU_i$ has finite expected value by assumption, so by the law of large numbers it holds that
+$$
+\dfrac{1}{N}\sum_{i=1}^N(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\xrightarrow{p} \E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\right].
+$$
+We conclude that 
+$$
+\hat{\bbeta}^{MG}\xrightarrow{p} \E[\bbeta_i] + \E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\right].
+$$
+Finally, by the law of iterated expectations and assumption of strict exogeneity, it holds that 
+$$
+\begin{aligned}
+\E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\right] & = \E\left[\E\left[ (\bX_i'\bX_i)^{-1}\bX_i'\bU_i|\bX_i\right]\right]\\
+& = \E\left[(\bX_i'\bX_i)^{-1}\bX_i' \E[\bU_i|\bX_i]  \right]\\
+& = 0.
+\end{aligned}
+$$
+We conclude that $\hat{\bbeta}^{MG}\xrightarrow{p}\E[\bbeta_i]$.
 
+
+<br> 
+
+*Second subquestion*: To prove asymptotic normality, we will showcase the technique used in the lecture slides. It consists in expressing $\hat{\bbeta}^{MG}$ as a continuous transformation of a single random vector: 
+$$ 
+\hat{\bbeta}^{MG}  = \begin{pmatrix}
+\bI_p & \bI_p
+\end{pmatrix} \left[ \dfrac{1}{N} \sum_{i=1}^N \underbrace{\begin{pmatrix}
+\bbeta_i \\
+(\bX_i'\bX_i)^{-1}\bX_i'\bU_i
+\end{pmatrix}}_{=\bW_i} \right],
+$$ {#eq-ex-panel-ex-mg-representation}
+where $\bI_p$ is the $p\times p$ identity matrix.
+
+From this point out, the problem is fairly easy. Tkey key challenge is not getting confused in expressing the asymptotic variance. 
+
+By assumption of proposition 2, $\bW_i$ are IID vectors with finite second moments. It then follows by the central limit theorem that
+$$
+\sqrt{N}\left( \dfrac{1}{N} \sum_{i=1}^N \bW_i - \E[\bW_i] \right) \xrightarrow{d} N(0, \var(\bW_i))
+$$ 
+We now connect the moments of $\bW_i$ to $(\bbeta_i, \bX_i, \bU_i)$. The mean:
+$$
+\begin{aligned}
+\E[\bW_i] & = \begin{pmatrix}
+\E[\bbeta_i]\\
+\E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right]
+\end{pmatrix} = \begin{pmatrix}
+\E[\bbeta_i]\\
+0
+\end{pmatrix} , \\
+\end{aligned}
+$$
+where we have used the fact that $\E[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i]=0$.
+
+Now the variance:
+$$
+\begin{aligned}
+& \var(\bW_i) \\
+&  = \E[\bW_i\bW_i'] - (\E[\bW_i])(\E[\bW_i])' \\
+& =  \begin{pmatrix}
+\var(\bbeta_i) & \E[\bbeta_i\bU_i'\bX_i(\bX_i'\bX_i)^{-1}] \\
+\E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\bbeta_i' \right] & \var\left( (\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right)
+\end{pmatrix}, 
+\end{aligned}
+$$
+where we have again use $\E[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i]=0$. 
+
+Further, we can show that the covariance (off-diagonal) terms in $\var(\bW_i)$ are zero. using the stronger strict exogeneity property $\E[\bU_i|\bbeta_i, \bX_i]=0$.  We again use the law of iterated expectations as 
+$$
+\begin{aligned}
+\E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\bbeta_i' \right] & = \E\left[ \E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\bbeta_i' |\bbeta_i, \bX_i\right] \right]\\
+& = \E\left[(\bX_i'\bX_i)^{-1}\bX_i'\E[\bU_i|\bbeta_i, \bX_i]\bbeta_i'  \right]\\
+& = 0
+\end{aligned}
+$$
+
+Summing up, we conclude that 
+$$
+\begin{aligned}
+& \sqrt{N}\left( \dfrac{1}{N} \sum_{i=1}^N \bW_i - \begin{pmatrix}
+\E[\bbeta_i]\\
+0
+\end{pmatrix}\right)\\
+& \xrightarrow{d} N\left(0, \begin{pmatrix}
+\var(\bbeta_i) & 0\\
+0 & \var\left( (\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right)
+\end{pmatrix}\right)
+\end{aligned}
+$$ {#eq-ex-panel-ex-mg-core}
+By @eq-ex-panel-ex-mg-representation, we have that 
+$$
+\sqrt{N}\left(\hat{\bbeta}^{MG} - \E[\bbeta_i] \right) = \begin{pmatrix}
+\bI_p & \bI_p 
+\end{pmatrix}  \sqrt{N}\left( \dfrac{1}{N} \sum_{i=1}^N \bW_i - \begin{pmatrix}
+\E[\bbeta_i]\\
+0
+\end{pmatrix}\right)
+$$
+Finally, by the continuous mapping theorem or the delta method, the above representation and @eq-ex-panel-ex-mg-core, we conclude that 
+$$
+\begin{aligned}
+& \sqrt{N}\left(\hat{\bbeta}^{MG} - \E[\bbeta_i] \right)\\
+&  \xrightarrow{d} N\left(0, \var(\bbeta_i) + \var\left( (\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right) \right).
+\end{aligned}
+$$
+
+
+
+
+
+
+<br>
+
+
+*Third subquestion*: as suggested in the lecture, we can directly use the sample variance of $\hat{\beta}_i$ to estimate the asymptotic variance of $\hat{\beta}^{MG}$: 
+$$
+\widehat{\avar}(\hat{\bbeta}^{MG}) = \dfrac{1}{N}\sum_{i=1}^N \left(\hat{\beta}_i- \hat{\beta}^{MG} \right)^2.
+$$
+The construction  of the confidence interval is standard. Let $z_{1-\alpha/2}$ be the $(1-\alpha/2)$th quantile of the standard normal distribution. 
+
+Define $S$ as 
+$$
+S = \left[\hat{\beta}^{MG} - z_{1-\alpha/2}\sqrt{\dfrac{\widehat{\avar}(\hat{\bbeta}^{MG}) }{N}  }, \hat{\beta}^{MG} + z_{1-\alpha/2}\sqrt{\dfrac{\widehat{\avar}(\hat{\bbeta}^{MG}) }{N}  }\right]
+$$
+To show that $S$ has asymptotic coverage $\alpha$, it is sufficient to notice that by the central limit theorem
+$$
+\sqrt{N}\left(\hat{\beta}^{MG} - \E[\beta_i] \right) \xrightarrow{d} N\left(0, \var(\hat{\beta}_i) \right).
+$$
+The proof now proceeds as in the lectures and the previous exercise sheet.
 
 </details>
  
