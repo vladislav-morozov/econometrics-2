@@ -407,8 +407,8 @@ $$
 \begin{aligned}
 % Y_{it} & = \beta_0 + \beta_1 D_{it} + U_{it}, \\
 D_{it} & = \begin{cases}
-1, & t= 1 \\
-0, & t =0
+1, & t= 2 \\
+0, & t =1
 \end{cases}
 \end{aligned}
 $${#eq-event-study-simple-regression}
