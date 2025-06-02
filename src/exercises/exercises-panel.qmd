@@ -219,31 +219,202 @@ By the same argument as in the above problem (please check!), we conclude that $
  
 </details>
 
-### Difference-in-Differences as Linear Regression
+### Difference-in-Differences as Two-Way Fixed Effect Regression
 
-Consider the setting of the [lecture on event studies](https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/event-studies-and-ols) under an assumption of no trends.
+Consider the setting of the [lecture on difference-in-differences](https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html#/setting) with two groups and two periods. 
 
-- Show that the estimator $\widehat{AE}_{ES}$ is equal to the OLS estimator for regressing $Y_{it}$ on $(1, D_{it})$ ([proposition 3](https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/event-studies-and-ols)).
-- Consider the following representation for realized outcomes $Y_{it}$:
-$$ 
-\begin{aligned}
-Y_{it} & = \beta_0 + \beta_1 D_{it} + U_{it},
-\\
-\beta_0 & = \E[Y_{i1}^0], \quad
-\beta_1  =  \E[Y_{i2}^1- Y_{i2}^0] .
-\end{aligned}
-$$
-Express $U_{it}$ in terms of $\beta_0, \beta_1$ and the potential outcomes $Y_{it}^0, Y_{it}^1$. 
-
-- Recall that in a linear causal model OLS is consistent for the coefficient vector provided the regressors $\bX_{it}$ are orthogonal to the residuals in the sense $\E[\bX_{it}U_{it}]=0$. Does this condition hold in the above OLS regression? What about $\E[U_{it}|\bX_{it}]=0$? Connect to the assumption of no trends.
+1. Show that the DiD estimator is a two-way fixed effect estimator (prove proposition 2 in the [slides](https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html#/regression-representation-result)).
+2. Prove that the parallel trends assumption implies strict exogeneity in [Equation 4 in the slides](https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html#/eq-causal-did-twfe).
+3. Conclude that the DiD estimator is consistent and asymptotically normal for the ATT.
 
 
-### Asymptotic Properties of Fixed Effects Estimator
 
 <details>
   <summary>Click to see the solution</summary>
 
-*First subquestion*: Answer
+
+*First subquestion*: the proof is by brute force evaluation of the OLS estimator expression
+$$
+\hat{\delta} = \dfrac{\widehat{\cov}\left(Y_{i2}-Y_{i1}, D_{i2}\right) }{\widehat{\var}(D_{i2})}.
+$$
+The denominator is given by 
+$$
+\widehat{\var}(D_{i2}) = \dfrac{1}{N} \sum_{i=1}^N D_{i2}^2 - \left(\dfrac{1}{N} \sum_{i=1}^N D_{i2} \right)^2 = \dfrac{N_T}{N} - \dfrac{N_T^2}{N^2} = \dfrac{N_TN_U}{N^2},
+$$
+where $N_T$ is the number of treated units, and $N_U$ is the number of untreated units. 
+
+The numerator is given by 
+$$
+\begin{aligned}
+& \widehat{\cov}\left(Y_{i2}-Y_{i1}, D_{i2}\right) \\
+& = \dfrac{1}{N}\sum_{Treated} (Y_{i2}-Y_{i1}) \\
+& \quad - \dfrac{N_T}{N}  \dfrac{1}{N}\left( \sum_{Treated} (Y_{i2}-Y_{i1}) + \sum_{Untreated}(Y_{i2}- Y_{i1})  \right) \\
+& = \dfrac{N_U}{N^2} \sum_{Treated} (Y_{i2}-Y_{i1}) -\dfrac{N_T}{N^2} \sum_{Untreated} (Y_{i2}-Y_{i1}).
+\end{aligned}
+$$
+Dividing the numerator by the denominator and combining the $N$ terms yields the result. 
+
+
+
+<br>
+
+
+*Second subquestion*: recall [Equation 4 in the slides](https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html#/eq-causal-did-twfe):
+$$
+Y_{i2}- Y_{i1} = \gamma + \delta D_{i2} + U_{i2}
+$$
+for 
+$$
+\begin{aligned}
+\gamma & = \E[Y_{i2}^0 - Y_{i1}^0 |T], \\
+\delta & = \E[Y_{i2}^1 - Y_{i2}^0 |T].
+\end{aligned}
+$$
+Here $U_{i2}$ is given by
+$$
+U_{i2} = \begin{cases}
+Y_{i2}^0 - Y_{i1}^0 - \gamma, & D_{i2} = 0, \\
+Y_{i2}^1 - Y_{i1}^0 - \gamma-\delta, & D_{i2} = 1,
+\end{cases}
+$$
+
+Strict exogeneity in this case means that $\E[U_{i2}|(1, D_{i2})]=0$. As always, conditioning on a constant does not affect the conditional expectation, and so we have that $\E[U_{i2}|(1, D_{i2})] = \E[U_{i2}|D_{i2}]$. To find this expectation, we consider the values of $D_{i2}$:
+
+$$
+\begin{aligned}
+\E[U_{i2}|D_{i2}=0] & = \E[Y_{i2}^0 - Y_{i1}^0|U]- \E[Y_{i2}^0 - Y_{i1}^0 |T] \\
+& = 0 \\
+\E[U_{i2}|D_{i2}=1] & = \E[Y_{i2}^1 - Y_{i1}^0|T] - \E[Y_{i2}^0 - Y_{i1}^0 |T]- \E[Y_{i2}^1 - Y_{i2}^0 |T] \\
+& = 0,
+\end{aligned}
+$$
+where we
+
+- Use the parallel trends assumption in $\E[U_{i2}|D_{i2}=0]$ 
+- Add and subtract $\E[Y_{i2}^0|T]$ in  $\E[U_{i2}|D_{i2}=1]$.
+
+For both values of $D_{i2}$ the conditional expectation is 0. Hence $\E[U_{i2}|D_{i2}]=0$, and strict exogeneity holds. 
+
+
+
+
+*Bonus question*: prove the strict exogeneity implies the parallel trends assumption. To do so, notice that we have proved that in general
+$$
+\E[U_{i2}|D_{i2}] = D_{i2} \left( \E[Y_{i2}^0 - Y_{i1}^0|U]- \E[Y_{i2}^0 - Y_{i1}^0 |T]  \right)
+$$ 
+Now suppose that $\E[U_{i2}|D_{i2}] = 0$ regardless of the value of $D_{i2}$. Conclude that trends in outcomes must be parallel.
+
+<br>
+
+
+*Third subquestion*: the DiD estimator $\hat{\delta}$ is an OLS estimator for a linear causal model with strict exogeneity. Consistency and asymptotic normality for $\delta$ hold by the results we proved in the asymptotic theory part of the class. Finally,  recall that $\delta$ is exactly the ATT.
+
+</details>
+ 
+
+
+### Asymptotic Properties of Fixed Effects Estimator
+
+Consider the setting of the [lecture on fixed effect estimation](https://vladislav-morozov.github.io/econometrics-2/slides/panel/fe.html#/sampling-setting). Suppose that $\bX_{it}$ is some vector of treatments, and that the outcomes follow the two-way fixed effect potential outcome model
+$$
+Y_{it}^{\bx} = \alpha_i + \gamma_t + \bx'\bbeta+ U_{it}.
+$$
+
+1. Show that the corresponding TWFE estimator of $\bbeta$ is consistent and asymptotically normal under the assumptions of [Proposition 4](https://vladislav-morozov.github.io/econometrics-2/slides/panel/fe.html#/asymptotic-distribution).
+2. Let the true potential outcomes model only have individual random intercepts $\alpha_i$:
+$$ 
+Y_{it}^{\bx} = \alpha_i + \bx'\bbeta+ U_{it}.
+$$
+Suppose that you use the two-way FE estimator regardless. Is it consistent for $\bbeta$?  
+
+
+<details>
+  <summary>Click to see the solution</summary>
+
+*First subquestion*: let $\tilde{\bX}_{it}$ be two-way transformed version of $\bX_{it}$, likewise with $\tilde{Y}_{it}$ and $\tilde{U}_{it}$ (see [Equation 7](https://vladislav-morozov.github.io/econometrics-2/slides/panel/fe.html#/within-estimation-ii-two-way-transformations)).
+The within-transformed outcomes satisfy:
+$$
+\tilde{Y}_{it} = \tilde{\bX}_{it}'\bbeta + \tilde{U}_{it}.
+$$
+In individual matrix form: 
+$$
+\tilde{\bY}_i = \tilde{\bX}_i\bbeta + \tilde{\bU}_{i}.
+$$
+
+We can then represent the TWFE estimator of $\bbeta$ as 
+$$
+\begin{aligned}
+\hat{\bbeta}^{FE} & = \left( \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i
+ \right)^{-1}\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bY}_i \\
+& = \bbeta +  \left(\dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i
+ \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i.
+\end{aligned}
+$$ {#eq-ex-panel-ex-fe-repr}
+
+We now proceed as we always do.
+
+
+To prove consistency, we make the following sequence of observations:
+
+- Since $\E[\tilde{\bX}_i'\tilde{\bX}_i]$ exists and observations are IID across $i$, by the law of large numbers
+$$
+\dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i \xrightarrow{p} \E[\tilde{\bX}_i'\tilde{\bX}_i].
+$$
+- Since $\E[\tilde{\bX}_i'\tilde{\bX}_i]$ is invertible, by the continuous mapping theorem
+$$
+\left( \dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i\right)^{-1} \xrightarrow{p}  \left( \E[\tilde{\bX}_i'\tilde{\bX}_i]\right)^{-1}.
+$$ {#eq-ex-panel-ex-fe-hess}
+- By the law of large numbers
+$$
+\dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i \xrightarrow{p} \E[\tilde{\bX}_i'\tilde{\bU}_i].
+$$
+- By the panel version of strict exogeneity and [Proposition 2](https://vladislav-morozov.github.io/econometrics-2/slides/panel/fe.html#/strict-exogeneity-implies-eq-panel-twfe-key-orthogonality) it holds that 
+$$
+\E[\tilde{\bX}_i'\tilde{\bU}_i] = 0.
+$$
+- By the continuous mapping theorem
+$$
+ \left(\dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i
+ \right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i \xrightarrow{p} \left( \E[\tilde{\bX}_i'\tilde{\bX}_i]\right)^{-1}\E[\tilde{\bX}_i'\tilde{\bU}_i] = 0.
+$$
+
+
+We conclude that 
+$$
+\hat{\bbeta}^{FE} \xrightarrow{p} \bbeta.
+$$
+
+
+To show asymptotic normality, we first apply the central limit theorem as 
+$$
+\begin{aligned}
+\dfrac{1}{\sqrt{N}} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i & = \sqrt{N}\left(\dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i - \E[\tilde{\bX}_i'\tilde{\bU}_i] \right)\\
+& \xrightarrow{d} N\left(0, \E[\tilde{\bX}_i'\tilde{\bU}_i\tilde{\bU}_i'\tilde{\bX}_i]   \right).
+\end{aligned}
+$$ 
+Then by equations ([-@eq-ex-panel-ex-fe-repr])-([-@eq-ex-panel-ex-fe-hess]) and Slutsky's theorem we conclude that 
+$$
+\begin{aligned}
+& \sqrt{N}\left(\hat{\bbeta}^{FE} - \bbeta\right) \\
+& \xrightarrow{d} N\left(0, \left(\E[\tilde{\bX}_i'\tilde{\bX}_i] \right)^{-1} \E[\tilde{\bX}_i'\tilde{\bU}_i\tilde{\bU}_i'\tilde{\bX}_i] \left(\E[\tilde{\bX}_i'\tilde{\bX}_i] \right)^{-1}\right).
+\end{aligned}
+$$
+
+
+<br>
+
+*Second subquestion*: the two-way within transformation successfully eliminates all the random intercepts present. The realized outcomes still satisfy
+$$
+\tilde{Y}_{it} = \tilde{\bX}_{it}'\bbeta + \tilde{U}_{it}.
+$$
+It follows that the estimator is still consistent and asymptotically normal, provided suitable moment and invertibility conditions hold. 
+
+Does this mean that you should always try to eliminate as many random intercepts as possible? Not really, for the following two reasons: 
+
+- Removing more effects makes it harder to satisfy the invertibility condition on $\E[\tilde{\bX}_{i}'\tilde{\bX}_i]$. Every layer of the within transformation deletes something from $\bX_{it}$. It is possible to delete so much that there isn't enough variation left for estimation.
+- The random intercept model is likely misspecified in the sense that coefficient vectors $\bbeta$ differ at least between units. Removing different kinds of FEs only changes the weights in the estimand of the FE estimator, but does not lead to the true average effect.
+
+
 
 
 </details>
@@ -420,6 +591,14 @@ The proof now proceeds as in the lectures and the previous exercise sheet.
 ## Applied Exercises
  
 
-- (*Event studies*)
-- (*Difference-in-differences*)
-- (*Fixed effect and mean group estimation*) 
+### Event Study: Brexit
+
+On June 23, 2016 the UK held the Brexit referendum. The results of the referendum were broadly unexpected, [leading to a strong notable movement](https://web.archive.org/web/20160703190302/http://bigstory.ap.org/article/d4930c2180b143d685213a75e916bee8/british-vote-leaving-eu-rocks-world-financial-markets) in stock prices on June 24. Conduct a financial event study to quantify the effect of the referendum on a selection of leading British companies (say, the companies in the FTSE 100 Index). Proceed as in the lecture to compute the abnormal returns. 
+
+### DiD: Police and Crime 
+
+Does police presence reduce crime? A famous article by @DiTella2004PoliceReduceCrime analyzes this using exogenous variation in police presence created by a terrorist attack in Buenos Aires. Read their article and replicate the results of their difference-in-differences estimation (table 3). You can download their data from the article's [page](https://www.aeaweb.org/articles?id=10.1257/000282804322970733) on the website of the American Economic Association.
+
+### FE and MG: Labor Markets and Pollution
+
+Consider again the paper by @Borgschulte2024AirPollutionLabor. In the lectures we have focused on the effect of pollution on earnings. However, @Borgschulte2024AirPollutionLabor also consider the effects on total employment and labor force participation. Replicate their results for these two outcomes — columns (3) and (4) in their table 1. To do so, download their data from the [Harvard Dataverse](https://dataverse.harvard.edu/file.xhtml?fileId=6425134&version=1.0) and suitably modify the lecture code. 
