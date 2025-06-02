@@ -636,7 +636,7 @@ $$ \small
 \begin{aligned}
 \hat{\bbeta}^{FE} & = \left(\sum_{i=1}^N \sum_{t=1}^T \tilde{\bX}_{it}\tilde{\bX}_{it}' \right)^{-1}\sum_{i=1}^N \sum_{t=1}^T \tilde{\bX}_{it}\tilde{Y}_{it} \\
 & = \left( \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i
- \right)\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bY}_i
+ \right)^{-1}\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bY}_i
 \end{aligned}
 $$
 with variables transformed as in @eq-panel-twfe-two-way-transform

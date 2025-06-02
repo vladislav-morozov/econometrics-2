@@ -31,7 +31,7 @@ highlight-style: tango
 open-graph:
     description: "Mean group estimator for average heterogeneous coefficients, its asymptotic properties, empirical Python example (lecture notes slides)."
 ---
-
+ 
 
 
 ## Introduction {background="#00100F"}
@@ -263,8 +263,7 @@ Can now prove consistency and asymptotic normality results by applying LLN+CLT t
 If 
 
 1. Units are IID
-2. $\E[\bU_i|\bX_i]=0$
-3. $\E\left[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}\right]<\infty$, $\E[\norm{\bbeta_i}]<\infty$
+2. $\E[\bU_i|\bX_i]=0$; $\E\left[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}\right]<\infty$, $\E[\norm{\bbeta_i}]<\infty$
 
 Then as $N\to\infty$, $T\geq p$ fixed
 $$
@@ -289,13 +288,12 @@ Assuming that $\E[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}]<\infty$ — assumption o
 
 If 
 
-1. Units are IID
-2. $\E[\bU_i|\bbeta_i, \bX_i]=0$
-3. $\E\left[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}^2r\right]<\infty$, $\E[\norm{\bbeta_i}^2]<\infty$
+1. Units are IID 
+2. $\E[\bU_i|\bbeta_i, \bX_i]=0$; $\E\left[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}^2\right]<\infty$, $\E[\norm{\bbeta_i}^2]<\infty$
 
 Then as $N\to\infty$, $T\geq p$ fixed
 $$\small
-\sqrt{N}\left(\hat{\bbeta}^{MG} - \E[\bbeta_i] \right) \xrightarrow{d} N(0, \var(\bbeta_i) + \var\left( (\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right)
+\sqrt{N}\left(\hat{\bbeta}^{MG} - \E[\bbeta_i] \right) \xrightarrow{d} N\left(0, \var(\bbeta_i) + \var\left( (\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right) \right)
 $$
 
 :::
@@ -345,6 +343,7 @@ Recall: studying relationship between pollution and earnings using approach of @
 - Exogenous measure of pollution: number of days with wildfire smoke
 - Outcomes: average earnings in county
 
+Data availabe from the [Harvard dataverse](https://dataverse.harvard.edu/file.xhtml?fileId=6425134&version=1.0)
 
 #### Reminder: Previous Empirical Strategy
  

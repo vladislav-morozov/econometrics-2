@@ -1,0 +1,112 @@
+---
+title: "Exercises: Panel Data"
+format:
+  html:
+    toc: true
+description: "Theoretical and applied exercises on panel data: event studies, difference-in-differences, fixed effect and mean group estimation."
+open-graph:
+    description: "Theoretical and applied exercises on panel data: event studies, difference-in-differences, fixed effect and mean group estimation." 
+---
+
+
+
+
+## Theoretical Exercises 
+
+### Event Study Estimator as Linear Regression
+
+Consider the setting of the [lecture on event studies](https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/event-studies-and-ols) under an assumption of no trends.
+
+1. Show that the estimator $\widehat{AE}_{ES}$ is equal to the OLS estimator for regressing $Y_{it}$ on $(1, D_{it})$ ([proposition 3](https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/event-studies-and-ols)).
+2. Consider the following representation for the realized outcomes $Y_{it}$:
+$$ 
+\begin{aligned}
+Y_{it} & = \beta_0 + \beta_1 D_{it} + U_{it},
+\\
+\beta_0 & = \E[Y_{i1}^0], \quad
+\beta_1  =  \E[Y_{i2}^1- Y_{i2}^0] .
+\end{aligned}
+$$
+Express $U_{it}$ in terms of $\beta_0, \beta_1$ and the potential outcomes $Y_{it}^0, Y_{it}^1$. 
+
+3. Recall that in a linear causal model OLS is consistent for the coefficient vector provided the regressors $\bX_{it}$ are orthogonal to the residuals in the sense $\E[\bX_{it}U_{it}]=0$. Does this condition hold in the above regression? What about $\E[U_{it}|\bX_{it}]=0$? Connect to the assumption of no trends.
+
+ 
+
+### Allowing Trends in Event Studies
+
+When talking about event studies in the lecture, we have made the assumption of no trends in the untreated outcomes: that $\E[Y_{it}^0]$ does not depend on $t$. This problem is about relaxing this assumption to allow some dynamics in outcomes.
+
+Consider the multiple period framework in the [slides on event studies](https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/multiple-period-framework). Suppose that we replace the assumption of no trends with an assumption of linear average growth in the untreated outcomes:
+$$
+\E[Y_{it}^0] - \E[Y_{i1}^0] = \gamma(t-1), \quad t= 1, \dots, T
+$$ {#eq-ex-panel-ex-trend}
+We are interested in estimating $\beta_{\tau} = \E[Y_{i\tau}^1-Y_{i\tau}^0]$ — the average treatment effects in periods $\tau\geq t_0$. 
+
+Propose a consistent estimator for $\E[Y_{it}^1-Y_{it}^0]$. Show its consistency. You may freely use the consistency results proved in the asymptotic theory part of the class. 
+ 
+
+### Difference-in-Differences as Two-Way Fixed Effect Regression
+
+Consider the setting of the [lecture on difference-in-differences](https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html#/setting) with two groups and two periods. 
+
+1. Show that the DiD estimator is a two-way fixed effect estimator (prove proposition 2 in the [slides](https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html#/regression-representation-result)).
+2. Prove that the parallel trends assumption implies strict exogeneity in [Equation 4 in the slides](https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html#/eq-causal-did-twfe).
+3. Conclude that the DiD estimator is consistent and asymptotically normal for the ATT. You may freely use the consistency results proved in the asymptotic theory part of the class. 
+
+ 
+
+
+### Asymptotic Properties of Fixed Effects Estimator
+
+Consider the setting of the [lecture on fixed effect estimation](https://vladislav-morozov.github.io/econometrics-2/slides/panel/fe.html#/sampling-setting). Suppose that $\bX_{it}$ is some vector of treatments, and that the outcomes follow the two-way fixed effect potential outcome model
+$$
+Y_{it}^{\bx} = \alpha_i + \gamma_t + \bx'\bbeta+ U_{it}.
+$$
+
+1. Show that the corresponding TWFE estimator of $\bbeta$ is consistent and asymptotically normal under the assumptions of [Proposition 4](https://vladislav-morozov.github.io/econometrics-2/slides/panel/fe.html#/asymptotic-distribution).
+2. Let the true potential outcomes model only have individual random intercepts $\alpha_i$:
+$$ 
+Y_{it}^{\bx} = \alpha_i + \bx'\bbeta+ U_{it}.
+$$
+Suppose that you use the two-way FE estimator regardless. Is it consistent for $\bbeta$?  
+
+ 
+ 
+
+### Asymptotic Properties of the Mean Group Estimator
+
+Let $Y_{it}, \bX_{it}$, $\bbeta_i$, and $U_{it}$ be linked through the linear potential outcomes model with unit-specific coefficients:
+$$
+Y_{it}^{\bx} = \bx'\bbeta_i + U_{it}.
+$$
+We observe $(Y_{it}, \bX_{it})_{i=1, \dots, N}^{t=1, \dots, T}$. We assume that $T\geq p$, where $p$ is the number of coordinates of $\bbeta$. We also assume that $(\bX'\bX)$ is invertible for each unit $i$. 
+
+We are interested in learning $\E[\bbeta_i]$. We estimate it using the mean group estimator:
+$$
+\begin{aligned}
+\hat{\bbeta}^{MG} & = \dfrac{1}{N}\sum_{i=1}^N \hat{\bbeta}_i, \\
+\hat{\bbeta}_i & = (\bX_i'\bX_i)^{-1}\bX_i'\bY_i
+\end{aligned}
+$$
+
+
+1. Show that $\hat{\bbeta}^{MG}$ is consistent for $\E[\bbeta_i]$ under the assumptions of proposition 1 in the [slides on mean group estimation](https://vladislav-morozov.github.io/econometrics-2/slides/panel/mean-group.html#/consistency-of-the-mg-estimator).
+2. Show that $\hat{\bbeta}^{MG}$ is asymptotically normal under the the assumptions of proposition 2 in the [slides on mean group estimation](https://vladislav-morozov.github.io/econometrics-2/slides/panel/mean-group.html#/asymptotic-distribution).
+3. Suppose that $p=1$ (scalar case). Propose a confidence interval for $\E[\beta_i]$ with asymptotic coverage $1-\alpha$. 
+ 
+  
+## Applied Exercises
+ 
+
+### Event Study: Brexit
+
+On June 23, 2016 the UK held the Brexit referendum. The results of the referendum were broadly unexpected, [leading to a strong negative movement](https://web.archive.org/web/20160703190302/http://bigstory.ap.org/article/d4930c2180b143d685213a75e916bee8/british-vote-leaving-eu-rocks-world-financial-markets) in stock prices on June 24. Conduct a financial event study to quantify the effect of the referendum on a selection of leading British companies (say, the companies in the FTSE 100 Index). Proceed as in the lecture to compute the abnormal returns. 
+
+### DiD: Police and Crime 
+
+Does police presence reduce crime? A famous article by @DiTella2004PoliceReduceCrime analyzes this using exogenous variation in police presence created by a terrorist attack in Buenos Aires. Read their article and replicate the results of their difference-in-differences estimation (table 3). You can download their data from the article's [page](https://www.aeaweb.org/articles?id=10.1257/000282804322970733) on the website of the American Economic Association.
+
+### FE and MG: Labor Markets and Pollution
+
+Consider again the paper by @Borgschulte2024AirPollutionLabor. In the lectures we have focused on the effect of pollution on earnings. However, @Borgschulte2024AirPollutionLabor also consider the effects on total employment and labor force participation. Replicate their results for these two outcomes — columns (3) and (4) in their table 1. To do so, download their data from the [Harvard Dataverse](https://dataverse.harvard.edu/file.xhtml?fileId=6425134&version=1.0) and suitably modify the lecture code. 

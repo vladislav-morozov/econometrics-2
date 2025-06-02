@@ -420,7 +420,7 @@ $$ {#eq-causal-did-twfe-general}
 
 Can eliminate $\alpha_i$ by taking <span class="highlight">first differences</span> across time to get
 $$
-Y_{i2}- Y_{i1} = \gamma + \delta D_{it} + U_{i2}
+Y_{i2}- Y_{i1} = \gamma + \delta D_{i2} + U_{i2}
 $$ {#eq-causal-did-twfe}
 
 #### Regression Representation: Result
