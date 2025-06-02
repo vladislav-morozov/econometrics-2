@@ -3,9 +3,9 @@ title: "Exercises: Panel Data"
 format:
   html:
     toc: true
-description: "Theoretical and applied exercises on "
+description: "Theoretical and applied exercises on panel data: event studies, difference-in-differences, fixed effect and mean group estimation."
 open-graph:
-    description: "Theoretical and applied exercises on " 
+    description: "Theoretical and applied exercises on panel data: event studies, difference-in-differences, fixed effect and mean group estimation." 
 ---
 
 
