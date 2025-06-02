@@ -17,8 +17,8 @@ open-graph:
 
 Consider the setting of the [lecture on event studies](https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/event-studies-and-ols) under an assumption of no trends.
 
-- Show that the estimator $\widehat{AE}_{ES}$ is equal to the OLS estimator for regressing $Y_{it}$ on $(1, D_{it})$ ([proposition 3](https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/event-studies-and-ols)).
-- Consider the following representation for realized outcomes $Y_{it}$:
+1. Show that the estimator $\widehat{AE}_{ES}$ is equal to the OLS estimator for regressing $Y_{it}$ on $(1, D_{it})$ ([proposition 3](https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/event-studies-and-ols)).
+2. Consider the following representation for realized outcomes $Y_{it}$:
 $$ 
 \begin{aligned}
 Y_{it} & = \beta_0 + \beta_1 D_{it} + U_{it},
@@ -29,7 +29,7 @@ Y_{it} & = \beta_0 + \beta_1 D_{it} + U_{it},
 $$
 Express $U_{it}$ in terms of $\beta_0, \beta_1$ and the potential outcomes $Y_{it}^0, Y_{it}^1$. 
 
-- Recall that in a linear causal model OLS is consistent for the coefficient vector provided the regressors $\bX_{it}$ are orthogonal to the residuals in the sense $\E[\bX_{it}U_{it}]=0$. Does this condition hold in the above OLS regression? What about $\E[U_{it}|\bX_{it}]=0$? Connect to the assumption of no trends.
+3. Recall that in a linear causal model OLS is consistent for the coefficient vector provided the regressors $\bX_{it}$ are orthogonal to the residuals in the sense $\E[\bX_{it}U_{it}]=0$. Does this condition hold in the above OLS regression? What about $\E[U_{it}|\bX_{it}]=0$? Connect to the assumption of no trends.
 
 
 <details>
@@ -138,9 +138,107 @@ A practical conclusion is that under the assumption of no trends in the untreate
 </details>
  
 
-### Exercises
+### Allowing Trends in Event Studies
+
+When talking about event studies in the lecture, we have made the assumption of no trends in the untreated outcomes: that $\E[Y_{it}^0]$ does not depend on $t$. This problem is about relaxing this assumption to allow some dynamics in outcomes.
+
+Consider the multiple period framework in the [slides on event studies](https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/multiple-period-framework). Suppose that we replace the assumption of no trends with an assumption of linear average growth in the untreated outcomes:
+$$
+\E[Y_{it}^0] - \E[Y_{i1}^0] = \gamma(t-1), \quad t= 1, \dots, T
+$$ {#eq-ex-panel-ex-trend}
+We are interested in estimating $\beta_{\tau} = \E[Y_{i\tau}^1-Y_{i\tau}^0]$ — average treatment effect for $\tau\geq t_0$. 
+
+Propose a consistent estimator for $\E[Y_{it}^1-Y_{it}^0]$. Show its consistency. You may freely use the consistency results proved in the asymptotic theory part of the class. 
+
+<details>
+  <summary>Click to see the solution</summary>
  
-Question
+The most natural way to proceed is to attempt a regression similar to the [one](https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/expanded-regression) we discussed in the multiple period case with no trends. Define period-$\tau$ treatment indicators:
+$$
+D_{it, \tau} = \begin{cases}
+1, & t= \tau, \\
+0, & t\neq \tau
+\end{cases}
+$$ 
+We can now regress $Y_{it}$ on $\bX_{it} = (1, t-1, D_{it, t_0}, \dots D_{it, T})$ using OLS — note the addition of time $t$ to the list of regressors. Our estimator for $\beta_{\tau}$ is the coefficient on $D_{it, \tau}$.
+
+
+To show consistency, we can use the same approach as in the first problem:
+
+1. Represent the estimator as a linear model involving the coefficients of interest:
+$$
+Y_{it} = \beta_0 + \gamma (t-1)  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + U_{it},
+$$ {#eq-ex-panel-ex-trend-model}
+where $\beta_0 =\E[Y_{i1}^0]=0$.
+2. Show that $\E[\bX_{it}U_{it}]=0$. 
+
+ 
+As in the previous problem, it is enough to show that $\E[U_{it}]=0$ for all $t$ (why?). It is also again easiest to separately consider pre- and post-treatment periods. For clarity, we first find an expression for $U_{it}$ by aligning $Y_{it}$ with @eq-ex-panel-ex-trend-model. We then find $\E[U_{it}]$.
+
+- Let $t<t_0$. Then 
+$$
+\begin{aligned}
+& Y_{it} \\
+&  = Y_{it}^0\\
+& = \beta_0 + \gamma(t-1) + 0 + (Y_{it}^0 - \beta_0 - \gamma(t-1))\\
+& = \beta_0 + \gamma(t-1) + \sum_{\tau=t_0}^T \beta_{\tau} D_{it, \tau} + (Y_{it}^0 - \beta_0 - \gamma(t-1)),
+\end{aligned}
+$$
+where we use the fact that $D_{it, \tau}=0$ for all $t<t_0$ and $\tau\geq t_0$.
+In other words, $U_{it} = Y_{it}^0 - \beta_0 - \gamma(t-1)$ for $t<t_0$. Then
+$$
+\begin{aligned}
+\E[U_{it}] & = \E[Y_{it}^0] - \E[Y_{i1}^0] - \gamma(t-1) \\
+& = \E[Y_{i1}^0] + \gamma(t-1) - \E[Y_{i1}^0] - \gamma(t-1)\\
+& = 0,
+\end{aligned}
+$$
+where we have used @eq-ex-panel-ex-trend on the second line.
+
+- Let $t\geq t_0$. Then 
+$$
+\begin{aligned}
+& Y_{it} \\
+& = Y_{it}^1\\
+& = \beta_0 + \gamma(t-1) + \beta_t \times 1 +  (Y_{it}^1 - \beta_0 - \gamma(t-1) - \beta_t)\\
+& =  \beta_0 + \gamma(t-1) + \sum_{\tau=t_0}^T \beta_{\tau} D_{it, \tau} +  (Y_{it}^1 - \beta_0 - \gamma(t-1) - \beta_t),
+\end{aligned}
+$$
+where we use that only $D_{it, t}$ is equal to 1 in the above sum. We thus obtain that $U_{it} = Y_{it}^1 - \beta_0 - \gamma(t-1) - \beta_t$ for $t\geq t_0$.  Hence
+$$
+\begin{aligned}
+\E[U_{it}] & = \E[Y_{it}^1] - \E[Y_{i1}^0] - \gamma(t-1) - \E[Y_{it}^1 - Y_{it}^0]\\
+& = \E[Y_{it}^0] - \E[Y_{i1}^0] - \gamma(t-1)\\
+& = \E[Y_{i1}^0] + \gamma(t-1) - \E[Y_{i1}^0] - \gamma(t-1)\\
+& = 0,
+\end{aligned}
+$$
+where we again use @eq-ex-panel-ex-trend.
+
+By the same argument as in the above problem (please check!), we conclude that $\E[\bX_{it}U_{it}]=0$. It follows that our OLS estimator is consistent for $(\beta_0, \gamma, \beta_{t_0}, \dots, \beta_T)$ by the standard consistency results for OLS.
+ 
+</details>
+
+### Difference-in-Differences as Linear Regression
+
+Consider the setting of the [lecture on event studies](https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/event-studies-and-ols) under an assumption of no trends.
+
+- Show that the estimator $\widehat{AE}_{ES}$ is equal to the OLS estimator for regressing $Y_{it}$ on $(1, D_{it})$ ([proposition 3](https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/event-studies-and-ols)).
+- Consider the following representation for realized outcomes $Y_{it}$:
+$$ 
+\begin{aligned}
+Y_{it} & = \beta_0 + \beta_1 D_{it} + U_{it},
+\\
+\beta_0 & = \E[Y_{i1}^0], \quad
+\beta_1  =  \E[Y_{i2}^1- Y_{i2}^0] .
+\end{aligned}
+$$
+Express $U_{it}$ in terms of $\beta_0, \beta_1$ and the potential outcomes $Y_{it}^0, Y_{it}^1$. 
+
+- Recall that in a linear causal model OLS is consistent for the coefficient vector provided the regressors $\bX_{it}$ are orthogonal to the residuals in the sense $\E[\bX_{it}U_{it}]=0$. Does this condition hold in the above OLS regression? What about $\E[U_{it}|\bX_{it}]=0$? Connect to the assumption of no trends.
+
+
+### Asymptotic Properties of Fixed Effects Estimator
 
 <details>
   <summary>Click to see the solution</summary>
