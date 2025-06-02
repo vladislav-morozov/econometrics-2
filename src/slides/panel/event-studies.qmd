@@ -513,7 +513,7 @@ $$
 
 Can try similar regression:
 $$\small
-Y_{it} = \beta_0 +  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + u_{it}
+Y_{it} = \beta_0 +  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + U_{it}
 $${#eq-event-studies-long-regression}
 Let $\hat{\bbeta}=(\hat{\beta}_0, \hat{\beta}_{t_0}, \dots, \hat{\beta}_{T}$) be the OLS estimator
 
