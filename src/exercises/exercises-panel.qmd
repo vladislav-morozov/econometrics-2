@@ -13,6 +13,37 @@ open-graph:
 
 ## Theoretical Exercises 
 
+### Event Study Estimator as OLS
+
+Consider the setting of the [lecture on event studies](https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/event-studies-and-ols) under an assumption of no trends.
+
+- Show that the estimator $\widehat{AE}_{ES}$ is equal to the OLS estimator for regressing $Y_{it}$ on $(1, D_{it})$ ([proposition 3](https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/event-studies-and-ols)).
+- Consider the following representation for realized outcomes $Y_{it}$:
+$$ 
+\begin{aligned}
+Y_{it} & = \beta_0 + \beta_1 D_{it} + U_{it},
+\\
+\beta_0 & = \E[Y_{i1}^0], \quad
+\beta_1  =  \E[Y_{i2}^1- Y_{i2}^0] .
+\end{aligned}
+$$
+Express $U_{it}$ in terms of $\beta_0, \beta_1$ and the potential outcomes $Y_{it}^0, Y_{it}^1$. 
+
+- Recall that in a linear causal model OLS is consistent for the coefficient vector provided the regressors $\bX_{it}$ are orthogonal to the residuals in the sense $\E[\bX_{it}U_{it}]=0$. Does this condition hold in the above OLS regression? What about $\E[U_{it}|\bX_{i1}, \dots, \bX_{iT}]=0$? Connect to the assumption of no trends.
+
+
+*First subquestion*: 
+
+<br>
+
+
+*Second subquestion*:
+
+
+<br>
+
+
+*Third subquestion*:
  
 
 ### Exercises
