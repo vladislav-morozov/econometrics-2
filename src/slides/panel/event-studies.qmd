@@ -1128,13 +1128,13 @@ plt.show()
 
 #### Preparing Data for Event Study
 
-Now need to create $\bX$ and $\by$ matrices to apply event study OLS 
+Now need to create $\bX$ and $\bY$ matrices to apply event study OLS 
 
 <br>
 
 . . . 
 
-Key challenge: how do $\bX$ and $\by$ look like?
+Key challenge: how do $\bX$ and $\bY$ look like?
 
 - Regressors: indicators $D_{it, \tau}$ of every day after treatment start 
 - Express in tabular form: each row in $\bX$ contains data on one stock $i$ on one day $t$, columns — $\widehat{AR}_{it}$ and $D_{it, \tau}$
