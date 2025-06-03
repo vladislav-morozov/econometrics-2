@@ -694,7 +694,7 @@ $$
 
 Can estimate $V$ with 
 $$
-\hat{V} = \widehat{\var}(Z_i) = \dfrac{1}{N}\left(Z_i - \dfrac{1}{N}\sum_{j=1}^N Z_j \right)^2
+\hat{V} = \widehat{\var}(Z_i) = \dfrac{1}{N}\sum_{i=1}^N\left(Z_i - \dfrac{1}{N}\sum_{j=1}^N Z_j \right)^2
 $$
 
 . . . 
