@@ -708,7 +708,7 @@ $$
 
 Can now construct confidence intervals and hypothesis tests about $\E[Y_{i \tau}^1 - Y_{i\tau}^0]$. E.g. an asymptotic (1-\alpha)\times 100% confidence interval:
 $$
-\widehat{CI}_{95\%} = \left[\hat{\beta}^{OLS}_{\tau} - z_{1-\alpha/2}\widehat{se}(\hat{\beta}_{\tau}), \hat{\beta}^{OLS}_{\tau} + z_{1-\alpha/2}\widehat{se}(\hat{\beta}_{\tau}) \right]
+\widehat{CI}_{95\%} = \left[\hat{\beta}_{\tau} - z_{1-\alpha/2}\widehat{se}(\hat{\beta}_{\tau}), \hat{\beta}_{\tau} + z_{1-\alpha/2}\widehat{se}(\hat{\beta}_{\tau}) \right]
 $$
 where the critical values $z_{1-\alpha/2}$ come from the standard normal distribution
 $$
