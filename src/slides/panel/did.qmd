@@ -499,7 +499,7 @@ If parallel trends hold for all possible $\bx$, can also identify the overall ($
 Often see <span class="highlight">linearity assumptions</span> on the causal model in the form:
 $$
 \begin{aligned}
-Y_{it}^d = Y_{it}^0 + d(Y_{i2}^1- Y_{i2}^0) + \bX_{it}'\bbeta_i
+Y_{it}^d = Y_{it}^0 + d(Y_{it}^1- Y_{it}^0) + \bX_{it}'\bbeta_i
 \end{aligned}
 $$
 
@@ -507,7 +507,7 @@ $$
 
 Can estimate ATT consistently from TWFE regression
 $$
-Y_{i2}-Y_{i1} = \gamma + \delta D_{it} + (\bX_{i2}-\bX_{i1})'\bbeta + u_{it},
+Y_{i2}-Y_{i1} = \gamma + \delta D_{it} + (\bX_{i2}-\bX_{i1})'\bbeta + U_{it},
 $$
 if $\bbeta$ appropriately defined (think of OLS estimator under heterogeneous coefficient causal model)
 
