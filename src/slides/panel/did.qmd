@@ -517,16 +517,16 @@ Can accommodate more periods of data
 
 - $T\geq 2$
 - Two groups: never treated ($U$) and treated, treatment starts between $t_0-1$ and $t_0$
-- Treatment indicators $D_{it\tau}$, $t, \tau=1,\dots, T$: 
-  - Untreated units have $D_{it\tau}=0$ for all $t, \tau$
-  - Treated units $D_{it\tau}=1$ if and only if $t=\tau$ and $t\geq t_0$
+- Treatment indicators $D_{it, \tau}$, $t, \tau=1,\dots, T$: 
+  - Untreated units have $D_{it, \tau}=0$ for all $t, \tau$
+  - Treated units $D_{it, \tau}=1$ if and only if $t=\tau$ and $t\geq t_0$
  
 #### Adding More Periods: TWFE
 
 Multi-period specification:
 $$ \small
 \begin{aligned}
-Y_{it} &  = \alpha_i + \gamma_t + \sum_{\tau=t_0}^T \delta_\tau D_{it\tau}  + U_{it},\\
+Y_{it} &  = \alpha_i + \gamma_t + \sum_{\tau=t_0}^T \delta_\tau D_{it, \tau}  + U_{it},\\
 \alpha_i & = Y_{i1}^0, \\
 \gamma_t & = \E[Y_{it}^0- Y_{i1}^0|T],\\
 \delta_t & = \E[Y_{it}^1- Y_{it}^0|T]
