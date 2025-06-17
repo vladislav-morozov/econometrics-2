@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Theoretical and applied exercises on inference: hypothesis testing, nonlinear functions of parameters, consistency of HC0 asymptotic variance estimator.">
+<meta name="description" content="Theoretical and applied exercises on panel data: event studies, difference-in-differences, fixed effect and mean group estimation.">
 
-<title>Exercises: Asymptotic Inference – Advanced Econometrics</title>
+<title>Exercises: Panel Data – Advanced Econometrics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -454,8 +454,8 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Exercises: Asymptotic Inference – Advanced Econometrics">
-<meta property="og:description" content="Theoretical and applied exercises on inference: hypothesis testing, nonlinear functions of parameters, consistency of HC0 asymptotic variance estimator.">
+<meta property="og:title" content="Exercises: Panel Data – Advanced Econometrics">
+<meta property="og:description" content="Theoretical and applied exercises on panel data: event studies, difference-in-differences, fixed effect and mean group estimation.">
 <meta property="og:site_name" content="Advanced Econometrics">
 </head>
 
@@ -468,7 +468,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../slides/vector/ols-inference.html">Asymptotic Inference</a></li><li class="breadcrumb-item"><a href="../exercises/exercises-linear-inference.html">Exercises: Asymptotic Inference</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../slides/panel/data-types.html">Panel Data</a></li><li class="breadcrumb-item"><a href="../exercises/exercises-panel.html">Exercises: Panel Data</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -580,7 +580,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../exercises/exercises-linear-inference.html" class="sidebar-item-text sidebar-link active">
+  <a href="../exercises/exercises-linear-inference.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Exercises: Asymptotic Inference</span></a>
   </div>
 </li>
@@ -627,7 +627,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../exercises/exercises-panel.html" class="sidebar-item-text sidebar-link">
+  <a href="../exercises/exercises-panel.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Exercises: Panel Data</span></a>
   </div>
 </li>
@@ -645,26 +645,32 @@ window.Quarto = {
   <ul>
   <li><a href="#theoretical-exercises" id="toc-theoretical-exercises" class="nav-link active" data-scroll-target="#theoretical-exercises">Theoretical Exercises</a>
   <ul class="collapse">
-  <li><a href="#testing-scalar-restrictions" id="toc-testing-scalar-restrictions" class="nav-link" data-scroll-target="#testing-scalar-restrictions">Testing Scalar Restrictions</a></li>
-  <li><a href="#testing-several-linear-restrictions" id="toc-testing-several-linear-restrictions" class="nav-link" data-scroll-target="#testing-several-linear-restrictions">Testing Several Linear Restrictions</a></li>
-  <li><a href="#inference-on-a-nonlinear-function-of-parameters" id="toc-inference-on-a-nonlinear-function-of-parameters" class="nav-link" data-scroll-target="#inference-on-a-nonlinear-function-of-parameters">Inference on a Nonlinear Function of Parameters</a></li>
-  <li><a href="#consistency-of-the-hc0-asymptotic-variance-estimator" id="toc-consistency-of-the-hc0-asymptotic-variance-estimator" class="nav-link" data-scroll-target="#consistency-of-the-hc0-asymptotic-variance-estimator">Consistency of the HC0 Asymptotic Variance Estimator</a></li>
+  <li><a href="#event-study-estimator-as-linear-regression" id="toc-event-study-estimator-as-linear-regression" class="nav-link" data-scroll-target="#event-study-estimator-as-linear-regression">Event Study Estimator as Linear Regression</a></li>
+  <li><a href="#allowing-trends-in-event-studies" id="toc-allowing-trends-in-event-studies" class="nav-link" data-scroll-target="#allowing-trends-in-event-studies">Allowing Trends in Event Studies</a></li>
+  <li><a href="#difference-in-differences-as-two-way-fixed-effect-regression" id="toc-difference-in-differences-as-two-way-fixed-effect-regression" class="nav-link" data-scroll-target="#difference-in-differences-as-two-way-fixed-effect-regression">Difference-in-Differences as Two-Way Fixed Effect Regression</a></li>
+  <li><a href="#asymptotic-properties-of-fixed-effects-estimator" id="toc-asymptotic-properties-of-fixed-effects-estimator" class="nav-link" data-scroll-target="#asymptotic-properties-of-fixed-effects-estimator">Asymptotic Properties of Fixed Effects Estimator</a></li>
+  <li><a href="#asymptotic-properties-of-the-mean-group-estimator" id="toc-asymptotic-properties-of-the-mean-group-estimator" class="nav-link" data-scroll-target="#asymptotic-properties-of-the-mean-group-estimator">Asymptotic Properties of the Mean Group Estimator</a></li>
   </ul></li>
-  <li><a href="#applied-exercises" id="toc-applied-exercises" class="nav-link" data-scroll-target="#applied-exercises">Applied Exercises</a></li>
+  <li><a href="#applied-exercises" id="toc-applied-exercises" class="nav-link" data-scroll-target="#applied-exercises">Applied Exercises</a>
+  <ul class="collapse">
+  <li><a href="#event-study-brexit" id="toc-event-study-brexit" class="nav-link" data-scroll-target="#event-study-brexit">Event Study: Brexit</a></li>
+  <li><a href="#did-police-and-crime" id="toc-did-police-and-crime" class="nav-link" data-scroll-target="#did-police-and-crime">DiD: Police and Crime</a></li>
+  <li><a href="#fe-and-mg-labor-markets-and-pollution" id="toc-fe-and-mg-labor-markets-and-pollution" class="nav-link" data-scroll-target="#fe-and-mg-labor-markets-and-pollution">FE and MG: Labor Markets and Pollution</a></li>
+  </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/vladislav-morozov/econometrics-2/edit/main/src/exercises/exercises-linear-inference.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/vladislav-morozov/econometrics-2/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/vladislav-morozov/econometrics-2/edit/main/src/exercises/exercises-panel.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/vladislav-morozov/econometrics-2/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../slides/vector/ols-inference.html">Asymptotic Inference</a></li><li class="breadcrumb-item"><a href="../exercises/exercises-linear-inference.html">Exercises: Asymptotic Inference</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../slides/panel/data-types.html">Panel Data</a></li><li class="breadcrumb-item"><a href="../exercises/exercises-panel.html">Exercises: Panel Data</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Exercises: Asymptotic Inference</h1>
+<h1 class="title">Exercises: Panel Data</h1>
 </div>
 
 <div>
   <div class="description">
-    Theoretical and applied exercises on inference: hypothesis testing, nonlinear functions of parameters, consistency of HC0 asymptotic variance estimator.
+    Theoretical and applied exercises on panel data: event studies, difference-in-differences, fixed effect and mean group estimation.
   </div>
 </div>
 
@@ -683,262 +689,427 @@ window.Quarto = {
 
 <section id="theoretical-exercises" class="level2">
 <h2 class="anchored" data-anchor-id="theoretical-exercises">Theoretical Exercises</h2>
-<section id="testing-scalar-restrictions" class="level3">
-<h3 class="anchored" data-anchor-id="testing-scalar-restrictions">Testing Scalar Restrictions</h3>
-<p>Let the outcome <span class="math inline">\(Y_i\)</span>, the covariates <span class="math inline">\(\bX_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear potential outcomes model <span class="math display">\[
-Y_i^{\bx} = \bx'\bbeta + U_i.
-\]</span> Suppose that we observe an IID sample of data on <span class="math inline">\(Y_i, \bX_i\)</span>, that <span class="math inline">\(\E[U_i|\bX_i]=0\)</span>, that <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is invertible, and that <span class="math inline">\(\E[U_i^2\bX_i\bX_i']\)</span> has maximal rank.</p>
+<section id="event-study-estimator-as-linear-regression" class="level3">
+<h3 class="anchored" data-anchor-id="event-study-estimator-as-linear-regression">Event Study Estimator as Linear Regression</h3>
+<p>Consider the setting of the <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/event-studies-and-ols">lecture on event studies</a> under an assumption of no trends.</p>
 <ol type="1">
-<li>Consider the hypotheses <span class="math inline">\(H_0: \beta_k = c\)</span> and <span class="math inline">\(H_1: \beta_k\neq c\)</span>, where <span class="math inline">\(\beta_k\)</span> is the <span class="math inline">\(k\)</span>th coordinate of the <span class="math inline">\(\bbeta\)</span> vector. Propose a consistent test for <span class="math inline">\(H_0\)</span> vs <span class="math inline">\(H_1\)</span> that has asymptotic size <span class="math inline">\(\alpha\)</span>.</li>
-<li>Now let <span class="math inline">\(\ba\neq 0\)</span> be some known constant vector of the same dimension as <span class="math inline">\(\bbeta\)</span>. Consider the hypotheses <span class="math inline">\(H_0: \ba'\bbeta = c\)</span> and <span class="math inline">\(H_1: \ba'\bbeta\neq c\)</span>. Propose a consistent <span class="math inline">\(t\)</span>-test for <span class="math inline">\(H_0\)</span> vs <span class="math inline">\(H_1\)</span> that has asymptotic size <span class="math inline">\(\alpha\)</span>.</li>
-<li>Why do we require that <span class="math inline">\(\ba\neq 0\)</span> in the previous question?</li>
+<li><p>Show that the estimator <span class="math inline">\(\widehat{AE}_{ES}\)</span> is equal to the OLS estimator for regressing <span class="math inline">\(Y_{it}\)</span> on <span class="math inline">\((1, D_{it})\)</span> (<a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/event-studies-and-ols">proposition 3</a>).</p></li>
+<li><p>Consider the following representation for the realized outcomes <span class="math inline">\(Y_{it}\)</span>: <span class="math display">\[
+\begin{aligned}
+Y_{it} &amp; = \beta_0 + \beta_1 D_{it} + U_{it},
+\\
+\beta_0 &amp; = \E[Y_{i1}^0], \quad
+\beta_1  =  \E[Y_{i2}^1- Y_{i2}^0] .
+\end{aligned}
+\]</span> Express <span class="math inline">\(U_{it}\)</span> in terms of <span class="math inline">\(\beta_0, \beta_1\)</span> and the potential outcomes <span class="math inline">\(Y_{it}^0, Y_{it}^1\)</span>.</p></li>
+<li><p>Recall that in a linear causal model OLS is consistent for the coefficient vector provided the regressors <span class="math inline">\(\bX_{it}\)</span> are orthogonal to the residuals in the sense <span class="math inline">\(\E[\bX_{it}U_{it}]=0\)</span>. Does this condition hold in the above regression? What about <span class="math inline">\(\E[U_{it}|\bX_{it}]=0\)</span>? Connect to the assumption of no trends.</p></li>
 </ol>
-<p>In both cases remember to show that your test is consistent and has the desired asymptotic size.</p>
 <details>
 <summary>
 Click to see the solution
 </summary>
-<p><em>First subquestion</em>: to choose our test statistic, we observe two facts:</p>
-<ul>
-<li>We are dealing with a scalar hypothesis,</li>
-<li>The OLS estimator is consistent and asymptotically normal (why?).</li>
-</ul>
-<p>Accordingly, we can use the t-test. The t-statistic is given by <span class="math display">\[
-t = \dfrac{\hat{\bbeta}_k - c}{ \sqrt{ \widehat{\avar}(\hat{\bbeta})/N  } },
-\]</span> where <span class="math inline">\(\hat{\bbeta}\)</span> is the OLS estimator, <span class="math inline">\(\widehat{\avar}(\hat{\bbeta})\)</span> is some consistent estimator of <span class="math inline">\(\avar(\bbeta)\)</span> (e.g.&nbsp;the HC0 estimator from the lectures)</p>
-<p>Our test is based on the following decision rule. Let <span class="math inline">\(z_{1-\alpha/2}\)</span> be the <span class="math inline">\((1-\alpha/2)\)</span>th quantile of the standard normal distribution. Then:</p>
-<ul>
-<li>If <span class="math inline">\(\abs{t}&gt;z_{1-\alpha/2}\)</span>, we reject <span class="math inline">\(H_0\)</span>.</li>
-<li>If <span class="math inline">\(\abs{t}\leq z_{1-\alpha/2}\)</span>, we do not reject <span class="math inline">\(H_0\)</span>.</li>
-</ul>
-<p>We now need to show that this test is consistent and has the desired asymptotic size.</p>
-<ul>
-<li><p><strong>Consistency</strong>: We need to show that the probability of rejecting <span class="math inline">\(H_0\)</span> converges to 1 when <span class="math inline">\(H_0\)</span> is false. Let <span class="math inline">\(\beta_k\)</span> be the true value of the coefficient of interest, and write <span class="math display">\[
-t = \dfrac{\hat{\bbeta}_k - \beta_k}{ \sqrt{ \widehat{\avar}(\hat{\bbeta})/N  } } + \dfrac{ \beta_k- c}{ \sqrt{ \widehat{\avar}(\hat{\bbeta})/N  } }.
-\]</span> By our asymptotic normality results, the first term converges in distribution to a <span class="math inline">\(N(0, 1)\)</span> random variable. By our assumptions, <span class="math inline">\(\widehat{\avar}(\hat{\bbeta})\xrightarrow{p} \avar(\hat{\bbeta})\neq 0\)</span>. Under the alternative, <span class="math inline">\(\beta_k\neq c\)</span>, and so the second term diverges to <span class="math inline">\(\pm \infty\)</span>. It then follows that with probability approaching one <span class="math inline">\(\abs{t}&gt; z_{1-\alpha/2}\)</span> for any <span class="math inline">\(\beta_k\neq c\)</span>. In other words, consistency holds.</p></li>
-<li><p><strong>Asymptotic size</strong>: We need to show that the probability of rejecting <span class="math inline">\(H_0\)</span> converges to <span class="math inline">\(\alpha\)</span> when <span class="math inline">\(H_0\)</span> is true. Under <span class="math inline">\(H_0\)</span> it holds that <span class="math inline">\(\beta_k=c\)</span>, and thus our asymptotic results and Slutsky’s theorem imply that <span class="math display">\[
-t = \dfrac{\hat{\bbeta}_k - \beta_k}{ \sqrt{ \widehat{\avar}(\hat{\bbeta})/N  } } \xrightarrow{d} N(0, 1).
-\]</span> By definition of convergence of probability, definition of <span class="math inline">\(z_{1-\alpha/2}\)</span> and the fact that <span class="math inline">\(z_{1-\alpha/2} = -z_{\alpha/2}\)</span>, it holds that <span class="math display">\[
+<p><em>First subquestion</em>: let <span class="math inline">\(\hat{\beta}_1\)</span> be the estimated coefficients on <span class="math inline">\(D_{it}\)</span>. Recall that it can be expressed as <span class="math display">\[
+\hat{\beta}_1 = \dfrac{\widehat{\cov}(Y_{it}, D_{it})}{\widehat{\var}(D_{it})}.
+\]</span> It is sufficient to evaluate the sample moments on the right hand side. For example, it holds that <span class="math display">\[
+\widehat{\var}(D_{it}) = \dfrac{1}{2N}\sum_{i=1}^N \sum_{t=1}^2 D_{it}^2 - \left(\dfrac{1}{2N}\sum_{i=1}^N \sum_{t=1}^2 D_{it} \right)^2 = \dfrac{1}{4},
+\]</span> where we use that for all <span class="math inline">\(i\)</span> it holds that <span class="math inline">\(D_{i1}=0\)</span> and <span class="math inline">\(D_{i2}=1\)</span>.</p>
+<p>Likewise, for covariance we have that <span class="math display">\[
 \begin{aligned}
-&amp; P\left(\text{Reject} H_0|H_0 \right) = P\left(\abs{t}&gt;z_{1-\alpha/2} |H_0\right) \\
-&amp; = P\left( \abs{ \dfrac{\hat{\beta}_k-c}{\sqrt{ \widehat{\avar}(\hat{\beta}_k)/N }  }}&gt; z_{1-\alpha/2}\Bigg|H_0 \right)\\
-&amp; \to \Phi(z_{\alpha/2}) + (1- \Phi(z_{1-\alpha/2})) = \alpha
-\end{aligned}.
-\]</span> The test has asymptotic size <span class="math inline">\(\alpha\)</span>.</p></li>
-</ul>
+&amp; \widehat{\cov}(Y_{it}, D_{it})\\
+&amp; = \dfrac{1}{2N}\sum_{i=1}^N \sum_{t=1}^2 Y_{it}D_{it} - \left(  \dfrac{1}{2N}\sum_{i=1}^N \sum_{t=1}^2 Y_{it}\right)\left( \dfrac{1}{2N}\sum_{i=1}^N \sum_{t=1}^2 D_{it} \right) \\
+&amp; = \dfrac{1}{2N}\sum_{i=1}^N Y_{i2} - \dfrac{1}{4N}\left(  \sum_{i=1}^N Y_{i1} +\sum_{i=1}^N Y_{i2}  \right) \\
+&amp; = \dfrac{1}{4N}\sum_{i=1}^N (Y_{i2}- Y_{i1}).
+\end{aligned}
+\]</span> Combining the two expressions, we obtain that <span class="math display">\[
+\hat{\beta}_1 = \widehat{AE}_{ES}.
+\]</span></p>
 <p><br></p>
-<p><em>Second subquestion</em>: the question explicitly asks for a <span class="math inline">\(t\)</span>-test, and so we use the following <span class="math inline">\(t\)</span>-statistic as the basis for our test: <span id="eq-exercises-inference-t-single-linear"><span class="math display">\[
-t = \dfrac{\ba'\hat{\bbeta} - c}{ \sqrt{ \widehat{\avar}(\ba'\hat{\bbeta})/N  } },
-\tag{1}\]</span></span> The key question is how to construct a suitable estimator <span class="math inline">\(\widehat{\avar}(\ba'\bbeta)\)</span> for <span class="math inline">\(\avar(\ba'\bbeta)\)</span>.</p>
-<p>By the continuous mapping theorem it holds that <span class="math display">\[
-\sqrt{N}(\ba'\hat{\bbeta}- \ba'\bbeta) \xrightarrow{d} N(0, \ba'\avar(\bbeta)\ba).
-\]</span> By the continuous mapping theorem again: <span class="math display">\[
-\ba'\widehat{\avar}(\hat{\bbeta})\ba \xrightarrow{p}\ba'{\avar}(\hat{\bbeta})\ba  = \avar(\ba'\hat{\bbeta})
-\]</span> Hence, we can use <span class="math inline">\(\ba'\widehat{\avar}(\hat{\bbeta})\ba\)</span> as <span class="math inline">\(\widehat{\avar}(\ba'\bbeta)\)</span> in <a href="#eq-exercises-inference-t-single-linear" class="quarto-xref">Equation&nbsp;1</a>. With this choice, it follows by Slutsky’s theorem that <span id="eq-exercises-inference-t-single-linear-limit"><span class="math display">\[
-\dfrac{\ba'\hat{\bbeta} - \ba'\bbeta}{ \sqrt{ \widehat{\avar}(\ba'\hat{\bbeta})/N  } } \xrightarrow{d} N(0, 1).
-\tag{2}\]</span></span></p>
-<p>Our decision rule is analogous to the above one:</p>
+<p><em>Second subquestion</em>: the easiest way to proceed is to tackle <span class="math inline">\(t=1\)</span> and <span class="math inline">\(t=2\)</span> separately. Consider first <span class="math inline">\(t=0\)</span>. By construction, we know that <span class="math inline">\(Y_{i1}=Y_{i1}^0\)</span> (the untreated outcome). Hence <span class="math display">\[
+\begin{aligned}
+Y_{i1} &amp; = Y_{i1}^0\\
+&amp; = \beta_0 + \beta_1\times 0 +  (Y_{i1}^0-\beta_0)\\
+&amp; = \beta_0 + \beta_1 D_{i1} + (Y_{i1}^0-\beta_0).
+\end{aligned}
+\]</span> We conclude that <span class="math display">\[
+U_{i1} = Y_{i1}^0  - \beta_0.
+\]</span> We can proceed similarly with <span class="math inline">\(t=2\)</span>: <span class="math display">\[
+\begin{aligned}
+Y_{i2} &amp; = Y_{i2}^1\\
+&amp; = \beta_0 + \beta_1 +  (Y_{i2}^1-\beta_0-\beta_1)\\
+&amp; = \beta_0 + \beta_1 D_{i2} + (Y_{i2}^1-\beta_0-\beta_1).
+\end{aligned}
+\]</span> It follows that <span class="math display">\[
+U_{i2} = Y_{i2}^1-\beta_0-\beta_1.
+\]</span></p>
+<p><br></p>
+<p><em>Third subquestion</em>: the regressor vector <span class="math inline">\(\bX_{it}\)</span> is <span class="math inline">\((1, D_{it})\)</span>. Accordingly, <span class="math inline">\(\E[\bX_{it}U_{it}]=0\)</span> is two conditions: <span class="math inline">\(\E[U_{it}]=0\)</span> and <span class="math inline">\(\E[U_{it}D_{it}]=0\)</span>.</p>
+<p>To check these conditions, it is again best to separately consider <span class="math inline">\(t=1\)</span> and <span class="math inline">\(t=2\)</span>.</p>
 <ul>
-<li>If <span class="math inline">\(\abs{t}&gt;z_{1-\alpha/2}\)</span>, we reject <span class="math inline">\(H_0\)</span>.</li>
-<li>If <span class="math inline">\(\abs{t}\leq z_{1-\alpha/2}\)</span>, we do not reject <span class="math inline">\(H_0\)</span>.</li>
+<li><p>For <span class="math inline">\(t=1\)</span> we have <span class="math display">\[
+\begin{aligned}
+\E[U_{i1}] &amp; = \E[Y_{i1}^0-\beta_0]= \E[Y_{i1}^0] - \E[Y_{i1}^0] =0, \\
+\E[U_{i1}D_{i1}] &amp; = \E[U_{i1}\times 0] =0,
+\end{aligned}
+\]</span> where we use the definition of <span class="math inline">\(\beta_0\)</span> and that <span class="math inline">\(D_{i1}=0\)</span> for all units.</p></li>
+<li><p>For <span class="math inline">\(t=2\)</span>: <span class="math display">\[
+\begin{aligned}
+\E[U_{i2}] &amp; = \E[Y_{i2}^1-\beta_0- \beta_1]= \E[Y_{i2}^1] - \E[Y_{i1}^0] - \E[Y_{i2}^1- Y_{i2}^0]\\
+&amp; = \E[Y_{i2}^0] - \E[Y_{i1}^0] \\
+&amp; = 0,  \\
+\E[U_{i2}D_{i2}] &amp; = \E[U_{i2}\times 1] =0,
+\end{aligned}
+\]</span> where we use the assumption of no trends (in the untreated outcomes).</p></li>
 </ul>
-<p>Consistency and asymptotic size can be shown entirely analogously to the above case by using <a href="#eq-exercises-inference-t-single-linear-limit" class="quarto-xref">Equation&nbsp;2</a> (show them regardless to practice!).</p>
-<p><br></p>
-<p><em>Third subquestion</em>: if <span class="math inline">\(\ba=0\)</span>, then the null hypothesis is trivially true and reduces to <span class="math inline">\(H_0: 0=c\)</span>. It is either trivially true or trivially false, depending on <span class="math inline">\(c\)</span>.</p>
-<p><br></p>
+<p>We conclude that <span class="math inline">\(\E[\bX_{it}U_{it}]=0\)</span> under the assumption of no trends.</p>
+<p>Finally, regarding strict exogeneity, the conditional expectation in <span class="math inline">\(\E[U_{it}|\bX_{it}]\)</span> is actually quite easy to handle.</p>
+<ul>
+<li>First, conditioning on a constant does not change anything (intuitively, a constant contains no information about any random variable), so <span class="math inline">\(\E[U_{it}|\bX_{it}]= \E[U_{it}|D_{it}]\)</span>.</li>
+<li>Second, <span class="math inline">\(D_{it}\)</span> itself is constant for each given <span class="math inline">\(t\)</span> (=takes only one possible value for each <span class="math inline">\(t\)</span>), so <span class="math display">\[
+\begin{aligned}
+\E[U_{i1}|D_{i1}] = \E[U_{i1}], \quad \E[U_{i2}|D_{i2}] = \E[U_{i2}].
+\end{aligned}
+\]</span> Both expectations on the right are 0.</li>
+</ul>
+<p>We conclude that <span class="math display">\[
+\E[U_{it}|\bX_{it}] =0,
+\]</span> and that strict exogeneity is equivalent to the assumption of no trends in the baseline.</p>
+<p>A practical conclusion is that under the assumption of no trends in the untreated outcomes, the OLS estimator is unbiased and consistent for the average treatment effect as <span class="math inline">\(N\to\infty\)</span>.</p>
 </details>
 </section>
-<section id="testing-several-linear-restrictions" class="level3">
-<h3 class="anchored" data-anchor-id="testing-several-linear-restrictions">Testing Several Linear Restrictions</h3>
-<p>Let the outcome <span class="math inline">\(Y_i\)</span>, the covariates <span class="math inline">\(\bX_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear potential outcomes model <span class="math display">\[
-Y_i^{\bx} = \bx'\bbeta + U_i.
-\]</span> Suppose that we observe an IID sample of data on <span class="math inline">\(Y_i, \bX_i\)</span>, that <span class="math inline">\(\E[U_i|\bX_i]=0\)</span>, that <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is invertible, and that <span class="math inline">\(\E[U_i^2\bX_i\bX_i']\)</span> has maximal rank.</p>
-<p>Let <span class="math inline">\(\bbeta = (\beta_1, \beta_2, \dots, \beta_p)\)</span> with <span class="math inline">\(p\geq 4\)</span>. Consider the following two hypotheses on <span class="math inline">\(\bbeta\)</span>: <span class="math display">\[
-H_0: \begin{cases}
-\beta_1 = 0, \\
-\beta_2 - \beta_3 = 1, \\
-\beta_2 = 4\beta_4 + 5,
-\end{cases} \quad H_1: \text{at least one equality in $H_0$ fails}
-\]</span> Propose a consistent test for <span class="math inline">\(H_0\)</span> vs.&nbsp;<span class="math inline">\(H_1\)</span> with asymptotic size <span class="math inline">\(\alpha\)</span>. Show that the test possesses these properties.</p>
+<section id="allowing-trends-in-event-studies" class="level3">
+<h3 class="anchored" data-anchor-id="allowing-trends-in-event-studies">Allowing Trends in Event Studies</h3>
+<p>When talking about event studies in the lecture, we have made the assumption of no trends in the untreated outcomes: that <span class="math inline">\(\E[Y_{it}^0]\)</span> does not depend on <span class="math inline">\(t\)</span>. This problem is about relaxing this assumption to allow some dynamics in outcomes.</p>
+<p>Consider the multiple period framework in the <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/multiple-period-framework">slides on event studies</a>. Suppose that we replace the assumption of no trends with an assumption of linear average growth in the untreated outcomes: <span id="eq-ex-panel-ex-trend"><span class="math display">\[
+\E[Y_{it}^0] - \E[Y_{i1}^0] = \gamma(t-1), \quad t= 1, \dots, T
+\tag{1}\]</span></span> We are interested in estimating <span class="math inline">\(\beta_{\tau} = \E[Y_{i\tau}^1-Y_{i\tau}^0]\)</span> — the average treatment effects in periods <span class="math inline">\(\tau\geq t_0\)</span>.</p>
+<p>Propose a consistent estimator for <span class="math inline">\(\E[Y_{it}^1-Y_{it}^0]\)</span>. Show its consistency. You may freely use the consistency results proved in the asymptotic theory part of the class.</p>
 <details>
 <summary>
 Click to see the solution
 </summary>
-<p>First, we write the null hypothesis in matrix form. We can do this by stacking the three equations in <span class="math inline">\(H_0\)</span> into a single vector equation: <span class="math display">\[
-\begin{aligned}
-H_0: &amp; \bR\bbeta = \bq, \\
-\bR &amp; = \begin{pmatrix}
-1 &amp; 0 &amp; 0 &amp; 0 &amp; \cdots\\
-0 &amp; 1 &amp; -1 &amp; 0 &amp; \cdots\\
-0 &amp; 1 &amp; 0 &amp; -4 &amp; \cdots
-\end{pmatrix}, \quad \bq = \begin{pmatrix}
-0\\
-1\\
-5
-\end{pmatrix},
-\end{aligned}
-\]</span> where <span class="math inline">\(\bR\)</span> has zero columns starting from the fifth column.</p>
-<p>We can construct a Wald test for <span class="math inline">\(H_0\)</span> vs.&nbsp;<span class="math inline">\(H_1\)</span>. The Wald statistic is defined as <span class="math display">\[
-W = N\left(\bR\hat{\bbeta} - \bq \right)' \left(\bR\widehat{\avar}(\hat{\bbeta})\bR' \right)^{-1} \left( \bR\hat{\bbeta} - \bq  \right)
-\]</span></p>
-<p>We propose the following test. Let <span class="math inline">\(c_{1-\alpha}\)</span> be the <span class="math inline">\((1-\alpha)\)</span>th quantile of the <span class="math inline">\(\chi^2_{3}\)</span> distribution (3 is the number of constraints in <span class="math inline">\(H_0\)</span>). Then</p>
+<p>The most natural way to proceed is to attempt a regression similar to the <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/expanded-regression">one</a> we discussed in the multiple period case with no trends. Define period-<span class="math inline">\(\tau\)</span> treatment indicators: <span class="math display">\[
+D_{it, \tau} = \begin{cases}
+1, &amp; t= \tau, \\
+0, &amp; t\neq \tau
+\end{cases}
+\]</span> We can now regress <span class="math inline">\(Y_{it}\)</span> on <span class="math inline">\(\bX_{it} = (1, t-1, D_{it, t_0}, \dots D_{it, T})\)</span> using OLS — note the addition of time <span class="math inline">\(t\)</span> to the list of regressors. Our estimator for <span class="math inline">\(\beta_{\tau}\)</span> is the coefficient on <span class="math inline">\(D_{it, \tau}\)</span>.</p>
+<p>To show consistency, we can use the same approach as in the first problem:</p>
+<ol type="1">
+<li>Represent the estimator as a linear model involving the coefficients of interest: <span id="eq-ex-panel-ex-trend-model"><span class="math display">\[
+Y_{it} = \beta_0 + \gamma (t-1)  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + U_{it},
+\tag{2}\]</span></span> where <span class="math inline">\(\beta_0 =\E[Y_{i1}^0]=0\)</span>.</li>
+<li>Show that <span class="math inline">\(\E[\bX_{it}U_{it}]=0\)</span>.</li>
+</ol>
+<p>As in the previous problem, it is enough to show that <span class="math inline">\(\E[U_{it}]=0\)</span> for all <span class="math inline">\(t\)</span> (why?). It is also again easiest to separately consider pre- and post-treatment periods. For clarity, we first find an expression for <span class="math inline">\(U_{it}\)</span> by aligning <span class="math inline">\(Y_{it}\)</span> with <a href="#eq-ex-panel-ex-trend-model" class="quarto-xref">Equation&nbsp;2</a>. We then find <span class="math inline">\(\E[U_{it}]\)</span>.</p>
 <ul>
-<li>If <span class="math inline">\(W&gt;c_{1-\alpha}\)</span>, we reject <span class="math inline">\(H_0\)</span>.</li>
-<li>If <span class="math inline">\(W\leq c_{1-\alpha}\)</span>, we do not reject <span class="math inline">\(H_0\)</span>.</li>
-</ul>
-<p>We now need to show that this test is consistent and has the desired asymptotic size.</p>
-<ul>
-<li><p><strong>Asymptotic size</strong>: Under <span class="math inline">\(H_0\)</span> it holds that <span class="math inline">\(\bR\bbeta=\bq\)</span>, and so by our asymptotic results for the OLS estimator and the continuous mapping theorem under <span class="math inline">\(H_0\)</span> <span class="math display">\[
-\sqrt{N}(\bR\hat{\bbeta}-\bq) \xrightarrow{d} N(0, \bR\avar(\hat{\bbeta})\bR').
-\]</span> By Slutsky’s theorem and the definition of <span class="math inline">\(\chi^2_{\cdot}\)</span> random variables, it holds under <span class="math inline">\(H_0\)</span> that <span class="math display">\[
-W \xrightarrow{d} \chi^2_3.
-\]</span> By definition of <span class="math inline">\(c_{1-\alpha}\)</span> and the definition of convergence in distribution <span class="math display">\[
+<li><p>Let <span class="math inline">\(t&lt;t_0\)</span>. Then <span class="math display">\[
 \begin{aligned}
-&amp; P\left(\text{Reject} H_0|H_0 \right) = P\left(W&gt;c_{1-\alpha} |H_0\right) \\
-&amp; \to P(\chi^2_3&gt; c_{1-\alpha}) = \alpha .
+&amp; Y_{it} \\
+&amp;  = Y_{it}^0\\
+&amp; = \beta_0 + \gamma(t-1) + 0 + (Y_{it}^0 - \beta_0 - \gamma(t-1))\\
+&amp; = \beta_0 + \gamma(t-1) + \sum_{\tau=t_0}^T \beta_{\tau} D_{it, \tau} + (Y_{it}^0 - \beta_0 - \gamma(t-1)),
 \end{aligned}
-\]</span> The test has asymptotic size <span class="math inline">\(\alpha\)</span>.</p></li>
-<li><p><strong>Consistency</strong>: Under <span class="math inline">\(H_1\)</span> we have that <span class="math inline">\(\bR\hat{\bbeta}\xrightarrow{p} \bR\bbeta\neq \bq\)</span>. In words, the outside terms in <span class="math inline">\(W\)</span> converge to something <span class="math inline">\(\neq 0\)</span>. At the same time <span class="math inline">\(\left(\bR\widehat{\avar}(\hat{\bbeta})\bR' \right)^{-1} \xrightarrow{p} \left(\bR\avar(\hat{\bbeta})\bR'\right)^{-1}\)</span> — a positive definite matrix. We conclude that <span class="math display">\[
+\]</span> where we use the fact that <span class="math inline">\(D_{it, \tau}=0\)</span> for all <span class="math inline">\(t&lt;t_0\)</span> and <span class="math inline">\(\tau\geq t_0\)</span>. In other words, <span class="math inline">\(U_{it} = Y_{it}^0 - \beta_0 - \gamma(t-1)\)</span> for <span class="math inline">\(t&lt;t_0\)</span>. Then <span class="math display">\[
 \begin{aligned}
-&amp; \left(\bR\hat{\bbeta} - \bq \right)' \left(\bR\widehat{\avar}(\hat{\bbeta})\bR' \right)^{-1} \left( \bR\hat{\bbeta} - \bq  \right) \\
-&amp; \xrightarrow{p} \left(\bR\bbeta -\bq\right)' \left(\bR\avar(\hat{\bbeta})\bR'\right)^{-1}(\bR\bbeta-\bq) \\
-&amp; &gt;0,
+\E[U_{it}] &amp; = \E[Y_{it}^0] - \E[Y_{i1}^0] - \gamma(t-1) \\
+&amp; = \E[Y_{i1}^0] + \gamma(t-1) - \E[Y_{i1}^0] - \gamma(t-1)\\
+&amp; = 0,
 \end{aligned}
-\]</span> where we use the definition of positive definitiness. Finally, recall that there is also an <span class="math inline">\(N\)</span> term in <span class="math inline">\(W\)</span>. We conclude that overall <span class="math display">\[
-W\xrightarrow{p} \infty
-\]</span> It follows that the probability of rejecting tends to 1 for any <span class="math inline">\(\bbeta\)</span> in <span class="math inline">\(H_1\)</span>. In other words, consistency holds.</p></li>
+\]</span> where we have used <a href="#eq-ex-panel-ex-trend" class="quarto-xref">Equation&nbsp;1</a> on the second line.</p></li>
+<li><p>Let <span class="math inline">\(t\geq t_0\)</span>. Then <span class="math display">\[
+\begin{aligned}
+&amp; Y_{it} \\
+&amp; = Y_{it}^1\\
+&amp; = \beta_0 + \gamma(t-1) + \beta_t \times 1 +  (Y_{it}^1 - \beta_0 - \gamma(t-1) - \beta_t)\\
+&amp; =  \beta_0 + \gamma(t-1) + \sum_{\tau=t_0}^T \beta_{\tau} D_{it, \tau} +  (Y_{it}^1 - \beta_0 - \gamma(t-1) - \beta_t),
+\end{aligned}
+\]</span> where we use that only <span class="math inline">\(D_{it, t}\)</span> is equal to 1 in the above sum. We thus obtain that <span class="math inline">\(U_{it} = Y_{it}^1 - \beta_0 - \gamma(t-1) - \beta_t\)</span> for <span class="math inline">\(t\geq t_0\)</span>. Hence <span class="math display">\[
+\begin{aligned}
+\E[U_{it}] &amp; = \E[Y_{it}^1] - \E[Y_{i1}^0] - \gamma(t-1) - \E[Y_{it}^1 - Y_{it}^0]\\
+&amp; = \E[Y_{it}^0] - \E[Y_{i1}^0] - \gamma(t-1)\\
+&amp; = \E[Y_{i1}^0] + \gamma(t-1) - \E[Y_{i1}^0] - \gamma(t-1)\\
+&amp; = 0,
+\end{aligned}
+\]</span> where we again use <a href="#eq-ex-panel-ex-trend" class="quarto-xref">Equation&nbsp;1</a>.</p></li>
 </ul>
+<p>By the same argument as in the above problem (please check!), we conclude that <span class="math inline">\(\E[\bX_{it}U_{it}]=0\)</span>. It follows that our OLS estimator is consistent for <span class="math inline">\((\beta_0, \gamma, \beta_{t_0}, \dots, \beta_T)\)</span> by the standard consistency results for OLS.</p>
 </details>
 </section>
-<section id="inference-on-a-nonlinear-function-of-parameters" class="level3">
-<h3 class="anchored" data-anchor-id="inference-on-a-nonlinear-function-of-parameters">Inference on a Nonlinear Function of Parameters</h3>
-<p>Let the outcome <span class="math inline">\(Y_i\)</span>, the covariates <span class="math inline">\(\bX_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear potential outcomes model <span class="math display">\[
-Y_i^{\bx} = \bx'\bbeta + U_i.
-\]</span> Suppose that we observe an IID sample of data on <span class="math inline">\(Y_i, \bX_i\)</span>, that <span class="math inline">\(\E[U_i|\bX_i]=0\)</span>, that <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is invertible, and that <span class="math inline">\(\E[U_i^2\bX_i\bX_i']\)</span> has maximal rank. Also suppose that <span class="math inline">\(\bbeta\)</span> has <span class="math inline">\(p\geq 2\)</span> components, that <span class="math inline">\(\beta_1&gt;0\)</span> and <span class="math inline">\(\beta_2&gt;0\)</span>, and that you are interested in <span class="math display">\[
-\gamma = \sqrt{\beta_1\beta_2}.
-\]</span></p>
+<section id="difference-in-differences-as-two-way-fixed-effect-regression" class="level3">
+<h3 class="anchored" data-anchor-id="difference-in-differences-as-two-way-fixed-effect-regression">Difference-in-Differences as Two-Way Fixed Effect Regression</h3>
+<p>Consider the setting of the <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html#/setting">lecture on difference-in-differences</a> with two groups and two periods.</p>
 <ol type="1">
-<li>Construct a confidence interval for <span class="math inline">\(\gamma\)</span> with asymptotic coverage <span class="math inline">\((1-\alpha)\)</span>.</li>
-<li>Consider <span class="math inline">\(H_0: \gamma=1\)</span> vs.&nbsp;<span class="math inline">\(H_1:\gamma\neq 1\)</span>. Construct a consistent test for <span class="math inline">\(H_0\)</span> vs.&nbsp;<span class="math inline">\(H_1\)</span> with asymptotic size <span class="math inline">\(\alpha\)</span>.</li>
+<li>Show that the DiD estimator is a two-way fixed effect estimator (prove proposition 2 in the <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html#/regression-representation-result">slides</a>).</li>
+<li>Prove that the parallel trends assumption implies strict exogeneity in <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html#/eq-causal-did-twfe">Equation 4 in the slides</a>.</li>
+<li>Conclude that the DiD estimator is consistent and asymptotically normal for the ATT. You may freely use the consistency results proved in the asymptotic theory part of the class.</li>
 </ol>
-<p>Remember to prove coverage, consistency, and size properties.</p>
 <details>
 <summary>
 Click to see the solution
 </summary>
-<p><em>First subquestion</em>: we can use the delta method to construct a confidence interval for <span class="math inline">\(\gamma\)</span>. The delta method states that if <span class="math inline">\(\hat{\bbeta}\)</span> is consistent and asymptotically normal, then <span class="math inline">\(g(\hat{\bbeta})\)</span> is also consistent and asymptotically normal for any continuously differentiable function <span class="math inline">\(g(\cdot)\)</span>.</p>
-<p>For our <span class="math inline">\(\gamma\)</span>, we take <span class="math inline">\(g(\bw) = \sqrt{w_1w_2}\)</span>. This <span class="math inline">\(g(\cdot)\)</span> differentiable in a neighborhood of <span class="math inline">\(\bbeta\)</span>. The Jacobian <span class="math inline">\(\bG(\cdot)\)</span> of <span class="math inline">\(g(\cdot)\)</span> is a <span class="math inline">\(1\times p\)</span> matrix given by <span class="math display">\[
-\bG(\bw) = \left( \dfrac{w_2}{2\sqrt{w_1w_2}}, \dfrac{w_1}{2\sqrt{w_1w_2}}, 0, \dots, 0 \right).
-\]</span> By assumptions of the problem, <span class="math inline">\(G(\bbeta)\)</span> has maximal rank.</p>
-<p>Since <span class="math inline">\(g(\bbeta) = \gamma\)</span>, the delta method tells us that <span id="eq-exercises-inference-delta-normality"><span class="math display">\[  
+<p><em>First subquestion</em>: the proof is by brute force evaluation of the OLS estimator expression <span class="math display">\[
+\hat{\delta} = \dfrac{\widehat{\cov}\left(Y_{i2}-Y_{i1}, D_{i2}\right) }{\widehat{\var}(D_{i2})}.
+\]</span> The denominator is given by <span class="math display">\[
+\widehat{\var}(D_{i2}) = \dfrac{1}{N} \sum_{i=1}^N D_{i2}^2 - \left(\dfrac{1}{N} \sum_{i=1}^N D_{i2} \right)^2 = \dfrac{N_T}{N} - \dfrac{N_T^2}{N^2} = \dfrac{N_TN_U}{N^2},
+\]</span> where <span class="math inline">\(N_T\)</span> is the number of treated units, and <span class="math inline">\(N_U\)</span> is the number of untreated units.</p>
+<p>The numerator is given by <span class="math display">\[
 \begin{aligned}
-\sqrt{N}(g(\hat{\bbeta}) -  \gamma) &amp; \xrightarrow{d} N(0, \bG(\bbeta)\avar(\hat{\bbeta})\bG(\bbeta)').
+&amp; \widehat{\cov}\left(Y_{i2}-Y_{i1}, D_{i2}\right) \\
+&amp; = \dfrac{1}{N}\sum_{Treated} (Y_{i2}-Y_{i1}) \\
+&amp; \quad - \dfrac{N_T}{N}  \dfrac{1}{N}\left( \sum_{Treated} (Y_{i2}-Y_{i1}) + \sum_{Untreated}(Y_{i2}- Y_{i1})  \right) \\
+&amp; = \dfrac{N_U}{N^2} \sum_{Treated} (Y_{i2}-Y_{i1}) -\dfrac{N_T}{N^2} \sum_{Untreated} (Y_{i2}-Y_{i1}).
+\end{aligned}
+\]</span> Dividing the numerator by the denominator and combining the <span class="math inline">\(N\)</span> terms yields the result.</p>
+<p><br></p>
+<p><em>Second subquestion</em>: recall <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html#/eq-causal-did-twfe">Equation 4 in the slides</a>: <span class="math display">\[
+Y_{i2}- Y_{i1} = \gamma + \delta D_{i2} + U_{i2}
+\]</span> for <span class="math display">\[
+\begin{aligned}
+\gamma &amp; = \E[Y_{i2}^0 - Y_{i1}^0 |T], \\
+\delta &amp; = \E[Y_{i2}^1 - Y_{i2}^0 |T].
+\end{aligned}
+\]</span> Here <span class="math inline">\(U_{i2}\)</span> is given by <span class="math display">\[
+U_{i2} = \begin{cases}
+Y_{i2}^0 - Y_{i1}^0 - \gamma, &amp; D_{i2} = 0, \\
+Y_{i2}^1 - Y_{i1}^0 - \gamma-\delta, &amp; D_{i2} = 1,
+\end{cases}
+\]</span></p>
+<p>Strict exogeneity in this case means that <span class="math inline">\(\E[U_{i2}|(1, D_{i2})]=0\)</span>. As always, conditioning on a constant does not affect the conditional expectation, and so we have that <span class="math inline">\(\E[U_{i2}|(1, D_{i2})] = \E[U_{i2}|D_{i2}]\)</span>. To find this expectation, we consider the values of <span class="math inline">\(D_{i2}\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\E[U_{i2}|D_{i2}=0] &amp; = \E[Y_{i2}^0 - Y_{i1}^0|U]- \E[Y_{i2}^0 - Y_{i1}^0 |T] \\
+&amp; = 0 \\
+\E[U_{i2}|D_{i2}=1] &amp; = \E[Y_{i2}^1 - Y_{i1}^0|T] - \E[Y_{i2}^0 - Y_{i1}^0 |T]- \E[Y_{i2}^1 - Y_{i2}^0 |T] \\
+&amp; = 0,
+\end{aligned}
+\]</span> where we</p>
+<ul>
+<li>Use the parallel trends assumption in <span class="math inline">\(\E[U_{i2}|D_{i2}=0]\)</span></li>
+<li>Add and subtract <span class="math inline">\(\E[Y_{i2}^0|T]\)</span> in <span class="math inline">\(\E[U_{i2}|D_{i2}=1]\)</span>.</li>
+</ul>
+<p>For both values of <span class="math inline">\(D_{i2}\)</span> the conditional expectation is 0. Hence <span class="math inline">\(\E[U_{i2}|D_{i2}]=0\)</span>, and strict exogeneity holds.</p>
+<p><em>Bonus question</em>: prove the strict exogeneity implies the parallel trends assumption. To do so, notice that we have proved that in general <span class="math display">\[
+\E[U_{i2}|D_{i2}] = D_{i2} \left( \E[Y_{i2}^0 - Y_{i1}^0|U]- \E[Y_{i2}^0 - Y_{i1}^0 |T]  \right)
+\]</span> Now suppose that <span class="math inline">\(\E[U_{i2}|D_{i2}] = 0\)</span> regardless of the value of <span class="math inline">\(D_{i2}\)</span>. Conclude that trends in outcomes must be parallel.</p>
+<p><br></p>
+<p><em>Third subquestion</em>: the DiD estimator <span class="math inline">\(\hat{\delta}\)</span> is an OLS estimator for a linear causal model with strict exogeneity. Consistency and asymptotic normality for <span class="math inline">\(\delta\)</span> hold by the results we proved in the asymptotic theory part of the class. Finally, recall that <span class="math inline">\(\delta\)</span> is exactly the ATT.</p>
+</details>
+</section>
+<section id="asymptotic-properties-of-fixed-effects-estimator" class="level3">
+<h3 class="anchored" data-anchor-id="asymptotic-properties-of-fixed-effects-estimator">Asymptotic Properties of Fixed Effects Estimator</h3>
+<p>Consider the setting of the <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/fe.html#/sampling-setting">lecture on fixed effect estimation</a>. Suppose that <span class="math inline">\(\bX_{it}\)</span> is some vector of treatments, and that the outcomes follow the two-way fixed effect potential outcome model <span class="math display">\[
+Y_{it}^{\bx} = \alpha_i + \gamma_t + \bx'\bbeta+ U_{it}.
+\]</span></p>
+<ol type="1">
+<li>Show that the corresponding TWFE estimator of <span class="math inline">\(\bbeta\)</span> is consistent and asymptotically normal under the assumptions of <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/fe.html#/asymptotic-distribution">Proposition 4</a>.</li>
+<li>Let the true potential outcomes model only have individual random intercepts <span class="math inline">\(\alpha_i\)</span>: <span class="math display">\[
+Y_{it}^{\bx} = \alpha_i + \bx'\bbeta+ U_{it}.
+\]</span> Suppose that you use the two-way FE estimator regardless. Is it consistent for <span class="math inline">\(\bbeta\)</span>?</li>
+</ol>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p><em>First subquestion</em>: let <span class="math inline">\(\tilde{\bX}_{it}\)</span> be two-way transformed version of <span class="math inline">\(\bX_{it}\)</span>, likewise with <span class="math inline">\(\tilde{Y}_{it}\)</span> and <span class="math inline">\(\tilde{U}_{it}\)</span> (see <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/fe.html#/within-estimation-ii-two-way-transformations">Equation 7</a>). The within-transformed outcomes satisfy: <span class="math display">\[
+\tilde{Y}_{it} = \tilde{\bX}_{it}'\bbeta + \tilde{U}_{it}.
+\]</span> In individual matrix form: <span class="math display">\[
+\tilde{\bY}_i = \tilde{\bX}_i\bbeta + \tilde{\bU}_{i}.
+\]</span></p>
+<p>We can then represent the TWFE estimator of <span class="math inline">\(\bbeta\)</span> as <span id="eq-ex-panel-ex-fe-repr"><span class="math display">\[
+\begin{aligned}
+\hat{\bbeta}^{FE} &amp; = \left( \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i
+\right)^{-1}\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bY}_i \\
+&amp; = \bbeta +  \left(\dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i
+\right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i.
 \end{aligned}
 \tag{3}\]</span></span></p>
-<p>We can now construct a confidence interval in a standard way by using <span class="math inline">\(g(\hat{\bbeta})\)</span> as the estimator and <a href="#eq-exercises-inference-delta-normality" class="quarto-xref">Equation&nbsp;3</a> as the distributional base. Consider the following interval: <span class="math display">\[
-\begin{aligned}
-S &amp; = \left[g(\hat{\bbeta}) - z_{1-\alpha/2}\sqrt{\dfrac{\widehat{\avar}(g(\hat{\bbeta})) }{N}  }, g(\hat{\bbeta}) + z_{1-\alpha/2}\sqrt{\dfrac{\widehat{\avar}(g(\hat{\bbeta})) }{N}  } \right],
-\end{aligned}
-\]</span> where <span class="math inline">\(z_{1-\alpha/2}\)</span> is the <span class="math inline">\((1-\alpha/2)\)</span>th quantile of the standard normal distribution and <span class="math display">\[
-\widehat{\avar}(g(\hat{\bbeta})) = \bG(\hat{\bbeta})\widehat{\avar}(\hat{\bbeta})G(\hat{\bbeta})',
-\]</span> for some consistent estimator <span class="math inline">\(\widehat{\avar}(\hat{\bbeta})\)</span>. It follows that <span class="math inline">\(\widehat{\avar}(g(\hat{\bbeta})) \xrightarrow{p} {\avar}(g(\hat{\bbeta}))\)</span></p>
-<p>To compute asymptotic coverage, we first observe that by Slutsky’s theorem and <a href="#eq-exercises-inference-delta-normality" class="quarto-xref">Equation&nbsp;3</a> it holds that <span class="math display">\[
-\sqrt{N}\dfrac{g(\hat{\bbeta})- \gamma }{\sqrt{\widehat{\avar}(g(\hat{\bbeta}))} } \xrightarrow{d} N(0, 1)
-\]</span> Then by definition of convergence in distribution <span class="math display">\[
-\begin{aligned}
-&amp; P\left(\gamma \in S  \right) = P(g(\bbeta)\in S)\\
-&amp;   = P\left( -z_{1-\alpha/2} \leq  \sqrt{N}\dfrac{g(\hat{\bbeta})- g(\bbeta) }{\sqrt{\widehat{\avar}(g(\hat{\bbeta}))} } \leq  z_{1-\alpha/2}  \right)   \\
-%
-&amp;  \to \Phi(z_{1-\alpha/2})  - \Phi(-z_{1-\alpha/2}) \\
-&amp; = 1-\alpha.
-\end{aligned}
-\]</span> In other words, <span class="math inline">\(S\)</span> has asymptotic coverage <span class="math inline">\(1-\alpha\)</span>.</p>
-<p><br></p>
-<p><em>Second subquestion</em>: we are dealing with a scalar transformation, and so we can use a <span class="math inline">\(t\)</span>-test. Define the following statistic: <span class="math display">\[
-t = \dfrac{ \sqrt{ \hat{\beta}_1\hat{\beta}_2} - 1}{\sqrt{\widehat{\avar}(g(\hat{\bbeta}))/N} }.
-\]</span> Here <span class="math inline">\(\sqrt{ \hat{\beta}_1\hat{\beta}_2 } =g(\hat{\bbeta})\)</span>.</p>
-<p>Our test proceeds as follows:</p>
+<p>We now proceed as we always do.</p>
+<p>To prove consistency, we make the following sequence of observations:</p>
 <ul>
-<li>If <span class="math inline">\(\abs{t}&gt;z_{1-\alpha/2}\)</span>, then we reject <span class="math inline">\(H_0\)</span>.</li>
-<li>If <span class="math inline">\(\abs{t}\leq z_{1-\alpha/2}\)</span>, then we do not reject <span class="math inline">\(H_0\)</span>.</li>
+<li>Since <span class="math inline">\(\E[\tilde{\bX}_i'\tilde{\bX}_i]\)</span> exists and observations are IID across <span class="math inline">\(i\)</span>, by the law of large numbers <span class="math display">\[
+\dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i \xrightarrow{p} \E[\tilde{\bX}_i'\tilde{\bX}_i].
+\]</span></li>
+<li>Since <span class="math inline">\(\E[\tilde{\bX}_i'\tilde{\bX}_i]\)</span> is invertible, by the continuous mapping theorem <span id="eq-ex-panel-ex-fe-hess"><span class="math display">\[
+\left( \dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i\right)^{-1} \xrightarrow{p}  \left( \E[\tilde{\bX}_i'\tilde{\bX}_i]\right)^{-1}.
+\tag{4}\]</span></span></li>
+<li>By the law of large numbers <span class="math display">\[
+\dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i \xrightarrow{p} \E[\tilde{\bX}_i'\tilde{\bU}_i].
+\]</span></li>
+<li>By the panel version of strict exogeneity and <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/fe.html#/strict-exogeneity-implies-eq-panel-twfe-key-orthogonality">Proposition 2</a> it holds that <span class="math display">\[
+\E[\tilde{\bX}_i'\tilde{\bU}_i] = 0.
+\]</span></li>
+<li>By the continuous mapping theorem <span class="math display">\[
+\left(\dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i
+\right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i \xrightarrow{p} \left( \E[\tilde{\bX}_i'\tilde{\bX}_i]\right)^{-1}\E[\tilde{\bX}_i'\tilde{\bU}_i] = 0.
+\]</span></li>
 </ul>
-<p>Consistency and asymptotic size are established exactly as before. As always, the key and only ingredient is the asymptotic normality result (<a href="#eq-exercises-inference-delta-normality" class="quarto-xref">3</a>). Please write out the proofs in detail.</p>
-<p>Note: if the transformation were vector-valued, we would only be able to use the Wald test. The Wald test can also be used here, please solve this question using a Wald test like in the lectures to practice!</p>
+<p>We conclude that <span class="math display">\[
+\hat{\bbeta}^{FE} \xrightarrow{p} \bbeta.
+\]</span></p>
+<p>To show asymptotic normality, we first apply the central limit theorem as <span class="math display">\[
+\begin{aligned}
+\dfrac{1}{\sqrt{N}} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i &amp; = \sqrt{N}\left(\dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i - \E[\tilde{\bX}_i'\tilde{\bU}_i] \right)\\
+&amp; \xrightarrow{d} N\left(0, \E[\tilde{\bX}_i'\tilde{\bU}_i\tilde{\bU}_i'\tilde{\bX}_i]   \right).
+\end{aligned}
+\]</span> Then by equations (<a href="#eq-ex-panel-ex-fe-repr" class="quarto-xref">3</a>)-(<a href="#eq-ex-panel-ex-fe-hess" class="quarto-xref">4</a>) and Slutsky’s theorem we conclude that <span class="math display">\[
+\begin{aligned}
+&amp; \sqrt{N}\left(\hat{\bbeta}^{FE} - \bbeta\right) \\
+&amp; \xrightarrow{d} N\left(0, \left(\E[\tilde{\bX}_i'\tilde{\bX}_i] \right)^{-1} \E[\tilde{\bX}_i'\tilde{\bU}_i\tilde{\bU}_i'\tilde{\bX}_i] \left(\E[\tilde{\bX}_i'\tilde{\bX}_i] \right)^{-1}\right).
+\end{aligned}
+\]</span></p>
+<p><br></p>
+<p><em>Second subquestion</em>: the two-way within transformation successfully eliminates all the random intercepts present. The realized outcomes still satisfy <span class="math display">\[
+\tilde{Y}_{it} = \tilde{\bX}_{it}'\bbeta + \tilde{U}_{it}.
+\]</span> It follows that the estimator is still consistent and asymptotically normal, provided suitable moment and invertibility conditions hold.</p>
+<p>Does this mean that you should always try to eliminate as many random intercepts as possible? Not really, for the following two reasons:</p>
+<ul>
+<li>Removing more effects makes it harder to satisfy the invertibility condition on <span class="math inline">\(\E[\tilde{\bX}_{i}'\tilde{\bX}_i]\)</span>. Every layer of the within transformation deletes something from <span class="math inline">\(\bX_{it}\)</span>. It is possible to delete so much that there isn’t enough variation left for estimation.</li>
+<li>The random intercept model is likely misspecified in the sense that coefficient vectors <span class="math inline">\(\bbeta\)</span> differ at least between units. Removing different kinds of FEs only changes the weights in the estimand of the FE estimator, but does not lead to the true average effect.</li>
+</ul>
 </details>
 </section>
-<section id="consistency-of-the-hc0-asymptotic-variance-estimator" class="level3">
-<h3 class="anchored" data-anchor-id="consistency-of-the-hc0-asymptotic-variance-estimator">Consistency of the HC0 Asymptotic Variance Estimator</h3>
-<p>Let the outcome <span class="math inline">\(Y_i\)</span>, the scalar covariate <span class="math inline">\(X_i\)</span>, and an unobserved component <span class="math inline">\(U_i\)</span> be linked through the linear potential outcomes model <span id="eq-exercises-inference-ex4-scalar-model"><span class="math display">\[
-Y_i^{\bx} = \beta X_i + U_i
-\tag{4}\]</span></span> Suppose that we observe an IID sample of data on <span class="math inline">\(Y_i, X_i\)</span>, that <span class="math inline">\(\E[U_i|X_i]=0\)</span>, that <span class="math inline">\(\E[X_i^2]\neq 0\)</span>, and that <span class="math inline">\(\E[U_i^2 X_i^2]\)</span> exists. Let <span class="math inline">\(\hat{\beta}\)</span> be the OLS estimator obtained by regressing <span class="math inline">\(Y_i\)</span> on <span class="math inline">\(X_i\)</span>.</p>
-<p>Recall the HC0 <span class="citation" data-cites="White1980HeteroskedasticityConsistentCovarianceMatrix">(<a href="#ref-White1980HeteroskedasticityConsistentCovarianceMatrix" role="doc-biblioref">White 1980</a>)</span> estimator for <span class="math inline">\(\avar(\hat{\beta})\)</span>. In the scalar model (<a href="#eq-exercises-inference-ex4-scalar-model" class="quarto-xref">4</a>) it is given by <span class="math display">\[
+<section id="asymptotic-properties-of-the-mean-group-estimator" class="level3">
+<h3 class="anchored" data-anchor-id="asymptotic-properties-of-the-mean-group-estimator">Asymptotic Properties of the Mean Group Estimator</h3>
+<p>Let <span class="math inline">\(Y_{it}, \bX_{it}\)</span>, <span class="math inline">\(\bbeta_i\)</span>, and <span class="math inline">\(U_{it}\)</span> be linked through the linear potential outcomes model with unit-specific coefficients: <span class="math display">\[
+Y_{it}^{\bx} = \bx'\bbeta_i + U_{it}.
+\]</span> We observe <span class="math inline">\((Y_{it}, \bX_{it})_{i=1, \dots, N}^{t=1, \dots, T}\)</span>. We assume that <span class="math inline">\(T\geq p\)</span>, where <span class="math inline">\(p\)</span> is the number of coordinates of <span class="math inline">\(\bbeta\)</span>. We also assume that <span class="math inline">\((\bX'\bX)\)</span> is invertible for each unit <span class="math inline">\(i\)</span>.</p>
+<p>We are interested in learning <span class="math inline">\(\E[\bbeta_i]\)</span>. We estimate it using the mean group estimator: <span class="math display">\[
 \begin{aligned}
-\widehat{\avar}(\hat{\beta}) &amp; = \dfrac{  N^{-1} \sum_{i=1}^N \hat{U_i}^2 X_i^2 }{  \left( N^{-1}\sum_{i=1}^N X_i^2 \right)^2  }.
+\hat{\bbeta}^{MG} &amp; = \dfrac{1}{N}\sum_{i=1}^N \hat{\bbeta}_i, \\
+\hat{\bbeta}_i &amp; = (\bX_i'\bX_i)^{-1}\bX_i'\bY_i
 \end{aligned}
-\]</span> Show that <span class="math display">\[
-\widehat{\avar}(\hat{\beta}) \xrightarrow{p} \avar(\hat{\beta}) \equiv \dfrac{ \E[U_i^2X_i^2]  }{\left(\E[X_i^2] \right)^2 }.
-\]</span> State explicitly any additional moment assumptions you make.</p>
+\]</span></p>
+<ol type="1">
+<li>Show that <span class="math inline">\(\hat{\bbeta}^{MG}\)</span> is consistent for <span class="math inline">\(\E[\bbeta_i]\)</span> under the assumptions of proposition 1 in the <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/mean-group.html#/consistency-of-the-mg-estimator">slides on mean group estimation</a>.</li>
+<li>Show that <span class="math inline">\(\hat{\bbeta}^{MG}\)</span> is asymptotically normal under the the assumptions of proposition 2 in the <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/mean-group.html#/asymptotic-distribution">slides on mean group estimation</a>.</li>
+<li>Suppose that <span class="math inline">\(p=1\)</span> (scalar case). Propose a confidence interval for <span class="math inline">\(\E[\beta_i]\)</span> with asymptotic coverage <span class="math inline">\(1-\alpha\)</span>.</li>
+</ol>
 <details>
 <summary>
 Click to see the solution
 </summary>
-<p>First, we substitute our model (<a href="#eq-exercises-inference-ex4-scalar-model" class="quarto-xref">4</a>) in place of <span class="math inline">\(Y_i\)</span> in <span class="math inline">\(\hat{U}_i\)</span>: <span class="math display">\[
+<p><em>First subquestion</em>: We substitute <span class="math inline">\(Y_{it} = \bX_{it}'\bbeta_i  + U_{it}\)</span> into the individual estimators <span class="math inline">\(\hat{\bbeta}_i\)</span>: <span class="math display">\[
+\hat{\bbeta}_i = \bbeta_i +  (\bX_i'\bX_i)^{-1}\bX_i'\bU_i
+\]</span> We can then represent the mean group estimator as <span class="math display">\[
+\hat{\bbeta}^{MG} = \dfrac{1}{N}\sum_{i=1}^N \bbeta_i + \dfrac{1}{N}\sum_{i=1}^N(\bX_i'\bX_i)^{-1}\bX_i'\bU_i.
+\]</span> By assumptions of proposition 1, <span class="math inline">\((\bX_i, \bU_i, \bbeta_i)\)</span> are IID random vectors and the expected value of <span class="math inline">\(\bbeta_i\)</span> exists. Then by the law of large numbers <span class="math display">\[
+\dfrac{1}{N}\sum_{i=1}^N \bbeta_i \xrightarrow{p} \E[\bbeta_i].
+\]</span> Likewise, <span class="math inline">\((\bX_i'\bX_i)^{-1}\bX_i'\bU_i\)</span> has finite expected value by assumption, so by the law of large numbers it holds that <span class="math display">\[
+\dfrac{1}{N}\sum_{i=1}^N(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\xrightarrow{p} \E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\right].
+\]</span> We conclude that <span class="math display">\[
+\hat{\bbeta}^{MG}\xrightarrow{p} \E[\bbeta_i] + \E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\right].
+\]</span> Finally, by the law of iterated expectations and assumption of strict exogeneity, it holds that <span class="math display">\[
 \begin{aligned}
-\hat{U}_i^2 &amp; = (Y_i - X_i\hat{\beta})^2 =  (X_i(\beta-\hat{\beta}) + U_i)^2\\
-&amp; = U_i^2 + 2(\beta-\hat{\beta})  U_iX_i+ (\beta-\hat{\beta})^2 X_i
+\E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\right] &amp; = \E\left[\E\left[ (\bX_i'\bX_i)^{-1}\bX_i'\bU_i|\bX_i\right]\right]\\
+&amp; = \E\left[(\bX_i'\bX_i)^{-1}\bX_i' \E[\bU_i|\bX_i]  \right]\\
+&amp; = 0.
+\end{aligned}
+\]</span> We conclude that <span class="math inline">\(\hat{\bbeta}^{MG}\xrightarrow{p}\E[\bbeta_i]\)</span>.</p>
+<p><br></p>
+<p><em>Second subquestion</em>: To prove asymptotic normality, we will showcase the technique used in the lecture slides. It consists in expressing <span class="math inline">\(\hat{\bbeta}^{MG}\)</span> as a continuous transformation of a single random vector: <span id="eq-ex-panel-ex-mg-representation"><span class="math display">\[
+\hat{\bbeta}^{MG}  = \begin{pmatrix}
+\bI_p &amp; \bI_p
+\end{pmatrix} \left[ \dfrac{1}{N} \sum_{i=1}^N \underbrace{\begin{pmatrix}
+\bbeta_i \\
+(\bX_i'\bX_i)^{-1}\bX_i'\bU_i
+\end{pmatrix}}_{=\bW_i} \right],
+\tag{5}\]</span></span> where <span class="math inline">\(\bI_p\)</span> is the <span class="math inline">\(p\times p\)</span> identity matrix.</p>
+<p>From this point out, the problem is fairly easy. Tkey key challenge is not getting confused in expressing the asymptotic variance.</p>
+<p>By assumption of proposition 2, <span class="math inline">\(\bW_i\)</span> are IID vectors with finite second moments. It then follows by the central limit theorem that <span class="math display">\[
+\sqrt{N}\left( \dfrac{1}{N} \sum_{i=1}^N \bW_i - \E[\bW_i] \right) \xrightarrow{d} N(0, \var(\bW_i))
+\]</span> We now connect the moments of <span class="math inline">\(\bW_i\)</span> to <span class="math inline">\((\bbeta_i, \bX_i, \bU_i)\)</span>. The mean: <span class="math display">\[
+\begin{aligned}
+\E[\bW_i] &amp; = \begin{pmatrix}
+\E[\bbeta_i]\\
+\E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right]
+\end{pmatrix} = \begin{pmatrix}
+\E[\bbeta_i]\\
+0
+\end{pmatrix} , \\
+\end{aligned}
+\]</span> where we have used the fact that <span class="math inline">\(\E[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i]=0\)</span>.</p>
+<p>Now the variance: <span class="math display">\[
+\begin{aligned}
+&amp; \var(\bW_i) \\
+&amp;  = \E[\bW_i\bW_i'] - (\E[\bW_i])(\E[\bW_i])' \\
+&amp; =  \begin{pmatrix}
+\var(\bbeta_i) &amp; \E[\bbeta_i\bU_i'\bX_i(\bX_i'\bX_i)^{-1}] \\
+\E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\bbeta_i' \right] &amp; \var\left( (\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right)
+\end{pmatrix},
+\end{aligned}
+\]</span> where we have again use <span class="math inline">\(\E[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i]=0\)</span>.</p>
+<p>Further, we can show that the covariance (off-diagonal) terms in <span class="math inline">\(\var(\bW_i)\)</span> are zero. using the stronger strict exogeneity property <span class="math inline">\(\E[\bU_i|\bbeta_i, \bX_i]=0\)</span>. We again use the law of iterated expectations as <span class="math display">\[
+\begin{aligned}
+\E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\bbeta_i' \right] &amp; = \E\left[ \E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\bbeta_i' |\bbeta_i, \bX_i\right] \right]\\
+&amp; = \E\left[(\bX_i'\bX_i)^{-1}\bX_i'\E[\bU_i|\bbeta_i, \bX_i]\bbeta_i'  \right]\\
+&amp; = 0
 \end{aligned}
 \]</span></p>
-<p>We then substitute this expression for <span class="math inline">\(\hat{U}_i\)</span> into the middle term of our asymptotic variance estimator: <span id="eq-exercises-inference-ex4-expansion"><span class="math display">\[
+<p>Summing up, we conclude that <span id="eq-ex-panel-ex-mg-core"><span class="math display">\[
 \begin{aligned}
-&amp; \dfrac{1}{N} \sum_{i=1}^N \hat{U}_i^2 X_i^2 \\
-&amp; = \dfrac{1}{N} \sum_{i=1}^N U_i^2X_i^2 + (\beta-\hat{\beta}) \dfrac{2}{N}\sum_{i=1}^N U_i X_i^3 \\
-&amp; \quad  + (\beta-\hat{\beta})^2 \dfrac{1}{N}\sum_{i=1}^N X_i^4.
+&amp; \sqrt{N}\left( \dfrac{1}{N} \sum_{i=1}^N \bW_i - \begin{pmatrix}
+\E[\bbeta_i]\\
+0
+\end{pmatrix}\right)\\
+&amp; \xrightarrow{d} N\left(0, \begin{pmatrix}
+\var(\bbeta_i) &amp; 0\\
+0 &amp; \var\left( (\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right)
+\end{pmatrix}\right)
 \end{aligned}
-\tag{5}\]</span></span></p>
-<p>To handle the averages in <a href="#eq-exercises-inference-ex4-expansion" class="quarto-xref">Equation&nbsp;5</a>, we use the law of large numbers. By assumption, <span class="math inline">\(\E[U_i^2X_i^2]\)</span> exists. We also assume that <span class="math inline">\(\E[U_iX_i^3]\)</span> and <span class="math inline">\(\E[X_i^4]\)</span> also exist. Then by the law of large numbers it holds that <span class="math display">\[
+\tag{6}\]</span></span> By <a href="#eq-ex-panel-ex-mg-representation" class="quarto-xref">Equation&nbsp;5</a>, we have that <span class="math display">\[
+\sqrt{N}\left(\hat{\bbeta}^{MG} - \E[\bbeta_i] \right) = \begin{pmatrix}
+\bI_p &amp; \bI_p
+\end{pmatrix}  \sqrt{N}\left( \dfrac{1}{N} \sum_{i=1}^N \bW_i - \begin{pmatrix}
+\E[\bbeta_i]\\
+0
+\end{pmatrix}\right)
+\]</span> Finally, by the continuous mapping theorem or the delta method, the above representation and <a href="#eq-ex-panel-ex-mg-core" class="quarto-xref">Equation&nbsp;6</a>, we conclude that <span class="math display">\[
 \begin{aligned}
-\dfrac{1}{N} \sum_{i=1}^N U_i^2X_i^2 &amp; \xrightarrow{p} \E[U_i^2 X_i^2],\\
-\dfrac{1}{N}\sum_{i=1}^N U_i X_i^3 &amp; \xrightarrow{p} \E[U_iX_i^3], \\  \dfrac{1}{N}\sum_{i=1}^N X_i^4  &amp; \xrightarrow{p} \E[X_i^4].
+&amp; \sqrt{N}\left(\hat{\bbeta}^{MG} - \E[\bbeta_i] \right)\\
+&amp;  \xrightarrow{d} N\left(0, \var(\bbeta_i) + \var\left( (\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right) \right).
 \end{aligned}
-\]</span> At the same time, all the conditions of our consistency result hold, and so <span class="math inline">\(\hat{\beta}-\beta \xrightarrow{p} 0\)</span>. By the continuous mapping theorem <span class="math display">\[
-\begin{aligned}
-(\beta-\hat{\beta}) \dfrac{2}{N}\sum_{i=1}^N U_i X_i^3 \xrightarrow{p} 0, \\
-(\beta-\hat{\beta})^2 \dfrac{1}{N}\sum_{i=1}^N X_i^4 \xrightarrow{p} 0.
-\end{aligned}
-\]</span> By combining the above convergence results, the result on equivalence of separate and joint convergence in probability, and the continuous mapping theorem, we conclude that <span class="math display">\[
-\dfrac{1}{N} \sum_{i=1}^N \hat{U}_i^2 X_i^2 \xrightarrow{p}  \E[U_i^2X_i^2].
-\]</span> At the same time, by the law of large numbers, continuous mapping theorem, and the assumption that <span class="math inline">\(\E[X_i^2]\neq 0\)</span> it holds that <span class="math display">\[
-\dfrac{1}{ \left(N^{-1}\sum_{i=1}^N X_i^2\right)^2 } \xrightarrow{p} \dfrac{1}{\left(
-    \E[X_i^2]
-\right)^2
-}.
-\]</span> Combining the previous two equations with the continuous mapping theorem, we obtain the desired result. In terms of assumptions, we have assumed the existence of <span class="math inline">\(\E[U_iX_i^3]\)</span> and <span class="math inline">\(\E[X_i^4]\)</span>, in addition to the assumptions of the problem.</p>
+\]</span></p>
+<p><br></p>
+<p><em>Third subquestion</em>: as suggested in the lecture, we can directly use the sample variance of <span class="math inline">\(\hat{\beta}_i\)</span> to estimate the asymptotic variance of <span class="math inline">\(\hat{\beta}^{MG}\)</span>: <span class="math display">\[
+\widehat{\avar}(\hat{\bbeta}^{MG}) = \dfrac{1}{N}\sum_{i=1}^N \left(\hat{\beta}_i- \hat{\beta}^{MG} \right)^2.
+\]</span> The construction of the confidence interval is standard. Let <span class="math inline">\(z_{1-\alpha/2}\)</span> be the <span class="math inline">\((1-\alpha/2)\)</span>th quantile of the standard normal distribution.</p>
+<p>Define <span class="math inline">\(S\)</span> as <span class="math display">\[
+S = \left[\hat{\beta}^{MG} - z_{1-\alpha/2}\sqrt{\dfrac{\widehat{\avar}(\hat{\bbeta}^{MG}) }{N}  }, \hat{\beta}^{MG} + z_{1-\alpha/2}\sqrt{\dfrac{\widehat{\avar}(\hat{\bbeta}^{MG}) }{N}  }\right]
+\]</span> To show that <span class="math inline">\(S\)</span> has asymptotic coverage <span class="math inline">\(\alpha\)</span>, it is sufficient to notice that by the central limit theorem <span class="math display">\[
+\sqrt{N}\left(\hat{\beta}^{MG} - \E[\beta_i] \right) \xrightarrow{d} N\left(0, \var(\hat{\beta}_i) \right).
+\]</span> The proof now proceeds as in the lectures and the previous exercise sheet.</p>
 </details>
 </section>
 </section>
 <section id="applied-exercises" class="level2">
 <h2 class="anchored" data-anchor-id="applied-exercises">Applied Exercises</h2>
-<p>Applied exercises are from <span class="citation" data-cites="Wooldridge2020IntroductoryEconometricsModern">Wooldridge (<a href="#ref-Wooldridge2020IntroductoryEconometricsModern" role="doc-biblioref">2020</a>)</span>. In all cases, use asymptotic <span class="math inline">\(t\)</span>- and Wald tests with robust standard errors:</p>
-<ul>
-<li>C9 in chapter 4,</li>
-<li>C4 and C6 in chapter 5,</li>
-<li>C8 in chapter 7.</li>
-</ul>
-<p>For some more code examples and discussion, look at chapters 4, 5, 7 in <span class="citation" data-cites="Heiss2024UsingPythonIntroductory">Heiss and Brunner (<a href="#ref-Heiss2024UsingPythonIntroductory" role="doc-biblioref">2024</a>)</span></p>
+<section id="event-study-brexit" class="level3">
+<h3 class="anchored" data-anchor-id="event-study-brexit">Event Study: Brexit</h3>
+<p>On June 23, 2016 the UK held the Brexit referendum. The results of the referendum were broadly unexpected, <a href="https://web.archive.org/web/20160703190302/http://bigstory.ap.org/article/d4930c2180b143d685213a75e916bee8/british-vote-leaving-eu-rocks-world-financial-markets">leading to a strong negative movement</a> in stock prices on June 24. Conduct a financial event study to quantify the effect of the referendum on a selection of leading British companies (say, the companies in the FTSE 100 Index). Proceed as in the lecture to compute the abnormal returns.</p>
+</section>
+<section id="did-police-and-crime" class="level3">
+<h3 class="anchored" data-anchor-id="did-police-and-crime">DiD: Police and Crime</h3>
+<p>Does police presence reduce crime? A famous article by <span class="citation" data-cites="DiTella2004PoliceReduceCrime">Di Tella and Schargrodsky (<a href="#ref-DiTella2004PoliceReduceCrime" role="doc-biblioref">2004</a>)</span> analyzes this using exogenous variation in police presence created by a terrorist attack in Buenos Aires. Read their article and replicate the results of their difference-in-differences estimation (table 3). You can download their data from the article’s <a href="https://www.aeaweb.org/articles?id=10.1257/000282804322970733">page</a> on the website of the American Economic Association.</p>
+</section>
+<section id="fe-and-mg-labor-markets-and-pollution" class="level3">
+<h3 class="anchored" data-anchor-id="fe-and-mg-labor-markets-and-pollution">FE and MG: Labor Markets and Pollution</h3>
+<p>Consider again the paper by <span class="citation" data-cites="Borgschulte2024AirPollutionLabor">Borgschulte, Molitor, and Zou (<a href="#ref-Borgschulte2024AirPollutionLabor" role="doc-biblioref">2024</a>)</span>. In the lectures we have focused on the effect of pollution on earnings. However, <span class="citation" data-cites="Borgschulte2024AirPollutionLabor">Borgschulte, Molitor, and Zou (<a href="#ref-Borgschulte2024AirPollutionLabor" role="doc-biblioref">2024</a>)</span> also consider the effects on total employment and labor force participation.</p>
+<ol type="1">
+<li>Replicate their results for these two outcomes — columns (3) and (4) in their table 1. To do so, download their data from the <a href="https://dataverse.harvard.edu/file.xhtml?fileId=6425134&amp;version=1.0">Harvard Dataverse</a> and suitably modify the lecture code.</li>
+<li>Estimate the average effect of pollution on total employment and labor force participation using the mean group estimator. Is there a significant effect?</li>
+</ol>
 
 
 
 </section>
+</section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-Heiss2024UsingPythonIntroductory" class="csl-entry" role="listitem">
-Heiss, Florian, and Daniel Brunner. 2024. <em>Using <span>Python</span> for <span>Introductory Econometrics</span></em>. 2nd edition. New York: Independently Published.
+<div id="ref-Borgschulte2024AirPollutionLabor" class="csl-entry" role="listitem">
+Borgschulte, Mark, David Molitor, and Eric Yongchen Zou. 2024. <span>“Air <span>Pollution</span> and the <span>Labor Market</span>: <span>Evidence</span> from <span>Wildfire Smoke</span>.”</span> <em>Review of Economics and Statistics</em> 106 (6): 1558–75. <a href="https://doi.org/10.1162/rest_a_01243">https://doi.org/10.1162/rest_a_01243</a>.
 </div>
-<div id="ref-White1980HeteroskedasticityConsistentCovarianceMatrix" class="csl-entry" role="listitem">
-White, Halbert. 1980. <span>“A <span>Heteroskedasticity-Consistent Covariance Matrix Estimator</span> and a <span>Direct Test</span> for <span>Heteroskedasticity</span>.”</span> <em>Econometrica</em> 48 (4): 817. <a href="https://doi.org/10.2307/1912934">https://doi.org/10.2307/1912934</a>.
-</div>
-<div id="ref-Wooldridge2020IntroductoryEconometricsModern" class="csl-entry" role="listitem">
-Wooldridge, Jeffrey M. 2020. <em>Introductory <span>Econometrics</span>: A <span>Modern Approach</span></em>. Seventh edition. Boston, MA: Cengage.
+<div id="ref-DiTella2004PoliceReduceCrime" class="csl-entry" role="listitem">
+Di Tella, Rafael, and Ernesto Schargrodsky. 2004. <span>“Do <span>Police Reduce Crime</span>? <span>Estimates Using</span> the <span>Allocation</span> of <span>Police Forces After</span> a <span>Terrorist Attack</span>.”</span> <em>American Economic Review</em> 94 (1): 115–33. <a href="https://doi.org/10.1257/000282804322970733">https://doi.org/10.1257/000282804322970733</a>.
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1507,4 +1678,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/vladislav-morozov/econometrics-2/edit/main/src/exercises/exercises-linear-inference.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/vladislav-morozov/econometrics-2/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/vladislav-morozov/econometrics-2/edit/main/src/exercises/exercises-panel.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/vladislav-morozov/econometrics-2/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

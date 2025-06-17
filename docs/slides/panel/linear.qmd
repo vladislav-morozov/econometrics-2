@@ -1,0 +1,863 @@
+---
+title: "Fixed Effect Estimation"
+subtitle: "Beyond Binary Treatments: Fixed Effects Estimators and their Properties"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Panel Data: Linear Panel Data Models"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+---
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture is about handling more general treatments in panel data with linear models
+
+<br>
+
+By the end, you should be able to
+
+- State 
+
+#### References
+ 
+
+::: {.nonincremental}
+
+Textbooks: 
+
+- Chapter 16 in @Huntington-Klein2025EffectIntroductionResearch 
+- Chapter 13, 14-1, 14-4, 14-5 in @Wooldridge2020IntroductoryEconometricsModern
+- Chapter 17 in @Hansen2022Econometrics (except dynamic panels and random effects)
+
+:::  
+
+ 
+
+### Empirical Motivation {background="#43464B" visibility="uncounted"}
+
+
+#### Empirical Question {.scrollable}
+
+<div class="rounded-box">
+
+ 
+ 
+</div>
+ 
+
+### Motivation and Questions {background="#43464B" visibility="uncounted"}
+
+
+#### Reminder: TWFE
+
+Recall: for difference-in-differences showed that
+$$ \small
+\widehat{ATT}^{DiD} = \hat{\delta}
+$$
+where $\hat{\delta}$ was the OLS estimator in regression
+$$\small
+Y_{i2}- Y_{i1} = \gamma + \delta D_{it} + U_{i2}
+$$ {#eq-panel-twfe-did-diff}
+for $\delta$ --- the ATT;  $\gamma$ --- average change in outcomes (trend)
+
+#### Reminder: More General Equation
+
+@eq-panel-twfe-did-diff obtained by differencing the *two-way fixed effect* equation:
+$$
+Y_{it} = \alpha_i + \gamma_t + \delta D_{it} + U_{it},
+$$ {#eq-panel-twfe-did-undiff}
+where 
+$$
+\gamma_1 = 0, \quad \gamma_2 = \gamma
+$$
+and $\alpha_i = Y_{i1}^0$ --- baseline differences between units
+
+#### Reminder: Estimation
+
+<br> 
+
+- We know how to apply OLS based on @eq-panel-twfe-did-diff: just regress $(Y_{i2}-Y_{i1})$ on $(1, D_{it})$ with OLS
+- Last time said that can also apply OLS based on @eq-panel-twfe-did-undiff directly (e.g. `PanelOLS` from `linearmodels`)
+  - Treated $\alpha_i$ as <span class="highlight"> parameters </span> 
+  - Got exactly the same results from two approaches
+
+
+#### Lecture Questions
+
+
+1. How to apply OLS on @eq-panel-twfe-did-undiff? 
+  - What are the regressors? How to "treat $\alpha_i$ as parameters"?
+  - How does it work in practice?
+  - Is the estimator inspired by @eq-panel-twfe-did-undiff always equal to the one based on @eq-panel-twfe-did-diff?
+2. Can we apply the same approach with general (not just 0/1) treatment? What are the causal properties?
+  
+
+## Fixed Effect Estimation {background="#00100F"}
+
+ 
+
+### Random Intercept (Fixed Effect) Models {background="#43464B" visibility="uncounted"}
+ 
+#### First Goal: Vector-Matrix Representation
+
+First question: "treating $\alpha_i$ as parameters"?
+
+. . .
+
+<br>
+
+
+For now forget about $D_{it}$ and $\gamma$ and consider:
+$$
+Y_{it} = \alpha_i + U_{it}, \quad i=1,\dots, N; t=1, \dots, T
+$$ {#eq-panel-twfe-simplified-ind-intercept}
+$\alpha_i$ — individual-specific intercept ("unit fixed effect"). Data assumed balanced (same $T$ for all units)
+
+<br>
+
+
+Want to represent @eq-panel-twfe-simplified-ind-intercept in vector-matrix form
+
+#### Vector-Matrix Forms for Panel Data I
+
+Before that: more info on matrix forms for panel data.
+
+. . . 
+
+<br>
+
+Vector form as before: single observation (now fixed $i$ and $t$) with vector of covariates: 
+$$
+Y_{it} = \bX_{it}'\bbeta + U_{it}
+$$
+
+#### Vector-Matrix Forms for Panel Data II
+
+Two key matrix forms:
+
+- Individual level. Let $\bY_i = (Y_{i1}, \dots, Y_{iT})$, $\bX_i = (\bX_{i1}, \dots, \bX_{iT})'$, then
+$$\small
+\bY_i = \bX_i\bbeta + \bU_i
+$$
+
+
+- Full sample. Let $\bY = (\bY_1, \dots, \bY_N)$, $\bX= (\bX_1', \dots, \bX_N')'$. Then 
+$$ \small
+\bY = \bX\bbeta + \bU
+$$
+What are the dimensions of $\bY_i, \bX_i, \bY, \bX$?
+
+::: footer
+
+:::
+
+#### Individual Matrix Form with Individual Intercepts
+
+<br> 
+
+Model ([-@eq-panel-twfe-simplified-ind-intercept]) in individual matrix form:
+$$
+\bY_i = \mathbf{1}_T\alpha_i + \bU_i
+$$
+where $\mathbf{1}_T$ — $T$-vector of ones 
+
+. . .
+
+<br> 
+
+Not that insightful
+
+#### Full Sample Matrix Form with Individual Intercepts
+
+Model ([-@eq-panel-twfe-simplified-ind-intercept]) in full sample matrix form
+$$
+\begin{aligned}
+\bY & = \bF \bLambda + \bU, \\
+\bLambda & = (\alpha_1, \dots, \alpha_N)', \\
+\bF & =  \bI_N \otimes \mathbf{1}_T,
+\end{aligned}
+$$ {#eq-panel-twfe-one-way-matrix-form}
+where $\otimes$ is the [Kronecker product](https://en.wikipedia.org/wiki/Kronecker_product). Intuition: 
+
+- There are $N$ regressors, $i$th regressor is the dummy of being the $i$th unit (0/1 regressor values)
+- $\bLambda$ --- associated parameter vector
+
+#### More Complex Example: Two-Way Intercept Model
+
+Now consider more general model:
+$$
+Y_{it} = \alpha_i + \gamma_t + U_{it}
+$$
+Here want to treat both $\alpha_i$ and $\gamma_t$ as parameters
+
+. . . 
+
+<br>
+
+Individual matrix form:
+$$
+\begin{aligned}
+\bY_i & = \mathbf{1}_T \alpha_i  + \bI_T \bgamma + \bU_i\\
+\bgamma & = (\gamma_1, \dots, \gamma_T)'
+\end{aligned}
+$$
+
+#### Two-Way Model: Full Sample Matrix Form
+
+Can write
+$$
+\begin{aligned}
+\bY & = \bF\bLambda + \bU, \\
+\bF & =  \left(\bI_N \otimes \mathbf{1}_T, \mathbf{1}_N\otimes \bI_T \right)\\ 
+\bLambda & = (\alpha_1, \dots, \alpha_N, \gamma_1, \dots, \gamma_T)
+\end{aligned}
+$$
+
+- Both $\alpha_{\cdot}$ and $\gamma_{\cdot}$ treated as parameters
+- Regressors in $\bF$: $N$ dummy regressors from before; $T$ new dummy regressors, $t$th new regressor — indicator of $t$th period
+
+#### Adding Other Covariates
+
+Can write @eq-panel-twfe-did-undiff as
+$$
+Y_{it} = \alpha_i + \gamma_t + \bX_{it}'\bbeta + U_{it},
+$$
+for $\bX_{it} = (D_{it})$ and $\bbeta = (\delta)$
+
+
+. . .
+
+More generally, consider any vector $\bX_{it}$ — <span class="highlight"> not just binary treatments </span>
+
+. . .
+
+<br>
+
+Its matrix form is 
+$$
+\bY = \bF\bLambda + \bX\beta + \bU
+$$
+
+::: footer
+
+:::
+
+#### Random-Intercept (Fixed Effects) Models
+
+<div class="rounded-box">
+
+::: {#def-panel-twfe-fe-model}
+
+Models of the kind
+$$ \small
+\bY = \bF\bLambda +\bX\bbeta + \bU,
+$$ {#eq-panel-twfe-fixeff-def}
+where $\bF$ is a matrix of 0s and 1s are called *fixed effects* or *random intercept* models
+
+:::
+
+</div>
+
+. . .
+
+- Fixed effects and random intercepts — often used interchangeably 
+- <span class="highlight">Random intercepts</span> — less ambiguous
+
+#### Examples of Model ([-@eq-panel-twfe-fixeff-def])
+
+ 
+- Individual fixed effects/intercepts (one-way)
+$$
+Y_{it} = \alpha_i + \bX_i'\bbeta + U_{it}
+$$
+- Two-way models (time and individual effects):
+$$
+Y_{it} = \alpha_i + \gamma_t + \bX_i'\bbeta + U_{it}
+$$
+- Can include more complicated effects, see empirical illustration (where $i$ — US counties, $t$ — quarters; effects — county-season and state-year)
+
+### Fixed Effect (Within) Estimators {background="#43464B" visibility="uncounted"}
+   
+
+#### Estimation Strategies
+
+Suppose $\E[U_{it}|\bX_i]=0$. How to estimate parameters of Model ([-@eq-panel-twfe-fixeff-def])?
+
+. . . 
+
+<br>
+
+There are two main strategies:
+
+- Estimate including $\bF$ and $\bX$ as regressors — <span class="highlight">least squares dummy  variable</span> (LSDV) estimator
+- Get rid of $\bF$, estimate after — <span class="highlight">within</span> estimator
+
+
+#### LSDV Estimation
+
+LSDV — simply regress $\bY$ on $(\bF, \bX)$:
+$$
+(\hat{\bLambda}, \hat{\bbeta}^{LSDV}) = \argmin_{\bL, \bb} \norm{\bY - \bF\bL -\bX\bb  }_2^2
+$$
+
+. . . 
+
+For example with two-way effects:
+
+$$\small
+\begin{aligned}
+& \left(\hat{\alpha}_1, \dots, \hat{\alpha}_N, \hat{\gamma}_1, \dots, \hat{\gamma}_T, \hat{\bbeta}^{LSDV} \right)\\
+& = \argmin_{a_1, \dots, a_N, g_1, \dots, g_T, \bb}\sum_{i=1}^N \sum_{t=1}^T \left(Y_{it} - a_i - g_t - \bX_{it}'\bb \right)^{2}
+\end{aligned}
+$$
+
+
+#### Within Estimation I: One-Way Transformation
+<!-- 
+Within transformations <span class="highlight">eliminate </span> fixed effects (=$\bF$)
+
+. . . 
+
+<br> -->
+
+First consider one-way model $Y_{it} = \alpha_{i} + \bX_{it}' + U_{it}$. For $\bW_{it} = Y_{it}, \bX_{it}, U_{it}$, define the (one-way) <span class="highlight">within-transformed</span> version of $W_{it}$ as
+$$ \small
+\tilde{W}_{it} = W_{it} - \dfrac{1}{T}\sum_{s=1}^T W_{is}
+$$ {#eq-panel-twfe-one-way-transform}
+
+. . . 
+
+Within transformation <span class="highlight">eliminated </span> fixed effects (=$\bF$)
+$$ \small
+\tilde{Y}_{it} = \tilde{\bX}_{it}'\bbeta + \tilde{U}_{it}
+$$
+
+
+
+
+
+#### Within Estimation II: Two-Way Transformations
+
+Suppose $Y_{it} = \alpha_i + \gamma_t + \bX_{it}'\bbeta + U_{it}$. Define (two-way) <span class="highlight">within-transformed</span> variables as 
+$$ \small
+\tilde{W}_{it} = W_{it} - \dfrac{1}{T}\sum_{s=1}^T W_{is} - \dfrac{1}{N} \sum_{j=1}^N W_{jt} + \dfrac{1}{NT} \sum_{j=1}^N \sum_{s=1}^T W_{js}
+$$ {#eq-panel-twfe-two-way-transform}
+
+. . . 
+
+Again <span class="highlight">eliminated </span> fixed effects (=$\bF$)
+$$ \small
+\tilde{Y}_{it} = \tilde{\bX}_{it}'\bbeta + \tilde{U}_{it}
+$$
+
+::: footer
+
+Can find the matrix formula in section 3.2 of @Baltagi2021EconometricAnalysisPanel
+
+:::
+
+#### More General Within Transformation
+
+<div class="rounded-box">
+
+Consider general model: 
+$$ \small
+\bY = \bF\bLambda + \bX\bbeta + \bU
+$$
+
+There exists a linear transformation that eliminates $\bF$:
+$$ \small
+\tilde{\bY} = \tilde{\bX}\bbeta + \tilde{\bU}
+$$ 
+
+</div>
+Called the FWL or the (generalized) <span class="highlight">within </span> transformation
+
+::: footer
+
+Transformations — just application of the Frisch-Waugh-Lowell ("anatomy of regression") theorem. See E1a in @Wooldridge2020IntroductoryEconometricsModern
+
+:::
+
+#### Within Estimation
+
+Within estimation: just regressing $\tilde{\bY}$ on $\tilde{\bX}$ with OLS:
+$$
+\hat{\bbeta}^{W} = \argmin_{\bb} \sum_{i=1}^N \sum_{t=1}^N (\tilde{Y}_{it} - \tilde{\bX}_{it}'\bb)^2
+$$
+
+- $\tilde{\bX}$ must have maximum column rank (no collinearity in transformed regressors)
+- Intuition in one-way case (only $\alpha_i$): some variation in $\bX_{it}$ over time 
+  
+#### Equivalence of Approaches
+
+
+
+<div class="rounded-box">
+
+::: {#prp-panel-twfe-equivalence-lsdv-w}
+
+$$
+\hat{\bbeta}^{LSDV} = \hat{\bbeta}^{W}
+$$
+
+
+:::
+ 
+</div>
+
+
+- Both approaches: same estimated values
+- Explains why we got same results from two regression approaches to DiD last time
+- Allows to use single name for both estimators. Usually called <span class="highlight">fixed effects</span> or <span class="highlight">random intercept</span> estimators
+ 
+
+::: footer
+
+Not examinable: proof is a consequence of Frisch-Waugh-Lowell theorem [E1a in @Wooldridge2020IntroductoryEconometricsModern]
+
+:::
+
+#### Which Approach to Use?
+
+When to use LSDV vs. within estimation? 
+
+- LSDV: only when you care about $\Lambda$ and they have some economic meaning. Example: $\alpha_i$ is the innate skill of worker $i$ [e.g. @delaRoca2017LearningWorkingBig]
+- Within: in all other cases
+
+. . . 
+
+::: {.callout-important appearance="minimal"}
+
+Sometimes impossible to compute LSDV estimator: number of fixed effects is too large to even simply store the data matrix: 
+
+- Called the "high-dimensional" fixed effect case
+- In practice the within transformation is cleverly done indirectly [@Correia2016FeasibleEstimatorLinear]
+:::
+
+#### Pooled OLS 
+
+<br> 
+
+Another special case of model ([-@eq-panel-twfe-fixeff-def]) — <span class="highlight"> pooled OLS</span>:
+
+- No fixed effects, directly regressing $Y_{it}$ on $\bX_{it}$
+- Fully ignoring the panel structure
+- Involves no transformations and no $\bF$
+- Interpretation: the *least flexible* example of  ([-@eq-panel-twfe-fixeff-def])
+ 
+#### Implementation in Python
+
+
+
+- `linearmodels` supports both LSDV and within transformations
+  - Defaults to eliminating effects
+  - LSDV can be used with `PanelOLS.fit(use_lsdv=True)`
+- `pyfixest` was designed for high-dimensional FE estimation (can handle small examples too)
+  - LSDV not available (to the best of my knowledge)
+  - See empirical application for example usage
+
+## Causal Properties with General Treatment {background="#00100F"}
+ 
+#### Question: Causal Properties of FE Estimators
+
+So far: 
+
+- Now have described the estimation approach underlying DiD regression estimation
+- Noticed that it can handle general treatments $\bX_{it}$, not just scalar binary $D_{it}$
+
+. . . 
+
+<div class="rounded-box"> 
+
+What are the causal properties of such estimators? Under which models do they give meaningful results?
+
+</div>
+
+
+ 
+#### Reflection on our Approach
+
+Note:
+
+- Approach this problem differently:
+  - Here first formulate an estimator and only now start understanding causal properties
+  - Usually goes the other way: fix causal problem, try to figure out identification and estimation
+- Doing so for historic reasons — these estimators came first, serious causal thinking more recently 
+
+
+#### Models Considered
+
+<br>
+
+Will consider two kinds of models under strict exogeneity
+
+- Random intercept causal process with same $\bbeta$ for everyone — reflects estimator structure
+- Model with heterogeneous effects $\bbeta_i$
+
+
+### Properties under Random Intercept Model {background="#43464B" visibility="uncounted"}
+
+#### Causal Framework with Random Intercepts
+
+- Some vector of treatments $\bX_{it}$
+- Potential outcome of unit $i$ in time $t$ given by
+$$
+Y^{\bx}_{it} = \alpha_i + \gamma_t + \bx'\bbeta + U_{it}
+$$ {#eq-panel-twfe-causal-random-intercept}
+- Will think about about exogeneity conditions later
+- Object of interest — $\bbeta$ (plays the role of ATE, ATT, ...)
+
+
+
+::: {.callout-note appearance="minimal"}
+
+For definiteness, we do two-way effects, but can apply same analysis  for any configuration of random intercepts, just need to define $\tilde{Y}_{it}$ appropriately
+
+:::
+
+#### Sampling Setting
+
+Work in the following setting
+
+- Units drawn IID
+- $N$ large, $T$ fixed
+  - More typical kind of panel data ("micro" panel)
+  - Contrast with "large" panel data with both $N$ and $T$ large
+ 
+
+
+#### Causal Framework: Discussion of Model ([-@eq-panel-twfe-causal-random-intercept])
+ 
+- Contrast with less flexible causal model discussed before:
+$$
+Y_{it}^{\bx} = \bx'\bbeta + U_{it}
+$$ 
+- Interpretations:
+  - $\alpha_i$ — often some characteristic of $i$ that does not change over considered sample (e.g. innate intellect)
+  - $\gamma_t$ — shocks that affect everyone equally
+  - Similar logic for other types of random interecepts 
+
+
+::: footer
+
+
+:::
+
+#### Estimator for $\bbeta$
+
+- Estimate $\bbeta$ with the FE estimator, expressed as (@prp-panel-twfe-equivalence-lsdv-w)
+$$ \small 
+\begin{aligned}
+\hat{\bbeta}^{FE} & = \left(\sum_{i=1}^N \sum_{t=1}^T \tilde{\bX}_{it}\tilde{\bX}_{it}' \right)^{-1}\sum_{i=1}^N \sum_{t=1}^T \tilde{\bX}_{it}\tilde{Y}_{it} \\
+& = \left( \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i
+ \right)\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bY}_i
+\end{aligned}
+$$
+with variables transformed as in @eq-panel-twfe-two-way-transform
+- Will discuss nonsingularity assumptions a bit later
+
+::: footer
+
+:::
+
+#### Probability Limit of $\hat{\bbeta}^{FE}$
+
+Realized data satisfies $\tilde{\bY} = \tilde{\bX}_{it}'\bbeta + \tilde{U}_{it}$ 
+. . .
+
+<br>
+
+So as $N\to\infty$ and $T$ is fixed:
+$$ \small
+\hat{\bbeta}^{FE} \xrightarrow{p} \bbeta + \left(  \E[\tilde{\bX}_{i}'\tilde{\bX}_i]\right)^{-1} \E[\tilde{\bX}_{i}'\tilde{\bU}_{i}]
+$$
+
+. . . 
+
+$T$ fixed — basically treat each unit a single $T$-dimensional observation (as in $\tilde{\bU}_i$)
+
+#### Rank (Nonsingularity) Conditions
+
+So far needed to impose nonsingularity conditions
+
+- Sample: on $\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i$
+- Population: on $\E[\tilde{\bX}_{i}'\tilde{\bX}_i]$
+
+. . .
+
+What does it require of $\bX_{it}$?
+
+- No collinearity
+- Also variation <span class="highlight">after </span> the within transformation (one-way: variation over time; two-way: *different* variation over time for different units; etc.)
+
+#### Towards Exogeneity Conditions
+ 
+
+For consistency want
+$$ \small
+\E[\tilde{\bX}_i'\tilde{\bU}_i] = \sum_{t=1}^T \E\left[\tilde{\bX}_{it} \tilde{U}_{it} \right] =0 
+$$
+
+. . . 
+
+Sufficient that for all $t$
+$$ \small
+\E\left[\tilde{\bX}_{it} \tilde{U}_{it} \right] =0 
+$$ {#eq-panel-twfe-key-orthogonality}
+
+What does this condition require of $\bX_{it}$ and $U_{it}$? 
+
+
+#### Exogeneity in the One-Way Case
+
+Under one-way transformation ([-@eq-panel-twfe-one-way-transform]), @eq-panel-twfe-key-orthogonality becomes
+$$ \scriptsize 
+\E\left[\tilde{\bX}_{it} \tilde{U}_{it} \right] = \E\left[ \bX_{it}U_{it} - \dfrac{\bX_{it}}{T}\sum_{s=1}^T U_{it} - \dfrac{U_{it}}{T}\sum_{r=1}^T \bX_{it}  + \dfrac{1}{T^2} \sum_{s=1}^T\sum_{r=1}^T \bX_{it} U_{ir}\right] = 0 
+$$
+
+Here would be sufficient that for all $t$, $s$
+$$ \small
+\E[\bX_{it}U_{is}] = 0
+$${#eq-panel-twfe-raw-orthogonality}
+Intuition: $\bX_{it}$ and $U_{is}$ are uncorrelated across all points in time
+
+::: footer
+
+Problematic direction is usually $s<t$: predicting future $\bX_{it}$ from past $U_{is}$  (your shocks influence your future decisions)
+
+::: 
+
+#### Strict Exogeneity in the Panel Case
+
+What about beyond one-way effects? Usually impose an assumption that covers all cases —  <span class="highlight"> panel data version of strict exogeneity </span> is imposed:
+
+<div class="rounded-box">
+
+**Assumption** (*strict exogeneity*):
+$$
+\E[U_{it} | \bX_{i1}, \dots, \bX_{iT}] =0
+$$
+
+</div>
+Much stronger than just $\E[U_{it}|\bX_{it}]=0$
+ 
+#### Strict Exogeneity Implies @eq-panel-twfe-key-orthogonality
+
+
+<div class="rounded-box">
+
+::: {#prp-panel-twfe-orthogonalities}
+
+Let $\E[U_{is} | \bX_{i1}, \dots, \bX_{iT}] =0$ for all $s$. Then for any within transformation it holds for all $t$ that
+$$
+\E[\tilde{\bX}_{i}'\tilde{\bU}_i] =0
+$$
+
+:::
+
+</div>
+
+- Proof by properties of conditional expectations
+- Covers all configurations of random intercepts
+ 
+
+::: footer
+
+See first block for key properties of conditional expectation
+
+:::
+
+#### Consistency Result
+
+<div class="rounded-box">
+
+
+::: {#prp-panel-twfe-fe-consistency}
+
+Let 
+
+1. $(\bX_i, \bU_i)$ be IID and model ([-@eq-panel-twfe-causal-random-intercept]) be true
+2. $\E[\tilde{\bX}_i'\tilde{\bX}_i]$ exist and be invertible
+3. $\E[U_{it} | \bX_{i1}, \dots, \bX_{iT}] =0$
+
+Then as $N\to\infty$
+
+$$
+\hat{\bbeta}^{FE} \xrightarrow{p} \bbeta
+$$
+
+:::
+
+</div>
+
+
+#### Asymptotic Distribution
+
+
+<div class="rounded-box">
+
+
+::: {#prp-panel-twfe-fe-consistency}
+
+Let 
+
+1. $(\bX_i, \bU_i)$ be IID and model ([-@eq-panel-twfe-causal-random-intercept]) be true
+2. $\E[\tilde{\bX}_i'\tilde{\bX}_i]$ exist and be invertible; $\E\left[\norm{\tilde{\bX}_i'\tilde{\bU}_i}^2\right]<\infty$
+3. $\E[U_{it} | \bX_{i1}, \dots, \bX_{iT}] =0$
+  
+
+Then as $N\to\infty$
+
+$$ \scriptsize
+\sqrt{N}\left(\hat{\bbeta}^{FE} - \bbeta\right) \xrightarrow{d} N\left(0, \left(\E[\tilde{\bX}_i'\tilde{\bX}_i] \right)^{-1} \E[\tilde{\bX}_i'\tilde{\bU}_i\tilde{\bU}_i'\tilde{\bX}_i] \left(\E[\tilde{\bX}_i'\tilde{\bX}_i] \right)^{-1}\right)
+$$
+
+:::
+
+</div>
+
+
+::: footer
+
+:::
+
+#### Discussion of Asymptotic Results for $\hat{\bbeta}^{FE}$
+
+- Can do inference and estimate errors in more or less standard way (confidence intervals, hypothesis tests, ...)
+- Proof of asymptotic normality — exercise
+- *Not examinable* technical point: some within transformations (e.g. two-way) can create dependence across $i$. This dependence disappears as $N\to\infty$ and does not affect asymptotics 
+
+### Properties under Heterogeneous Coefficient Model {background="#43464B" visibility="uncounted"}
+
+#### Causal Framework with Heterogeneous Coefficients
+
+Consider different potential outcomes setting:
+$$ \small
+Y_{it}^{\bx} = \bx'\bbeta_{\textcolor{teal}{i}} + U_{it}
+$$ {#eq-panel-twfe-causal-unit-coefs}
+under strict exogeneity $\E[U_{it} | \bX_{i1}, \dots, \bX_{iT}] =0$
+
+
+- Special case: unit-specific intercepts
+- Does not nest two-way or other random intercepts with time variation
+- ([-@eq-panel-twfe-causal-unit-coefs]) interesting because it allows heterogeneous effects of same change in $\bX_{it}$
+
+::: footer
+
+If $\E[\bbeta_i|\bX_{i1}, \dots, \bX_{iT}] = \E[\bbeta_i]$, then ([-@eq-panel-twfe-causal-unit-coefs]) — special case of  ([-@eq-panel-twfe-causal-random-intercept]). This assumption usually unrealistic for panel data
+
+
+:::
+
+#### FE Estimator
+
+Can still use the FE estimator:
+$$
+\hat{\bbeta}^{FE} = \left(\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i \right)^{-1}\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bY}_i
+$$
+Can do any transformation such that $\E[\tilde{\bX}_i\tilde{\bX}_i]$ is invertible
+
+. . . 
+
+<br>
+
+<div class="rounded-box">
+
+What does $\hat{\bbeta}^{FE}$ do under model ([-@eq-panel-twfe-causal-unit-coefs])?
+
+</div>
+ 
+#### Expanding Estimator and Taking Limits
+
+Substituting model ([-@eq-panel-twfe-causal-unit-coefs]) gets us
+$$ \small
+\begin{aligned}
+\hat{\bbeta}^{FE} & = \left(\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i \right)^{-1}\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i\bbeta_i\\
+& = \left(\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i \right)^{-1}\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i\\
+& \xrightarrow{p} \E\left[ \bW(\tilde{\bX}_i) \bbeta_i\right]
+\end{aligned}
+$$
+for $\small\bW(\tilde{\bX}_i) = \left(\E\left[\tilde{\bX}_i\tilde{\bX}_i\right] \right)^{-1} \tilde{\bX}_i\tilde{\bX}_i$
+
+::: footer
+
+
+:::
+
+#### Discussion of $\hat{\bbeta}^{FE}$ under Heterogeneous Effects  
+ 
+- Result: FE estimator estimate weighted average of $\bbeta_i$
+  - Weights are positive definite and sum to one  
+  - Weights depend on within transformation used
+- In general $\E\left[ \bW(\tilde{\bX}_i) \bbeta_i\right]\neq \E[\bbeta_i]$ (true in RCTs)
+- Careful: $\E\left[ \bW(\tilde{\bX}_i) \bbeta_i\right]$ and $\E[\bbeta_i]$ can even have different signs sometimes
+
+#### Extension: Factor Models
+
+Can generalize random intercept models to the form
+$$
+Y_{it}^{\bx} = \balpha_i'\bgamma_t + \bx'\bbeta_i + U_{it}
+$$
+
+- $\bgamma_t$ — unobserved "factors", $\balpha_i$ — factor loadings
+- Allows people to react differently to same shocks in $\bgamma_t$
+- See chapter 29 in @Pesaran2015TimeSeriesPanel  
+
+## Empirical Application {background="#00100F"}
+ 
+ 
+### Context and Setting {background="#43464B" visibility="uncounted"}
+
+#### Context  
+ 
+####
+
+High-dimensional case!
+
+## Recap and Conclusions {background="#00100F"}
+  
+#### Recap
+
+In this lecture we
+
+1. Did
+
+#### Next Questions
+ 
+- What if you want to estimate $\E[\bbeta_i]$? 
+- When does strict exogeneity fail? Can you relax it? 
+- What does panel data let you do in nonlinear settings?
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
+
+::: footer
+
+:::
