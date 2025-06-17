@@ -704,6 +704,77 @@ Y_{it} &amp; = \beta_0 + \beta_1 D_{it} + U_{it},
 \]</span> Express <span class="math inline">\(U_{it}\)</span> in terms of <span class="math inline">\(\beta_0, \beta_1\)</span> and the potential outcomes <span class="math inline">\(Y_{it}^0, Y_{it}^1\)</span>.</p></li>
 <li><p>Recall that in a linear causal model OLS is consistent for the coefficient vector provided the regressors <span class="math inline">\(\bX_{it}\)</span> are orthogonal to the residuals in the sense <span class="math inline">\(\E[\bX_{it}U_{it}]=0\)</span>. Does this condition hold in the above regression? What about <span class="math inline">\(\E[U_{it}|\bX_{it}]=0\)</span>? Connect to the assumption of no trends.</p></li>
 </ol>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p><em>First subquestion</em>: let <span class="math inline">\(\hat{\beta}_1\)</span> be the estimated coefficients on <span class="math inline">\(D_{it}\)</span>. Recall that it can be expressed as <span class="math display">\[
+\hat{\beta}_1 = \dfrac{\widehat{\cov}(Y_{it}, D_{it})}{\widehat{\var}(D_{it})}.
+\]</span> It is sufficient to evaluate the sample moments on the right hand side. For example, it holds that <span class="math display">\[
+\widehat{\var}(D_{it}) = \dfrac{1}{2N}\sum_{i=1}^N \sum_{t=1}^2 D_{it}^2 - \left(\dfrac{1}{2N}\sum_{i=1}^N \sum_{t=1}^2 D_{it} \right)^2 = \dfrac{1}{4},
+\]</span> where we use that for all <span class="math inline">\(i\)</span> it holds that <span class="math inline">\(D_{i1}=0\)</span> and <span class="math inline">\(D_{i2}=1\)</span>.</p>
+<p>Likewise, for covariance we have that <span class="math display">\[
+\begin{aligned}
+&amp; \widehat{\cov}(Y_{it}, D_{it})\\
+&amp; = \dfrac{1}{2N}\sum_{i=1}^N \sum_{t=1}^2 Y_{it}D_{it} - \left(  \dfrac{1}{2N}\sum_{i=1}^N \sum_{t=1}^2 Y_{it}\right)\left( \dfrac{1}{2N}\sum_{i=1}^N \sum_{t=1}^2 D_{it} \right) \\
+&amp; = \dfrac{1}{2N}\sum_{i=1}^N Y_{i2} - \dfrac{1}{4N}\left(  \sum_{i=1}^N Y_{i1} +\sum_{i=1}^N Y_{i2}  \right) \\
+&amp; = \dfrac{1}{4N}\sum_{i=1}^N (Y_{i2}- Y_{i1}).
+\end{aligned}
+\]</span> Combining the two expressions, we obtain that <span class="math display">\[
+\hat{\beta}_1 = \widehat{AE}_{ES}.
+\]</span></p>
+<p><br></p>
+<p><em>Second subquestion</em>: the easiest way to proceed is to tackle <span class="math inline">\(t=1\)</span> and <span class="math inline">\(t=2\)</span> separately. Consider first <span class="math inline">\(t=0\)</span>. By construction, we know that <span class="math inline">\(Y_{i1}=Y_{i1}^0\)</span> (the untreated outcome). Hence <span class="math display">\[
+\begin{aligned}
+Y_{i1} &amp; = Y_{i1}^0\\
+&amp; = \beta_0 + \beta_1\times 0 +  (Y_{i1}^0-\beta_0)\\
+&amp; = \beta_0 + \beta_1 D_{i1} + (Y_{i1}^0-\beta_0).
+\end{aligned}
+\]</span> We conclude that <span class="math display">\[
+U_{i1} = Y_{i1}^0  - \beta_0.
+\]</span> We can proceed similarly with <span class="math inline">\(t=2\)</span>: <span class="math display">\[
+\begin{aligned}
+Y_{i2} &amp; = Y_{i2}^1\\
+&amp; = \beta_0 + \beta_1 +  (Y_{i2}^1-\beta_0-\beta_1)\\
+&amp; = \beta_0 + \beta_1 D_{i2} + (Y_{i2}^1-\beta_0-\beta_1).
+\end{aligned}
+\]</span> It follows that <span class="math display">\[
+U_{i2} = Y_{i2}^1-\beta_0-\beta_1.
+\]</span></p>
+<p><br></p>
+<p><em>Third subquestion</em>: the regressor vector <span class="math inline">\(\bX_{it}\)</span> is <span class="math inline">\((1, D_{it})\)</span>. Accordingly, <span class="math inline">\(\E[\bX_{it}U_{it}]=0\)</span> is two conditions: <span class="math inline">\(\E[U_{it}]=0\)</span> and <span class="math inline">\(\E[U_{it}D_{it}]=0\)</span>.</p>
+<p>To check these conditions, it is again best to separately consider <span class="math inline">\(t=1\)</span> and <span class="math inline">\(t=2\)</span>.</p>
+<ul>
+<li><p>For <span class="math inline">\(t=1\)</span> we have <span class="math display">\[
+\begin{aligned}
+\E[U_{i1}] &amp; = \E[Y_{i1}^0-\beta_0]= \E[Y_{i1}^0] - \E[Y_{i1}^0] =0, \\
+\E[U_{i1}D_{i1}] &amp; = \E[U_{i1}\times 0] =0,
+\end{aligned}
+\]</span> where we use the definition of <span class="math inline">\(\beta_0\)</span> and that <span class="math inline">\(D_{i1}=0\)</span> for all units.</p></li>
+<li><p>For <span class="math inline">\(t=2\)</span>: <span class="math display">\[
+\begin{aligned}
+\E[U_{i2}] &amp; = \E[Y_{i2}^1-\beta_0- \beta_1]= \E[Y_{i2}^1] - \E[Y_{i1}^0] - \E[Y_{i2}^1- Y_{i2}^0]\\
+&amp; = \E[Y_{i2}^0] - \E[Y_{i1}^0] \\
+&amp; = 0,  \\
+\E[U_{i2}D_{i2}] &amp; = \E[U_{i2}\times 1] =0,
+\end{aligned}
+\]</span> where we use the assumption of no trends (in the untreated outcomes).</p></li>
+</ul>
+<p>We conclude that <span class="math inline">\(\E[\bX_{it}U_{it}]=0\)</span> under the assumption of no trends.</p>
+<p>Finally, regarding strict exogeneity, the conditional expectation in <span class="math inline">\(\E[U_{it}|\bX_{it}]\)</span> is actually quite easy to handle.</p>
+<ul>
+<li>First, conditioning on a constant does not change anything (intuitively, a constant contains no information about any random variable), so <span class="math inline">\(\E[U_{it}|\bX_{it}]= \E[U_{it}|D_{it}]\)</span>.</li>
+<li>Second, <span class="math inline">\(D_{it}\)</span> itself is constant for each given <span class="math inline">\(t\)</span> (=takes only one possible value for each <span class="math inline">\(t\)</span>), so <span class="math display">\[
+\begin{aligned}
+\E[U_{i1}|D_{i1}] = \E[U_{i1}], \quad \E[U_{i2}|D_{i2}] = \E[U_{i2}].
+\end{aligned}
+\]</span> Both expectations on the right are 0.</li>
+</ul>
+<p>We conclude that <span class="math display">\[
+\E[U_{it}|\bX_{it}] =0,
+\]</span> and that strict exogeneity is equivalent to the assumption of no trends in the baseline.</p>
+<p>A practical conclusion is that under the assumption of no trends in the untreated outcomes, the OLS estimator is unbiased and consistent for the average treatment effect as <span class="math inline">\(N\to\infty\)</span>.</p>
+</details>
 </section>
 <section id="allowing-trends-in-event-studies" class="level3">
 <h3 class="anchored" data-anchor-id="allowing-trends-in-event-studies">Allowing Trends in Event Studies</h3>
@@ -712,6 +783,57 @@ Y_{it} &amp; = \beta_0 + \beta_1 D_{it} + U_{it},
 \E[Y_{it}^0] - \E[Y_{i1}^0] = \gamma(t-1), \quad t= 1, \dots, T
 \tag{1}\]</span></span> We are interested in estimating <span class="math inline">\(\beta_{\tau} = \E[Y_{i\tau}^1-Y_{i\tau}^0]\)</span> — the average treatment effects in periods <span class="math inline">\(\tau\geq t_0\)</span>.</p>
 <p>Propose a consistent estimator for <span class="math inline">\(\E[Y_{it}^1-Y_{it}^0]\)</span>. Show its consistency. You may freely use the consistency results proved in the asymptotic theory part of the class.</p>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p>The most natural way to proceed is to attempt a regression similar to the <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html#/expanded-regression">one</a> we discussed in the multiple period case with no trends. Define period-<span class="math inline">\(\tau\)</span> treatment indicators: <span class="math display">\[
+D_{it, \tau} = \begin{cases}
+1, &amp; t= \tau, \\
+0, &amp; t\neq \tau
+\end{cases}
+\]</span> We can now regress <span class="math inline">\(Y_{it}\)</span> on <span class="math inline">\(\bX_{it} = (1, t-1, D_{it, t_0}, \dots D_{it, T})\)</span> using OLS — note the addition of time <span class="math inline">\(t\)</span> to the list of regressors. Our estimator for <span class="math inline">\(\beta_{\tau}\)</span> is the coefficient on <span class="math inline">\(D_{it, \tau}\)</span>.</p>
+<p>To show consistency, we can use the same approach as in the first problem:</p>
+<ol type="1">
+<li>Represent the estimator as a linear model involving the coefficients of interest: <span id="eq-ex-panel-ex-trend-model"><span class="math display">\[
+Y_{it} = \beta_0 + \gamma (t-1)  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + U_{it},
+\tag{2}\]</span></span> where <span class="math inline">\(\beta_0 =\E[Y_{i1}^0]=0\)</span>.</li>
+<li>Show that <span class="math inline">\(\E[\bX_{it}U_{it}]=0\)</span>.</li>
+</ol>
+<p>As in the previous problem, it is enough to show that <span class="math inline">\(\E[U_{it}]=0\)</span> for all <span class="math inline">\(t\)</span> (why?). It is also again easiest to separately consider pre- and post-treatment periods. For clarity, we first find an expression for <span class="math inline">\(U_{it}\)</span> by aligning <span class="math inline">\(Y_{it}\)</span> with <a href="#eq-ex-panel-ex-trend-model" class="quarto-xref">Equation&nbsp;2</a>. We then find <span class="math inline">\(\E[U_{it}]\)</span>.</p>
+<ul>
+<li><p>Let <span class="math inline">\(t&lt;t_0\)</span>. Then <span class="math display">\[
+\begin{aligned}
+&amp; Y_{it} \\
+&amp;  = Y_{it}^0\\
+&amp; = \beta_0 + \gamma(t-1) + 0 + (Y_{it}^0 - \beta_0 - \gamma(t-1))\\
+&amp; = \beta_0 + \gamma(t-1) + \sum_{\tau=t_0}^T \beta_{\tau} D_{it, \tau} + (Y_{it}^0 - \beta_0 - \gamma(t-1)),
+\end{aligned}
+\]</span> where we use the fact that <span class="math inline">\(D_{it, \tau}=0\)</span> for all <span class="math inline">\(t&lt;t_0\)</span> and <span class="math inline">\(\tau\geq t_0\)</span>. In other words, <span class="math inline">\(U_{it} = Y_{it}^0 - \beta_0 - \gamma(t-1)\)</span> for <span class="math inline">\(t&lt;t_0\)</span>. Then <span class="math display">\[
+\begin{aligned}
+\E[U_{it}] &amp; = \E[Y_{it}^0] - \E[Y_{i1}^0] - \gamma(t-1) \\
+&amp; = \E[Y_{i1}^0] + \gamma(t-1) - \E[Y_{i1}^0] - \gamma(t-1)\\
+&amp; = 0,
+\end{aligned}
+\]</span> where we have used <a href="#eq-ex-panel-ex-trend" class="quarto-xref">Equation&nbsp;1</a> on the second line.</p></li>
+<li><p>Let <span class="math inline">\(t\geq t_0\)</span>. Then <span class="math display">\[
+\begin{aligned}
+&amp; Y_{it} \\
+&amp; = Y_{it}^1\\
+&amp; = \beta_0 + \gamma(t-1) + \beta_t \times 1 +  (Y_{it}^1 - \beta_0 - \gamma(t-1) - \beta_t)\\
+&amp; =  \beta_0 + \gamma(t-1) + \sum_{\tau=t_0}^T \beta_{\tau} D_{it, \tau} +  (Y_{it}^1 - \beta_0 - \gamma(t-1) - \beta_t),
+\end{aligned}
+\]</span> where we use that only <span class="math inline">\(D_{it, t}\)</span> is equal to 1 in the above sum. We thus obtain that <span class="math inline">\(U_{it} = Y_{it}^1 - \beta_0 - \gamma(t-1) - \beta_t\)</span> for <span class="math inline">\(t\geq t_0\)</span>. Hence <span class="math display">\[
+\begin{aligned}
+\E[U_{it}] &amp; = \E[Y_{it}^1] - \E[Y_{i1}^0] - \gamma(t-1) - \E[Y_{it}^1 - Y_{it}^0]\\
+&amp; = \E[Y_{it}^0] - \E[Y_{i1}^0] - \gamma(t-1)\\
+&amp; = \E[Y_{i1}^0] + \gamma(t-1) - \E[Y_{i1}^0] - \gamma(t-1)\\
+&amp; = 0,
+\end{aligned}
+\]</span> where we again use <a href="#eq-ex-panel-ex-trend" class="quarto-xref">Equation&nbsp;1</a>.</p></li>
+</ul>
+<p>By the same argument as in the above problem (please check!), we conclude that <span class="math inline">\(\E[\bX_{it}U_{it}]=0\)</span>. It follows that our OLS estimator is consistent for <span class="math inline">\((\beta_0, \gamma, \beta_{t_0}, \dots, \beta_T)\)</span> by the standard consistency results for OLS.</p>
+</details>
 </section>
 <section id="difference-in-differences-as-two-way-fixed-effect-regression" class="level3">
 <h3 class="anchored" data-anchor-id="difference-in-differences-as-two-way-fixed-effect-regression">Difference-in-Differences as Two-Way Fixed Effect Regression</h3>
@@ -721,6 +843,57 @@ Y_{it} &amp; = \beta_0 + \beta_1 D_{it} + U_{it},
 <li>Prove that the parallel trends assumption implies strict exogeneity in <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html#/eq-causal-did-twfe">Equation 4 in the slides</a>.</li>
 <li>Conclude that the DiD estimator is consistent and asymptotically normal for the ATT. You may freely use the consistency results proved in the asymptotic theory part of the class.</li>
 </ol>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p><em>First subquestion</em>: the proof is by brute force evaluation of the OLS estimator expression <span class="math display">\[
+\hat{\delta} = \dfrac{\widehat{\cov}\left(Y_{i2}-Y_{i1}, D_{i2}\right) }{\widehat{\var}(D_{i2})}.
+\]</span> The denominator is given by <span class="math display">\[
+\widehat{\var}(D_{i2}) = \dfrac{1}{N} \sum_{i=1}^N D_{i2}^2 - \left(\dfrac{1}{N} \sum_{i=1}^N D_{i2} \right)^2 = \dfrac{N_T}{N} - \dfrac{N_T^2}{N^2} = \dfrac{N_TN_U}{N^2},
+\]</span> where <span class="math inline">\(N_T\)</span> is the number of treated units, and <span class="math inline">\(N_U\)</span> is the number of untreated units.</p>
+<p>The numerator is given by <span class="math display">\[
+\begin{aligned}
+&amp; \widehat{\cov}\left(Y_{i2}-Y_{i1}, D_{i2}\right) \\
+&amp; = \dfrac{1}{N}\sum_{Treated} (Y_{i2}-Y_{i1}) \\
+&amp; \quad - \dfrac{N_T}{N}  \dfrac{1}{N}\left( \sum_{Treated} (Y_{i2}-Y_{i1}) + \sum_{Untreated}(Y_{i2}- Y_{i1})  \right) \\
+&amp; = \dfrac{N_U}{N^2} \sum_{Treated} (Y_{i2}-Y_{i1}) -\dfrac{N_T}{N^2} \sum_{Untreated} (Y_{i2}-Y_{i1}).
+\end{aligned}
+\]</span> Dividing the numerator by the denominator and combining the <span class="math inline">\(N\)</span> terms yields the result.</p>
+<p><br></p>
+<p><em>Second subquestion</em>: recall <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html#/eq-causal-did-twfe">Equation 4 in the slides</a>: <span class="math display">\[
+Y_{i2}- Y_{i1} = \gamma + \delta D_{i2} + U_{i2}
+\]</span> for <span class="math display">\[
+\begin{aligned}
+\gamma &amp; = \E[Y_{i2}^0 - Y_{i1}^0 |T], \\
+\delta &amp; = \E[Y_{i2}^1 - Y_{i2}^0 |T].
+\end{aligned}
+\]</span> Here <span class="math inline">\(U_{i2}\)</span> is given by <span class="math display">\[
+U_{i2} = \begin{cases}
+Y_{i2}^0 - Y_{i1}^0 - \gamma, &amp; D_{i2} = 0, \\
+Y_{i2}^1 - Y_{i1}^0 - \gamma-\delta, &amp; D_{i2} = 1,
+\end{cases}
+\]</span></p>
+<p>Strict exogeneity in this case means that <span class="math inline">\(\E[U_{i2}|(1, D_{i2})]=0\)</span>. As always, conditioning on a constant does not affect the conditional expectation, and so we have that <span class="math inline">\(\E[U_{i2}|(1, D_{i2})] = \E[U_{i2}|D_{i2}]\)</span>. To find this expectation, we consider the values of <span class="math inline">\(D_{i2}\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\E[U_{i2}|D_{i2}=0] &amp; = \E[Y_{i2}^0 - Y_{i1}^0|U]- \E[Y_{i2}^0 - Y_{i1}^0 |T] \\
+&amp; = 0 \\
+\E[U_{i2}|D_{i2}=1] &amp; = \E[Y_{i2}^1 - Y_{i1}^0|T] - \E[Y_{i2}^0 - Y_{i1}^0 |T]- \E[Y_{i2}^1 - Y_{i2}^0 |T] \\
+&amp; = 0,
+\end{aligned}
+\]</span> where we</p>
+<ul>
+<li>Use the parallel trends assumption in <span class="math inline">\(\E[U_{i2}|D_{i2}=0]\)</span></li>
+<li>Add and subtract <span class="math inline">\(\E[Y_{i2}^0|T]\)</span> in <span class="math inline">\(\E[U_{i2}|D_{i2}=1]\)</span>.</li>
+</ul>
+<p>For both values of <span class="math inline">\(D_{i2}\)</span> the conditional expectation is 0. Hence <span class="math inline">\(\E[U_{i2}|D_{i2}]=0\)</span>, and strict exogeneity holds.</p>
+<p><em>Bonus question</em>: prove the strict exogeneity implies the parallel trends assumption. To do so, notice that we have proved that in general <span class="math display">\[
+\E[U_{i2}|D_{i2}] = D_{i2} \left( \E[Y_{i2}^0 - Y_{i1}^0|U]- \E[Y_{i2}^0 - Y_{i1}^0 |T]  \right)
+\]</span> Now suppose that <span class="math inline">\(\E[U_{i2}|D_{i2}] = 0\)</span> regardless of the value of <span class="math inline">\(D_{i2}\)</span>. Conclude that trends in outcomes must be parallel.</p>
+<p><br></p>
+<p><em>Third subquestion</em>: the DiD estimator <span class="math inline">\(\hat{\delta}\)</span> is an OLS estimator for a linear causal model with strict exogeneity. Consistency and asymptotic normality for <span class="math inline">\(\delta\)</span> hold by the results we proved in the asymptotic theory part of the class. Finally, recall that <span class="math inline">\(\delta\)</span> is exactly the ATT.</p>
+</details>
 </section>
 <section id="asymptotic-properties-of-fixed-effects-estimator" class="level3">
 <h3 class="anchored" data-anchor-id="asymptotic-properties-of-fixed-effects-estimator">Asymptotic Properties of Fixed Effects Estimator</h3>
@@ -733,6 +906,67 @@ Y_{it}^{\bx} = \alpha_i + \gamma_t + \bx'\bbeta+ U_{it}.
 Y_{it}^{\bx} = \alpha_i + \bx'\bbeta+ U_{it}.
 \]</span> Suppose that you use the two-way FE estimator regardless. Is it consistent for <span class="math inline">\(\bbeta\)</span>?</li>
 </ol>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p><em>First subquestion</em>: let <span class="math inline">\(\tilde{\bX}_{it}\)</span> be two-way transformed version of <span class="math inline">\(\bX_{it}\)</span>, likewise with <span class="math inline">\(\tilde{Y}_{it}\)</span> and <span class="math inline">\(\tilde{U}_{it}\)</span> (see <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/fe.html#/within-estimation-ii-two-way-transformations">Equation 7</a>). The within-transformed outcomes satisfy: <span class="math display">\[
+\tilde{Y}_{it} = \tilde{\bX}_{it}'\bbeta + \tilde{U}_{it}.
+\]</span> In individual matrix form: <span class="math display">\[
+\tilde{\bY}_i = \tilde{\bX}_i\bbeta + \tilde{\bU}_{i}.
+\]</span></p>
+<p>We can then represent the TWFE estimator of <span class="math inline">\(\bbeta\)</span> as <span id="eq-ex-panel-ex-fe-repr"><span class="math display">\[
+\begin{aligned}
+\hat{\bbeta}^{FE} &amp; = \left( \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i
+\right)^{-1}\sum_{i=1}^N \tilde{\bX}_i'\tilde{\bY}_i \\
+&amp; = \bbeta +  \left(\dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i
+\right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i.
+\end{aligned}
+\tag{3}\]</span></span></p>
+<p>We now proceed as we always do.</p>
+<p>To prove consistency, we make the following sequence of observations:</p>
+<ul>
+<li>Since <span class="math inline">\(\E[\tilde{\bX}_i'\tilde{\bX}_i]\)</span> exists and observations are IID across <span class="math inline">\(i\)</span>, by the law of large numbers <span class="math display">\[
+\dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i \xrightarrow{p} \E[\tilde{\bX}_i'\tilde{\bX}_i].
+\]</span></li>
+<li>Since <span class="math inline">\(\E[\tilde{\bX}_i'\tilde{\bX}_i]\)</span> is invertible, by the continuous mapping theorem <span id="eq-ex-panel-ex-fe-hess"><span class="math display">\[
+\left( \dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i\right)^{-1} \xrightarrow{p}  \left( \E[\tilde{\bX}_i'\tilde{\bX}_i]\right)^{-1}.
+\tag{4}\]</span></span></li>
+<li>By the law of large numbers <span class="math display">\[
+\dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i \xrightarrow{p} \E[\tilde{\bX}_i'\tilde{\bU}_i].
+\]</span></li>
+<li>By the panel version of strict exogeneity and <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/fe.html#/strict-exogeneity-implies-eq-panel-twfe-key-orthogonality">Proposition 2</a> it holds that <span class="math display">\[
+\E[\tilde{\bX}_i'\tilde{\bU}_i] = 0.
+\]</span></li>
+<li>By the continuous mapping theorem <span class="math display">\[
+\left(\dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bX}_i
+\right)^{-1} \dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i \xrightarrow{p} \left( \E[\tilde{\bX}_i'\tilde{\bX}_i]\right)^{-1}\E[\tilde{\bX}_i'\tilde{\bU}_i] = 0.
+\]</span></li>
+</ul>
+<p>We conclude that <span class="math display">\[
+\hat{\bbeta}^{FE} \xrightarrow{p} \bbeta.
+\]</span></p>
+<p>To show asymptotic normality, we first apply the central limit theorem as <span class="math display">\[
+\begin{aligned}
+\dfrac{1}{\sqrt{N}} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i &amp; = \sqrt{N}\left(\dfrac{1}{N} \sum_{i=1}^N \tilde{\bX}_i'\tilde{\bU}_i - \E[\tilde{\bX}_i'\tilde{\bU}_i] \right)\\
+&amp; \xrightarrow{d} N\left(0, \E[\tilde{\bX}_i'\tilde{\bU}_i\tilde{\bU}_i'\tilde{\bX}_i]   \right).
+\end{aligned}
+\]</span> Then by equations (<a href="#eq-ex-panel-ex-fe-repr" class="quarto-xref">3</a>)-(<a href="#eq-ex-panel-ex-fe-hess" class="quarto-xref">4</a>) and Slutsky’s theorem we conclude that <span class="math display">\[
+\begin{aligned}
+&amp; \sqrt{N}\left(\hat{\bbeta}^{FE} - \bbeta\right) \\
+&amp; \xrightarrow{d} N\left(0, \left(\E[\tilde{\bX}_i'\tilde{\bX}_i] \right)^{-1} \E[\tilde{\bX}_i'\tilde{\bU}_i\tilde{\bU}_i'\tilde{\bX}_i] \left(\E[\tilde{\bX}_i'\tilde{\bX}_i] \right)^{-1}\right).
+\end{aligned}
+\]</span></p>
+<p><br></p>
+<p><em>Second subquestion</em>: the two-way within transformation successfully eliminates all the random intercepts present. The realized outcomes still satisfy <span class="math display">\[
+\tilde{Y}_{it} = \tilde{\bX}_{it}'\bbeta + \tilde{U}_{it}.
+\]</span> It follows that the estimator is still consistent and asymptotically normal, provided suitable moment and invertibility conditions hold.</p>
+<p>Does this mean that you should always try to eliminate as many random intercepts as possible? Not really, for the following two reasons:</p>
+<ul>
+<li>Removing more effects makes it harder to satisfy the invertibility condition on <span class="math inline">\(\E[\tilde{\bX}_{i}'\tilde{\bX}_i]\)</span>. Every layer of the within transformation deletes something from <span class="math inline">\(\bX_{it}\)</span>. It is possible to delete so much that there isn’t enough variation left for estimation.</li>
+<li>The random intercept model is likely misspecified in the sense that coefficient vectors <span class="math inline">\(\bbeta\)</span> differ at least between units. Removing different kinds of FEs only changes the weights in the estimand of the FE estimator, but does not lead to the true average effect.</li>
+</ul>
+</details>
 </section>
 <section id="asymptotic-properties-of-the-mean-group-estimator" class="level3">
 <h3 class="anchored" data-anchor-id="asymptotic-properties-of-the-mean-group-estimator">Asymptotic Properties of the Mean Group Estimator</h3>
@@ -750,6 +984,101 @@ Y_{it}^{\bx} = \bx'\bbeta_i + U_{it}.
 <li>Show that <span class="math inline">\(\hat{\bbeta}^{MG}\)</span> is asymptotically normal under the the assumptions of proposition 2 in the <a href="https://vladislav-morozov.github.io/econometrics-2/slides/panel/mean-group.html#/asymptotic-distribution">slides on mean group estimation</a>.</li>
 <li>Suppose that <span class="math inline">\(p=1\)</span> (scalar case). Propose a confidence interval for <span class="math inline">\(\E[\beta_i]\)</span> with asymptotic coverage <span class="math inline">\(1-\alpha\)</span>.</li>
 </ol>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p><em>First subquestion</em>: We substitute <span class="math inline">\(Y_{it} = \bX_{it}'\bbeta_i  + U_{it}\)</span> into the individual estimators <span class="math inline">\(\hat{\bbeta}_i\)</span>: <span class="math display">\[
+\hat{\bbeta}_i = \bbeta_i +  (\bX_i'\bX_i)^{-1}\bX_i'\bU_i
+\]</span> We can then represent the mean group estimator as <span class="math display">\[
+\hat{\bbeta}^{MG} = \dfrac{1}{N}\sum_{i=1}^N \bbeta_i + \dfrac{1}{N}\sum_{i=1}^N(\bX_i'\bX_i)^{-1}\bX_i'\bU_i.
+\]</span> By assumptions of proposition 1, <span class="math inline">\((\bX_i, \bU_i, \bbeta_i)\)</span> are IID random vectors and the expected value of <span class="math inline">\(\bbeta_i\)</span> exists. Then by the law of large numbers <span class="math display">\[
+\dfrac{1}{N}\sum_{i=1}^N \bbeta_i \xrightarrow{p} \E[\bbeta_i].
+\]</span> Likewise, <span class="math inline">\((\bX_i'\bX_i)^{-1}\bX_i'\bU_i\)</span> has finite expected value by assumption, so by the law of large numbers it holds that <span class="math display">\[
+\dfrac{1}{N}\sum_{i=1}^N(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\xrightarrow{p} \E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\right].
+\]</span> We conclude that <span class="math display">\[
+\hat{\bbeta}^{MG}\xrightarrow{p} \E[\bbeta_i] + \E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\right].
+\]</span> Finally, by the law of iterated expectations and assumption of strict exogeneity, it holds that <span class="math display">\[
+\begin{aligned}
+\E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\right] &amp; = \E\left[\E\left[ (\bX_i'\bX_i)^{-1}\bX_i'\bU_i|\bX_i\right]\right]\\
+&amp; = \E\left[(\bX_i'\bX_i)^{-1}\bX_i' \E[\bU_i|\bX_i]  \right]\\
+&amp; = 0.
+\end{aligned}
+\]</span> We conclude that <span class="math inline">\(\hat{\bbeta}^{MG}\xrightarrow{p}\E[\bbeta_i]\)</span>.</p>
+<p><br></p>
+<p><em>Second subquestion</em>: To prove asymptotic normality, we will showcase the technique used in the lecture slides. It consists in expressing <span class="math inline">\(\hat{\bbeta}^{MG}\)</span> as a continuous transformation of a single random vector: <span id="eq-ex-panel-ex-mg-representation"><span class="math display">\[
+\hat{\bbeta}^{MG}  = \begin{pmatrix}
+\bI_p &amp; \bI_p
+\end{pmatrix} \left[ \dfrac{1}{N} \sum_{i=1}^N \underbrace{\begin{pmatrix}
+\bbeta_i \\
+(\bX_i'\bX_i)^{-1}\bX_i'\bU_i
+\end{pmatrix}}_{=\bW_i} \right],
+\tag{5}\]</span></span> where <span class="math inline">\(\bI_p\)</span> is the <span class="math inline">\(p\times p\)</span> identity matrix.</p>
+<p>From this point out, the problem is fairly easy. Tkey key challenge is not getting confused in expressing the asymptotic variance.</p>
+<p>By assumption of proposition 2, <span class="math inline">\(\bW_i\)</span> are IID vectors with finite second moments. It then follows by the central limit theorem that <span class="math display">\[
+\sqrt{N}\left( \dfrac{1}{N} \sum_{i=1}^N \bW_i - \E[\bW_i] \right) \xrightarrow{d} N(0, \var(\bW_i))
+\]</span> We now connect the moments of <span class="math inline">\(\bW_i\)</span> to <span class="math inline">\((\bbeta_i, \bX_i, \bU_i)\)</span>. The mean: <span class="math display">\[
+\begin{aligned}
+\E[\bW_i] &amp; = \begin{pmatrix}
+\E[\bbeta_i]\\
+\E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right]
+\end{pmatrix} = \begin{pmatrix}
+\E[\bbeta_i]\\
+0
+\end{pmatrix} , \\
+\end{aligned}
+\]</span> where we have used the fact that <span class="math inline">\(\E[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i]=0\)</span>.</p>
+<p>Now the variance: <span class="math display">\[
+\begin{aligned}
+&amp; \var(\bW_i) \\
+&amp;  = \E[\bW_i\bW_i'] - (\E[\bW_i])(\E[\bW_i])' \\
+&amp; =  \begin{pmatrix}
+\var(\bbeta_i) &amp; \E[\bbeta_i\bU_i'\bX_i(\bX_i'\bX_i)^{-1}] \\
+\E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\bbeta_i' \right] &amp; \var\left( (\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right)
+\end{pmatrix},
+\end{aligned}
+\]</span> where we have again use <span class="math inline">\(\E[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i]=0\)</span>.</p>
+<p>Further, we can show that the covariance (off-diagonal) terms in <span class="math inline">\(\var(\bW_i)\)</span> are zero. using the stronger strict exogeneity property <span class="math inline">\(\E[\bU_i|\bbeta_i, \bX_i]=0\)</span>. We again use the law of iterated expectations as <span class="math display">\[
+\begin{aligned}
+\E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\bbeta_i' \right] &amp; = \E\left[ \E\left[(\bX_i'\bX_i)^{-1}\bX_i'\bU_i\bbeta_i' |\bbeta_i, \bX_i\right] \right]\\
+&amp; = \E\left[(\bX_i'\bX_i)^{-1}\bX_i'\E[\bU_i|\bbeta_i, \bX_i]\bbeta_i'  \right]\\
+&amp; = 0
+\end{aligned}
+\]</span></p>
+<p>Summing up, we conclude that <span id="eq-ex-panel-ex-mg-core"><span class="math display">\[
+\begin{aligned}
+&amp; \sqrt{N}\left( \dfrac{1}{N} \sum_{i=1}^N \bW_i - \begin{pmatrix}
+\E[\bbeta_i]\\
+0
+\end{pmatrix}\right)\\
+&amp; \xrightarrow{d} N\left(0, \begin{pmatrix}
+\var(\bbeta_i) &amp; 0\\
+0 &amp; \var\left( (\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right)
+\end{pmatrix}\right)
+\end{aligned}
+\tag{6}\]</span></span> By <a href="#eq-ex-panel-ex-mg-representation" class="quarto-xref">Equation&nbsp;5</a>, we have that <span class="math display">\[
+\sqrt{N}\left(\hat{\bbeta}^{MG} - \E[\bbeta_i] \right) = \begin{pmatrix}
+\bI_p &amp; \bI_p
+\end{pmatrix}  \sqrt{N}\left( \dfrac{1}{N} \sum_{i=1}^N \bW_i - \begin{pmatrix}
+\E[\bbeta_i]\\
+0
+\end{pmatrix}\right)
+\]</span> Finally, by the continuous mapping theorem or the delta method, the above representation and <a href="#eq-ex-panel-ex-mg-core" class="quarto-xref">Equation&nbsp;6</a>, we conclude that <span class="math display">\[
+\begin{aligned}
+&amp; \sqrt{N}\left(\hat{\bbeta}^{MG} - \E[\bbeta_i] \right)\\
+&amp;  \xrightarrow{d} N\left(0, \var(\bbeta_i) + \var\left( (\bX_i'\bX_i)^{-1}\bX_i'\bU_i \right) \right).
+\end{aligned}
+\]</span></p>
+<p><br></p>
+<p><em>Third subquestion</em>: as suggested in the lecture, we can directly use the sample variance of <span class="math inline">\(\hat{\beta}_i\)</span> to estimate the asymptotic variance of <span class="math inline">\(\hat{\beta}^{MG}\)</span>: <span class="math display">\[
+\widehat{\avar}(\hat{\bbeta}^{MG}) = \dfrac{1}{N}\sum_{i=1}^N \left(\hat{\beta}_i- \hat{\beta}^{MG} \right)^2.
+\]</span> The construction of the confidence interval is standard. Let <span class="math inline">\(z_{1-\alpha/2}\)</span> be the <span class="math inline">\((1-\alpha/2)\)</span>th quantile of the standard normal distribution.</p>
+<p>Define <span class="math inline">\(S\)</span> as <span class="math display">\[
+S = \left[\hat{\beta}^{MG} - z_{1-\alpha/2}\sqrt{\dfrac{\widehat{\avar}(\hat{\bbeta}^{MG}) }{N}  }, \hat{\beta}^{MG} + z_{1-\alpha/2}\sqrt{\dfrac{\widehat{\avar}(\hat{\bbeta}^{MG}) }{N}  }\right]
+\]</span> To show that <span class="math inline">\(S\)</span> has asymptotic coverage <span class="math inline">\(\alpha\)</span>, it is sufficient to notice that by the central limit theorem <span class="math display">\[
+\sqrt{N}\left(\hat{\beta}^{MG} - \E[\beta_i] \right) \xrightarrow{d} N\left(0, \var(\hat{\beta}_i) \right).
+\]</span> The proof now proceeds as in the lectures and the previous exercise sheet.</p>
+</details>
 </section>
 </section>
 <section id="applied-exercises" class="level2">
@@ -764,7 +1093,11 @@ Y_{it}^{\bx} = \bx'\bbeta_i + U_{it}.
 </section>
 <section id="fe-and-mg-labor-markets-and-pollution" class="level3">
 <h3 class="anchored" data-anchor-id="fe-and-mg-labor-markets-and-pollution">FE and MG: Labor Markets and Pollution</h3>
-<p>Consider again the paper by <span class="citation" data-cites="Borgschulte2024AirPollutionLabor">Borgschulte, Molitor, and Zou (<a href="#ref-Borgschulte2024AirPollutionLabor" role="doc-biblioref">2024</a>)</span>. In the lectures we have focused on the effect of pollution on earnings. However, <span class="citation" data-cites="Borgschulte2024AirPollutionLabor">Borgschulte, Molitor, and Zou (<a href="#ref-Borgschulte2024AirPollutionLabor" role="doc-biblioref">2024</a>)</span> also consider the effects on total employment and labor force participation. Replicate their results for these two outcomes — columns (3) and (4) in their table 1. To do so, download their data from the <a href="https://dataverse.harvard.edu/file.xhtml?fileId=6425134&amp;version=1.0">Harvard Dataverse</a> and suitably modify the lecture code.</p>
+<p>Consider again the paper by <span class="citation" data-cites="Borgschulte2024AirPollutionLabor">Borgschulte, Molitor, and Zou (<a href="#ref-Borgschulte2024AirPollutionLabor" role="doc-biblioref">2024</a>)</span>. In the lectures we have focused on the effect of pollution on earnings. However, <span class="citation" data-cites="Borgschulte2024AirPollutionLabor">Borgschulte, Molitor, and Zou (<a href="#ref-Borgschulte2024AirPollutionLabor" role="doc-biblioref">2024</a>)</span> also consider the effects on total employment and labor force participation.</p>
+<ol type="1">
+<li>Replicate their results for these two outcomes — columns (3) and (4) in their table 1. To do so, download their data from the <a href="https://dataverse.harvard.edu/file.xhtml?fileId=6425134&amp;version=1.0">Harvard Dataverse</a> and suitably modify the lecture code.</li>
+<li>Estimate the average effect of pollution on total employment and labor force participation using the mean group estimator. Is there a significant effect?</li>
+</ol>
 
 
 
