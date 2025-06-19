@@ -555,9 +555,7 @@ Large standard deviation! Cannot reject $\E[\beta_i]=0$ — <span class="highlig
 
 
 
-```{python}
-#| code-fold: true
-#| code-summary: "Visualizing the density of individual estimates"
+```{python} 
 
 # Set colors 
 
@@ -570,7 +568,7 @@ OCEAN_COLOR = "rgb(136, 136, 136)"
 QUARTER = 3
 plot_data = ind_ests.loc[ind_ests["quarter"]==QUARTER, "ind_estimates"]
  
-fig, ax = plt.subplots(figsize=(14, 6.5))
+fig, ax = plt.subplots(figsize=(14, 6))
 
 # Add density
 sns.kdeplot(
@@ -628,12 +626,7 @@ Variance $\var(\beta_i)$ can be actually identified and estimated, see [some of 
 #### Visualizing Geography of Effects
 
 
-```{python}
-#| code-fold: true
-#| code-summary: "Geographic distribution of effects"
-
-
-
+```{python} 
 # Load the shapefile
 shapefile_path = "data/us_counties/USA_Counties.shp"
 gdf = gpd.read_file(shapefile_path)
