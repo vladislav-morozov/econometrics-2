@@ -626,12 +626,7 @@ Variance $\var(\beta_i)$ can be actually identified and estimated, see [some of 
 #### Visualizing Geography of Effects
 
 
-```{python}
-#| code-fold: true
-#| code-summary: "Geographic distribution of effects"
-
-
-
+```{python} 
 # Load the shapefile
 shapefile_path = "data/us_counties/USA_Counties.shp"
 gdf = gpd.read_file(shapefile_path)
