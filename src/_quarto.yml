@@ -56,6 +56,9 @@ website:
         - slides/panel/fe.qmd
         - slides/panel/mean-group.qmd
         - exercises/exercises-panel.qmd
+      - section: "Prediction"
+        contents:
+        - slides/prediction/intro-sl.qmd
 
 execute:
   freeze: auto  # re-render only when source changes
