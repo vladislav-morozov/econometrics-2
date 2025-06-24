@@ -65,7 +65,7 @@ By the end, you should be able to
 
 
 
-## AA  {background="#00100F"}
+## Elements of a Learning Problem {background="#00100F"}
   
 
 
@@ -88,7 +88,7 @@ Setup:
 
 ::: {.footer}
 
-Notice the vocabulary: ML vocabulary quite different
+Notice the vocabulary: ML vocabulary established and sometimes different from causal inference vocabulary
 
 :::
 
@@ -104,13 +104,10 @@ Key goal of prediction --- predicting $Y$ "<span class="highlight">well</span>"
 
 </div>
 
-- Second priority: interpretability of model
+- Other important aspects: scalability, computational efficiency, interpretability
 - Difference from causal inference: where interest in causal effect of some $X_{ij}$ on $Y_i$
     1. Most important: correct identification
     2. Only then efficiency/fit
-
-
-<br>
 
 . . . 
 
@@ -130,9 +127,9 @@ Let $h(\bX)$ be a prediction of $Y$ given $\bX$  (<span class="highlight">hypoth
 Let the <span class="highlight">loss function </span>$l(y, \hat{y})$ satisfy $l(y, \hat{y})\geq 0$ and $l(y, y)=0$ for all $y, \hat{y}$.
 
 
-The <span class="highlight">risk function</span> of the prediction $h(\bX)$ is the expected loss:
+The <span class="highlight">risk function</span> of the hypothesis (prediction) $h(\cdot)$ is the expected loss:
 $$
-R(\hat{Y}) = \E_{(Y, \bX)}\left[ l(Y, h(\bX))  \right]
+R(h(\cdot)) = \E_{(Y, \bX)}\left[ l(Y, h(\bX))  \right]
 $$
 
 
@@ -146,13 +143,72 @@ $$
 
 #### Examples of Risk Functions
 
+- Indicator risk: $\E[Y\neq h(\bX)]$
+    - Most common in *classification*
+    - Same price for any kind of error
+- Mean squared error $\E[(Y - h(\bX))^2]$ and mean absolute error $\E[\abs{Y- h(\bX)}]$
+- Asymmetric risks such as linex: $\E[\exp(\alpha(Y-h(\bX))) - \alpha(Y-h(\bX))-1]$ for $\alpha\in \R$
+    - If $\alpha>0$, punishes overprediction more than underprediction
+
+#### Interpretation: Generalization Error
+
+<div class="rounded-box">
+
+Risk measures how well the hypothesis $h$ performs on unseen data --- generalization error  
+
+</div>
+
+Example: indicator risk:
+$$
+\E[\I\curl{Y\neq h(\bX)}] = P(Y\neq h(\bX))
+$$
+Probability of incorrectly predicting $Y$ with $h(\bX)$ --- where $Y$ and $\bX$ are a new observation
+
+#### Choosing a Risk Function
+
+Risk function
+
+- Key metric of interest
+- Reflects what is directly important in your context. E.g.:
+    - Impact of new policy on revenue
+    - Diagnosing cancer correctly
+    - Flagging fraud
+- $\Rightarrow$ choice of risk function --- not a statistical question, but question of context
 
 
-#### Practical Choice? 
+::: {.footer}
+
+Risk is not necessarily the criterion function used for estimation
+
+:::
+ 
 
 
-### Hypotheses {background="#43464B" visibility="uncounted"}
+### Empirical Risk and Hypotheses {background="#43464B" visibility="uncounted"}
 
+#### Challenges in Choosing $h(\cdot)$
+
+Ideally want to choose *best* possible $h(\cdot)$:
+$$
+h(\cdot) \in \argmin R(h(\cdot))
+$$
+But <span class="highlight">challenges</span>: 
+
+1. Usually don't known $R(\cdot)$ --- it depends on the <span class="highlight">true population distribution</span> of data
+2. Sample versions of $R(\cdot)$ may be hard to minimize (e.g. non-differentiable like indicator risk)
+3. Can't practically minimize over the class of <span class="highlight">all functions</span>
+
+#### Empirical Risk
+
+Sample version
+
+Example of empirical risk minimization --- linear regression
+
+#### Surrogate Losses
+
+replace
+
+Familiar example: classification with two possible categories. Fitting a logit classifier --- maximizing log-likelihood
 
 #### Hypothesis Class
 
@@ -167,15 +223,19 @@ Do not confuse with hypotheses in inference
 
 :::
 
+ 
+
 #### Examples
 
 Linear functions
 
+#### 
 
+Inductive bias
 
 ## Learning Framework {background="#00100F"}
   
-### Generalization {background="#43464B" visibility="uncounted"}
+### Generalization and Excess Error {background="#43464B" visibility="uncounted"}
 
 
 #### Generalization
@@ -183,23 +243,52 @@ Linear functions
 New observation
 
 
-#### PAC
+
+#### Excess Error
+
+#### Bias-Complexity Trade-Off
+
+#### Approximation Error
+
+#### Estimation Error
+
+
+Controlled by the 
+
+- Learning algorithm
+- Size of the set
+
+#### PAC Framework I
+
+
+Want excess error to be small
+
+#### PAC Framework II 
+
+
 
 PAC-learning
 
+#### PAC: Discussion
 
 Agnostic
 
 ####
 
 Excess risk
+ 
 
-#### Model Selection
+####
 
-#### Bias-Complexity Trade-Off
+Some comments on theory: for some things we have useful and "informative" results (e.g. for linear regression, support vector machines, etc).
+
+For some other things we only have good approximation results, but results on estimation error not very informative, and the field moves forward  mostly empirical (deep learning)
+
+####
 
 
-
+- Negative log likelihood risk $-\E[\log p(Y, h(X))]$ where $p$ is like density/probability mass function
+    - Negative because want smaller risk but bigger likelihood
 
 
 ## Recap and Conclusions {background="#00100F"}
