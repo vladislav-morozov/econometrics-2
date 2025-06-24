@@ -1,0 +1,230 @@
+---
+title: "B"
+subtitle: "A"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="  (lecture notes slides)."/>
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Prediction: Introduction"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+open-graph:
+    description: " (lecture notes slides)."
+---
+
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture is 
+<br>
+
+By the end, you should be able to
+
+- Discuss  
+
+#### References
+
+<br>
+
+::: {.nonincremental}
+
+- Chapter 1-2 in @James2023IntroductionStatisticalLearning
+- Deep reading with details:
+    - PAC learning: chapter 3 @Shalev-Shwartz2014UnderstandingMachineLearning or chapter 2 in @Mohri2018FoundationsMachineLearning
+    - No-Free-Lunch theorem: chapter 5 in @Shalev-Shwartz2014UnderstandingMachineLearning
+
+:::  
+
+
+
+
+## AA  {background="#00100F"}
+  
+
+
+
+#### Setting
+
+Will work only in supervised setting in this course
+
+<br>
+
+. . .
+
+Setup: 
+
+- Sample of $N$ examples
+- All samples *labeled* with label $Y_i$
+- *Features* --- vector of $p$ explanatory variables $\bX_i$
+
+
+
+::: {.footer}
+
+Notice the vocabulary: ML vocabulary quite different
+
+:::
+
+### Loss and Risk {background="#43464B" visibility="uncounted"}
+
+
+#### Key Goal of Prediction
+
+
+<div class="rounded-box">
+
+Key goal of prediction --- predicting $Y$ "<span class="highlight">well</span>"
+
+</div>
+
+- Second priority: interpretability of model
+- Difference from causal inference: where interest in causal effect of some $X_{ij}$ on $Y_i$
+    1. Most important: correct identification
+    2. Only then efficiency/fit
+
+
+<br>
+
+. . . 
+
+
+How to define "<span class="highlight">well</span>"?
+
+
+#### Loss and Risk
+
+Quality of prediction measured with *risk* function
+
+Let $h(\bX)$ be a prediction of $Y$ given $\bX$  (<span class="highlight">hypothesis</span>) 
+<div class="rounded-box">
+
+::: {#def-pac-risk}
+
+Let the <span class="highlight">loss function </span>$l(y, \hat{y})$ satisfy $l(y, \hat{y})\geq 0$ and $l(y, y)=0$ for all $y, \hat{y}$.
+
+
+The <span class="highlight">risk function</span> of the prediction $h(\bX)$ is the expected loss:
+$$
+R(\hat{Y}) = \E_{(Y, \bX)}\left[ l(Y, h(\bX))  \right]
+$$
+
+
+:::
+
+
+</div>
+
+
+
+
+#### Examples of Risk Functions
+
+
+
+#### Practical Choice? 
+
+
+### Hypotheses {background="#43464B" visibility="uncounted"}
+
+
+#### Hypothesis Class
+
+
+Does not include
+
+::: {.callout-caution}
+
+"Hypothesis" in ML --- basically a model with specific coefficients. 
+
+Do not confuse with hypotheses in inference
+
+:::
+
+#### Examples
+
+Linear functions
+
+
+
+## Learning Framework {background="#00100F"}
+  
+### Generalization {background="#43464B" visibility="uncounted"}
+
+
+#### Generalization
+
+New observation
+
+
+#### PAC
+
+PAC-learning
+
+
+Agnostic
+
+####
+
+Excess risk
+
+#### Model Selection
+
+#### Bias-Complexity Trade-Off
+
+
+
+
+
+## Recap and Conclusions {background="#00100F"}
+  
+#### Recap
+
+<br>
+
+In this lecture we
+
+1. Introduction
+
+#### Next Questions
+
+<br>
+
+- What  
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
+
+::: footer
+
+:::
+
+ 
