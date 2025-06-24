@@ -143,7 +143,7 @@ $$
 
 #### Examples of Risk Functions
 
-- Indicator risk: $\E[Y\neq h(\bX)]$
+- Indicator risk: $\E[\I\curl{Y\neq h(\bX)}]$
     - Most common in *classification*
     - Same price for any kind of error
 - Mean squared error $\E[(Y - h(\bX))^2]$ and mean absolute error $\E[\abs{Y- h(\bX)}]$
@@ -190,8 +190,8 @@ Risk is not necessarily the criterion function used for estimation
 
 Ideally want to choose *best* possible $h(\cdot)$:
 $$
-h(\cdot) \in \argmin R(h(\cdot))
-$$
+h(\cdot) \in \argmin_{h} R(h(\cdot))
+$$ {#eq-el-opt-h}
 But <span class="highlight">challenges</span>: 
 
 1. Usually don't known $R(\cdot)$ --- it depends on the <span class="highlight">true population distribution</span> of data
@@ -200,21 +200,87 @@ But <span class="highlight">challenges</span>:
 
 #### Empirical Risk
 
-Sample version
+Sample version of risk --- <span class="highlight"> empirical risk </span>:
+$$ \small
+\hat{R}_N = \E_N\left[l(Y, h(\bX)) \right] = \dfrac{1}{N}\sum_{i=1}^N l(Y_i, h(\bX_i)).
+$$
+Average over sample $S = \curl{(Y_1, \bX_1), \dots, (Y_N, \bX_N)}$
 
-Example of empirical risk minimization --- linear regression
+<br>
+
+. . . 
+
+Minimizing $\hat{R}_N$ --- <span class="highlight">empirical risk minimization</span> (ERM):
+$$ \small
+\hat{h}^{ERM}_S \in \argmin_{h} \hat{R}_N(h(\cdot))
+$$
+
 
 #### Surrogate Losses
 
-replace
+- ERM good because its as connected as possible to minimizing actual risk
+- But sometimes ERM computationally infeasible 
+- Then minimize some easier "surrogate" objective to find $\hat{h}(\cdot)$
 
-Familiar example: classification with two possible categories. Fitting a logit classifier --- maximizing log-likelihood
+. . .
 
-#### Hypothesis Class
+<br>
 
 
-Does not include
+::: {.callout-tip appearance="minimal"}
 
+Quality of $\hat{h}(\cdot)$ evaluate in terms of actual risk 
+
+
+::: 
+ 
+
+#### Example: Logit and Surrogate Objective
+
+
+Example: binary classification ($Y=0, 1$)
+
+- Empirical indicator risk --- often not continuous
+- But can specify (pseudo)-likelihood like logit/probit: likelihood of sample under certain distributions
+- These likelihoods often differentiable and concave = easy to optimize 
+
+. . .
+
+::: {.callout-tip appearance="minimal"}
+
+In prediction, using maximum likelihood does not mean that you believe it. Hypothesis quality checked using the actual risk --- probability of predicting $Y$ incorrectly
+
+
+:::
+
+
+#### Issue with Minimizing Over All Functions
+
+Minimization in @eq-el-opt-h --- over <span class="highlight"> all </span> $h$ such that the risk makes sense
+
+. . . 
+
+<br> 
+
+<span class="highlight">Issues</span>: 
+
+- Computation: usually cannot search though such a large class
+- Theoretical: can <span class="highlight">overfit</span>: fit the sample too well, generalize to unseen data poorly (more on that later)
+
+#### Hypothesis Classes
+
+Solution: look for $h$ in some <span class="highlight"> hypothesis class </span> $\Hcal$.
+
+. . .
+
+Then ERM:
+$$
+\hat{h}_N^{ERM} \in \argmin_{h\in\Hcal} \hat{R}_N(h)
+$$
+
+
+
+ 
 ::: {.callout-caution}
 
 "Hypothesis" in ML --- basically a model with specific coefficients. 
@@ -225,9 +291,15 @@ Do not confuse with hypotheses in inference
 
  
 
-#### Examples
+#### Examples of Hypothesis Classes 
 
-Linear functions
+
+
+#### Example of ERM
+
+Already know an example of ERM. Let 
+
+Example of empirical risk minimization --- linear regression
 
 #### 
 
@@ -242,11 +314,32 @@ Inductive bias
 
 New observation
 
+#### Bayes Risk
+
+Best you can do 
+
+
+. . . 
+
+#### Examples of Bayes Risk
+
+Example: $Y=$ Heads or Tails of 50/50 coin. $\bX$ --- some variables that do no depend on $Y$ 
+
+. . .
+
+Example 2: 
+best you can do --- know actual $\beta$ (next lecture and exercise)
+
+But still
 
 
 #### Excess Error
 
 #### Bias-Complexity Trade-Off
+
+#### Bias-Complexity Trade-Off: Graphicall
+
+Image
 
 #### Approximation Error
 
@@ -306,6 +399,7 @@ In this lecture we
 <br>
 
 - What  
+- How do you estimate the risk of the chosen hypothesis?
 
 #### References {.allowframebreaks visibility="uncounted"}
 
