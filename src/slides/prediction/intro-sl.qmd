@@ -1,12 +1,12 @@
 ---
 title: "Statistical and Machine Learning"
-subtitle: "Prediction and Learning Scenarios"
+subtitle: "Introduction to Prediction. Learning Scenarios"
 author: Vladislav Morozov  
 format:
   revealjs:
     include-in-header: 
       text: |
-        <meta name="description" content="  (lecture notes slides)."/>
+        <meta name="description" content="Introduction to prediction: definition of statistical and machine learning, comparison with causal inference, learning scenarios (lecture notes slides)"/>
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -29,7 +29,7 @@ filters:
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
 open-graph:
-    description: " (lecture notes slides)."
+    description: "Introduction to prediction: definition of statistical and machine learning, comparison with causal inference, learning scenarios (lecture notes slides)"
 ---
 
 
@@ -41,12 +41,15 @@ open-graph:
 
 #### Learning Outcomes
 
-This lecture is 
+This lecture is an introduction to prediction
+
 <br>
 
 By the end, you should be able to
 
-- Discuss  
+- Define statistical and machine learning
+- Contrast SL/ML with causal inference
+- Describe and classify learning scenarios in prediction
 
 #### References
 
@@ -72,12 +75,12 @@ By the end, you should be able to
 
 <br> 
 
-Can split statistics into two blocks based on *overall goal*:
+Can split statistics into two blocks based on <span class="highlight">overall goal</span>:
 
 
 
-1. *Causal inference*: answering counterfactual question regarding causal effects of interventions
-2. *Predictions*: finding predictive functions of data without explaining mechanisms
+1. <span class="highlight">Causal inference</span>: answering counterfactual question regarding causal effects of interventions
+2. <span class="highlight">Predictions</span>: finding predictive functions of data without explaining mechanisms
 
 
 
@@ -95,8 +98,8 @@ Personal definition:
 ::: {#def-pred-learning}
 
 
-- *Statistical* learning is a branch of statistics studying prediction problems. 
-- *Machine* learning is cross-disciplinary subfield of statistics and computer science studying prediction problems. 
+- <span class="highlight">Statistical learning</span> is a branch of statistics studying prediction problems. 
+- <span class="highlight">Machine learning</span> is cross-disciplinary subfield of statistics and computer science studying prediction problems. 
  
 :::
 
@@ -121,42 +124,237 @@ Key goal of prediction --- predicting <span class="highlight">well</span>
 Other goals:
 
 - Computational efficiency: better to have a cheaper and quicker way to produce a new prediction
-- Interpretability: why is the algorithm predicting what it does?
+- Interpretability: why does the algorithm predict what it does?
 - Scalability: can it handle increasing loads, run in  distributed manner, etc
 
 
+### Statistical/Machine Learning vs. Causal Inference {background="#43464B" visibility="uncounted"}
  
 
 
+#### SL vs. Causal Inference I
+
+
+<div class="rounded-box">
+
+Key goal in causal inference --- <span class="highlight">correct identification</span>
+
+</div> 
+
+. . . 
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+Causal settings: there is some true <span class="highlight">causal model</span>. Trying to learn some of its features with identification arguments
+
+:::
+
+::: {.column width="25%"}
+
+
+::: 
+
+::: {.column width="35%"}
+
+SL/ML: only weak reference to the underlying "true" model. Generally no identification work
+
+:::
+
+:::: 
+
 #### SL vs. Causal Inference II
+ 
+For SL/ML the key metric is how well you predict with <span class="highlight">unseen data</span> — generalization or risk (next lecture)
+ 
+<br>
 
-Goals in causal inference
+- Want prediction to work well under many possible data-generating distributions
+- Terminology of <span class="highlight">algorithms</span>, not models
+- Roughly: not trying to model 
 
-#### SL vs. Causal Inference II
+#### SL vs. Causal Inference III
 
-Are the two disjoint? 
+Are the two fields totally disjoint? 
 
-No, often
+. . . 
+
+<br> 
+
+<span class="highlight">No</span>:
+
+- Typical use case: need to pre-estimate some complicated object before being able to estimate object of interest
+- Most important — more precise pre-estimates — exactly the typical goal of SL/ML
+  
+See @Chernozhukov2024AppliedCausalInference 
+ 
 
 ## References on SL/ML {background="#00100F"}
-
-####
-
-#### Core Books: Theory
-
  
 
-#### Core Books: Practice
+#### Books: SL Theory
+
+ 
+:::: {.columns}
+
+::: {.column width="33%"}
+
+<img src="/images/book_covers/hastie-2008.jpeg" alt="drawing" width="260"/>
+ 
+ 
+@Hastie2009ElementsStatisticalLearning
+
+:::
+
+::: {.column width="33%"}
+
+<img src="/images/book_covers/ss-bd-2014.jpg" alt="drawing" width="270"/>
+ 
+
+
+@Shalev-Shwartz2014UnderstandingMachineLearning
+
+:::
+
+::: {.column width="33%"}
+
+<img src="/images/book_covers/mohri-2018.jpeg" alt="drawing" width="270"/>
+  
+
+@Mohri2018FoundationsMachineLearning
+
+:::
+
+::::
+
+::: {.footer}
+
+:::
+
+
+#### Books: Practice of "Classic" ML
+
+
+:::: {.columns}
+
+
+::: {.column width="33%"}
+
+
+Books on "core" machine learning methods in practice, mainly with `scikit-learn`
+
+:::
+
+::: {.column width="30%"}
+
+![](/images/book_covers/geron-2023.jpg)
+
+ 
+@Geron2023HandsonMachineLearning
+
+:::
+
+::: {.column width="28%"}
+
+![](/images/book_covers/james-2023.jpg)
+
+@James2023IntroductionStatisticalLearning
+
+:::
+
+
+
+::::
 
 
 
 ::: {.footer}
 
-Many more field-specific references
+Possibly skip TensorFlow in @Geron2023HandsonMachineLearning in favor of PyTorch
 
 :::
 
+
+
+#### Books on Deep Learning
+
+
+
+:::: {.columns}
+
+
+::: {.column width="33%"}
+
+Deep learning much better covered in newer and more specialized books. Not that much statistical theory — many recent advances empirical
+
+:::
+
+::: {.column width="33%"}
+
+<img src="/images/book_covers/bishop-2024.jpg" alt="drawing" width="280" height="400"/>
+  
+
+ 
+ 
+@Bishop2024DeepLearningFoundations
+
+:::
+
+::: {.column width="33%"}
+
+
+<img src="/images/book_covers/antiga-2021.jpg" alt="drawing" width="280" height="400"/>
+  
+
+  
+
+@Antiga2020DeepLearningPyTorch
+
+:::
+
+
+
+::::
+
+
 #### Books On SL/ML For Causal Settings
+
+
+:::: {.columns}
+
+
+::: {.column width="33%"}
+
+A couple of references on ML techniques specifically in causal settings
+
+:::
+
+::: {.column width="33%"}
+
+![](/images/book_covers/chernozhukov-2024.png)
+
+ 
+@Chernozhukov2024AppliedCausalInference
+
+:::
+
+::: {.column width="29%"}
+
+![](/images/book_covers/gaillac-2025.jpg)
+
+
+@Gaillac2025MachineLearningEconometrics
+
+:::
+
+
+
+::::
+
+
 
 ## Learning Scenarios {background="#00100F"}
  
@@ -261,15 +459,19 @@ Another axis: if new observations arrive, how to update model?
 
 <br>
 
-In this lecture we
+In this lecture we:
 
-1. Introduction
+1. Talked about causal inference vs. prediction
+2. Defined statistical and machine learning
+3. Described various learning scenarios
 
 #### Next Questions
 
 <br>
 
-- What  
+- What are the key components of a learning problem for predictions? 
+- How does one evaluate predictions? 
+- Is there a universally valid way to predict?
 
 #### References {.allowframebreaks visibility="uncounted"}
 
