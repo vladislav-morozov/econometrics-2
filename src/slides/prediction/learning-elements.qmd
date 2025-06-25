@@ -63,10 +63,9 @@ By the end, you should be able to
 :::  
 
 
+### Setting {background="#43464B" visibility="uncounted"}
 
 
-## Elements of a Learning Problem {background="#00100F"}
-  
 
 
 
@@ -92,8 +91,20 @@ Notice the vocabulary: ML vocabulary established and sometimes different from ca
 
 :::
 
-### Loss and Risk {background="#43464B" visibility="uncounted"}
+#### Regression and Classification
 
+Two main kinds of supervised problems:
+
+1. Regression: $Y$ continuous or close to it
+2. Classification: finite set of values for $Y$ 
+   - Not necessarily ordered
+   - E.g. binary classification: $Y$ can have two values (e.g. 0 and 1)
+   - Multiclass classification: $Y$ can have more than two values (e.g. "bus", "train", "plane")
+
+
+
+## Loss and Risk {background="#00100F"}
+  
 
 #### Key Goal of Prediction
 
@@ -182,10 +193,8 @@ Risk is not necessarily the criterion function used for estimation
 
 :::
  
-
-
-### Empirical Risk and Hypotheses {background="#43464B" visibility="uncounted"}
-
+## Empirical Risk and Hypotheses {background="#00100F"}
+   
 #### Challenges in Choosing $h(\cdot)$
 
 Ideally want to choose *best* possible $h(\cdot)$:
@@ -194,64 +203,42 @@ h(\cdot) \in \argmin_{h} R(h(\cdot))
 $$ {#eq-el-opt-h}
 But <span class="highlight">challenges</span>: 
 
-1. Don't know $R(\cdot)$ --- it depends on the <span class="highlight">true population distribution</span> of data
-2. Sample versions of $R(\cdot)$ may be hard to minimize 
-3. Can't practically minimize over the class of <span class="highlight">all functions</span>
+1. Don't know $R(\cdot)$ --- it depends on the <span class="highlight">true population distribution</span> of data 
+2. Can't practically minimize over the class of <span class="highlight">all functions</span>
+
+### Empirical Risk {background="#43464B" visibility="uncounted"}
+
 
 #### Empirical Risk
 
+<br> 
+
 Sample version of risk --- <span class="highlight"> empirical risk </span>:
 $$ \small
-\hat{R}_N = \E_N\left[l(Y, h(\bX)) \right] = \dfrac{1}{N}\sum_{i=1}^N l(Y_i, h(\bX_i)).
+\hat{R}_N(h) = \E_N\left[l(Y, h(\bX)) \right] = \dfrac{1}{N}\sum_{i=1}^N l(Y_i, h(\bX_i)).
 $$
 Average over sample $S = \curl{(Y_1, \bX_1), \dots, (Y_N, \bX_N)}$
 
-<br>
 
-. . . 
+#### Empirical Risk Minimization
+
+
+
+
 
 Minimizing $\hat{R}_N$ --- <span class="highlight">empirical risk minimization</span> (ERM):
 $$ \small
 \hat{h}^{ERM}_S \in \argmin_{h} \hat{R}_N(h(\cdot))
 $$
 
-
-#### Surrogate Losses
-
-- ERM good: connected to minimizing actual risk
-- But sometimes ERM computationally infeasible 
-- Solution: minimize some easier "surrogate" objective to find $\hat{h}(\cdot)$
-
-. . .
-
 <br>
 
-
-::: {.callout-important}
-
-Quality of $\hat{h}(\cdot)$ evaluated in terms of actual risk regardless
-
-
-::: 
- 
-
-#### Example: Logit and Surrogate Objective
+- ERM — theoretically among the most central <span class="highlight">learning algorithms</span>
+- Closely tied to the actual problem of interest
+- Sometimes computationally infeasible (more on that later)
 
 
-Example: binary classification ($Y=0, 1$)
-
-- Empirical indicator risk --- often not continuous
-- But can specify (pseudo)-likelihood like logit/probit: likelihood of sample under certain distributions
-- These likelihoods often differentiable and concave = easy to optimize 
-
-. . .
-
-::: {.callout-note appearance="minimal"}
-
-In prediction, using maximum likelihood does not mean that you believe it. Hypothesis quality checked using the actual risk --- probability of predicting $Y$ incorrectly
-
-
-:::
+### Hypothesis Classes {background="#43464B" visibility="uncounted"}
 
 
 #### Issue with Minimizing Over All Functions
@@ -264,7 +251,7 @@ Minimization in @eq-el-opt-h --- over <span class="highlight"> all </span> $h$ s
 
 <span class="highlight">Issues</span>: 
 
-- Computation: usually cannot search though such a large class
+- Computation: usually cannot search through such a large class
 - Theoretical: can <span class="highlight">overfit</span>: fit the sample too well, generalize to unseen data poorly (more on that later)
 
 #### Hypothesis Classes
@@ -289,9 +276,11 @@ Do not confuse with hypotheses in inference
 
 :::
 
+
+
  
 
-#### Examples of Hypothesis Classes 
+#### Examples of Hypothesis Classes I
 
 Popular class: linear predictors/classifiers
 
@@ -362,6 +351,177 @@ Examples:
 - Family of functions linking $\bX$ and $Y$ (e.g. linear in $\varphi(\bX)$)
 - Or: value of $Y$ nearly constant in small neighborhoods (as used by $k$-nearest neighbors regressors and classifiers)
  
+ 
+
+#### Examples of Hypothesis Classes II: Trees I
+
+Another approach taken by <span class="highlight"> decision trees </span> 
+
+<br> 
+
+Trees:
+
+- Divide predictor space into regions
+- Predict the same value for all values in a region
+- Divisions computed using recursive binary splitting
+ 
+. . .
+
+Can use both for regression and classification
+
+#### Examples of Hypothesis Classes II: Trees II
+
+<br>
+
+:::: {.columns}
+
+
+::: {.column width="30%"}
+
+- Split the predictor space one variable at a time
+- Return same value on each rectangle $R_k$
+
+:::
+
+
+::: {.column width="70%"}
+
+
+![](/images/pred/reg-tree.png)
+
+:::
+
+
+
+::::
+
+
+::: {.footer}
+
+Illustration: figure 8.3 in @James2023IntroductionStatisticalLearning
+
+:::
+
+## Beyond Simple ERM {background="#00100F"}
+
+#### Issues with ERM
+
+ERM over $\Hcal$ 
+$$ \small
+\hat{h}^{ERM}_S \in \argmin_{h \in \Hcal} \hat{R}_N(h(\cdot))
+$$
+
+Can still have some issues:
+
+- We may want to make minimization prefer some hypotheses over others in $\Hcal$
+- ERM may be computationally infeasible 
+  
+### Penalties {background="#43464B" visibility="uncounted"}
+
+#### Motivational Example
+
+Suppose: $X$ scalar, $\Hcal$ — polynomials up to 10th degree
+$$ \small
+\Hcal= \curl{h(x) = \sum_{k=0}^{10} \beta_k x^k, \beta\in \R^{11} }
+$$
+ 
+- Higher degree — more complicated explanation
+- Occam's razor — prefer simpler explanation
+
+. . . 
+
+<div class="rounded-box">
+
+How to prefer simpler explanations with ERM?
+
+</div>
+
+#### Penalties: Regularization
+
+General answer
+  
+- Create some positive measure of complexity  $\Pcal(h)$
+- Add  to empirical risk as a <span class="highlight"> regularization </span> (penalty) term
+
+. . .
+ 
+$$ \small
+\hat{h}\in\argmin_{h\in\Hcal} \hat{R}_N(h)  + \lambda \Pcal(h)
+$$
+$\lambda\geq 0$ — fixed penalty parameter, controls balance between penalty and risk
+
+
+#### Example: Ridge and Lasso
+
+Hypothesis set: $\Hcal= \curl{h(\bx)= \varphi(\bx)'\bbeta: \bbeta\in \R^{\dim(\varphi(\bx))}}$
+
+Popular penalties:
+
+- Ridge ($L^2$): $\norm{\bbeta}_2^2 = \sum_{k} \beta_k^2$
+- Lasso ($L^1$): $\norm{\bbeta}
+- Elastic net
+
+Arise often and used in many models 
+ 
+#### Penalty Size
+
+$\lambda$
+
+- Can 
+- Is a <span class="highlight">hyperparameter</span> — parameter not chosen during learning 
+
+### Surrogate Losses {background="#43464B" visibility="uncounted"}
+
+
+
+#### Surrogate Losses
+
+- ERM good: connected to minimizing actual risk
+- But sometimes ERM computationally infeasible 
+- Solution: minimize some easier "surrogate" objective to find $\hat{h}(\cdot)$
+
+. . .
+
+<br>
+
+
+::: {.callout-important}
+
+Quality of $\hat{h}(\cdot)$ evaluated in terms of actual risk regardless
+
+
+::: 
+ 
+
+#### Example I: Logit and Surrogate Objective
+
+
+Example: binary classification ($Y=0, 1$) with a linear classifier
+
+- Empirical indicator risk --- often not continuous
+- But can specify (pseudo)-likelihood like logit/probit: likelihood of sample under certain distributions
+- These likelihoods often differentiable and concave = easy to optimize 
+
+. . .
+
+
+
+#### Example I 
+
+Instead minimize
+
+::: {.callout-note appearance="minimal"}
+
+In prediction, using maximum likelihood does not mean that you believe it. Hypothesis quality checked using the actual risk --- probability of predicting $Y$ incorrectly
+
+
+:::
+
+#### Example II: SVMs
+
+Maximum margin 
+
+Example with penalty and surrogate loss
 
 ## Recap and Conclusions {background="#00100F"}
   
