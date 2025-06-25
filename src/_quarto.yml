@@ -58,9 +58,7 @@ website:
         - exercises/exercises-panel.qmd
       - section: "Prediction"
         contents:
-        - slides/prediction/intro-sl.qmd
-        - slides/prediction/learning-elements.qmd
-        - slides/prediction/pac-nfl-tradeoff.qmd
+        - slides/prediction/intro-sl.qmd 
 
 execute:
   freeze: auto  # re-render only when source changes

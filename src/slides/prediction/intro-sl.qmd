@@ -1,6 +1,6 @@
 ---
-title: "B"
-subtitle: "A"
+title: "Statistical and Machine Learning"
+subtitle: "Prediction and Learning Scenarios"
 author: Vladislav Morozov  
 format:
   revealjs:
@@ -108,14 +108,58 @@ Both  develop algorithms that can learn from data and generalize to unseen data
 
 :::
 
-#### Books: Theory
+
+#### Goals in Prediction
 
 
-#### Books: Practice
+<div class="rounded-box">
+
+Key goal of prediction --- predicting <span class="highlight">well</span>
+
+</div> 
+
+Other goals:
+
+- Computational efficiency: better to have a cheaper and quicker way to produce a new prediction
+- Interpretability: why is the algorithm predicting what it does?
+- Scalability: can it handle increasing loads, run in  distributed manner, etc
+
+
+ 
+
+
+#### SL vs. Causal Inference II
+
+Goals in causal inference
+
+#### SL vs. Causal Inference II
+
+Are the two disjoint? 
+
+No, often
+
+## References on SL/ML {background="#00100F"}
+
+####
+
+#### Core Books: Theory
+
+ 
+
+#### Core Books: Practice
 
 
 
-### Learning Scenarios {background="#43464B" visibility="uncounted"}
+::: {.footer}
+
+Many more field-specific references
+
+:::
+
+#### Books On SL/ML For Causal Settings
+
+## Learning Scenarios {background="#00100F"}
+ 
 
 #### Introduction to Learning Scenarios
 
@@ -207,32 +251,7 @@ Another axis: if new observations arrive, how to update model?
 - Retrain from scratch on bigger dataset --- batch learning
 - Update existing model parameters only with new observations --- online learning
 
-## Components of a Prediction Problem {background="#00100F"}
-
-#### Overall Anatomy of Prediction
-
-Overall anatomy quite simple: 
-
-- Formulate the question: what do we care about?
-- Get data
-- Fit model  
-- Test performance
-- Use
-
-#### Key Questions
-
-- 
-
-Overall goal: "good prediction" (generalization)
-
-If shown
-
-
-::: {.footer}
-
-One exception: transductive inference
-
-:::
+ 
 
 
 
