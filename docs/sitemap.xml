@@ -17,19 +17,27 @@
     <lastmod>2025-05-20T19:55:11.546Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/fe.html</loc>
-    <lastmod>2025-06-17T19:21:30.362Z</lastmod>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/prediction/learning-elements.html</loc>
+    <lastmod>2025-06-25T14:29:05.354Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html</loc>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/mean-group.html</loc>
+    <lastmod>2025-06-25T14:37:29.285Z</lastmod>
+  </url>
+  <url>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html</loc>
     <lastmod>2025-06-17T19:21:30.361Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/organizational/intro.html</loc>
-    <lastmod>2025-05-20T19:55:11.544Z</lastmod>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/data-types.html</loc>
+    <lastmod>2025-06-17T19:21:30.360Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/exercises/exercises-panel.html</loc>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/index.html</loc>
+    <lastmod>2025-05-20T19:55:28.582Z</lastmod>
+  </url>
+  <url>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/exercises/exercises-linear-inference.html</loc>
     <lastmod>2025-06-17T19:21:30.358Z</lastmod>
   </url>
   <url>
@@ -37,24 +45,28 @@
     <lastmod>2025-05-20T19:55:11.543Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/exercises/exercises-linear-inference.html</loc>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/exercises/exercises-panel.html</loc>
     <lastmod>2025-06-17T19:21:30.358Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/index.html</loc>
-    <lastmod>2025-05-20T19:55:28.582Z</lastmod>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/organizational/intro.html</loc>
+    <lastmod>2025-05-20T19:55:11.544Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/data-types.html</loc>
-    <lastmod>2025-06-17T19:21:30.360Z</lastmod>
-  </url>
-  <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html</loc>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html</loc>
     <lastmod>2025-06-17T19:21:30.361Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/mean-group.html</loc>
-    <lastmod>2025-06-19T19:26:32.548Z</lastmod>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/fe.html</loc>
+    <lastmod>2025-06-17T19:21:30.362Z</lastmod>
+  </url>
+  <url>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/prediction/intro-sl.html</loc>
+    <lastmod>2025-06-25T14:29:05.354Z</lastmod>
+  </url>
+  <url>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/prediction/pac-nfl-tradeoff.html</loc>
+    <lastmod>2025-06-25T14:29:05.354Z</lastmod>
   </url>
   <url>
     <loc>https://vladislav-morozov.github.io/econometrics-2/slides/vector/ols-consistency.html</loc>

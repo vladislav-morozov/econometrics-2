@@ -263,7 +263,7 @@ Can now prove consistency and asymptotic normality results by applying LLN+CLT t
 If 
 
 1. Units are IID
-2. $\E[\bU_i|\bX_i]=0$; $\E\left[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}\right]<\infty$, $\E[\norm{\bbeta_i}]<\infty$
+2. $\E[\bU_i|\bX_i]=0$; $\E\left[\norm{(\bX_i'\bX_i)^{-1}\bX_i'\bU_i}\right]<\infty$, $\E[\norm{\bbeta_i}]<\infty$
 
 Then as $N\to\infty$, $T\geq p$ fixed
 $$
@@ -276,7 +276,7 @@ $$
 
 ::: footer
 
-Assuming that $\E[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}]<\infty$ — assumption of sufficient variation on $\bX_i$
+Assuming that $\E[\norm{(\bX_i'\bX_i)^{-1}\bX_i'\bU_i}]<\infty$ — assumption of sufficient variation on $\bX_i$
 
 ::: 
 
@@ -289,7 +289,7 @@ Assuming that $\E[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}]<\infty$ — assumption o
 If 
 
 1. Units are IID 
-2. $\E[\bU_i|\bbeta_i, \bX_i]=0$; $\E\left[\norm{(\bX_i\bX_i')^{-1}\bX_i'\bU_i}^2\right]<\infty$, $\E[\norm{\bbeta_i}^2]<\infty$
+2. $\E[\bU_i|\bbeta_i, \bX_i]=0$; $\E\left[\norm{(\bX_i'\bX_i)^{-1}\bX_i'\bU_i}^2\right]<\infty$, $\E[\norm{\bbeta_i}^2]<\infty$
 
 Then as $N\to\infty$, $T\geq p$ fixed
 $$\small

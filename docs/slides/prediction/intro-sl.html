@@ -15,7 +15,7 @@
   <meta name="generator" content="quarto-1.6.42">
 
   <meta name="author" content="Vladislav Morozov">
-  <title>Advanced Econometrics – Identification, Estimation and Inference</title>
+  <title>Advanced Econometrics – Statistical and Machine Learning</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -479,18 +479,20 @@
     };
 
   </script>
-  <meta name="description" content="Explore the basics of identification, estimation, and inference: definitions, parametric models, and linear model identification (lecture notes slides).">
-<meta property="og:title" content="Identification, Estimation and Inference – Advanced Econometrics">
-<meta property="og:description" content="Explore the basics of identification, estimation, and inference: definitions, parametric models, and linear model identification (lecture notes slides).">
+  <meta name="description" content="Introduction to prediction: definition of statistical and machine learning, comparison with causal inference, learning scenarios (lecture notes slides)">
+<meta property="og:title" content="Statistical and Machine Learning – Advanced Econometrics">
+<meta property="og:description" content="Introduction to prediction: definition of statistical and machine learning, comparison with causal inference, learning scenarios (lecture notes slides)">
+<meta property="og:image" content="https://vladislav-morozov.github.io/econometrics-2/images/book_covers/hastie-2008.jpeg">
 <meta property="og:site_name" content="Advanced Econometrics">
+<meta property="og:image:alt" content="drawing">
 </head>
 <body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
 <section id="title-slide" data-background-color="#045D5D" data-footer="" class="quarto-title-block center">
-  <h1 class="title">Identification, Estimation and Inference</h1>
-  <p class="subtitle">The Three Parts of Statistics</p>
+  <h1 class="title">Statistical and Machine Learning</h1>
+  <p class="subtitle">Introduction to Prediction. Learning Scenarios</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -505,8 +507,9 @@ Vladislav Morozov
 <h2 id="toc-title">Contents</h2>
 <ul>
 <li class="fragment"><a href="#/introduction" id="/toc-introduction">Introduction</a></li>
-<li class="fragment"><a href="#/identification" id="/toc-identification">Identification</a></li>
-<li class="fragment"><a href="#/estimation-and-inference" id="/toc-estimation-and-inference">Estimation and Inference</a></li>
+<li class="fragment"><a href="#/statistical-and-machine-learning" id="/toc-statistical-and-machine-learning">Statistical and Machine Learning</a></li>
+<li class="fragment"><a href="#/references-on-slml" id="/toc-references-on-slml">References on SL/ML</a></li>
+<li class="fragment"><a href="#/learning-scenarios" id="/toc-learning-scenarios">Learning Scenarios</a></li>
 <li class="fragment"><a href="#/recap-and-conclusions" id="/toc-recap-and-conclusions">Recap and Conclusions</a></li>
 </ul>
 </nav>
@@ -516,455 +519,359 @@ Vladislav Morozov
 <h2>Introduction</h2>
 
 </section>
-<section id="lecture-info" class="title-slide slide level3 center" data-background="#43464B">
+<section id="lecture-info" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
 <h3>Lecture Info</h3>
 
 </section>
 <section id="learning-outcomes" class="slide level4">
 <h4>Learning Outcomes</h4>
-<p>This lecture is about the basics of identification, estimation, and inference</p>
+<p>This lecture is an introduction to prediction</p>
 <p><br></p>
 <p>By the end, you should be able to</p>
 <ul>
-<li class="fragment">Understand the difference between identification, estimation, and inference</li>
-<li class="fragment">Provide a working definition of identification</li>
-<li class="fragment">Discuss identification in fully parametric models and the linear model under exogeneity</li>
+<li class="fragment">Define statistical and machine learning</li>
+<li class="fragment">Contrast SL/ML with causal inference</li>
+<li class="fragment">Describe and classify learning scenarios in prediction</li>
 </ul>
 </section>
 <section id="references" class="slide level4">
 <h4>References</h4>
+<p><br></p>
 <div>
 <ul>
-<li>Identification:
-<ul>
-<li>Section 2.32 in <span class="citation" data-cites="Hansen2022Econometrics">Hansen (<a href="#/references-1" role="doc-biblioref" onclick="">2022</a>)</span>: brief definitions</li>
-<li><a href="https://theeffectbook.net/ch-Identification.html" data-preview-link="true">Chapter 5</a> in <span class="citation" data-cites="Huntington-Klein2025EffectIntroductionResearch">Huntington-Klein (<a href="#/references-1" role="doc-biblioref" onclick="">2025</a>)</span>: more examples and philosophical points</li>
-<li>Sections 15.1-15.2 <span class="citation" data-cites="Wooldridge2020IntroductoryEconometricsModern">Wooldridge (<a href="#/references-1" role="doc-biblioref" onclick="">2020</a>)</span>: IV example</li>
-<li>(<em>Very advanced</em>): <span class="citation" data-cites="Lewbel2019IdentificationZooMeanings">Lewbel (<a href="#/references-1" role="doc-biblioref" onclick="">2019</a>)</span></li>
-</ul></li>
-<li>Potential outcomes:
-<ul>
-<li>Chapter 4 in <span class="citation" data-cites="Cunningham2021CausalInferenceMixtape">Cunningham (<a href="#/references-1" role="doc-biblioref" onclick="">2021</a>)</span>:</li>
-<li><em>Or</em> 2.30 in <span class="citation" data-cites="Hansen2022Econometrics">Hansen (<a href="#/references-1" role="doc-biblioref" onclick="">2022</a>)</span></li>
-</ul></li>
+<li>Chapter 1-2 in <span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2023</a>)</span></li>
+<li>Or chapter 1 in <span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri, Rostamizadeh, and Talwalkar (<a href="#/references-1" role="doc-biblioref" onclick="">2018</a>)</span> (more examples, shorter)</li>
+<li>Or chapter 1 in <span class="citation" data-cites="Geron2023HandsonMachineLearning">Géron (<a href="#/references-1" role="doc-biblioref" onclick="">2023</a>)</span> (more examples, longer)</li>
 </ul>
-</div>
-</section>
-
-<section id="identification-and-inference" class="title-slide slide level3 center" data-background="#43464B">
-<h3>Identification and Inference</h3>
-
-</section>
-<section id="overall-goal" class="slide level4">
-<h4>Overall Goal</h4>
-<p>Goal of all of statistics:</p>
-<p><br></p>
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p>“Say something” about a “parameter” of interest “based on data”</p>
-</div>
-<p><br></p>
-<p>Which “parameter”? What is “something”? How much “data”?</p>
-</section>
-<section id="parameters-of-interest" class="slide level4">
-<h4>Parameters of Interest</h4>
-<p>Which parameter you want depends on the context:</p>
-<ul>
-<li class="fragment">Causal settings:
-<ul>
-<li class="fragment">Treatment effects: averages, variances, …</li>
-<li class="fragment">Features of structural economic models: elasticities, multipliers, …</li>
-</ul></li>
-<li class="fragment">Prediction:
-<ul>
-<li class="fragment">Forecast of GDP, …</li>
-<li class="fragment">Whether the patient has a disease …</li>
-</ul></li>
-</ul>
-</section>
-<section id="kind-of-questions" class="slide level4">
-<h4>Kind of Questions</h4>
-<p>What about the “something”?</p>
-<div class="fragment">
-<p><br></p>
-<p>Three example questions:</p>
-<ol type="1">
-<li class="fragment">Can the parameter be learned at all?</li>
-<li class="fragment">If we have an estimate, how sure are we about it?</li>
-<li class="fragment">Does the parameter satisfy some constraints? (equal to 0, positive, etc.)</li>
-</ol>
-</div>
-</section>
-<section id="identification-and-inference-1" class="slide level4">
-<h4>Identification and Inference</h4>
-<p>All possible questions can be split into two classes of work:</p>
-<ol type="1">
-<li class="fragment"><span class="highlight">Identification</span>: what could we learn if we had an <em>infinite</em> amount of data?</li>
-<li class="fragment"><span class="highlight">Estimation and inference</span>: how to “learn” from <em>finite</em> samples?</li>
-</ol>
-<div class="fragment">
-<p><br></p>
-<p>Both equally important in causal settings. Identification less/not important in prediction</p>
 </div>
 </section>
 </section>
 <section>
-<section id="identification" class="title-slide slide level2 center" data-background="#00100F">
-<h2>Identification</h2>
+<section id="statistical-and-machine-learning" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Statistical and Machine Learning</h2>
 
 </section>
-<section id="general-idea" class="title-slide slide level3 center" data-background="#43464B">
-<h3>General Idea</h3>
+<section id="definitions" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Definitions</h3>
 
 </section>
-<section id="parameter-label" class="slide level4">
-<h4>Parameter Label</h4>
-<p>Focus first on identification</p>
+<section id="the-two-faces-of-statistics" class="slide level4">
+<h4>The Two Faces of Statistics</h4>
 <p><br></p>
-<div class="fragment">
-<p>Let <span class="math inline">\(\theta\)</span> be the “parameter of interest” — something unknown you care about, e.g.</p>
-<ul>
-<li class="fragment">Average treatment effect</li>
-<li class="fragment">Coefficient vector</li>
-<li class="fragment">Even an unknown function</li>
-</ul>
-</div>
-</section>
-<section id="population-distribution-f_x-y" class="slide level4">
-<h4>Population Distribution <span class="math inline">\(F_{X, Y}\)</span></h4>
-<p>Suppose that our data are observations on <span class="math inline">\((X, Y)\)</span></p>
-<div class="fragment">
-<p><br></p>
-<p>How to express the idea of having “infinite data”?</p>
-</div>
-<div class="fragment">
-<p><br></p>
-For us:
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p>Infinite data = knowing the joint distribution function <span class="math inline">\(F_{X, Y}\)</span></p>
-</div>
-<!-- #### Observed Data
-
-<br>
-
-::: {#fig-actual}
-``` tikz  
-%%| fig-cap: Observed data arises from some underlying data generating process 
-%%| fig-align: center
-\begin{tikzpicture}
- \tikzset{line width=1.5pt, outer sep=0pt,
- ell/.style={draw,fill=white, inner sep=2pt,
- line width=1.5pt},
- swig vsplit={gap=5pt,
- inner line width right=0.5pt}};
-
- 
- 
-\node[name=activity, ell, shape=ellipse, align=left]{True data \\ generation};
-
-\node[name=observed, ell, shape=ellipse, align=left, right = 5mm of activity]{Actual \\ $F_{X, Y}(x, y)$}; 
- 
-\draw[->](activity) to (observed);  
-\end{tikzpicture}
-``` 
-:::
-
-
-<br>
-
-Identification: assume that we see the full $F_{X, Y}(x, y)$ -->
-</div>
-</section>
-<section id="models-and-parameters-imply-distributions-of-data" class="slide level4">
-<h4>Models and Parameters Imply Distributions of Data</h4>
-
-<img data-src="identification-inference_files\mediabag\3f515cdb0de67bdabbe7015a0867d257ee2e1db0.svg" class="r-stretch quarto-figure-center" id="fig-model"><p class="caption">Path from parameter <span class="math inline">\(\theta\)</span> to restrictions/implications on the data distribution</p><p>The <span class="highlight">model</span> specifies parts of the data generating mechanism:</p>
-<ul>
-<li class="fragment">Parts of <span class="math inline">\(F_{X, Y}\)</span> might be unknown even if you know <span class="math inline">\(\theta\)</span></li>
-<li class="fragment">Example: linear model with exogeneity — <span class="math inline">\(\E[Y_i|\bX_i]\)</span> is linear in <span class="math inline">\(\bX_i\)</span>. Does not much about the distribution of <span class="math inline">\(\bX_i\)</span> or <span class="math inline">\(Y_i\)</span> beyond that</li>
-</ul>
-</section>
-<section id="definition-of-identification" class="slide level4">
-<h4>Definition of Identification</h4>
-<p>Identification basically asks:</p>
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p>Given the</p>
+<p>Can split statistics into two blocks based on <span class="highlight">overall goal</span>:</p>
 <ol type="1">
-<li class="fragment">The joint distribution <span class="math inline">\(F_{X, Y}\)</span> of the data</li>
-<li class="fragment">Assumptions that the model is true for some <span class="math inline">\(\theta_0\)</span></li>
-<li class="fragment">“Implications”<span class="math inline">\((\theta_0)\)</span> of the model,</li>
+<li class="fragment"><span class="highlight">Causal inference</span>: answering counterfactual question regarding causal effects of interventions</li>
+<li class="fragment"><span class="highlight">Predictions</span>: finding predictive functions of data without explaining mechanisms</li>
 </ol>
-<p>can <span class="math inline">\(\theta_0\)</span> be uniquely determined?</p>
+</section>
+<section id="statistical-and-machine-learning-1" class="slide level4">
+<h4>Statistical and Machine Learning</h4>
+<p>Prediction studied by <em>statistical</em> and <em>machine learning</em>.</p>
+<div class="fragment">
+<p>Personal definition:</p>
+<div class="rounded-box">
+<div id="def-pred-learning" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 1</strong></span> &nbsp;</p>
+<ul>
+<li class="fragment"><span class="highlight">Statistical learning</span> is a branch of statistics studying prediction problems.</li>
+<li class="fragment"><span class="highlight">Machine learning</span> is cross-disciplinary subfield of statistics and computer science studying prediction problems.</li>
+</ul>
 </div>
-<p>Sometimes called <span class="highlight">point identification</span></p>
+</div>
+<div class="footer">
+<p>Both develop algorithms that can learn from data and generalize to unseen data</p>
+</div>
+</div>
+</section>
+<section id="goals-in-prediction" class="slide level4">
+<h4>Goals in Prediction</h4>
+<div class="rounded-box">
+<p>Key goal of prediction — predicting <span class="highlight">well</span></p>
+</div>
+<p>Other goals:</p>
+<ul>
+<li class="fragment">Computational efficiency: better to have a cheaper and quicker way to produce a new prediction</li>
+<li class="fragment">Interpretability: why does the algorithm predict what it does?</li>
+<li class="fragment">Scalability: can it handle increasing loads, run in distributed manner, etc</li>
+</ul>
 </section>
 
-<section id="parametric-models" class="title-slide slide level3 center" data-background="#43464B">
-<h3>Parametric Models</h3>
+<section id="statisticalmachine-learning-vs.-causal-inference" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Statistical/Machine Learning vs.&nbsp;Causal Inference</h3>
 
 </section>
-<section id="fully-parametric-case-intro" class="slide level4">
-<h4>Fully Parametric Case: Intro</h4>
-<p>May sound a bit vague</p>
+<section id="sl-vs.-causal-inference-i" class="slide level4">
+<h4>SL vs.&nbsp;Causal Inference I</h4>
+<div class="rounded-box">
+<p>Key goal in causal inference — <span class="highlight">correct identification</span></p>
+</div>
 <div class="fragment">
 <p><br></p>
-<p>To make idea simpler, a special <span class="highlight">parametric</span> case</p>
-<ul>
-<li class="fragment">Model fully determines the distribution of the data up <span class="math inline">\(\theta\)</span><br>
-</li>
-<li class="fragment">If you know <span class="math inline">\(\theta\)</span>, you know distribution of the data</li>
-</ul>
-</div>
-</section>
-<section id="example" class="slide level4">
-<h4>Example</h4>
-<p>Consider a simple example:</p>
-<ul>
-<li class="fragment"><span class="highlight">Model</span>: <span class="math inline">\(Y_i\sim N(\theta_0, 1)\)</span>, no <span class="math inline">\(X_i\)</span></li>
-<li class="fragment">Parameter of interest is <span class="highlight"><span class="math inline">\(\theta_0\)</span></span></li>
-</ul>
-<div class="fragment">
-<p><br></p>
-<p>Implication of the model:</p>
-<ul>
-<li class="fragment"><span class="math inline">\(F_{Y}\)</span> is a normal distribution with mean <span class="math inline">\(\theta_0\)</span> and variance 1</li>
-<li class="fragment">Known up to <span class="math inline">\(\theta\)</span>, can label the distribution as <span class="math inline">\(F_Y(y|\theta)\)</span></li>
-</ul>
-</div>
-</section>
-<section id="identification-of-theta" class="slide level4">
-<h4>Identification of <span class="math inline">\(\theta\)</span></h4>
-<p>Let’s try our definition of identification:</p>
-<ol type="1">
-<li class="fragment">Distribution of the data tells us <span class="math inline">\(\E[Y_i]\)</span></li>
-<li class="fragment">The model tells us that <span class="math inline">\(\E[Y_i]\)</span> must be <span class="math inline">\(\theta_0\)</span></li>
-</ol>
-<div class="fragment">
-<p>Therefore, it must be that <span class="math display">\[
-\theta_0 = \E[Y_i]
-\]</span> <span class="math inline">\(\theta_0\)</span> uniquely determined as the above function of the distribution of the data</p>
-</div>
-</section>
-<section id="another-view-of-identification" class="slide level4">
-<h4>Another View of Identification</h4>
-<span class="highlight">Equivalent</span> way to state definition of identification
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p><span class="math inline">\(\theta_0\)</span> is identified if for any <span class="math inline">\(\theta\neq\theta_0\)</span> it holds that <span class="math display">\[
-F_Y(y|\theta) \neq F_Y(y|\theta_0)
-\]</span></p>
-</div>
-<p><br></p>
-<p>In words: different <span class="math inline">\(\theta\)</span> give different distributions of observed data</p>
-</section>
-<section id="visual-example-difference-in-distributions" class="slide level4">
-<h4>Visual Example: Difference in Distributions</h4>
-<div id="b155cc63" class="cell" data-execution_count="2">
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="identification-inference_files/figure-revealjs/cell-3-output-1.png" width="1245" height="576"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="example-of-non-identification" class="slide level4">
-<h4>Example of Non-Identification</h4>
-<p>Second definition useful for showing <span class="highlight">non-identification</span></p>
-<div class="fragment">
-<p><br></p>
-<p>An example: suppose that <span class="math inline">\(Y_i \sim N(\abs{\theta_0}, 1)\)</span>:</p>
-<ul>
-<li class="fragment">If <span class="math inline">\(\theta = 1\)</span>, then <span class="math inline">\(Y_i\)</span> should be <span class="math inline">\(N(1, 1)\)</span></li>
-<li class="fragment">If <span class="math inline">\(\theta = -1\)</span>, then <span class="math inline">\(Y_i\)</span> should also be <span class="math inline">\(N(1, 1)\)</span></li>
-</ul>
-</div>
-<div class="fragment">
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p>Different <span class="math inline">\(\theta\)</span> give the same distribution = <span class="math inline">\(\theta_0\)</span> not identified if <span class="math inline">\(\theta_0\neq 0\)</span></p>
-</div>
-</div>
-</section>
-<section id="visual-illustration-same-distribution" class="slide level4">
-<h4>Visual Illustration: Same Distribution</h4>
-<div id="e9b1b263" class="cell" data-execution_count="3">
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="identification-inference_files/figure-revealjs/cell-4-output-1.png" width="1245" height="576"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Causal settings: there is some true <span class="highlight">causal model</span>. Trying to learn some of its features with identification arguments</p>
+</div><div class="column" style="width:25%;">
 
-<section id="identification-in-linear-model-with-exogeneity" class="title-slide slide level3 center" data-background="#43464B">
-<h3>Identification in Linear Model with Exogeneity</h3>
-
+</div><div class="column" style="width:35%;">
+<p>SL/ML: only weak reference to the underlying “true” model. Generally no identification work</p>
+</div></div>
+</div>
 </section>
-<section id="towards-a-more-complex-example" class="slide level4">
-<h4>Towards a More Complex Example</h4>
-<p>Previous example — a bit simplistic</p>
+<section id="sl-vs.-causal-inference-ii" class="slide level4">
+<h4>SL vs.&nbsp;Causal Inference II</h4>
+<p>For SL/ML the key metric is how well you predict with <span class="highlight">unseen data</span> — generalization or risk (next lecture)</p>
+<p><br></p>
 <ul>
-<li class="fragment">No causal framework</li>
-<li class="fragment">Everything is determined by <span class="math inline">\(\theta\)</span></li>
+<li class="fragment">Want prediction to work well under many possible data-generating distributions</li>
+<li class="fragment">Terminology of <span class="highlight">algorithms</span>, not models</li>
+<li class="fragment">Roughly: not trying to model</li>
 </ul>
+</section>
+<section id="sl-vs.-causal-inference-iii" class="slide level4">
+<h4>SL vs.&nbsp;Causal Inference III</h4>
+<p>Are the two fields totally disjoint?</p>
 <div class="fragment">
 <p><br></p>
-<p>Let’s try a more useful case — a linear causal model</p>
-</div>
-</section>
-<section id="setting-potential-outcomes" class="slide level4">
-<h4>Setting: Potential Outcomes</h4>
-<div class="callout callout-important no-icon callout-style-simple">
-<div class="callout-body">
-<div class="callout-content">
-<p>Need a causal framework to talk about causal effects!</p>
-</div>
-</div>
-</div>
-<div class="fragment">
-<p>Work in the familiar potential outcomes framework:</p>
+<p><span class="highlight">No</span>:</p>
 <ul>
-<li class="fragment">Unit <span class="math inline">\(i\)</span> has some unobserved characteristic <span class="math inline">\(U_i\)</span></li>
-<li class="fragment">There is some “treatment” <span class="math inline">\(\bX_i\)</span> (discrete or continuous)</li>
-<li class="fragment">For each possible value <span class="math inline">\(\bx\)</span> of <span class="math inline">\(\bX_i\)</span> the outcome of <span class="math inline">\(i\)</span> would be <span class="math display">\[
-Y^{\bx}_i = \bx'\bbeta + U_i
-\]</span></li>
-<li class="fragment">Units are identically distributed</li>
+<li class="fragment">Typical use case: need to pre-estimate some complicated object before being able to estimate object of interest</li>
+<li class="fragment">Most important — more precise pre-estimates — exactly the typical goal of SL/ML</li>
 </ul>
-</div>
-</section>
-<section id="family-of-potential-outcomes-and-observed-data" class="slide level4">
-<h4>Family of Potential Outcomes and Observed Data</h4>
-<p>Together potential outcomes form a family <span class="math inline">\(\curl{Y^{\bx}_i}_{\bx}\)</span></p>
-<div class="fragment">
-<p><br></p>
-<p>What we see: realized values of <span class="math inline">\((Y_i, \bX_i)\)</span>. The realized outcomes are determined as <span class="math display">\[
-Y_i = Y^{\bX_i}_i
-\]</span></p>
-<p><br></p>
-<p>All other potential outcomes remain <span class="highlight">counterfactual</span></p>
-</div>
-</section>
-<section id="sutva" class="slide level4">
-<h4>SUTVA</h4>
-<p>In this class we will assume:</p>
-<p><br></p>
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p>Potential outcomes of unit <span class="math inline">\(i\)</span> depend only on the treatment of unit <span class="math inline">\(i\)</span></p>
-</div>
-<div class="fragment">
-<p><br></p>
-<p>Called the <span class="highlight">stable unit treatment value assumption</span> (SUTVA) — no interference, no general equilibrium effects, etc.</p>
-</div>
-</section>
-<section id="causal-effects-and-parameter-of-interest" class="slide level4">
-<h4>Causal Effects and Parameter of Interest</h4>
-<p>Model: <span class="math display">\[
-Y^{\bx}_i = \bx'\bbeta + U_i
-\]</span> Note: <span class="math inline">\(U_i\)</span> does not depend on <span class="math inline">\(\bx\)</span></p>
-<div class="fragment">
-<p><br></p>
-<p>Causal effect of changing unit <span class="math inline">\(i\)</span> from <span class="math inline">\(\bx_1\)</span> to <span class="math inline">\(\bx_2\)</span> given by <span class="math inline">\((\bx_1-\bx_2)'\bbeta\)</span>. Thus:</p>
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p>Sufficient to learn <span class="math inline">\(\bbeta\)</span></p>
-</div>
-</div>
-</section>
-<section id="model-is-not-fully-parametric" class="slide level4">
-<h4>Model Is Not Fully Parametric</h4>
-<p>Our assumptions do not fully specify</p>
-<ul>
-<li class="fragment">Distribution of <span class="math inline">\(\bX_i\)</span></li>
-<li class="fragment">Distribution of <span class="math inline">\(U_i\)</span></li>
-</ul>
-<div class="fragment">
-<p><br></p>
-<p>To identify those, we need <span class="math inline">\(F_{\bX, Y}\)</span> and (for distribution of <span class="math inline">\(U_i\)</span>) also <span class="math inline">\(\bbeta\)</span></p>
-</div>
-</section>
-<section id="identifying-bbeta" class="slide level4">
-<h4>Identifying <span class="math inline">\(\bbeta\)</span></h4>
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<div id="prp-vector-id-linear" class="theorem proposition">
-<p><span class="theorem-title"><strong>Proposition 1</strong></span> Let</p>
-<div>
-<ul>
-<li><span class="math inline">\(\E[\bX_i\bX_i']\)</span> be invertible</li>
-<li><span class="math inline">\(\E[\bX_iU_i]=0\)</span></li>
-</ul>
-</div>
-<p>Then <span class="math inline">\(\bbeta\)</span> is identified as <span class="math display">\[
-\bbeta = \E[\bX_i\bX_i']^{-1}\E[\bX_iY_i]
-\]</span></p>
-</div>
-</div>
-<p>Proof by considering <span class="math inline">\(\E[\bX_iY_i]\)</span></p>
-</section>
-<section id="discussion" class="slide level4">
-<h4>Discussion</h4>
-<p>Two key assumptions:</p>
-<ul>
-<li class="fragment">Invertibility of <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is a <span class="highlight">variability</span> condition (why?)</li>
-<li class="fragment"><span class="math inline">\(\E[\bX_iU_i]=0\)</span> is an <span class="highlight">exogeneity</span> condition</li>
-</ul>
-<div class="fragment">
-<p>Together:</p>
-<ul>
-<li class="fragment"><em>Identification strategy</em> means a collection of assumptions that yield identification</li>
-<li class="fragment"><a href="#/prp-vector-id-linear" class="quarto-xref">Proposition&nbsp;1</a> — example of <em>constructive</em> identification: expressing <span class="math inline">\(\bbeta\)</span> as a function of <span class="math inline">\(F_{\bX, Y}\)</span></li>
-</ul>
-</div>
-</section>
-<section id="broader-identification-discussion" class="slide level4">
-<h4>Broader Identification Discussion</h4>
-<p>Identification — fundamentally theoretical exercise, always rests on assumptions</p>
-<div class="fragment">
-<p><br></p>
-<p>Some other approaches:</p>
-<ol type="1">
-<li class="fragment">Sometimes only non-constructive identification known</li>
-<li class="fragment"><span class="citation" data-cites="Wooldridge2020IntroductoryEconometricsModern">Wooldridge (<a href="#/references-1" role="doc-biblioref" onclick="">2020</a>)</span> defines <span class="math inline">\(\theta\)</span> to be identified if it can be identified consistently — useful for showing identification of the limit</li>
-</ol>
+<p>See <span class="citation" data-cites="Chernozhukov2024AppliedCausalInference">Chernozhukov et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2024</a>)</span></p>
 </div>
 </section>
 </section>
 <section>
-<section id="estimation-and-inference" class="title-slide slide level2 center" data-background="#00100F">
-<h2>Estimation and Inference</h2>
+<section id="references-on-slml" class="title-slide slide level2 center" data-background="#00100F">
+<h2>References on SL/ML</h2>
 
 </section>
-<section id="estimators-and-goal-of-estimation" class="slide level4">
-<h4>Estimators and Goal of Estimation</h4>
-<p>Let <span class="math inline">\(\theta\)</span> be a parameter of interest and <span class="math inline">\((X_1, \dots, X_N)\)</span> be the available data — the sample</p>
-<div class="fragment">
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<div id="def-vector-id-estimator" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 1</strong></span> Let <span class="math inline">\(\theta\)</span> belong to some space <span class="math inline">\(\S\)</span>. An estimator <span class="math inline">\(\hat{\theta}_N\)</span> is a function from <span class="math inline">\((X_1, \dots, X_N)\)</span> to <span class="math inline">\(\S\)</span>: <span class="math display">\[
-\hat{\theta}_N = g(X_1, \dots, X_n)
-\]</span></p>
-</div>
-</div>
-<ul>
-<li class="fragment">Anything you can compute on the data is an estimator</li>
-<li class="fragment">Try to find estimators with good properties</li>
-</ul>
+<section id="books-sl-theory" class="slide level4">
+<h4>Books: SL Theory</h4>
+<div class="columns">
+<div class="column" style="width:33%;">
+<p><img src="../../images/book_covers/hastie-2008.jpeg" alt="drawing" width="260"></p>
+<p><span class="citation" data-cites="Hastie2009ElementsStatisticalLearning">Hastie, Tibshirani, and Friedman (<a href="#/references-1" role="doc-biblioref" onclick="">2009</a>)</span></p>
+</div><div class="column" style="width:33%;">
+<p><img src="../../images/book_covers/ss-bd-2014.jpg" alt="drawing" width="270"></p>
+<p><span class="citation" data-cites="Shalev-Shwartz2014UnderstandingMachineLearning">Shalev-Shwartz and Ben-David (<a href="#/references-1" role="doc-biblioref" onclick="">2014</a>)</span></p>
+</div><div class="column" style="width:33%;">
+<p><img src="../../images/book_covers/mohri-2018.jpeg" alt="drawing" width="270"></p>
+<p><span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri, Rostamizadeh, and Talwalkar (<a href="#/references-1" role="doc-biblioref" onclick="">2018</a>)</span></p>
+</div></div>
+<div class="footer">
+
 </div>
 </section>
-<section id="inference" class="slide level4">
-<h4>Inference</h4>
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p>Inference is about answering questions about the population based on the finite sample</p>
+<section id="books-practice-of-classic-ml" class="slide level4">
+<h4>Books: Practice of “Classic” ML</h4>
+<div class="columns">
+<div class="column" style="width:33%;">
+<p>Books on “core” machine learning methods in practice, mainly with <code>scikit-learn</code></p>
+</div><div class="column" style="width:30%;">
+<p><img data-src="../..\images/book_covers/geron-2023.jpg"></p>
+<p><span class="citation" data-cites="Geron2023HandsonMachineLearning">Géron (<a href="#/references-1" role="doc-biblioref" onclick="">2023</a>)</span></p>
+</div><div class="column" style="width:28%;">
+<p><img data-src="../..\images/book_covers/james-2023.jpg"></p>
+<p><span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2023</a>)</span></p>
+</div></div>
+<div class="footer">
+<p>Possibly skip TensorFlow in <span class="citation" data-cites="Geron2023HandsonMachineLearning">Géron (<a href="#/references-1" role="doc-biblioref" onclick="">2023</a>)</span> in favor of PyTorch</p>
 </div>
+</section>
+<section id="books-on-deep-learning" class="slide level4">
+<h4>Books on Deep Learning</h4>
+<div class="columns">
+<div class="column" style="width:33%;">
+<p>Deep learning much better covered in newer and more specialized books. Not that much statistical theory — many recent advances empirical</p>
+</div><div class="column" style="width:33%;">
+<p><img src="../../images/book_covers/bishop-2024.jpg" alt="drawing" width="280" height="400"></p>
+<p><span class="citation" data-cites="Bishop2024DeepLearningFoundations">Bishop and Bishop (<a href="#/references-1" role="doc-biblioref" onclick="">2024</a>)</span></p>
+</div><div class="column" style="width:33%;">
+<p><img src="../../images/book_covers/antiga-2021.jpg" alt="drawing" width="280" height="400"></p>
+<p><span class="citation" data-cites="Antiga2020DeepLearningPyTorch">Antiga, Stevens, and Viehmann (<a href="#/references-1" role="doc-biblioref" onclick="">2020</a>)</span></p>
+</div></div>
+</section>
+<section id="books-on-slml-for-causal-settings" class="slide level4">
+<h4>Books On SL/ML For Causal Settings</h4>
+<div class="columns">
+<div class="column" style="width:33%;">
+<p>A couple of references on ML techniques specifically in causal settings</p>
+</div><div class="column" style="width:33%;">
+<p><img data-src="../..\images/book_covers/chernozhukov-2024.png"></p>
+<p><span class="citation" data-cites="Chernozhukov2024AppliedCausalInference">Chernozhukov et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2024</a>)</span></p>
+</div><div class="column" style="width:29%;">
+<p><img data-src="../..\images/book_covers/gaillac-2025.jpg"></p>
+<p><span class="citation" data-cites="Gaillac2025MachineLearningEconometrics">Gaillac and L’Hour (<a href="#/references-1" role="doc-biblioref" onclick="">2025</a>)</span></p>
+</div></div>
+</section></section>
+<section>
+<section id="learning-scenarios" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Learning Scenarios</h2>
+
+</section>
+<section id="introduction-to-learning-scenarios" class="slide level4">
+<h4>Introduction to Learning Scenarios</h4>
+<p>SL/ML not monolithic: there are different learning scenarios based on</p>
+<ul>
+<li class="fragment">Domain of application: what problem are you solving?</li>
+<li class="fragment">Nature and form of training data
+<ul>
+<li class="fragment">Do you have a <span class="math inline">\(Y\)</span> at all? (supervised, unsupervised, semi-supervised learning, …)</li>
+<li class="fragment">What does <span class="math inline">\(Y\)</span> look like? (continuous — regression, discrete — classification, ranked list — ranking, …)</li>
+</ul></li>
+<li class="fragment">How the data arrives</li>
+</ul>
+</section>
+<section id="classification-by-domain" class="slide level4 scrollable">
+<h4>Classification: By Domain</h4>
+<p>What kind of problems can you solve?</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 80%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Domain of Application</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Forecasting</td>
+<td>Estimating the GDP in the current quarter</td>
+</tr>
+<tr class="even">
+<td>Causal inference</td>
+<td>Preestimating “first stage”/nuisance parameters</td>
+</tr>
+<tr class="odd">
+<td>Text or document classification</td>
+<td>Assigning topics, determining whether contents are inappropriate, spam detection</td>
+</tr>
+<tr class="even">
+<td>NLP</td>
+<td>Part-of-speech tagging, named-entity recognition, context-free parsing, text summarization, chatbots</td>
+</tr>
+<tr class="odd">
+<td>Speech processing</td>
+<td>Speech recognition, speech synthesis, speaker verification and identification</td>
+</tr>
+<tr class="even">
+<td>Computer vision</td>
+<td>Object recognition and identification, face detection, content-based image retrieval, optical character recognition, image segmentation</td>
+</tr>
+<tr class="odd">
+<td>Anomaly detection</td>
+<td>Detecting credit card fraud</td>
+</tr>
+<tr class="even">
+<td>Clustering</td>
+<td>Segmenting clients into blocks and offering different marketing strategies</td>
+</tr>
+<tr class="odd">
+<td>Data visualization</td>
+<td>Using dimensionality reduction</td>
+</tr>
+<tr class="even">
+<td>Recommender systems</td>
+<td>Suggesting next product to buy given purchase history</td>
+</tr>
+</tbody>
+</table>
+<p>All these things also done with people with econ backgrounds</p>
+<div class="footer">
+
+</div>
+</section>
+<section id="classification-by-type-of-output-variable-i" class="slide level4 scrollable">
+<h4>Classification: By Type of Output Variable I</h4>
+<p><em>Supervised settings</em>: some observed output <span class="math inline">\(Y\)</span>:</p>
+<p><br></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Type of Variable</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Classification</td>
+<td>Categorical</td>
+<td>Document classification</td>
+</tr>
+<tr class="even">
+<td>Regression</td>
+<td>Continuous</td>
+<td>Nowcasting the GDP</td>
+</tr>
+<tr class="odd">
+<td>Ranking</td>
+<td>Ordinal</td>
+<td>Selecting the order of results in a search</td>
+</tr>
+</tbody>
+</table>
+<div class="footer">
+
+</div>
+</section>
+<section id="classification-by-type-of-output-variable-ii" class="slide level4 scrollable">
+<h4>Classification: By Type of Output Variable II</h4>
+<p><em>Unsupervised settings</em>: no obvious observed <span class="math inline">\(Y\)</span>:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Type of Variable</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Clustering</td>
+<td>Categorical</td>
+<td>Identifying communities in a large social network</td>
+</tr>
+<tr class="even">
+<td>Dimensionality reduction/manifold learning</td>
+<td>Continuous</td>
+<td>Preprocessing digital images in computer vision tasks</td>
+</tr>
+</tbody>
+</table>
+<div class="footer">
+
+</div>
+</section>
+<section id="classification-by-supervision" class="slide level4">
+<h4>Classification: By Supervision</h4>
+<p><br></p>
+<ul>
+<li class="fragment">Supervised: all observations (“examples”) have <span class="math inline">\(Y\)</span> available (“labels”)</li>
+<li class="fragment">Unsupervised: no examples have labels</li>
+<li class="fragment">Semi-supervised: some examples have labels</li>
+</ul>
 <div class="fragment">
-<p>Example questions:</p>
-<ol type="1">
-<li class="fragment">How sure are we that <span class="math inline">\(\hat{\theta}_N\)</span> is close to <span class="math inline">\(\theta\)</span>?</li>
-<li class="fragment">Does <span class="math inline">\(\theta\)</span> satisfy some constraints (equal to 0, positive, etc)?</li>
-<li class="fragment">Do our identification assumptions hold? (e.g.&nbsp;is <span class="math inline">\(\E[\bx_i\bx_i']\)</span> invertible?)</li>
-</ol>
-<p>Relevant both in causal and predictive settings</p>
+<p>More concepts: self-supervised, active learning, reinforcement learning, etc.</p>
 </div>
+</section>
+<section id="online-vs.-batch-learning" class="slide level4">
+<h4>Online vs.&nbsp;Batch Learning</h4>
+<p>Another axis: if new observations arrive, how to update model?</p>
+<p><br></p>
+<ul>
+<li class="fragment">Retrain from scratch on bigger dataset — batch learning</li>
+<li class="fragment">Update existing model parameters only with new observations — online learning</li>
+</ul>
 </section></section>
 <section>
 <section id="recap-and-conclusions" class="title-slide slide level2 center" data-background="#00100F">
@@ -973,43 +880,56 @@ Y^{\bx}_i = \bx'\bbeta + U_i
 </section>
 <section id="recap" class="slide level4">
 <h4>Recap</h4>
-<p>In this lecture we</p>
+<p><br></p>
+<p>In this lecture we:</p>
 <ol type="1">
-<li class="fragment">Discussed the difference between identification, estimation, and inference</li>
-<li class="fragment">Saw definitions of identification</li>
-<li class="fragment">Reviewed potential outcomes</li>
-<li class="fragment">Discussed identification in the linear model under exogeneity</li>
+<li class="fragment">Talked about causal inference vs.&nbsp;prediction</li>
+<li class="fragment">Defined statistical and machine learning</li>
+<li class="fragment">Described various learning scenarios</li>
 </ol>
 </section>
 <section id="next-questions" class="slide level4">
 <h4>Next Questions</h4>
+<p><br></p>
 <ul>
-<li class="fragment">Linear model: inference on <span class="math inline">\(\bbeta\)</span> based on the OLS estimator
-<ul>
-<li class="fragment">Quantifying uncertainty</li>
-<li class="fragment">Hypothesis testing</li>
-</ul></li>
-<li class="fragment">Identification in various settings: IV, panel, nonlinear, etc.</li>
+<li class="fragment">What are the key components of a learning problem for predictions?</li>
+<li class="fragment">How does one evaluate predictions?</li>
+<li class="fragment">Is there a universally valid way to predict?</li>
 </ul>
 </section>
 <section id="references-1" class="slide level4 allowframebreaks smaller scrollable" data-visibility="uncounted">
 <h4>References</h4>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-Cunningham2021CausalInferenceMixtape" class="csl-entry" role="listitem">
-Cunningham, Scott. 2021. <em>Causal <span>Inference</span>: <span>The Mixtape</span></em>. Yale University Press. <a href="https://doi.org/10.2307/j.ctv1c29t27">https://doi.org/10.2307/j.ctv1c29t27</a>.
+<div id="ref-Antiga2020DeepLearningPyTorch" class="csl-entry" role="listitem">
+Antiga, Luca Pietro Giovanni, Eli Stevens, and Thomas Viehmann. 2020. <em>Deep Learning with <span>PyTorch</span></em>. Shelter Island, NY: Manning.
 </div>
-<div id="ref-Hansen2022Econometrics" class="csl-entry" role="listitem">
-Hansen, Bruce. 2022. <em>Econometrics</em>. Princeton_University_Press.
+<div id="ref-Bishop2024DeepLearningFoundations" class="csl-entry" role="listitem">
+Bishop, Christopher M., and Hugh Bishop. 2024. <em>Deep <span>Learning</span>: <span>Foundations</span> and <span>Concepts</span></em>. Cham: Springer International Publishing. <a href="https://doi.org/10.1007/978-3-031-45468-4">https://doi.org/10.1007/978-3-031-45468-4</a>.
 </div>
-<div id="ref-Huntington-Klein2025EffectIntroductionResearch" class="csl-entry" role="listitem">
-Huntington-Klein, Nick. 2025. <em>The <span>Effect</span>: <span>An Introduction</span> to <span>Research Design</span> and <span>Causality</span></em>. S.l.: <span>Chapman and Hall/CRC</span>.
+<div id="ref-Chernozhukov2024AppliedCausalInference" class="csl-entry" role="listitem">
+Chernozhukov, Victor, Christian Hansen, Nathan Kallus, Martin Spindler, and Vasilis Syrgkanis. 2024. <span>“Applied <span>Causal Inference Powered</span> by <span>ML</span> and <span>AI</span>.”</span> arXiv. <a href="https://doi.org/10.48550/arXiv.2403.02467">https://doi.org/10.48550/arXiv.2403.02467</a>.
 </div>
-<div id="ref-Lewbel2019IdentificationZooMeanings" class="csl-entry" role="listitem">
-Lewbel, Arthur. 2019. <span>“The <span>Identification Zoo</span>: <span>Meanings</span> of <span>Identification</span> in <span>Econometrics</span>.”</span> <em>Journal of Economic Literature</em> 57 (4): 835–903. <a href="https://doi.org/10.1257/jel.20181361">https://doi.org/10.1257/jel.20181361</a>.
+<div id="ref-Gaillac2025MachineLearningEconometrics" class="csl-entry" role="listitem">
+Gaillac, Christophe, and Jeremy L’Hour. 2025. <em>Machine <span>Learning</span> for <span>Econometrics</span></em>. Oxford University Press: Oxford.
 </div>
-<div id="ref-Wooldridge2020IntroductoryEconometricsModern" class="csl-entry" role="listitem">
-Wooldridge, Jeffrey M. 2020. <em>Introductory <span>Econometrics</span>: A <span>Modern Approach</span></em>. Seventh edition. Boston, MA: Cengage.
+<div id="ref-Geron2023HandsonMachineLearning" class="csl-entry" role="listitem">
+Géron, Aurélien. 2023. <em>Hands-on <span>Machine Learning With Scikit-Learn</span>, <span>Keras</span>, and <span>TensorFlow</span>: <span>Concepts</span>, <span>Tools</span>, and <span>Techniques</span> to <span>Build Intelligent Systems</span></em>. Third edition. Data Science / Machine Learning. Beijing Boston Farnham Sebastopol Tokyo: O’Reilly.
 </div>
+<div id="ref-Hastie2009ElementsStatisticalLearning" class="csl-entry" role="listitem">
+Hastie, Trevor, Robert Tibshirani, and J. H. Friedman. 2009. <em>The <span>Elements</span> of <span>Statistical Learning</span>: <span>Data Mining</span>, <span>Inference</span>, and <span>Prediction</span></em>. 2nd ed. Springer <span>Series</span> in <span>Statistics</span>. New York, NY: Springer.
+</div>
+<div id="ref-James2023IntroductionStatisticalLearning" class="csl-entry" role="listitem">
+James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, and Jonathan E. Taylor. 2023. <em>An <span>Introduction</span> to <span>Statistical Learning</span>: <span>With Applications</span> in <span>Python</span></em>. Springer Texts in Statistics. Cham: Springer.
+</div>
+<div id="ref-Mohri2018FoundationsMachineLearning" class="csl-entry" role="listitem">
+Mohri, Mehryar, Afshin Rostamizadeh, and Ameet Talwalkar. 2018. <em>Foundations of <span>Machine Learning</span></em>. The MIT Press. <a href="https://doi.org/10.5555/3360093">https://doi.org/10.5555/3360093</a>.
+</div>
+<div id="ref-Shalev-Shwartz2014UnderstandingMachineLearning" class="csl-entry" role="listitem">
+Shalev-Shwartz, Shai, and Shai Ben-David. 2014. <em>Understanding <span>Machine Learning</span></em>. 1st ed. West Nyack: Cambridge University Press.
+</div>
+</div>
+<div class="footer">
+
 </div>
 
 
@@ -1032,7 +952,7 @@ Wooldridge, Jeffrey M. 2020. <em>Introductory <span>Econometrics</span>: A <span
   <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="../../themes/favicon.ico" class="slide-logo"></p>
 <div class="footer footer-default">
-<p>Identification, Estimation, and Inference</p>
+<p>Prediction: Introduction</p>
 </div>
 </div></div>
 

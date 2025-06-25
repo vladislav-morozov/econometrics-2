@@ -15,7 +15,7 @@
   <meta name="generator" content="quarto-1.6.42">
 
   <meta name="author" content="Vladislav Morozov">
-  <title>Advanced Econometrics – Identification, Estimation and Inference</title>
+  <title>Advanced Econometrics – Components of Learning</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -479,9 +479,9 @@
     };
 
   </script>
-  <meta name="description" content="Explore the basics of identification, estimation, and inference: definitions, parametric models, and linear model identification (lecture notes slides).">
-<meta property="og:title" content="Identification, Estimation and Inference – Advanced Econometrics">
-<meta property="og:description" content="Explore the basics of identification, estimation, and inference: definitions, parametric models, and linear model identification (lecture notes slides).">
+  <meta name="description" content="  (lecture notes slides).">
+<meta property="og:title" content="Components of Learning – Advanced Econometrics">
+<meta property="og:description" content="(lecture notes slides).">
 <meta property="og:site_name" content="Advanced Econometrics">
 </head>
 <body class="quarto-light">
@@ -489,8 +489,8 @@
     <div class="slides">
 
 <section id="title-slide" data-background-color="#045D5D" data-footer="" class="quarto-title-block center">
-  <h1 class="title">Identification, Estimation and Inference</h1>
-  <p class="subtitle">The Three Parts of Statistics</p>
+  <h1 class="title">Components of Learning</h1>
+  <p class="subtitle">Risk and Hypothesis Classes</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -505,8 +505,7 @@ Vladislav Morozov
 <h2 id="toc-title">Contents</h2>
 <ul>
 <li class="fragment"><a href="#/introduction" id="/toc-introduction">Introduction</a></li>
-<li class="fragment"><a href="#/identification" id="/toc-identification">Identification</a></li>
-<li class="fragment"><a href="#/estimation-and-inference" id="/toc-estimation-and-inference">Estimation and Inference</a></li>
+<li class="fragment"><a href="#/elements-of-a-learning-problem" id="/toc-elements-of-a-learning-problem">Elements of a Learning Problem</a></li>
 <li class="fragment"><a href="#/recap-and-conclusions" id="/toc-recap-and-conclusions">Recap and Conclusions</a></li>
 </ul>
 </nav>
@@ -516,456 +515,295 @@ Vladislav Morozov
 <h2>Introduction</h2>
 
 </section>
-<section id="lecture-info" class="title-slide slide level3 center" data-background="#43464B">
+<section id="lecture-info" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
 <h3>Lecture Info</h3>
 
 </section>
 <section id="learning-outcomes" class="slide level4">
 <h4>Learning Outcomes</h4>
-<p>This lecture is about the basics of identification, estimation, and inference</p>
-<p><br></p>
+<p>This lecture is <br></p>
 <p>By the end, you should be able to</p>
 <ul>
-<li class="fragment">Understand the difference between identification, estimation, and inference</li>
-<li class="fragment">Provide a working definition of identification</li>
-<li class="fragment">Discuss identification in fully parametric models and the linear model under exogeneity</li>
+<li class="fragment">Discuss</li>
 </ul>
 </section>
 <section id="references" class="slide level4">
 <h4>References</h4>
+<p><br></p>
 <div>
 <ul>
-<li>Identification:
+<li>Chapter 1-2 in <span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2023</a>)</span></li>
+<li>Deep reading with details:
 <ul>
-<li>Section 2.32 in <span class="citation" data-cites="Hansen2022Econometrics">Hansen (<a href="#/references-1" role="doc-biblioref" onclick="">2022</a>)</span>: brief definitions</li>
-<li><a href="https://theeffectbook.net/ch-Identification.html" data-preview-link="true">Chapter 5</a> in <span class="citation" data-cites="Huntington-Klein2025EffectIntroductionResearch">Huntington-Klein (<a href="#/references-1" role="doc-biblioref" onclick="">2025</a>)</span>: more examples and philosophical points</li>
-<li>Sections 15.1-15.2 <span class="citation" data-cites="Wooldridge2020IntroductoryEconometricsModern">Wooldridge (<a href="#/references-1" role="doc-biblioref" onclick="">2020</a>)</span>: IV example</li>
-<li>(<em>Very advanced</em>): <span class="citation" data-cites="Lewbel2019IdentificationZooMeanings">Lewbel (<a href="#/references-1" role="doc-biblioref" onclick="">2019</a>)</span></li>
-</ul></li>
-<li>Potential outcomes:
-<ul>
-<li>Chapter 4 in <span class="citation" data-cites="Cunningham2021CausalInferenceMixtape">Cunningham (<a href="#/references-1" role="doc-biblioref" onclick="">2021</a>)</span>:</li>
-<li><em>Or</em> 2.30 in <span class="citation" data-cites="Hansen2022Econometrics">Hansen (<a href="#/references-1" role="doc-biblioref" onclick="">2022</a>)</span></li>
+<li>PAC learning: chapter 3 <span class="citation" data-cites="Shalev-Shwartz2014UnderstandingMachineLearning">Shalev-Shwartz and Ben-David (<a href="#/references-1" role="doc-biblioref" onclick="">2014</a>)</span> or chapter 2 in <span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri, Rostamizadeh, and Talwalkar (<a href="#/references-1" role="doc-biblioref" onclick="">2018</a>)</span></li>
+<li>No-Free-Lunch theorem: chapter 5 in <span class="citation" data-cites="Shalev-Shwartz2014UnderstandingMachineLearning">Shalev-Shwartz and Ben-David (<a href="#/references-1" role="doc-biblioref" onclick="">2014</a>)</span></li>
 </ul></li>
 </ul>
-</div>
-</section>
-
-<section id="identification-and-inference" class="title-slide slide level3 center" data-background="#43464B">
-<h3>Identification and Inference</h3>
-
-</section>
-<section id="overall-goal" class="slide level4">
-<h4>Overall Goal</h4>
-<p>Goal of all of statistics:</p>
-<p><br></p>
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p>“Say something” about a “parameter” of interest “based on data”</p>
-</div>
-<p><br></p>
-<p>Which “parameter”? What is “something”? How much “data”?</p>
-</section>
-<section id="parameters-of-interest" class="slide level4">
-<h4>Parameters of Interest</h4>
-<p>Which parameter you want depends on the context:</p>
-<ul>
-<li class="fragment">Causal settings:
-<ul>
-<li class="fragment">Treatment effects: averages, variances, …</li>
-<li class="fragment">Features of structural economic models: elasticities, multipliers, …</li>
-</ul></li>
-<li class="fragment">Prediction:
-<ul>
-<li class="fragment">Forecast of GDP, …</li>
-<li class="fragment">Whether the patient has a disease …</li>
-</ul></li>
-</ul>
-</section>
-<section id="kind-of-questions" class="slide level4">
-<h4>Kind of Questions</h4>
-<p>What about the “something”?</p>
-<div class="fragment">
-<p><br></p>
-<p>Three example questions:</p>
-<ol type="1">
-<li class="fragment">Can the parameter be learned at all?</li>
-<li class="fragment">If we have an estimate, how sure are we about it?</li>
-<li class="fragment">Does the parameter satisfy some constraints? (equal to 0, positive, etc.)</li>
-</ol>
-</div>
-</section>
-<section id="identification-and-inference-1" class="slide level4">
-<h4>Identification and Inference</h4>
-<p>All possible questions can be split into two classes of work:</p>
-<ol type="1">
-<li class="fragment"><span class="highlight">Identification</span>: what could we learn if we had an <em>infinite</em> amount of data?</li>
-<li class="fragment"><span class="highlight">Estimation and inference</span>: how to “learn” from <em>finite</em> samples?</li>
-</ol>
-<div class="fragment">
-<p><br></p>
-<p>Both equally important in causal settings. Identification less/not important in prediction</p>
 </div>
 </section>
 </section>
 <section>
-<section id="identification" class="title-slide slide level2 center" data-background="#00100F">
-<h2>Identification</h2>
+<section id="elements-of-a-learning-problem" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Elements of a Learning Problem</h2>
 
 </section>
-<section id="general-idea" class="title-slide slide level3 center" data-background="#43464B">
-<h3>General Idea</h3>
-
-</section>
-<section id="parameter-label" class="slide level4">
-<h4>Parameter Label</h4>
-<p>Focus first on identification</p>
+<section id="setting" class="slide level4">
+<h4>Setting</h4>
+<p>Will work only in supervised setting in this course</p>
 <p><br></p>
 <div class="fragment">
-<p>Let <span class="math inline">\(\theta\)</span> be the “parameter of interest” — something unknown you care about, e.g.</p>
+<p>Setup:</p>
 <ul>
-<li class="fragment">Average treatment effect</li>
-<li class="fragment">Coefficient vector</li>
-<li class="fragment">Even an unknown function</li>
+<li class="fragment">Sample of <span class="math inline">\(N\)</span> examples</li>
+<li class="fragment">All samples <em>labeled</em> with label <span class="math inline">\(Y_i\)</span></li>
+<li class="fragment"><em>Features</em> — vector of <span class="math inline">\(p\)</span> explanatory variables <span class="math inline">\(\bX_i\)</span></li>
 </ul>
+<div class="footer">
+<p>Notice the vocabulary: ML vocabulary established and sometimes different from causal inference vocabulary</p>
+</div>
 </div>
 </section>
-<section id="population-distribution-f_x-y" class="slide level4">
-<h4>Population Distribution <span class="math inline">\(F_{X, Y}\)</span></h4>
-<p>Suppose that our data are observations on <span class="math inline">\((X, Y)\)</span></p>
-<div class="fragment">
-<p><br></p>
-<p>How to express the idea of having “infinite data”?</p>
-</div>
-<div class="fragment">
-<p><br></p>
-For us:
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p>Infinite data = knowing the joint distribution function <span class="math inline">\(F_{X, Y}\)</span></p>
-</div>
-<!-- #### Observed Data
+<section id="loss-and-risk" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Loss and Risk</h3>
 
-<br>
-
-::: {#fig-actual}
-``` tikz  
-%%| fig-cap: Observed data arises from some underlying data generating process 
-%%| fig-align: center
-\begin{tikzpicture}
- \tikzset{line width=1.5pt, outer sep=0pt,
- ell/.style={draw,fill=white, inner sep=2pt,
- line width=1.5pt},
- swig vsplit={gap=5pt,
- inner line width right=0.5pt}};
-
- 
- 
-\node[name=activity, ell, shape=ellipse, align=left]{True data \\ generation};
-
-\node[name=observed, ell, shape=ellipse, align=left, right = 5mm of activity]{Actual \\ $F_{X, Y}(x, y)$}; 
- 
-\draw[->](activity) to (observed);  
-\end{tikzpicture}
-``` 
-:::
-
-
-<br>
-
-Identification: assume that we see the full $F_{X, Y}(x, y)$ -->
-</div>
 </section>
-<section id="models-and-parameters-imply-distributions-of-data" class="slide level4">
-<h4>Models and Parameters Imply Distributions of Data</h4>
-
-<img data-src="identification-inference_files\mediabag\3f515cdb0de67bdabbe7015a0867d257ee2e1db0.svg" class="r-stretch quarto-figure-center" id="fig-model"><p class="caption">Path from parameter <span class="math inline">\(\theta\)</span> to restrictions/implications on the data distribution</p><p>The <span class="highlight">model</span> specifies parts of the data generating mechanism:</p>
+<section id="key-goal-of-prediction" class="slide level4">
+<h4>Key Goal of Prediction</h4>
+<div class="rounded-box">
+<p>Key goal of prediction — predicting <span class="math inline">\(Y\)</span> “<span class="highlight">well</span>”</p>
+</div>
 <ul>
-<li class="fragment">Parts of <span class="math inline">\(F_{X, Y}\)</span> might be unknown even if you know <span class="math inline">\(\theta\)</span></li>
-<li class="fragment">Example: linear model with exogeneity — <span class="math inline">\(\E[Y_i|\bX_i]\)</span> is linear in <span class="math inline">\(\bX_i\)</span>. Does not much about the distribution of <span class="math inline">\(\bX_i\)</span> or <span class="math inline">\(Y_i\)</span> beyond that</li>
-</ul>
-</section>
-<section id="definition-of-identification" class="slide level4">
-<h4>Definition of Identification</h4>
-<p>Identification basically asks:</p>
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p>Given the</p>
+<li class="fragment">Other aspects: scalability, computational efficiency, interpretability</li>
+<li class="fragment">Difference from causal inference: there interested in causal effect of some <span class="math inline">\(X_{ij}\)</span> on <span class="math inline">\(Y_i\)</span>
 <ol type="1">
-<li class="fragment">The joint distribution <span class="math inline">\(F_{X, Y}\)</span> of the data</li>
-<li class="fragment">Assumptions that the model is true for some <span class="math inline">\(\theta_0\)</span></li>
-<li class="fragment">“Implications”<span class="math inline">\((\theta_0)\)</span> of the model,</li>
-</ol>
-<p>can <span class="math inline">\(\theta_0\)</span> be uniquely determined?</p>
-</div>
-<p>Sometimes called <span class="highlight">point identification</span></p>
-</section>
-
-<section id="parametric-models" class="title-slide slide level3 center" data-background="#43464B">
-<h3>Parametric Models</h3>
-
-</section>
-<section id="fully-parametric-case-intro" class="slide level4">
-<h4>Fully Parametric Case: Intro</h4>
-<p>May sound a bit vague</p>
-<div class="fragment">
-<p><br></p>
-<p>To make idea simpler, a special <span class="highlight">parametric</span> case</p>
-<ul>
-<li class="fragment">Model fully determines the distribution of the data up <span class="math inline">\(\theta\)</span><br>
-</li>
-<li class="fragment">If you know <span class="math inline">\(\theta\)</span>, you know distribution of the data</li>
-</ul>
-</div>
-</section>
-<section id="example" class="slide level4">
-<h4>Example</h4>
-<p>Consider a simple example:</p>
-<ul>
-<li class="fragment"><span class="highlight">Model</span>: <span class="math inline">\(Y_i\sim N(\theta_0, 1)\)</span>, no <span class="math inline">\(X_i\)</span></li>
-<li class="fragment">Parameter of interest is <span class="highlight"><span class="math inline">\(\theta_0\)</span></span></li>
+<li class="fragment">Most important: correct identification</li>
+<li class="fragment">Only then efficiency/fit</li>
+</ol></li>
 </ul>
 <div class="fragment">
-<p><br></p>
-<p>Implication of the model:</p>
-<ul>
-<li class="fragment"><span class="math inline">\(F_{Y}\)</span> is a normal distribution with mean <span class="math inline">\(\theta_0\)</span> and variance 1</li>
-<li class="fragment">Known up to <span class="math inline">\(\theta\)</span>, can label the distribution as <span class="math inline">\(F_Y(y|\theta)\)</span></li>
-</ul>
+<p>How to define “<span class="highlight">well</span>”?</p>
 </div>
 </section>
-<section id="identification-of-theta" class="slide level4">
-<h4>Identification of <span class="math inline">\(\theta\)</span></h4>
-<p>Let’s try our definition of identification:</p>
-<ol type="1">
-<li class="fragment">Distribution of the data tells us <span class="math inline">\(\E[Y_i]\)</span></li>
-<li class="fragment">The model tells us that <span class="math inline">\(\E[Y_i]\)</span> must be <span class="math inline">\(\theta_0\)</span></li>
-</ol>
-<div class="fragment">
-<p>Therefore, it must be that <span class="math display">\[
-\theta_0 = \E[Y_i]
-\]</span> <span class="math inline">\(\theta_0\)</span> uniquely determined as the above function of the distribution of the data</p>
-</div>
-</section>
-<section id="another-view-of-identification" class="slide level4">
-<h4>Another View of Identification</h4>
-<span class="highlight">Equivalent</span> way to state definition of identification
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p><span class="math inline">\(\theta_0\)</span> is identified if for any <span class="math inline">\(\theta\neq\theta_0\)</span> it holds that <span class="math display">\[
-F_Y(y|\theta) \neq F_Y(y|\theta_0)
+<section id="loss-and-risk-1" class="slide level4">
+<h4>Loss and Risk</h4>
+<p>Quality of prediction measured with <em>risk</em> function</p>
+Let <span class="math inline">\(h(\bX)\)</span> be a prediction of <span class="math inline">\(Y\)</span> given <span class="math inline">\(\bX\)</span> (<span class="highlight">hypothesis</span>)
+<div class="rounded-box">
+<div id="def-pac-risk" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 1</strong></span> Let the <span class="highlight">loss function </span><span class="math inline">\(l(y, \hat{y})\)</span> satisfy <span class="math inline">\(l(y, \hat{y})\geq 0\)</span> and <span class="math inline">\(l(y, y)=0\)</span> for all <span class="math inline">\(y, \hat{y}\)</span>.</p>
+<p>The <span class="highlight">risk function</span> of the hypothesis (prediction) <span class="math inline">\(h(\cdot)\)</span> is the expected loss: <span class="math display">\[
+R(h(\cdot)) = \E_{(Y, \bX)}\left[ l(Y, h(\bX))  \right]
 \]</span></p>
 </div>
-<p><br></p>
-<p>In words: different <span class="math inline">\(\theta\)</span> give different distributions of observed data</p>
-</section>
-<section id="visual-example-difference-in-distributions" class="slide level4">
-<h4>Visual Example: Difference in Distributions</h4>
-<div id="b155cc63" class="cell" data-execution_count="2">
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="identification-inference_files/figure-revealjs/cell-3-output-1.png" width="1245" height="576"></p>
-</figure>
-</div>
-</div>
 </div>
 </section>
-<section id="example-of-non-identification" class="slide level4">
-<h4>Example of Non-Identification</h4>
-<p>Second definition useful for showing <span class="highlight">non-identification</span></p>
-<div class="fragment">
-<p><br></p>
-<p>An example: suppose that <span class="math inline">\(Y_i \sim N(\abs{\theta_0}, 1)\)</span>:</p>
+<section id="examples-of-risk-functions" class="slide level4">
+<h4>Examples of Risk Functions</h4>
 <ul>
-<li class="fragment">If <span class="math inline">\(\theta = 1\)</span>, then <span class="math inline">\(Y_i\)</span> should be <span class="math inline">\(N(1, 1)\)</span></li>
-<li class="fragment">If <span class="math inline">\(\theta = -1\)</span>, then <span class="math inline">\(Y_i\)</span> should also be <span class="math inline">\(N(1, 1)\)</span></li>
+<li class="fragment">Indicator risk: <span class="math inline">\(\E[\I\curl{Y\neq h(\bX)}]\)</span>
+<ul>
+<li class="fragment">Most common in <em>classification</em></li>
+<li class="fragment">Same price for any kind of error</li>
+</ul></li>
+<li class="fragment">Mean squared error <span class="math inline">\(\E[(Y - h(\bX))^2]\)</span> and mean absolute error <span class="math inline">\(\E[\abs{Y- h(\bX)}]\)</span></li>
+<li class="fragment">Asymmetric risks such as linex: <span class="math inline">\(\E[\exp(\alpha[Y-h(\bX)]) - \alpha[Y-h(\bX)]-1]\)</span> for <span class="math inline">\(\alpha\in \R\)</span>
+<ul>
+<li class="fragment">If <span class="math inline">\(\alpha&gt;0\)</span>, punishes overprediction more than underprediction</li>
+</ul></li>
 </ul>
-</div>
-<div class="fragment">
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p>Different <span class="math inline">\(\theta\)</span> give the same distribution = <span class="math inline">\(\theta_0\)</span> not identified if <span class="math inline">\(\theta_0\neq 0\)</span></p>
-</div>
-</div>
 </section>
-<section id="visual-illustration-same-distribution" class="slide level4">
-<h4>Visual Illustration: Same Distribution</h4>
-<div id="e9b1b263" class="cell" data-execution_count="3">
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="identification-inference_files/figure-revealjs/cell-4-output-1.png" width="1245" height="576"></p>
-</figure>
+<section id="interpretation-generalization-error" class="slide level4">
+<h4>Interpretation: Generalization Error</h4>
+<div class="rounded-box">
+<p>Risk measures how well the hypothesis <span class="math inline">\(h\)</span> performs on unseen data — <span class="highlight">generalization error</span></p>
 </div>
-</div>
+<p>Example: indicator risk: <span class="math display">\[
+\E[\I\curl{Y\neq h(\bX)}] = P(Y\neq h(\bX))
+\]</span> Probability of incorrectly predicting <span class="math inline">\(Y\)</span> with <span class="math inline">\(h(\bX)\)</span> — where <span class="math inline">\(Y\)</span> and <span class="math inline">\(\bX\)</span> are a new observation</p>
+</section>
+<section id="choosing-a-risk-function" class="slide level4">
+<h4>Choosing a Risk Function</h4>
+<p>Risk function</p>
+<ul>
+<li class="fragment">Key metric of interest</li>
+<li class="fragment">Reflects what is directly important in your context:
+<ul>
+<li class="fragment">Impact of new policy on revenue</li>
+<li class="fragment">Diagnosing cancer correctly</li>
+<li class="fragment">Flagging fraud</li>
+</ul></li>
+<li class="fragment"><span class="math inline">\(\Rightarrow\)</span> choice of risk function — not a statistical question, but question of context</li>
+</ul>
+<div class="footer">
+<p>Risk is not necessarily the criterion function used for estimation</p>
 </div>
 </section>
 
-<section id="identification-in-linear-model-with-exogeneity" class="title-slide slide level3 center" data-background="#43464B">
-<h3>Identification in Linear Model with Exogeneity</h3>
+<section id="empirical-risk-and-hypotheses" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Empirical Risk and Hypotheses</h3>
 
 </section>
-<section id="towards-a-more-complex-example" class="slide level4">
-<h4>Towards a More Complex Example</h4>
-<p>Previous example — a bit simplistic</p>
+<section id="challenges-in-choosing-hcdot" class="slide level4">
+<h4>Challenges in Choosing <span class="math inline">\(h(\cdot)\)</span></h4>
+<p>Ideally want to choose <em>best</em> possible <span class="math inline">\(h(\cdot)\)</span>: <span id="eq-el-opt-h"><span class="math display">\[ \small
+h(\cdot) \in \argmin_{h} R(h(\cdot))
+\tag{1}\]</span></span> But <span class="highlight">challenges</span>:</p>
+<ol type="1">
+<li class="fragment">Don’t know <span class="math inline">\(R(\cdot)\)</span> — it depends on the <span class="highlight">true population distribution</span> of data</li>
+<li class="fragment">Sample versions of <span class="math inline">\(R(\cdot)\)</span> may be hard to minimize</li>
+<li class="fragment">Can’t practically minimize over the class of <span class="highlight">all functions</span></li>
+</ol>
+</section>
+<section id="empirical-risk" class="slide level4">
+<h4>Empirical Risk</h4>
+<p>Sample version of risk — <span class="highlight"> empirical risk </span>: <span class="math display">\[ \small
+\hat{R}_N = \E_N\left[l(Y, h(\bX)) \right] = \dfrac{1}{N}\sum_{i=1}^N l(Y_i, h(\bX_i)).
+\]</span> Average over sample <span class="math inline">\(S = \curl{(Y_1, \bX_1), \dots, (Y_N, \bX_N)}\)</span></p>
+<p><br></p>
+<div class="fragment">
+<p>Minimizing <span class="math inline">\(\hat{R}_N\)</span> — <span class="highlight">empirical risk minimization</span> (ERM): <span class="math display">\[ \small
+\hat{h}^{ERM}_S \in \argmin_{h} \hat{R}_N(h(\cdot))
+\]</span></p>
+</div>
+</section>
+<section id="surrogate-losses" class="slide level4">
+<h4>Surrogate Losses</h4>
 <ul>
-<li class="fragment">No causal framework</li>
-<li class="fragment">Everything is determined by <span class="math inline">\(\theta\)</span></li>
+<li class="fragment">ERM good: connected to minimizing actual risk</li>
+<li class="fragment">But sometimes ERM computationally infeasible</li>
+<li class="fragment">Solution: minimize some easier “surrogate” objective to find <span class="math inline">\(\hat{h}(\cdot)\)</span></li>
 </ul>
 <div class="fragment">
 <p><br></p>
-<p>Let’s try a more useful case — a linear causal model</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>Quality of <span class="math inline">\(\hat{h}(\cdot)\)</span> evaluated in terms of actual risk regardless</p>
+</div>
+</div>
+</div>
 </div>
 </section>
-<section id="setting-potential-outcomes" class="slide level4">
-<h4>Setting: Potential Outcomes</h4>
-<div class="callout callout-important no-icon callout-style-simple">
+<section id="example-logit-and-surrogate-objective" class="slide level4">
+<h4>Example: Logit and Surrogate Objective</h4>
+<p>Example: binary classification (<span class="math inline">\(Y=0, 1\)</span>)</p>
+<ul>
+<li class="fragment">Empirical indicator risk — often not continuous</li>
+<li class="fragment">But can specify (pseudo)-likelihood like logit/probit: likelihood of sample under certain distributions</li>
+<li class="fragment">These likelihoods often differentiable and concave = easy to optimize</li>
+</ul>
+<div class="fragment">
+<div class="callout callout-note no-icon callout-style-simple">
 <div class="callout-body">
 <div class="callout-content">
-<p>Need a causal framework to talk about causal effects!</p>
+<p>In prediction, using maximum likelihood does not mean that you believe it. Hypothesis quality checked using the actual risk — probability of predicting <span class="math inline">\(Y\)</span> incorrectly</p>
 </div>
 </div>
 </div>
+</div>
+</section>
+<section id="issue-with-minimizing-over-all-functions" class="slide level4">
+<h4>Issue with Minimizing Over All Functions</h4>
+<p>Minimization in <a href="#/eq-el-opt-h" class="quarto-xref">Equation&nbsp;1</a> — over <span class="highlight"> all </span> <span class="math inline">\(h\)</span> such that the risk makes sense</p>
 <div class="fragment">
-<p>Work in the familiar potential outcomes framework:</p>
+<p><br></p>
+<p><span class="highlight">Issues</span>:</p>
 <ul>
-<li class="fragment">Unit <span class="math inline">\(i\)</span> has some unobserved characteristic <span class="math inline">\(U_i\)</span></li>
-<li class="fragment">There is some “treatment” <span class="math inline">\(\bX_i\)</span> (discrete or continuous)</li>
-<li class="fragment">For each possible value <span class="math inline">\(\bx\)</span> of <span class="math inline">\(\bX_i\)</span> the outcome of <span class="math inline">\(i\)</span> would be <span class="math display">\[
-Y^{\bx}_i = \bx'\bbeta + U_i
-\]</span></li>
-<li class="fragment">Units are identically distributed</li>
+<li class="fragment">Computation: usually cannot search though such a large class</li>
+<li class="fragment">Theoretical: can <span class="highlight">overfit</span>: fit the sample too well, generalize to unseen data poorly (more on that later)</li>
 </ul>
 </div>
 </section>
-<section id="family-of-potential-outcomes-and-observed-data" class="slide level4">
-<h4>Family of Potential Outcomes and Observed Data</h4>
-<p>Together potential outcomes form a family <span class="math inline">\(\curl{Y^{\bx}_i}_{\bx}\)</span></p>
+<section id="hypothesis-classes" class="slide level4">
+<h4>Hypothesis Classes</h4>
+<p>Solution: look for <span class="math inline">\(h\)</span> in some <span class="highlight"> hypothesis class </span> <span class="math inline">\(\Hcal\)</span></p>
 <div class="fragment">
-<p><br></p>
-<p>What we see: realized values of <span class="math inline">\((Y_i, \bX_i)\)</span>. The realized outcomes are determined as <span class="math display">\[
-Y_i = Y^{\bX_i}_i
+<p>Then ERM: <span class="math display">\[
+\hat{h}_N^{ERM} \in \argmin_{h\in\Hcal} \hat{R}_N(h)
 \]</span></p>
-<p><br></p>
-<p>All other potential outcomes remain <span class="highlight">counterfactual</span></p>
+<div title="Careful with terminology">
+<div class="callout callout-caution callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-</section>
-<section id="sutva" class="slide level4">
-<h4>SUTVA</h4>
-<p>In this class we will assume:</p>
-<p><br></p>
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p>Potential outcomes of unit <span class="math inline">\(i\)</span> depend only on the treatment of unit <span class="math inline">\(i\)</span></p>
+<p><strong>Careful with terminology</strong></p>
 </div>
-<div class="fragment">
-<p><br></p>
-<p>Called the <span class="highlight">stable unit treatment value assumption</span> (SUTVA) — no interference, no general equilibrium effects, etc.</p>
+<div class="callout-content">
+<p>“Hypothesis” in ML — basically a model with specific coefficients.</p>
+<p>Do not confuse with hypotheses in inference</p>
 </div>
-</section>
-<section id="causal-effects-and-parameter-of-interest" class="slide level4">
-<h4>Causal Effects and Parameter of Interest</h4>
-<p>Model: <span class="math display">\[
-Y^{\bx}_i = \bx'\bbeta + U_i
-\]</span> Note: <span class="math inline">\(U_i\)</span> does not depend on <span class="math inline">\(\bx\)</span></p>
-<div class="fragment">
-<p><br></p>
-<p>Causal effect of changing unit <span class="math inline">\(i\)</span> from <span class="math inline">\(\bx_1\)</span> to <span class="math inline">\(\bx_2\)</span> given by <span class="math inline">\((\bx_1-\bx_2)'\bbeta\)</span>. Thus:</p>
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p>Sufficient to learn <span class="math inline">\(\bbeta\)</span></p>
+</div>
+</div>
 </div>
 </div>
 </section>
-<section id="model-is-not-fully-parametric" class="slide level4">
-<h4>Model Is Not Fully Parametric</h4>
-<p>Our assumptions do not fully specify</p>
+<section id="examples-of-hypothesis-classes" class="slide level4">
+<h4>Examples of Hypothesis Classes</h4>
+<p>Popular class: linear predictors/classifiers</p>
 <ul>
-<li class="fragment">Distribution of <span class="math inline">\(\bX_i\)</span></li>
-<li class="fragment">Distribution of <span class="math inline">\(U_i\)</span></li>
+<li class="fragment"><p>Regression context <span class="math display">\[ \small
+\Hcal= \curl{h(\bx)=\varphi(\bx)'\bbeta: \bbeta\in \R^{\dim(\varphi(\bx))} }
+\]</span></p></li>
+<li class="fragment"><p>Classification context: <span class="math display">\[ \small
+\Hcal = \curl{h(\bx) = \I\curl{\varphi(\bx)'\bbeta \geq 0}: \bbeta\in \R^{\dim(\varphi(\bx))}  }
+\]</span></p></li>
 </ul>
-<div class="fragment">
-<p><br></p>
-<p>To identify those, we need <span class="math inline">\(F_{\bX, Y}\)</span> and (for distribution of <span class="math inline">\(U_i\)</span>) also <span class="math inline">\(\bbeta\)</span></p>
-</div>
-</section>
-<section id="identifying-bbeta" class="slide level4">
-<h4>Identifying <span class="math inline">\(\bbeta\)</span></h4>
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<div id="prp-vector-id-linear" class="theorem proposition">
-<p><span class="theorem-title"><strong>Proposition 1</strong></span> Let</p>
-<div>
-<ul>
-<li><span class="math inline">\(\E[\bX_i\bX_i']\)</span> be invertible</li>
-<li><span class="math inline">\(\E[\bX_iU_i]=0\)</span></li>
-</ul>
-</div>
-<p>Then <span class="math inline">\(\bbeta\)</span> is identified as <span class="math display">\[
-\bbeta = \E[\bX_i\bX_i']^{-1}\E[\bX_iY_i]
-\]</span></p>
-</div>
-</div>
-<p>Proof by considering <span class="math inline">\(\E[\bX_iY_i]\)</span></p>
-</section>
-<section id="discussion" class="slide level4">
-<h4>Discussion</h4>
-<p>Two key assumptions:</p>
-<ul>
-<li class="fragment">Invertibility of <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is a <span class="highlight">variability</span> condition (why?)</li>
-<li class="fragment"><span class="math inline">\(\E[\bX_iU_i]=0\)</span> is an <span class="highlight">exogeneity</span> condition</li>
-</ul>
-<div class="fragment">
-<p>Together:</p>
-<ul>
-<li class="fragment"><em>Identification strategy</em> means a collection of assumptions that yield identification</li>
-<li class="fragment"><a href="#/prp-vector-id-linear" class="quarto-xref">Proposition&nbsp;1</a> — example of <em>constructive</em> identification: expressing <span class="math inline">\(\bbeta\)</span> as a function of <span class="math inline">\(F_{\bX, Y}\)</span></li>
-</ul>
-</div>
-</section>
-<section id="broader-identification-discussion" class="slide level4">
-<h4>Broader Identification Discussion</h4>
-<p>Identification — fundamentally theoretical exercise, always rests on assumptions</p>
-<div class="fragment">
-<p><br></p>
-<p>Some other approaches:</p>
-<ol type="1">
-<li class="fragment">Sometimes only non-constructive identification known</li>
-<li class="fragment"><span class="citation" data-cites="Wooldridge2020IntroductoryEconometricsModern">Wooldridge (<a href="#/references-1" role="doc-biblioref" onclick="">2020</a>)</span> defines <span class="math inline">\(\theta\)</span> to be identified if it can be identified consistently — useful for showing identification of the limit</li>
-</ol>
-</div>
-</section>
-</section>
-<section>
-<section id="estimation-and-inference" class="title-slide slide level2 center" data-background="#00100F">
-<h2>Estimation and Inference</h2>
+<p><span class="math inline">\(\varphi(\bx)\)</span> — some <span class="highlight">known</span> transformation of predictors</p>
+<div class="footer">
 
+</div>
 </section>
-<section id="estimators-and-goal-of-estimation" class="slide level4">
-<h4>Estimators and Goal of Estimation</h4>
-<p>Let <span class="math inline">\(\theta\)</span> be a parameter of interest and <span class="math inline">\((X_1, \dots, X_N)\)</span> be the available data — the sample</p>
+<section id="example-of-erm-linear-regression-i" class="slide level4">
+<h4>Example of ERM: Linear Regression I</h4>
+<p>Already know an example of ERM with specific hypothesis class — <span class="highlight"> linear regression </span></p>
 <div class="fragment">
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<div id="def-vector-id-estimator" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 1</strong></span> Let <span class="math inline">\(\theta\)</span> belong to some space <span class="math inline">\(\S\)</span>. An estimator <span class="math inline">\(\hat{\theta}_N\)</span> is a function from <span class="math inline">\((X_1, \dots, X_N)\)</span> to <span class="math inline">\(\S\)</span>: <span class="math display">\[
-\hat{\theta}_N = g(X_1, \dots, X_n)
-\]</span></p>
-</div>
-</div>
+<p><br></p>
+<p>Problem elements:</p>
 <ul>
-<li class="fragment">Anything you can compute on the data is an estimator</li>
-<li class="fragment">Try to find estimators with good properties</li>
+<li class="fragment">Risk — mean squared error</li>
+<li class="fragment">Hypothesis class <span class="math inline">\(\Hcal\)</span>: linear combinations of <span class="math inline">\(\bX\)</span> of form <span class="math inline">\(h(\bx)=\bx'\bbeta\)</span></li>
+<li class="fragment">Assume <span class="math inline">\(\bX'\bX\)</span> invertible</li>
 </ul>
 </div>
 </section>
-<section id="inference" class="slide level4">
-<h4>Inference</h4>
-<div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
-<p>Inference is about answering questions about the population based on the finite sample</p>
+<section id="example-of-erm-linear-regression-ii" class="slide level4">
+<h4>Example of ERM: Linear Regression II</h4>
+<p>Empirical risk minimizer: <span class="math display">\[
+\begin{aligned}
+\hat{h}(\bx) &amp; = \bx'\hat{\bbeta}, \\
+\hat{\bbeta} &amp; = \argmin_{\bb} \dfrac{1}{N}\sum_{i=1}^N (Y_i - \bX_i'\bb)^2 = (\bX'\bX)^{-1}\bX'\bY
+\end{aligned}
+\]</span></p>
+<ul>
+<li class="fragment">Optimizing over <span class="math inline">\(\Hcal\)</span> — same as optimizing over <span class="math inline">\(\bb\)</span></li>
+<li class="fragment">OLS — example of ERM procedure</li>
+</ul>
+</section>
+<section id="inductive-bias" class="slide level4">
+<h4>Inductive Bias</h4>
+<p>Choice of <span class="math inline">\(\Hcal\)</span> part of choice of <span class="highlight"> inductive bias </span></p>
+<div class="rounded-box">
+<div id="def-pac-ind-bias" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 2</strong></span> Inductive bias is the set of assumptions that the learning algorithm uses to generalize to unseen data</p>
+</div>
 </div>
 <div class="fragment">
-<p>Example questions:</p>
-<ol type="1">
-<li class="fragment">How sure are we that <span class="math inline">\(\hat{\theta}_N\)</span> is close to <span class="math inline">\(\theta\)</span>?</li>
-<li class="fragment">Does <span class="math inline">\(\theta\)</span> satisfy some constraints (equal to 0, positive, etc)?</li>
-<li class="fragment">Do our identification assumptions hold? (e.g.&nbsp;is <span class="math inline">\(\E[\bx_i\bx_i']\)</span> invertible?)</li>
-</ol>
-<p>Relevant both in causal and predictive settings</p>
+<p>Examples:</p>
+<ul>
+<li class="fragment">Family of functions linking <span class="math inline">\(\bX\)</span> and <span class="math inline">\(Y\)</span> (e.g.&nbsp;linear in <span class="math inline">\(\varphi(\bX)\)</span>)</li>
+<li class="fragment">Or: value of <span class="math inline">\(Y\)</span> nearly constant in small neighborhoods (as used by <span class="math inline">\(k\)</span>-nearest neighbors regressors and classifiers)</li>
+</ul>
 </div>
-</section></section>
+</section>
+</section>
 <section>
 <section id="recap-and-conclusions" class="title-slide slide level2 center" data-background="#00100F">
 <h2>Recap and Conclusions</h2>
@@ -973,43 +811,36 @@ Y^{\bx}_i = \bx'\bbeta + U_i
 </section>
 <section id="recap" class="slide level4">
 <h4>Recap</h4>
+<p><br></p>
 <p>In this lecture we</p>
 <ol type="1">
-<li class="fragment">Discussed the difference between identification, estimation, and inference</li>
-<li class="fragment">Saw definitions of identification</li>
-<li class="fragment">Reviewed potential outcomes</li>
-<li class="fragment">Discussed identification in the linear model under exogeneity</li>
+<li class="fragment">Introduction</li>
 </ol>
 </section>
 <section id="next-questions" class="slide level4">
 <h4>Next Questions</h4>
+<p><br></p>
 <ul>
-<li class="fragment">Linear model: inference on <span class="math inline">\(\bbeta\)</span> based on the OLS estimator
-<ul>
-<li class="fragment">Quantifying uncertainty</li>
-<li class="fragment">Hypothesis testing</li>
-</ul></li>
-<li class="fragment">Identification in various settings: IV, panel, nonlinear, etc.</li>
+<li class="fragment">What<br>
+</li>
+<li class="fragment">How do you estimate the risk of the chosen hypothesis?</li>
 </ul>
 </section>
 <section id="references-1" class="slide level4 allowframebreaks smaller scrollable" data-visibility="uncounted">
 <h4>References</h4>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-Cunningham2021CausalInferenceMixtape" class="csl-entry" role="listitem">
-Cunningham, Scott. 2021. <em>Causal <span>Inference</span>: <span>The Mixtape</span></em>. Yale University Press. <a href="https://doi.org/10.2307/j.ctv1c29t27">https://doi.org/10.2307/j.ctv1c29t27</a>.
+<div id="ref-James2023IntroductionStatisticalLearning" class="csl-entry" role="listitem">
+James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, and Jonathan E. Taylor. 2023. <em>An <span>Introduction</span> to <span>Statistical Learning</span>: <span>With Applications</span> in <span>Python</span></em>. Springer Texts in Statistics. Cham: Springer.
 </div>
-<div id="ref-Hansen2022Econometrics" class="csl-entry" role="listitem">
-Hansen, Bruce. 2022. <em>Econometrics</em>. Princeton_University_Press.
+<div id="ref-Mohri2018FoundationsMachineLearning" class="csl-entry" role="listitem">
+Mohri, Mehryar, Afshin Rostamizadeh, and Ameet Talwalkar. 2018. <em>Foundations of <span>Machine Learning</span></em>. The MIT Press. <a href="https://doi.org/10.5555/3360093">https://doi.org/10.5555/3360093</a>.
 </div>
-<div id="ref-Huntington-Klein2025EffectIntroductionResearch" class="csl-entry" role="listitem">
-Huntington-Klein, Nick. 2025. <em>The <span>Effect</span>: <span>An Introduction</span> to <span>Research Design</span> and <span>Causality</span></em>. S.l.: <span>Chapman and Hall/CRC</span>.
+<div id="ref-Shalev-Shwartz2014UnderstandingMachineLearning" class="csl-entry" role="listitem">
+Shalev-Shwartz, Shai, and Shai Ben-David. 2014. <em>Understanding <span>Machine Learning</span></em>. 1st ed. West Nyack: Cambridge University Press.
 </div>
-<div id="ref-Lewbel2019IdentificationZooMeanings" class="csl-entry" role="listitem">
-Lewbel, Arthur. 2019. <span>“The <span>Identification Zoo</span>: <span>Meanings</span> of <span>Identification</span> in <span>Econometrics</span>.”</span> <em>Journal of Economic Literature</em> 57 (4): 835–903. <a href="https://doi.org/10.1257/jel.20181361">https://doi.org/10.1257/jel.20181361</a>.
 </div>
-<div id="ref-Wooldridge2020IntroductoryEconometricsModern" class="csl-entry" role="listitem">
-Wooldridge, Jeffrey M. 2020. <em>Introductory <span>Econometrics</span>: A <span>Modern Approach</span></em>. Seventh edition. Boston, MA: Cengage.
-</div>
+<div class="footer">
+
 </div>
 
 
@@ -1032,7 +863,7 @@ Wooldridge, Jeffrey M. 2020. <em>Introductory <span>Econometrics</span>: A <span
   <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="../../themes/favicon.ico" class="slide-logo"></p>
 <div class="footer footer-default">
-<p>Identification, Estimation, and Inference</p>
+<p>Risk and Hypothesis Classes</p>
 </div>
 </div></div>
 
