@@ -1,0 +1,392 @@
+---
+title: "Components of Learning"
+subtitle: "Risk and Hypothesis Classes"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="  (lecture notes slides)."/>
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Risk and Hypothesis Classes"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+open-graph:
+    description: " (lecture notes slides)."
+---
+
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture is 
+<br>
+
+By the end, you should be able to
+
+- Discuss  
+
+#### References
+
+<br>
+
+::: {.nonincremental}
+
+- Chapter 1-2 in @James2023IntroductionStatisticalLearning
+- Deep reading with details:
+    - PAC learning: chapter 3 @Shalev-Shwartz2014UnderstandingMachineLearning or chapter 2 in @Mohri2018FoundationsMachineLearning
+    - No-Free-Lunch theorem: chapter 5 in @Shalev-Shwartz2014UnderstandingMachineLearning
+
+:::  
+
+
+
+
+## Elements of a Learning Problem {background="#00100F"}
+  
+
+
+
+#### Setting
+
+Will work only in supervised setting in this course
+
+<br>
+
+. . .
+
+Setup: 
+
+- Sample of $N$ examples
+- All samples *labeled* with label $Y_i$
+- *Features* --- vector of $p$ explanatory variables $\bX_i$
+
+
+
+::: {.footer}
+
+Notice the vocabulary: ML vocabulary established and sometimes different from causal inference vocabulary
+
+:::
+
+### Loss and Risk {background="#43464B" visibility="uncounted"}
+
+
+#### Key Goal of Prediction
+
+
+<div class="rounded-box">
+
+Key goal of prediction --- predicting $Y$ "<span class="highlight">well</span>"
+
+</div>
+
+- Other aspects: scalability, computational efficiency, interpretability
+- Difference from causal inference: there interested in causal effect of some $X_{ij}$ on $Y_i$
+    1. Most important: correct identification
+    2. Only then efficiency/fit
+
+. . . 
+
+
+How to define "<span class="highlight">well</span>"?
+
+
+#### Loss and Risk
+
+Quality of prediction measured with *risk* function
+
+Let $h(\bX)$ be a prediction of $Y$ given $\bX$  (<span class="highlight">hypothesis</span>) 
+<div class="rounded-box">
+
+::: {#def-pac-risk}
+
+Let the <span class="highlight">loss function </span>$l(y, \hat{y})$ satisfy $l(y, \hat{y})\geq 0$ and $l(y, y)=0$ for all $y, \hat{y}$.
+
+
+The <span class="highlight">risk function</span> of the hypothesis (prediction) $h(\cdot)$ is the expected loss:
+$$
+R(h(\cdot)) = \E_{(Y, \bX)}\left[ l(Y, h(\bX))  \right]
+$$
+
+
+:::
+
+
+</div>
+
+
+
+
+#### Examples of Risk Functions
+
+- Indicator risk: $\E[\I\curl{Y\neq h(\bX)}]$
+    - Most common in *classification*
+    - Same price for any kind of error
+- Mean squared error $\E[(Y - h(\bX))^2]$ and mean absolute error $\E[\abs{Y- h(\bX)}]$
+- Asymmetric risks such as linex: $\E[\exp(\alpha[Y-h(\bX)]) - \alpha[Y-h(\bX)]-1]$ for $\alpha\in \R$
+    - If $\alpha>0$, punishes overprediction more than underprediction
+
+#### Interpretation: Generalization Error
+
+<div class="rounded-box">
+
+Risk measures how well the hypothesis $h$ performs on unseen data --- <span class="highlight">generalization error</span>  
+
+</div>
+
+Example: indicator risk:
+$$
+\E[\I\curl{Y\neq h(\bX)}] = P(Y\neq h(\bX))
+$$
+Probability of incorrectly predicting $Y$ with $h(\bX)$ --- where $Y$ and $\bX$ are a new observation
+
+#### Choosing a Risk Function
+
+Risk function
+
+- Key metric of interest
+- Reflects what is directly important in your context:
+    - Impact of new policy on revenue
+    - Diagnosing cancer correctly
+    - Flagging fraud
+- $\Rightarrow$ choice of risk function --- not a statistical question, but question of context
+
+
+::: {.footer}
+
+Risk is not necessarily the criterion function used for estimation
+
+:::
+ 
+
+
+### Empirical Risk and Hypotheses {background="#43464B" visibility="uncounted"}
+
+#### Challenges in Choosing $h(\cdot)$
+
+Ideally want to choose *best* possible $h(\cdot)$:
+$$ \small
+h(\cdot) \in \argmin_{h} R(h(\cdot))
+$$ {#eq-el-opt-h}
+But <span class="highlight">challenges</span>: 
+
+1. Don't know $R(\cdot)$ --- it depends on the <span class="highlight">true population distribution</span> of data
+2. Sample versions of $R(\cdot)$ may be hard to minimize 
+3. Can't practically minimize over the class of <span class="highlight">all functions</span>
+
+#### Empirical Risk
+
+Sample version of risk --- <span class="highlight"> empirical risk </span>:
+$$ \small
+\hat{R}_N = \E_N\left[l(Y, h(\bX)) \right] = \dfrac{1}{N}\sum_{i=1}^N l(Y_i, h(\bX_i)).
+$$
+Average over sample $S = \curl{(Y_1, \bX_1), \dots, (Y_N, \bX_N)}$
+
+<br>
+
+. . . 
+
+Minimizing $\hat{R}_N$ --- <span class="highlight">empirical risk minimization</span> (ERM):
+$$ \small
+\hat{h}^{ERM}_S \in \argmin_{h} \hat{R}_N(h(\cdot))
+$$
+
+
+#### Surrogate Losses
+
+- ERM good: connected to minimizing actual risk
+- But sometimes ERM computationally infeasible 
+- Solution: minimize some easier "surrogate" objective to find $\hat{h}(\cdot)$
+
+. . .
+
+<br>
+
+
+::: {.callout-important}
+
+Quality of $\hat{h}(\cdot)$ evaluated in terms of actual risk regardless
+
+
+::: 
+ 
+
+#### Example: Logit and Surrogate Objective
+
+
+Example: binary classification ($Y=0, 1$)
+
+- Empirical indicator risk --- often not continuous
+- But can specify (pseudo)-likelihood like logit/probit: likelihood of sample under certain distributions
+- These likelihoods often differentiable and concave = easy to optimize 
+
+. . .
+
+::: {.callout-note appearance="minimal"}
+
+In prediction, using maximum likelihood does not mean that you believe it. Hypothesis quality checked using the actual risk --- probability of predicting $Y$ incorrectly
+
+
+:::
+
+
+#### Issue with Minimizing Over All Functions
+
+Minimization in @eq-el-opt-h --- over <span class="highlight"> all </span> $h$ such that the risk makes sense
+
+. . . 
+
+<br> 
+
+<span class="highlight">Issues</span>: 
+
+- Computation: usually cannot search though such a large class
+- Theoretical: can <span class="highlight">overfit</span>: fit the sample too well, generalize to unseen data poorly (more on that later)
+
+#### Hypothesis Classes
+
+Solution: look for $h$ in some <span class="highlight"> hypothesis class </span> $\Hcal$
+
+. . .
+
+Then ERM:
+$$
+\hat{h}_N^{ERM} \in \argmin_{h\in\Hcal} \hat{R}_N(h)
+$$
+
+
+
+ 
+::: {.callout-caution title="Careful with terminology"}
+
+"Hypothesis" in ML --- basically a model with specific coefficients. 
+
+Do not confuse with hypotheses in inference
+
+:::
+
+ 
+
+#### Examples of Hypothesis Classes 
+
+Popular class: linear predictors/classifiers
+
+- Regression context 
+$$ \small 
+\Hcal= \curl{h(\bx)=\varphi(\bx)'\bbeta: \bbeta\in \R^{\dim(\varphi(\bx))} }
+$$
+
+- Classification context:
+$$ \small
+\Hcal = \curl{h(\bx) = \I\curl{\varphi(\bx)'\bbeta \geq 0}: \bbeta\in \R^{\dim(\varphi(\bx))}  }
+$$
+
+$\varphi(\bx)$ — some <span class="highlight">known</span> transformation of predictors
+
+::: {.footer}
+
+
+:::
+
+#### Example of ERM: Linear Regression I
+
+Already know an example of ERM with specific hypothesis class — <span class="highlight"> linear regression </span>
+
+. . .
+
+<br> 
+
+Problem elements:
+
+- Risk — mean squared error
+- Hypothesis class $\Hcal$: linear combinations of $\bX$ of form $h(\bx)=\bx'\bbeta$
+- Assume $\bX'\bX$ invertible
+
+
+#### Example of ERM: Linear Regression II
+
+Empirical risk minimizer:
+$$
+\begin{aligned}
+\hat{h}(\bx) & = \bx'\hat{\bbeta}, \\
+\hat{\bbeta} & = \argmin_{\bb} \dfrac{1}{N}\sum_{i=1}^N (Y_i - \bX_i'\bb)^2 = (\bX'\bX)^{-1}\bX'\bY
+\end{aligned}
+$$
+
+- Optimizing over $\Hcal$ — same as optimizing over $\bb$
+- OLS — example of ERM procedure
+
+
+#### Inductive Bias
+
+Choice of $\Hcal$  part of choice of <span class="highlight"> inductive bias </span>
+
+<div class="rounded-box">
+
+::: {#def-pac-ind-bias}
+
+Inductive bias is the set of assumptions that the learning algorithm uses to generalize to unseen data
+
+:::
+
+</div>
+
+. . . 
+
+Examples:
+
+- Family of functions linking $\bX$ and $Y$ (e.g. linear in $\varphi(\bX)$)
+- Or: value of $Y$ nearly constant in small neighborhoods (as used by $k$-nearest neighbors regressors and classifiers)
+ 
+
+## Recap and Conclusions {background="#00100F"}
+  
+#### Recap
+
+<br>
+
+In this lecture we
+
+1. Introduction
+
+#### Next Questions
+
+<br>
+
+- What  
+- How do you estimate the risk of the chosen hypothesis?
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
+
+::: footer
+
+:::
+
+ 

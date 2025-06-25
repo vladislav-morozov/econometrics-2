@@ -1,0 +1,217 @@
+---
+title: "Learning Framework, Limits and Trade-Offs"
+subtitle: "PAC Learning, Bias-Complexity Trade-Off, and the No Free Lunch Theorem"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="  (lecture notes slides)."/>
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "PAC Framework"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+open-graph:
+    description: " (lecture notes slides)."
+---
+
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture is 
+<br>
+
+By the end, you should be able to
+
+- Discuss  
+
+#### References
+
+<br>
+
+::: {.nonincremental}
+
+- Chapter 1-2 in @James2023IntroductionStatisticalLearning
+- Deep reading with details:
+    - PAC learning: chapter 3 @Shalev-Shwartz2014UnderstandingMachineLearning or chapter 2 in @Mohri2018FoundationsMachineLearning
+    - No-Free-Lunch theorem: chapter 5 in @Shalev-Shwartz2014UnderstandingMachineLearning
+
+:::  
+
+
+ 
+
+## Learning Framework {background="#00100F"}
+  
+### Generalization and Excess Error {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Algorithms
+ 
+Think in terms of learning algorithms:
+
+1. Algorithm sees sample $S=\curl{(Y_1, \bX_1), \dots, (Y_N, \bX_N)}$ and hypothesis class $\Hcal$
+2. Algorithm returns some $\hat{h}_{S}(\cdot)\in\Hcal$
+
+. . . 
+
+Example of learning algorithm: ERM
+
+ 
+. . . 
+
+<div class="rounded-box">
+
+Want algorithms that "tend to" return $\hat{h}_S(\cdot)$ with "low" $R(\hat{h}_S)$
+
+</div>
+ 
+
+#### Bayes Risk
+
+Special name for lowest possible risk:
+
+<div class="rounded-box">
+
+
+::: {#def-pac-bayes-risk}
+
+The <span class="highlight">Bayes risk</span> is defined as
+$$
+R^* = \inf R(h(\bX))
+$$
+across $h(\cdot)$ such that $R(h)$ makes sense
+
+:::
+
+</div> 
+Note: $R^*$ depends on the distribution of the data
+
+#### Examples of Bayes Risk: Independent Coin
+
+Let $Y=$ Heads or Tails of 50/50 coin
+
+- $\bX$ --- some variables that do not depend on $Y$
+- Risk --- indicator risk 
+
+. . .
+
+
+#### Examples of Bayes Risk: Linear Model
+
+True model 
+
+Example 2: 
+best you can do --- know actual $\beta$ (next lecture and exercise)
+
+But still
+
+
+#### Excess Error
+
+#### Bias-Complexity Trade-Off
+
+#### Bias-Complexity Trade-Off: Graphicall
+
+Image
+
+#### Approximation Error
+
+#### Estimation Error
+
+
+Controlled by the 
+
+- Learning algorithm
+- Size of the set
+
+#### PAC Framework I
+
+
+
+Want excess error to be small
+
+
+
+#### PAC Framework II 
+
+
+
+PAC-learning
+
+#### PAC: Discussion
+
+Agnostic
+
+####
+
+Excess risk
+
+#### No-Free Lunch
+
+Computational  
+
+####
+
+Some comments on theory: for some things we have useful and "informative" results (e.g. for linear regression, support vector machines, etc).
+
+For some other things we only have good approximation results, but results on estimation error not very informative, and the field moves forward  mostly empirical (deep learning)
+
+####
+
+
+- Negative log likelihood risk $-\E[\log p(Y, h(X))]$ where $p$ is like density/probability mass function
+    - Negative because want smaller risk but bigger likelihood
+
+
+## Recap and Conclusions {background="#00100F"}
+  
+#### Recap
+
+<br>
+
+In this lecture we
+
+1. Introduction
+
+#### Next Questions
+
+<br>
+
+- What  
+- How do you estimate the risk of the chosen hypothesis?
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
+
+::: footer
+
+:::
+
+ 
