@@ -58,7 +58,8 @@ website:
         - exercises/exercises-panel.qmd
       - section: "Prediction"
         contents:
-        - slides/prediction/intro-sl.qmd 
+        - slides/prediction/intro-sl.qmd
+        - slides/prediction/learning-elements.qmd 
 
 execute:
   freeze: auto  # re-render only when source changes

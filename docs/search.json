@@ -145,23 +145,57 @@
   {
     "objectID": "slides/prediction/learning-elements.html#introduction",
     "href": "slides/prediction/learning-elements.html#introduction",
-    "title": "Components of Learning",
+    "title": "Components of an ML Problem",
     "section": "Introduction",
-    "text": "Introduction"
+    "text": "Introduction",
+    "crumbs": [
+      "Prediction",
+      "Components of an ML Problem"
+    ]
   },
   {
-    "objectID": "slides/prediction/learning-elements.html#elements-of-a-learning-problem",
-    "href": "slides/prediction/learning-elements.html#elements-of-a-learning-problem",
-    "title": "Components of Learning",
-    "section": "Elements of a Learning Problem",
-    "text": "Elements of a Learning Problem"
+    "objectID": "slides/prediction/learning-elements.html#loss-and-risk",
+    "href": "slides/prediction/learning-elements.html#loss-and-risk",
+    "title": "Components of an ML Problem",
+    "section": "Loss and Risk",
+    "text": "Loss and Risk",
+    "crumbs": [
+      "Prediction",
+      "Components of an ML Problem"
+    ]
+  },
+  {
+    "objectID": "slides/prediction/learning-elements.html#empirical-risk-and-hypotheses",
+    "href": "slides/prediction/learning-elements.html#empirical-risk-and-hypotheses",
+    "title": "Components of an ML Problem",
+    "section": "Empirical Risk and Hypotheses",
+    "text": "Empirical Risk and Hypotheses",
+    "crumbs": [
+      "Prediction",
+      "Components of an ML Problem"
+    ]
+  },
+  {
+    "objectID": "slides/prediction/learning-elements.html#beyond-simple-erm",
+    "href": "slides/prediction/learning-elements.html#beyond-simple-erm",
+    "title": "Components of an ML Problem",
+    "section": "Beyond Simple ERM",
+    "text": "Beyond Simple ERM",
+    "crumbs": [
+      "Prediction",
+      "Components of an ML Problem"
+    ]
   },
   {
     "objectID": "slides/prediction/learning-elements.html#recap-and-conclusions",
     "href": "slides/prediction/learning-elements.html#recap-and-conclusions",
-    "title": "Components of Learning",
+    "title": "Components of an ML Problem",
     "section": "Recap and Conclusions",
-    "text": "Recap and Conclusions"
+    "text": "Recap and Conclusions",
+    "crumbs": [
+      "Prediction",
+      "Components of an ML Problem"
+    ]
   },
   {
     "objectID": "slides/panel/mean-group.html#introduction",
