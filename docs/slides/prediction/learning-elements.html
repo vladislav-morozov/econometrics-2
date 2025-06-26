@@ -479,9 +479,9 @@
     };
 
   </script>
-  <meta name="description" content="  (lecture notes slides).">
+  <meta name="description" content="Key components of a statistical/machine learning problem: loss, risk functions, empirical risk minimization, and hypothesis classes (lecture notes slides)">
 <meta property="og:title" content="Components of Learning – Advanced Econometrics">
-<meta property="og:description" content="(lecture notes slides).">
+<meta property="og:description" content="Key components of a statistical/machine learning problem: loss, risk functions, empirical risk minimization, and hypothesis classes (lecture notes slides)">
 <meta property="og:site_name" content="Advanced Econometrics">
 </head>
 <body class="quarto-light">
@@ -505,7 +505,9 @@ Vladislav Morozov
 <h2 id="toc-title">Contents</h2>
 <ul>
 <li class="fragment"><a href="#/introduction" id="/toc-introduction">Introduction</a></li>
-<li class="fragment"><a href="#/elements-of-a-learning-problem" id="/toc-elements-of-a-learning-problem">Elements of a Learning Problem</a></li>
+<li class="fragment"><a href="#/loss-and-risk" id="/toc-loss-and-risk">Loss and Risk</a></li>
+<li class="fragment"><a href="#/empirical-risk-and-hypotheses" id="/toc-empirical-risk-and-hypotheses">Empirical Risk and Hypotheses</a></li>
+<li class="fragment"><a href="#/beyond-simple-erm" id="/toc-beyond-simple-erm">Beyond Simple ERM</a></li>
 <li class="fragment"><a href="#/recap-and-conclusions" id="/toc-recap-and-conclusions">Recap and Conclusions</a></li>
 </ul>
 </nav>
@@ -521,11 +523,14 @@ Vladislav Morozov
 </section>
 <section id="learning-outcomes" class="slide level4">
 <h4>Learning Outcomes</h4>
-<p>This lecture is <br></p>
+<p>This lecture is about the key components of a prediction problem</p>
+<p><br></p>
 <p>By the end, you should be able to</p>
-<ul>
-<li class="fragment">Discuss</li>
-</ul>
+<ol type="1">
+<li class="fragment">Define loss and risk functions</li>
+<li class="fragment">View optimal prediction as a problem of generalization</li>
+<li class="fragment">Discuss practical issues arising during risk minimization (overfitting, computational challenges, etc)</li>
+</ol>
 </section>
 <section id="references" class="slide level4">
 <h4>References</h4>
@@ -533,21 +538,16 @@ Vladislav Morozov
 <div>
 <ul>
 <li>Chapter 1-2 in <span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2023</a>)</span></li>
-<li>Deep reading with details:
-<ul>
-<li>PAC learning: chapter 3 <span class="citation" data-cites="Shalev-Shwartz2014UnderstandingMachineLearning">Shalev-Shwartz and Ben-David (<a href="#/references-1" role="doc-biblioref" onclick="">2014</a>)</span> or chapter 2 in <span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri, Rostamizadeh, and Talwalkar (<a href="#/references-1" role="doc-biblioref" onclick="">2018</a>)</span></li>
-<li>No-Free-Lunch theorem: chapter 5 in <span class="citation" data-cites="Shalev-Shwartz2014UnderstandingMachineLearning">Shalev-Shwartz and Ben-David (<a href="#/references-1" role="doc-biblioref" onclick="">2014</a>)</span></li>
-</ul></li>
+<li>A bit deeper: chapter 2 in <span class="citation" data-cites="Shalev-Shwartz2014UnderstandingMachineLearning">Shalev-Shwartz and Ben-David (<a href="#/references-1" role="doc-biblioref" onclick="">2014</a>)</span></li>
 </ul>
 </div>
 </section>
-</section>
-<section>
-<section id="elements-of-a-learning-problem" class="title-slide slide level2 center" data-background="#00100F">
-<h2>Elements of a Learning Problem</h2>
+
+<section id="setting" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Setting</h3>
 
 </section>
-<section id="setting" class="slide level4">
+<section id="setting-1" class="slide level4">
 <h4>Setting</h4>
 <p>Will work only in supervised setting in this course</p>
 <p><br></p>
@@ -563,8 +563,23 @@ Vladislav Morozov
 </div>
 </div>
 </section>
-<section id="loss-and-risk" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
-<h3>Loss and Risk</h3>
+<section id="regression-and-classification" class="slide level4">
+<h4>Regression and Classification</h4>
+<p>Two main kinds of supervised problems:</p>
+<ol type="1">
+<li class="fragment">Regression: <span class="math inline">\(Y\)</span> continuous or close to it</li>
+<li class="fragment">Classification: finite set of values for <span class="math inline">\(Y\)</span>
+<ul>
+<li class="fragment">Values of <span class="math inline">\(Y\)</span> not necessarily ordered</li>
+<li class="fragment">E.g. binary classification: <span class="math inline">\(Y\)</span> can have two values (e.g.&nbsp;0 and 1)</li>
+<li class="fragment">Multiclass classification: <span class="math inline">\(Y\)</span> can have more than two values (e.g.&nbsp;“bus”, “train”, “plane”)</li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section>
+<section id="loss-and-risk" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Loss and Risk</h2>
 
 </section>
 <section id="key-goal-of-prediction" class="slide level4">
@@ -592,7 +607,7 @@ Let <span class="math inline">\(h(\bX)\)</span> be a prediction of <span class="
 <div id="def-pac-risk" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 1</strong></span> Let the <span class="highlight">loss function </span><span class="math inline">\(l(y, \hat{y})\)</span> satisfy <span class="math inline">\(l(y, \hat{y})\geq 0\)</span> and <span class="math inline">\(l(y, y)=0\)</span> for all <span class="math inline">\(y, \hat{y}\)</span>.</p>
 <p>The <span class="highlight">risk function</span> of the hypothesis (prediction) <span class="math inline">\(h(\cdot)\)</span> is the expected loss: <span class="math display">\[
-R(h(\cdot)) = \E_{(Y, \bX)}\left[ l(Y, h(\bX))  \right]
+R(h) = \E_{(Y, \bX)}\left[ l(Y, h(\bX))  \right]
 \]</span></p>
 </div>
 </div>
@@ -637,10 +652,10 @@ R(h(\cdot)) = \E_{(Y, \bX)}\left[ l(Y, h(\bX))  \right]
 <div class="footer">
 <p>Risk is not necessarily the criterion function used for estimation</p>
 </div>
-</section>
-
-<section id="empirical-risk-and-hypotheses" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
-<h3>Empirical Risk and Hypotheses</h3>
+</section></section>
+<section>
+<section id="empirical-risk-and-hypotheses" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Empirical Risk and Hypotheses</h2>
 
 </section>
 <section id="challenges-in-choosing-hcdot" class="slide level4">
@@ -650,63 +665,36 @@ h(\cdot) \in \argmin_{h} R(h(\cdot))
 \tag{1}\]</span></span> But <span class="highlight">challenges</span>:</p>
 <ol type="1">
 <li class="fragment">Don’t know <span class="math inline">\(R(\cdot)\)</span> — it depends on the <span class="highlight">true population distribution</span> of data</li>
-<li class="fragment">Sample versions of <span class="math inline">\(R(\cdot)\)</span> may be hard to minimize</li>
 <li class="fragment">Can’t practically minimize over the class of <span class="highlight">all functions</span></li>
 </ol>
 </section>
-<section id="empirical-risk" class="slide level4">
+<section id="empirical-risk" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Empirical Risk</h3>
+
+</section>
+<section id="empirical-risk-1" class="slide level4">
 <h4>Empirical Risk</h4>
+<p><br></p>
 <p>Sample version of risk — <span class="highlight"> empirical risk </span>: <span class="math display">\[ \small
-\hat{R}_N = \E_N\left[l(Y, h(\bX)) \right] = \dfrac{1}{N}\sum_{i=1}^N l(Y_i, h(\bX_i)).
+\hat{R}_N(h) =   \dfrac{1}{N}\sum_{i=1}^N l(Y_i, h(\bX_i)).
 \]</span> Average over sample <span class="math inline">\(S = \curl{(Y_1, \bX_1), \dots, (Y_N, \bX_N)}\)</span></p>
-<p><br></p>
-<div class="fragment">
+</section>
+<section id="empirical-risk-minimization" class="slide level4">
+<h4>Empirical Risk Minimization</h4>
 <p>Minimizing <span class="math inline">\(\hat{R}_N\)</span> — <span class="highlight">empirical risk minimization</span> (ERM): <span class="math display">\[ \small
-\hat{h}^{ERM}_S \in \argmin_{h} \hat{R}_N(h(\cdot))
+\hat{h}^{ERM}_S \in \argmin_{h} \hat{R}_N(h)
 \]</span></p>
-</div>
-</section>
-<section id="surrogate-losses" class="slide level4">
-<h4>Surrogate Losses</h4>
-<ul>
-<li class="fragment">ERM good: connected to minimizing actual risk</li>
-<li class="fragment">But sometimes ERM computationally infeasible</li>
-<li class="fragment">Solution: minimize some easier “surrogate” objective to find <span class="math inline">\(\hat{h}(\cdot)\)</span></li>
-</ul>
-<div class="fragment">
 <p><br></p>
-<div class="callout callout-important callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Important</strong></p>
-</div>
-<div class="callout-content">
-<p>Quality of <span class="math inline">\(\hat{h}(\cdot)\)</span> evaluated in terms of actual risk regardless</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section id="example-logit-and-surrogate-objective" class="slide level4">
-<h4>Example: Logit and Surrogate Objective</h4>
-<p>Example: binary classification (<span class="math inline">\(Y=0, 1\)</span>)</p>
 <ul>
-<li class="fragment">Empirical indicator risk — often not continuous</li>
-<li class="fragment">But can specify (pseudo)-likelihood like logit/probit: likelihood of sample under certain distributions</li>
-<li class="fragment">These likelihoods often differentiable and concave = easy to optimize</li>
+<li class="fragment">ERM — theoretically among the most central <span class="highlight">learning algorithms</span></li>
+<li class="fragment">Closely tied to the actual problem of interest</li>
+<li class="fragment">Sometimes computationally infeasible (more on that later)</li>
 </ul>
-<div class="fragment">
-<div class="callout callout-note no-icon callout-style-simple">
-<div class="callout-body">
-<div class="callout-content">
-<p>In prediction, using maximum likelihood does not mean that you believe it. Hypothesis quality checked using the actual risk — probability of predicting <span class="math inline">\(Y\)</span> incorrectly</p>
-</div>
-</div>
-</div>
-</div>
+</section>
+
+<section id="hypothesis-classes" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Hypothesis Classes</h3>
+
 </section>
 <section id="issue-with-minimizing-over-all-functions" class="slide level4">
 <h4>Issue with Minimizing Over All Functions</h4>
@@ -715,12 +703,12 @@ h(\cdot) \in \argmin_{h} R(h(\cdot))
 <p><br></p>
 <p><span class="highlight">Issues</span>:</p>
 <ul>
-<li class="fragment">Computation: usually cannot search though such a large class</li>
+<li class="fragment">Computation: usually cannot search through such a large class</li>
 <li class="fragment">Theoretical: can <span class="highlight">overfit</span>: fit the sample too well, generalize to unseen data poorly (more on that later)</li>
 </ul>
 </div>
 </section>
-<section id="hypothesis-classes" class="slide level4">
+<section id="hypothesis-classes-1" class="slide level4">
 <h4>Hypothesis Classes</h4>
 <p>Solution: look for <span class="math inline">\(h\)</span> in some <span class="highlight"> hypothesis class </span> <span class="math inline">\(\Hcal\)</span></p>
 <div class="fragment">
@@ -745,14 +733,14 @@ h(\cdot) \in \argmin_{h} R(h(\cdot))
 </div>
 </div>
 </section>
-<section id="examples-of-hypothesis-classes" class="slide level4">
-<h4>Examples of Hypothesis Classes</h4>
+<section id="examples-of-hypothesis-classes-i" class="slide level4">
+<h4>Examples of Hypothesis Classes I</h4>
 <p>Popular class: linear predictors/classifiers</p>
 <ul>
-<li class="fragment"><p>Regression context <span class="math display">\[ \small
+<li class="fragment"><p>Regression: <span class="math display">\[ \small
 \Hcal= \curl{h(\bx)=\varphi(\bx)'\bbeta: \bbeta\in \R^{\dim(\varphi(\bx))} }
 \]</span></p></li>
-<li class="fragment"><p>Classification context: <span class="math display">\[ \small
+<li class="fragment"><p>Binary classification: <span class="math display">\[ \small
 \Hcal = \curl{h(\bx) = \I\curl{\varphi(\bx)'\bbeta \geq 0}: \bbeta\in \R^{\dim(\varphi(\bx))}  }
 \]</span></p></li>
 </ul>
@@ -789,7 +777,7 @@ h(\cdot) \in \argmin_{h} R(h(\cdot))
 </section>
 <section id="inductive-bias" class="slide level4">
 <h4>Inductive Bias</h4>
-<p>Choice of <span class="math inline">\(\Hcal\)</span> part of choice of <span class="highlight"> inductive bias </span></p>
+<p>Choice of <span class="math inline">\(\Hcal\)</span> — part of choice of <span class="highlight"> inductive bias </span></p>
 <div class="rounded-box">
 <div id="def-pac-ind-bias" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 2</strong></span> Inductive bias is the set of assumptions that the learning algorithm uses to generalize to unseen data</p>
@@ -803,6 +791,224 @@ h(\cdot) \in \argmin_{h} R(h(\cdot))
 </ul>
 </div>
 </section>
+<section id="examples-of-hypothesis-classes-ii-trees-i" class="slide level4">
+<h4>Examples of Hypothesis Classes II: Trees I</h4>
+<p>Another approach taken by <span class="highlight"> decision trees </span></p>
+<p><br></p>
+<p>Trees:</p>
+<ul>
+<li class="fragment">Divide predictor space into regions</li>
+<li class="fragment">Predict the same value for all values in a region</li>
+<li class="fragment">Divisions computed using recursive binary splitting</li>
+</ul>
+<div class="fragment">
+<p>Can use both for regression and classification</p>
+</div>
+</section>
+<section id="examples-of-hypothesis-classes-ii-trees-ii" class="slide level4">
+<h4>Examples of Hypothesis Classes II: Trees II</h4>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<ul>
+<li class="fragment">Split the predictor space one variable at a time</li>
+<li class="fragment">Return same value on each rectangle <span class="math inline">\(R_k\)</span></li>
+</ul>
+</div><div class="column" style="width:70%;">
+<p><img data-src="../..\images/pred/reg-tree.png"></p>
+</div></div>
+<div class="footer">
+<p>Illustration: figure 8.3 in <span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2023</a>)</span></p>
+</div>
+</section>
+</section>
+<section>
+<section id="beyond-simple-erm" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Beyond Simple ERM</h2>
+
+</section>
+<section id="challenges-with-erm" class="slide level4">
+<h4>Challenges with ERM</h4>
+<p>ERM over <span class="math inline">\(\Hcal\)</span> <span class="math display">\[ \small
+\hat{h}^{ERM}_S \in \argmin_{h \in \Hcal} \hat{R}_N(h)
+\]</span></p>
+<p>Can still have some challenges:</p>
+<ul>
+<li class="fragment">We may want to make minimization prefer some <span class="math inline">\(h\)</span> over others in <span class="math inline">\(\Hcal\)</span></li>
+<li class="fragment">ERM may be computationally infeasible</li>
+</ul>
+</section>
+<section id="penalties" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Penalties</h3>
+
+</section>
+<section id="why-prefer-simpler-models" class="slide level4">
+<h4>Why Prefer Simpler Models?</h4>
+<ul>
+<li class="fragment">Philosophically: Occam’s razor</li>
+<li class="fragment">Practically: <span class="highlight">overfitting</span>
+<ul>
+<li class="fragment">A more complex hypothesis can fit training data better</li>
+<li class="fragment">But may fit the data too closely — algorithm starts to learn noise together with data</li>
+<li class="fragment">Learning noise — unhelpful for generalization</li>
+</ul></li>
+</ul>
+<div class="footer">
+<p>Story with overfitting is more complicated thanks to “double descent”, seen especially in deep learning</p>
+</div>
+</section>
+<section id="overfitting-visual-example" class="slide level4">
+<h4>Overfitting: Visual Example</h4>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p>Visual example — binary classification (red, blue) with two features</p>
+<ul>
+<li class="fragment">Outlined dots — unseen</li>
+<li class="fragment">Green — complex hypothesis, perfect on training sample</li>
+<li class="fragment">Black line — less complex</li>
+<li class="fragment">Green line generalizes worse than black (more errors on unseen points)</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<p><img data-src="https://upload.wikimedia.org/wikipedia/commons/1/19/Overfitting.svg"></p>
+</div></div>
+<div class="footer">
+<p>Image from <a href="https://en.wikipedia.org/wiki/File:Overfitting.svg">Wikipedia</a></p>
+</div>
+</section>
+<section id="motivational-example" class="slide level4">
+<h4>Motivational Example</h4>
+<p>Suppose: <span class="math inline">\(X\)</span> scalar, <span class="math inline">\(\Hcal\)</span> — polynomials up to 10th degree <span class="math display">\[ \small
+\Hcal= \curl{h(x) = \sum_{k=0}^{10} \beta_k x^k, \beta\in \R^{11} }
+\]</span></p>
+<ul>
+<li class="fragment">Higher degree — more complicated explanation</li>
+<li class="fragment">Occam’s razor — prefer simpler explanation</li>
+</ul>
+<div class="fragment">
+<div class="rounded-box">
+<p>How to prefer simpler explanations with ERM?</p>
+</div>
+</div>
+</section>
+<section id="penalties-regularization" class="slide level4">
+<h4>Penalties: Regularization</h4>
+<p>General answer</p>
+<ul>
+<li class="fragment">Create some positive measure of complexity <span class="math inline">\(\Pcal(h)\)</span></li>
+<li class="fragment">Add to empirical risk as a <span class="highlight"> regularization </span> (penalty) term</li>
+</ul>
+<div class="fragment">
+<p><span id="eq-pred-penalized-erm"><span class="math display">\[ \small
+\hat{h}\in\argmin_{h\in\Hcal} \hat{R}_N(h)  + \lambda \Pcal(h)
+\tag{2}\]</span></span></p>
+<p><span class="math inline">\(\lambda\geq 0\)</span> — fixed penalty parameter, controls balance between penalty and risk</p>
+</div>
+</section>
+<section id="example-ridge-and-lasso" class="slide level4">
+<h4>Example: Ridge and Lasso</h4>
+<p>Hypothesis set: <span class="math inline">\(\Hcal= \curl{h(\bx)= \varphi(\bx)'\bbeta: \bbeta\in \R^{\dim(\varphi(\bx))}}\)</span></p>
+<p>Popular penalties:</p>
+<ul>
+<li class="fragment">Ridge (<span class="math inline">\(L^2\)</span>): <span class="math inline">\(\norm{\bbeta}_2^2 = \sum_{k} \beta_k^2\)</span></li>
+<li class="fragment">Lasso (<span class="math inline">\(L^1\)</span>): <span class="math inline">\(\norm{\bbeta}_1 = \sum_{k} \abs{\beta}_k\)</span></li>
+<li class="fragment">Elastic net: <span class="math inline">\(\norm{\beta}_1 + \kappa \norm{\beta}_2^2\)</span>. Here <span class="math inline">\(\kappa\)</span> — relative strength of <span class="math inline">\(L^1\)</span> and <span class="math inline">\(L^2\)</span></li>
+</ul>
+<div class="fragment">
+<p>Arise often and used in many models (see lecture on predictive regression)</p>
+</div>
+</section>
+<section id="penalty-size-lambda" class="slide level4">
+<h4>Penalty Size: <span class="math inline">\(\lambda\)</span></h4>
+<p><span class="math inline">\(\lambda\)</span> in <a href="#/eq-pred-penalized-erm" class="quarto-xref">Equation&nbsp;2</a>:</p>
+<ul>
+<li class="fragment">Is a <span class="highlight">hyperparameter</span> — parameter not chosen during <span class="highlight">training</span> (choosing <span class="math inline">\(h\)</span>)</li>
+<li class="fragment">Can interpret as Lagrange multiplier for constraint <span class="math inline">\(\Pcal(h) = c\)</span> for some <span class="math inline">\(c\)</span></li>
+<li class="fragment">Chosen during the <span class="highlight">validation</span> step using separate data or cross-validation</li>
+</ul>
+</section>
+
+<section id="surrogate-losses" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Surrogate Losses</h3>
+
+</section>
+<section id="surrogate-losses-1" class="slide level4">
+<h4>Surrogate Losses</h4>
+<ul>
+<li class="fragment">ERM good: connected to minimizing actual risk</li>
+<li class="fragment">But sometimes ERM computationally infeasible</li>
+<li class="fragment">Solution: minimize some easier “surrogate” objective to find <span class="math inline">\(\hat{h}(\cdot)\)</span></li>
+</ul>
+<div class="fragment">
+<p><br></p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Important</strong></p>
+</div>
+<div class="callout-content">
+<p>Quality of <span class="math inline">\(\hat{h}(\cdot)\)</span> evaluated in terms of actual risk regardless</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-logit-i" class="slide level4">
+<h4>Example: Logit I</h4>
+<p>Example: binary classification (<span class="math inline">\(Y=0, 1\)</span>) with a logit classifier based on some <span class="math inline">\(\bX\)</span></p>
+<p>Classifiers indexed by <span class="math inline">\(\bbeta\)</span>: <span class="math display">\[
+\begin{aligned}
+h(\bx) &amp; = \I\curl{  \Lambda( \bx'\bbeta  ) \geq 0.5  }, \\
+\Lambda(x) &amp; = \dfrac{1}{1+\exp(-x)}
+\end{aligned}
+\]</span> <span class="math inline">\(\Lambda\)</span> — CDF of the <span class="highlight"> logistic </span> distribution</p>
+</section>
+<section id="example-logit-ii" class="slide level4">
+<h4>Example: Logit II</h4>
+<p><br></p>
+<p>ERM to learn best <span class="math inline">\(\bbeta\)</span> (with indicator/misclassification risk) <span class="math display">\[
+\hat{\bbeta}^{ERM} \in \argmin_{\bb} \dfrac{1}{N} \sum_{i=1}^N \I\curl{  Y_i\neq  \I\curl{  \Lambda( \bX_i'\bbeta  ) \geq 0.5  }   }
+\]</span></p>
+<div class="fragment">
+<p><br></p>
+<p>Hard minimization — function is not even continuous in <span class="math inline">\(\bbeta\)</span></p>
+</div>
+</section>
+<section id="example-logit-iii" class="slide level4">
+<h4>Example: Logit III</h4>
+<p>Instead of ERM can maximize the (quasi) log likelihood: <span class="math display">\[ \small
+\hat{\bbeta}^{QML} = \argmax_{\bb} \sum_{i=1}^N\left[Y_i  \log(\Lambda( \bX_i'\bbeta  )) + (1-Y_i) \log\left( 1 - \Lambda( \bX_i'\bbeta  ) \right)    \right]
+\]</span></p>
+<div class="fragment">
+<p>Original justification — a very specific data generating process (see 17.1 in <span class="citation" data-cites="Wooldridge2020IntroductoryEconometricsModern">Wooldridge (<a href="#/references-1" role="doc-biblioref" onclick="">2020</a>)</span>).</p>
+</div>
+<div class="fragment">
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>In prediction, using maximum likelihood does not mean that you believe it — <span class="highlight">quasi</span> means likelihood doesn’t necessarily reflect true process</p>
+<p>Hypothesis quality checked using the actual risk — probability of predicting <span class="math inline">\(Y\)</span> incorrectly</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-logit-iv" class="slide level4">
+<h4>Example: Logit IV</h4>
+<ul>
+<li class="fragment">Maximizing likelihood much easier<br>
+</li>
+<li class="fragment">Can write <span class="math inline">\(\hat{\bbeta}^{QML}\)</span> as <span class="math display">\[ \small
+\begin{aligned}
+\hat{\bbeta}^{QML} &amp; = \argmin_{\bb} \dfrac{1}{N}\sum_{i=1}^N l(Y_i, \bbeta), \\
+l(Y_i, \bb) &amp; = - \left[Y_i  \log(\Lambda( \bX_i'\bbeta  )) + (1-Y_i) \log\left( 1 - \Lambda( \bX_i'\bbeta  ) \right)    \right]
+\end{aligned}
+\]</span> <span class="math inline">\(\hat{\bbeta}^{QML}\)</span> — ERM under <span class="highlight">negative likelihood loss</span></li>
+<li class="fragment">Likelihood loss — “surrogate” for the target (indicator)</li>
+</ul>
+</section>
 </section>
 <section>
 <section id="recap-and-conclusions" class="title-slide slide level2 center" data-background="#00100F">
@@ -814,16 +1020,18 @@ h(\cdot) \in \argmin_{h} R(h(\cdot))
 <p><br></p>
 <p>In this lecture we</p>
 <ol type="1">
-<li class="fragment">Introduction</li>
+<li class="fragment">Defined loss and risk</li>
+<li class="fragment">Framed optimal prediction as risk minimization</li>
+<li class="fragment">Introduced empirical risk minimization + penalties and surrogate losses</li>
 </ol>
 </section>
 <section id="next-questions" class="slide level4">
 <h4>Next Questions</h4>
 <p><br></p>
 <ul>
-<li class="fragment">What<br>
-</li>
 <li class="fragment">How do you estimate the risk of the chosen hypothesis?</li>
+<li class="fragment">Is there a universally valid way to predict?</li>
+<li class="fragment">What properties do we want our learning algorithms to have?</li>
 </ul>
 </section>
 <section id="references-1" class="slide level4 allowframebreaks smaller scrollable" data-visibility="uncounted">
@@ -832,11 +1040,11 @@ h(\cdot) \in \argmin_{h} R(h(\cdot))
 <div id="ref-James2023IntroductionStatisticalLearning" class="csl-entry" role="listitem">
 James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, and Jonathan E. Taylor. 2023. <em>An <span>Introduction</span> to <span>Statistical Learning</span>: <span>With Applications</span> in <span>Python</span></em>. Springer Texts in Statistics. Cham: Springer.
 </div>
-<div id="ref-Mohri2018FoundationsMachineLearning" class="csl-entry" role="listitem">
-Mohri, Mehryar, Afshin Rostamizadeh, and Ameet Talwalkar. 2018. <em>Foundations of <span>Machine Learning</span></em>. The MIT Press. <a href="https://doi.org/10.5555/3360093">https://doi.org/10.5555/3360093</a>.
-</div>
 <div id="ref-Shalev-Shwartz2014UnderstandingMachineLearning" class="csl-entry" role="listitem">
 Shalev-Shwartz, Shai, and Shai Ben-David. 2014. <em>Understanding <span>Machine Learning</span></em>. 1st ed. West Nyack: Cambridge University Press.
+</div>
+<div id="ref-Wooldridge2020IntroductoryEconometricsModern" class="csl-entry" role="listitem">
+Wooldridge, Jeffrey M. 2020. <em>Introductory <span>Econometrics</span>: A <span>Modern Approach</span></em>. Seventh edition. Boston, MA: Cengage.
 </div>
 </div>
 <div class="footer">
