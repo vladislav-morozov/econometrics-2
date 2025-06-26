@@ -1,5 +1,5 @@
 ---
-title: "Components of Learning"
+title: "Components of an ML Problem"
 subtitle: "Risk and Hypothesis Classes"
 author: Vladislav Morozov  
 format:
