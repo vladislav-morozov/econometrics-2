@@ -186,7 +186,7 @@ Are the two fields totally disjoint?
 
 <span class="highlight">No</span>:
 
-- Typical use case: need to pre-estimate some complicated object before being able to estimate object of interest
+- Causal use case: need to pre-estimate some complicated object before being able to estimate object of interest
 - Most important — more precise pre-estimates — exactly the typical goal of SL/ML
   
 See @Chernozhukov2024AppliedCausalInference 

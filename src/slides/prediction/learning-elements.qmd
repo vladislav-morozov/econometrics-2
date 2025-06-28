@@ -619,6 +619,26 @@ $\hat{\bbeta}^{QML}$ — ERM under <span class="highlight">negative likelihood l
 - Likelihood loss — "surrogate" for the target (indicator) 
 
 
+#### Example: Logit V
+
+- Recall: likelihood "$\approx$" probability of sample given $\bbeta$
+- $\Rightarrow$ Another interpretation — logit classifier is learning to <span class="highlight">predict class probabilities</span> (classes --- 0, 1):
+$$
+\widehat{P}(Y=1|\bX=x) = \Lambda(\bx'\hat{\bbeta}^{QML})
+$$
+- We then compare predicted probabilities to the <span class="highlight">decision threshold</span> 0.5
+
+::: {.callout-note appearance="minimal"}
+
+Some algorithms can return such scores or probabilities (e.g. SVMs, logit-like). Some algorithms can only return the final labels (e.g. classification trees)
+
+:::
+
+::: {.footer}
+
+
+:::
+
 ## Recap and Conclusions {background="#00100F"}
   
 #### Recap
