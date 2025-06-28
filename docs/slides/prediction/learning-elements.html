@@ -1009,6 +1009,26 @@ l(Y_i, \bb) &amp; = - \left[Y_i  \log(\Lambda( \bX_i'\bbeta  )) + (1-Y_i) \log\l
 <li class="fragment">Likelihood loss — “surrogate” for the target (indicator)</li>
 </ul>
 </section>
+<section id="example-logit-v" class="slide level4">
+<h4>Example: Logit V</h4>
+<ul>
+<li class="fragment">Recall: likelihood “<span class="math inline">\(\approx\)</span>” probability of sample given <span class="math inline">\(\bbeta\)</span></li>
+<li class="fragment"><span class="math inline">\(\Rightarrow\)</span> Another interpretation — logit classifier is learning to <span class="highlight">predict class probabilities</span> (classes — 0, 1): <span class="math display">\[
+\widehat{P}(Y=1|\bX=x) = \Lambda(\bx'\hat{\bbeta}^{QML})
+\]</span></li>
+<li class="fragment">We then compare predicted probabilities to the <span class="highlight">decision threshold</span> 0.5</li>
+</ul>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Some algorithms can return such scores or probabilities (e.g.&nbsp;SVMs, logit-like). Some algorithms can only return the final labels (e.g.&nbsp;classification trees)</p>
+</div>
+</div>
+</div>
+<div class="footer">
+
+</div>
+</section>
 </section>
 <section>
 <section id="recap-and-conclusions" class="title-slide slide level2 center" data-background="#00100F">
