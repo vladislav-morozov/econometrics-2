@@ -315,34 +315,120 @@ How does estimation error depend on complexity of $\Hcal$?
 
 #### Underfitting
 
-If appro
+If approximation error dominates
 
+- $\Hcal$ not complex enough 
+- Called <span class="highlight">underfitting</span>
 
+. . . 
+
+<br>
+
+Solution: use a richer $\Hcal$
 
 #### Overfitting
 
-Related
+Estimation error dominates if  $\hat{h}$ chosen poorly
+
+- Usual source: overfitting
+- Also maybe due to optimization issues
+
+. . .
+
+Solutions: 
+
+- Use a less complex $\Hcal$
+- Add penalty to empirical risk/objective to punish more complex models (e.g. $L^1$ or $L^2$ penalties from last time)
 
 ## PAC Learning {background="#00100F"}
 
-#### PAC Framework I
+#### Motivation
  
-How to  
+Mentioned before: approximation error studied by approximation theory, not a statistical question
+
+<br>
+
+. . . 
+
+<div class="rounded-box">
+
+How is estimation error studied? 
+
+</div>
+
+- Part of "core" statistical learning theory
+- Basic framework for thinking — <span class="highlight">probably approximately correct </span> (PAC) learning 
+- Introduce it now and talk more about generalization
+
+#### Reminder: Notation
+
+Pieces of learning:
+
+- Algorithm $\Acal$
+- Sample $S=\curl{(Y_1, \bX_1), \dots, (Y_N, \bX_N)}$ 
+- Hypothesis class $\Hcal$
+
+. . . 
+
+<br> 
+
+$\Acal$ selects some $\hat{h}_S$ from $\Hcal$ after seeing $S$
+
+#### Randomness in Generalization and Estimation Errors
+
+Generalization error (risk) of $\hat{h}_S$:
+$$
+R(\hat{h}_S) =  \E_{(Y, \bX)}\left[ l(Y, \hat{h}_S(\bX))  \right]
+$$
+
+- Expectation over <span class="highlight">new independent</span> point $(Y, \bX)$, not over the sample ($\hat{h}_S$ fixed for the expectation)!
+- $\Rightarrow R(\hat{h}_S)$ is random because it depends on sample $S$
+- $\Rightarrow$ estimation error $R(\hat{h}_S) - \inf_{h\in\Hcal}R(h)$ also random
+
+#### PAC: Intuitive Form
+ 
+- Want to have $R(\hat{h}_S) - \inf_{h\in\Hcal}R(h)$ small — less than some $\varepsilon$ (to be <span class="highlight">approximately correct</span>)
+- Want this to happen for most samples, at least share $1-\delta$ of possible samples of size $m$ (for it to happen <span class="highlight">probably</span>)
+- Want it to hold <span class="highlight">regardless</span> of the distribution of data
+
+. . .
+
+<br>
+
+PAC learning combines these requirements
 
 
-#### PAC Framework II 
+#### PAC: Simplified Definition
 
 
+<div class="rounded-box">
 
-PAC-learning
+::: {#def-pred-pac-agnostic-pac}
+ 
+$\Acal$ is a  PAC learning algorithm if for any $\varepsilon>0, \delta>0$ there exists a sample size $m$ such that for all distributions of data $\Dcal$ and all samples of simze $m$ from $\Dcal$ it holds that
+$$
+ P_{S}\left(R(\hat{h}_S) - \min_{h\in\Hcal} R(h) \leq \varepsilon \right) \geq 1-\delta,
+$$ 
+where $\hat{h}_S$ is the hypothesis selected by $\Acal$ in $\Hcal$
+:::
+
+</div>
+
+::: {.footer}
+
+Simplified because the full definition also requires that the sample size $m$ depend on $(1/\varepsilon, 1/\delta)$ *polynomially*
+
+:::
+
 
 #### PAC: Discussion
-
-Agnostic
-
-####
-
-Excess risk
+ 
+- PAC learning algorithms are good because they control estimation error
+- Complexity and PAC:
+  - If $\Hcal$ is more complex, then $m$ is larger — need larger samples to achieve same $\varepsilon$ and $1-\delta$
+  - Formal justification for why more complex $\Hcal$ are harder to learn 
+- For theory, check out @Shalev-Shwartz2014UnderstandingMachineLearning or @Mohri2018FoundationsMachineLearning
+ 
 
 
 ## No Free Lunch Theorem {background="#00100F"}
