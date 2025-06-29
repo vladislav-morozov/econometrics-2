@@ -61,20 +61,158 @@ By the end, you should be able to
 
 :::  
 
-### Empirical Motivation {background="#43464B" visibility="uncounted"}
+### Empirical Setup {background="#43464B" visibility="uncounted"}
+
+####
+
+Predict house prices
+
+####
+
+`scikit-learn`
+
+
+#### Loading the Data
 
 
 
- 
-
-## Section {background="#00100F"}
+## Risk {background="#00100F"}
   
 
+
+
+### (Root) Mean Square Error {background="#43464B" visibility="uncounted"}
+
+
+ 
+####
+
+Why MSE so often? 
+
+
+- Explicitly know
+
+#### MSE-Optimal Forecast
+
+<div class="rounded-box">
+
+::: {#prp-pred-mse-opt}
+
+Suppose that $Y$ has finite second moments. Then
+$$
+\E[Y|\bX] \in \argmin_{f(\cdot): \E[f(\bX)^2]<\infty}  \E[ (Y-f(\bX))^2]
+$$
+
+:::
+
+
+</div>
+
+- MSE-best guess: conditional expectation of $Y$
+- Explains in what sense $\E[Y|\bX]$ was the "best guess" for $Y$ given "information" $\bX$
+
  
 
-### Subsection {background="#43464B" visibility="uncounted"}
+#### Proof I: Expansion
 
-#### Slide
+Key trick: add and subtract $\E[Y|\bX]$ under the MSE
+$$
+\begin{aligned}
+MSE(f) & = \E[(Y- f(\bX))^2] \\
+& = \E\left[\left( (Y-\E[Y|\bX]) + (\E[Y|\bX] - f(\bX)) \right)^2\right]  \\
+& = \E\left[  (Y-\E[Y|\bX])^2 \right] + \E[(\E[Y|\bX] - f(\bX))^2]\\
+& \quad + 2\E\left[  (Y-\E[Y|\bX]) (\E[Y|\bX] - f(\bX)) \right]
+\end{aligned}
+$$
+
+
+
+
+#### Proof II: Cross-Term = 0
+
+Recall
+
+<div class="rounded-box">
+
+Law of iterated expectations: for any variables $V, W$ it holds that $\E[V]= \E[ \E[V|W]]$. 
+
+</div>
+
+. . .
+
+It follows that (why?)
+$$
+\E\left[  (Y-\E[Y|\bX]) (\E[Y|\bX] - f(\bX)) \right] = 0
+$$
+
+#### Proof III: Conclusion
+
+So
+$$
+MSE(f) = \E\left[  (Y-\E[Y|\bX])^2 \right] + \E[(\E[Y|\bX] - f(\bX))^2]
+$$
+
+- First term does not depend on $f$
+- Second term minimized by taking $f(\bX) = \E[Y|\bX]$
+
+. . . 
+
+Result follows
+
+#### Root MSE
+
+Typically RMSE
+
+- in the same units as the outcome, more interpretable than raw MSE
+
+### Other Risks {background="#43464B" visibility="uncounted"}
+
+#### When Is MSE not Satisfactory
+
+#### Other Popular Metrics: MAE
+
+
+- Optimal predictor also known — (conditional) <span class="highlight">median</span>
+
+#### Asymmetric Risk: Linex
+
+
+
+
+## Preparing and Exploring the Data {background="#00100F"}
+  
+### Splitting the Data {background="#43464B" visibility="uncounted"}
+ 
+
+#### Splitting the 
+ 
+ Test data
+
+  
+### Exploring the Data {background="#43464B" visibility="uncounted"}
+
+
+#### 
+
+So now we have a metric and data. 
+
+#### 
+
+Exploratory data analysis involves
+
+####
+
+#### Feature Engineering
+
+Need to think what features we include
+
+ 
+
+#### What's Beyond?
+
+Deploying the model to production
+
+e.g. see book by @Huyen2022DesigningMachineLearning 
 
 ## Recap and Conclusions {background="#00100F"}
   
