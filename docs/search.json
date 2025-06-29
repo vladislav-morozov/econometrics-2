@@ -677,21 +677,55 @@
     "href": "slides/prediction/pac-nfl-tradeoff.html#introduction",
     "title": "Learning Framework, Limits and Trade-Offs",
     "section": "Introduction",
-    "text": "Introduction"
+    "text": "Introduction",
+    "crumbs": [
+      "Prediction",
+      "Learning Framework, Limits and Trade-Offs"
+    ]
   },
   {
-    "objectID": "slides/prediction/pac-nfl-tradeoff.html#learning-framework",
-    "href": "slides/prediction/pac-nfl-tradeoff.html#learning-framework",
+    "objectID": "slides/prediction/pac-nfl-tradeoff.html#bias-complexity-tradeoff",
+    "href": "slides/prediction/pac-nfl-tradeoff.html#bias-complexity-tradeoff",
     "title": "Learning Framework, Limits and Trade-Offs",
-    "section": "Learning Framework",
-    "text": "Learning Framework"
+    "section": "Bias-Complexity Tradeoff",
+    "text": "Bias-Complexity Tradeoff",
+    "crumbs": [
+      "Prediction",
+      "Learning Framework, Limits and Trade-Offs"
+    ]
+  },
+  {
+    "objectID": "slides/prediction/pac-nfl-tradeoff.html#pac-learning",
+    "href": "slides/prediction/pac-nfl-tradeoff.html#pac-learning",
+    "title": "Learning Framework, Limits and Trade-Offs",
+    "section": "PAC Learning",
+    "text": "PAC Learning",
+    "crumbs": [
+      "Prediction",
+      "Learning Framework, Limits and Trade-Offs"
+    ]
+  },
+  {
+    "objectID": "slides/prediction/pac-nfl-tradeoff.html#no-free-lunch-theorem",
+    "href": "slides/prediction/pac-nfl-tradeoff.html#no-free-lunch-theorem",
+    "title": "Learning Framework, Limits and Trade-Offs",
+    "section": "No Free Lunch Theorem",
+    "text": "No Free Lunch Theorem",
+    "crumbs": [
+      "Prediction",
+      "Learning Framework, Limits and Trade-Offs"
+    ]
   },
   {
     "objectID": "slides/prediction/pac-nfl-tradeoff.html#recap-and-conclusions",
     "href": "slides/prediction/pac-nfl-tradeoff.html#recap-and-conclusions",
     "title": "Learning Framework, Limits and Trade-Offs",
     "section": "Recap and Conclusions",
-    "text": "Recap and Conclusions"
+    "text": "Recap and Conclusions",
+    "crumbs": [
+      "Prediction",
+      "Learning Framework, Limits and Trade-Offs"
+    ]
   },
   {
     "objectID": "slides/vector/ols-consistency.html#introduction",
