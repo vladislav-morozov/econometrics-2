@@ -6,7 +6,7 @@ format:
   revealjs:
     include-in-header: 
       text: |
-        <meta name="description" content="  (lecture notes slides)."/>
+        <meta name="description" content="Learning framework for machine learning: PAC learning, no free lunch theorems, and the bias-complexity trade-off (lecture notes slides)."/>
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -29,8 +29,9 @@ filters:
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
 open-graph:
-    description: " (lecture notes slides)."
+    description: "Learning framework for machine learning: PAC learning, no free lunch theorems, and the bias-complexity trade-off (lecture notes slides)."
 ---
+
 
 
 
@@ -416,7 +417,7 @@ $$
 
 <br>
 
-PAC learning combines these requirements
+PAC learning [@Valiant1984TheoryLearnable] combines these requirements
 
 
 #### PAC: Simplified Definition
