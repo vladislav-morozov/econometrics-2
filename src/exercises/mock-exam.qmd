@@ -1,0 +1,81 @@
+---
+title: "Mock Exam 2025"
+format:
+  html:
+    toc: true
+description: "An example exam based on the materials covered in 2025"
+open-graph:
+    description: "An example exam based on the materials covered in 2025" 
+---
+
+
+::: {.callout-warning}
+
+The contents of the final exam may include any of the topics covered in the course (except for those marked as non-examinable), not just those that appear in this mock exam. This mock exam is intended as a reference in terms of exam format.
+
+:::
+ 
+
+**Duration**: 90 minutes\
+**Maximum points**: 15 points\ 
+
+
+## Short Questions 
+
+*Each question in this section is worth 1 point. These questions do not require any proofs, only brief direct answers.*
+
+
+**1. ** Define *consistency* of an estimator $\hat{\bbeta}$ for some parameter $\bbeta$.
+
+
+**2. ** Suppose that $X_N\xrightarrow{p} X$ and $Y_N\xrightarrow{p} Y$. Is it always true that $X_N+Y_N\xrightarrow{p} X+Y$? (*yes/no*).
+
+
+**3. ** Suppose that $\sqrt{N}(\hat{\beta}-\beta) \xrightarrow{d} N(0, \sigma^2)$, where $\beta$ is scalar. Let $f(\cdot)$ be a continuous function with $f'(\beta)\neq 0$. What is the asymptotic distribution of $f(\hat{\bbeta})$ according to the delta method?
+
+
+**4. ** Suppose that we observe $N$ units over two periods $t=1, 2$. Some treatment affects all units between $t=1$ and $t=2$. The average outcome in $t=2$ is $\bar{Y}_2 = 30$. The average outcome in $t=1$ is $\bar{Y}_1 =10$. Compute the event study estimator for the average treatment effects. 
+
+**5. ** In the context of supervised prediction with label $Y$ and predictors $\bX$, consider the hypothesis class $\Hcal= \curl{h(\bx)= \bx'\bbeta: \bbeta \in \R^{\dim(\bbeta)}}$.  Write down the optimization problem that defines the optimal *$L^1$-penalized linear predictor* (LASSO). 
+
+## Problem 1: Testing a Scalar Hypothesis 
+
+
+
+Let the outcome $Y_i$, the scalar covariate $X_i$, and an unobserved component $U_i$ be linked through the linear potential outcomes model $Y_i^{x} = \beta x + U_i$. 
+We have some estimator $\hat{\beta}$ that satisfies
+$$
+\sqrt{N}(\hat{\beta}- \beta)\xrightarrow{d} N(0, \avar(\hat{\beta})).
+$$
+There is a consistent estimator $\widehat{\avar}(\hat{\beta})$ for $\avar(\hat{\beta})$.
+
+We are interested in *testing* 
+$$
+H_0: \beta = c \quad  \text{vs.} \quad  H_1: \beta\neq c.
+$$
+ 
+
+1. (*1 points*) Propose a consistent test for $H_0$ vs. $H_1$ that has asymptotic size $\alpha$.
+2. (*2 points*) Show that your test has asymptotic size $\alpha$.
+3. (*2 points*) Show that your test is consistent. 
+
+
+## Problem 2: One-Way FE Estimators Under Heterogeneous Effects
+
+Let the outcome $Y_i$, the scalar covariate $X_i$ and unobserved components $(\alpha_i, \beta_i, U_i)$ be linked through the linear potential outcomes panel data model 
+$$
+Y_{it}^x = \alpha_i + \beta_i x + U_{it}.
+$$ {#eq-mock-exam-p2-model}
+We assume that $\E[U_{it}|X_{i1}, \dots, X_{iT}]=0$.
+
+1. (*1 point*): Define the one-way within transformation of $(Y_{it}, X_{it})$ (recall: the transformation designed to eliminate the $\alpha_i$). Write down the relationship sastisfied by the within-transformed realized values $(\tilde{Y}_{it}, \tilde{X}_{it})$ of $(Y_{it}, X_{it})$. 
+2. (*2 points*) Write down the one-way fixed effects estimator in terms of $(\tilde{Y}_{it}, \tilde{X}_{it})$ (the *within* estimator, not the LSDV one). Find its probability limit under model ([-@eq-mock-exam-p2-model]). State explicitly any moment conditions you assume. 
+
+*In the next two questions, you may be informal and use only words. Correct intuition is sufficient*
+
+3.  (*1 point*) True or false: under model ([-@eq-mock-exam-p2-model]), the probability limit of the one-way FE estimator is always the same as the probability limit of the two-way FE estimator.  Why or why not?
+4.  (*1 point*) Suppose that the model now has *homogeneous* effects:
+$$
+Y_{it}^x = \alpha_i + \beta x + U_{it}.
+$$ {#eq-mock-exam-p2-model2}
+True or false: under model ([-@eq-mock-exam-p2-model2]) the probability limit of the one-way FE estimator is always the same as the probability limit of the two-way FE estimator. Why or why not?  
