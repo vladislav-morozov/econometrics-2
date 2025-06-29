@@ -37,7 +37,7 @@
     <lastmod>2025-05-20T19:55:28.582Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/exercises/exercises-linear-inference.html</loc>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/exercises/exercises-panel.html</loc>
     <lastmod>2025-06-17T19:21:30.358Z</lastmod>
   </url>
   <url>
@@ -45,8 +45,12 @@
     <lastmod>2025-05-20T19:55:11.543Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/exercises/exercises-panel.html</loc>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/exercises/exercises-linear-inference.html</loc>
     <lastmod>2025-06-17T19:21:30.358Z</lastmod>
+  </url>
+  <url>
+    <loc>https://vladislav-morozov.github.io/econometrics-2/exercises/mock-exam.html</loc>
+    <lastmod>2025-06-29T18:05:28.972Z</lastmod>
   </url>
   <url>
     <loc>https://vladislav-morozov.github.io/econometrics-2/slides/organizational/intro.html</loc>
@@ -66,7 +70,7 @@
   </url>
   <url>
     <loc>https://vladislav-morozov.github.io/econometrics-2/slides/prediction/pac-nfl-tradeoff.html</loc>
-    <lastmod>2025-06-29T15:03:44.666Z</lastmod>
+    <lastmod>2025-06-29T16:16:42.410Z</lastmod>
   </url>
   <url>
     <loc>https://vladislav-morozov.github.io/econometrics-2/slides/vector/ols-consistency.html</loc>

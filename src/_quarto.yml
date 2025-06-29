@@ -36,6 +36,7 @@ website:
       - section: "Course Info"
         contents:
         - slides/organizational/intro.qmd  
+        - exercises/mock-exam.qmd
       - section: "Linear Regression II"
         contents:
         - slides/vector/vector-ols.qmd  
