@@ -60,6 +60,7 @@ website:
         contents:
         - slides/prediction/intro-sl.qmd
         - slides/prediction/learning-elements.qmd 
+        - slides/prediction/pac-nfl-tradeoff.qmd
 
 execute:
   freeze: auto  # re-render only when source changes
