@@ -49,7 +49,7 @@ This lecture
 
 By the end, you should be able to
 
-- Discuss 
+- Discuss MSE, its connection to conditional mean, the bias-variance trade-off
 
 #### References
 
@@ -57,40 +57,165 @@ By the end, you should be able to
 
 ::: {.nonincremental}
 
-- Chapters 3, 6, 8 in @James2023IntroductionStatisticalLearning
+- Chapters 3, 6-9 in @James2023IntroductionStatisticalLearning
 
 :::  
 
 ### Empirical Setup {background="#43464B" visibility="uncounted"}
 
-####
+#### Framing Prediction Tasks
 
-Predict house prices
+Imagine the following scenario
 
-####
+- You are interested in investing in a region in California
+- Want to decide where to invest 
 
-`scikit-learn`
+. . .
+
+Investing may require buying some houses — want to accurately price them
 
 
-#### Loading the Data
+Thus: current prediction problem is
+<div class="rounded-box">
+
+Accurately predict house prices in small subregions in California
+
+</div>
+
+ 
+
+#### Meet `scikit-learn` {.scrollable}
+
+For learning we will use `scikit-learn` — a fantastic and convenient package for predictive learning in Python
+
+<br>
+
+Will use capabilities from different blocks. Imports:
+
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Imports"
+
+import numpy as np
+import pandas as pd
+
+# Source of dataset
+from sklearn.datasets import fetch_california_housing
+```
+
+#### Data
+
+<br>
+
+Will use the California housing data available with `scikit-learn`
+
+- Nice, clean dataset  
+- Can be retrieved with special function in `sklearn.datasets`
+- Describes median price of house in block and some block characteristics
+ 
+
+#### Loading the Data {.scrollable}
+
+```{python}
+from pathlib import Path
+data_path = Path() / "slides" / "prediction" / "data"
+
+```
+
+```{python}
+#| echo: true 
+data = fetch_california_housing(data_home=data_path, as_frame=True)
+data_df = data.frame.copy()                     # Separate data DF
+print(data.DESCR)
+```
+
+::: {.footer}
+
+:::
+
+#### Key Data Info {.scrollable}
+
+
+Dataset is clean, with no missing values and nice names — good for learning and practicing now:
+```{python}
+#| echo: true 
+data_df.info()
+```
+
+::: {.footer}
+
+:::
+
+### Learning Steps {background="#43464B" visibility="uncounted"}
+
+#### Key Steps
+
+We will go through the following key steps:
+
+- Choose the risk (key metric)
+- Split data into training and test sets
+- Explore the training set, select features
+- Train and validate models, select best-performing during validation
+- Evaluate the final chosen model using the test sample
+
+
+  
+#### Are There More Steps? 
+
+- In research, not really — we get a nice model that solves a fixed problem
+- In production use, many things beyond just model development 
+  - Data engineering 
+  - Model deployment and monitoring
+  - Infrastructure
+
+. . .  
+
+See book by @Huyen2022DesigningMachineLearning for a great overview
 
 
 
-## Risk {background="#00100F"}
+
+## Risk in Regression {background="#00100F"}
   
 
 
 
 ### (Root) Mean Square Error {background="#43464B" visibility="uncounted"}
 
+#### Which Criterion to Use?
 
+In this example want to  equally serve buyers and sellers, so
+
+- Overprediction and underprediction equally bad 
+- $\Rightarrow$ symmetric loss
+
+. . . 
+
+<br>
+
+Also want stronger punishments for bigger mistakes
+
+#### Mean Squared Error
+
+Popular choice of risk with above properties — <span class="highlight">mean squared error</span>:
+$$
+MSE(\hat{Y}) = \E[(Y-\hat{Y})^2]
+$$
+
+. . . 
+  
+Why is MSE popular?
+
+- MSE is "generic": For $Y\approx \hat{Y}$ "locally equivalent" to many other smooth risk functions
+- Motivated by maximum likelihood under normality
+- Bayes predictor is known and interpretable — $\E[Y|\bX]$
+
+::: {.footer}
+
+
+:::
  
-####
-
-Why MSE so often? 
-
-
-- Explicitly know
 
 #### MSE-Optimal Forecast
 
@@ -100,7 +225,7 @@ Why MSE so often?
 
 Suppose that $Y$ has finite second moments. Then
 $$
-\E[Y|\bX] \in \argmin_{f(\cdot): \E[f(\bX)^2]<\infty}  \E[ (Y-f(\bX))^2]
+\E[Y|\bX] = \argmin_{f(\cdot): \E[f(\bX)^2]<\infty}  \E[ (Y-f(\bX))^2]
 $$
 
 :::
@@ -134,7 +259,13 @@ Recall
 
 <div class="rounded-box">
 
-Law of iterated expectations: for any variables $V, W$ it holds that $\E[V]= \E[ \E[V|W]]$. 
+::: {#prp-lie}
+
+## Law of Iterated Expectations 
+
+For any variables $V, W$ it holds that $\E[V]= \E[ \E[V|W]]$, provided $\E[\abs{V}]$ exists. 
+
+::: 
 
 </div>
 
@@ -157,38 +288,80 @@ $$
 
 . . . 
 
-Result follows
+This proves @prp-pred-mse-opt
 
 #### Root MSE
 
-Typically RMSE
+Typically instead of MSE report <span class="highlight">root MSE</span>:
+$$
+RMSE(\hat{Y}) = \sqrt{ \E[(Y-\hat{Y})^2]  }
+$$
 
-- in the same units as the outcome, more interpretable than raw MSE
+Why? 
+
+- RMSE expressed in the same units as the outcome, more interpretable than raw MSE
+- RMSE also minimized by $\E[Y|\bX]$
+
+. . . 
+
+We will focus on RMSE
 
 ### Other Risks {background="#43464B" visibility="uncounted"}
 
 #### When Is MSE not Satisfactory
 
-#### Other Popular Metrics: MAE
+Sometimes MSE is not the right choice
 
+<br>
 
-- Optimal predictor also known — (conditional) <span class="highlight">median</span>
+Examples:
 
-#### Asymmetric Risk: Linex
+- Asymmetry in preferences, e.g. overpredicting is more dangerous than underpredicting
+- Interest in predicting a specific part of the distribution of $Y$: e.g. price point not exceeded by 90% of houses
+- Many outliers in $Y$ (heavy tails)
 
+#### Other Popular Risks
 
+In such cases need to use other losses
+
+- Asymmetry: linex
+- Quantiles: tick (quantile) loss:
+$$
+l(y-\hat{y}) = \begin{cases}
+\tau (y-\hat{y}), & u \geq 0, \\
+(\tau -1)(y-\hat{y}), & u < 0
+\end{cases}
+$$
+where $\tau$ is the target quantile (e.g. 0.9)
+- Outliers: MAE or Huber loss
+
+::: {.footer}
+
+Note that MAE corresponds to $l(y-\hat{y})$ with $\tau=0.5$
+
+::: 
+ 
 
 
 ## Preparing and Exploring the Data {background="#00100F"}
   
 ### Splitting the Data {background="#43464B" visibility="uncounted"}
  
+#### Estimating the Risk
+
+#### Issues with Evaluating on Training Data
 
 #### Splitting the 
  
  Test data
 
+::: {.footer}
+
+::: 
+
+#### Further Splits: Validation
   
+
 ### Exploring the Data {background="#43464B" visibility="uncounted"}
 
 
@@ -196,26 +369,81 @@ Typically RMSE
 
 So now we have a metric and data. 
 
-#### 
+#### Exploratory Data Analysis
 
 Exploratory data analysis involves
 
 ####
 
-#### Feature Engineering
+#### Feature Engineering I
 
 Need to think what features we include
 
- 
+Probably latitude and longitude not directly helpful. Can maybe learn something better
 
-#### What's Beyond?
+#### Pipelines
 
-Deploying the model to production
 
-e.g. see book by @Huyen2022DesigningMachineLearning 
+## Model Development  {background="#00100F"}
+  
+### Linear Models {background="#43464B" visibility="uncounted"}
+
+#### Goal
+
+#### Bias-Variance Trade-Off
+
+Special famous version of the bias-complexity trade-off
+
+#### Polynomial Terms
+
+#### Raw
+
+
+#### Estimating Risk with Cross-Validation
+
+#### Penalized Approaches
+
+
+#### Tuning Penalty Parameters with CV
+
+
+  
+### Regression Trees {background="#43464B" visibility="uncounted"}
+  
+
+#### 
+
+Linear models are that
+
+Let's try a regression tree
+
+####
+
+Oops
+
+
 
 ## Recap and Conclusions {background="#00100F"}
   
+#### What's Beyond?  
+
+In a research setting we are done — a bespoke model that solves some problem on a prepared dataset
+
+Model development — what we did — only a small part of overall cycle of production
+
+e.g. see book by @Huyen2022DesigningMachineLearning 
+
+
+
+#### A Note on Limitations of Data 
+
+The housing data set was nice and clean — good for 
+- Good for us now to focus on key ideas
+- But be aware that real-life data is messy, needs a lot of fixing, often has missing values (requiring choice on that), etc
+- Has only continuous regressors, which is also nices
+
+
+
 #### Recap
 
 <br>
