@@ -1,6 +1,6 @@
 ---
-title: "Regression I"
-subtitle: "Regression and Practical Basics of Predictive Work"
+title: "Regression I: MSE, Data Preparation"
+subtitle: "MSE, Train-Test Split, and Exploratory Analysis in Practice"
 author: Vladislav Morozov  
 format:
   revealjs:
@@ -350,9 +350,8 @@ Note that MAE corresponds to $l(y-\hat{y})$ with $\tau=0.5$
  
 
 
-## Preparing and Exploring the Data {background="#00100F"}
-  
-### Splitting the Data {background="#43464B" visibility="uncounted"}
+## Splitting the Data {background="#00100F"}
+   
  
 #### Estimating the Risk
 
@@ -524,9 +523,10 @@ Just a simple random split into two sets
 We will use cross-validation, no need to explicitly split validation set
 
 
-### Exploring the Data {background="#43464B" visibility="uncounted"}
+## Exploring the Data {background="#00100F"}
+   
 
- 
+
 
 #### Exploratory Data Analysis
 
@@ -539,33 +539,51 @@ Can now do <span class="highlight">exploratory data analysis</span>:
 
 #### Geographical Distribution of Data
 
-``` python
-fig = px.scatter_geo(
-    lat=data_df["Latitude"],
-    lon=data_df["Longitude"],
-    scope="usa",
-    opacity=0.4,
-    color=data_df["MedHouseVal"],
-    color_continuous_scale="RdBu_r", # _r reverses the colorscale
-    size = data_df['Population'],
-)
-
-# automatically zoom on the data
-fig.update_geos(fitbounds="locations")
-
-fig.show()
-```
-
-#### Variable Distributions
-
-```{python}
+```{python} 
 BG_COLOR = "whitesmoke"
 FONT_COLOR = "black"
 GEO_COLOR = "rgb(201, 201, 201)"
 OCEAN_COLOR = "rgb(136, 136, 136)"
 
+fig, ax = plt.subplots(figsize=(14, 6.5))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+scatter = train_set.plot(
+    kind="scatter",
+    x="Longitude",
+    y="Latitude",
+    grid=True,
+    s=train_set["Population"] / 100,
+    label="Population",
+    c="MedHouseVal",
+    cmap="BuPu",
+    colorbar=False,
+    legend=False,
+    sharex=False,
+    ax=ax
+)
+
+# Set the main title
+ax.set_title("Geographical distribution of points, scaled by population, color by median house value", loc="left")
+# Add colorbar and set its title
+cbar = plt.colorbar(scatter.get_children()[0], ax=ax)
+cbar.set_label("Median House Value")
+
+plt.show()
+```
+
+::: {.footer}
+
+You can see the shape of California in the scatter
+
+:::
+
+#### Variable Distributions
+
+```{python}
 fig, ax = plt.subplots(figsize=(14, 7))
-train_set.hist(ax = ax, bins=50, grid=False);
+train_set.hist(ax = ax, bins=50, grid=False, color="teal");
 
 fig.patch.set_facecolor(BG_COLOR)
 fig.patch.set_edgecolor("teal")
@@ -614,9 +632,11 @@ train_set.nlargest(3, "AveOccup").loc[:,["AveOccup", "Longitude", "Latitude"]]
 
 ::: {.footer}
 
-Prisons are the source of these issues. A flexible model (like a tree/forest) can learn the pattern "high `AveOccup` = prison" and adjust if there is enough data. Less flexible models might suffer
+A flexible model (like a tree/forest) can learn the pattern "high `AveOccup` = prison" and adjust if there is enough data. Less flexible models might suffer
 
 :::
+
+
 
 
 
@@ -688,22 +708,81 @@ fig.show()
 
 ::::
 
+#### Feature Engineering II: Adding a New Feature
+
+Can we add any interesting variables? 
+
+- Example: if a house has lower share of bedrooms, usually has more "luxury" rooms
+- Such houses likely more expensive
+- Can define new variable: bedroom ratio
+```{python}
+#| echo: true
+train_exp = train_set.copy()
+train_exp["BedroomRatio"] = train_exp["AveBedrms"]/train_exp["AveRooms"]
+```
+
+. . . 
+
+Example of <span class="highlight">feature extraction</span> 
 
 #### Correlations
-
+ 
 ```{python}
-(data_df.corr()["MedHouseVal"]
+#| echo: true
+(train_exp.corr()["MedHouseVal"]
         .sort_values(ascending=False)
 )
 ```
 
-#### Pipelines
+- More or less confirms what we have seen 
+- New feature rather strongly correlated with label — not bad
+
+#### Summarizing EDA
+
+So what we learned:
+
+- Data quite nice for the most part
+- Potentially interesting variable: bedroom ratio
+- Some patterns due to presence of places with large prison
+  - We will keep those observations
+  - Retry analysis with dropping them from the training set
+
+## Preparing the Data {background="#00100F"}
+   
+#### Reproducibility
+
+
+- EDA process — ad hoc/experimental
+- For training want <span class="highlight"
+
  
 
+#### Pipelines
+ 
+More formally
+
+- Such 
+
+
+Going from raw data 
+
+#### Transformations
+
+
+- Creating new variables (bedroom ratio in our case)
+- Scaling for all variables
+
+#### `scikit-learn` Transformers
+
+`scikit-learn` provides <span class="highlight">transformers</span> — tools for preprocessing data into a suitable format
+
+- Transformers have a unified interface
+- Can chain transformers into <span class="highlight">pipelines</span> 
 
 #### A Note on Limitations of Data 
 
 The housing data set was nice and clean — good for 
+
 - Good for us now to focus on key ideas
 - But be aware that real-life data is messy, needs a lot of fixing, often has missing values (requiring choice on that), etc
 - Has only continuous regressors, which is also nices
