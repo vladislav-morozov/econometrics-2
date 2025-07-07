@@ -12,7 +12,7 @@ format:
     sc-sb-title: true
     incremental: true   
     logo: ../../themes/favicon.ico
-    footer: "Predictive Regression"
+    footer: "Regression I: From Problem to Data Preparation"
     footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
     theme: ../../themes/slides_theme.scss
     toc: TRUE
@@ -739,7 +739,7 @@ Example of <span class="highlight">feature extraction</span>
 
 #### Summarizing EDA
 
-So what we learned:
+What we learned:
 
 - Data quite nice for the most part
 - Potentially interesting variable: bedroom ratio
@@ -747,30 +747,55 @@ So what we learned:
   - We will keep those observations
   - Retry analysis with dropping them from the training set
 
+
+#### A Note on Limitations of Our Data
+
+The housing data set was nice and clean 
+
+- Good for us now to focus on key ideas
+- But be aware that real-life data is messy
+  - Genuine incorrect values
+  - Missing values
+  - Etc.
+
 ## Preparing the Data {background="#00100F"}
    
 #### Reproducibility
 
 
 - EDA process — ad hoc/experimental
-- For training want <span class="highlight"
-
- 
-
-#### Pipelines
- 
-More formally
-
-- Such 
+- For training want <span class="highlight">reproducible</span> flow
 
 
-Going from raw data 
+. . .
 
-#### Transformations
+More formally:
+<div class="rounded-box">
+
+A data pipeline is a series of a chained data transformation
+
+</div>
+
+Want a pipeline that 
+
+- Ingests the raw data (original variables)
+- Produces the dataset we will present to the learning algorithms (next lecture)
+
+#### What Transformations?
 
 
-- Creating new variables (bedroom ratio in our case)
-- Scaling for all variables
+What do we want? 
+
+- Use features identified in EDA
+- Drop unused features (longitude, latitude)
+- Many algorithms work best with <span class="highlight"> standardized data</span>
+
+In terms of transformations:
+
+- Create ratio of two columns for bedroom ratio
+- Drop geography
+- Standardize all the remaining variables
+
 
 #### `scikit-learn` Transformers
 
@@ -778,14 +803,15 @@ Going from raw data
 
 - Transformers have a unified interface
 - Can chain transformers into <span class="highlight">pipelines</span> 
+- Can combine 
 
-#### A Note on Limitations of Data 
+#### Example Transformer: Standardization
 
-The housing data set was nice and clean — good for 
 
-- Good for us now to focus on key ideas
-- But be aware that real-life data is messy, needs a lot of fixing, often has missing values (requiring choice on that), etc
-- Has only continuous regressors, which is also nices
+#### Pipeline I
+
+
+####
 
 
 
