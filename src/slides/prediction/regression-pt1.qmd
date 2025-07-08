@@ -6,7 +6,7 @@ format:
   revealjs:
     include-in-header: 
       text: |
-        <meta name="description" content="  (lecture notes slides)."/>
+        <meta name="description" content="Basics of regression in machine learning: MSE, data splitting, exploratory data analysis, using scikit-learn transformers and pipelines (lecture slides)"/>
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -29,7 +29,7 @@ filters:
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
 open-graph:
-    description: " (lecture notes slides)."
+    description: "Basics of regression in machine learning: MSE, data splitting, exploratory data analysis, using scikit-learn transformers and pipelines (lecture slides)"
 ---
 
 
@@ -286,7 +286,7 @@ Recall
 For any variables $V, W$ it holds that
 
 1.  $\E[V]= \E[ \E[V|W]]$
-2.  $\E[f(W)V|W] =f(W)\E[V]$
+2.  $\E[f(W)V|W] =f(W)\E[V|W]$
 
 ::: 
 
@@ -432,8 +432,8 @@ That's why $R^2$ is not a useful metric
  
 Solution — using a <span class="highlight">separate test set </span> with observations that are <span class="highlight">new</span> 
 
-- Split $S$ sample into two sets: 
-  - Training set $S_{Tr}$ used for selecting some $\hat{h}_{S_{Tr}}$
+- Split $S$ into two sets: 
+  - Training set $S_{Tr}$: used for selecting $\hat{h}_{S_{Tr}}$
   - Test test $S_{Test}$ with $N_{S_{Test}}$ observations
 - Estimate risk with average  over $S_{Test}$
 $$
@@ -536,7 +536,7 @@ Just a simple random split into two sets
 
 <br>
 
-We will use cross-validation, no need to explicitly split validation set
+We will use cross-validation, no need to explicitly split off a validation set
 
 
 ## Exploring the Data {background="#00100F"}
@@ -618,6 +618,13 @@ fig.patch.set_linewidth(5)
 #|
 train_set.nlargest(3, "AveOccup").loc[:,["AveOccup", "Longitude", "Latitude"]]
 ``` 
+
+::: {.footer}
+
+There is also an issue in house values: recorded values go up only to \$500k (*censoring*) 
+
+:::
+
 
 #### Looking at Suspicious Observations
 
@@ -759,9 +766,9 @@ What we learned:
 
 - Data quite nice for the most part
 - Potentially interesting variable: bedroom ratio
-- Some patterns due to presence of places with large prison
+- Some patterns due to presence of places with large prisons
   - We will keep those observations
-  - Retry analysis with dropping them from the training set
+  - Exercise: retry analysis with dropping them from the training set
 
 
 #### A Note on Limitations of Our Data
@@ -824,7 +831,7 @@ In terms of transformations:
 
 - Create ratio of two columns for bedroom ratio
 - Drop geography
-- Standardize all the remaining variables
+- Make polynomials and standardize all included vars
 
 
 #### `scikit-learn` Transformers
@@ -898,7 +905,7 @@ Sometimes `fit_transform()` is optimized and a lot faster than separate `fit()` 
 std_scaler.mean_
 ```
 - Can now transform any new collection of $\bX$. 
-- It will use the <span class="highlight">same</span> parameters (also with validation and test data)
+- It will use the <span class="highlight">same</span> parameters (also when we transform validation and test data)
 
 #### Custom Transformers I
 
@@ -918,7 +925,7 @@ But can also write our own transformers
 Ways of writing custom transformations
 
 - Based on specific simple functions with `FunctionTransformer`
-- Fully custom ones, just need to implement minimal (inheriting from `TransformerMixin` is helpful)
+- Fully custom ones, just need to implement minimal (inheriting from `BaseEstimator` and  `TransformerMixin` is helpful)
 
 
 <br>
@@ -966,7 +973,7 @@ To compose transformations, can use <span class="highlight">pipelines</span>
 - `Pipeline` from `sklearn.pipeline`
 - A pipeline is a sequence of transformations.
 - Optionally can attach a predictor at the end (next time)
-- Can operate a single transformer
+- Can operate as a single transformer/predictor
 - Simple to specify: just provide a list of tuples of form `(name, Transformer)` to `Pipeline`
 
 #### Pipelines: Polynomials + Standardization
@@ -1002,7 +1009,7 @@ Observe how the column names are preserved
  
 #### Column Transformers I
 
-Pipelines allow <span class="highlight">sequential</span>combination of transformations
+Pipelines allow <span class="highlight">sequential</span> combination of transformations
 
 . . .
 
@@ -1012,7 +1019,7 @@ What about parallel combinations? Recall: want to
 - Take ratio of some other vars
 - Leave the rest untouched
 
-Only then make polynomials (maybe) and standardize
+Only then make polynomials and standardize
 
 
 <div class="rounded-box">
@@ -1026,6 +1033,11 @@ Use `ColumnTransformer` from `sklearn.compose`
 
 :::
 
+
+
+#### Column Transformers II {.scrollable}
+
+
 ```{python}
 
 def ratio_name(function_transformer, feature_names_in):
@@ -1038,7 +1050,6 @@ divider_transformer = FunctionTransformer(
 
 ```
 
-#### Column Transformers II {.scrollable}
 
 - `ColumnTransformer`: different transformations for different columns
 - Also simple to specify: with a list of tuples of `(name, transformer, columns)`
@@ -1066,6 +1077,24 @@ feat_extr_pipe = ColumnTransformer(
 ) 
 
 ```
+
+Here a slightly more refined form of division:
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Details"
+def ratio_name(function_transformer, feature_names_in):
+    return ["ratio"]
+
+divider_transformer = FunctionTransformer(
+  column_ratio, 
+  validate=True, 
+  feature_names_out = ratio_name
+)
+
+```
+
+
 
 ::: {.footer}
 
@@ -1098,8 +1127,8 @@ pd.DataFrame(
 #### Discussion
 
 - Same column can go into several arms of the column transformer
-- Note: adds component names ot columns names: two underscores `__` separate component names
-- Columns not specified handled according to `remainder` argument
+- Note: adds component names to columns names with two underscores `__` 
+- Columns in $\bX$ not specified anywhere are handled according to `remainder` argument
   - Defaults to `drop` (can also `passthrough`)
   - In small applications may be better to be explicit about dropping
  
@@ -1138,7 +1167,7 @@ preprocessing
 
 #### Looking at the Data 
 
-- Pipeline ingests original data, applies all our steps, and gives a preprocessed data
+Pipeline ingests original data, applies all our steps, and gives a preprocessed dataset
 ```{python}
 #| echo: true
 pd.DataFrame(
@@ -1146,9 +1175,12 @@ pd.DataFrame(
   columns=preprocessing.get_feature_names_out(),
   index=X_train.index
 ).head(2)
-```
-  
-- Next time: actual prediction
+``` 
+
+::: {.footer}
+
+
+:::
 
 ## Recap and Conclusions {background="#00100F"}
   
@@ -1162,7 +1194,12 @@ pd.DataFrame(
 
 In this lecture we
 
-1. Discussed   
+1. Discussed theoretical properties of MSE
+2. Set up the empirical example
+   1. Data
+   2. Exploration
+   3. Prepartion
+3. Met `scikit-learn`
 
 #### Next Questions
 
@@ -1170,7 +1207,9 @@ In this lecture we
 
 Ready for actual prediction:
 
-- s
+- How do predictors work in `scikit-learn`?
+- How to attach them to pipelines?
+- How to evaluate competing models?
 
 #### References {.allowframebreaks visibility="uncounted"}
 
