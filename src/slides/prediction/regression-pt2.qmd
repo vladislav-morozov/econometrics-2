@@ -58,6 +58,8 @@ By the end, you should be able to
 ::: {.nonincremental}
 
 - Chapters 3, 6-9 in @James2023IntroductionStatisticalLearning
+- Documentation
+- In ESL:
 
 :::  
 
@@ -66,12 +68,9 @@ By the end, you should be able to
 #### 
 
 Continue with empirical setup from last time 
- 
-## Linear Regression {background="#00100F"}
-  
 
-  
-### Bias-Variance Trade-Off {background="#43464B" visibility="uncounted"}
+## Bias-Variance Trade-Off {background="#00100F"}
+ 
 
 
 #### Current Goal: Picking $\Hcal$
@@ -151,17 +150,51 @@ Decomposition ([-@eq-mse-decomp]) highlights <span class="highlight">bias-varian
 Bias-complexity trade-off also sometime called bias-variance trade-off by synecdoche. But, strictly speaking, only MSE can be written as $(Bias)^2 + Variance$.  Other risks — different components (e.g. MAE involves absolute value of bias and mean absolute deviation)
 
 
-:::
+::: 
+
+## Linear Regression {background="#00100F"}
+  
+ 
 
 ### Polynomial Hypotheses {background="#43464B" visibility="uncounted"}
 
 
-#### Polynomial Terms
+
+
+#### Polynomial Hypotheses
+
+Start with familiar linear hypothesis class
+$$
+\Hcal = \curl{h(\bx): \varphi(\bx)'\bbeta: \bbeta\in \R^{\dim(\varphi(\bb))} }
+$$
+where
+
+- $\bbeta$ coefficients
+- $\bx$ — original features
+- $\varphi(\bx)$ — polynomials of <span class="highlight">some</span> of the original $\bx$ up to given degree $k$
+
+
+#### Implementation Approach
+
+Simple to do conveniently and reproducibly with `scikit-learn`
+
+1. Create `Pipeline` that take $\bx$ and returns $\varphi(\bx)$ (did that last time)
+2. Attach a learning algorithm that takes $\varphi(\bx)$ and returns $\hat{y}$ to the end of the pipeline
+
+. . . 
+
+This gives 
+
+#### Reminder: Preprocessing Pipeline
+
+
+#### `LinearRegression`
+
+`LinearRegression` from `sklearn` implements OLS (and some versions)
 
 
 
-
-
+#### Predictors in `scikit-learn`
 
 #### Raw
 
@@ -186,11 +219,27 @@ but maybe an alternative approach is to allow a high-degree, but punish the mode
 
 ## Cross-Validation {background="#00100F"}
   
+#### Problem: Evaluating and Selecting Models?
+
+Key question:
+
+what approach do we take?
+
+- OLS with given maximum rank, maybe not too high?
+  - How to select polynomial degree? 
+- Or penalized with a generous
+  - Penalized by how much? Does it matter 
+
+
+#### Model Selection
+
+These are all model selection problems 
 
 
 #### Tuning Penalty Parameters with CV
 
 #### About Cross-Validation
+
 
 Note cross-validation is <span class="highlight">inherently biased</span>: 
 
@@ -202,6 +251,16 @@ Note cross-validation is <span class="highlight">inherently biased</span>:
 #### 
 
 Can tune pretty much anything
+
+#### Special Versions
+
+`LaasoCV` and `RidgeCV` automatically select their 
+
+
+####
+
+`lasso_path`
+
 
 ## Model Development II: Trees and Forests  {background="#00100F"}
   
