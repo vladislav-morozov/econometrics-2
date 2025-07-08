@@ -43,15 +43,16 @@ open-graph:
 
 #### Learning Outcomes
 
-This lecture — first part of illustrated regression
+This lecture — first part of our illustrated regression example
 
 <br>
 
 By the end, you should be able to
 
 - Discuss properties of MSE, its relation to the conditional mean
-- E
+- Explain why we need a separate test set
 - Perform basics of exploratory data analysis
+- Use `scikit-learn` transformers and pipelines
 
 #### References
 
@@ -59,7 +60,9 @@ By the end, you should be able to
 
 ::: {.nonincremental}
 
-- Chapters 3, 6-9 in @James2023IntroductionStatisticalLearning
+- Chapters 3 @James2023IntroductionStatisticalLearning
+- Relevant material from section 7.1-7.3 in [`scikit-learn` documentation](https://scikit-learn.org/stable/data_transforms.html) (transformations, pipelines, feature extraction)
+- More on exploratory data analysis with Python: chapter 9-12 in @Lau2023LearningDataScience 
 
 :::  
 
@@ -88,7 +91,7 @@ Accurately predict house prices in small subregions in California
 
 #### Meet `scikit-learn` {.scrollable}
 
-For learning we will use `scikit-learn` — a fantastic and convenient package for predictive learning in Python
+For learning we will use `scikit-learn` — a fantastic and Pythonic library for predictive learning in Python
 
 <br>
 
@@ -103,11 +106,21 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 
-# Source of dataset
+# Data source
 from sklearn.datasets import fetch_california_housing
 
-from sklearn.model_selection import (
-    train_test_split
+# For splitting dataset
+from sklearn.model_selection import train_test_split
+
+# For composing transformations
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+
+# For preprocessing data
+from sklearn.preprocessing import(
+    FunctionTransformer, 
+    PolynomialFeatures,
+    StandardScaler
 )
 ```
 
@@ -166,7 +179,7 @@ We will go through the following key steps:
 - Train and validate models, select best-performing during validation
 - Evaluate the final chosen model using the test sample
 
-
+This lecture: first three steps
   
 #### Are There More Steps? 
 
@@ -192,7 +205,7 @@ See book by @Huyen2022DesigningMachineLearning for a great overview
 
 #### Which Criterion to Use?
 
-In this example want to  equally serve buyers and sellers, so
+In this example just want to be precise:
 
 - Overprediction and underprediction equally bad 
 - $\Rightarrow$ symmetric loss
@@ -201,7 +214,7 @@ In this example want to  equally serve buyers and sellers, so
 
 <br>
 
-Also want stronger punishments for bigger mistakes
+Also want bigger price for bigger mistakes
 
 #### Mean Squared Error
 
@@ -224,7 +237,7 @@ Why is MSE popular?
 :::
  
 
-#### MSE-Optimal Forecast
+#### MSE-Optimal Predictor (Bayes Predictor)
 
 <div class="rounded-box">
 
@@ -268,9 +281,12 @@ Recall
 
 ::: {#prp-lie}
 
-## Law of Iterated Expectations 
+## Properties of conditional expectations
 
-For any variables $V, W$ it holds that $\E[V]= \E[ \E[V|W]]$, provided $\E[\abs{V}]$ exists. 
+For any variables $V, W$ it holds that
+
+1.  $\E[V]= \E[ \E[V|W]]$
+2.  $\E[f(W)V|W] =f(W)\E[V]$
 
 ::: 
 
@@ -644,7 +660,7 @@ A flexible model (like a tree/forest) can learn the pattern "high `AveOccup` = p
 
 Need to think what features we include 
 
-- Some probably not directly helpful (longitude and latitude), though maybe can be transformed into something more useful
+- Some probably not directly helpful (longitude and latitude), though maybe can be transformed into something more useful (like proximity to activity centers)
 - About others: sometimes useful to look at scatterplots and correlations
 
 . . . 
@@ -760,6 +776,18 @@ The housing data set was nice and clean
 
 ## Preparing the Data {background="#00100F"}
    
+#### Separating Data
+
+Before everything: separate data into $\bX$ and $\bY$:
+
+```{python}
+#| echo: true
+X_train = train_set.drop("MedHouseVal", axis=1)
+y_train = train_set["MedHouseVal"].copy()
+
+print(X_train.head())
+```
+
 #### Reproducibility
 
 
@@ -780,6 +808,8 @@ Want a pipeline that
 
 - Ingests the raw data (original variables)
 - Produces the dataset we will present to the learning algorithms (next lecture)
+
+### Transformers {background="#43464B" visibility="uncounted"}
 
 #### What Transformations?
 
@@ -803,17 +833,322 @@ In terms of transformations:
 
 - Transformers have a unified interface
 - Can chain transformers into <span class="highlight">pipelines</span> 
-- Can combine 
-
-#### Example Transformer: Standardization
-
-
-#### Pipeline I
+- Can combine parallel pipelines together
+- End result takes in original variables and can be run with a single method 
 
 
-####
+#### Example Transformer: Standardization I
+
+First example: standardization. Want each column to have mean 0 and variance 1
+
+. . .
+
+Standardized version of $k$th variable
+$$
+\tilde{X}^{(k)}_i = \dfrac{ X_i^{(k)} - \E[X_i^{(k)}] }{\var(X_i^{(k)})}
+$$
+
+Here $\E[X_i^{(k)}]$ and $\var(X_i^{(k)})$ are unknown transformation parameters that need to be learned 
+
+#### Example Transformer: Standardization II
+
+Use `StandardScaler()` from `sklearn.preprocessing`:
+
+```{python}
+#| echo: true
+std_scaler = StandardScaler()
+
+X_standardized = pd.DataFrame(
+    std_scaler.fit_transform(X_train),
+    columns=std_scaler.get_feature_names_out(),
+    index=X_train.index,
+)
+
+# Check the mean and the standard deviation
+X_standardized.agg(['mean', 'std']).round(3)
+```
+
+#### Transformer Interface
+
+Transformers in `scikit-learn` have the <span class="highlight">same</span> interface. 
+
+Key common methods:
+
+- `fit()` — learn the parameters of the transformation (e.g. means and standard deviation)
+- `transform()` — transform data (training or new ) 
+- `fit_transform()` — combination of `fit()` and `transform()`
+
+ 
+. . . 
+
+Usually return `numpy` arrays, column names of result can be obtained from `get_feature_names_out()` 
+
+::: {.footer}
+
+Sometimes `fit_transform()` is optimized and a lot faster than separate `fit()` and `transform()`
 
 
+:::
+
+#### Applying the Transformer
+
+- Our `StandardScaler` has *learned* the parameters — the means and standard deviations of each column 
+```{python}
+#| echo: true
+std_scaler.mean_
+```
+- Can now transform any new collection of $\bX$. 
+- It will use the <span class="highlight">same</span> parameters (also with validation and test data)
+
+#### Custom Transformers I
+
+`sklearn.preprocessing` has many transformers
+
+- Encoders (e.g. making dummies with `OneHotEncoder`)
+- Normalizers and scalers
+- Functional transformations (e.g. polynomials with `PolynomialFeatures`)
+  
+
+But can also write our own transformers
+
+
+
+#### Custom Transformers II 
+
+Ways of writing custom transformations
+
+- Based on specific simple functions with `FunctionTransformer`
+- Fully custom ones, just need to implement minimal (inheriting from `TransformerMixin` is helpful)
+
+
+<br>
+
+Important part: result should have fitting and transforming
+
+#### Custom Example: Column Ratio
+
+- Example: transformer for computing the share bedrooms in all rooms with `FunctionTransformer`
+- Sufficient to supply the transforming function that operates on rows
+```{python}
+#| echo: true
+def column_ratio(X):
+    return X[:, [0]] / X[:, [1]]
+
+divider_transformer = FunctionTransformer(column_ratio, validate=True)
+divider_transformer
+```
+
+
+::: {.footer}
+
+`validate=True` means `scikit-learn` will try to convert input to 2D `numpy` array first
+
+:::
+
+#### Applying Column Ratio
+
+Can now apply: 
+```{python}
+#| echo: true
+divider_transformer.fit_transform(X_train.loc[:, ["AveBedrms", "AveRooms"]])
+```
+
+- What about feature names? 
+- How to fit that with the rest of the processing? 
+
+
+### Pipelines {background="#43464B" visibility="uncounted"}
+
+#### Pipelines
+
+To compose transformations, can use <span class="highlight">pipelines</span> 
+
+- `Pipeline` from `sklearn.pipeline`
+- A pipeline is a sequence of transformations.
+- Optionally can attach a predictor at the end (next time)
+- Can operate a single transformer
+- Simple to specify: just provide a list of tuples of form `(name, Transformer)` to `Pipeline`
+
+#### Pipelines: Polynomials + Standardization
+
+```{python}
+#| echo: true
+polynom_pipeline = Pipeline(
+    [ 
+        ('poly', PolynomialFeatures(degree=2, include_bias=False)),
+        ('scale', StandardScaler()),
+    ],
+)
+polynom_pipeline
+```
+
+#### Pipelines: Polynomial Example in Action
+
+```{python}
+#| echo: true
+X_polyn = polynom_pipeline.fit_transform(X_train)
+pd.DataFrame(
+    X_polyn,
+    columns=polynom_pipeline.get_feature_names_out(),
+    index=X_train.index,
+).head(3)
+```
+
+::: {.footer}
+
+Observe how the column names are preserved
+
+:::
+ 
+#### Column Transformers I
+
+Pipelines allow <span class="highlight">sequential</span>combination of transformations
+
+. . .
+
+What about parallel combinations? Recall: want to
+
+- Drop some variables
+- Take ratio of some other vars
+- Leave the rest untouched
+
+Only then make polynomials (maybe) and standardize
+
+
+<div class="rounded-box">
+
+Use `ColumnTransformer` from `sklearn.compose`
+
+</div>
+
+::: {.footer}
+
+
+:::
+
+```{python}
+
+def ratio_name(function_transformer, feature_names_in):
+    return ["ratio"]
+
+divider_transformer = FunctionTransformer(
+  column_ratio, 
+  validate=True, 
+  feature_names_out = ratio_name)
+
+```
+
+#### Column Transformers II {.scrollable}
+
+- `ColumnTransformer`: different transformations for different columns
+- Also simple to specify: with a list of tuples of `(name, transformer, columns)`
+
+```{python}
+#| echo: true
+ 
+feat_extr_pipe = ColumnTransformer(
+  [
+    ('bedroom_ratio', divider_transformer, ['AveBedrms', 'AveRooms']),
+    (
+      'passthrough', 
+      'passthrough', 
+      [
+        'MedInc', 
+        'HouseAge', 
+        'AveRooms', 
+        'AveBedrms', 
+        'Population', 
+        'AveOccup',
+      ]
+    ),
+    ('drop', 'drop', ['Longitude', 'Latitude'])
+  ]
+) 
+
+```
+
+::: {.footer}
+
+
+:::
+
+#### Column Transformers III {.scrollable}
+
+Our "feature extraction" pipeline:
+```{python}
+feat_extr_pipe
+```
+
+Results of its action
+```{python}
+pd.DataFrame(
+  feat_extr_pipe.fit_transform(X_train), 
+  columns=feat_extr_pipe.get_feature_names_out(),
+  index=X_train.index).head(2)
+```
+
+
+::: {.footer}
+
+
+:::
+
+ 
+
+#### Discussion
+
+- Same column can go into several arms of the column transformer
+- Note: adds component names ot columns names: two underscores `__` separate component names
+- Columns not specified handled according to `remainder` argument
+  - Defaults to `drop` (can also `passthrough`)
+  - In small applications may be better to be explicit about dropping
+ 
+#### Adding The Remaining Components {.scrollable}
+
+
+
+- Now only need to add the polynomial features and the scaler
+- Can freely combine column transformers and pipelines into other pipelines
+
+
+
+```{python}
+#| echo: true
+preprocessing = Pipeline(
+  [
+    ('extraction', feat_extr_pipe),
+    ('poly', PolynomialFeatures(degree=2, include_bias=False)),
+    ('scale', StandardScaler()),
+  ]
+)
+
+```
+
+#### Full Preprocessing Pipeline {.scrollable}
+
+```{python}
+preprocessing
+```
+ 
+::: {.footer}
+
+
+:::
+
+
+#### Looking at the Data 
+
+- Pipeline ingests original data, applies all our steps, and gives a preprocessed data
+```{python}
+#| echo: true
+pd.DataFrame(
+  preprocessing.fit_transform(X_train), 
+  columns=preprocessing.get_feature_names_out(),
+  index=X_train.index
+).head(2)
+```
+  
+- Next time: actual prediction
 
 ## Recap and Conclusions {background="#00100F"}
   
@@ -827,7 +1162,7 @@ In terms of transformations:
 
 In this lecture we
 
-1. Discussed  
+1. Discussed   
 
 #### Next Questions
 
