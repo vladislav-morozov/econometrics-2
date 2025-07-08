@@ -1,0 +1,269 @@
+---
+title: "Regression II: Model Training and Evaluation"
+subtitle: " "
+author: Vladislav Morozov  
+format:
+  revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="  (lecture notes slides)."/>
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Regression II: Model Training and Evaluation"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+open-graph:
+    description: " (lecture notes slides)."
+---
+
+
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture  
+
+<br>
+
+By the end, you should be able to
+
+- Discuss MSE, its connection to conditional mean, the bias-variance trade-off
+
+#### References
+
+<br>
+
+::: {.nonincremental}
+
+- Chapters 3, 6-9 in @James2023IntroductionStatisticalLearning
+
+:::  
+
+### Empirical Setup {background="#43464B" visibility="uncounted"}
+
+#### 
+
+Continue with empirical setup from last time 
+ 
+## Linear Regression {background="#00100F"}
+  
+
+  
+### Bias-Variance Trade-Off {background="#43464B" visibility="uncounted"}
+
+
+#### Current Goal: Picking $\Hcal$
+
+So far have
+
+- Risk
+- Basic idea of the data
+
+. . . 
+
+<br>
+
+Now need to pick hypothesis class $\Hcal$
+
+- Guided by bias-complexity trade-off
+- Can specialize it a bit more for MSE — the <span class="highlight
+
+#### Bias-Variance Decomposition I
+
+
+By proceeding as with MSE minimization (check!) can write 
+$$
+\begin{aligned}
+MSE(h)  & = \E[(Y-h(\bX))^2] \\
+& = \E\left[ (Y-\E[h(\bX)])^2 \right] + \E\left[   \left( h(\bX) - \E[h(\bX)] \right)^2  \right]
+\end{aligned}
+$$
+
+- Second term: $\var(h(\bX))$
+- What about first term?
+
+
+#### Bias-Variance Decomposition II
+
+
+Define $U = Y- \E[Y|\bX]$ and let $\var(U) = \sigma^2$
+
+. . . 
+
+Then (why?) since $\E[U|\bX]=0$
+$$
+\begin{aligned}
+\hspace{-1cm} MSE(h)  & = \sigma^2  + \E\left[ (\E[Y|\bX]- h(\bX))^2 \right] + \var(h(\bX))
+\end{aligned}
+$$ {#eq-mse-decomp}
+
+MSE is sum of 
+
+- <span class="highlight">Irreducible</span> error $\sigma^2$
+- <span class="highlight">Squared bias</span> of $h(\bX)$ for Bayes predictor $\E[Y|\bX]$
+- <span class="highlight">Variance</span> of $h(\bX)$
+
+
+::: {.footer}
+
+The bias interpretation comes from writing $\E\left[ (\E[Y|\bX]- h(\bX))^2 \right]=  \E\left[ \E\left[  (\E[Y|\bX]- h(\bX))^2 |\bX \right]\right]$. Inside the conditional the terms are fixed parameters
+
+:::
+
+
+#### Bias-Variance Trade-Off
+
+Decomposition ([-@eq-mse-decomp]) highlights <span class="highlight">bias-variance</span> trade-off:
+
+- Trade-off:
+  - More complicated $h(\cdot)$ can approximate $\E[Y|\bX]$ better
+  - But more complicated $h(\bX)$ likely has higher $h(\bX)$
+
+
+. . . 
+
+
+
+::: {.callout-note appearance="minimal"}
+
+Bias-complexity trade-off also sometime called bias-variance trade-off by synecdoche. But, strictly speaking, only MSE can be written as $(Bias)^2 + Variance$.  Other risks — different components (e.g. MAE involves absolute value of bias and mean absolute deviation)
+
+
+:::
+
+### Polynomial Hypotheses {background="#43464B" visibility="uncounted"}
+
+
+#### Polynomial Terms
+
+
+
+
+
+
+#### Raw
+
+
+### Penalized Approaches {background="#43464B" visibility="uncounted"}
+
+#### Problem
+
+We have estimated some regressions, but how do we choose
+
+#### Estimating Risk with Cross-Validation
+
+#### Penalized Approaches
+
+but maybe an alternative approach is to allow a high-degree, but punish the model
+
+#### Penalties
+
+- Ridge
+- Lasso
+
+
+## Cross-Validation {background="#00100F"}
+  
+
+
+#### Tuning Penalty Parameters with CV
+
+#### About Cross-Validation
+
+Note cross-validation is <span class="highlight">inherently biased</span>: 
+
+- In the end will train on full training sample of size $N$
+- But each split trains model on sample of size $4N/5$ (with 5-fold CV) — different thing!
+- The smallest bias is achieved by leave-one-out CV (LOOCV) with training sample of size $N-1$ — usually too expensive to do
+- Cross-validation generally reasonably valid as long as you don't consider too many competuing models (eventually the comparisons start learning the validation sets too)
+
+#### 
+
+Can tune pretty much anything
+
+## Model Development II: Trees and Forests  {background="#00100F"}
+  
+  
+### Regression Trees {background="#43464B" visibility="uncounted"}
+  
+  
+
+#### Motivation
+
+Linear models are that
+
+Let's try a regression tree
+
+#### Hypothesis Class
+
+#### Training Error
+
+Oops, we really overfit that data
+
+That will certainly
+
+#### Why Overfitting? 
+
+- Deep trees
+- Decision trees tend to be on the high-variance side of things
+
+
+
+## Recap and Conclusions {background="#00100F"}
+  
+ 
+
+
+ 
+
+#### Recap
+
+<br>
+
+In this lecture we
+
+1. Discussed  
+
+#### Next Questions
+
+<br>
+
+Many topics open up:  
+
+- How does a classification problem look like? How are classification models evaluated? 
+- What other learning algorithms are there? When is each one appropriate? 
+- How does one deal with non-numerical features? 
+- How does one deal with missing data?
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
+
+::: footer
+
+:::
+
+ 

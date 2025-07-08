@@ -63,6 +63,7 @@ website:
         - slides/prediction/learning-elements.qmd 
         - slides/prediction/pac-nfl-tradeoff.qmd
         - slides/prediction/regression-pt1.qmd
+        - slides/prediction/regression-pt2.qmd
 
 
 execute:
