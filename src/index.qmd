@@ -28,6 +28,9 @@ Advanced Econometrics builds on the basic econometrics course in three direction
 **Level:** Undergraduate\
 **Prerequisites:** basic courses in statistics and econometrics
 
+**Applications in:** ![Python](https://img.shields.io/badge/python-ffdd54?style=flat&logo=python&logoColor=3776AB) \
+**Made with:** ![Quarto](https://img.shields.io/badge/Quarto-39729E?style=flat&logo=quarto&logoColor=white) \
+**Course source code:** [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?style=flat&logo=github&logoColor=white)](https://github.com/vladislav-morozov/econometrics-2)
 
 ### In Slide Form
  
