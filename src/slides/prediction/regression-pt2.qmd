@@ -458,7 +458,7 @@ ols_sq_model
 The whole pipeline can be fitted as before
 ```{python}
 #| echo: true
-ols_sq_model.fit(X_train, y_train)
+ols_sq_model.fit(X_train, y_train);
 ```
 
 . . .
