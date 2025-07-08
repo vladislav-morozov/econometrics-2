@@ -1,0 +1,1223 @@
+---
+title: "Regression I: MSE, Data Preparation"
+subtitle: "MSE, Train-Test Split, Exploratory Analysis, and Pipelines"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="Basics of regression in machine learning: MSE, data splitting, exploratory data analysis, using scikit-learn transformers and pipelines (lecture slides)"/>
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Regression I: From Problem to Data Preparation"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+open-graph:
+    description: "Basics of regression in machine learning: MSE, data splitting, exploratory data analysis, using scikit-learn transformers and pipelines (lecture slides)"
+---
+
+
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture — first part of our illustrated regression example
+
+<br>
+
+By the end, you should be able to
+
+- Discuss properties of MSE, its relation to the conditional mean
+- Explain why we need a separate test set
+- Perform basics of exploratory data analysis
+- Use `scikit-learn` transformers and pipelines
+
+#### References
+
+<br>
+
+::: {.nonincremental}
+
+- Chapters 3 @James2023IntroductionStatisticalLearning
+- Relevant material from section 7.1-7.3 in [`scikit-learn` documentation](https://scikit-learn.org/stable/data_transforms.html) (transformations, pipelines, feature extraction)
+- More on exploratory data analysis with Python: chapter 9-12 in @Lau2023LearningDataScience 
+
+:::  
+
+### Empirical Setup {background="#43464B" visibility="uncounted"}
+
+#### Framing Prediction Tasks
+
+Imagine the following scenario
+
+- You are interested in investing in a region in California
+- Want to decide where to invest 
+
+. . .
+
+Investing may require buying some houses — want to accurately price them
+
+
+Thus: current prediction problem is
+<div class="rounded-box">
+
+Accurately predict house prices in small subregions in California
+
+</div>
+
+ 
+
+#### Meet `scikit-learn` {.scrollable}
+
+For learning we will use `scikit-learn` — a fantastic and Pythonic library for predictive learning in Python
+
+<br>
+
+Will use capabilities from different blocks. Imports:
+
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Imports"
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import plotly.express as px
+
+# Data source
+from sklearn.datasets import fetch_california_housing
+
+# For splitting dataset
+from sklearn.model_selection import train_test_split
+
+# For composing transformations
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+
+# For preprocessing data
+from sklearn.preprocessing import(
+    FunctionTransformer, 
+    PolynomialFeatures,
+    StandardScaler
+)
+```
+
+#### Data
+
+<br>
+
+Will use the California housing data available with `scikit-learn`
+
+- Nice, clean dataset  
+- Can be retrieved with special function in `sklearn.datasets`
+- Describes median price of house in block and some block characteristics
+ 
+
+#### Loading the Data {.scrollable}
+
+```{python}
+from pathlib import Path
+data_path = Path() / "slides" / "prediction" / "data"
+
+```
+
+```{python}
+#| echo: true 
+data = fetch_california_housing(data_home=data_path, as_frame=True)
+data_df = data.frame.copy()                     # Separate data DF
+print(data.DESCR)
+```
+
+::: {.footer}
+
+:::
+
+#### Key Data Info {.scrollable}
+
+
+Dataset is clean, with no missing values and nice names — good for learning and practicing now:
+```{python}
+#| echo: true 
+data_df.info()
+```
+
+::: {.footer}
+
+:::
+
+### Learning Steps {background="#43464B" visibility="uncounted"}
+
+#### Key Steps
+
+We will go through the following key steps:
+
+- Choose the risk (key metric)
+- Split data into training and test sets
+- Explore the training set, select features
+- Train and validate models, select best-performing during validation
+- Evaluate the final chosen model using the test sample
+
+This lecture: first three steps
+  
+#### Are There More Steps? 
+
+- In research, not really — we get a nice model that solves a fixed problem
+- In production use, many things beyond just model development 
+  - Data engineering 
+  - Model deployment and monitoring
+  - Infrastructure
+
+. . .  
+
+See book by @Huyen2022DesigningMachineLearning for a great overview
+
+
+
+
+## Risk in Regression {background="#00100F"}
+  
+
+
+
+### (Root) Mean Square Error {background="#43464B" visibility="uncounted"}
+
+#### Which Criterion to Use?
+
+In this example just want to be precise:
+
+- Overprediction and underprediction equally bad 
+- $\Rightarrow$ symmetric loss
+
+. . . 
+
+<br>
+
+Also want bigger price for bigger mistakes
+
+#### Mean Squared Error
+
+Popular choice of risk with above properties — <span class="highlight">mean squared error</span>:
+$$
+MSE(\hat{Y}) = \E[(Y-\hat{Y})^2]
+$$
+
+. . . 
+  
+Why is MSE popular?
+
+- MSE is "generic": For $Y\approx \hat{Y}$ "locally equivalent" to many other smooth risk functions
+- Motivated by maximum likelihood under normality
+- Bayes predictor is known and interpretable — $\E[Y|\bX]$
+
+::: {.footer}
+
+
+:::
+ 
+
+#### MSE-Optimal Predictor (Bayes Predictor)
+
+<div class="rounded-box">
+
+::: {#prp-pred-mse-opt}
+
+Suppose that $Y$ has finite second moments. Then
+$$
+\E[Y|\bX] = \argmin_{h(\cdot): \E[f(\bX)^2]<\infty}  \E[ (Y-h(\bX))^2]
+$$
+
+:::
+
+
+</div>
+
+- MSE-best guess: conditional expectation of $Y$
+- Explains in what sense $\E[Y|\bX]$ was the "best guess" for $Y$ given "information" $\bX$
+
+ 
+
+#### Proof I: Expansion
+
+Key trick: add and subtract $\E[Y|\bX]$ under the MSE
+$$
+\begin{aligned}
+MSE(h) & = \E[(Y- h(\bX))^2] \\
+& = \E\left[\left( (Y-\E[Y|\bX]) + (\E[Y|\bX] - h(\bX)) \right)^2\right]  \\
+& = \E\left[  (Y-\E[Y|\bX])^2 \right] + \E[(\E[Y|\bX] - h(\bX))^2]\\
+& \quad + 2\E\left[  (Y-\E[Y|\bX]) (\E[Y|\bX] - h(\bX)) \right]
+\end{aligned}
+$$
+
+
+
+
+#### Proof II: Cross-Term = 0
+
+Recall
+
+<div class="rounded-box">
+
+::: {#prp-lie}
+
+## Properties of conditional expectations
+
+For any variables $V, W$ it holds that
+
+1.  $\E[V]= \E[ \E[V|W]]$
+2.  $\E[f(W)V|W] =f(W)\E[V|W]$
+
+::: 
+
+</div>
+
+. . .
+
+It follows that (why?)
+$$
+\E\left[  (Y-\E[Y|\bX]) (\E[Y|\bX] - h(\bX)) \right] = 0
+$$
+
+#### Proof III: Conclusion
+
+So
+$$
+MSE(f) = \E\left[  (Y-\E[Y|\bX])^2 \right] + \E[(\E[Y|\bX] - h(\bX))^2]
+$$
+
+- First term does not depend on $h$
+- Second term minimized by taking $h(\bX) = \E[Y|\bX]$
+
+. . . 
+
+This proves @prp-pred-mse-opt
+
+#### Root MSE
+
+Typically instead of MSE report <span class="highlight">root MSE</span>:
+$$
+RMSE(\hat{Y}) = \sqrt{ \E[(Y-\hat{Y})^2]  }
+$$
+
+Why? 
+
+- RMSE expressed in the same units as the outcome, more interpretable than raw MSE
+- RMSE also minimized by $\E[Y|\bX]$
+
+. . . 
+
+We will focus on RMSE
+
+### Other Risks {background="#43464B" visibility="uncounted"}
+
+#### When Is MSE not Satisfactory
+
+Sometimes MSE is not the right choice
+
+<br>
+
+Examples:
+
+- Asymmetry in preferences, e.g. overpredicting is more dangerous than underpredicting
+- Interest in predicting a specific part of the distribution of $Y$: e.g. price point not exceeded by 90% of houses
+- Many outliers in $Y$ (heavy tails)
+
+#### Other Popular Risks
+
+In such cases need to use other losses
+
+- Asymmetry: linex
+- Quantiles: tick (quantile) loss:
+$$
+l(y-\hat{y}) = \begin{cases}
+\tau (y-\hat{y}), & u \geq 0, \\
+(\tau -1)(y-\hat{y}), & u < 0
+\end{cases}
+$$
+where $\tau$ is the target quantile (e.g. 0.9)
+- Outliers: MAE or Huber loss
+
+::: {.footer}
+
+Note that MAE corresponds to $l(y-\hat{y})$ with $\tau=0.5$
+
+::: 
+ 
+
+
+## Splitting the Data {background="#00100F"}
+   
+ 
+#### Estimating the Risk
+
+Recall: want models with good risk:
+$$
+R(\hat{h}_S) = \E_{\bX, Y}\left[ l(Y, \hat{h}_S(\bX))  \right]
+$$
+Expectation — taken over a <span class="highlight">new point</span> $(\bX, Y)$ — not part of sample $S$ used to select $\hat{h}_S$
+
+. . . 
+
+<br>
+
+<div class="rounded-box"> 
+
+How do you estimate risk of $\hat{h}_S$? 
+
+</div>
+
+
+::: {.footer}
+
+Estimating risk matters for making a case for your model: is it actually better than whatever solution existed before?
+
+:::
+
+#### Training Loss
+
+Naive approach: 
+
+- Let  $S= \curl{(\bX_1, Y_1), \dots, (\bX_N, Y_N)}$ be the <span class="highlight">training set</span> — sample used to select $\hat{h}_S$
+- Estimate $R(\hat{h}_S)$ with empirical risk on $S$
+$$ \small
+\hat{R}_S(\hat{h}_S) = \dfrac{1}{N} \sum_{i=1}^N l(Y_i, \hat{h}_S(\bX_i))
+$$
+ 
+
+
+$\hat{R}_S(\hat{h}_S)$ often called <span class="highlight">training loss</span>
+
+#### Issues with Evaluating on Training Data
+
+Training loss is <span class="highlight">bad</span> — too <span class="highlight">optimistic</span>
+
+<div class="rounded-box">
+
+$\hat{R}_S(\hat{h}_S)$ is <span class="highlight">downward biased</span>  estimator of $R(\hat{h}_S)$
+
+</div>
+
+- Not like risk definition: average <span class="highlight">not</span> over a new point
+- Intuition: $\hat{h}_S$ picked to do well on $S$, $S$ is not "new" to $\hat{h}_S$
+
+
+::: {.footer}
+
+That's why $R^2$ is not a useful metric
+
+:::
+
+#### Split: Train and Test Set
+ 
+Solution — using a <span class="highlight">separate test set </span> with observations that are <span class="highlight">new</span> 
+
+- Split $S$ into two sets: 
+  - Training set $S_{Tr}$: used for selecting $\hat{h}_{S_{Tr}}$
+  - Test test $S_{Test}$ with $N_{S_{Test}}$ observations
+- Estimate risk with average  over $S_{Test}$
+$$
+\hat{R}_{S_{Test}}(\hat{h}_{S_{Tr}}) =  \dfrac{1}{N_{S_{Test}}} \sum_{j=1}^N l(Y_j, \hat{h}_{S_{Tr}}(\bX_j))
+$$
+
+::: {.footer}
+
+Common to reserve up to 20% of observations for testing. Can use less in big $S$
+
+:::
+
+#### Test Set Gives Unbiased Estimator
+
+
+Evaluating on test set — good picture of performance
+
+<div class="rounded-box"> 
+
+$$ \small
+\hat{R}_{S_{Test}}(\hat{h}_{S_{Tr}}) = \E[(\hat{h}_{S_{Tr}})]
+$$
+
+</div>
+
+
+. . .
+ 
+
+- Good properties of this depend on the algorithm not seeing any part of $S_{Test}$
+- Otherwise you get <span class="highlight">data leakage</span>
+
+::: {.callout-caution}
+
+Do not use any part of the test set for training and comparing models! 
+
+:::
+
+
+
+
+::: {.footer}
+
+:::
+
+
+ 
+#### Another Problem: Choosing Between Models
+
+Now a problem:
+
+- Can't compare models based on training set
+- Can't compare models based on test set
+
+
+<br>
+
+
+<div class="rounded-box">
+
+How do you compare competing models? 
+
+</div>
+ 
+
+#### Further Splits: Validation
+
+
+<div class="rounded-box">
+
+Answer: split training set into training set and <span class="highlight">validation</span> set 
+
+</div>
+
+  
+
+. . . 
+ 
+
+- Train on training sets, check risk on validation
+- Each risk on validation set is unbiased 
+- Select model with best validation performance
+ 
+<br>
+
+Can use multiple splits for better estimates (cross-validation, more on that later)
+
+
+#### In Practice
+
+Can do simple split with `train_test_split()` from `sklearn.model_selection`:
+
+```{python}
+#| echo: true
+train_set, test_set = train_test_split(data_df, test_size = 0.2, random_state= 1)
+print(train_set.shape)
+print(test_set.shape)
+```
+Just a simple random split into two sets
+
+<br>
+
+We will use cross-validation, no need to explicitly split off a validation set
+
+
+## Exploring the Data {background="#00100F"}
+   
+
+
+
+#### Exploratory Data Analysis
+
+Can now do <span class="highlight">exploratory data analysis</span>: 
+
+- Looking at data: distributions, descriptive stats, etc.
+- Identifying promising variables
+- Making some features (feature extraction)
+- Other exploration to gain insights into data
+
+#### Geographical Distribution of Data
+
+```{python} 
+BG_COLOR = "whitesmoke"
+FONT_COLOR = "black"
+GEO_COLOR = "rgb(201, 201, 201)"
+OCEAN_COLOR = "rgb(136, 136, 136)"
+
+fig, ax = plt.subplots(figsize=(14, 6.5))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+scatter = train_set.plot(
+    kind="scatter",
+    x="Longitude",
+    y="Latitude",
+    grid=True,
+    s=train_set["Population"] / 100,
+    label="Population",
+    c="MedHouseVal",
+    cmap="BuPu",
+    colorbar=False,
+    legend=False,
+    sharex=False,
+    ax=ax
+)
+
+# Set the main title
+ax.set_title("Geographical distribution of points, scaled by population, color by median house value", loc="left")
+# Add colorbar and set its title
+cbar = plt.colorbar(scatter.get_children()[0], ax=ax)
+cbar.set_label("Median House Value")
+
+plt.show()
+```
+
+::: {.footer}
+
+You can see the shape of California in the scatter
+
+:::
+
+#### Variable Distributions
+
+```{python}
+fig, ax = plt.subplots(figsize=(14, 7))
+train_set.hist(ax = ax, bins=50, grid=False, color="teal");
+
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+
+
+```
+
+#### Variable Distributions: Results
+
+- Most variables look normal
+- But `AveRooms`, `AveOccup`, and `AveBedroms` looks suspicious: there are some very high values. 
+- Check values
+```{python}
+#| echo: true
+#|
+train_set.nlargest(3, "AveOccup").loc[:,["AveOccup", "Longitude", "Latitude"]]
+``` 
+
+::: {.footer}
+
+There is also an issue in house values: recorded values go up only to \$500k (*censoring*) 
+
+:::
+
+
+#### Looking at Suspicious Observations
+
+
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+
+<iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d8009.3206425253275!2d-121.98468972235072!3d38.321554484990166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzjCsDE5JzEyLjAiTiAxMjHCsDU4JzQ4LjAiVw!5e1!3m2!1sen!2sde!4v1751911470252!5m2!1sen!2sde" width="600" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+ 
+:::
+
+::: {.column width="50%"}
+
+<iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d4386.828342325956!2d-120.51258028751427!3d40.41000405592801!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDDCsDI0JzM2LjAiTiAxMjDCsDMwJzM2LjAiVw!5e1!3m2!1sen!2sde!4v1751911542046!5m2!1sen!2sde" width="600" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+::: 
+
+ 
+
+:::: 
+
+ 
+- These places have large prisons
+- Up to you to decide: drop or keep these observations 
+
+::: {.footer}
+
+A flexible model (like a tree/forest) can learn the pattern "high `AveOccup` = prison" and adjust if there is enough data. Less flexible models might suffer
+
+:::
+
+
+
+
+
+#### Feature Engineering I
+
+Need to think what features we include 
+
+- Some probably not directly helpful (longitude and latitude), though maybe can be transformed into something more useful (like proximity to activity centers)
+- About others: sometimes useful to look at scatterplots and correlations
+
+. . . 
+
+<br>
+
+Turning raw data into useful features called <span class="highlight">feature engineering</span> 
+
+
+#### Scatterplots
+
+
+
+:::: {.columns}
+
+::: {.column width="63%"}
+
+
+
+```{python}
+BG_COLOR = "whitesmoke"
+FONT_COLOR = "black"
+GEO_COLOR = "rgb(201, 201, 201)"
+OCEAN_COLOR = "rgb(136, 136, 136)"
+CMAP = "Blues"
+
+fig = px.scatter_matrix(
+    data_df[
+        [
+            "MedHouseVal",
+            "HouseAge",
+            "MedInc",
+            "AveRooms",
+        ]
+    ],  
+)
+fig.update_traces(diagonal_visible=False)
+fig.update_traces(marker=dict(size=1))
+fig.update_traces(showupperhalf=False)
+fig.update_layout(
+    autosize=False,
+    width=700,
+    height=560,
+    font_family="Arial",
+    paper_bgcolor=BG_COLOR,
+    font=dict(color=FONT_COLOR), 
+)
+
+fig.show()
+```
+
+:::
+
+::: {.column width="37%"}
+
+- Median income broadly linearly predictive
+- Less obvious for other features
+- Note: house values seem to cluster at "round" valuations like \$250000, \$300000, etc
+
+:::
+
+::::
+
+#### Feature Engineering II: Adding a New Feature
+
+Can we add any interesting variables? 
+
+- Example: if a house has lower share of bedrooms, usually has more "luxury" rooms
+- Such houses likely more expensive
+- Can define new variable: bedroom ratio
+```{python}
+#| echo: true
+train_exp = train_set.copy()
+train_exp["BedroomRatio"] = train_exp["AveBedrms"]/train_exp["AveRooms"]
+```
+
+. . . 
+
+Example of <span class="highlight">feature extraction</span> 
+
+#### Correlations
+ 
+```{python}
+#| echo: true
+(train_exp.corr()["MedHouseVal"]
+        .sort_values(ascending=False)
+)
+```
+
+- More or less confirms what we have seen 
+- New feature rather strongly correlated with label — not bad
+
+#### Summarizing EDA
+
+What we learned:
+
+- Data quite nice for the most part
+- Potentially interesting variable: bedroom ratio
+- Some patterns due to presence of places with large prisons
+  - We will keep those observations
+  - Exercise: retry analysis with dropping them from the training set
+
+
+#### A Note on Limitations of Our Data
+
+The housing data set was nice and clean 
+
+- Good for us now to focus on key ideas
+- But be aware that real-life data is messy
+  - Genuine incorrect values
+  - Missing values
+  - Etc.
+
+## Preparing the Data {background="#00100F"}
+   
+#### Separating Data
+
+Before everything: separate data into $\bX$ and $\bY$:
+
+```{python}
+#| echo: true
+X_train = train_set.drop("MedHouseVal", axis=1)
+y_train = train_set["MedHouseVal"].copy()
+
+print(X_train.head())
+```
+
+#### Reproducibility
+
+
+- EDA process — ad hoc/experimental
+- For training want <span class="highlight">reproducible</span> flow
+
+
+. . .
+
+More formally:
+<div class="rounded-box">
+
+A data pipeline is a series of a chained data transformation
+
+</div>
+
+Want a pipeline that 
+
+- Ingests the raw data (original variables)
+- Produces the dataset we will present to the learning algorithms (next lecture)
+
+### Transformers {background="#43464B" visibility="uncounted"}
+
+#### What Transformations?
+
+
+What do we want? 
+
+- Use features identified in EDA
+- Drop unused features (longitude, latitude)
+- Many algorithms work best with <span class="highlight"> standardized data</span>
+
+In terms of transformations:
+
+- Create ratio of two columns for bedroom ratio
+- Drop geography
+- Make polynomials and standardize all included vars
+
+
+#### `scikit-learn` Transformers
+
+`scikit-learn` provides <span class="highlight">transformers</span> — tools for preprocessing data into a suitable format
+
+- Transformers have a unified interface
+- Can chain transformers into <span class="highlight">pipelines</span> 
+- Can combine parallel pipelines together
+- End result takes in original variables and can be run with a single method 
+
+
+#### Example Transformer: Standardization I
+
+First example: standardization. Want each column to have mean 0 and variance 1
+
+. . .
+
+Standardized version of $k$th variable
+$$
+\tilde{X}^{(k)}_i = \dfrac{ X_i^{(k)} - \E[X_i^{(k)}] }{\var(X_i^{(k)})}
+$$
+
+Here $\E[X_i^{(k)}]$ and $\var(X_i^{(k)})$ are unknown transformation parameters that need to be learned 
+
+#### Example Transformer: Standardization II
+
+Use `StandardScaler()` from `sklearn.preprocessing`:
+
+```{python}
+#| echo: true
+std_scaler = StandardScaler()
+
+X_standardized = pd.DataFrame(
+    std_scaler.fit_transform(X_train),
+    columns=std_scaler.get_feature_names_out(),
+    index=X_train.index,
+)
+
+# Check the mean and the standard deviation
+X_standardized.agg(['mean', 'std']).round(3)
+```
+
+#### Transformer Interface
+
+Transformers in `scikit-learn` have the <span class="highlight">same</span> interface. 
+
+Key common methods:
+
+- `fit()` — learn the parameters of the transformation (e.g. means and standard deviation)
+- `transform()` — transform data (training or new ) 
+- `fit_transform()` — combination of `fit()` and `transform()`
+
+ 
+. . . 
+
+Usually return `numpy` arrays, column names of result can be obtained from `get_feature_names_out()` 
+
+::: {.footer}
+
+Sometimes `fit_transform()` is optimized and a lot faster than separate `fit()` and `transform()`
+
+
+:::
+
+#### Applying the Transformer
+
+- Our `StandardScaler` has *learned* the parameters — the means and standard deviations of each column 
+```{python}
+#| echo: true
+std_scaler.mean_
+```
+- Can now transform any new collection of $\bX$. 
+- It will use the <span class="highlight">same</span> parameters (also when we transform validation and test data)
+
+#### Custom Transformers I
+
+`sklearn.preprocessing` has many transformers
+
+- Encoders (e.g. making dummies with `OneHotEncoder`)
+- Normalizers and scalers
+- Functional transformations (e.g. polynomials with `PolynomialFeatures`)
+  
+
+But can also write our own transformers
+
+
+
+#### Custom Transformers II 
+
+Ways of writing custom transformations
+
+- Based on specific simple functions with `FunctionTransformer`
+- Fully custom ones, just need to implement minimal (inheriting from `BaseEstimator` and  `TransformerMixin` is helpful)
+
+
+<br>
+
+Important part: result should have fitting and transforming
+
+#### Custom Example: Column Ratio
+
+- Example: transformer for computing the share bedrooms in all rooms with `FunctionTransformer`
+- Sufficient to supply the transforming function that operates on rows
+```{python}
+#| echo: true
+def column_ratio(X):
+    return X[:, [0]] / X[:, [1]]
+
+divider_transformer = FunctionTransformer(column_ratio, validate=True)
+divider_transformer
+```
+
+
+::: {.footer}
+
+`validate=True` means `scikit-learn` will try to convert input to 2D `numpy` array first
+
+:::
+
+#### Applying Column Ratio
+
+Can now apply: 
+```{python}
+#| echo: true
+divider_transformer.fit_transform(X_train.loc[:, ["AveBedrms", "AveRooms"]])
+```
+
+- What about feature names? 
+- How to fit that with the rest of the processing? 
+
+
+### Pipelines {background="#43464B" visibility="uncounted"}
+
+#### Pipelines
+
+To compose transformations, can use <span class="highlight">pipelines</span> 
+
+- `Pipeline` from `sklearn.pipeline`
+- A pipeline is a sequence of transformations.
+- Optionally can attach a predictor at the end (next time)
+- Can operate as a single transformer/predictor
+- Simple to specify: just provide a list of tuples of form `(name, Transformer)` to `Pipeline`
+
+#### Pipelines: Polynomials + Standardization
+
+```{python}
+#| echo: true
+polynom_pipeline = Pipeline(
+    [ 
+        ('poly', PolynomialFeatures(degree=2, include_bias=False)),
+        ('scale', StandardScaler()),
+    ],
+)
+polynom_pipeline
+```
+
+#### Pipelines: Polynomial Example in Action
+
+```{python}
+#| echo: true
+X_polyn = polynom_pipeline.fit_transform(X_train)
+pd.DataFrame(
+    X_polyn,
+    columns=polynom_pipeline.get_feature_names_out(),
+    index=X_train.index,
+).head(3)
+```
+
+::: {.footer}
+
+Observe how the column names are preserved
+
+:::
+ 
+#### Column Transformers I
+
+Pipelines allow <span class="highlight">sequential</span> combination of transformations
+
+. . .
+
+What about parallel combinations? Recall: want to
+
+- Drop some variables
+- Take ratio of some other vars
+- Leave the rest untouched
+
+Only then make polynomials and standardize
+
+
+<div class="rounded-box">
+
+Use `ColumnTransformer` from `sklearn.compose`
+
+</div>
+
+::: {.footer}
+
+
+:::
+
+
+
+#### Column Transformers II {.scrollable}
+
+
+```{python}
+
+def ratio_name(function_transformer, feature_names_in):
+    return ["ratio"]
+
+divider_transformer = FunctionTransformer(
+  column_ratio, 
+  validate=True, 
+  feature_names_out = ratio_name)
+
+```
+
+
+- `ColumnTransformer`: different transformations for different columns
+- Also simple to specify: with a list of tuples of `(name, transformer, columns)`
+
+```{python}
+#| echo: true
+ 
+feat_extr_pipe = ColumnTransformer(
+  [
+    ('bedroom_ratio', divider_transformer, ['AveBedrms', 'AveRooms']),
+    (
+      'passthrough', 
+      'passthrough', 
+      [
+        'MedInc', 
+        'HouseAge', 
+        'AveRooms', 
+        'AveBedrms', 
+        'Population', 
+        'AveOccup',
+      ]
+    ),
+    ('drop', 'drop', ['Longitude', 'Latitude'])
+  ]
+) 
+
+```
+
+Here a slightly more refined form of division:
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Details"
+def ratio_name(function_transformer, feature_names_in):
+    return ["ratio"]
+
+divider_transformer = FunctionTransformer(
+  column_ratio, 
+  validate=True, 
+  feature_names_out = ratio_name
+)
+
+```
+
+
+
+::: {.footer}
+
+
+:::
+
+#### Column Transformers III {.scrollable}
+
+Our "feature extraction" pipeline:
+```{python}
+feat_extr_pipe
+```
+
+Results of its action
+```{python}
+pd.DataFrame(
+  feat_extr_pipe.fit_transform(X_train), 
+  columns=feat_extr_pipe.get_feature_names_out(),
+  index=X_train.index).head(2)
+```
+
+
+::: {.footer}
+
+
+:::
+
+ 
+
+#### Discussion
+
+- Same column can go into several arms of the column transformer
+- Note: adds component names to columns names with two underscores `__` 
+- Columns in $\bX$ not specified anywhere are handled according to `remainder` argument
+  - Defaults to `drop` (can also `passthrough`)
+  - In small applications may be better to be explicit about dropping
+ 
+#### Adding The Remaining Components {.scrollable}
+
+
+
+- Now only need to add the polynomial features and the scaler
+- Can freely combine column transformers and pipelines into other pipelines
+
+
+
+```{python}
+#| echo: true
+preprocessing = Pipeline(
+  [
+    ('extraction', feat_extr_pipe),
+    ('poly', PolynomialFeatures(degree=2, include_bias=False)),
+    ('scale', StandardScaler()),
+  ]
+)
+
+```
+
+#### Full Preprocessing Pipeline {.scrollable}
+
+```{python}
+preprocessing
+```
+ 
+::: {.footer}
+
+
+:::
+
+
+#### Looking at the Data 
+
+Pipeline ingests original data, applies all our steps, and gives a preprocessed dataset
+```{python}
+#| echo: true
+pd.DataFrame(
+  preprocessing.fit_transform(X_train), 
+  columns=preprocessing.get_feature_names_out(),
+  index=X_train.index
+).head(2)
+``` 
+
+::: {.footer}
+
+
+:::
+
+## Recap and Conclusions {background="#00100F"}
+  
+ 
+
+
+
+#### Recap
+
+<br>
+
+In this lecture we
+
+1. Discussed theoretical properties of MSE
+2. Set up the empirical example
+   1. Data
+   2. Exploration
+   3. Prepartion
+3. Met `scikit-learn`
+
+#### Next Questions
+
+<br>
+
+Ready for actual prediction:
+
+- How do predictors work in `scikit-learn`?
+- How to attach them to pipelines?
+- How to evaluate competing models?
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
+
+::: footer
+
+:::
+
+ 

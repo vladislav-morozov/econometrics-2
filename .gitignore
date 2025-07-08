@@ -4,3 +4,4 @@ tmp/
 # Large datasets
 *county_quarter.tab
 *USA_Counties*
+*.pkz
