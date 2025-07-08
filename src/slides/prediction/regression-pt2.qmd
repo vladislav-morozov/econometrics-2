@@ -57,7 +57,7 @@ By the end, you should be able to
 
 ::: {.nonincremental}
 
-- Chapters 3, 6-9 in @James2023IntroductionStatisticalLearning
+- Chapters 3, 5.1, 6-9 in @James2023IntroductionStatisticalLearning
 - Documentation
 - In ESL:
 
@@ -90,6 +90,9 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 
+# Deeply copying objects
+from sklearn.base import clone
+
 # Data source
 from sklearn.datasets import fetch_california_housing
 
@@ -109,7 +112,13 @@ from sklearn.preprocessing import(
 
 # Linear models 
 from sklearn.linear_model import (
+    Lasso,
     LinearRegression,
+)
+
+# Model evaluation
+from sklearn.metrics import (
+    root_mean_squared_error,
 )
 ```
 
@@ -425,7 +434,7 @@ Can see big difference with `statsmodels`: `scikit-learn` really designed for pr
 
 ```{python}
 #| echo: true
-linear_model = Pipeline(
+ols_sq_model = Pipeline(
   [
     ("preprocessing", preprocessing),
     ("ols", LinearRegression())
@@ -436,7 +445,7 @@ linear_model = Pipeline(
 #### Extended Pipeline {.scrollable}
 
 ```{python}
-linear_model
+ols_sq_model
 ```
 
 ::: {.footer}
@@ -449,7 +458,7 @@ linear_model
 The whole pipeline can be fitted as before
 ```{python}
 #| echo: true
-linear_model.fit(X_train, y_train)
+ols_sq_model.fit(X_train, y_train)
 ```
 
 . . .
@@ -461,50 +470,123 @@ Now questions:
 
 #### Evaluating Training Loss
 
+Let's start with evaluation
+
+- `scikit-learn` implements many metrics of model quality in `sklearn.metrics`
+- We want `root_mean_squared_error()` for RMSE
+
+. . . 
  
 
+Very easy to compute training set RMSE:
+```{python}
+#| echo: true
+root_mean_squared_error(y_train, ols_sq_model.predict(X_train))
+```
+- Interpretation — around $71k error
+- This is training loss (=bad)! How to evaluate accurately?
 
 ### Penalized Approaches {background="#43464B" visibility="uncounted"}
 
-#### Problem
+#### Beyond OLS: Penalized Least Squares
 
-We have estimated some regressions, but how do we choose
+Before evaluation, let's think if we want OLS
 
-#### Estimating Risk with Cross-Validation
+- Maybe want to <span class="highlight">regularize</span> the model
+- Still have linear hypotheses $\curl{\varphi(\bx)'\bbeta}$, but learn $\bbeta$ differently
+- Met some other algorithms of the form
+$$
+\hat{\bbeta} = \argmin_{\bb} \dfrac{1}{N_{S_{Tr}}}\sum_{i=1}^{N_{S_{Tr}}} (Y_i - \varphi(\bX_i)'\bb) + \alpha \Pcal(\bb)
+$$
 
-#### Penalized Approaches
+#### Reminder: Ridge, LASSO, ElasticNet
 
-but maybe an alternative approach is to allow a high-degree, but punish the model
+Popular algorithms in `scikit-learn`:
 
-#### Penalties
+- `Ridge` ($L^2$): $\norm{\bbeta}_2^2 = \sum_{k} \beta_k^2$
+- `Lasso` ($L^1$): $\norm{\bbeta}_1 = \sum_{k} \abs{\beta}_k$
+- `ElasticNet`: $\norm{\beta}_1 + \kappa \norm{\beta}_2^2$. Here $\kappa$ — relative strength of $L^1$ and $L^2$
 
-- Ridge
-- Lasso
 
+
+::: {.callout-note appearance="minimal"}
+
+The intercept (the "bias" term) is usually <span class="highlight">not penalized</span> — not part of the $\bbeta$ in the above notation, but treated separately.
+
+Reason: otherwise model depends "unnaturally" on the origin chosen for $Y_i$
+
+::: 
+
+
+#### Creating a LASSO Predictor
+
+Very easy to create a pipeline with LASSO: 
+```{python}
+#| echo: true
+lasso_model = Pipeline(
+  [
+    ("preprocessing", clone(preprocessing)),
+    ("lasso", Lasso())
+  ]
+)
+```
+
+<br>
+
+- For now using the default penalty parameter $\alpha=1$ 
+- Is that a good choice?
+
+::: {.footer}
+
+Note that we are cloning the preprocessing pipeline, otherwise it will be the *same* one as in the first model
+
+:::
+
+#### Fitting and Training Loss of LASSO
+ 
+Fitting and evaluating training loss exactly as before: 
+```{python}
+#| echo: true
+# Fit model
+lasso_model.fit(X_train, y_train)
+# Evaluate on training sample
+root_mean_squared_error(y_train, lasso_model.predict(X_train))
+```
+
+. . .
+
+<br> 
+
+- LASSO doing worse <span class="highlight">in the training sample</span> that just OLS
+- Doesn't say anything about <span class="highlight">generalization</span>
 
 ## Cross-Validation {background="#00100F"}
   
+
+
 #### Problem: Evaluating and Selecting Models?
 
-Key question:
+Accumulated question: 
 
-what approach do we take?
+- Are our <span class="highlight">tuning parameters</span> (=hyperparameters) specified the best way possible? 
+  - Maximum degree of polynomial
+  - Size of penalty $\alpha$
+- Does adding a penalty help?
 
-- OLS with given maximum rank, maybe not too high?
-  - How to select polynomial degree? 
-- Or penalized with a generous
-  - Penalized by how much? Does it matter 
+#### Validation
+
+#### Cross-Validation
 
 
-#### Model Selection
-
-These are all model selection problems 
-
+#### Cross-Validation Visualized
+ 
 #### Tuning Polynomial Degree
 
 #### Tuning Penalty Parameters with CV
 
-#### About Cross-Validation
+#### Tuning 
+
+#### About Bias in Cross-Validation
 
 
 Note cross-validation is <span class="highlight">inherently biased</span>: 
