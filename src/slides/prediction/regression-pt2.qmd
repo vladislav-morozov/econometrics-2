@@ -1,5 +1,5 @@
 ---
-title: "Regression II: Model Training and Evaluation"
+title: "Regression II: Model Training and Validation"
 subtitle: " "
 author: Vladislav Morozov  
 format:
@@ -65,9 +65,125 @@ By the end, you should be able to
 
 ### Empirical Setup {background="#43464B" visibility="uncounted"}
 
-#### 
+#### Reminder: Empirical Problem
 
-Continue with empirical setup from last time 
+<div class="rounded-box">
+
+Overall empirical goal: (R)MSE-optimal prediction of median house prices in California on the level of reasonably small blocks
+
+</div>
+
+Last time
+
+- Load the data
+- Some EDA
+- Preparation
+
+#### Imports
+
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Imports"
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import plotly.express as px
+
+# Data source
+from sklearn.datasets import fetch_california_housing
+
+# For splitting dataset
+from sklearn.model_selection import train_test_split
+
+# For composing transformations
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+
+# For preprocessing data
+from sklearn.preprocessing import(
+    FunctionTransformer, 
+    PolynomialFeatures,
+    StandardScaler
+)
+
+# Linear models 
+from sklearn.linear_model import (
+    LinearRegression,
+)
+```
+
+```{python}
+# Hidden: set data path
+from pathlib import Path
+data_path = Path() / "slides" / "prediction" / "data"
+```
+
+#### Reminder on Data Preparation {.scrollable}
+
+Continue with empirical setup from last time: 
+
+- California housing data set 
+- Split 80%/20% into training/test data
+- Training set further split into `X_train` and `y_train`
+
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Loading data"
+# Load data
+data = fetch_california_housing(data_home=data_path, as_frame=True)
+data_df = data.frame.copy()    
+# Split off test test             
+train_set, test_set = train_test_split(data_df, test_size = 0.2, random_state= 1)
+# Separate the Xs and the labels
+X_train = train_set.drop("MedHouseVal", axis=1)
+y_train = train_set["MedHouseVal"].copy()
+```
+
+::: {.footer}
+
+
+:::
+ 
+
+#### Reminder: Geographical Representation of Data
+
+
+```{python} 
+BG_COLOR = "whitesmoke"
+FONT_COLOR = "black"
+GEO_COLOR = "rgb(201, 201, 201)"
+OCEAN_COLOR = "rgb(136, 136, 136)"
+
+fig, ax = plt.subplots(figsize=(14, 6.5))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+scatter = train_set.plot(
+    kind="scatter",
+    x="Longitude",
+    y="Latitude",
+    grid=True,
+    s=train_set["Population"] / 100,
+    label="Population",
+    c="MedHouseVal",
+    cmap="BuPu",
+    colorbar=False,
+    legend=False,
+    sharex=False,
+    ax=ax
+)
+
+# Set the main title
+ax.set_title("Geographical distribution of points, scaled by population, color by median house value", loc="left")
+# Add colorbar and set its title
+cbar = plt.colorbar(scatter.get_children()[0], ax=ax)
+cbar.set_label("Median House Value")
+
+plt.show()
+```
+
 
 ## Bias-Variance Trade-Off {background="#00100F"}
  
@@ -176,27 +292,176 @@ where
 
 #### Implementation Approach
 
+
+<br>
+
 Simple to do conveniently and reproducibly with `scikit-learn`
 
 1. Create `Pipeline` that take $\bx$ and returns $\varphi(\bx)$ (did that last time)
 2. Attach a learning algorithm that takes $\varphi(\bx)$ and returns $\hat{y}$ to the end of the pipeline
+ 
 
-. . . 
+#### Reminder: Preprocessing Pipeline I  {.scrollable}
 
-This gives 
+Recall what we did:
 
-#### Reminder: Preprocessing Pipeline
+- Dropped geography
+- Create new *bedroom share* feature
+- Created polynomials, including interactions
+- Standardized the variables
+
+<br>
 
 
-#### `LinearRegression`
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Creating the pipeline"
+# Define the ratio transformers
+def column_ratio(X):
+    return X[:, [0]] / X[:, [1]]
+def ratio_name(function_transformer, feature_names_in):
+    return ["ratio"]
+divider_transformer = FunctionTransformer(
+  column_ratio, 
+  validate=True, 
+  feature_names_out = ratio_name)
 
-`LinearRegression` from `sklearn` implements OLS (and some versions)
+# Extracting and dropping features
+feat_extr_pipe = ColumnTransformer(
+  [
+    ('bedroom_ratio', divider_transformer, ['AveBedrms', 'AveRooms']),
+    (
+      'passthrough', 
+      'passthrough', 
+      [
+        'MedInc', 
+        'HouseAge', 
+        'AveRooms', 
+        'AveBedrms', 
+        'Population', 
+        'AveOccup',
+      ]
+    ),
+    ('drop', 'drop', ['Longitude', 'Latitude'])
+  ]
+) 
+
+# Creating polynomials and standardizing
+preprocessing = Pipeline(
+  [
+    ('extraction', feat_extr_pipe),
+    ('poly', PolynomialFeatures(include_bias=False)),
+    ('scale', StandardScaler()),
+  ]
+)
+```
+
+::: {.footer}
 
 
+:::
+ 
+
+#### Reminder: Preprocessing Pipeline II {.scrollable}
+
+
+```{python}
+preprocessing
+```
+
+
+::: {.footer}
+
+:::
+
+### OLS {background="#43464B" visibility="uncounted"}
+
+
+#### OLS: `LinearRegression`
+
+- Simplest learning algorithm — OLS
+- Implemented as `LinearRegression()` in `sklearn.linear_model`  
+- Plan
+  - First talk about predictors in isolation
+  - Then attach to our pipeline
 
 #### Predictors in `scikit-learn`
 
-#### Raw
+`scikit-learn` also has very standardized interface for predictors:
+
+- Hyperparameters specified when creating instance
+- Predictors have `fit()` methods which takes `X, y` (supervised) or only `X` (unsupervised)
+- Unlike transformers: predictors have `predict()` instead of `transform()`
+- Some predictors other methods (decision functions, predicted probabilities, etc.)
+
+#### `LinearRegression` In Action
+
+`scikit-learn` predictors generally very easy to use!
+
+Example with original features: 
+```{python}
+#| echo: true
+ols_mod = LinearRegression()          # Create instance
+ols_mod.fit(X_train, y_train)         # Fit (run OLS)
+ols_mod.predict(X_train.iloc[:5, :])  # Predict for first 5 training obs
+```
+ 
+. . .
+
+<br>
+
+::: {.callout-note appearance="minimal"}
+
+Can see big difference with `statsmodels`: `scikit-learn` really designed for predictive work: makes it very easy to predict and evaluate predictions, but does not have tools for inference (in the sense of testing, etc).
+
+
+:::
+
+#### Attaching `LinearRegression` to Pipeline
+
+- Want our predictors to received preprocessed data
+- Simply make an extended `Pipeline` by adding `LinearRegression()` on top of `preprocessing`:
+
+```{python}
+#| echo: true
+linear_model = Pipeline(
+  [
+    ("preprocessing", preprocessing),
+    ("ols", LinearRegression())
+  ]
+)
+```
+
+#### Extended Pipeline {.scrollable}
+
+```{python}
+linear_model
+```
+
+::: {.footer}
+
+
+:::
+
+#### Fitting the Model
+
+The whole pipeline can be fitted as before
+```{python}
+#| echo: true
+linear_model.fit(X_train, y_train)
+```
+
+. . .
+
+Now questions:
+
+- Are we happy with polynomial degree? (defaulted to 2)
+- Is this model "good"?
+
+#### Evaluating Training Loss
+
+ 
 
 
 ### Penalized Approaches {background="#43464B" visibility="uncounted"}
@@ -235,6 +500,7 @@ what approach do we take?
 
 These are all model selection problems 
 
+#### Tuning Polynomial Degree
 
 #### Tuning Penalty Parameters with CV
 
