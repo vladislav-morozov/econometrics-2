@@ -30,6 +30,8 @@ include-in-header: ../../themes/mathjax.html
 highlight-style: tango
 open-graph:
     description: " (lecture notes slides)."
+execute: 
+  eval: false
 ---
 
 
@@ -98,6 +100,7 @@ from sklearn.datasets import fetch_california_housing
 
 # For splitting dataset
 from sklearn.model_selection import (
+  cross_val_score,
   GridSearchCV,
   train_test_split
 )
@@ -578,74 +581,217 @@ Accumulated questions:
 
 #### Validation
 
-#### Cross-Validation
+<div class="rounded-box">
 
+These <span class="highlight">model selection questions</span> answered by <span class="highlight">model validation</span>
 
-#### Cross-Validation Visualized
+</div>
+
+Simple validation approach: 
+
+1. Split training set into training set and validation set
+2. Train all the competing models on the new training set
+3. Compute risk on validation set for each model
+4. Choose model with best performance
+
+#### Dividing Multiple Times: $k$-Fold Cross-Validation
+
+<div class="rounded-box">
+
  
 
+1. Split training data into $k$ <span class="highlight">folds</span>: equal-sized nonoverlapping sets $S_j$
+2. For $j=1, \dots, k$
+   - Train algorithm $\Acal$ on $\scriptsize S_{-j}= \curl{S_1, \dots, S_{j-1}, S_{j+1}, \dots, S_k}$
+   - Estimate risk of algorithm $\Acal$ on $S_j$ with $\scriptsize \hat{R}_{S_j}(\hat{h}_{S_{-j}}^{\Acal})$
+3. Estimate overall risk of $\Acal$ with
+$$\scriptsize 
+\hat{R}(\Acal) = \dfrac{1}{k} \sum_{j=1}^k \hat{R}_{S_j}(\hat{h}_{S_{-j}}^{\Acal})
+$$
+
+</div>  
+
+::: {.footer}
 
 
-#### Tuning Polynomial Degree
+:::
+
+#### Visual Example: 5-fold CV
+ 
+:::: {.columns}
+
+
+::: {.column width="69%"}
+ 
+![](/images/pred/cv.png)
+
+:::
+
+::: {.column width="31%"}
+ 
+- On step $j$, the $j$th fold (orange) excluded from training
+- Model trained on blue set, risk estimated on orange
+
+:::
+
+::::
+
+
+
+::: {.footer}
+
+Image from figure 5.5 in @James2023IntroductionStatisticalLearning
+
+:::
+
+#### Cross-Validation: Discussion
+
+- Here talk about <span class="highlight">algorithms</span> (e.g. LASSO with particular $\alpha$):
+  - $\Acal$ might pick different $h$ on different $S_{-j}$
+  - Interest in risk properties of <span class="highlight">algorithms</span> 
+- Number $k$ of folds — trade-off between computational easy and estimation quality for risk (more on that later)
+- CV — generic approach for  comparing different algorithms (=choosing approaches, tuning hyperparameters)
+
+
+
+#### CV in `scikit-learn`
+
+
+`scikit-learn` supports CV in many forms:
+
+- Evaluating a specific algorithm: e.g. `cross_val_score()`  
+- Tuning parameter choice: e.g. `GridSearchCV`, `RandomizedSearchCV`
+- Splitters for custom computations: e.g. `KFold` and `StratifiedKFold`
+
+
+All in the `sklearn.model_selection` module
+
+#### Checking Generalization Performance with CV
+
+How good is our OLS approach with squares of features? 
+
+. . .
+ 
+Use `cross_val_score`
 
 ```{python}
-param_grid = { 
-    "preprocessing__poly__degree": [1, 2, 3, 4, 5],
-}
-grid_search = GridSearchCV(
-    ols_sq_model,
-    param_grid,
-    cv=10,
-    n_jobs = -1,
-    scoring="neg_root_mean_squared_error",
+#| echo: true
+ols_rmse = -cross_val_score(
+    ols_sq_model,                           # algorithm
+    X_train,
+    y_train,
+    scoring="neg_root_mean_squared_error",  # which score to compute
+    cv=10,                                  # how many folds
 )
 
-grid_search.fit(X_train, y_train)
 ```
 
+- Trains 10 times
+- Scoring: negative RMSE
+- Returns array of values: negative RMSE for each fold
+
+#### Generalization Performance
+
 ```{python}
-cv_res = pd.DataFrame(grid_search.cv_results_)
-cv_res.sort_values(by='rank_test_score')
-# Can also flip the score sign to turn into RMSE
+#| echo: true
+pd.Series(ols_rmse).describe().iloc[]
 ```
+
+- Recall: training loss around $71k
+- Much higher validation loss: $161k
+- But also high variance: a lot of variation between folds:
+```
+ols_rmse
+```
+ 
+
+#### Tuning Hyperparameters with CV
+
+- Can use CV to select tuning parameter $\alpha$ and degree of polynomial
+- `scikit-learn` makes it easy: 
+  - Special classes like `GridSearchCV` and  `RandomizedSearchCV` for searching parameter values
+  - Just need to tell it what parameter to tune and which values to check 
 
 #### Tuning Penalty Parameters with CV
 
+Example: tuning `alpha` in LASSO
 
+- Want to check 10 values between 0 and 1
+- Create a grid of values with dictionary
+  - Keys: parameter name (convention: `<name_in_pipeline>__<param_name>`)
+  - Values: an array of values to check
+  
 ```{python}
-param_grid = { 
-    "lasso__alpha": np.linspace(0, 1, 10),
+#| echo: true
+param_grid_alpha = { 
+    "lasso__alpha": np.linspace(0, 1, 11),
 }
-
-grid_search = GridSearchCV(
-    lasso_model,
-    param_grid,
-    cv=10,
-    n_jobs = -1,
-    scoring="neg_root_mean_squared_error",
-)
-
-grid_search.fit(X_train, y_train)
 ```
 
+#### Running CV for Parameter Choice
+
+Very similar approach to working with predictors and transformers: 
+
+- Create instance
+- Fit
+
 ```{python}
-cv_res = pd.DataFrame(grid_search.cv_results_)
-cv_res.sort_values(by='rank_test_score')
+#| echo: true
+grid_search_alpha = GridSearchCV(
+    lasso_model,                           # which predictor/pipeline
+    param_grid_alpha,                      # parameter grids
+    cv=10,                                 # number of folds
+    n_jobs = -1,                           # number of parallel jobs
+    scoring="neg_root_mean_squared_error", # which score
+)
+grid_search_alpha.fit(X_train, y_train);
+```
+
+::: {.footer}
+
+Computation: estimates 10 times for each value of $\alpha$ (110 times in total)
+
+:::
+
+#### Viewing the Results {.scrollable}
+
+- The `results_` attribute has detailed info on models fitted
+- Best approach: $\alpha\approx 0.1$. Worst: $\alpha=0$ (OLS)
+
+```{python}
+#| echo: true
+cv_res_alpha = pd.DataFrame(grid_search_alpha.cv_results_)
+cv_res_alpha.sort_values(by='rank_test_score')
 # Can also flip the score sign to turn into RMSE
 ```
 
 
+::: {.footer}
 
 
-#### Tuning Everything
+::: 
 
 
+#### Tuning Multiple Parameters {.scrollable}
+
+
+- Can tune any number of parameters we want
+- Including parameters in other parts of pipeline
+- E.g. degree of polynomial features:
 ```{python}
+#| echo: true
 param_grid = { 
     "preprocessing__poly__degree": [1, 2, 3],
-    "lasso__alpha": np.linspace(0.001, 1, 10),
+    "lasso__alpha": np.linspace(0, 1, 11),
 }
+```
+- `GridSearchCV` called the same way
+- Computes for <span class="highlight">each combo</span> in `param_grid` (330 fits total)
 
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: Calling `GridSearchCV`
 grid_search = GridSearchCV(
     lasso_model,
     param_grid,
@@ -657,14 +803,24 @@ grid_search = GridSearchCV(
 grid_search.fit(X_train, y_train)
 ```
 
+::: {.footer}
+
+:::
+
+#### Results: Tuning Linear Model
+
+Extracting top 3 models: 
 ```{python}
- 
 cv_res = pd.DataFrame(grid_search.cv_results_)
-cv_res.sort_values(by='rank_test_score')
-# Can also flip the score sign to turn into RMSE
+cv_res.sort_values(by='rank_test_score').head(3).loc[:, 
+["param_lasso__alpha", "param_preprocessing__poly__degree",
+  'mean_test_score', 'std_test_score',
+       'rank_test_score']] 
 ```
 
- 
+- Best model: OLS with no polynomials
+- Close second and third: $\alpha=0.1$ and polynomials of degrees 2 and 3 
+
 
 
 #### About Bias in Cross-Validation
