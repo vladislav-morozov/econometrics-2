@@ -98,6 +98,9 @@ from sklearn.base import clone
 # Data source
 from sklearn.datasets import fetch_california_housing
 
+# Regression random forest
+from sklearn.ensemble import RandomForestRegressor
+
 # For splitting dataset
 from sklearn.model_selection import (
   cross_val_score,
@@ -126,6 +129,9 @@ from sklearn.linear_model import (
 from sklearn.metrics import (
   root_mean_squared_error,
 )
+
+# Regression trees
+from sklearn.tree import DecisionTreeRegressor
 ```
 
 ```{python}
@@ -694,13 +700,13 @@ ols_rmse = -cross_val_score(
 
 ```{python}
 #| echo: true
-pd.Series(ols_rmse).describe().iloc[]
+pd.Series(ols_rmse).describe().iloc[:3]
 ```
 
 - Recall: training loss around $71k
 - Much higher validation loss: $161k
 - But also high variance: a lot of variation between folds:
-```
+```{python}
 ols_rmse
 ```
  
@@ -727,6 +733,13 @@ param_grid_alpha = {
     "lasso__alpha": np.linspace(0, 1, 11),
 }
 ```
+
+::: {.footer}
+
+`LaasoCV` and `RidgeCV` automatically select their penalty parameters by cross-validation — sometimes quicker
+
+:::
+
 
 #### Running CV for Parameter Choice
 
@@ -800,7 +813,7 @@ grid_search = GridSearchCV(
     scoring="neg_root_mean_squared_error",
 )
 
-grid_search.fit(X_train, y_train)
+grid_search.fit(X_train, y_train);
 ```
 
 ::: {.footer}
@@ -825,21 +838,17 @@ cv_res.sort_values(by='rank_test_score').head(3).loc[:,
 
 #### About Bias in Cross-Validation
 
+<div class="rounded-box">
+Cross-validation is <span class="highlight">inherently biased</span>
 
-Note cross-validation is <span class="highlight">inherently biased</span>: 
+</div>
 
-- In the end will train on full training sample of size $N$
-- But each split trains model on sample of size $4N/5$ (with 5-fold CV) — different thing!
-- The smallest bias is achieved by leave-one-out CV (LOOCV) with training sample of size $N-1$ — usually too expensive to do
-- Cross-validation generally reasonably valid as long as you don't consider too many competuing models (eventually the comparisons start learning the validation sets too)
-
-#### 
-
-Can tune pretty much anything
-
-#### Special Versions
-
-`LaasoCV` and `RidgeCV` automatically select their penalty parameters by cross-validation — sometimes quicker
+- Final selected model — trained on full training sample of size $N_{Tr}$
+- But each fold fits only with $(k-1)N_{Tr}/k$ example
+  - Not the same risk performance as full sample
+  - Best option: take $k=N$ (leave-one-out CV = LOOCV) — as close as possible
+- Can't do better if want to use all $N_{Tr}$ examples
+  
 
  
 
@@ -851,28 +860,200 @@ Can tune pretty much anything
   
   
 
-#### Motivation
+#### Towards Trees
 
-Linear models are that
+- Story so far unclear whether we want nonlinearities in $\bX$
+- Can try a <span class="highlight">nonparametric</span> method
 
-- Story so far unclear on the virtues of nonlinearis in $\bX$
+. . . 
 
-Let's try a regression tree
+New flexible hypothesis class:
+$$
+\Hcal = \curl{\text{regression trees}}
+$$
 
-#### Hypothesis Class
+#### Reminder: Decision Trees
 
-#### Training Error
-
-Oops, we really overfit that data
-
-That will certainly
-
-#### Why Overfitting? 
-
-- Deep trees
-- Decision trees tend to be on the high-variance side of things
+:::: {.columns}
 
 
+::: {.column width="30%"}
+
+- Split the predictor space one variable at a time
+- Return same value on each rectangle $R_k$
+
+:::
+
+
+::: {.column width="70%"}
+
+
+![](/images/pred/reg-tree.png)
+
+:::
+
+
+
+::::
+
+Regression trees: values can belong to $\R$
+
+#### About Trees
+
+Trees have a few nice features
+
+- Interpretable decision rules 
+- No need to standardize features
+
+. . . 
+
+Recreate preprocessing pipeline without standardization and polynomial degree = 1 (with option to tune)
+```{python} 
+#| echo: true
+#| code-fold: true
+#| code-summary: "Recreating preprocessing pipeline"
+preprocessing = Pipeline(
+  [
+    ('extraction', feat_extr_pipe),
+    ('poly', PolynomialFeatures(degree = 1, include_bias=False)),
+    ('scale', StandardScaler()),
+  ]
+)
+```
+
+#### Trees in `scikit-learn`
+
+- `scikit-learn` implements trees in `sklearn.tree`
+- Use `DecisionTreeRegressor()` on top of `preprocessing`  
+```{python}
+#| echo: true
+tree = Pipeline(
+    [
+        ("preprocessing", preprocessing),
+        ("tree", DecisionTreeRegressor(random_state=1)),
+    ],
+)
+```
+
+::: {.footer}
+
+`scikit-learn` trains trees using the CART algorithm; see 8.1 in @James2023IntroductionStatisticalLearning
+
+:::
+
+#### Visualizing New Pipeline
+
+```{python}
+tree
+```
+
+#### Training a Tree and Training Performance
+
+Training and computing training loss exactly as before:
+```{python}
+#| echo: true
+tree.fit(X_train, y_train)
+root_mean_squared_error(y_train, tree.predict(X_train)).round(4)
+```
+
+- We <span class="highlight">interpolated</span> the training sample — perfect prediction
+- Generalization performance with CV:
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Measuring generalization performance with CV"
+tree_rmse = -cross_val_score(
+    tree,
+    X_train,
+    y_train,
+    scoring="neg_root_mean_squared_error",
+    cv=10,
+)
+pd.Series(tree_rmse).describe().iloc[:3]
+```
+Worse than linear methods!
+ 
+
+
+#### Why Do Tree Overfit? 
+
+- By default, CART will grow <span class="highlight">deep trees</span>:
+  - Split space until each $R_k$ contains only one observation
+  - Each $R_k$ predicts value of that observation $\Rightarrow$ perfect fit
+- Trees have low bias, but very high variance
+- Changing data a bit may dramatically change tree structure
+
+
+  
+### Random Forests {background="#43464B" visibility="uncounted"}
+  
+#### Ensemble Methods
+
+<div class="rounded-box">
+
+An <span class="highlight">ensemble method</span> is a predictor that combines several weaker predictors into a single (ideally) stronger one
+
+
+</div>
+
+
+
+Can combine in different ways:
+
+- In parallel: e.g. simple averages (as in random forest regressions)
+- Sequentially: e.g. by training next predictor on errors of the previous ones, as in <span class="highlight">gradient boosting</span>
+
+. . .
+
+Trees often play role of weaker predictors to be aggregated
+
+#### Random Forests
+
+<div class="rounded-box">
+
+A random forest is a predictor that aggregates many tree predi
+
+</div>
+
+
+#### Bagging
+
+
+$$
+\hat{h}^{Bagging}(\bx) = \dfrac{1}{B} \sum_{b=1}^B \hat{h}_{S_b}(\bx)
+$$
+
+#### Random Forests
+
+
+
+#### In Practice
+
+```{python}
+forest_reg = Pipeline(
+    [
+        ("preprocessing", preprocessing),
+        ("random_forest", RandomForestRegressor(n_jobs=-1, random_state=1)),
+    ]
+)
+```
+
+
+```{python}
+forest_rmse = -cross_val_score(
+    forest_reg,
+    X_train,
+    y_train,
+    scoring="neg_root_mean_squared_error",
+    cv=10,
+)
+pd.Series(forest_rmse).describe().iloc[:3]
+```
+
+This looks a lot more cheerful
+
+
+#### Tuning Parameters
 
 ## Recap and Conclusions {background="#00100F"}
   
