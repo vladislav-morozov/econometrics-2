@@ -97,7 +97,10 @@ from sklearn.base import clone
 from sklearn.datasets import fetch_california_housing
 
 # For splitting dataset
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import (
+  GridSearchCV,
+  train_test_split
+)
 
 # For composing transformations
 from sklearn.compose import ColumnTransformer
@@ -105,20 +108,20 @@ from sklearn.pipeline import Pipeline
 
 # For preprocessing data
 from sklearn.preprocessing import(
-    FunctionTransformer, 
-    PolynomialFeatures,
-    StandardScaler
+  FunctionTransformer, 
+  PolynomialFeatures,
+  StandardScaler
 )
 
 # Linear models 
 from sklearn.linear_model import (
-    Lasso,
-    LinearRegression,
+  Lasso,
+  LinearRegression,
 )
 
 # Model evaluation
 from sklearn.metrics import (
-    root_mean_squared_error,
+  root_mean_squared_error,
 )
 ```
 
@@ -560,13 +563,13 @@ root_mean_squared_error(y_train, lasso_model.predict(X_train))
 - LASSO doing worse <span class="highlight">in the training sample</span> that just OLS
 - Doesn't say anything about <span class="highlight">generalization</span>
 
-## Cross-Validation {background="#00100F"}
+## (Cross-)Validation {background="#00100F"}
   
 
 
 #### Problem: Evaluating and Selecting Models?
 
-Accumulated question: 
+Accumulated questions: 
 
 - Are our <span class="highlight">tuning parameters</span> (=hyperparameters) specified the best way possible? 
   - Maximum degree of polynomial
@@ -580,11 +583,89 @@ Accumulated question:
 
 #### Cross-Validation Visualized
  
+
+
+
 #### Tuning Polynomial Degree
+
+```{python}
+param_grid = { 
+    "preprocessing__poly__degree": [1, 2, 3, 4, 5],
+}
+grid_search = GridSearchCV(
+    ols_sq_model,
+    param_grid,
+    cv=10,
+    n_jobs = -1,
+    scoring="neg_root_mean_squared_error",
+)
+
+grid_search.fit(X_train, y_train)
+```
+
+```{python}
+cv_res = pd.DataFrame(grid_search.cv_results_)
+cv_res.sort_values(by='rank_test_score')
+# Can also flip the score sign to turn into RMSE
+```
 
 #### Tuning Penalty Parameters with CV
 
-#### Tuning 
+
+```{python}
+param_grid = { 
+    "lasso__alpha": np.linspace(0, 1, 10),
+}
+
+grid_search = GridSearchCV(
+    lasso_model,
+    param_grid,
+    cv=10,
+    n_jobs = -1,
+    scoring="neg_root_mean_squared_error",
+)
+
+grid_search.fit(X_train, y_train)
+```
+
+```{python}
+cv_res = pd.DataFrame(grid_search.cv_results_)
+cv_res.sort_values(by='rank_test_score')
+# Can also flip the score sign to turn into RMSE
+```
+
+
+
+
+#### Tuning Everything
+
+
+```{python}
+param_grid = { 
+    "preprocessing__poly__degree": [1, 2, 3],
+    "lasso__alpha": np.linspace(0.001, 1, 10),
+}
+
+grid_search = GridSearchCV(
+    lasso_model,
+    param_grid,
+    cv=10,
+    n_jobs = -1,
+    scoring="neg_root_mean_squared_error",
+)
+
+grid_search.fit(X_train, y_train)
+```
+
+```{python}
+ 
+cv_res = pd.DataFrame(grid_search.cv_results_)
+cv_res.sort_values(by='rank_test_score')
+# Can also flip the score sign to turn into RMSE
+```
+
+ 
+
 
 #### About Bias in Cross-Validation
 
@@ -602,12 +683,9 @@ Can tune pretty much anything
 
 #### Special Versions
 
-`LaasoCV` and `RidgeCV` automatically select their 
+`LaasoCV` and `RidgeCV` automatically select their penalty parameters by cross-validation — sometimes quicker
 
-
-####
-
-`lasso_path`
+ 
 
 
 ## Model Development II: Trees and Forests  {background="#00100F"}
@@ -620,6 +698,8 @@ Can tune pretty much anything
 #### Motivation
 
 Linear models are that
+
+- Story so far unclear on the virtues of nonlinearis in $\bX$
 
 Let's try a regression tree
 
