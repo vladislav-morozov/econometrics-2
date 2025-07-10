@@ -1,0 +1,4354 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<link href="../../themes/favicon.ico" rel="icon">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-0de45b8b5f35a93596f1d788d60c4c11.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/quarto-contrib/reveal-header-1.0.0/add_header.js" defer="true"></script>
+<link href="../../site_libs/quarto-contrib/reveal-header-1.0.0/add_header.css" rel="stylesheet">
+<script src="../../site_libs/quarto-contrib/sc-sb-title-1.0.0/sc_sb_title.js" defer="true"></script>
+<link href="../../site_libs/quarto-contrib/grid-no-htext-1.0.0/grid_no_htext.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.6.42">
+
+  <meta name="author" content="Vladislav Morozov">
+  <title>Advanced Econometrics – Regression II: Model Training and Validation</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-cb5537517b990794adf0c72e32550bcc.css">
+  <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+   
+
+  <!-- This is what works with Quarto and MathJax 3+ -->
+
+  <script>
+
+    MathJax = {
+
+      tex: {
+
+        tags: 'ams',  // should be 'ams', 'none', or 'all'
+
+        macros: {
+
+          vect: ["\\mathbf{#1}", 1],
+
+          mat: ["\\mathbf{#1}", 1], 
+
+  
+
+          bA: "\\boldsymbol{A}",
+
+          bB: "\\boldsymbol{B}",
+
+          bC: "\\boldsymbol{C}",
+
+          bD: "\\boldsymbol{D}",
+
+          bE: "\\boldsymbol{E}",
+
+          bF: "\\boldsymbol{F}",
+
+          bG: "\\boldsymbol{G}",
+
+          bH: "\\boldsymbol{H}",
+
+          bI: "\\boldsymbol{I}",
+
+          bJ: "\\boldsymbol{J}",
+
+          bK: "\\boldsymbol{K}",
+
+          bL: "\\boldsymbol{L}",
+
+          bM: "\\boldsymbol{M}",
+
+          bN: "\\boldsymbol{N}",
+
+          bP: "\\boldsymbol{P}",
+
+          bQ: "\\boldsymbol{Q}",
+
+          bR: "\\boldsymbol{R}",
+
+          bS: "\\boldsymbol{S}",
+
+          bT: "\\boldsymbol{T}",
+
+          bU: "\\boldsymbol{U}",
+
+          bV: "\\boldsymbol{V}",
+
+          bW: "\\boldsymbol{W}",
+
+          bX: "\\boldsymbol{X}",
+
+          bY: "\\boldsymbol{Y}",
+
+          bZ: "\\boldsymbol{Z}",
+
+          ba: "\\boldsymbol{a}",
+
+          bb: "\\boldsymbol{b}",
+
+          bc: "\\boldsymbol{c}",
+
+          bd: "\\boldsymbol{d}",
+
+          be: "\\boldsymbol{e}",
+
+          bg: "\\boldsymbol{g}",
+
+          bh: "\\boldsymbol{h}",
+
+          bi: "\\boldsymbol{\\imath}",
+
+          bm: "\\boldsymbol{m}",
+
+          bp: "\\boldsymbol{p}",
+
+          bq: "\\boldsymbol{q}",
+
+          br: "\\boldsymbol{r}",
+
+          bs: "\\boldsymbol{s}",
+
+          bt: "\\boldsymbol{t}",
+
+          bu: "\\boldsymbol{u}",
+
+          bv: "\\boldsymbol{v}",
+
+          bw: "\\boldsymbol{w}",
+
+          bx: "\\boldsymbol{x}",
+
+          by: "\\boldsymbol{y}",
+
+  
+
+          Acal: "\\mathcal{A}",
+
+          Bcal: "\\mathcal{B}",
+
+          Ccal: "\\mathcal{C}",
+
+          Dcal: "\\mathcal{D}",
+
+          Ecal: "\\mathcal{E}",
+
+          Fcal: "\\mathcal{F}",
+
+          Gcal: "\\mathcal{G}",
+
+          Hcal: "\\mathcal{H}",
+
+          Ical: "\\mathcal{I}",
+
+          Jcal: "\\mathcal{J}",
+
+          Kcal: "\\mathcal{K}",
+
+          Lcal: "\\mathcal{L}",
+
+          Mcal: "\\mathcal{M}",
+
+          Ncal: "\\mathcal{N}",
+
+          Ocal: "\\mathcal{O}",
+
+          Pcal: "\\mathcal{P}",
+
+          Qcal: "\\mathcal{Q}",
+
+          Rcal: "\\mathcal{R}",
+
+          Scal: "\\mathcal{S}",
+
+          Tcal: "\\mathcal{T}",
+
+          Ucal: "\\mathcal{U}",
+
+          Vcal: "\\mathcal{V}",
+
+          Wcal: "\\mathcal{W}",
+
+          Xcal: "\\mathcal{X}",
+
+          Ycal: "\\mathcal{Y}",
+
+          Zcal: "\\mathcal{Z}",
+
+  
+
+          A: "\\mathbb{A}",
+
+          B: "\\mathbb{B}",
+
+          C: "\\mathbb{C}",
+
+          D: "\\mathbb{D}",
+
+          E: "\\mathbb{E}",
+
+          F: "\\mathbb{F}",
+
+          G: "\\mathbb{G}",
+
+          H: "\\mathbb{H}",
+
+          I: "\\mathbb{I}",
+
+          J: "\\mathbb{J}",
+
+          K: "\\mathbb{K}",
+
+          L: "\\mathbb{L}",
+
+          M: "\\mathbb{M}",
+
+          N: "\\mathbb{N}",
+
+          O: "\\mathbb{O}",
+
+          P: "\\mathbb{P}",
+
+          Q: "\\mathbb{Q}",
+
+          R: "\\mathbb{R}",
+
+          S: "\\mathbb{S}",
+
+          T: "\\mathbb{T}",
+
+          U: "\\mathbb{U}",
+
+          V: "\\mathbb{V}",
+
+          W: "\\mathbb{W}",
+
+          X: "\\mathbb{X}",
+
+          Y: "\\mathbb{Y}",
+
+          Z: "\\mathbb{Z}",
+
+  
+
+          bAlpha: "\\boldsymbol{\\Alpha}",
+
+          bBeta: "\\boldsymbol{\\beta}",
+
+          bDelta: "\\boldsymbol{\\delta}",
+
+          bEta: "\\boldsymbol{\\eta}",
+
+          bGamma: "\\boldsymbol{\\Gamma}",
+
+          bLambda: "\\boldsymbol{\\Lambda}",
+
+          bOmega: "\\boldsymbol{\\Omega}",
+
+          bPhi: "\\boldsymbol{\\Phi}",
+
+          bPi: "\\boldsymbol{\\Pi}",
+
+          bPsi: "\\boldsymbol{\\Psi}",
+
+          bSigma: "\\boldsymbol{\\Sigma}",
+
+          bTau: "\\boldsymbol{\\tau}",
+
+          bXi: "\\boldsymbol{\\Xi}",
+
+          bbeta: "\\boldsymbol{\\beta}",
+
+          bdelta: "\\boldsymbol{\\delta}",
+
+          blambda: "\\boldsymbol{\\lambda}",
+
+          bmu: "\\boldsymbol{\\mu}",
+
+          bphi: "\\boldsymbol{\\phi}",
+
+          bpi: "\\boldsymbol{\\pi}",
+
+          bpsi: "\\boldsymbol{\\psi}",
+
+          brho: "\\boldsymbol{\\rho}",
+
+          balpha: "\\boldsymbol{\\alpha}",
+
+          bsigma: "\\boldsymbol{\\sigma}",
+
+          btau: "\\boldsymbol{\\tau}",
+
+          bxi: "\\boldsymbol{\\xi}",
+
+          bEta: "\\boldsymbol{\\eta}",
+
+          bPhi: "\\boldsymbol{\\Phi}",
+
+          bPi: "\\boldsymbol{\\Pi}",
+
+          bPsi: "\\boldsymbol{\\Psi}",
+
+          bXi: "\\boldsymbol{\\Xi}",
+
+          blambda: "\\boldsymbol{\\lambda}",
+
+          bmu: "\\boldsymbol{\\mu}",
+
+          bphi: "\\boldsymbol{\\phi}",
+
+          bpi: "\\boldsymbol{\\pi}",
+
+          bpsi: "\\boldsymbol{\\psi}",
+
+          brho: "\\boldsymbol{\\rho}",
+
+          bsigma: "\\boldsymbol{\\sigma}",
+
+          btheta: "\\boldsymbol{\\theta}",
+
+          bgamma: "\\boldsymbol{\\gamma}",  
+
+          
+
+          curl: ["\\left\\lbrace#1\\right\\rbrace", 1],
+
+          floor: ["\\left\\lfloor#1\\right\\rfloor", 1],
+
+          ceil: ["\\left\\lceil#1\\right\\rceil", 1],
+
+          abs: ["\\left\\lvert#1\\right\\rvert", 1],
+
+          norm: ["\\left\\lVert#1\\right\\rVert", 1],
+
+  
+
+          avar: "\\mathrm{avar}",
+
+          var: "\\mathrm{var}",
+
+          cov: "\\mathrm{cov}",
+
+  
+
+          argmin: "\\operatorname*{argmin}",
+
+          argmax: "\\operatorname*{argmax}",
+
+          argsup: "\\operatorname*{argsup}",
+
+          arginf: "\\operatorname*{arginf}",
+
+        }
+
+      }
+
+    };
+
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+  
+
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <meta name="description" content="Basics of regression in machine learning: model training and validation, bias-variance trade-off, cross-validation, using sikit-learn (lecture note slides)">
+<meta property="og:title" content="Regression II: Model Training and Validation – Advanced Econometrics">
+<meta property="og:description" content="Basics of regression in machine learning: model training and validation, bias-variance trade-off, cross-validation, using sikit-learn (lecture note slides)">
+<meta property="og:site_name" content="Advanced Econometrics">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-color="#045D5D" data-footer="" class="quarto-title-block center">
+  <h1 class="title">Regression II: Model Training and Validation</h1>
+  <p class="subtitle">Bias-variance trade-off, training models, cross-validation</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Vladislav Morozov 
+</div>
+</div>
+</div>
+
+</section><section id="TOC">
+<nav role="doc-toc"> 
+<h2 id="toc-title">Contents</h2>
+<ul>
+<li class="fragment"><a href="#/introduction" id="/toc-introduction">Introduction</a></li>
+<li class="fragment"><a href="#/bias-variance-trade-off" id="/toc-bias-variance-trade-off">Bias-Variance Trade-Off</a></li>
+<li class="fragment"><a href="#/linear-regression" id="/toc-linear-regression">Linear Regression</a></li>
+<li class="fragment"><a href="#/cross-validation" id="/toc-cross-validation">(Cross-)Validation</a></li>
+<li class="fragment"><a href="#/model-development-ii-trees-and-forests" id="/toc-model-development-ii-trees-and-forests">Model Development II: Trees and Forests</a></li>
+<li class="fragment"><a href="#/recap-and-conclusions" id="/toc-recap-and-conclusions">Recap and Conclusions</a></li>
+</ul>
+</nav>
+</section>
+<section>
+<section id="introduction" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Introduction</h2>
+
+</section>
+<section id="lecture-info" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Lecture Info</h3>
+
+</section>
+<section id="learning-outcomes" class="slide level4">
+<h4>Learning Outcomes</h4>
+<p>This lecture — second part of our illustrated regression example</p>
+<p><br></p>
+<p>By the end, you should be able to</p>
+<ul>
+<li class="fragment">Discuss bias-variance trade-off</li>
+<li class="fragment">Explain how to use cross-validation for model validation (generalization performance, model comparison, tuning parameter choice)</li>
+<li class="fragment">Use regressor predictors in <code>scikit-learn</code></li>
+</ul>
+</section>
+<section id="references" class="slide level4">
+<h4>References</h4>
+<p><br></p>
+<div>
+<ul>
+<li>Chapters 3, 5.1, 6-9 in <span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2023</a>)</span></li>
+<li><a href="https://scikit-learn.org/stable/user_guide.html"><code>scikit-learn</code> User Guide</a>: 1.1, 1.10-1.11</li>
+<li>Deeper: chapter 3, 9, 15 in <span class="citation" data-cites="Hastie2009ElementsStatisticalLearning">Hastie, Tibshirani, and Friedman (<a href="#/references-1" role="doc-biblioref" onclick="">2009</a>)</span></li>
+</ul>
+</div>
+</section>
+
+<section id="empirical-setup" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Empirical Setup</h3>
+
+</section>
+<section id="reminder-empirical-problem" class="slide level4">
+<h4>Reminder: Empirical Problem</h4>
+<div class="rounded-box">
+<p>Overall empirical goal: (R)MSE-optimal prediction of median house prices in California on the level of reasonably small blocks</p>
+</div>
+<p>Last time</p>
+<ul>
+<li class="fragment">Load the data</li>
+<li class="fragment">Some EDA</li>
+<li class="fragment">Preparation</li>
+</ul>
+</section>
+<section id="imports" class="slide level4 scrollable">
+<h4>Imports</h4>
+<div id="128c3240" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-4"><a></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb1-5"><a></a></span>
+<span id="cb1-6"><a></a><span class="im">from</span> scipy.stats <span class="im">import</span> randint, uniform</span>
+<span id="cb1-7"><a></a></span>
+<span id="cb1-8"><a></a><span class="co"># Deeply copying objects</span></span>
+<span id="cb1-9"><a></a><span class="im">from</span> sklearn.base <span class="im">import</span> clone</span>
+<span id="cb1-10"><a></a></span>
+<span id="cb1-11"><a></a><span class="co"># For composing transformations</span></span>
+<span id="cb1-12"><a></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
+<span id="cb1-13"><a></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
+<span id="cb1-14"><a></a></span>
+<span id="cb1-15"><a></a><span class="co"># Data source</span></span>
+<span id="cb1-16"><a></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_california_housing</span>
+<span id="cb1-17"><a></a></span>
+<span id="cb1-18"><a></a><span class="co"># Regression random forest</span></span>
+<span id="cb1-19"><a></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor</span>
+<span id="cb1-20"><a></a></span>
+<span id="cb1-21"><a></a><span class="co"># Linear models </span></span>
+<span id="cb1-22"><a></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> (</span>
+<span id="cb1-23"><a></a>  Lasso,</span>
+<span id="cb1-24"><a></a>  LinearRegression,</span>
+<span id="cb1-25"><a></a>)</span>
+<span id="cb1-26"><a></a></span>
+<span id="cb1-27"><a></a><span class="co"># Evaluating predictor quality</span></span>
+<span id="cb1-28"><a></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> root_mean_squared_error</span>
+<span id="cb1-29"><a></a></span>
+<span id="cb1-30"><a></a><span class="co"># For splitting dataset</span></span>
+<span id="cb1-31"><a></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> (</span>
+<span id="cb1-32"><a></a>  cross_val_score,</span>
+<span id="cb1-33"><a></a>  GridSearchCV,</span>
+<span id="cb1-34"><a></a>  RandomizedSearchCV,</span>
+<span id="cb1-35"><a></a>  train_test_split</span>
+<span id="cb1-36"><a></a>)</span>
+<span id="cb1-37"><a></a></span>
+<span id="cb1-38"><a></a><span class="co"># For preprocessing data</span></span>
+<span id="cb1-39"><a></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span>(</span>
+<span id="cb1-40"><a></a>  FunctionTransformer, </span>
+<span id="cb1-41"><a></a>  PolynomialFeatures,</span>
+<span id="cb1-42"><a></a>  StandardScaler</span>
+<span id="cb1-43"><a></a>)</span>
+<span id="cb1-44"><a></a> </span>
+<span id="cb1-45"><a></a><span class="co"># Regression trees</span></span>
+<span id="cb1-46"><a></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeRegressor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="footer">
+
+</div>
+</section>
+<section id="reminder-on-data-preparation" class="slide level4 scrollable">
+<h4>Reminder on Data Preparation</h4>
+<p>Continue with empirical setup from last time:</p>
+<ul>
+<li class="fragment">California housing data set</li>
+<li class="fragment">Split 80%/20% into training/test data</li>
+<li class="fragment">Training set further split into <code>X_train</code> and <code>y_train</code></li>
+</ul>
+<div id="a2b1181c" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Loading data</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="co"># Load data</span></span>
+<span id="cb2-2"><a></a>data <span class="op">=</span> fetch_california_housing(data_home<span class="op">=</span>data_path, as_frame<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-3"><a></a>data_df <span class="op">=</span> data.frame.copy()    </span>
+<span id="cb2-4"><a></a><span class="co"># Split off test test             </span></span>
+<span id="cb2-5"><a></a>train_set, test_set <span class="op">=</span> train_test_split(data_df, test_size <span class="op">=</span> <span class="fl">0.2</span>, random_state<span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb2-6"><a></a><span class="co"># Separate the Xs and the labels</span></span>
+<span id="cb2-7"><a></a>X_train <span class="op">=</span> train_set.drop(<span class="st">"MedHouseVal"</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-8"><a></a>y_train <span class="op">=</span> train_set[<span class="st">"MedHouseVal"</span>].copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="footer">
+
+</div>
+</section>
+<section id="reminder-geographical-representation-of-data" class="slide level4">
+<h4>Reminder: Geographical Representation of Data</h4>
+<div id="ac456bc8" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="regression-pt2_files/figure-revealjs/cell-5-output-1.png" width="1009" height="560"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section>
+<section id="bias-variance-trade-off" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Bias-Variance Trade-Off</h2>
+
+</section>
+<section id="current-goal-picking-hcal" class="slide level4">
+<h4>Current Goal: Picking <span class="math inline">\(\Hcal\)</span></h4>
+<p>So far have</p>
+<ul>
+<li class="fragment">Risk</li>
+<li class="fragment">Basic idea of the data</li>
+</ul>
+<div class="fragment">
+<p><br></p>
+<p>Now need to pick hypothesis class <span class="math inline">\(\Hcal\)</span></p>
+<ul>
+<li class="fragment">Guided by bias-complexity trade-off</li>
+<li class="fragment">Can specialize it a bit more for MSE — the <span class="highlight">bias-variance</span> trade-off</li>
+</ul>
+</div>
+</section>
+<section id="bias-variance-decomposition-i" class="slide level4">
+<h4>Bias-Variance Decomposition I</h4>
+<p>Define <span class="math inline">\(U = Y- \E[Y|\bX]\)</span> and let <span class="math inline">\(\var(U) = \sigma^2\)</span></p>
+<p><br></p>
+<p>Then (why?) <span class="math display">\[
+\E[U|\bX] =0
+\]</span></p>
+<div class="fragment">
+<p>Can write <span class="math display">\[
+\begin{aligned}
+MSE(h)  &amp; = \E[(Y-h(\bX))^2] \\
+&amp; = \sigma^2  + \E\left[ (\E[Y|\bX]- h(\bX))^2 \right] + \var(h(\bX))
+\end{aligned}
+\]</span></p>
+<div class="footer">
+<p>To show the decomposition, proceed with MSE as before. Wikipedia offers <a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff#Derivation">a full derivation</a></p>
+</div>
+</div>
+</section>
+<section id="bias-variance-decomposition-ii" class="slide level4">
+<h4>Bias-Variance Decomposition II</h4>
+<p><span id="eq-mse-decomp"><span class="math display">\[
+\begin{aligned}
+\hspace{-1cm} MSE(h)  &amp; =   \sigma^2  + \E\left[ (\E[Y|\bX]- h(\bX))^2 \right] + \var(h(\bX))
+\end{aligned}
+\tag{1}\]</span></span></p>
+<p>MSE is sum of</p>
+<ul>
+<li class="fragment"><span class="highlight">Irreducible</span> error <span class="math inline">\(\sigma^2\)</span></li>
+<li class="fragment"><span class="highlight">Squared bias</span> of <span class="math inline">\(h(\bX)\)</span> for Bayes predictor <span class="math inline">\(\E[Y|\bX]\)</span></li>
+<li class="fragment"><span class="highlight">Variance</span> of <span class="math inline">\(h(\bX)\)</span></li>
+</ul>
+<div class="footer">
+<p>The bias interpretation comes from writing <span class="math inline">\(\E\left[ (\E[Y|\bX]- h(\bX))^2 \right]=  \E\left[ \E\left[  (\E[Y|\bX]- h(\bX))^2 |\bX \right]\right]\)</span>. Inside the conditional the terms are like fixed parameters</p>
+</div>
+</section>
+<section id="bias-variance-trade-off-1" class="slide level4">
+<h4>Bias-Variance Trade-Off</h4>
+<p>Decomposition (<a href="#/eq-mse-decomp" class="quarto-xref">1</a>) highlights <span class="highlight">bias-variance</span> trade-off:</p>
+<ul>
+<li class="fragment">Trade-off:
+<ul>
+<li class="fragment">More complicated <span class="math inline">\(h(\cdot)\)</span> can approximate <span class="math inline">\(\E[Y|\bX]\)</span> better</li>
+<li class="fragment">But complicated <span class="math inline">\(h(\bX)\)</span> likely has higher <span class="math inline">\(\var(h(\bX))\)</span></li>
+</ul></li>
+</ul>
+<div class="fragment">
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Bias-complexity trade-off also sometime called bias-variance trade-off by synecdoche. But, strictly speaking, only MSE can be written as <span class="math inline">\((Bias)^2 + Variance\)</span>. Other risks — different components (e.g.&nbsp;MAE involves absolute value of bias and mean absolute deviation)</p>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="linear-regression" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Linear Regression</h2>
+
+</section>
+<section id="polynomial-hypotheses" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Polynomial Hypotheses</h3>
+
+</section>
+<section id="polynomial-hypotheses-1" class="slide level4">
+<h4>Polynomial Hypotheses</h4>
+<p>Start with familiar linear hypothesis class <span class="math display">\[
+\Hcal = \curl{h(\bx): \varphi(\bx)'\bbeta: \bbeta\in \R^{\dim(\varphi(\bb))} }
+\]</span> where</p>
+<ul>
+<li class="fragment"><span class="math inline">\(\bbeta\)</span> coefficients</li>
+<li class="fragment"><span class="math inline">\(\bx\)</span> — original features</li>
+<li class="fragment"><span class="math inline">\(\varphi(\bx)\)</span> — polynomials of <span class="highlight">some</span> of the original <span class="math inline">\(\bx\)</span> up to given degree <span class="math inline">\(k\)</span></li>
+</ul>
+</section>
+<section id="implementation-approach" class="slide level4">
+<h4>Implementation Approach</h4>
+<p><br></p>
+<p>Simple to do conveniently and reproducibly with <code>scikit-learn</code></p>
+<ol type="1">
+<li class="fragment">Create <code>Pipeline</code> that take <span class="math inline">\(\bx\)</span> and returns <span class="math inline">\(\varphi(\bx)\)</span> (did that last time)</li>
+<li class="fragment">Attach a learning algorithm that takes <span class="math inline">\(\varphi(\bx)\)</span> and returns <span class="math inline">\(\hat{y}\)</span> to the end of the pipeline</li>
+</ol>
+</section>
+<section id="reminder-preprocessing-pipeline-i" class="slide level4 scrollable">
+<h4>Reminder: Preprocessing Pipeline I</h4>
+<p>Recall what we did:</p>
+<ul>
+<li class="fragment">Dropped geography</li>
+<li class="fragment">Create new <em>bedroom share</em> feature</li>
+<li class="fragment">Created polynomials, including interactions</li>
+<li class="fragment">Standardized the variables</li>
+</ul>
+<p><br></p>
+<div id="f072ec1e" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Creating the pipeline</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="co"># Define the ratio transformers</span></span>
+<span id="cb3-2"><a></a><span class="kw">def</span> column_ratio(X):</span>
+<span id="cb3-3"><a></a>    <span class="cf">return</span> X[:, [<span class="dv">0</span>]] <span class="op">/</span> X[:, [<span class="dv">1</span>]]</span>
+<span id="cb3-4"><a></a><span class="kw">def</span> ratio_name(function_transformer, feature_names_in):</span>
+<span id="cb3-5"><a></a>    <span class="cf">return</span> [<span class="st">"ratio"</span>]</span>
+<span id="cb3-6"><a></a>divider_transformer <span class="op">=</span> FunctionTransformer(</span>
+<span id="cb3-7"><a></a>  column_ratio, </span>
+<span id="cb3-8"><a></a>  validate<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb3-9"><a></a>  feature_names_out <span class="op">=</span> ratio_name)</span>
+<span id="cb3-10"><a></a></span>
+<span id="cb3-11"><a></a><span class="co"># Extracting and dropping features</span></span>
+<span id="cb3-12"><a></a>feat_extr_pipe <span class="op">=</span> ColumnTransformer(</span>
+<span id="cb3-13"><a></a>  [</span>
+<span id="cb3-14"><a></a>    (<span class="st">'bedroom_ratio'</span>, divider_transformer, [<span class="st">'AveBedrms'</span>, <span class="st">'AveRooms'</span>]),</span>
+<span id="cb3-15"><a></a>    (</span>
+<span id="cb3-16"><a></a>      <span class="st">'passthrough'</span>, </span>
+<span id="cb3-17"><a></a>      <span class="st">'passthrough'</span>, </span>
+<span id="cb3-18"><a></a>      [</span>
+<span id="cb3-19"><a></a>        <span class="st">'MedInc'</span>, </span>
+<span id="cb3-20"><a></a>        <span class="st">'HouseAge'</span>, </span>
+<span id="cb3-21"><a></a>        <span class="st">'AveRooms'</span>, </span>
+<span id="cb3-22"><a></a>        <span class="st">'AveBedrms'</span>, </span>
+<span id="cb3-23"><a></a>        <span class="st">'Population'</span>, </span>
+<span id="cb3-24"><a></a>        <span class="st">'AveOccup'</span>,</span>
+<span id="cb3-25"><a></a>      ]</span>
+<span id="cb3-26"><a></a>    ),</span>
+<span id="cb3-27"><a></a>    (<span class="st">'drop'</span>, <span class="st">'drop'</span>, [<span class="st">'Longitude'</span>, <span class="st">'Latitude'</span>])</span>
+<span id="cb3-28"><a></a>  ]</span>
+<span id="cb3-29"><a></a>) </span>
+<span id="cb3-30"><a></a></span>
+<span id="cb3-31"><a></a><span class="co"># Creating polynomials and standardizing</span></span>
+<span id="cb3-32"><a></a>preprocessing <span class="op">=</span> Pipeline(</span>
+<span id="cb3-33"><a></a>  [</span>
+<span id="cb3-34"><a></a>    (<span class="st">'extraction'</span>, feat_extr_pipe),</span>
+<span id="cb3-35"><a></a>    (<span class="st">'poly'</span>, PolynomialFeatures(include_bias<span class="op">=</span><span class="va">False</span>)),</span>
+<span id="cb3-36"><a></a>    (<span class="st">'scale'</span>, StandardScaler()),</span>
+<span id="cb3-37"><a></a>  ]</span>
+<span id="cb3-38"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="footer">
+
+</div>
+</section>
+<section id="reminder-preprocessing-pipeline-ii" class="slide level4 scrollable">
+<h4>Reminder: Preprocessing Pipeline II</h4>
+<div id="0d1c7755" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="6">
+<style>#sk-container-id-1 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: black;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-1 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-1 pre {
+  padding: 0;
+}
+
+#sk-container-id-1 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-1 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-1 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-1 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-1 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-1 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-1 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-1 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-1 label.sk-toggleable__label {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-1 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label label.sk-toggleable__label,
+#sk-container-id-1 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-1 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-1 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-1 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-1 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 1ex;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-1 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-1 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[('extraction',
+                 ColumnTransformer(transformers=[('bedroom_ratio',
+                                                  FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000223AFCBCE00&gt;,
+                                                                      func=&lt;function column_ratio at 0x00000223AFC97F60&gt;,
+                                                                      validate=True),
+                                                  ['AveBedrms', 'AveRooms']),
+                                                 ('passthrough', 'passthrough',
+                                                  ['MedInc', 'HouseAge',
+                                                   'AveRooms', 'AveBedrms',
+                                                   'Population', 'AveOccup']),
+                                                 ('drop', 'drop',
+                                                  ['Longitude', 'Latitude'])])),
+                ('poly', PolynomialFeatures(include_bias=False)),
+                ('scale', StandardScaler())])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"><label for="sk-estimator-id-1" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;&nbsp;Pipeline<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link ">i<span>Not fitted</span></span></label><div class="sk-toggleable__content "><pre>Pipeline(steps=[('extraction',
+                 ColumnTransformer(transformers=[('bedroom_ratio',
+                                                  FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000223AFCBCE00&gt;,
+                                                                      func=&lt;function column_ratio at 0x00000223AFC97F60&gt;,
+                                                                      validate=True),
+                                                  ['AveBedrms', 'AveRooms']),
+                                                 ('passthrough', 'passthrough',
+                                                  ['MedInc', 'HouseAge',
+                                                   'AveRooms', 'AveBedrms',
+                                                   'Population', 'AveOccup']),
+                                                 ('drop', 'drop',
+                                                  ['Longitude', 'Latitude'])])),
+                ('poly', PolynomialFeatures(include_bias=False)),
+                ('scale', StandardScaler())])</pre></div> </div></div><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox"><label for="sk-estimator-id-2" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;extraction: ColumnTransformer<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for extraction: ColumnTransformer</span></a></label><div class="sk-toggleable__content "><pre>ColumnTransformer(transformers=[('bedroom_ratio',
+                                 FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000223AFCBCE00&gt;,
+                                                     func=&lt;function column_ratio at 0x00000223AFC97F60&gt;,
+                                                     validate=True),
+                                 ['AveBedrms', 'AveRooms']),
+                                ('passthrough', 'passthrough',
+                                 ['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms',
+                                  'Population', 'AveOccup']),
+                                ('drop', 'drop', ['Longitude', 'Latitude'])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox"><label for="sk-estimator-id-3" class="sk-toggleable__label  sk-toggleable__label-arrow ">bedroom_ratio</label><div class="sk-toggleable__content "><pre>['AveBedrms', 'AveRooms']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox"><label for="sk-estimator-id-4" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;FunctionTransformer<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.FunctionTransformer.html">?<span>Documentation for FunctionTransformer</span></a></label><div class="sk-toggleable__content "><pre>FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000223AFCBCE00&gt;,
+                    func=&lt;function column_ratio at 0x00000223AFC97F60&gt;,
+                    validate=True)</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-5" type="checkbox"><label for="sk-estimator-id-5" class="sk-toggleable__label  sk-toggleable__label-arrow ">passthrough</label><div class="sk-toggleable__content "><pre>['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms', 'Population', 'AveOccup']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-6" type="checkbox"><label for="sk-estimator-id-6" class="sk-toggleable__label  sk-toggleable__label-arrow ">passthrough</label><div class="sk-toggleable__content "><pre>passthrough</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-7" type="checkbox"><label for="sk-estimator-id-7" class="sk-toggleable__label  sk-toggleable__label-arrow ">drop</label><div class="sk-toggleable__content "><pre>['Longitude', 'Latitude']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-8" type="checkbox"><label for="sk-estimator-id-8" class="sk-toggleable__label  sk-toggleable__label-arrow ">drop</label><div class="sk-toggleable__content "><pre>drop</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-9" type="checkbox"><label for="sk-estimator-id-9" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;PolynomialFeatures<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.PolynomialFeatures.html">?<span>Documentation for PolynomialFeatures</span></a></label><div class="sk-toggleable__content "><pre>PolynomialFeatures(include_bias=False)</pre></div> </div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-10" type="checkbox"><label for="sk-estimator-id-10" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;StandardScaler<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.StandardScaler.html">?<span>Documentation for StandardScaler</span></a></label><div class="sk-toggleable__content "><pre>StandardScaler()</pre></div> </div></div></div></div></div></div>
+</div>
+</div>
+<div class="footer">
+
+</div>
+</section>
+
+<section id="ols" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>OLS</h3>
+
+</section>
+<section id="ols-linearregression" class="slide level4">
+<h4>OLS: <code>LinearRegression</code></h4>
+<ul>
+<li class="fragment">Simplest learning algorithm — OLS</li>
+<li class="fragment">Implemented as <code>LinearRegression()</code> in <code>sklearn.linear_model</code><br>
+</li>
+<li class="fragment">Plan
+<ul>
+<li class="fragment">First talk about predictors in isolation</li>
+<li class="fragment">Then attach to our pipeline</li>
+</ul></li>
+</ul>
+</section>
+<section id="predictors-in-scikit-learn" class="slide level4">
+<h4>Predictors in <code>scikit-learn</code></h4>
+<p><code>scikit-learn</code> also has very standardized interface for predictors:</p>
+<ul>
+<li class="fragment">Hyperparameters specified when creating instance</li>
+<li class="fragment">Predictors have <code>fit()</code> methods which takes <code>X, y</code> (supervised) or only <code>X</code> (unsupervised)</li>
+<li class="fragment">Unlike transformers: predictors have <code>predict()</code> instead of <code>transform()</code></li>
+<li class="fragment">Some predictors other methods (decision functions, predicted probabilities, etc.)</li>
+</ul>
+</section>
+<section id="linearregression-in-action" class="slide level4">
+<h4><code>LinearRegression</code> In Action</h4>
+<p><code>scikit-learn</code> predictors generally very easy to use!</p>
+<p>Example with original features:</p>
+<div id="20cdd28d" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a>ols_mod <span class="op">=</span> LinearRegression()          <span class="co"># Create instance</span></span>
+<span id="cb4-2"><a></a>ols_mod.fit(X_train, y_train)         <span class="co"># Fit (run OLS)</span></span>
+<span id="cb4-3"><a></a>ols_mod.predict(X_train.iloc[:<span class="dv">5</span>, :])  <span class="co"># Predict for first 5 training obs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>array([2.3706987 , 2.29356618, 1.23445839, 1.43788244, 3.83655553])</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p><br></p>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Can see big difference with <code>statsmodels</code>: <code>scikit-learn</code> really designed for predictive work: makes it very easy to predict and evaluate predictions, but does not have tools for inference (in the sense of testing, etc).</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="attaching-linearregression-to-pipeline" class="slide level4">
+<h4>Attaching <code>LinearRegression</code> to Pipeline</h4>
+<ul>
+<li class="fragment">Want our predictors to received preprocessed data</li>
+<li class="fragment">Simply make an extended <code>Pipeline</code> by adding <code>LinearRegression()</code> on top of <code>preprocessing</code>:</li>
+</ul>
+<div id="bd4c3f26" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a>ols_sq_model <span class="op">=</span> Pipeline(</span>
+<span id="cb6-2"><a></a>  [</span>
+<span id="cb6-3"><a></a>    (<span class="st">"preprocessing"</span>, preprocessing),</span>
+<span id="cb6-4"><a></a>    (<span class="st">"ols"</span>, LinearRegression())</span>
+<span id="cb6-5"><a></a>  ]</span>
+<span id="cb6-6"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="extended-pipeline" class="slide level4 scrollable">
+<h4>Extended Pipeline</h4>
+<div id="ce867cfa" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="9">
+<style>#sk-container-id-2 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: black;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-2 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-2 pre {
+  padding: 0;
+}
+
+#sk-container-id-2 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-2 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-2 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-2 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-2 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-2 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-2 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-2 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-2 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-2 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-2 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-2 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-2 label.sk-toggleable__label {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#sk-container-id-2 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-2 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-2 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-2 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-2 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-2 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-2 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-2 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-2 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-2 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-2 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-2 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-2 div.sk-label label.sk-toggleable__label,
+#sk-container-id-2 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-2 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-2 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-2 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-2 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-2 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-2 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-2 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-2 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 1ex;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-2 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-2 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-2 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-2 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-2" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[('preprocessing',
+                 Pipeline(steps=[('extraction',
+                                  ColumnTransformer(transformers=[('bedroom_ratio',
+                                                                   FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000223AFCBCE00&gt;,
+                                                                                       func=&lt;function column_ratio at 0x00000223AFC97F60&gt;,
+                                                                                       validate=True),
+                                                                   ['AveBedrms',
+                                                                    'AveRooms']),
+                                                                  ('passthrough',
+                                                                   'passthrough',
+                                                                   ['MedInc',
+                                                                    'HouseAge',
+                                                                    'AveRooms',
+                                                                    'AveBedrms',
+                                                                    'Population',
+                                                                    'AveOccup']),
+                                                                  ('drop',
+                                                                   'drop',
+                                                                   ['Longitude',
+                                                                    'Latitude'])])),
+                                 ('poly',
+                                  PolynomialFeatures(include_bias=False)),
+                                 ('scale', StandardScaler())])),
+                ('ols', LinearRegression())])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-11" type="checkbox"><label for="sk-estimator-id-11" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;&nbsp;Pipeline<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link ">i<span>Not fitted</span></span></label><div class="sk-toggleable__content "><pre>Pipeline(steps=[('preprocessing',
+                 Pipeline(steps=[('extraction',
+                                  ColumnTransformer(transformers=[('bedroom_ratio',
+                                                                   FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000223AFCBCE00&gt;,
+                                                                                       func=&lt;function column_ratio at 0x00000223AFC97F60&gt;,
+                                                                                       validate=True),
+                                                                   ['AveBedrms',
+                                                                    'AveRooms']),
+                                                                  ('passthrough',
+                                                                   'passthrough',
+                                                                   ['MedInc',
+                                                                    'HouseAge',
+                                                                    'AveRooms',
+                                                                    'AveBedrms',
+                                                                    'Population',
+                                                                    'AveOccup']),
+                                                                  ('drop',
+                                                                   'drop',
+                                                                   ['Longitude',
+                                                                    'Latitude'])])),
+                                 ('poly',
+                                  PolynomialFeatures(include_bias=False)),
+                                 ('scale', StandardScaler())])),
+                ('ols', LinearRegression())])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-12" type="checkbox"><label for="sk-estimator-id-12" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;preprocessing: Pipeline<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for preprocessing: Pipeline</span></a></label><div class="sk-toggleable__content "><pre>Pipeline(steps=[('extraction',
+                 ColumnTransformer(transformers=[('bedroom_ratio',
+                                                  FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000223AFCBCE00&gt;,
+                                                                      func=&lt;function column_ratio at 0x00000223AFC97F60&gt;,
+                                                                      validate=True),
+                                                  ['AveBedrms', 'AveRooms']),
+                                                 ('passthrough', 'passthrough',
+                                                  ['MedInc', 'HouseAge',
+                                                   'AveRooms', 'AveBedrms',
+                                                   'Population', 'AveOccup']),
+                                                 ('drop', 'drop',
+                                                  ['Longitude', 'Latitude'])])),
+                ('poly', PolynomialFeatures(include_bias=False)),
+                ('scale', StandardScaler())])</pre></div> </div></div><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-13" type="checkbox"><label for="sk-estimator-id-13" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;extraction: ColumnTransformer<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for extraction: ColumnTransformer</span></a></label><div class="sk-toggleable__content "><pre>ColumnTransformer(transformers=[('bedroom_ratio',
+                                 FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000223AFCBCE00&gt;,
+                                                     func=&lt;function column_ratio at 0x00000223AFC97F60&gt;,
+                                                     validate=True),
+                                 ['AveBedrms', 'AveRooms']),
+                                ('passthrough', 'passthrough',
+                                 ['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms',
+                                  'Population', 'AveOccup']),
+                                ('drop', 'drop', ['Longitude', 'Latitude'])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-14" type="checkbox"><label for="sk-estimator-id-14" class="sk-toggleable__label  sk-toggleable__label-arrow ">bedroom_ratio</label><div class="sk-toggleable__content "><pre>['AveBedrms', 'AveRooms']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-15" type="checkbox"><label for="sk-estimator-id-15" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;FunctionTransformer<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.FunctionTransformer.html">?<span>Documentation for FunctionTransformer</span></a></label><div class="sk-toggleable__content "><pre>FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000223AFCBCE00&gt;,
+                    func=&lt;function column_ratio at 0x00000223AFC97F60&gt;,
+                    validate=True)</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-16" type="checkbox"><label for="sk-estimator-id-16" class="sk-toggleable__label  sk-toggleable__label-arrow ">passthrough</label><div class="sk-toggleable__content "><pre>['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms', 'Population', 'AveOccup']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-17" type="checkbox"><label for="sk-estimator-id-17" class="sk-toggleable__label  sk-toggleable__label-arrow ">passthrough</label><div class="sk-toggleable__content "><pre>passthrough</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-18" type="checkbox"><label for="sk-estimator-id-18" class="sk-toggleable__label  sk-toggleable__label-arrow ">drop</label><div class="sk-toggleable__content "><pre>['Longitude', 'Latitude']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-19" type="checkbox"><label for="sk-estimator-id-19" class="sk-toggleable__label  sk-toggleable__label-arrow ">drop</label><div class="sk-toggleable__content "><pre>drop</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-20" type="checkbox"><label for="sk-estimator-id-20" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;PolynomialFeatures<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.PolynomialFeatures.html">?<span>Documentation for PolynomialFeatures</span></a></label><div class="sk-toggleable__content "><pre>PolynomialFeatures(include_bias=False)</pre></div> </div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-21" type="checkbox"><label for="sk-estimator-id-21" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;StandardScaler<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.StandardScaler.html">?<span>Documentation for StandardScaler</span></a></label><div class="sk-toggleable__content "><pre>StandardScaler()</pre></div> </div></div></div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-22" type="checkbox"><label for="sk-estimator-id-22" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;LinearRegression<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.linear_model.LinearRegression.html">?<span>Documentation for LinearRegression</span></a></label><div class="sk-toggleable__content "><pre>LinearRegression()</pre></div> </div></div></div></div></div></div>
+</div>
+</div>
+<div class="footer">
+
+</div>
+</section>
+<section id="fitting-the-model" class="slide level4">
+<h4>Fitting the Model</h4>
+<p>The whole pipeline can be fitted as before</p>
+<div id="aabc76c1" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>ols_sq_model.fit(X_train, y_train)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<p><br></p>
+<p>Now questions:</p>
+<ul>
+<li class="fragment">Are we happy with polynomial degree? (defaulted to 2)</li>
+<li class="fragment">Is this model “good”?</li>
+</ul>
+</div>
+</section>
+<section id="evaluating-training-loss" class="slide level4">
+<h4>Evaluating Training Loss</h4>
+<p>Let’s start with evaluation</p>
+<ul>
+<li class="fragment"><code>scikit-learn</code> implements many metrics of model quality in <code>sklearn.metrics</code></li>
+<li class="fragment">We want <code>root_mean_squared_error()</code> for RMSE</li>
+</ul>
+<div class="fragment">
+<p>Very easy to compute training set RMSE:</p>
+<div id="78c1b76d" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>root_mean_squared_error(y_train, ols_sq_model.predict(X_train))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>np.float64(0.716589206401369)</code></pre>
+</div>
+</div>
+<ul>
+<li class="fragment">Interpretation — around $71k error</li>
+<li class="fragment">This is training loss (=bad)! How to evaluate accurately?</li>
+</ul>
+</div>
+</section>
+
+<section id="penalized-approaches" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Penalized Approaches</h3>
+
+</section>
+<section id="beyond-ols-penalized-least-squares" class="slide level4">
+<h4>Beyond OLS: Penalized Least Squares</h4>
+<p>Before evaluation, let’s think if we want OLS</p>
+<ul>
+<li class="fragment">Maybe want to <span class="highlight">regularize</span> the model</li>
+<li class="fragment">Still have linear hypotheses <span class="math inline">\(\curl{\varphi(\bx)'\bbeta}\)</span>, but learn <span class="math inline">\(\bbeta\)</span> differently</li>
+<li class="fragment">Met some other algorithms of the form <span class="math display">\[
+\hat{\bbeta} = \argmin_{\bb} \dfrac{1}{N_{S_{Tr}}}\sum_{i=1}^{N_{S_{Tr}}} (Y_i - \varphi(\bX_i)'\bb) + \alpha \Pcal(\bb)
+\]</span></li>
+</ul>
+</section>
+<section id="reminder-ridge-lasso-elasticnet" class="slide level4">
+<h4>Reminder: Ridge, LASSO, ElasticNet</h4>
+<p>Popular algorithms in <code>scikit-learn</code>:</p>
+<ul>
+<li class="fragment"><code>Ridge</code> (<span class="math inline">\(L^2\)</span>): <span class="math inline">\(\norm{\bbeta}_2^2 = \sum_{k} \beta_k^2\)</span></li>
+<li class="fragment"><code>Lasso</code> (<span class="math inline">\(L^1\)</span>): <span class="math inline">\(\norm{\bbeta}_1 = \sum_{k} \abs{\beta}_k\)</span></li>
+<li class="fragment"><code>ElasticNet</code>: <span class="math inline">\(\norm{\beta}_1 + \kappa \norm{\beta}_2^2\)</span>. Here <span class="math inline">\(\kappa\)</span> — relative strength of <span class="math inline">\(L^1\)</span> and <span class="math inline">\(L^2\)</span></li>
+</ul>
+<div class="callout callout-note no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>The intercept (the “bias” term) is usually <span class="highlight">not penalized</span> — not part of the <span class="math inline">\(\bbeta\)</span> in the above notation, but treated separately.</p>
+<p>Reason: otherwise model depends “unnaturally” on the origin chosen for <span class="math inline">\(Y_i\)</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="creating-a-lasso-predictor" class="slide level4">
+<h4>Creating a LASSO Predictor</h4>
+<p>Very easy to create a pipeline with LASSO:</p>
+<div id="77a12fa3" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>lasso_model <span class="op">=</span> Pipeline(</span>
+<span id="cb10-2"><a></a>  [</span>
+<span id="cb10-3"><a></a>    (<span class="st">"preprocessing"</span>, clone(preprocessing)),</span>
+<span id="cb10-4"><a></a>    (<span class="st">"lasso"</span>, Lasso())</span>
+<span id="cb10-5"><a></a>  ]</span>
+<span id="cb10-6"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<ul>
+<li class="fragment">For now using the default penalty parameter <span class="math inline">\(\alpha=1\)</span></li>
+<li class="fragment">Is that a good choice?</li>
+</ul>
+<div class="footer">
+<p>Note that we are cloning the preprocessing pipeline, otherwise it will be the <em>same</em> one as in the first model</p>
+</div>
+</section>
+<section id="fitting-and-training-loss-of-lasso" class="slide level4">
+<h4>Fitting and Training Loss of LASSO</h4>
+<p>Fitting and evaluating training loss exactly as before:</p>
+<div id="6229e623" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a><span class="co"># Fit model</span></span>
+<span id="cb11-2"><a></a>lasso_model.fit(X_train, y_train)</span>
+<span id="cb11-3"><a></a><span class="co"># Evaluate on training sample</span></span>
+<span id="cb11-4"><a></a>root_mean_squared_error(y_train, lasso_model.predict(X_train))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>np.float64(1.1559103020200665)</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p><br></p>
+<ul>
+<li class="fragment">LASSO doing worse <span class="highlight">in the training sample</span> that just OLS</li>
+<li class="fragment">Doesn’t say anything about <span class="highlight">generalization</span></li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+<section id="cross-validation" class="title-slide slide level2 center" data-background="#00100F">
+<h2>(Cross-)Validation</h2>
+
+</section>
+<section id="problem-evaluating-and-selecting-models" class="slide level4">
+<h4>Problem: Evaluating and Selecting Models?</h4>
+<p>Accumulated questions:</p>
+<ul>
+<li class="fragment">Are our <span class="highlight">tuning parameters</span> (=hyperparameters) specified the best way possible?
+<ul>
+<li class="fragment">Maximum degree of polynomial</li>
+<li class="fragment">Size of penalty <span class="math inline">\(\alpha\)</span></li>
+</ul></li>
+<li class="fragment">Does adding a penalty help?</li>
+</ul>
+</section>
+<section id="validation" class="slide level4">
+<h4>Validation</h4>
+<div class="rounded-box">
+<p>These <span class="highlight">model selection questions</span> answered by <span class="highlight">model validation</span></p>
+</div>
+<p>Simple validation approach:</p>
+<ol type="1">
+<li class="fragment">Split training set into training set and validation set</li>
+<li class="fragment">Train all the competing models on the new training set</li>
+<li class="fragment">Compute risk on validation set for each model</li>
+<li class="fragment">Choose model with best performance</li>
+</ol>
+</section>
+<section id="dividing-multiple-times-k-fold-cross-validation" class="slide level4">
+<h4>Dividing Multiple Times: <span class="math inline">\(k\)</span>-Fold Cross-Validation</h4>
+<div class="rounded-box">
+<ol type="1">
+<li class="fragment">Split training data into <span class="math inline">\(k\)</span> <span class="highlight">folds</span>: equal-sized nonoverlapping sets <span class="math inline">\(S_j\)</span></li>
+<li class="fragment">For <span class="math inline">\(j=1, \dots, k\)</span>
+<ul>
+<li class="fragment">Train algorithm <span class="math inline">\(\Acal\)</span> on <span class="math inline">\(\scriptsize S_{-j}= \curl{S_1, \dots, S_{j-1}, S_{j+1}, \dots, S_k}\)</span></li>
+<li class="fragment">Estimate risk of algorithm <span class="math inline">\(\Acal\)</span> on <span class="math inline">\(S_j\)</span> with <span class="math inline">\(\scriptsize \hat{R}_{S_j}(\hat{h}_{S_{-j}}^{\Acal})\)</span></li>
+</ul></li>
+<li class="fragment">Estimate overall risk of <span class="math inline">\(\Acal\)</span> with <span class="math display">\[\scriptsize
+\hat{R}(\Acal) = \dfrac{1}{k} \sum_{j=1}^k \hat{R}_{S_j}(\hat{h}_{S_{-j}}^{\Acal})
+\]</span></li>
+</ol>
+</div>
+<div class="footer">
+
+</div>
+</section>
+<section id="visual-example-5-fold-cv" class="slide level4">
+<h4>Visual Example: 5-fold CV</h4>
+<div class="columns">
+<div class="column" style="width:69%;">
+<p><img data-src="../..\images/pred/cv.png"></p>
+</div><div class="column" style="width:31%;">
+<ul>
+<li class="fragment">On step <span class="math inline">\(j\)</span>, <span class="math inline">\(j\)</span>th fold (orange) excluded from training</li>
+<li class="fragment">Model trained on blue set, risk estimated on orange</li>
+</ul>
+</div></div>
+<div class="footer">
+<p>Image from figure 5.5 in <span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2023</a>)</span></p>
+</div>
+</section>
+<section id="cross-validation-discussion" class="slide level4">
+<h4>Cross-Validation: Discussion</h4>
+<ul>
+<li class="fragment">Here talk about <span class="highlight">algorithms</span> (e.g.&nbsp;LASSO with particular <span class="math inline">\(\alpha\)</span>):
+<ul>
+<li class="fragment"><span class="math inline">\(\Acal\)</span> might pick different <span class="math inline">\(h\)</span> on different <span class="math inline">\(S_{-j}\)</span></li>
+<li class="fragment">Interest in risk properties of <span class="highlight">algorithms</span></li>
+</ul></li>
+<li class="fragment">Number <span class="math inline">\(k\)</span> of folds — trade-off between computational ease and estimation quality for risk (more on that later)</li>
+<li class="fragment">CV — generic approach for comparing different algorithms (=choosing approaches, tuning hyperparameters)</li>
+</ul>
+</section>
+<section id="cv-in-scikit-learn" class="slide level4">
+<h4>CV in <code>scikit-learn</code></h4>
+<p><code>scikit-learn</code> supports CV in many forms:</p>
+<ul>
+<li class="fragment">Evaluating a specific algorithm: e.g.&nbsp;<code>cross_val_score()</code><br>
+</li>
+<li class="fragment">Tuning parameter choice: e.g.&nbsp;<code>GridSearchCV</code>, <code>RandomizedSearchCV</code></li>
+<li class="fragment">Splitters for custom computations: e.g.&nbsp;<code>KFold</code> and <code>StratifiedKFold</code></li>
+</ul>
+<p>All in the <code>sklearn.model_selection</code> module</p>
+</section>
+<section id="checking-generalization-performance-with-cv" class="slide level4">
+<h4>Checking Generalization Performance with CV</h4>
+<p>How good is our OLS approach with squares of features?</p>
+<div class="fragment">
+<p>Use <code>cross_val_score</code></p>
+<div id="b91d7e31" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a>ols_rmse <span class="op">=</span> <span class="op">-</span>cross_val_score(</span>
+<span id="cb13-2"><a></a>    ols_sq_model,                           <span class="co"># algorithm</span></span>
+<span id="cb13-3"><a></a>    X_train,</span>
+<span id="cb13-4"><a></a>    y_train,</span>
+<span id="cb13-5"><a></a>    scoring<span class="op">=</span><span class="st">"neg_root_mean_squared_error"</span>,  <span class="co"># which score to compute</span></span>
+<span id="cb13-6"><a></a>    cv<span class="op">=</span><span class="dv">10</span>,                                  <span class="co"># how many folds</span></span>
+<span id="cb13-7"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment">Trains 10 times</li>
+<li class="fragment">Scoring: negative RMSE</li>
+<li class="fragment">Returns array of values: negative RMSE for each fold</li>
+</ul>
+</div>
+</section>
+<section id="generalization-performance" class="slide level4">
+<h4>Generalization Performance</h4>
+<div id="3c47af5a" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a>pd.Series(ols_rmse).describe().iloc[:<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>count    10.000000
+mean      1.616580
+std       1.818678
+dtype: float64</code></pre>
+</div>
+</div>
+<ul>
+<li class="fragment">Recall: training loss around $71k</li>
+<li class="fragment">Much higher validation loss: $161k</li>
+<li class="fragment">But also high variance: a lot of variation between folds:</li>
+</ul>
+<div id="dd5a22b9" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>array([0.73475434, 0.73214555, 0.71531639, 6.43146961, 0.72833282,
+       0.78883928, 1.45873126, 2.85839685, 0.74996918, 0.96784711])</code></pre>
+</div>
+</div>
+</section>
+<section id="tuning-hyperparameters-with-cv" class="slide level4">
+<h4>Tuning Hyperparameters with CV</h4>
+<ul>
+<li class="fragment">Can use CV to select tuning parameter <span class="math inline">\(\alpha\)</span> and degree of polynomial</li>
+<li class="fragment"><code>scikit-learn</code> makes it easy:
+<ul>
+<li class="fragment">Special classes like <code>GridSearchCV</code> and <code>RandomizedSearchCV</code> for searching parameter values</li>
+<li class="fragment">Just need to tell it what parameter to tune and which values to check</li>
+</ul></li>
+</ul>
+</section>
+<section id="tuning-penalty-parameters-with-cv" class="slide level4">
+<h4>Tuning Penalty Parameters with CV</h4>
+<p>Example: tuning <code>alpha</code> in LASSO</p>
+<ul>
+<li class="fragment">Want to check 10 values between 0 and 1</li>
+<li class="fragment">Create a grid of values with dictionary
+<ul>
+<li class="fragment">Keys: parameter name (convention: <code>&lt;name_in_pipeline&gt;__&lt;param_name&gt;</code>)</li>
+<li class="fragment">Values: an array of values to check</li>
+</ul></li>
+</ul>
+<div id="0ffe4d47" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a>param_grid_alpha <span class="op">=</span> { </span>
+<span id="cb17-2"><a></a>    <span class="st">"lasso__alpha"</span>: np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">11</span>),</span>
+<span id="cb17-3"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="footer">
+<p><code>LaasoCV</code> and <code>RidgeCV</code> automatically select their penalty parameters by cross-validation — sometimes quicker</p>
+</div>
+</section>
+<section id="running-cv-for-parameter-choice" class="slide level4">
+<h4>Running CV for Parameter Choice</h4>
+<p>Very similar approach to working with predictors and transformers:</p>
+<ul>
+<li class="fragment">Create instance</li>
+<li class="fragment">Fit</li>
+</ul>
+<div id="63ef6f91" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a>grid_search_alpha <span class="op">=</span> GridSearchCV(</span>
+<span id="cb18-2"><a></a>    lasso_model,                           <span class="co"># which predictor/pipeline</span></span>
+<span id="cb18-3"><a></a>    param_grid_alpha,                      <span class="co"># parameter grids</span></span>
+<span id="cb18-4"><a></a>    cv<span class="op">=</span><span class="dv">10</span>,                                 <span class="co"># number of folds</span></span>
+<span id="cb18-5"><a></a>    n_jobs <span class="op">=</span> <span class="op">-</span><span class="dv">1</span>,                           <span class="co"># number of parallel jobs</span></span>
+<span id="cb18-6"><a></a>    scoring<span class="op">=</span><span class="st">"neg_root_mean_squared_error"</span>, <span class="co"># which score</span></span>
+<span id="cb18-7"><a></a>)</span>
+<span id="cb18-8"><a></a>grid_search_alpha.fit(X_train, y_train)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="footer">
+<p>Computation: estimates 10 times for each value of <span class="math inline">\(\alpha\)</span> (110 times in total)</p>
+</div>
+</section>
+<section id="viewing-the-results" class="slide level4 scrollable">
+<h4>Viewing the Results</h4>
+<ul>
+<li class="fragment">The <code>results_</code> attribute has detailed info on models fitted</li>
+<li class="fragment">Best approach: <span class="math inline">\(\alpha\approx 0.1\)</span>. Worst: <span class="math inline">\(\alpha=0\)</span> (OLS)</li>
+</ul>
+<div id="40a6cb54" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a>cv_res_alpha <span class="op">=</span> pd.DataFrame(grid_search_alpha.cv_results_)</span>
+<span id="cb19-2"><a></a>cv_res_alpha.sort_values(by<span class="op">=</span><span class="st">'rank_test_score'</span>)</span>
+<span id="cb19-3"><a></a><span class="co"># Can also flip the score sign to turn into RMSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean_fit_time</th>
+<th data-quarto-table-cell-role="th">std_fit_time</th>
+<th data-quarto-table-cell-role="th">mean_score_time</th>
+<th data-quarto-table-cell-role="th">std_score_time</th>
+<th data-quarto-table-cell-role="th">param_lasso__alpha</th>
+<th data-quarto-table-cell-role="th">params</th>
+<th data-quarto-table-cell-role="th">split0_test_score</th>
+<th data-quarto-table-cell-role="th">split1_test_score</th>
+<th data-quarto-table-cell-role="th">split2_test_score</th>
+<th data-quarto-table-cell-role="th">split3_test_score</th>
+<th data-quarto-table-cell-role="th">split4_test_score</th>
+<th data-quarto-table-cell-role="th">split5_test_score</th>
+<th data-quarto-table-cell-role="th">split6_test_score</th>
+<th data-quarto-table-cell-role="th">split7_test_score</th>
+<th data-quarto-table-cell-role="th">split8_test_score</th>
+<th data-quarto-table-cell-role="th">split9_test_score</th>
+<th data-quarto-table-cell-role="th">mean_test_score</th>
+<th data-quarto-table-cell-role="th">std_test_score</th>
+<th data-quarto-table-cell-role="th">rank_test_score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0.072427</td>
+<td>0.020058</td>
+<td>0.005137</td>
+<td>0.002451</td>
+<td>0.1</td>
+<td>{'lasso__alpha': 0.1}</td>
+<td>-0.796165</td>
+<td>-0.761101</td>
+<td>-0.775303</td>
+<td>-0.800945</td>
+<td>-0.782805</td>
+<td>-0.780323</td>
+<td>-0.753618</td>
+<td>-0.785438</td>
+<td>-0.802100</td>
+<td>-0.778477</td>
+<td>-0.781628</td>
+<td>0.015090</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0.060405</td>
+<td>0.033670</td>
+<td>0.005136</td>
+<td>0.001706</td>
+<td>0.2</td>
+<td>{'lasso__alpha': 0.2}</td>
+<td>-0.816359</td>
+<td>-0.785639</td>
+<td>-0.805728</td>
+<td>-0.826513</td>
+<td>-0.805439</td>
+<td>-0.808212</td>
+<td>-0.773924</td>
+<td>-0.806453</td>
+<td>-0.826397</td>
+<td>-0.803929</td>
+<td>-0.805859</td>
+<td>0.015483</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0.030496</td>
+<td>0.004194</td>
+<td>0.003149</td>
+<td>0.002351</td>
+<td>0.3</td>
+<td>{'lasso__alpha': 0.30000000000000004}</td>
+<td>-0.851757</td>
+<td>-0.824648</td>
+<td>-0.853041</td>
+<td>-0.867061</td>
+<td>-0.840383</td>
+<td>-0.849955</td>
+<td>-0.809561</td>
+<td>-0.844120</td>
+<td>-0.863233</td>
+<td>-0.843508</td>
+<td>-0.844727</td>
+<td>0.016272</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.047932</td>
+<td>0.012561</td>
+<td>0.004664</td>
+<td>0.002829</td>
+<td>0.4</td>
+<td>{'lasso__alpha': 0.4}</td>
+<td>-0.900569</td>
+<td>-0.876197</td>
+<td>-0.914624</td>
+<td>-0.920610</td>
+<td>-0.886183</td>
+<td>-0.903635</td>
+<td>-0.858624</td>
+<td>-0.896340</td>
+<td>-0.911088</td>
+<td>-0.895341</td>
+<td>-0.896321</td>
+<td>0.017732</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>0.065109</td>
+<td>0.011023</td>
+<td>0.005145</td>
+<td>0.002283</td>
+<td>0.5</td>
+<td>{'lasso__alpha': 0.5}</td>
+<td>-0.955774</td>
+<td>-0.932723</td>
+<td>-0.982019</td>
+<td>-0.980074</td>
+<td>-0.937986</td>
+<td>-0.963070</td>
+<td>-0.916799</td>
+<td>-0.956181</td>
+<td>-0.962360</td>
+<td>-0.955636</td>
+<td>-0.954262</td>
+<td>0.019287</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">6</td>
+<td>0.077557</td>
+<td>0.012931</td>
+<td>0.007435</td>
+<td>0.003275</td>
+<td>0.6</td>
+<td>{'lasso__alpha': 0.6000000000000001}</td>
+<td>-1.014336</td>
+<td>-0.992106</td>
+<td>-1.051605</td>
+<td>-1.043012</td>
+<td>-0.992503</td>
+<td>-1.025303</td>
+<td>-0.978918</td>
+<td>-1.017929</td>
+<td>-1.016735</td>
+<td>-1.020126</td>
+<td>-1.015257</td>
+<td>0.021449</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">7</td>
+<td>0.087471</td>
+<td>0.017060</td>
+<td>0.005493</td>
+<td>0.001006</td>
+<td>0.7</td>
+<td>{'lasso__alpha': 0.7000000000000001}</td>
+<td>-1.080154</td>
+<td>-1.058064</td>
+<td>-1.127779</td>
+<td>-1.112880</td>
+<td>-1.053149</td>
+<td>-1.093986</td>
+<td>-1.047864</td>
+<td>-1.086479</td>
+<td>-1.077681</td>
+<td>-1.091080</td>
+<td>-1.082912</td>
+<td>0.024248</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">8</td>
+<td>0.072929</td>
+<td>0.006527</td>
+<td>0.006274</td>
+<td>0.001999</td>
+<td>0.8</td>
+<td>{'lasso__alpha': 0.8}</td>
+<td>-1.149506</td>
+<td>-1.127795</td>
+<td>-1.202201</td>
+<td>-1.185040</td>
+<td>-1.117950</td>
+<td>-1.165411</td>
+<td>-1.118929</td>
+<td>-1.157037</td>
+<td>-1.141068</td>
+<td>-1.163488</td>
+<td>-1.152843</td>
+<td>0.026280</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>0.068537</td>
+<td>0.007892</td>
+<td>0.004716</td>
+<td>0.002653</td>
+<td>1.0</td>
+<td>{'lasso__alpha': 1.0}</td>
+<td>-1.153430</td>
+<td>-1.132308</td>
+<td>-1.202201</td>
+<td>-1.186119</td>
+<td>-1.122399</td>
+<td>-1.166705</td>
+<td>-1.122226</td>
+<td>-1.160035</td>
+<td>-1.147058</td>
+<td>-1.164363</td>
+<td>-1.155684</td>
+<td>0.024818</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>0.078860</td>
+<td>0.005081</td>
+<td>0.006274</td>
+<td>0.000573</td>
+<td>0.9</td>
+<td>{'lasso__alpha': 0.9}</td>
+<td>-1.153430</td>
+<td>-1.132308</td>
+<td>-1.202201</td>
+<td>-1.186119</td>
+<td>-1.122399</td>
+<td>-1.166705</td>
+<td>-1.122226</td>
+<td>-1.160035</td>
+<td>-1.147058</td>
+<td>-1.164363</td>
+<td>-1.155684</td>
+<td>0.024818</td>
+<td>9</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0.639494</td>
+<td>0.199940</td>
+<td>0.005847</td>
+<td>0.002694</td>
+<td>0.0</td>
+<td>{'lasso__alpha': 0.0}</td>
+<td>-0.740263</td>
+<td>-0.721958</td>
+<td>-0.718266</td>
+<td>-5.089013</td>
+<td>-0.733290</td>
+<td>-0.718058</td>
+<td>-1.401015</td>
+<td>-1.405668</td>
+<td>-0.751671</td>
+<td>-0.796095</td>
+<td>-1.307530</td>
+<td>1.287543</td>
+<td>11</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="footer">
+
+</div>
+</section>
+<section id="tuning-multiple-parameters" class="slide level4 scrollable">
+<h4>Tuning Multiple Parameters</h4>
+<ul>
+<li class="fragment">Can tune any number of parameters we want</li>
+<li class="fragment">Including parameters in other parts of pipeline</li>
+<li class="fragment">E.g. degree of polynomial features:</li>
+</ul>
+<div id="f1bfff38" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a>param_grid <span class="op">=</span> { </span>
+<span id="cb20-2"><a></a>    <span class="st">"preprocessing__poly__degree"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
+<span id="cb20-3"><a></a>    <span class="st">"lasso__alpha"</span>: np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">11</span>),</span>
+<span id="cb20-4"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li class="fragment"><code>GridSearchCV</code> called the same way</li>
+<li class="fragment">Computes for <span class="highlight">each combo</span> in <code>param_grid</code> (330 fits total)</li>
+</ul>
+<div id="cb1685b6" class="cell" data-execution_count="21">
+<details class="code-fold">
+<summary>Calling <code>GridSearchCV</code></summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a>grid_search <span class="op">=</span> GridSearchCV(</span>
+<span id="cb21-2"><a></a>    lasso_model,</span>
+<span id="cb21-3"><a></a>    param_grid,</span>
+<span id="cb21-4"><a></a>    cv<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb21-5"><a></a>    n_jobs <span class="op">=</span> <span class="op">-</span><span class="dv">1</span>,</span>
+<span id="cb21-6"><a></a>    scoring<span class="op">=</span><span class="st">"neg_root_mean_squared_error"</span>,</span>
+<span id="cb21-7"><a></a>)</span>
+<span id="cb21-8"><a></a></span>
+<span id="cb21-9"><a></a>grid_search.fit(X_train, y_train)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="footer">
+
+</div>
+</section>
+<section id="results-tuning-linear-model" class="slide level4">
+<h4>Results: Tuning Linear Model</h4>
+<p>Extracting top 3 models:</p>
+<div id="d0accf5d" class="cell" data-execution_count="22">
+<div class="cell-output cell-output-display" data-execution_count="22">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">param_lasso__alpha</th>
+<th data-quarto-table-cell-role="th">param_preprocessing__poly__degree</th>
+<th data-quarto-table-cell-role="th">mean_test_score</th>
+<th data-quarto-table-cell-role="th">std_test_score</th>
+<th data-quarto-table-cell-role="th">rank_test_score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0.0</td>
+<td>1</td>
+<td>-0.774210</td>
+<td>0.016224</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>0.1</td>
+<td>3</td>
+<td>-0.779333</td>
+<td>0.014986</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.1</td>
+<td>2</td>
+<td>-0.781628</td>
+<td>0.015090</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<ul>
+<li class="fragment">Best model: OLS with no polynomials</li>
+<li class="fragment">Close second and third: <span class="math inline">\(\alpha=0.1\)</span> and polynomials of degrees 2 and 3</li>
+</ul>
+</section>
+<section id="about-bias-in-cross-validation" class="slide level4">
+<h4>About Bias in Cross-Validation</h4>
+<div class="rounded-box">
+<p>Cross-validation is <span class="highlight">inherently biased</span></p>
+</div>
+<ul>
+<li class="fragment">Final selected model — trained on full training sample of size <span class="math inline">\(N_{Tr}\)</span></li>
+<li class="fragment">But each fold fits only with <span class="math inline">\((k-1)N_{Tr}/k\)</span> examples
+<ul>
+<li class="fragment">Not the same risk performance as full sample</li>
+<li class="fragment">Best option: take <span class="math inline">\(k=N\)</span> (leave-one-out CV = LOOCV) — as close as possible</li>
+</ul></li>
+<li class="fragment">Can’t do better if want to use all <span class="math inline">\(N_{Tr}\)</span> examples</li>
+</ul>
+</section></section>
+<section>
+<section id="model-development-ii-trees-and-forests" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Model Development II: Trees and Forests</h2>
+
+</section>
+<section id="regression-trees" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Regression Trees</h3>
+
+</section>
+<section id="towards-trees" class="slide level4">
+<h4>Towards Trees</h4>
+<ul>
+<li class="fragment">Story so far unclear whether we want nonlinearities in <span class="math inline">\(\bX\)</span></li>
+<li class="fragment">Can try a <span class="highlight">nonparametric</span> method</li>
+</ul>
+<div class="fragment">
+<p>New flexible hypothesis class: <span class="math display">\[
+\Hcal = \curl{\text{regression trees}}
+\]</span></p>
+</div>
+</section>
+<section id="reminder-decision-trees" class="slide level4">
+<h4>Reminder: Decision Trees</h4>
+<div class="columns">
+<div class="column" style="width:30%;">
+<ul>
+<li class="fragment">Split the predictor space one variable at a time</li>
+<li class="fragment">Return same value on each rectangle <span class="math inline">\(R_k\)</span></li>
+</ul>
+</div><div class="column" style="width:70%;">
+<p><img data-src="../..\images/pred/reg-tree.png"></p>
+</div></div>
+<p>Regression trees: values can belong to <span class="math inline">\(\R\)</span></p>
+</section>
+<section id="about-trees" class="slide level4">
+<h4>About Trees</h4>
+<p>Trees have a few nice features</p>
+<ul>
+<li class="fragment">Interpretable decision rules</li>
+<li class="fragment">No need to standardize features</li>
+</ul>
+<div class="fragment">
+<p>Recreate preprocessing pipeline without standardization and polynomial degree = 1 (with option to tune)</p>
+<div id="c72371b4" class="cell" data-execution_count="23">
+<details class="code-fold">
+<summary>Recreating preprocessing pipeline</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a></a>preprocessing <span class="op">=</span> Pipeline(</span>
+<span id="cb22-2"><a></a>  [</span>
+<span id="cb22-3"><a></a>    (<span class="st">'extraction'</span>, feat_extr_pipe),</span>
+<span id="cb22-4"><a></a>    (<span class="st">'poly'</span>, PolynomialFeatures(degree <span class="op">=</span> <span class="dv">1</span>, include_bias<span class="op">=</span><span class="va">False</span>)), </span>
+<span id="cb22-5"><a></a>  ]</span>
+<span id="cb22-6"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</section>
+<section id="trees-in-scikit-learn" class="slide level4">
+<h4>Trees in <code>scikit-learn</code></h4>
+<ul>
+<li class="fragment"><code>scikit-learn</code> implements trees in <code>sklearn.tree</code></li>
+<li class="fragment">Use <code>DecisionTreeRegressor()</code> on top of <code>preprocessing</code></li>
+</ul>
+<div id="46bd5a14" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a>tree <span class="op">=</span> Pipeline(</span>
+<span id="cb23-2"><a></a>    [</span>
+<span id="cb23-3"><a></a>        (<span class="st">"preprocessing"</span>, preprocessing),</span>
+<span id="cb23-4"><a></a>        (<span class="st">"tree"</span>, DecisionTreeRegressor(random_state<span class="op">=</span><span class="dv">1</span>)),</span>
+<span id="cb23-5"><a></a>    ],</span>
+<span id="cb23-6"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="footer">
+<p><code>scikit-learn</code> trains trees using the CART algorithm; see 8.1 in <span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2023</a>)</span></p>
+</div>
+</section>
+<section id="visualizing-new-pipeline" class="slide level4 scrollable">
+<h4>Visualizing New Pipeline</h4>
+<div id="c5bc5188" class="cell" data-execution_count="25">
+<div class="cell-output cell-output-display" data-execution_count="25">
+<style>#sk-container-id-3 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: black;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-3 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-3 pre {
+  padding: 0;
+}
+
+#sk-container-id-3 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-3 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-3 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-3 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-3 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-3 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-3 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-3 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-3 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-3 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-3 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-3 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-3 label.sk-toggleable__label {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#sk-container-id-3 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-3 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-3 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-3 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-3 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-3 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-3 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-3 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-3 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-3 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-3 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-3 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-3 div.sk-label label.sk-toggleable__label,
+#sk-container-id-3 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-3 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-3 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-3 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-3 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-3 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-3 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-3 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-3 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 1ex;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-3 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-3 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-3 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-3 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-3" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[('preprocessing',
+                 Pipeline(steps=[('extraction',
+                                  ColumnTransformer(transformers=[('bedroom_ratio',
+                                                                   FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000223AFCBCE00&gt;,
+                                                                                       func=&lt;function column_ratio at 0x00000223AFC97F60&gt;,
+                                                                                       validate=True),
+                                                                   ['AveBedrms',
+                                                                    'AveRooms']),
+                                                                  ('passthrough',
+                                                                   'passthrough',
+                                                                   ['MedInc',
+                                                                    'HouseAge',
+                                                                    'AveRooms',
+                                                                    'AveBedrms',
+                                                                    'Population',
+                                                                    'AveOccup']),
+                                                                  ('drop',
+                                                                   'drop',
+                                                                   ['Longitude',
+                                                                    'Latitude'])])),
+                                 ('poly',
+                                  PolynomialFeatures(degree=1,
+                                                     include_bias=False))])),
+                ('tree', DecisionTreeRegressor(random_state=1))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-23" type="checkbox"><label for="sk-estimator-id-23" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;&nbsp;Pipeline<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link ">i<span>Not fitted</span></span></label><div class="sk-toggleable__content "><pre>Pipeline(steps=[('preprocessing',
+                 Pipeline(steps=[('extraction',
+                                  ColumnTransformer(transformers=[('bedroom_ratio',
+                                                                   FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000223AFCBCE00&gt;,
+                                                                                       func=&lt;function column_ratio at 0x00000223AFC97F60&gt;,
+                                                                                       validate=True),
+                                                                   ['AveBedrms',
+                                                                    'AveRooms']),
+                                                                  ('passthrough',
+                                                                   'passthrough',
+                                                                   ['MedInc',
+                                                                    'HouseAge',
+                                                                    'AveRooms',
+                                                                    'AveBedrms',
+                                                                    'Population',
+                                                                    'AveOccup']),
+                                                                  ('drop',
+                                                                   'drop',
+                                                                   ['Longitude',
+                                                                    'Latitude'])])),
+                                 ('poly',
+                                  PolynomialFeatures(degree=1,
+                                                     include_bias=False))])),
+                ('tree', DecisionTreeRegressor(random_state=1))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-24" type="checkbox"><label for="sk-estimator-id-24" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;preprocessing: Pipeline<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for preprocessing: Pipeline</span></a></label><div class="sk-toggleable__content "><pre>Pipeline(steps=[('extraction',
+                 ColumnTransformer(transformers=[('bedroom_ratio',
+                                                  FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000223AFCBCE00&gt;,
+                                                                      func=&lt;function column_ratio at 0x00000223AFC97F60&gt;,
+                                                                      validate=True),
+                                                  ['AveBedrms', 'AveRooms']),
+                                                 ('passthrough', 'passthrough',
+                                                  ['MedInc', 'HouseAge',
+                                                   'AveRooms', 'AveBedrms',
+                                                   'Population', 'AveOccup']),
+                                                 ('drop', 'drop',
+                                                  ['Longitude', 'Latitude'])])),
+                ('poly', PolynomialFeatures(degree=1, include_bias=False))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-25" type="checkbox"><label for="sk-estimator-id-25" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;extraction: ColumnTransformer<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for extraction: ColumnTransformer</span></a></label><div class="sk-toggleable__content "><pre>ColumnTransformer(transformers=[('bedroom_ratio',
+                                 FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000223AFCBCE00&gt;,
+                                                     func=&lt;function column_ratio at 0x00000223AFC97F60&gt;,
+                                                     validate=True),
+                                 ['AveBedrms', 'AveRooms']),
+                                ('passthrough', 'passthrough',
+                                 ['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms',
+                                  'Population', 'AveOccup']),
+                                ('drop', 'drop', ['Longitude', 'Latitude'])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-26" type="checkbox"><label for="sk-estimator-id-26" class="sk-toggleable__label  sk-toggleable__label-arrow ">bedroom_ratio</label><div class="sk-toggleable__content "><pre>['AveBedrms', 'AveRooms']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-27" type="checkbox"><label for="sk-estimator-id-27" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;FunctionTransformer<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.FunctionTransformer.html">?<span>Documentation for FunctionTransformer</span></a></label><div class="sk-toggleable__content "><pre>FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000223AFCBCE00&gt;,
+                    func=&lt;function column_ratio at 0x00000223AFC97F60&gt;,
+                    validate=True)</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-28" type="checkbox"><label for="sk-estimator-id-28" class="sk-toggleable__label  sk-toggleable__label-arrow ">passthrough</label><div class="sk-toggleable__content "><pre>['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms', 'Population', 'AveOccup']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-29" type="checkbox"><label for="sk-estimator-id-29" class="sk-toggleable__label  sk-toggleable__label-arrow ">passthrough</label><div class="sk-toggleable__content "><pre>passthrough</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-30" type="checkbox"><label for="sk-estimator-id-30" class="sk-toggleable__label  sk-toggleable__label-arrow ">drop</label><div class="sk-toggleable__content "><pre>['Longitude', 'Latitude']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-31" type="checkbox"><label for="sk-estimator-id-31" class="sk-toggleable__label  sk-toggleable__label-arrow ">drop</label><div class="sk-toggleable__content "><pre>drop</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-32" type="checkbox"><label for="sk-estimator-id-32" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;PolynomialFeatures<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.PolynomialFeatures.html">?<span>Documentation for PolynomialFeatures</span></a></label><div class="sk-toggleable__content "><pre>PolynomialFeatures(degree=1, include_bias=False)</pre></div> </div></div></div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-33" type="checkbox"><label for="sk-estimator-id-33" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;DecisionTreeRegressor<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.tree.DecisionTreeRegressor.html">?<span>Documentation for DecisionTreeRegressor</span></a></label><div class="sk-toggleable__content "><pre>DecisionTreeRegressor(random_state=1)</pre></div> </div></div></div></div></div></div>
+</div>
+</div>
+</section>
+<section id="training-a-tree-and-training-performance" class="slide level4">
+<h4>Training a Tree and Training Performance</h4>
+<p>Training and computing training loss exactly as before:</p>
+<div id="f0c1ddda" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a></a>tree.fit(X_train, y_train)</span>
+<span id="cb24-2"><a></a>root_mean_squared_error(y_train, tree.predict(X_train)).<span class="bu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>np.float64(0.0)</code></pre>
+</div>
+</div>
+<ul>
+<li class="fragment">We <span class="highlight">interpolated</span> the training sample — perfect prediction</li>
+<li class="fragment">Generalization performance with CV:</li>
+</ul>
+<div id="40bab483" class="cell" data-execution_count="27">
+<details class="code-fold">
+<summary>Measuring generalization performance with CV</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a></a>tree_rmse <span class="op">=</span> <span class="op">-</span>cross_val_score(</span>
+<span id="cb26-2"><a></a>    tree,</span>
+<span id="cb26-3"><a></a>    X_train,</span>
+<span id="cb26-4"><a></a>    y_train,</span>
+<span id="cb26-5"><a></a>    scoring<span class="op">=</span><span class="st">"neg_root_mean_squared_error"</span>,</span>
+<span id="cb26-6"><a></a>    cv<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb26-7"><a></a>)</span>
+<span id="cb26-8"><a></a>pd.Series(tree_rmse).describe().iloc[:<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>count    10.000000
+mean      0.906908
+std       0.025462
+dtype: float64</code></pre>
+</div>
+</div>
+<p>Worse than linear methods! Overfitting problem</p>
+<div class="footer">
+
+</div>
+</section>
+<section id="why-do-tree-overfit" class="slide level4">
+<h4>Why Do Tree Overfit?</h4>
+<ul>
+<li class="fragment">By default, CART will grow <span class="highlight">deep trees</span>:
+<ul>
+<li class="fragment">Split space until each <span class="math inline">\(R_k\)</span> contains only one observation</li>
+<li class="fragment">Each <span class="math inline">\(R_k\)</span> predicts value of that observation <span class="math inline">\(\Rightarrow\)</span> perfect fit</li>
+</ul></li>
+<li class="fragment">Trees have low bias, but very high variance</li>
+<li class="fragment">Changing data a bit may dramatically change tree structure</li>
+</ul>
+<div class="footer">
+<p>More correctly: sometimes may have examples with same <span class="math inline">\(\bX\)</span> but different labels. Can’t split perfectly in this case</p>
+</div>
+</section>
+
+<section id="random-forests" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
+<h3>Random Forests</h3>
+
+</section>
+<section id="ensemble-methods" class="slide level4">
+<h4>Ensemble Methods</h4>
+<div class="rounded-box">
+<p>An <span class="highlight">ensemble method</span> is a predictor that combines several weaker predictors into a single (ideally) stronger one</p>
+</div>
+<p>Can combine in different ways:</p>
+<ul>
+<li class="fragment">In parallel: e.g.&nbsp;simple averages, as in <span class="highlight">random forest</span> regressors</li>
+<li class="fragment">Sequentially: e.g.&nbsp;by training next predictor on errors of the previous ones, as in <span class="highlight">gradient boosting</span></li>
+</ul>
+<div class="fragment">
+<p>Trees often play role of weaker predictors to be aggregated</p>
+</div>
+</section>
+<section id="random-forests-1" class="slide level4">
+<h4>Random Forests</h4>
+<div class="rounded-box">
+<p>A random forest is a predictor that aggregates many tree predictors</p>
+<p><br></p>
+<p>Individual trees made more <span class="highlight">distinct</span> (decorrelated) in two ways:</p>
+<ul>
+<li class="fragment">Trained on randomized sets of data with <em>bagging</em></li>
+<li class="fragment">Consider only a subset of variables at each split point</li>
+</ul>
+</div>
+</section>
+<section id="bagging-description" class="slide level4">
+<h4>Bagging: Description</h4>
+<p>Consider the following approach:</p>
+<ul>
+<li class="fragment">Draw <span class="math inline">\(B\)</span> bootstrap samples of size <span class="math inline">\(N_{Tr}\)</span> (sample with replacement from training set)</li>
+<li class="fragment">On <span class="math inline">\(b\)</span>th set train algorithm: select <span class="math inline">\(\hat{h}_{S_b}\)</span></li>
+<li class="fragment">Aggregate: in regression means averaging: <span class="math display">\[
+\hat{h}^{Bagging}(\bx) = \dfrac{1}{B} \sum_{b=1}^B \hat{h}_{S_b}(\bx)
+\]</span></li>
+</ul>
+<div class="footer">
+<p>In classification, may instead aggregate decisions by <em>majority voting</em> or by averaging predicted class probabilities</p>
+</div>
+</section>
+<section id="bagging-discussion" class="slide level4">
+<h4>Bagging: Discussion</h4>
+<div class="rounded-box">
+<p><strong>B</strong>ootstrap <strong>agg</strong>regation (<span class="highlight">bagging</span>) reduces variance of a learning method by averaging many predictors trained on bootstrap samples</p>
+</div>
+<ul>
+<li class="fragment">Idea: bootstrap datasets will be somewhat different from each other</li>
+<li class="fragment"><span class="math inline">\(\Rightarrow\)</span> Each predictor will be a bit different</li>
+<li class="fragment">Averaging reduces variance</li>
+</ul>
+</section>
+<section id="random-forests-2" class="slide level4">
+<h4>Random Forests</h4>
+<p><em>Random forests</em>:</p>
+<ul>
+<li class="fragment">Do bagging</li>
+<li class="fragment">Make trees consider only a random subset of variables at each split
+<ul>
+<li class="fragment">Idea: if you let trees use all variables, maybe will make same decisions anyway</li>
+<li class="fragment">Helps create even more variety</li>
+</ul></li>
+</ul>
+<div class="fragment">
+<p>Can use <code>RandomForestRegressor</code> and <code>RandomForestClassifier</code> from <code>sklearn.ensemble</code></p>
+</div>
+</section>
+<section id="using-randomforestregressor" class="slide level4">
+<h4>Using <code>RandomForestRegressor</code></h4>
+<p><br></p>
+<p>Can attach a random forest to our pipeline</p>
+<div id="a13a6ce6" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a></a>forest_reg <span class="op">=</span> Pipeline(</span>
+<span id="cb28-2"><a></a>    [</span>
+<span id="cb28-3"><a></a>        (<span class="st">"preprocessing"</span>, preprocessing),</span>
+<span id="cb28-4"><a></a>        (<span class="st">"random_forest"</span>, RandomForestRegressor(n_jobs<span class="op">=-</span><span class="dv">1</span>, random_state<span class="op">=</span><span class="dv">1</span>)),</span>
+<span id="cb28-5"><a></a>    ]</span>
+<span id="cb28-6"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>From this can work as before</p>
+</section>
+<section id="evaluating-rf-with-default-tuning-parameters" class="slide level4">
+<h4>Evaluating RF with Default Tuning Parameters</h4>
+<p>Evaluating generalization performance of RF:</p>
+<div id="f2f0057f" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a></a>forest_rmse <span class="op">=</span> <span class="op">-</span>cross_val_score(</span>
+<span id="cb29-2"><a></a>    forest_reg,</span>
+<span id="cb29-3"><a></a>    X_train,</span>
+<span id="cb29-4"><a></a>    y_train,</span>
+<span id="cb29-5"><a></a>    scoring<span class="op">=</span><span class="st">"neg_root_mean_squared_error"</span>,</span>
+<span id="cb29-6"><a></a>    cv<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb29-7"><a></a>)</span>
+<span id="cb29-8"><a></a>pd.Series(forest_rmse).describe().iloc[:<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<pre><code>count    10.000000
+mean      0.645291
+std       0.014584
+dtype: float64</code></pre>
+</div>
+</div>
+<p>This looks a lot more cheerful: validation RMSE of $64.5k — improves on linear methods</p>
+</section>
+<section id="rf-tuning-parameters" class="slide level4">
+<h4>RF Tuning Parameters</h4>
+<p>Random forests have a few tuning parameters of their own. E.g:</p>
+<ul>
+<li class="fragment">How many features to consider for splitting</li>
+<li class="fragment">Minimum number of observations per <span class="math inline">\(R_k\)</span></li>
+</ul>
+<p>Can also tune with cross-validation</p>
+<div class="footer">
+<p>Randomized CV useful when there are many potential parameters combinations and can’t check them all</p>
+</div>
+</section>
+<section id="randomizedsearchcv" class="slide level4">
+<h4><code>RandomizedSearchCV</code></h4>
+<p>Will use <em>randomized</em> CV: trying random combinations of tuning parameters according to specified distribution</p>
+<div id="0fc24a6e" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a></a>param_distribs <span class="op">=</span> { </span>
+<span id="cb31-2"><a></a>    <span class="st">"random_forest__max_features"</span>: randint(low<span class="op">=</span><span class="dv">2</span>, high<span class="op">=</span><span class="dv">5</span>),</span>
+<span id="cb31-3"><a></a>    <span class="st">"random_forest__min_samples_leaf"</span>: randint(low<span class="op">=</span><span class="dv">1</span>, high<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb31-4"><a></a>}</span>
+<span id="cb31-5"><a></a></span>
+<span id="cb31-6"><a></a>rnd_search_cv <span class="op">=</span> RandomizedSearchCV( </span>
+<span id="cb31-7"><a></a>    forest_reg,</span>
+<span id="cb31-8"><a></a>    param_distribs, </span>
+<span id="cb31-9"><a></a>    n_jobs<span class="op">=-</span><span class="dv">1</span>,</span>
+<span id="cb31-10"><a></a>    n_iter<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb31-11"><a></a>    cv<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb31-12"><a></a>    scoring<span class="op">=</span><span class="st">'neg_root_mean_squared_error'</span>,</span>
+<span id="cb31-13"><a></a>    random_state<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb31-14"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Otherwise exactly same as <code>GridSearchCV</code></p>
+</section>
+<section id="viewing-the-results-1" class="slide level4 scrollable">
+<h4>Viewing the Results</h4>
+<p>Maybe some mild regularization with <code>min_samples_leaf</code> helped a bit:</p>
+<div id="6c01febb" class="cell" data-execution_count="31">
+<details class="code-fold">
+<summary>CV results</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a></a>rnd_search_cv.fit(X_train, y_train)</span>
+<span id="cb32-2"><a></a>cv_res <span class="op">=</span> pd.DataFrame(rnd_search_cv.cv_results_)</span>
+<span id="cb32-3"><a></a>cv_res.sort_values(by<span class="op">=</span><span class="st">'rank_test_score'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean_fit_time</th>
+<th data-quarto-table-cell-role="th">std_fit_time</th>
+<th data-quarto-table-cell-role="th">mean_score_time</th>
+<th data-quarto-table-cell-role="th">std_score_time</th>
+<th data-quarto-table-cell-role="th">param_random_forest__max_features</th>
+<th data-quarto-table-cell-role="th">param_random_forest__min_samples_leaf</th>
+<th data-quarto-table-cell-role="th">params</th>
+<th data-quarto-table-cell-role="th">split0_test_score</th>
+<th data-quarto-table-cell-role="th">split1_test_score</th>
+<th data-quarto-table-cell-role="th">split2_test_score</th>
+<th data-quarto-table-cell-role="th">split3_test_score</th>
+<th data-quarto-table-cell-role="th">split4_test_score</th>
+<th data-quarto-table-cell-role="th">split5_test_score</th>
+<th data-quarto-table-cell-role="th">split6_test_score</th>
+<th data-quarto-table-cell-role="th">split7_test_score</th>
+<th data-quarto-table-cell-role="th">split8_test_score</th>
+<th data-quarto-table-cell-role="th">split9_test_score</th>
+<th data-quarto-table-cell-role="th">mean_test_score</th>
+<th data-quarto-table-cell-role="th">std_test_score</th>
+<th data-quarto-table-cell-role="th">rank_test_score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>2.383181</td>
+<td>0.493349</td>
+<td>1.372945</td>
+<td>0.304099</td>
+<td>3</td>
+<td>8</td>
+<td>{'random_forest__max_features': 3, 'random_for...</td>
+<td>-0.638513</td>
+<td>-0.632746</td>
+<td>-0.620540</td>
+<td>-0.627392</td>
+<td>-0.641744</td>
+<td>-0.650287</td>
+<td>-0.602214</td>
+<td>-0.637370</td>
+<td>-0.649241</td>
+<td>-0.622942</td>
+<td>-0.632299</td>
+<td>0.013854</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">6</td>
+<td>2.988348</td>
+<td>0.293984</td>
+<td>1.025054</td>
+<td>0.646717</td>
+<td>3</td>
+<td>7</td>
+<td>{'random_forest__max_features': 3, 'random_for...</td>
+<td>-0.640068</td>
+<td>-0.630490</td>
+<td>-0.621165</td>
+<td>-0.625207</td>
+<td>-0.642610</td>
+<td>-0.649471</td>
+<td>-0.603348</td>
+<td>-0.639229</td>
+<td>-0.650509</td>
+<td>-0.622848</td>
+<td>-0.632495</td>
+<td>0.013949</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>2.918742</td>
+<td>0.185112</td>
+<td>1.121596</td>
+<td>0.065730</td>
+<td>4</td>
+<td>5</td>
+<td>{'random_forest__max_features': 4, 'random_for...</td>
+<td>-0.639521</td>
+<td>-0.634809</td>
+<td>-0.623402</td>
+<td>-0.627871</td>
+<td>-0.640666</td>
+<td>-0.651963</td>
+<td>-0.603616</td>
+<td>-0.640340</td>
+<td>-0.649286</td>
+<td>-0.626630</td>
+<td>-0.633810</td>
+<td>0.013413</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2.525233</td>
+<td>0.205553</td>
+<td>0.711838</td>
+<td>0.635082</td>
+<td>3</td>
+<td>12</td>
+<td>{'random_forest__max_features': 3, 'random_for...</td>
+<td>-0.640866</td>
+<td>-0.631546</td>
+<td>-0.622127</td>
+<td>-0.630849</td>
+<td>-0.645259</td>
+<td>-0.654356</td>
+<td>-0.605803</td>
+<td>-0.638691</td>
+<td>-0.650927</td>
+<td>-0.625174</td>
+<td>-0.634560</td>
+<td>0.013869</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>2.730484</td>
+<td>0.299910</td>
+<td>0.781071</td>
+<td>0.667514</td>
+<td>3</td>
+<td>13</td>
+<td>{'random_forest__max_features': 3, 'random_for...</td>
+<td>-0.643167</td>
+<td>-0.632400</td>
+<td>-0.623323</td>
+<td>-0.630358</td>
+<td>-0.645891</td>
+<td>-0.654325</td>
+<td>-0.605616</td>
+<td>-0.639778</td>
+<td>-0.650402</td>
+<td>-0.624979</td>
+<td>-0.635024</td>
+<td>0.013955</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">18</td>
+<td>2.860713</td>
+<td>0.098322</td>
+<td>0.474554</td>
+<td>0.105355</td>
+<td>3</td>
+<td>2</td>
+<td>{'random_forest__max_features': 3, 'random_for...</td>
+<td>-0.643733</td>
+<td>-0.636264</td>
+<td>-0.626564</td>
+<td>-0.632155</td>
+<td>-0.642160</td>
+<td>-0.649397</td>
+<td>-0.606145</td>
+<td>-0.641115</td>
+<td>-0.652501</td>
+<td>-0.624357</td>
+<td>-0.635439</td>
+<td>0.013051</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">9</td>
+<td>2.205112</td>
+<td>0.418305</td>
+<td>0.719525</td>
+<td>0.437418</td>
+<td>4</td>
+<td>21</td>
+<td>{'random_forest__max_features': 4, 'random_for...</td>
+<td>-0.640357</td>
+<td>-0.634176</td>
+<td>-0.625298</td>
+<td>-0.633940</td>
+<td>-0.647881</td>
+<td>-0.655830</td>
+<td>-0.605672</td>
+<td>-0.642053</td>
+<td>-0.652009</td>
+<td>-0.627006</td>
+<td>-0.636422</td>
+<td>0.014026</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>2.239118</td>
+<td>0.358515</td>
+<td>0.704422</td>
+<td>0.348001</td>
+<td>3</td>
+<td>16</td>
+<td>{'random_forest__max_features': 3, 'random_for...</td>
+<td>-0.643138</td>
+<td>-0.635004</td>
+<td>-0.625564</td>
+<td>-0.633708</td>
+<td>-0.647948</td>
+<td>-0.654985</td>
+<td>-0.606075</td>
+<td>-0.641881</td>
+<td>-0.654340</td>
+<td>-0.628850</td>
+<td>-0.637149</td>
+<td>0.014049</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">7</td>
+<td>2.984520</td>
+<td>0.277951</td>
+<td>1.264558</td>
+<td>0.543595</td>
+<td>3</td>
+<td>21</td>
+<td>{'random_forest__max_features': 3, 'random_for...</td>
+<td>-0.645242</td>
+<td>-0.634204</td>
+<td>-0.626275</td>
+<td>-0.636459</td>
+<td>-0.650605</td>
+<td>-0.656446</td>
+<td>-0.606364</td>
+<td>-0.643166</td>
+<td>-0.658646</td>
+<td>-0.627800</td>
+<td>-0.638521</td>
+<td>0.015036</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2.202024</td>
+<td>0.479671</td>
+<td>0.887192</td>
+<td>0.684460</td>
+<td>2</td>
+<td>9</td>
+<td>{'random_forest__max_features': 2, 'random_for...</td>
+<td>-0.647608</td>
+<td>-0.633039</td>
+<td>-0.625549</td>
+<td>-0.638211</td>
+<td>-0.651190</td>
+<td>-0.655929</td>
+<td>-0.607729</td>
+<td>-0.641868</td>
+<td>-0.657329</td>
+<td>-0.629301</td>
+<td>-0.638775</td>
+<td>0.014635</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">17</td>
+<td>3.018303</td>
+<td>0.332697</td>
+<td>0.991482</td>
+<td>0.713007</td>
+<td>3</td>
+<td>23</td>
+<td>{'random_forest__max_features': 3, 'random_for...</td>
+<td>-0.648433</td>
+<td>-0.635353</td>
+<td>-0.628195</td>
+<td>-0.637224</td>
+<td>-0.653057</td>
+<td>-0.656392</td>
+<td>-0.608144</td>
+<td>-0.643800</td>
+<td>-0.657045</td>
+<td>-0.629037</td>
+<td>-0.639668</td>
+<td>0.014553</td>
+<td>11</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">8</td>
+<td>3.224344</td>
+<td>0.305296</td>
+<td>1.200833</td>
+<td>0.347411</td>
+<td>4</td>
+<td>38</td>
+<td>{'random_forest__max_features': 4, 'random_for...</td>
+<td>-0.648760</td>
+<td>-0.640392</td>
+<td>-0.632234</td>
+<td>-0.642516</td>
+<td>-0.655695</td>
+<td>-0.662339</td>
+<td>-0.608527</td>
+<td>-0.647800</td>
+<td>-0.660882</td>
+<td>-0.635813</td>
+<td>-0.643496</td>
+<td>0.015072</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">13</td>
+<td>2.957550</td>
+<td>0.366798</td>
+<td>0.624574</td>
+<td>0.456719</td>
+<td>3</td>
+<td>31</td>
+<td>{'random_forest__max_features': 3, 'random_for...</td>
+<td>-0.651739</td>
+<td>-0.639499</td>
+<td>-0.632948</td>
+<td>-0.643117</td>
+<td>-0.657219</td>
+<td>-0.661390</td>
+<td>-0.612530</td>
+<td>-0.648216</td>
+<td>-0.661500</td>
+<td>-0.634261</td>
+<td>-0.644242</td>
+<td>0.014453</td>
+<td>13</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>2.169201</td>
+<td>0.259601</td>
+<td>0.773198</td>
+<td>0.209140</td>
+<td>2</td>
+<td>17</td>
+<td>{'random_forest__max_features': 2, 'random_for...</td>
+<td>-0.650285</td>
+<td>-0.639650</td>
+<td>-0.635184</td>
+<td>-0.644708</td>
+<td>-0.658593</td>
+<td>-0.660326</td>
+<td>-0.614087</td>
+<td>-0.647990</td>
+<td>-0.662632</td>
+<td>-0.633591</td>
+<td>-0.644705</td>
+<td>0.014062</td>
+<td>14</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">19</td>
+<td>2.463907</td>
+<td>0.209573</td>
+<td>0.180538</td>
+<td>0.208312</td>
+<td>2</td>
+<td>18</td>
+<td>{'random_forest__max_features': 2, 'random_for...</td>
+<td>-0.655762</td>
+<td>-0.640037</td>
+<td>-0.637039</td>
+<td>-0.649274</td>
+<td>-0.659356</td>
+<td>-0.664421</td>
+<td>-0.615996</td>
+<td>-0.647653</td>
+<td>-0.663497</td>
+<td>-0.637058</td>
+<td>-0.647009</td>
+<td>0.014207</td>
+<td>15</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>1.092337</td>
+<td>0.344164</td>
+<td>1.464498</td>
+<td>0.324928</td>
+<td>3</td>
+<td>42</td>
+<td>{'random_forest__max_features': 3, 'random_for...</td>
+<td>-0.655437</td>
+<td>-0.642781</td>
+<td>-0.638717</td>
+<td>-0.649270</td>
+<td>-0.662446</td>
+<td>-0.665541</td>
+<td>-0.615058</td>
+<td>-0.650261</td>
+<td>-0.668156</td>
+<td>-0.637582</td>
+<td>-0.648525</td>
+<td>0.015130</td>
+<td>16</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1.104754</td>
+<td>0.647669</td>
+<td>1.849063</td>
+<td>0.666464</td>
+<td>3</td>
+<td>44</td>
+<td>{'random_forest__max_features': 3, 'random_for...</td>
+<td>-0.654622</td>
+<td>-0.645104</td>
+<td>-0.638433</td>
+<td>-0.649766</td>
+<td>-0.661931</td>
+<td>-0.666774</td>
+<td>-0.616190</td>
+<td>-0.652332</td>
+<td>-0.668859</td>
+<td>-0.638484</td>
+<td>-0.649249</td>
+<td>0.014947</td>
+<td>17</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">14</td>
+<td>2.589100</td>
+<td>0.878926</td>
+<td>0.723332</td>
+<td>0.616527</td>
+<td>2</td>
+<td>23</td>
+<td>{'random_forest__max_features': 2, 'random_for...</td>
+<td>-0.660526</td>
+<td>-0.643665</td>
+<td>-0.640121</td>
+<td>-0.654514</td>
+<td>-0.662939</td>
+<td>-0.667537</td>
+<td>-0.618772</td>
+<td>-0.652625</td>
+<td>-0.670433</td>
+<td>-0.639326</td>
+<td>-0.651046</td>
+<td>0.014988</td>
+<td>18</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">11</td>
+<td>1.649118</td>
+<td>0.436952</td>
+<td>1.123616</td>
+<td>1.047030</td>
+<td>2</td>
+<td>30</td>
+<td>{'random_forest__max_features': 2, 'random_for...</td>
+<td>-0.663953</td>
+<td>-0.648741</td>
+<td>-0.646561</td>
+<td>-0.659753</td>
+<td>-0.669645</td>
+<td>-0.671655</td>
+<td>-0.623958</td>
+<td>-0.657191</td>
+<td>-0.674384</td>
+<td>-0.647226</td>
+<td>-0.656307</td>
+<td>0.014465</td>
+<td>19</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">10</td>
+<td>1.805590</td>
+<td>0.512664</td>
+<td>1.032469</td>
+<td>0.766551</td>
+<td>2</td>
+<td>43</td>
+<td>{'random_forest__max_features': 2, 'random_for...</td>
+<td>-0.670964</td>
+<td>-0.656205</td>
+<td>-0.655803</td>
+<td>-0.669510</td>
+<td>-0.679274</td>
+<td>-0.678256</td>
+<td>-0.631173</td>
+<td>-0.666799</td>
+<td>-0.682428</td>
+<td>-0.651872</td>
+<td>-0.664228</td>
+<td>0.014883</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="footer">
+
+</div>
+</section>
+<section id="testing-the-selected-model" class="slide level4">
+<h4>Testing the Selected Model</h4>
+<ul>
+<li class="fragment">Let’s select the best random forest as estimator</li>
+<li class="fragment"><code>scikit-learn</code> CV objects automatically refit the best estimator, store it in <code>best_estimator_</code> attribute</li>
+</ul>
+<div class="fragment">
+<p><br></p>
+<p>Now only need to compute test error: final evaluation</p>
+<div id="623c9956" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a></a>X_test, y_test <span class="op">=</span> test_set.drop(<span class="st">"MedHouseVal"</span>, axis<span class="op">=</span><span class="dv">1</span>), test_set[<span class="st">"MedHouseVal"</span>].copy()</span>
+<span id="cb33-2"><a></a>root_mean_squared_error(y_test, rnd_search_cv.best_estimator_.predict(X_test)).<span class="bu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>np.float64(0.6302)</code></pre>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section>
+<section id="recap-and-conclusions" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Recap and Conclusions</h2>
+
+</section>
+<section id="recap" class="slide level4">
+<h4>Recap</h4>
+<p><br></p>
+<p>In this lecture we</p>
+<ol type="1">
+<li class="fragment">Discussed the bias-variance trade-off</li>
+<li class="fragment">Introduced cross-validation for measuring model performance and choosing tuning parameters</li>
+<li class="fragment">Saw several regressors in action with <code>scikit-learn</code>
+<ol type="1">
+<li class="fragment">Polynomial regression and penalized approaches</li>
+<li class="fragment">Regression trees and random forests</li>
+</ol></li>
+</ol>
+</section>
+<section id="next-questions" class="slide level4">
+<h4>Next Questions</h4>
+<p><br></p>
+<p>Many topics open up:</p>
+<ul>
+<li class="fragment">How does a classification problem look like? How are classification models evaluated?</li>
+<li class="fragment">What other learning algorithms are there? When is each one appropriate?</li>
+<li class="fragment">How does one deal with non-numerical features?</li>
+<li class="fragment">How does one deal with missing data?</li>
+</ul>
+</section>
+<section id="references-1" class="slide level4 allowframebreaks smaller scrollable" data-visibility="uncounted">
+<h4>References</h4>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Hastie2009ElementsStatisticalLearning" class="csl-entry" role="listitem">
+Hastie, Trevor, Robert Tibshirani, and J. H. Friedman. 2009. <em>The <span>Elements</span> of <span>Statistical Learning</span>: <span>Data Mining</span>, <span>Inference</span>, and <span>Prediction</span></em>. 2nd ed. Springer <span>Series</span> in <span>Statistics</span>. New York, NY: Springer.
+</div>
+<div id="ref-James2023IntroductionStatisticalLearning" class="csl-entry" role="listitem">
+James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, and Jonathan E. Taylor. 2023. <em>An <span>Introduction</span> to <span>Statistical Learning</span>: <span>With Applications</span> in <span>Python</span></em>. Springer Texts in Statistics. Cham: Springer.
+</div>
+</div>
+<div class="footer">
+
+</div>
+
+
+<div class="reveal-header">
+<div class="header-logo" data-footer-logo-link="https://vladislav-morozov.github.io/econometrics-2/">
+<img data-src="">
+</div>
+<div class="sc-title">
+<p> </p>
+</div>
+<div class="header-text">
+<p> </p>
+</div>
+<div class="sb-title">
+<p> </p>
+</div>
+</div>
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="../../themes/favicon.ico" class="slide-logo"></p>
+<div class="footer footer-default">
+<p>Regression II: Model Training and Evaluation</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'convex',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'fast',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1150,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const onCopySuccess = function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
+      });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp("https:\/\/vladislav-morozov\.github\.io\/econometrics-2\/");
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+        const config = {
+          allowHTML: true,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start',
+        };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>
