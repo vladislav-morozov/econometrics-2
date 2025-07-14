@@ -65,19 +65,67 @@ By the end, you should be able to
 
 ### Empirical Setup {background="#43464B" visibility="uncounted"}
 
-#### Empirical Problem
+#### Motivation I
  
+Suppose that you
+
+- Want to send a postcard to a friend
+- Write the address by hand
+
+<br>
+
+. . .
+
+How do the post offices know where to send the postcard?
+
+#### Motivation II
+
+- Almost all handwritten addresses are recognized 
+
+
+#### Our Empirical Example
+
+Will use MNIST data --- 
+
+- Important and useful exmapl
+ 
+
+#### Obtaining the Data
+
+- Can obtain
+
+```
+#| echo: true
+mnist = fetch_openml(
+    "mnist_784",
+    as_frame=False,          # Return NumPy arrays instead of pd.DataFrame
+    data_home=mnist_path, 
+)
+```
+
+#### Data Description {.scrollable}
+
+```
+mnist.DESCR
+```
+
+
+::: {.footer}
+
+
+:::
+
 
 #### Imports {.scrollable}
 
-```{python}
+``` python
 #| echo: true 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd 
 ```
 
-```{python}
+``` python
 # Hidden: set data path
 from pathlib import Path
 data_path = Path() / "slides" / "prediction" / "data"
@@ -91,8 +139,33 @@ data_path = Path() / "slides" / "prediction" / "data"
  
 
 
+## Binary Classification {background="#00100F"}
+  
 
 
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+
+
+## Evaluating Classifiers  {background="#00100F"}
+  
+#### 
+
+Different metrics
+
+
+
+## Multiclass Classification  {background="#00100F"}
+  
+####
+
+OvA and OvR
+
+#### Evaluating
+
+
+### Lecture Info {background="#43464B" visibility="uncounted"}
 
 
 ## Recap and Conclusions {background="#00100F"}
