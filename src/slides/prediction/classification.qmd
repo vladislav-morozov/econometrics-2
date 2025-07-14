@@ -1,0 +1,128 @@
+---
+title: "Classification"
+subtitle: "Basics of Binary and Multiclass Classification"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content=" (lecture note slides)"/>
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Classification"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+open-graph:
+    description: " (lecture note slides)" 
+---
+
+
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture —
+
+<br>
+
+By the end, you should be able to
+
+- Discuss  
+
+#### References
+
+<br>
+
+::: {.nonincremental}
+
+- Chapters 3, 5.1, 6-9 in @James2023IntroductionStatisticalLearning
+- [`scikit-learn` User Guide](https://scikit-learn.org/stable/user_guide.html): 1.1, 1.10-1.11
+- Deeper: chapter 3, 9, 15 in @Hastie2009ElementsStatisticalLearning
+
+:::  
+
+### Empirical Setup {background="#43464B" visibility="uncounted"}
+
+#### Empirical Problem
+ 
+
+#### Imports {.scrollable}
+
+```{python}
+#| echo: true 
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd 
+```
+
+```{python}
+# Hidden: set data path
+from pathlib import Path
+data_path = Path() / "slides" / "prediction" / "data"
+```
+
+::: {.footer}
+
+
+
+:::
+ 
+
+
+
+
+
+
+## Recap and Conclusions {background="#00100F"}
+  
+ 
+
+
+ 
+
+#### Recap
+
+<br>
+
+In this lecture we
+
+1. Discussed  
+
+#### Next Questions
+
+<br>
+
+Beyond
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
+
+::: footer
+
+:::
+
+ 
