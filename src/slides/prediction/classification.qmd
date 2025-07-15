@@ -341,12 +341,10 @@ In classification very common to consider various metrics
 
 - Criteria expressable as risk functions (e.g. weighted losses with potentially different costs of different errors)
 - Ratio metrics such as precision, recall 
-
-<br> 
-
+ 
 . . .
 
-Classifiers may be <span class="highlight">tuned</span> to specific metrics
+Classifiers may  be <span class="highlight">tuned</span>:
 
 - Usually first found based on some tractable objetive function (e.g. QML)
 - Then tuned to optimize specific aspects 
@@ -358,8 +356,10 @@ Classifiers may be <span class="highlight">tuned</span> to specific metrics
 We start with binary classification. Express the labels as 0 or 1 (or sometimes $-1$ and +1):
 
 $$
-Y \in \curl{0, 1}
+Y \in \curl{0, 1} \quad \text{ or } \quad Y\in \curl{-1, 1}
 $$
+
+<br>
 
 MNIST example: detect that a number is a `'0'` or not
 ```{python}
@@ -369,17 +369,19 @@ y_test_0 = (y_test == '0')
 ```
 
 
-#### Linear and Nonlinear Classifiers
+#### Linear Classifiers
 
 Like with regression one can have linear and nonlinear classifiers
 
-<br> 
-
+<br>  
 
 Linear classifiers generally take form 
 $$
-\Hcal = \curl{h(\bx) = \I\curl{\varphi(\bx)'\bbeta > \theta}: \bbeta\in \R^{\dim(\varphi(\bbeta))} }
+\Hcal = \curl{h(\bx) = \I\curl{f\left(\varphi(\bx)'\bbeta\right) > \theta}: \bbeta\in \R^{\dim(\varphi(\bbeta))} }
 $$
+
+- $f(\cdot)$ and $\varphi(\cdot)$ are a known function
+- $\theta$ is a tunable threshold
 
 ### Logit {background="#43464B" visibility="uncounted"}
  
