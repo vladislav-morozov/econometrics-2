@@ -57,11 +57,21 @@ By the end, you should be able to
 
 ::: {.nonincremental}
 
-- Chapters 3, 5.1, 6-9 in @James2023IntroductionStatisticalLearning
-- [`scikit-learn` User Guide](https://scikit-learn.org/stable/user_guide.html): 1.1, 1.10-1.11
-- Deeper: chapter 3, 9, 15 in @Hastie2009ElementsStatisticalLearning
+- Chapters 
 
 :::  
+
+#### Imports {.scrollable}
+
+```{python}
+#| echo: true 
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd 
+
+# Obtaining data from openML
+from sklearn.datasets import fetch_openml
+```
 
 ### Empirical Setup {background="#43464B" visibility="uncounted"}
 
@@ -76,37 +86,79 @@ Suppose that you
 
 . . .
 
+<div class="rounded-box">
+
 How do the post offices know where to send the postcard?
+
+</div>
 
 #### Motivation II
 
-- Almost all handwritten addresses are recognized 
+- Almost all handwritten addresses are recognized automatically
+- Example of computer vision *classification problem*
+  - Features: pixels of scanned image
+  - Labels: letters and numbers
+  - Goal: recognize the letters and numbers as accurately as possible
+ 
+. . .
+
+<div class="rounded-box">
+
+Today: focus on recognized hadwritten numbers with a nice standardized dataset
+
+</div>
 
 
 #### Our Empirical Example
 
-Will use MNIST data --- 
+Will use MNIST data --- *modified National Institute of Standards and Technology database*
 
-- Important and useful exmapl
+- Large dataset of handwritten digits
+- A fundamental dataset: one of the first datasets new methods are tried on
  
+. . .
+
+<br>
+
+Benchmark to remember: humans make around 1.5% mistakes on it [@Simard1992EfficientPatternRecognition]
+
+
+ 
+
+::: {.footer}
+
+
+:::
 
 #### Obtaining the Data
 
-- Can obtain
+<br>
 
+- Can obtain the full dataset from [openML](https://www.openml.org/)
+- `scikit-learn` even offers a `fetch_openml()` function for convenience 
+
+```{python}
+# Hidden: set data path
+from pathlib import Path
+data_path = Path() / "slides" / "prediction" / "data" / "mnist"
 ```
+
+```{python}
 #| echo: true
 mnist = fetch_openml(
     "mnist_784",
     as_frame=False,          # Return NumPy arrays instead of pd.DataFrame
-    data_home=mnist_path, 
+    data_home=data_path, 
 )
 ```
 
 #### Data Description {.scrollable}
 
-```
-mnist.DESCR
+Remember to check your data and perform EDA! 
+
+```{python}
+#| echo: true
+print(mnist.DESCR)
 ```
 
 
@@ -115,21 +167,73 @@ mnist.DESCR
 
 :::
 
+#### Splitting the Data
 
-#### Imports {.scrollable}
+Split the data manually into `X` and `y` arrays
+```{python}
+#| echo: true
+X, y = mnist.data, mnist.target 
+print(y[0:10])    # Labels of first ten observations
+```
+ 
+<br>
 
-``` python
-#| echo: true 
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd 
+Data already sorted into training and test split (see `DESCR`)
+
+```{python}
+#| echo: true
+X, y = mnist.data, mnist.target
+X_train, X_test, y_train, y_test = \
+    X[:60000], X[60000:], y[:60000], y[60000:]
 ```
 
-``` python
-# Hidden: set data path
-from pathlib import Path
-data_path = Path() / "slides" / "prediction" / "data"
+- 10k training examples
+- There are extended datasets with bigger test sets
+
+ 
+
+#### Visualizing the Data
+
+:::: {.columns}
+
+::: {.column width=50%}
+
+
+```{python}
+def plot_digit(image_vector):
+    image = image_vector.reshape(28, 28)
+    plt.imshow(image, cmap = 'binary')
+    plt.axis('off')
+
+plt.figure(figsize=(7, 7))
+
+for idx, image_data in enumerate(X[:100]):
+    plt.subplot(10, 10, idx + 1)
+    plot_digit(image_data)
+
+plt.subplots_adjust(wspace=0, hspace=0) 
+plt.show()
 ```
+
+:::
+
+::: {.column width=50%}
+
+- Image: selection of 100 observations in data
+- Those are $\bx$; $y$ are labels like `'1'` or `'7'`
+- Data reshaped; original form of data: 784-vectors (note: $784=28^2$)
+
+```{python}
+#| echo: true
+X[0, :].shape
+```
+
+:::
+
+
+::::  
+
+
 
 ::: {.footer}
 
@@ -138,12 +242,177 @@ data_path = Path() / "slides" / "prediction" / "data"
 :::
  
 
+#### Lecture Plan
+ 
+<div class="rounded-box">
 
-## Binary Classification {background="#00100F"}
+Will focus on
+
+- Basic learning algorithms for binary and multiclass classification
+- Evaluating classifiers
+
+</div>
+
+
+<br> 
+
+. . .
+
+We will not talk much about EDA, data preparation, etc (see previous two lectures), but those are equally important for classification!
+
+
+
+## Classification {background="#00100F"}
   
 
+#### Binary vs. Multi-class Classification
 
-### Lecture Info {background="#43464B" visibility="uncounted"}
+Recall:
+
+
+<div class="rounded-box">
+
+- In <span class="highlight">binary</span> classification the label takes on 2 possible values
+-  In <span class="highlight">multi-class</span> classification the label takes on $k>2$ possible values
+
+
+</div>
+
+The labels can be <span class="highlight">ordered</span> (e.g. "big", "medium", "small") or <span class="highlight">unordered</span> (e.g. "cat", "dog")
+
+::: {.footer}
+
+Division between multi-class classification with ordered numerical labels and large $k$ and regression not always clear
+
+:::
+
+#### Single-Output vs. Multi-Output Classification
+
+Another axis of difference between problems: 
+
+<div class="rounded-box">
+
+
+- In <span class="highlight">single-output</span> problems the label $Y$ is one-dimensional
+- In <span class="highlight">multi-output</span> problems $Y$ can be multidimensional
+
+</div>
+
+. . . 
+
+<br>
+
+Example of multi-output problem: labeling photos by their contents. Many kinds of items can be present in photos
+
+#### Indicator Risk
+
+Recall: should start the learning problem by choosing a suitable criterion — ideally a risk function
+
+. . . 
+
+<br>
+
+Already met the indicator risk:
+$$
+R(h) = \E[\I\curl{Y\neq h(\bX)} ] = P(Y\neq h(\bX)) 
+$$
+
+$1-R(h)$ is known as <span class="highlight">accuracy</span> 
+ 
+#### Drawbacks of Accuracy
+ 
+- Treats all errors equally, which might not be the right thing in a context
+- Provides a very reduced picture of the performance of the classifier
+- Problematic with unbalanced classes
+  - Example: 1 unit of class `0` per 999 units of class `1`
+  - A classifier that always predicts `1` has 99.9% accuracy, but is 0% right on class `0`
+
+- Often impossible to minimize ($\Rightarrow$ surrogate losses)
+
+::: {.footer}
+
+Accuracy has some more issues, see [here](https://stats.stackexchange.com/questions/312780/why-is-accuracy-not-the-best-measure-for-assessing-classification-models)
+
+:::
+
+#### Other Metrics
+
+In classification very common to consider various metrics
+
+- Criteria expressable as risk functions (e.g. weighted losses with potentially different costs of different errors)
+- Ratio metrics such as precision, recall 
+
+<br> 
+
+. . .
+
+Classifiers may be <span class="highlight">tuned</span> to specific metrics
+
+- Usually first found based on some tractable objetive function (e.g. QML)
+- Then tuned to optimize specific aspects 
+
+## Binary Classification Algorithms {background="#00100F"}
+
+#### Setting
+
+We start with binary classification. Express the labels as 0 or 1 (or sometimes $-1$ and +1):
+
+$$
+Y \in \curl{0, 1}
+$$
+
+MNIST example: detect that a number is a `'0'` or not
+```{python}
+#| echo: true
+y_train_0 = (y_train == '0')
+y_test_0 = (y_test == '0')
+```
+
+
+#### Linear and Nonlinear Classifiers
+
+Like with regression one can have linear and nonlinear classifiers
+
+<br> 
+
+
+Linear classifiers generally take form 
+$$
+\Hcal = \curl{h(\bx) = \I\curl{\varphi(\bx)'\bbeta > \theta}: \bbeta\in \R^{\dim(\varphi(\bbeta))} }
+$$
+
+### Logit {background="#43464B" visibility="uncounted"}
+ 
+
+####
+
+You would usually start with the risk
+
+::: {.footer}
+
+Discrete outcomes are much harder to deal with in causal settings too
+
+:::
+
+
+### Support Vector Machines {background="#43464B" visibility="uncounted"}
+
+#### 
+
+Also linear
+
+
+#### 
+
+Got some cool sides
+
+- Theoretically (kernel trick and margin analysis)
+
+
+
+### Classification Trees and Forests {background="#43464B" visibility="uncounted"}
+
+####
 
 
 
