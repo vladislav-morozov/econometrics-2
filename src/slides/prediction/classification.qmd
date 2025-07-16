@@ -72,6 +72,9 @@ import pandas as pd
 # Obtaining data from openML
 from sklearn.datasets import fetch_openml
 
+# Dummy classifier for benchmarking
+from sklearn.dummy import DummyClassifier
+
 # Classification random forest
 from sklearn.ensemble import RandomForestClassifier
 
@@ -79,6 +82,23 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import (
   LogisticRegression,
   SGDClassifier,
+)
+
+from sklearn.metrics import (
+  confusion_matrix,
+  ConfusionMatrixDisplay,
+  f1_score,
+  precision_recall_curve,
+  precision_score,
+  recall_score,
+  roc_auc_score,
+  roc_curve,
+)
+
+from sklearn.model_selection import (
+  cross_val_predict,
+  cross_val_score, 
+
 )
 
 from sklearn.svm import (
@@ -516,7 +536,7 @@ Most ML books discuss SGD. For example, see ch. 14 in @Shalev-Shwartz2014Underst
 
 
 For example: 
-``` python
+```{python}
 #| echo: true
 logit = Pipeline(
   [
@@ -790,14 +810,164 @@ svm.predict([X_train[0, :]]) == y_train_0[0]
 
 ## Evaluating Classifiers  {background="#00100F"}
   
-#### 
+#### Evaluating Binary Classifiers
 
-Different metrics
+How does one evaluate a classifier? 
 
 
-#### 
+Several metrics:
 
-LogisticRegression
+- Accuracy 
+- Confusion matrix
+- Precision and recall, $F_{\beta}$ scores
+- The ROC curve and area under the curve (AUC)
+
+
+#### Accuracy  
+
+First metric — accuracy 
+
+- Accuracy — proportion of correctly classified new points
+- Can again evaluate with CV using `cross_val_score`
+``` python
+#| echo: true
+logit_accuracy = cross_val_score(
+    logit, 
+    X_train, 
+    y_train_0,
+    cv=5,
+    n_jobs=-1,
+    scoring="accuracy"
+)
+logit_accuracy.mean().round(4)
+```
+
+
+#### Benchmark
+
+We have 98.65% accuracy. Is that good?
+
+<div class="rounded-box">
+
+Important to always have a basic benchmark
+
+</div>
+
+. . .
+
+- Can use `DummyClassifier` from `sklearn.dummy` as benchmark
+- Benchmark strategy: predicting the most popular class ("not 0")
+
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Accuracy of dummy classifier"
+dummy_clf = DummyClassifier()
+dummy_clf.fit(X_train, y_train_0)
+cross_val_score(dummy_clf, X_train, y_train_0, cv=5, scoring="accuracy").mean()
+```
+
+::: {.footer}
+
+
+:::
+
+#### Confusion Matrix: Intro
+
+- Accuracy combines all errors into one number
+- But maybe want to decompose more carefully 
+
+. . . 
+
+Some terminology: 
+
+1. Correct predictions: are True positive (TP) and True negative (TN)
+2. Incorrect predictions are False positive (FP, type I error) and False negative (FN, type II error)
+
+
+
+#### Confusion Matrix: Enumerating TP, TN, FP, FN
+ 
+
+- $(i, j)$th element — number of observations of class $i$ labeled as class $j$
+- Correct way to evaluate — using cross-validation (to get more accurate picture of classifier's performance)
+
+```{python}
+#| echo: true
+y_train_pred = cross_val_predict(logit, X_train, y_train_0, cv=5, n_jobs=-1)
+
+# Compute the confusion matrix
+confusion_matrix(
+    y_train_0, 
+    y_train_pred,  
+).round(4)
+```
+
+
+
+#### Confusion Matrix: Normalizing By Rows or Columns
+
+If we row-normalize confusion matrix, second row — <span class="highlight">proportions</span> of 0 identified as "not 0" and 0
+
+```{python}
+#| echo: true 
+
+# Compute the confusion matrix
+confusion_matrix(
+    y_train_0, 
+    y_train_pred, 
+    normalize='true',
+).round(4)
+```
+
+Can see: logit very good at detecting not 0s, but marks around 5.1% percents of 0s as not 0s
+
+::: {.footer}
+
+:::
+
+#### Precision and Recall: Definitions
+
+Two important metrics related to confusion matrix
+$$ \small
+\begin{aligned}
+\text{Precision} & = \dfrac{TP}{TP+FP}, \\
+\text{Recall} & = \dfrac{TP}{TP+FN}
+\end{aligned}
+$$  
+
+- Precision: how often the `'0'` label is right
+- Recall: how many of the `'0'`s are detected
+
+#### Precision and Recall: Computing
+
+- Can compute precision and recall from normalized confusion matrix (by column and by row, respectively. Think how)
+- Or use special functions from `sklearn.metrics`:
+```{python}
+#| echo: true
+print(f"Precision: {np.round(precision_score(y_train_0, y_train_pred), 3)}")
+print(f"Recall: {np.round(recall_score(y_train_0, y_train_pred), 3)}")
+```
+Very close 
+
+#### $F$-Scores
+
+Precision and recall can be combined into a single metric using $F_{\beta}$ score
+
+Most famous — the $F_1$ score:
+$$
+F_1 = \dfrac{  2 }{ 
+    \frac{1}{\text{Recall}} + \frac{1}{\text{Precision}}
+   } .
+$$
+
+We can compute it using `f1_score()` from `sklearn.metrics`:
+
+```{python}
+print(f"F1: {np.round(f1_score(y_train_0, y_train_pred), 2)}")
+```
+
+
 
 ## Multiclass Classification  {background="#00100F"}
   
