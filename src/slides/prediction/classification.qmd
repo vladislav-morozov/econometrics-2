@@ -71,6 +71,25 @@ import pandas as pd
 
 # Obtaining data from openML
 from sklearn.datasets import fetch_openml
+
+# Classification random forest
+from sklearn.ensemble import RandomForestClassifier
+
+# 
+from sklearn.linear_model import (
+  LogisticRegression,
+  SGDClassifier,
+)
+
+from sklearn.svm import (
+  LinearSVC,
+  SVC
+)
+
+from sklearn.pipeline import Pipeline
+
+from sklearn.preprocessing import StandardScaler
+
 ```
 
 ### Empirical Setup {background="#43464B" visibility="uncounted"}
@@ -302,7 +321,7 @@ Another axis of difference between problems:
 
 <br>
 
-Example of multi-output problem: labeling photos by their contents. Many kinds of items can be present in photos
+Example of multi-output problem: labeling photos by their contents. Many kinds of items can be present in photos <span class="highlight">at the same time</span>
 
 #### Indicator Risk
 
@@ -351,23 +370,46 @@ Classifiers may  be <span class="highlight">tuned</span>:
 
 ## Binary Classification Algorithms {background="#00100F"}
 
-#### Setting
+#### Setting: Labels in Binary Classification
 
-We start with binary classification. Express the labels as 0 or 1 (or sometimes $-1$ and +1):
+ Two equivalent ways of expressing classes
 
+- Labels expressed as 0 and 1
 $$
-Y \in \curl{0, 1} \quad \text{ or } \quad Y\in \curl{-1, 1}
+Y \in \curl{0, 1} 
 $$
+Common to logit and generalizations (including NNs)
+
+- Labels expressed as $-1$ and 1
+$$
+Y\in \curl{-1, 1}
+$$
+Often see with support vector machines
+
+::: {.footer}
+
+Does not matter in practice, but sometimes one or the other is more convenient in theory
+
+:::
+
+#### Empirical Example
+
+Our example based on MNIST data:
+
+<div class="rounded-box">
+
+Detect that a given collection of pixels represents a `'0'` or not
+
+</div>
 
 <br>
 
-MNIST example: detect that a number is a `'0'` or not
+Create the new binary labels:
 ```{python}
 #| echo: true
 y_train_0 = (y_train == '0')
 y_test_0 = (y_test == '0')
 ```
-
 
 #### Linear Classifiers
 
@@ -378,45 +420,372 @@ Like with regression one can have linear and nonlinear classifiers
 Linear classifiers generally take form 
 $$
 \Hcal = \curl{h(\bx) = \I\curl{f\left(\varphi(\bx)'\bbeta\right) > \theta}: \bbeta\in \R^{\dim(\varphi(\bbeta))} }
-$$
+$$ {#eq-linear-classifier}
 
-- $f(\cdot)$ and $\varphi(\cdot)$ are a known function
+- $f(\cdot)$ and $\varphi(\cdot)$ are known functions
 - $\theta$ is a tunable threshold
 
-### Logit {background="#43464B" visibility="uncounted"}
+#### Examples of Linear Classifiers: Logit
+
+
+Logistic regression (`0`, `1` labels)
+$$
+\begin{aligned}
+h(\bx) & = \I\curl{  \Lambda( \varphi(\bx)'\bbeta  ) \geq \theta  }, \\
+\Lambda(x) & = \dfrac{1}{1+\exp(-x)}
+\end{aligned}
+$$
+
+Here
+
+- $\bbeta$ learned using quasi maximum likelihood
+- Default value for $\theta$ is 0.5
+  
+
+#### Examples of Linear Classifiers: SVM
+
+Support vector machines (`-1`, `+1` labels)
+$$
+h(\bx)  = \mathrm{sign}\curl{  \varphi(\bx)'\bbeta - \theta  }
+$$
+More on SVMs later
+
+Here
+
+- $\bbeta$ chosen to maximize the separating *margin* between classes (with some tolerance of errors)
+- Default value of $\theta$ is 0
+
  
 
-####
+#### Nonlinear Classifiers
 
-You would usually start with the risk
+Many classifiers cannot be represented in form ([-@eq-linear-classifier])
+
+. . .
+
+<br>
+
+The most relevant examples:
+
+- Decision trees and their ensembles (random forests and gradient boosted machines)
+- Neural networks with nonlinear activation functions
+- Nearest neigbhors 
+
+### Logistic Regression {background="#43464B" visibility="uncounted"}
+ 
+
+#### Objective Function
+
+Classifier
+$$ \small
+h(\bx) = \I\curl{  \Lambda( \varphi(\bx)'\bbeta  ) \geq \theta  }
+$$
+
+
+
+$\bbeta$ chosen by maximizing (penalized) quasi-log likelihood:
+$$ \tiny
+\hat{\bbeta}^{QML} = \argmax_{\bb} \sum_{i=1}^N\left[Y_i  \log(\Lambda( \bX_i'\bbeta  )) + (1-Y_i) \log\left( 1 - \Lambda( \bX_i'\bbeta  ) \right)    \right] + \alpha \Pcal(\bbeta)
+$$
+Recall interpretation: model learning to predict probabilities of $Y=1$ with $\Lambda(\bX'\beta)$
+
+
+#### Logistic Regression in `scikit-learn`
+
+Two main ways:
+
+- `LogisticRegression`
+-  `SGDClassifier` with `loss=log_loss`
+  
+
+. . . 
+ 
+Main difference between the two — optimization method
+
+- `LogisticRegression` uses whole sample simultaneously (and also Hessian information)
+- `SGDClassifier` uses <span class="highlight">stochastic gradient descent</span> — updates parameter guess using gradient evaluated a single example at a time
 
 ::: {.footer}
 
-Discrete outcomes are much harder to deal with in causal settings too
+Most ML books discuss SGD. For example, see ch. 14 in @Shalev-Shwartz2014UnderstandingMachineLearning
 
 :::
 
 
+#### Illustration: Logistic Regression
+
+
+For example: 
+``` python
+#| echo: true
+logit = Pipeline(
+  [
+    ('scale', StandardScaler()),
+    ('logit', LogisticRegression(penalty=None))
+  ]
+)
+
+logit.fit(X_train, y_train_0)
+logit.predict([X_train[0, :]]) == y_train_0[0]
+```
+
+- Managed to predict the first training sample right
+- But how good is it overall?
+ 
+
+
+
 ### Support Vector Machines {background="#43464B" visibility="uncounted"}
 
-#### 
-
-Also linear
 
 
-#### 
+#### Linear SVM: Classifier
 
-Got some cool sides
+Consider first linear case:
 
-- Theoretically (kernel trick and margin analysis)
+- Some feature $\bX$
+- Binary label $Y\in \curl{-1, 1}$ 
+
+. . . 
+
+Classifier takes form
+$$
+h(\bx) = \mathrm{sign}\curl{ \bx'\bbeta + c \geq 0  }
+$$
+$h(\bx)$ — decision depends on which side of the hyperplane $\bx'\bbeta+c=0$ the new point falls
 
 
+#### Illustration: Separable Classes
+
+:::: {.columns}
+
+
+::: {.column width="65%"}
+
+![](/images/pred/svm-1.png)
+
+
+:::
+
+::: {.column width="35%"}
+ 
+- Suppose classes can be separated linearly
+- Then usually many possible separating hyperplanes (different $\bbeta$)
+ 
+:::
+
+::::
+
+. . .
+
+"Safest" classifier — one that separates classes with  <span class="highlight">maximum margin</span> (right plot)
+
+
+::: {.footer}
+
+Illustration: figure 5.1 in @Mohri2018FoundationsMachineLearning
+
+:::
+
+
+
+#### Nonseparable Case
+
+
+:::: {.columns}
+
+
+::: {.column width="60%"}
+
+![](/images/pred/svm-2.png)
+
+
+:::
+
+::: {.column width="40%"}
+ 
+If classes not separable
+
+
+- Accept that some errors will happen, try to minimize them
+- Try to maximize the margin between the separated points
+ 
+:::
+
+::::
+
+
+
+#### Linear SVM: Learning Problem
+ 
+$$
+\begin{aligned}
+& \min_{\bbeta, c, \bxi} \dfrac{1}{2} \norm{\bbeta}_2^2 + C\sum_{i=1}^m \xi_i^p, \\
+& \text{s.t.} \forall i: Y_i(\bbeta'\bX_i+ c) \geq 1-\xi_i, \quad \xi_i\geq 0.
+\end{aligned}
+$$ 
+
+Has to balance two things:
+
+- Maximizing margin (=minimizing norm of $\bbeta$)
+- Not making too many errors $\xi_i$
+- $C$ and $p$ are tuning parameters 
+
+::: {.footer}
+
+For full mathematical details, see chapter 5 in @Mohri2018FoundationsMachineLearning
+
+:::
+
+
+#### Linear SVM: Learning Problem Discussion
+ 
+- Typical values for $p$ are $p=1$ and $p=2$
+- There are other expressions for objective. E.g. with $p=1$ can express as penalized ERM  with <span class="highlight">hinge loss</span>
+$$ \small
+\begin{aligned}
+\argmin_{\bbeta, c} & \hspace{3mm} C' \norm{\bbeta}_2^2+\frac{1}{m}\sum_{i=1}^m l_h(1-Y_i(\bbeta'\bX_i-c))\\
+l_h(x) & = \max\curl{0, 1-x}
+\end{aligned}
+$$
+
+::: {.callout-note appearance="minimal"}
+
+The SVM name comes from the fact that solution is determined by only certain specific observations called <span class="highlight">support vectors </spam> (on dashed lines in figure before)
+
+:::
+
+::: {.footer}
+
+
+:::
+
+#### Nonlinear SVMs
+
+
+:::: {.columns}
+
+
+::: {.column width="80%"}
+
+![](/images/pred/svm-3.png)
+
+
+:::
+
+::: {.column width="20%"}
+ 
+One can allow classifier to be nonlinear in $\bX$
+
+:::
+
+::::
+
+$$
+h(\bx) = \mathrm{sign}\curl{ \varphi(\bx)'\bbeta + c \geq 0  }
+$$
+
+  
+#### Kernel Trick
+
+<div class="rounded-box">
+
+SVMs allow easily working with very high-dimensional $\varphi(\bx)$
+
+</div>
+
+Key reason — property called the <span class="highlight">kernel trick</span>. Essentially:
+
+- You often don't need to explicitly compute each $\varphi(\bx)$ (may be slow if $\varphi$ has large dimension)
+- Sufficient to find a function called <span class="highlight">kernel</span> that implicitly represents the geometry of the new space
+  
+
+::: {.callout-note appearance="minimal"}
+
+Popular kernels include polynomials (finite-dimensional) and radial basis functions (infinite-dimensional)
+
+:::
+
+
+::: {.footer}
+
+See chapter 16 in @Shalev-Shwartz2014UnderstandingMachineLearning
+
+:::
+
+#### Advantages and Disadvantages of SVMs
+
+Advantages: 
+
+- Can work with potentially infinite-dimensional features 
+  - Theoretically because SVMs performance depends only on margin, but not dimension
+  - Practically thanks to the kernel trick
+- More resistant to overfitting
+- Very quick prediction
+
+
+. . .
+
+The main disadvantage: <span class="highlight">scale poorly</span> in terms of sample size (sweet spot seems to be  $<$100k examples)
+
+::: {.footer}
+
+
+:::
+
+#### SVMs in `scikit-learn`
+
+Linear SVMs implemented in several classes in `scikit-learn`:
+
+- `SGDClassifier` with loss `loss='hinge'` (or `squared_hinge`, or `perceptron`)
+- `LinearSVC`: faster implementation only for linear SVMs
+- `SVC`: supports kernel trick and various standard kernels, but slower
+
+::: {.callout-note appearance="minimal"}
+
+"Linear SVM" means that if you want to use $\varphi(\bx)$, you have to explicitly compute those yourself as part of data preparation
+
+:::
+
+ 
+
+#### Fitting an SVM
+
+Fitting as easy as always: 
+
+``` python
+#| echo: true
+svm = Pipeline(
+  [
+    ('scale', StandardScaler()),
+    ('svm', SGDClassifier(random_state=1))
+  ]
+)
+
+svm.fit(X_train, y_train_0)
+svm.predict([X_train[0, :]]) == y_train_0[0]
+``` 
 
 ### Classification Trees and Forests {background="#43464B" visibility="uncounted"}
 
-####
+#### Fitting a Classification Forest
 
 
+To complete the picture, can add a tree-based classifier — `RandomForestClassifier`. RF classifiers very similar to RF regressors (last lecture)
+
+
+``` python
+#| echo: true
+rf = Pipeline(
+  [
+    ('scale', StandardScaler()),
+    ('forest', RandomForestClassifier(random_state=1, n_jobs=-1))
+  ]
+)
+
+svm.fit(X_train, y_train_0)
+svm.predict([X_train[0, :]]) == y_train_0[0]
+``` 
 
 
 ## Evaluating Classifiers  {background="#00100F"}
@@ -426,6 +795,9 @@ Got some cool sides
 Different metrics
 
 
+#### 
+
+LogisticRegression
 
 ## Multiclass Classification  {background="#00100F"}
   
