@@ -810,6 +810,10 @@ svm.predict([X_train[0, :]]) == y_train_0[0]
 
 ## Evaluating Classifiers  {background="#00100F"}
   
+  
+### Scalar Metrics {background="#43464B" visibility="uncounted"}
+
+
 #### Evaluating Binary Classifiers
 
 How does one evaluate a classifier? 
@@ -894,12 +898,12 @@ Some terminology:
 
 ```{python}
 #| echo: true
-y_train_pred = cross_val_predict(logit, X_train, y_train_0, cv=5, n_jobs=-1)
+y_train_pred_logit = cross_val_predict(logit, X_train, y_train_0, cv=5, n_jobs=-1)
 
 # Compute the confusion matrix
 confusion_matrix(
     y_train_0, 
-    y_train_pred,  
+    y_train_pred_logit,  
 ).round(4)
 ```
 
@@ -915,7 +919,7 @@ If we row-normalize confusion matrix, second row — <span class="highlight">pro
 # Compute the confusion matrix
 confusion_matrix(
     y_train_0, 
-    y_train_pred, 
+    y_train_pred_logit, 
     normalize='true',
 ).round(4)
 ```
@@ -945,10 +949,10 @@ $$
 - Or use special functions from `sklearn.metrics`:
 ```{python}
 #| echo: true
-print(f"Precision: {np.round(precision_score(y_train_0, y_train_pred), 3)}")
-print(f"Recall: {np.round(recall_score(y_train_0, y_train_pred), 3)}")
+print(f"Precision: {np.round(precision_score(y_train_0, y_train_pred_logit), 3)}")
+print(f"Recall: {np.round(recall_score(y_train_0, y_train_pred_logit), 3)}")
 ```
-Very close 
+Very close in terms of both
 
 #### $F$-Scores
 
@@ -964,12 +968,259 @@ $$
 We can compute it using `f1_score()` from `sklearn.metrics`:
 
 ```{python}
-print(f"F1: {np.round(f1_score(y_train_0, y_train_pred), 2)}")
+#| echo: true
+print(f"F1: {np.round(f1_score(y_train_0, y_train_pred_logit), 3)}")
+```
+
+#### Comparing Different Classifiers
+
+- So now we can compare the different classifiers we trained on several metrics
+- Compare based on $F_1$:
+
+``` python 
+y_train_pred_svm = cross_val_predict(svm, X_train, y_train_0, cv=5, n_jobs=-1)
+y_train_pred_rf = cross_val_predict(rf, X_train, y_train_0, cv=5, n_jobs=-1)
+
+print(f"Logit: {np.round(f1_score(y_train_0, y_train_pred_logit), 3)}")
+print(f"SVM: {np.round(f1_score(y_train_0, y_train_pred_svm), 3)}")
+print(f"RF: {np.round(f1_score(y_train_0, y_train_pred_rf), 3)}")
+```
+
+Random forests come out ahead! 
+
+
+  
+### Curves {background="#43464B" visibility="uncounted"}
+
+
+#### Regarding Decision Thresholds
+
+Go back to logit classifier:
+$$
+h(\bx) = \I\curl{  \Lambda( \varphi(\bx)'\bbeta  ) \geq \theta  }
+$$
+
+- By default $\theta = 0.5$ — label observation as 1 if predicted probability $\Lambda( \varphi(\bX)'\hat{\bbeta}  )$
+- But can change $\theta$. E.g. lowering $\theta$:
+  - Will predict positive class more often (more true positives)
+  - But will also have more false positives
+
+
+
+#### ROC Curve
+
+<div class="rounded-box">
+
+The <span class="highlight">ROC</span> (receiver operator characteristic) <span class="highlight">curve</span> shows the relationship true and false positives rates (TPR vs. FPR)
+
+</div>
+
+- Computed by changing $\theta$ (between 0 and 1 for logit)
+- In practice:
+  - First compute the <span class="highlight">scores</span> $\Lambda(\bX_i'\hat{\bbeta})$ for each observation  
+  - Then $\theta$, compute which observations labeled as positive or negative  by comparing  $\Lambda(\bX_i'\hat{\bbeta})$ and $\theta$
+
+#### ROC Curve in Practice
+
+In `scikit-learn` can use `cross_val_predict()` for scores and `roc_curve` for ROC curve
+```{python}
+#| echo: true 
+# Compute scores
+y_scores_logit = cross_val_predict(
+    logit, 
+    X_train, 
+    y_train_0,
+    cv=5, 
+    n_jobs=-1, 
+    method="predict_proba",  # Which method to call
+)  
+y_scores_logit = y_scores_logit[:, -1]
+# Compute the ROC curve
+fpr_logit, tpr_logit, thresholds = roc_curve(y_train_0, y_scores_logit)
 ```
 
 
+ 
+#### ROC Curve for Logit
 
-## Multiclass Classification  {background="#00100F"}
+```{python}
+#| code-fold: true
+#| code-summary: "Plotting the ROC curve"
+
+BG_COLOR = "whitesmoke"
+FONT_COLOR = "black"
+GEO_COLOR = "rgb(201, 201, 201)"
+OCEAN_COLOR = "rgb(136, 136, 136)"
+
+fig, ax = plt.subplots(figsize=(14, 6.5))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+ax.plot(fpr_logit, tpr_logit, label='Logit')
+ax.plot([0, 1], [0, 1], 'k:', label='Coin-flip classifier')
+
+ax.set_xlim([0, 1])
+ax.set_ylim([0, 1])
+ax.grid(visible='both')
+ax.legend()
+ax.set_xlabel('False Positive Rate')
+ax.set_ylabel('True Positive Rate (Recall)')
+ax.set_title('ROC Curves')
+
+plt.show()
+```
+
+
+#### ROC Curve: Discussion
+
+- Ideal classifier: FPR = 0, TPR = 1 (upper left corner)
+- Better classifiers: ROC curve close to the upper left corner
+- Can  compute for any classifier with tunable $\theta$
+  - Including random forest and SVM
+  - Not for a single decision tree 
+
+#### ROC Curves for All Classifiers
+
+``` python
+#| code-fold: true
+#| code-summary: "Plotting the ROC curve"
+
+y_scores_svm = cross_val_predict(
+    svm, 
+    X_train, 
+    y_train_0,
+    cv=5, 
+    n_jobs=-1, 
+    method="decision_function",  # Which method to call
+)  
+y_scores_rf = cross_val_predict(
+    rf, 
+    X_train, 
+    y_train_0,
+    cv=5, 
+    n_jobs=-1, 
+    method="predict_proba",  # Which method to call
+)  
+y_scores_rf = y_scores_rf[:, -1]
+
+# Compute the ROC curve
+fpr_svm, tpr_svm, thresholds = roc_curve(y_train_0, y_scores_svm)
+fpr_rf, tpr_rf, thresholds = roc_curve(y_train_0, y_scores_rf)
+
+fig, ax = plt.subplots(figsize=(14, 6.5))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+ax.plot(fpr_logit, tpr_logit, label='Logit')
+ax.plot(fpr_svm, tpr_svm, label='SVM')
+ax.plot(fpr_rf, tpr_rf, label='RF')
+ax.plot([0, 1], [0, 1], 'k:', label='Coin-flip classifier')
+
+ax.set_xlim([0, 1])
+ax.set_ylim([0, 1])
+ax.grid(visible='both')
+ax.legend()
+ax.set_xlabel('False Positive Rate')
+ax.set_ylabel('True Positive Rate (Recall)')
+ax.set_title('ROC Curves')
+
+plt.show()
+``` 
+
+#### AUC
+
+<div class="rounded-box">
+
+<span class="highlight">Area under curve</span> (AUC) is the area under the ROC curve
+
+</div>
+
+- Bigger AUC is better
+- Ideal classifiers: AUC = 1
+- Compute with `roc_auc_score()`:
+```{python}
+#| echo: true
+print(f"Logit AUC: {roc_auc_score(y_train_0, y_scores_logit).round(3)}")
+```
+
+
+#### Precision-Recall Curve
+
+- ROC curves compare FPR and TPR (recall)
+- Another trade-off — between recall/TPR and precision
+
+. . .
+
+<div class="rounded-box">
+
+The <span class="highlight">precision-recall</span> curves measure the trade-off between between precision and recall
+
+</div>
+
+<br>
+ 
+Compute with `precision_recall_curve()` from `sklearn.metrics`:
+```{python}
+#| echo: true
+precisions_logit, recalls_logit, thresholds = \
+  precision_recall_curve(y_train_0, y_scores_logit)
+```
+
+ 
+
+#### Precision-Recall Curve for Logit
+
+
+```{python}
+fig, axs = plt.subplots(ncols=2, figsize=(14, 6.5))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+
+# Left axes: precision-recall curves
+axs[0].plot(thresholds, precisions_logit[:-1], "b--", label="Precision", linewidth=2)
+axs[0].plot(thresholds, recalls_logit[:-1], "g-", label="Recall", linewidth=2) 
+
+axs[0].set_ylim([-0.02, 1.02])
+axs[0].grid(visible='both')
+axs[0].legend()
+axs[0].set_title("Precision-recall curves")
+axs[0].set_xlabel("$\\theta$: decision threshold")
+
+# Right: precision-recall frontier
+axs[1].plot(recalls_logit[:-1], precisions_logit[:-1], "r-", linewidth=2)
+axs[1].grid(visible='both')
+axs[1].set_xlabel('Recall')
+axs[1].set_ylabel('Precision')
+axs[1].set_ylim([0, 1])
+axs[1].set_xlim([0, 1])
+axs[1].set_title("Precision-recall frontier")
+
+plt.show()
+```
+
+#### Precison-Recall Curve: Discussion
+
+- Curve shows trade-off for most of $\theta$
+- For $\theta\uparrow 1$ both recall and precision fall
+  - Reason: $\Lambda \in (0, 1)$ — eventually no observation gets positive label
+  - Precision becomes 0/0
+  - `scikit-learn` evaluates that as 0 precision
+
+
+
+
+#### Conclusion: Metrics
+
+Dicussed many metrics for binary classifiers
+
+- Which one matters depends on contexts
+- Sometimes want more recall or precision
+  - Recall: preventing crime (catching all criminals)
+  - Precision: detecting spam (want to be certain of spam labels)
+- Some classifiers can be tuned on decision threshold
+
+## Basics of Multiclass Classification {background="#00100F"}
   
 ####
 
