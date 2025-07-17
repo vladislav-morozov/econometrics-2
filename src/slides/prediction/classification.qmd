@@ -6,7 +6,7 @@ format:
   revealjs:
     include-in-header: 
       text: |
-        <meta name="description" content=" (lecture note slides)"/>
+        <meta name="description" content="Basics of binary and multiclass classification: evaluation metrics; logistic, support vector, and random forest classifiers (lecture note slides)"/>
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -29,7 +29,7 @@ filters:
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
 open-graph:
-    description: " (lecture note slides)" 
+    description: "Basics of binary and multiclass classification: evaluation metrics; logistic, support vector, and random forest classifiers (lecture note slides)" 
 ---
 
 
@@ -43,13 +43,15 @@ open-graph:
 
 #### Learning Outcomes
 
-This lecture —
+In this lecture we take a look at classification
 
 <br>
 
 By the end, you should be able to
 
-- Discuss  
+1. Talk about binary and multiclass classification problems
+2. Describe and use several leading classification algorithms
+3. Evaluate classifiers with a variety of metrics
 
 #### References
 
@@ -57,7 +59,9 @@ By the end, you should be able to
 
 ::: {.nonincremental}
 
-- Chapters 
+- Chapters 4, 8-9 in @James2023IntroductionStatisticalLearning
+- [`scikit-learn` User Guide](https://scikit-learn.org/stable/user_guide.html): 1.1.11, 1.5, 1.10-1.11
+- Deeper: chapter 4, 9, 15 in @Hastie2009ElementsStatisticalLearning
 
 :::  
 
@@ -100,7 +104,6 @@ from sklearn.metrics import (
 from sklearn.model_selection import (
   cross_val_predict,
   cross_val_score, 
-
 )
 
 # Pipelines
@@ -377,7 +380,7 @@ Accuracy has some more issues, see [here](https://stats.stackexchange.com/questi
 
 #### Other Metrics
 
-In classification very common to consider various metrics
+$\Rightarrow$ very common to consider various metrics
 
 - Criteria expressable as risk functions (e.g. weighted losses with potentially different costs of different errors)
 - Ratio metrics such as precision, recall 
@@ -774,7 +777,7 @@ Linear SVMs implemented in several classes in `scikit-learn`:
 
 Fitting as easy as always: 
 
-``` python
+```{python}
 #| echo: true
 svm = Pipeline(
   [
@@ -795,7 +798,7 @@ svm.predict([X_train[0, :]]) == y_train_0[0]
 To complete the picture, can add a tree-based classifier — `RandomForestClassifier`. RF classifiers very similar to RF regressors (last lecture)
 
 
-``` python
+```{python}
 #| echo: true
 rf = Pipeline(
   [
@@ -804,8 +807,8 @@ rf = Pipeline(
   ]
 )
 
-svm.fit(X_train, y_train_0)
-svm.predict([X_train[0, :]]) == y_train_0[0]
+rf.fit(X_train, y_train_0)
+rf.predict([X_train[0, :]]) == y_train_0[0]
 ``` 
 
 
@@ -834,7 +837,7 @@ First metric — accuracy
 
 - Accuracy — proportion of correctly classified new points
 - Can again evaluate with CV using `cross_val_score`
-``` python
+```{python}
 #| echo: true
 logit_accuracy = cross_val_score(
     logit, 
@@ -984,7 +987,7 @@ print(f"F1: {np.round(f1_score(y_train_0, y_train_pred_logit), 3)}")
 - So now we can compare the different classifiers we trained on several metrics
 - Compare based on $F_1$:
 
-``` python 
+```{python} 
 y_train_pred_svm = cross_val_predict(svm, X_train, y_train_0, cv=5, n_jobs=-1)
 y_train_pred_rf = cross_val_predict(rf, X_train, y_train_0, cv=5, n_jobs=-1)
 
@@ -1088,7 +1091,7 @@ plt.show()
 
 #### ROC Curves for All Classifiers
 
-``` python
+```{python}
 #| code-fold: true
 #| code-summary: "Plotting the ROC curve"
 
@@ -1145,7 +1148,7 @@ plt.show()
 - Bigger AUC is better
 - Ideal classifiers: AUC = 1
 - Compute with `roc_auc_score()`:
-``` python
+```{python}
 #| echo: true
 print(f"Logit AUC: {roc_auc_score(y_train_0, y_scores_logit).round(3)}")
 print(f"SVM AUC: {roc_auc_score(y_train_0, y_scores_svm).round(3)}")
@@ -1280,7 +1283,7 @@ $$
 
 #### Multinomial Logit in `scikit-learn`
 
-`LogisticRegression` in `scikit-learn` automatically is multi-class by default. Trained example the same way
+`LogisticRegression` in `scikit-learn` automatically is multi-class by default. Trained the same way as before:
 ```{python}
 #| echo: true
 logit = Pipeline(
@@ -1299,10 +1302,52 @@ Predicts probabilities of each class:
 logit.predict_proba([X_train[0, :]]).round(3)
 ```
 
+::: {.footer}
 
-#### 
+:::
+
+#### Decision Trees and Random Forests
+
+Decision trees and everything based on them can also directly learn multiple labels
+
+```{python}
+#| echo: true
+rf = Pipeline(
+  [
+    ('scale', StandardScaler()),
+    ('forest', RandomForestClassifier(random_state=1, n_jobs=-1))
+  ]
+)
+
+rf.fit(X_train, y_train)
+rf.predict_proba([X[0, :]])
+```
 
 #### SVMs (Binary Collection)
+
+SVMs are binary-only: have to use OvO or OvA. `scikit-learn` handles that automatically
+
+```{python}
+#| echo: true
+svm = Pipeline(
+  [
+    ('scale', StandardScaler()),
+    ('svm', SGDClassifier(random_state=1, n_jobs=-1))
+  ]
+)
+
+svm.fit(X_train, y_train)
+print(svm.decision_function([X_train[0, :]]).round(2))
+print(svm.classes_)
+print(svm.predict([X_train[0, :]]))
+```
+
+::: {.footer}
+
+You can set the strategy directly using special `OneVsOneClassifier` and `OneVsRestClassifier` classes
+
+:::
+
 
 
 ### Evaluating Multiclass Classifiers {background="#43464B" visibility="uncounted"}
@@ -1310,20 +1355,119 @@ logit.predict_proba([X_train[0, :]]).round(3)
 
 #### Evaluating Multiclass Classifiers
 
+Key basic metrics:
+
+- Accuracy
+- Confusion matrices
+
+. . .
+
+
+Can also use pairwise precisions, recalls, ROC curves etc. These can be averaged or not 
+  
+
+
+#### Accuracy {.scrollable}
+
+Accuracy: evaluate as before
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Computing accuracy of our classifiers"
+logit_acc =cross_val_score(
+    logit,
+    X_train,
+    y_train,
+    n_jobs=-1,
+    scoring="accuracy",
+).mean()
+rf_acc = cross_val_score(
+    rf,
+    X_train,
+    y_train,
+    n_jobs=-1,
+    scoring="accuracy",
+).mean() 
+
+print(f"Logit: {np.round(logit_acc, 3)}") 
+print(f"RF: {np.round(rf_acc, 3)}")
+```
+
+- Logit right about 90% of the time
+- RF right around 96.6% of the time
+- Both below the 98.5% human accuracy benchmark
+- That threshold hard to break with "shallow" methods [@An2020EnsembleSimpleConvolutional], but CNNs achieve >99% accuracy 
 
 
 ::: {.footer}
 
-Can also use pairwise precisions, recalls, ROC curves etc. 
+:::
 
-::: 
+#### Confusion Matrix for Random Forest
 
+- Confusion matrices also computed as before
+- With $k$ classes confsion matrices are $k\times k$
+```{python}
+#| echo: true
+# Compute predictions
+y_train_pred = cross_val_predict(rf, X_train, y_train, cv=5, n_jobs=-1)
+# Build confusion matrix from predictions
+confusion_matrix(
+    y_train, 
+    y_train_pred,
+    normalize='true',
+).round(3)[0:4, 0:4]
+```
+
+#### Readable Matrices with `ConfusionMatrixDisplay`
+ 
+```{python}
+# Create figure
+fig, axs = plt.subplots(ncols=2, figsize=(14, 5.8))
+
+# Left subplot: confusion matrix
+ConfusionMatrixDisplay.from_predictions(
+    y_train, 
+    y_train_pred, 
+    normalize='true', 
+    values_format=".0%",
+    cmap='magma',
+    ax=axs[0],
+    colorbar=False,
+) 
+axs[0].set_title('Confusion matrix') 
+
+# Right subplot: error matrix
+error_weights = (y_train != y_train_pred)
+
+ConfusionMatrixDisplay.from_predictions(
+    y_train, 
+    y_train_pred, 
+    normalize='true', 
+    values_format=".0%",
+    cmap='magma',
+    ax=axs[1],
+    colorbar=False,
+    sample_weight=error_weights,
+) 
+axs[1].set_title('Error matrix')
+
+fig.tight_layout()
+plt.show()
+```
+
+::: {.footer}
+
+Error matrix: proportion of errors. Helps to see which digits mistaken for which ones
+
+:::
 
 
 ## Recap and Conclusions {background="#00100F"}
   
  
 
+### Lecture Recap {background="#43464B" visibility="uncounted"}
 
  
 
@@ -1333,13 +1477,35 @@ Can also use pairwise precisions, recalls, ROC curves etc.
 
 In this lecture we
 
-1. Discussed  
+1. Discussed basics of binary and multiclass classification
+2. Introduced several classification algorithms
+3. Talked about evaluating classifiers with a variety of metrics 
 
-#### Next Questions
+### Block Conclusions {background="#43464B" visibility="uncounted"}
 
-<br>
+#### Overal Concluding Thoughts
 
-Beyond
+A look at machine learning, particularly supervised:
+
+- Key pieces of formalizing problems (risk, hypothesis classes)
+- Motivation for acquiring specialized knowledge (no-free-lunch theorem)
+- Some algorithms for 
+  - Regression
+  - Classification
+- Validating and testing approaches
+
+ 
+#### The Many Paths Forward
+
+- Diving into theory (e.g. with @Mohri2018FoundationsMachineLearning)
+- Unsupervised learning (see @Hastie2009ElementsStatisticalLearning)
+- There are still more "shallow" learning algorithms, such as gradient boosting (see either of above books)
+- Deep learning (see @Bishop2024DeepLearningFoundations)
+- Field-specific applications (natural language processing, computer vision, recommenders, ...)
+
+::: {.footer}
+
+::: 
 
 #### References {.allowframebreaks visibility="uncounted"}
 
