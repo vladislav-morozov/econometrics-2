@@ -1,3 +1,34 @@
+@inproceedings{Simard1992EfficientPatternRecognition,
+  title = {Efficient {{Pattern Recognition Using}} a {{New Transformation Distance}}},
+  booktitle = {Proceedings of the 6th {{International Conference}} on {{Neural Information Processing Systems}}},
+  author = {Simard, Patrice and Le Cun, Yann and Denker, John},
+  year = {1992},
+  month = nov,
+  series = {{{NIPS}}'92},
+  pages = {50--58},
+  publisher = {Morgan Kaufmann Publishers Inc.},
+  address = {San Francisco, CA, USA},
+  urldate = {2025-07-15},
+  abstract = {Memory-based classification algorithms such as radial basis functions or K-nearest neighbors typically rely on simple distances (Euclidean, dot product...), which are not particularly meaningful on pattern vectors. More complex, better suited distance measures are often expensive and rather ad-hoc (elastic matching, deformable templates). We propose a new distance measure which (a) can be made locally invariant to any set of transformations of the input and (b) can be computed efficiently. We tested the method on large handwritten character databases provided by the Post Office and the NIST. Using invariances with respect to translation, rotation, scaling, shearing and line thickness, the method consistently outperformed all other systems tested on the same databases.},
+  isbn = {978-1-55860-274-8}
+}
+
+@misc{An2020EnsembleSimpleConvolutional,
+  title = {An {{Ensemble}} of {{Simple Convolutional Neural Network Models}} for {{MNIST Digit Recognition}}},
+  author = {An, Sanghyeon and Lee, Minjun and Park, Sanglee and Yang, Heerin and So, Jungmin},
+  year = {2020},
+  month = oct,
+  number = {arXiv:2008.10400},
+  eprint = {2008.10400},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2008.10400},
+  urldate = {2025-07-17},
+  abstract = {We report that a very high accuracy on the MNIST test set can be achieved by using simple convolutional neural network (CNN) models. We use three different models with 3x3, 5x5, and 7x7 kernel size in the convolution layers. Each model consists of a set of convolution layers followed by a single fully connected layer. Every convolution layer uses batch normalization and ReLU activation, and pooling is not used. Rotation and translation is used to augment training data, which is frequently used in most image classification tasks. A majority voting using the three models independently trained on the training data set can achieve up to 99.87\% accuracy on the test set, which is one of the state-of-the-art results. A two-layer ensemble, a heterogeneous ensemble of three homogeneous ensemble networks, can achieve up to 99.91\% test accuracy. The results can be reproduced by using the code at: https://github.com/ansh941/MnistSimpleCNN},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Computer Vision and Pattern Recognition,Computer Science - Machine Learning}
+}
+
 @article{Wooldridge2023WhatStandardError,
   title = {What Is a {{Standard Error}}? (And {{How Should We Compute It}}?)},
   shorttitle = {What Is a Standard Error?},
@@ -14,6 +45,50 @@
   abstract = {I review the definition of a standard error from a frequentist perspective, including both exact analysis and asymptotic analysis. Using the linear model for illustration, I discuss the model-based, design-based, and sampling-based approaches to uncertainty in obtaining standard errors. The model-based approach is widely applicable and produces reasonable measures of estimator precision in many settings. In some situations, particularly in the context of clustering, the model-based approach can suffer from ambiguity, and can lead to standard errors that are systematically biased. A combination of the design-based and sampling-based approaches requires the researcher to think about the variation in key explanatory variables when computing standard errors, and it can even apply to cases where the entire population is observed.},
   langid = {english},
   file = {C:\Users\moren\My Drive\Econometrics Cloud\Articles\Confidence Sets\Wooldridge - 2023 - What is a Standard Error (and How Should We Compute It).pdf}
+}
+
+@incollection{Johnson1984ExtensionsLipschitzMappings,
+  title = {Extensions of {{Lipschitz Mappings}} into a {{Hilbert Space}}},
+  booktitle = {Contemporary {{Mathematics}}},
+  author = {Johnson, William B. and Lindenstrauss, Joram},
+  editor = {Beals, Richard and Beck, Anatole and Bellow, Alexandra and Hajian, Arshag},
+  year = {1984},
+  volume = {26},
+  pages = {189--206},
+  publisher = {American Mathematical Society},
+  address = {Providence, Rhode Island},
+  doi = {10.1090/conm/026/737400},
+  urldate = {2025-07-05},
+  isbn = {978-0-8218-5030-5 978-0-8218-7611-4},
+  langid = {english},
+  file = {C:\Users\moren\My Drive\Econometrics Cloud\Articles\Machine Learning\Dimensionality Reduction\Johnson and Lindenstrauss - 1984 - Extensions of Lipschitz Mappings into a Hilbert Space.pdf}
+}
+
+@book{Breiman1984ClassificationRegressionTrees,
+  title = {Classification and {{Regression Trees}}},
+  editor = {Breiman, Leo},
+  year = {1984},
+  edition = {1. CRC Press repr},
+  publisher = {Chapman \& Hall/CRC},
+  address = {Boca Raton, Fla.},
+  isbn = {978-0-412-04841-8},
+  langid = {english}
+}
+
+@article{Elman1990FindingStructureTime,
+  title = {Finding {{Structure}} in {{Time}}},
+  author = {Elman, Jeffrey L.},
+  year = {1990},
+  month = mar,
+  journal = {Cognitive Science},
+  volume = {14},
+  number = {2},
+  pages = {179--211},
+  issn = {0364-0213, 1551-6709},
+  doi = {10.1207/s15516709cog1402_1},
+  urldate = {2025-06-30},
+  abstract = {Time underlies many interesting human behaviors. Thus, the question of how to represent time in connectionist models is very important. One approach is to represent time implicitly by its effects on processing rather than explicitly (as in a spatial representation). The current report develops a proposal along these lines first described by Jordan (1986) which involves the use of recurrent links in order to provide networks with a dynamic memory. In this approach, hidden unit patterns are fed back to themselves: the internal representations which develop thus reflect task demands in the context of prior internal states. A set of simulations is reported which range from relatively simple problems (temporal version of XOR) to discovering syntactic/semantic features for words. The networks are able to learn interesting internal representations which incorporate task demands with memory demands: indeed, in this approach the notion of memory is inextricably bound up with task processing. These representations reveal a rich structure, which allows them to be highly context-dependent, while also expressing generalizations across classes of items. These representations suggest a method for representing lexical categories and the type/token distinction.},
+  langid = {english}
 }
 
 @book{Burkov2025HundredPageLanguageModels,
@@ -343,6 +418,71 @@
   abstract = {Hayashi's Econometrics promises to be the next great synthesis of modern econometrics. It introduces first year Ph.D. students to standard graduate econometrics material from a modern perspective. It covers all the standard material necessary for understanding the principal techniques of econometrics from ordinary least squares through cointegration. The book is also distinctive in developing both time-series and cross-section analysis fully, giving the reader a unified framework for understanding and integrating results. Econometrics has many useful features and covers all the important topics in econometrics in a succinct manner. All the estimation techniques that could possibly be taught in a first-year graduate course, except maximum likelihood, are treated as special cases of GMM (generalized methods of moments). Maximum likelihood estimators for a variety of models (such as probit and tobit) are collected in a separate chapter. This arrangement enables students to learn various estimation techniques in an efficient manner. Eight of the ten chapters include a serious empirical application drawn from labor economics, industrial organization, domestic and international finance, and macroeconomics. These empirical exercises at the end of each chapter provide students a hands-on experience applying the techniques covered in the chapter. The exposition is rigorous yet accessible to students who have a working knowledge of very basic linear algebra and probability theory. All the results are stated as propositions, so that students can see the points of the discussion and also the conditions under which those results hold. Most propositions are proved in the text. For those who intend to write a thesis on applied topics, the empirical applications of the book are a good way to learn how to conduct empirical research. For the theoretically},
   isbn = {978-0-691-01018-2 978-1-4008-2383-3},
   langid = {english}
+}
+
+@article{Wolpert1992StackedGeneralization,
+  title = {Stacked {{Generalization}}},
+  author = {Wolpert, David H.},
+  year = {1992},
+  month = jan,
+  journal = {Neural Networks},
+  volume = {5},
+  number = {2},
+  pages = {241--259},
+  issn = {08936080},
+  doi = {10.1016/S0893-6080(05)80023-1},
+  urldate = {2025-07-02},
+  copyright = {https://www.elsevier.com/tdm/userlicense/1.0/},
+  langid = {english},
+  file = {C:\Users\moren\My Drive\Econometrics Cloud\Articles\Machine Learning\Boosting\Wolpert - 1992 - Stacked Generalization.pdf}
+}
+
+@article{Pearson1901LinesPlanesClosest,
+  title = {On {{Lines}} and {{Planes}} of {{Closest Fit}} to {{Systems}} of {{Points}} in {{Space}}},
+  author = {Pearson, Karl},
+  year = {1901},
+  journal = {The London, Edinburgh, and Dublin Philosophical Magazine and Journal of Science},
+  volume = {2},
+  number = {11},
+  pages = {559--572},
+  issn = {1941-5982, 1941-5990},
+  doi = {10.1080/14786440109462720},
+  urldate = {2025-07-05},
+  langid = {english},
+  file = {C:\Users\moren\My Drive\Econometrics Cloud\Articles\Machine Learning\Dimensionality Reduction\Pearson - 1901 - On Lines and Planes of Closest Fit to Systems of Points in Space.pdf}
+}
+
+@article{Friedman2001GreedyFunctionApproximation,
+  title = {Greedy {{Function Approximation}}: {{A Gradient Boosting Machine}}},
+  shorttitle = {Greedy Function Approximation},
+  author = {Friedman, Jerome H.},
+  year = {2001},
+  month = oct,
+  journal = {The Annals of Statistics},
+  volume = {29},
+  number = {5},
+  issn = {0090-5364},
+  doi = {10.1214/aos/1013203451},
+  urldate = {2025-07-02},
+  langid = {english},
+  file = {C:\Users\moren\My Drive\Econometrics Cloud\Articles\Machine Learning\Boosting\Friedman - 2001 - Greedy Function Approximation A Gradient Boosting Machine.pdf}
+}
+
+@article{Freund1997DecisionTheoreticGeneralizationOnLine,
+  title = {A {{Decision-Theoretic Generalization}} of {{On-Line Learning}} and an {{Application}} to {{Boosting}}},
+  author = {Freund, Yoav and Schapire, Robert E},
+  year = {1997},
+  month = aug,
+  journal = {Journal of Computer and System Sciences},
+  volume = {55},
+  number = {1},
+  pages = {119--139},
+  issn = {00220000},
+  doi = {10.1006/jcss.1997.1504},
+  urldate = {2025-07-02},
+  copyright = {https://www.elsevier.com/tdm/userlicense/1.0/},
+  langid = {english},
+  file = {C:\Users\moren\My Drive\Econometrics Cloud\Articles\Machine Learning\Boosting\Freund and Schapire - 1997 - A Decision-Theoretic Generalization of On-Line Learning and an Application to Boosting.pdf}
 }
 
 @book{Hastie2009ElementsStatisticalLearning,
