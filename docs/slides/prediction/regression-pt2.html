@@ -543,14 +543,11 @@
 
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
   
-
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-
-  <meta name="description" content="Basics of regression in machine learning: model training and validation, bias-variance trade-off, cross-validation, using sikit-learn (lecture note slides)">
+  <meta name="description" content="Regression in machine learning: model training and validation, bias-variance trade-off, cross-validation, using scikit-learn (lecture note slides)">
 <meta property="og:title" content="Regression II: Model Training and Validation – Advanced Econometrics">
-<meta property="og:description" content="Basics of regression in machine learning: model training and validation, bias-variance trade-off, cross-validation, using sikit-learn (lecture note slides)">
+<meta property="og:description" content="Regression in machine learning: model training and validation, bias-variance trade-off, cross-validation, using scikit-learn (lecture note slides)">
 <meta property="og:site_name" content="Advanced Econometrics">
 </head>
 <body class="quarto-light">
@@ -632,7 +629,7 @@ Vladislav Morozov
 </section>
 <section id="imports" class="slide level4 scrollable">
 <h4>Imports</h4>
-<div id="7a1ef7fe" class="cell" data-execution_count="1">
+<div id="0b31d5fe" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-2"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -692,7 +689,7 @@ Vladislav Morozov
 <li class="fragment">Split 80%/20% into training/test data</li>
 <li class="fragment">Training set further split into <code>X_train</code> and <code>y_train</code></li>
 </ul>
-<div id="3aaeb7fe" class="cell" data-execution_count="3">
+<div id="f508974d" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Loading data</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a><span class="co"># Load data</span></span>
@@ -711,7 +708,7 @@ Vladislav Morozov
 </section>
 <section id="reminder-geographical-representation-of-data" class="slide level4">
 <h4>Reminder: Geographical Representation of Data</h4>
-<div id="bae35f03" class="cell" data-execution_count="4">
+<div id="453cf023" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -838,7 +835,7 @@ MSE(h)  &amp; = \E[(Y-h(\bX))^2] \\
 <li class="fragment">Standardized the variables</li>
 </ul>
 <p><br></p>
-<div id="a8ccdf00" class="cell" data-execution_count="5">
+<div id="1c43850c" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Creating the pipeline</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="co"># Define the ratio transformers</span></span>
@@ -887,7 +884,7 @@ MSE(h)  &amp; = \E[(Y-h(\bX))^2] \\
 </section>
 <section id="reminder-preprocessing-pipeline-ii" class="slide level4 scrollable">
 <h4>Reminder: Preprocessing Pipeline II</h4>
-<div id="899b997d" class="cell" data-execution_count="6">
+<div id="82b97705" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display" data-execution_count="6">
 <style>#sk-container-id-1 {
   /* Definition of color scheme common for light and dark mode */
@@ -1295,8 +1292,8 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 }
 </style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[('extraction',
                  ColumnTransformer(transformers=[('bedroom_ratio',
-                                                  FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000150A3913EC0&gt;,
-                                                                      func=&lt;function column_ratio at 0x00000150EC3C0B80&gt;,
+                                                  FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x0000028C05047E20&gt;,
+                                                                      func=&lt;function column_ratio at 0x0000028C008F2200&gt;,
                                                                       validate=True),
                                                   ['AveBedrms', 'AveRooms']),
                                                  ('passthrough', 'passthrough',
@@ -1308,8 +1305,8 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                 ('poly', PolynomialFeatures(include_bias=False)),
                 ('scale', StandardScaler())])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox"><label for="sk-estimator-id-1" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;&nbsp;Pipeline<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link ">i<span>Not fitted</span></span></label><div class="sk-toggleable__content "><pre>Pipeline(steps=[('extraction',
                  ColumnTransformer(transformers=[('bedroom_ratio',
-                                                  FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000150A3913EC0&gt;,
-                                                                      func=&lt;function column_ratio at 0x00000150EC3C0B80&gt;,
+                                                  FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x0000028C05047E20&gt;,
+                                                                      func=&lt;function column_ratio at 0x0000028C008F2200&gt;,
                                                                       validate=True),
                                                   ['AveBedrms', 'AveRooms']),
                                                  ('passthrough', 'passthrough',
@@ -1320,15 +1317,15 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                   ['Longitude', 'Latitude'])])),
                 ('poly', PolynomialFeatures(include_bias=False)),
                 ('scale', StandardScaler())])</pre></div> </div></div><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox"><label for="sk-estimator-id-2" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;extraction: ColumnTransformer<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for extraction: ColumnTransformer</span></a></label><div class="sk-toggleable__content "><pre>ColumnTransformer(transformers=[('bedroom_ratio',
-                                 FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000150A3913EC0&gt;,
-                                                     func=&lt;function column_ratio at 0x00000150EC3C0B80&gt;,
+                                 FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x0000028C05047E20&gt;,
+                                                     func=&lt;function column_ratio at 0x0000028C008F2200&gt;,
                                                      validate=True),
                                  ['AveBedrms', 'AveRooms']),
                                 ('passthrough', 'passthrough',
                                  ['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms',
                                   'Population', 'AveOccup']),
-                                ('drop', 'drop', ['Longitude', 'Latitude'])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox"><label for="sk-estimator-id-3" class="sk-toggleable__label  sk-toggleable__label-arrow ">bedroom_ratio</label><div class="sk-toggleable__content "><pre>['AveBedrms', 'AveRooms']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox"><label for="sk-estimator-id-4" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;FunctionTransformer<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.FunctionTransformer.html">?<span>Documentation for FunctionTransformer</span></a></label><div class="sk-toggleable__content "><pre>FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000150A3913EC0&gt;,
-                    func=&lt;function column_ratio at 0x00000150EC3C0B80&gt;,
+                                ('drop', 'drop', ['Longitude', 'Latitude'])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-3" type="checkbox"><label for="sk-estimator-id-3" class="sk-toggleable__label  sk-toggleable__label-arrow ">bedroom_ratio</label><div class="sk-toggleable__content "><pre>['AveBedrms', 'AveRooms']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-4" type="checkbox"><label for="sk-estimator-id-4" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;FunctionTransformer<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.FunctionTransformer.html">?<span>Documentation for FunctionTransformer</span></a></label><div class="sk-toggleable__content "><pre>FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x0000028C05047E20&gt;,
+                    func=&lt;function column_ratio at 0x0000028C008F2200&gt;,
                     validate=True)</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-5" type="checkbox"><label for="sk-estimator-id-5" class="sk-toggleable__label  sk-toggleable__label-arrow ">passthrough</label><div class="sk-toggleable__content "><pre>['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms', 'Population', 'AveOccup']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-6" type="checkbox"><label for="sk-estimator-id-6" class="sk-toggleable__label  sk-toggleable__label-arrow ">passthrough</label><div class="sk-toggleable__content "><pre>passthrough</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-7" type="checkbox"><label for="sk-estimator-id-7" class="sk-toggleable__label  sk-toggleable__label-arrow ">drop</label><div class="sk-toggleable__content "><pre>['Longitude', 'Latitude']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-8" type="checkbox"><label for="sk-estimator-id-8" class="sk-toggleable__label  sk-toggleable__label-arrow ">drop</label><div class="sk-toggleable__content "><pre>drop</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-9" type="checkbox"><label for="sk-estimator-id-9" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;PolynomialFeatures<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.PolynomialFeatures.html">?<span>Documentation for PolynomialFeatures</span></a></label><div class="sk-toggleable__content "><pre>PolynomialFeatures(include_bias=False)</pre></div> </div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-10" type="checkbox"><label for="sk-estimator-id-10" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;StandardScaler<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.StandardScaler.html">?<span>Documentation for StandardScaler</span></a></label><div class="sk-toggleable__content "><pre>StandardScaler()</pre></div> </div></div></div></div></div></div>
 </div>
 </div>
@@ -1368,7 +1365,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <h4><code>LinearRegression</code> In Action</h4>
 <p><code>scikit-learn</code> predictors generally very easy to use!</p>
 <p>Example with original features:</p>
-<div id="5129b2e0" class="cell" data-execution_count="7">
+<div id="5c1e8ad3" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a>ols_mod <span class="op">=</span> LinearRegression()          <span class="co"># Create instance</span></span>
 <span id="cb4-2"><a></a>ols_mod.fit(X_train, y_train)         <span class="co"># Fit (run OLS)</span></span>
 <span id="cb4-3"><a></a>ols_mod.predict(X_train.iloc[:<span class="dv">5</span>, :])  <span class="co"># Predict for first 5 training obs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1393,7 +1390,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <li class="fragment">Want our predictors to received preprocessed data</li>
 <li class="fragment">Simply make an extended <code>Pipeline</code> by adding <code>LinearRegression()</code> on top of <code>preprocessing</code>:</li>
 </ul>
-<div id="ce69e0af" class="cell" data-execution_count="8">
+<div id="4a40b3c6" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a>ols_sq_model <span class="op">=</span> Pipeline(</span>
 <span id="cb6-2"><a></a>  [</span>
 <span id="cb6-3"><a></a>    (<span class="st">"preprocessing"</span>, preprocessing),</span>
@@ -1404,7 +1401,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </section>
 <section id="extended-pipeline" class="slide level4 scrollable">
 <h4>Extended Pipeline</h4>
-<div id="efe2c87f" class="cell" data-execution_count="9">
+<div id="1d2ee7a6" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display" data-execution_count="9">
 <style>#sk-container-id-2 {
   /* Definition of color scheme common for light and dark mode */
@@ -1813,8 +1810,8 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </style><div id="sk-container-id-2" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[('preprocessing',
                  Pipeline(steps=[('extraction',
                                   ColumnTransformer(transformers=[('bedroom_ratio',
-                                                                   FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000150A3913EC0&gt;,
-                                                                                       func=&lt;function column_ratio at 0x00000150EC3C0B80&gt;,
+                                                                   FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x0000028C05047E20&gt;,
+                                                                                       func=&lt;function column_ratio at 0x0000028C008F2200&gt;,
                                                                                        validate=True),
                                                                    ['AveBedrms',
                                                                     'AveRooms']),
@@ -1836,8 +1833,8 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                 ('ols', LinearRegression())])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-11" type="checkbox"><label for="sk-estimator-id-11" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;&nbsp;Pipeline<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link ">i<span>Not fitted</span></span></label><div class="sk-toggleable__content "><pre>Pipeline(steps=[('preprocessing',
                  Pipeline(steps=[('extraction',
                                   ColumnTransformer(transformers=[('bedroom_ratio',
-                                                                   FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000150A3913EC0&gt;,
-                                                                                       func=&lt;function column_ratio at 0x00000150EC3C0B80&gt;,
+                                                                   FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x0000028C05047E20&gt;,
+                                                                                       func=&lt;function column_ratio at 0x0000028C008F2200&gt;,
                                                                                        validate=True),
                                                                    ['AveBedrms',
                                                                     'AveRooms']),
@@ -1858,8 +1855,8 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                  ('scale', StandardScaler())])),
                 ('ols', LinearRegression())])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-12" type="checkbox"><label for="sk-estimator-id-12" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;preprocessing: Pipeline<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for preprocessing: Pipeline</span></a></label><div class="sk-toggleable__content "><pre>Pipeline(steps=[('extraction',
                  ColumnTransformer(transformers=[('bedroom_ratio',
-                                                  FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000150A3913EC0&gt;,
-                                                                      func=&lt;function column_ratio at 0x00000150EC3C0B80&gt;,
+                                                  FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x0000028C05047E20&gt;,
+                                                                      func=&lt;function column_ratio at 0x0000028C008F2200&gt;,
                                                                       validate=True),
                                                   ['AveBedrms', 'AveRooms']),
                                                  ('passthrough', 'passthrough',
@@ -1870,15 +1867,15 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                   ['Longitude', 'Latitude'])])),
                 ('poly', PolynomialFeatures(include_bias=False)),
                 ('scale', StandardScaler())])</pre></div> </div></div><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-13" type="checkbox"><label for="sk-estimator-id-13" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;extraction: ColumnTransformer<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for extraction: ColumnTransformer</span></a></label><div class="sk-toggleable__content "><pre>ColumnTransformer(transformers=[('bedroom_ratio',
-                                 FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000150A3913EC0&gt;,
-                                                     func=&lt;function column_ratio at 0x00000150EC3C0B80&gt;,
+                                 FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x0000028C05047E20&gt;,
+                                                     func=&lt;function column_ratio at 0x0000028C008F2200&gt;,
                                                      validate=True),
                                  ['AveBedrms', 'AveRooms']),
                                 ('passthrough', 'passthrough',
                                  ['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms',
                                   'Population', 'AveOccup']),
-                                ('drop', 'drop', ['Longitude', 'Latitude'])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-14" type="checkbox"><label for="sk-estimator-id-14" class="sk-toggleable__label  sk-toggleable__label-arrow ">bedroom_ratio</label><div class="sk-toggleable__content "><pre>['AveBedrms', 'AveRooms']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-15" type="checkbox"><label for="sk-estimator-id-15" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;FunctionTransformer<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.FunctionTransformer.html">?<span>Documentation for FunctionTransformer</span></a></label><div class="sk-toggleable__content "><pre>FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000150A3913EC0&gt;,
-                    func=&lt;function column_ratio at 0x00000150EC3C0B80&gt;,
+                                ('drop', 'drop', ['Longitude', 'Latitude'])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-14" type="checkbox"><label for="sk-estimator-id-14" class="sk-toggleable__label  sk-toggleable__label-arrow ">bedroom_ratio</label><div class="sk-toggleable__content "><pre>['AveBedrms', 'AveRooms']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-15" type="checkbox"><label for="sk-estimator-id-15" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;FunctionTransformer<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.FunctionTransformer.html">?<span>Documentation for FunctionTransformer</span></a></label><div class="sk-toggleable__content "><pre>FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x0000028C05047E20&gt;,
+                    func=&lt;function column_ratio at 0x0000028C008F2200&gt;,
                     validate=True)</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-16" type="checkbox"><label for="sk-estimator-id-16" class="sk-toggleable__label  sk-toggleable__label-arrow ">passthrough</label><div class="sk-toggleable__content "><pre>['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms', 'Population', 'AveOccup']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-17" type="checkbox"><label for="sk-estimator-id-17" class="sk-toggleable__label  sk-toggleable__label-arrow ">passthrough</label><div class="sk-toggleable__content "><pre>passthrough</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-18" type="checkbox"><label for="sk-estimator-id-18" class="sk-toggleable__label  sk-toggleable__label-arrow ">drop</label><div class="sk-toggleable__content "><pre>['Longitude', 'Latitude']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-19" type="checkbox"><label for="sk-estimator-id-19" class="sk-toggleable__label  sk-toggleable__label-arrow ">drop</label><div class="sk-toggleable__content "><pre>drop</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-20" type="checkbox"><label for="sk-estimator-id-20" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;PolynomialFeatures<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.PolynomialFeatures.html">?<span>Documentation for PolynomialFeatures</span></a></label><div class="sk-toggleable__content "><pre>PolynomialFeatures(include_bias=False)</pre></div> </div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-21" type="checkbox"><label for="sk-estimator-id-21" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;StandardScaler<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.StandardScaler.html">?<span>Documentation for StandardScaler</span></a></label><div class="sk-toggleable__content "><pre>StandardScaler()</pre></div> </div></div></div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-22" type="checkbox"><label for="sk-estimator-id-22" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;LinearRegression<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.linear_model.LinearRegression.html">?<span>Documentation for LinearRegression</span></a></label><div class="sk-toggleable__content "><pre>LinearRegression()</pre></div> </div></div></div></div></div></div>
 </div>
 </div>
@@ -1889,7 +1886,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <section id="fitting-the-model" class="slide level4">
 <h4>Fitting the Model</h4>
 <p>The whole pipeline can be fitted as before</p>
-<div id="d815045c" class="cell" data-execution_count="10">
+<div id="4675b03a" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>ols_sq_model.fit(X_train, y_train)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
@@ -1910,7 +1907,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </ul>
 <div class="fragment">
 <p>Very easy to compute training set RMSE:</p>
-<div id="984bd44c" class="cell" data-execution_count="11">
+<div id="887802a7" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>root_mean_squared_error(y_train, ols_sq_model.predict(X_train))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>np.float64(0.716589206401369)</code></pre>
@@ -1958,7 +1955,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <section id="creating-a-lasso-predictor" class="slide level4">
 <h4>Creating a LASSO Predictor</h4>
 <p>Very easy to create a pipeline with LASSO:</p>
-<div id="14897c6f" class="cell" data-execution_count="12">
+<div id="c036e835" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>lasso_model <span class="op">=</span> Pipeline(</span>
 <span id="cb10-2"><a></a>  [</span>
 <span id="cb10-3"><a></a>    (<span class="st">"preprocessing"</span>, clone(preprocessing)),</span>
@@ -1978,7 +1975,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <section id="fitting-and-training-loss-of-lasso" class="slide level4">
 <h4>Fitting and Training Loss of LASSO</h4>
 <p>Fitting and evaluating training loss exactly as before:</p>
-<div id="7849f411" class="cell" data-execution_count="13">
+<div id="7903f266" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a><span class="co"># Fit model</span></span>
 <span id="cb11-2"><a></a>lasso_model.fit(X_train, y_train)</span>
 <span id="cb11-3"><a></a><span class="co"># Evaluate on training sample</span></span>
@@ -2088,7 +2085,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <p>How good is our OLS approach with squares of features?</p>
 <div class="fragment">
 <p>Use <code>cross_val_score</code></p>
-<div id="340efe5a" class="cell" data-execution_count="14">
+<div id="3d25a0c4" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a>ols_rmse <span class="op">=</span> <span class="op">-</span>cross_val_score(</span>
 <span id="cb13-2"><a></a>    ols_sq_model,                           <span class="co"># algorithm</span></span>
 <span id="cb13-3"><a></a>    X_train,</span>
@@ -2106,7 +2103,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </section>
 <section id="generalization-performance" class="slide level4">
 <h4>Generalization Performance</h4>
-<div id="16fd40e9" class="cell" data-execution_count="15">
+<div id="d5b18ece" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a>pd.Series(ols_rmse).describe().iloc[:<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>count    10.000000
@@ -2120,7 +2117,7 @@ dtype: float64</code></pre>
 <li class="fragment">Much higher validation loss: $161k</li>
 <li class="fragment">But also high variance: a lot of variation between folds:</li>
 </ul>
-<div id="cd0acd21" class="cell" data-execution_count="16">
+<div id="7f9df53d" class="cell" data-execution_count="16">
 <div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>array([0.73475434, 0.73214555, 0.71531639, 6.43146961, 0.72833282,
        0.78883928, 1.45873126, 2.85839685, 0.74996918, 0.96784711])</code></pre>
@@ -2149,7 +2146,7 @@ dtype: float64</code></pre>
 <li class="fragment">Values: an array of values to check</li>
 </ul></li>
 </ul>
-<div id="f331ea5c" class="cell" data-execution_count="17">
+<div id="bc9f4fa6" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a>param_grid_alpha <span class="op">=</span> { </span>
 <span id="cb17-2"><a></a>    <span class="st">"lasso__alpha"</span>: np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">11</span>),</span>
 <span id="cb17-3"><a></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2165,7 +2162,7 @@ dtype: float64</code></pre>
 <li class="fragment">Create instance</li>
 <li class="fragment">Fit</li>
 </ul>
-<div id="99fdcedd" class="cell" data-execution_count="18">
+<div id="7d82e908" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a></a>grid_search_alpha <span class="op">=</span> GridSearchCV(</span>
 <span id="cb18-2"><a></a>    lasso_model,                           <span class="co"># which predictor/pipeline</span></span>
 <span id="cb18-3"><a></a>    param_grid_alpha,                      <span class="co"># parameter grids</span></span>
@@ -2185,7 +2182,7 @@ dtype: float64</code></pre>
 <li class="fragment">The <code>results_</code> attribute has detailed info on models fitted</li>
 <li class="fragment">Best approach: <span class="math inline">\(\alpha\approx 0.1\)</span>. Worst: <span class="math inline">\(\alpha=0\)</span> (OLS)</li>
 </ul>
-<div id="04631a7c" class="cell" data-execution_count="19">
+<div id="05207e9c" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a>cv_res_alpha <span class="op">=</span> pd.DataFrame(grid_search_alpha.cv_results_)</span>
 <span id="cb19-2"><a></a>cv_res_alpha.sort_values(by<span class="op">=</span><span class="st">'rank_test_score'</span>)</span>
 <span id="cb19-3"><a></a><span class="co"># Can also flip the score sign to turn into RMSE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2233,10 +2230,10 @@ dtype: float64</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">1</td>
-<td>0.153754</td>
-<td>0.048644</td>
-<td>0.032595</td>
-<td>0.043300</td>
+<td>0.096258</td>
+<td>0.048504</td>
+<td>0.007558</td>
+<td>0.004370</td>
 <td>0.1</td>
 <td>{'lasso__alpha': 0.1}</td>
 <td>-0.796165</td>
@@ -2255,10 +2252,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">2</td>
-<td>0.063588</td>
-<td>0.037914</td>
-<td>0.004878</td>
-<td>0.001866</td>
+<td>0.095039</td>
+<td>0.038126</td>
+<td>0.009014</td>
+<td>0.005838</td>
 <td>0.2</td>
 <td>{'lasso__alpha': 0.2}</td>
 <td>-0.816359</td>
@@ -2277,10 +2274,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">3</td>
-<td>0.122753</td>
-<td>0.095481</td>
-<td>0.005016</td>
-<td>0.003113</td>
+<td>0.099058</td>
+<td>0.036690</td>
+<td>0.007163</td>
+<td>0.002215</td>
 <td>0.3</td>
 <td>{'lasso__alpha': 0.30000000000000004}</td>
 <td>-0.851757</td>
@@ -2299,10 +2296,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">4</td>
-<td>0.062385</td>
-<td>0.039491</td>
-<td>0.004186</td>
-<td>0.000816</td>
+<td>0.108428</td>
+<td>0.016716</td>
+<td>0.007928</td>
+<td>0.003354</td>
 <td>0.4</td>
 <td>{'lasso__alpha': 0.4}</td>
 <td>-0.900569</td>
@@ -2321,10 +2318,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">5</td>
-<td>0.125842</td>
-<td>0.101518</td>
-<td>0.015408</td>
-<td>0.035063</td>
+<td>0.117939</td>
+<td>0.025855</td>
+<td>0.007431</td>
+<td>0.002369</td>
 <td>0.5</td>
 <td>{'lasso__alpha': 0.5}</td>
 <td>-0.955774</td>
@@ -2343,10 +2340,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">6</td>
-<td>0.090897</td>
-<td>0.072326</td>
-<td>0.004365</td>
-<td>0.002324</td>
+<td>0.118559</td>
+<td>0.033745</td>
+<td>0.007683</td>
+<td>0.001612</td>
 <td>0.6</td>
 <td>{'lasso__alpha': 0.6000000000000001}</td>
 <td>-1.014336</td>
@@ -2365,10 +2362,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">7</td>
-<td>0.046617</td>
-<td>0.042262</td>
-<td>0.013541</td>
-<td>0.029764</td>
+<td>0.145429</td>
+<td>0.017611</td>
+<td>0.007731</td>
+<td>0.001409</td>
 <td>0.7</td>
 <td>{'lasso__alpha': 0.7000000000000001}</td>
 <td>-1.080154</td>
@@ -2387,10 +2384,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">8</td>
-<td>0.092242</td>
-<td>0.065326</td>
-<td>0.004782</td>
-<td>0.001850</td>
+<td>0.111313</td>
+<td>0.009562</td>
+<td>0.009774</td>
+<td>0.008540</td>
 <td>0.8</td>
 <td>{'lasso__alpha': 0.8}</td>
 <td>-1.149506</td>
@@ -2409,10 +2406,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">10</td>
-<td>0.103236</td>
-<td>0.044079</td>
-<td>0.012885</td>
-<td>0.025660</td>
+<td>0.080880</td>
+<td>0.005456</td>
+<td>0.004469</td>
+<td>0.001176</td>
 <td>1.0</td>
 <td>{'lasso__alpha': 1.0}</td>
 <td>-1.153430</td>
@@ -2431,10 +2428,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">9</td>
-<td>0.148328</td>
-<td>0.044305</td>
-<td>0.003821</td>
-<td>0.000627</td>
+<td>0.101781</td>
+<td>0.008927</td>
+<td>0.005922</td>
+<td>0.000746</td>
 <td>0.9</td>
 <td>{'lasso__alpha': 0.9}</td>
 <td>-1.153430</td>
@@ -2453,10 +2450,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>1.499844</td>
-<td>0.508585</td>
-<td>0.003663</td>
-<td>0.001075</td>
+<td>0.791893</td>
+<td>0.076943</td>
+<td>0.004737</td>
+<td>0.004245</td>
 <td>0.0</td>
 <td>{'lasso__alpha': 0.0}</td>
 <td>-0.740263</td>
@@ -2490,7 +2487,7 @@ dtype: float64</code></pre>
 <li class="fragment">Including parameters in other parts of pipeline</li>
 <li class="fragment">E.g. degree of polynomial features:</li>
 </ul>
-<div id="c8725faf" class="cell" data-execution_count="20">
+<div id="c57668c9" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a>param_grid <span class="op">=</span> { </span>
 <span id="cb20-2"><a></a>    <span class="st">"preprocessing__poly__degree"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
 <span id="cb20-3"><a></a>    <span class="st">"lasso__alpha"</span>: np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">11</span>),</span>
@@ -2500,7 +2497,7 @@ dtype: float64</code></pre>
 <li class="fragment"><code>GridSearchCV</code> called the same way</li>
 <li class="fragment">Computes for <span class="highlight">each combo</span> in <code>param_grid</code> (330 fits total)</li>
 </ul>
-<div id="9e0bcb40" class="cell" data-execution_count="21">
+<div id="04fa96b3" class="cell" data-execution_count="21">
 <details class="code-fold">
 <summary>Calling <code>GridSearchCV</code></summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a>grid_search <span class="op">=</span> GridSearchCV(</span>
@@ -2521,7 +2518,7 @@ dtype: float64</code></pre>
 <section id="results-tuning-linear-model" class="slide level4">
 <h4>Results: Tuning Linear Model</h4>
 <p>Extracting top 3 models:</p>
-<div id="82a5f270" class="cell" data-execution_count="22">
+<div id="7b081346" class="cell" data-execution_count="22">
 <div class="cell-output cell-output-display" data-execution_count="22">
 <div>
 <style scoped="">
@@ -2643,7 +2640,7 @@ dtype: float64</code></pre>
 </ul>
 <div class="fragment">
 <p>Recreate preprocessing pipeline without standardization and polynomial degree = 1 (with option to tune)</p>
-<div id="097cb01b" class="cell" data-execution_count="23">
+<div id="37906e4b" class="cell" data-execution_count="23">
 <details class="code-fold">
 <summary>Recreating preprocessing pipeline</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a></a>preprocessing <span class="op">=</span> Pipeline(</span>
@@ -2662,7 +2659,7 @@ dtype: float64</code></pre>
 <li class="fragment"><code>scikit-learn</code> implements trees in <code>sklearn.tree</code></li>
 <li class="fragment">Use <code>DecisionTreeRegressor()</code> on top of <code>preprocessing</code></li>
 </ul>
-<div id="5d92ab39" class="cell" data-execution_count="24">
+<div id="a6c7afdd" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a>tree <span class="op">=</span> Pipeline(</span>
 <span id="cb23-2"><a></a>    [</span>
 <span id="cb23-3"><a></a>        (<span class="st">"preprocessing"</span>, preprocessing),</span>
@@ -2676,7 +2673,7 @@ dtype: float64</code></pre>
 </section>
 <section id="visualizing-new-pipeline" class="slide level4 scrollable">
 <h4>Visualizing New Pipeline</h4>
-<div id="2557e54a" class="cell" data-execution_count="25">
+<div id="d51b3cd2" class="cell" data-execution_count="25">
 <div class="cell-output cell-output-display" data-execution_count="25">
 <style>#sk-container-id-3 {
   /* Definition of color scheme common for light and dark mode */
@@ -3085,8 +3082,8 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </style><div id="sk-container-id-3" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>Pipeline(steps=[('preprocessing',
                  Pipeline(steps=[('extraction',
                                   ColumnTransformer(transformers=[('bedroom_ratio',
-                                                                   FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000150A3913EC0&gt;,
-                                                                                       func=&lt;function column_ratio at 0x00000150EC3C0B80&gt;,
+                                                                   FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x0000028C05047E20&gt;,
+                                                                                       func=&lt;function column_ratio at 0x0000028C008F2200&gt;,
                                                                                        validate=True),
                                                                    ['AveBedrms',
                                                                     'AveRooms']),
@@ -3108,8 +3105,8 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                 ('tree', DecisionTreeRegressor(random_state=1))])</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-23" type="checkbox"><label for="sk-estimator-id-23" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;&nbsp;Pipeline<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for Pipeline</span></a><span class="sk-estimator-doc-link ">i<span>Not fitted</span></span></label><div class="sk-toggleable__content "><pre>Pipeline(steps=[('preprocessing',
                  Pipeline(steps=[('extraction',
                                   ColumnTransformer(transformers=[('bedroom_ratio',
-                                                                   FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000150A3913EC0&gt;,
-                                                                                       func=&lt;function column_ratio at 0x00000150EC3C0B80&gt;,
+                                                                   FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x0000028C05047E20&gt;,
+                                                                                       func=&lt;function column_ratio at 0x0000028C008F2200&gt;,
                                                                                        validate=True),
                                                                    ['AveBedrms',
                                                                     'AveRooms']),
@@ -3130,8 +3127,8 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                      include_bias=False))])),
                 ('tree', DecisionTreeRegressor(random_state=1))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-24" type="checkbox"><label for="sk-estimator-id-24" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;preprocessing: Pipeline<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.pipeline.Pipeline.html">?<span>Documentation for preprocessing: Pipeline</span></a></label><div class="sk-toggleable__content "><pre>Pipeline(steps=[('extraction',
                  ColumnTransformer(transformers=[('bedroom_ratio',
-                                                  FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000150A3913EC0&gt;,
-                                                                      func=&lt;function column_ratio at 0x00000150EC3C0B80&gt;,
+                                                  FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x0000028C05047E20&gt;,
+                                                                      func=&lt;function column_ratio at 0x0000028C008F2200&gt;,
                                                                       validate=True),
                                                   ['AveBedrms', 'AveRooms']),
                                                  ('passthrough', 'passthrough',
@@ -3141,15 +3138,15 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
                                                  ('drop', 'drop',
                                                   ['Longitude', 'Latitude'])])),
                 ('poly', PolynomialFeatures(degree=1, include_bias=False))])</pre></div> </div></div><div class="sk-serial"><div class="sk-item sk-dashed-wrapped"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-25" type="checkbox"><label for="sk-estimator-id-25" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;extraction: ColumnTransformer<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.compose.ColumnTransformer.html">?<span>Documentation for extraction: ColumnTransformer</span></a></label><div class="sk-toggleable__content "><pre>ColumnTransformer(transformers=[('bedroom_ratio',
-                                 FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000150A3913EC0&gt;,
-                                                     func=&lt;function column_ratio at 0x00000150EC3C0B80&gt;,
+                                 FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x0000028C05047E20&gt;,
+                                                     func=&lt;function column_ratio at 0x0000028C008F2200&gt;,
                                                      validate=True),
                                  ['AveBedrms', 'AveRooms']),
                                 ('passthrough', 'passthrough',
                                  ['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms',
                                   'Population', 'AveOccup']),
-                                ('drop', 'drop', ['Longitude', 'Latitude'])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-26" type="checkbox"><label for="sk-estimator-id-26" class="sk-toggleable__label  sk-toggleable__label-arrow ">bedroom_ratio</label><div class="sk-toggleable__content "><pre>['AveBedrms', 'AveRooms']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-27" type="checkbox"><label for="sk-estimator-id-27" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;FunctionTransformer<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.FunctionTransformer.html">?<span>Documentation for FunctionTransformer</span></a></label><div class="sk-toggleable__content "><pre>FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x00000150A3913EC0&gt;,
-                    func=&lt;function column_ratio at 0x00000150EC3C0B80&gt;,
+                                ('drop', 'drop', ['Longitude', 'Latitude'])])</pre></div> </div></div><div class="sk-parallel"><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-26" type="checkbox"><label for="sk-estimator-id-26" class="sk-toggleable__label  sk-toggleable__label-arrow ">bedroom_ratio</label><div class="sk-toggleable__content "><pre>['AveBedrms', 'AveRooms']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-27" type="checkbox"><label for="sk-estimator-id-27" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;FunctionTransformer<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.FunctionTransformer.html">?<span>Documentation for FunctionTransformer</span></a></label><div class="sk-toggleable__content "><pre>FunctionTransformer(feature_names_out=&lt;function ratio_name at 0x0000028C05047E20&gt;,
+                    func=&lt;function column_ratio at 0x0000028C008F2200&gt;,
                     validate=True)</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-28" type="checkbox"><label for="sk-estimator-id-28" class="sk-toggleable__label  sk-toggleable__label-arrow ">passthrough</label><div class="sk-toggleable__content "><pre>['MedInc', 'HouseAge', 'AveRooms', 'AveBedrms', 'Population', 'AveOccup']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-29" type="checkbox"><label for="sk-estimator-id-29" class="sk-toggleable__label  sk-toggleable__label-arrow ">passthrough</label><div class="sk-toggleable__content "><pre>passthrough</pre></div> </div></div></div></div></div><div class="sk-parallel-item"><div class="sk-item"><div class="sk-label-container"><div class="sk-label  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-30" type="checkbox"><label for="sk-estimator-id-30" class="sk-toggleable__label  sk-toggleable__label-arrow ">drop</label><div class="sk-toggleable__content "><pre>['Longitude', 'Latitude']</pre></div> </div></div><div class="sk-serial"><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-31" type="checkbox"><label for="sk-estimator-id-31" class="sk-toggleable__label  sk-toggleable__label-arrow ">drop</label><div class="sk-toggleable__content "><pre>drop</pre></div> </div></div></div></div></div></div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-32" type="checkbox"><label for="sk-estimator-id-32" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;PolynomialFeatures<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.PolynomialFeatures.html">?<span>Documentation for PolynomialFeatures</span></a></label><div class="sk-toggleable__content "><pre>PolynomialFeatures(degree=1, include_bias=False)</pre></div> </div></div></div></div><div class="sk-item"><div class="sk-estimator  sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-33" type="checkbox"><label for="sk-estimator-id-33" class="sk-toggleable__label  sk-toggleable__label-arrow ">&nbsp;DecisionTreeRegressor<a class="sk-estimator-doc-link " rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.tree.DecisionTreeRegressor.html">?<span>Documentation for DecisionTreeRegressor</span></a></label><div class="sk-toggleable__content "><pre>DecisionTreeRegressor(random_state=1)</pre></div> </div></div></div></div></div></div>
 </div>
 </div>
@@ -3157,7 +3154,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <section id="training-a-tree-and-training-performance" class="slide level4">
 <h4>Training a Tree and Training Performance</h4>
 <p>Training and computing training loss exactly as before:</p>
-<div id="79cf929c" class="cell" data-execution_count="26">
+<div id="83c98a22" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a></a>tree.fit(X_train, y_train)</span>
 <span id="cb24-2"><a></a>root_mean_squared_error(y_train, tree.predict(X_train)).<span class="bu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
@@ -3168,7 +3165,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <li class="fragment">We <span class="highlight">interpolated</span> the training sample — perfect prediction</li>
 <li class="fragment">Generalization performance with CV:</li>
 </ul>
-<div id="d8d10dd2" class="cell" data-execution_count="27">
+<div id="27783b1b" class="cell" data-execution_count="27">
 <details class="code-fold">
 <summary>Measuring generalization performance with CV</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a></a>tree_rmse <span class="op">=</span> <span class="op">-</span>cross_val_score(</span>
@@ -3282,7 +3279,7 @@ dtype: float64</code></pre>
 <h4>Using <code>RandomForestRegressor</code></h4>
 <p><br></p>
 <p>Can attach a random forest to our pipeline</p>
-<div id="2c05e7d3" class="cell" data-execution_count="28">
+<div id="debf83f1" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a></a>forest_reg <span class="op">=</span> Pipeline(</span>
 <span id="cb28-2"><a></a>    [</span>
 <span id="cb28-3"><a></a>        (<span class="st">"preprocessing"</span>, preprocessing),</span>
@@ -3295,7 +3292,7 @@ dtype: float64</code></pre>
 <section id="evaluating-rf-with-default-tuning-parameters" class="slide level4">
 <h4>Evaluating RF with Default Tuning Parameters</h4>
 <p>Evaluating generalization performance of RF:</p>
-<div id="b97cb945" class="cell" data-execution_count="29">
+<div id="b9f3a38f" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a></a>forest_rmse <span class="op">=</span> <span class="op">-</span>cross_val_score(</span>
 <span id="cb29-2"><a></a>    forest_reg,</span>
 <span id="cb29-3"><a></a>    X_train,</span>
@@ -3328,7 +3325,7 @@ dtype: float64</code></pre>
 <section id="randomizedsearchcv" class="slide level4">
 <h4><code>RandomizedSearchCV</code></h4>
 <p>Will use <em>randomized</em> CV: trying random combinations of tuning parameters according to specified distribution</p>
-<div id="abed6298" class="cell" data-execution_count="30">
+<div id="9efb2c0f" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a></a>param_distribs <span class="op">=</span> { </span>
 <span id="cb31-2"><a></a>    <span class="st">"random_forest__max_features"</span>: randint(low<span class="op">=</span><span class="dv">2</span>, high<span class="op">=</span><span class="dv">5</span>),</span>
 <span id="cb31-3"><a></a>    <span class="st">"random_forest__min_samples_leaf"</span>: randint(low<span class="op">=</span><span class="dv">1</span>, high<span class="op">=</span><span class="dv">50</span>)</span>
@@ -3349,7 +3346,7 @@ dtype: float64</code></pre>
 <section id="viewing-the-results-1" class="slide level4 scrollable">
 <h4>Viewing the Results</h4>
 <p>Maybe some mild regularization with <code>min_samples_leaf</code> helped a bit:</p>
-<div id="57515836" class="cell" data-execution_count="31">
+<div id="301a89e4" class="cell" data-execution_count="31">
 <details class="code-fold">
 <summary>CV results</summary>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a></a>rnd_search_cv.fit(X_train, y_train)</span>
@@ -3401,10 +3398,10 @@ dtype: float64</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">16</td>
-<td>2.081112</td>
-<td>0.369426</td>
-<td>1.129724</td>
-<td>0.312264</td>
+<td>2.454473</td>
+<td>0.157163</td>
+<td>0.584351</td>
+<td>0.226646</td>
 <td>3</td>
 <td>8</td>
 <td>{'random_forest__max_features': 3, 'random_for...</td>
@@ -3424,10 +3421,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">6</td>
-<td>2.783013</td>
-<td>0.334173</td>
-<td>1.232094</td>
-<td>0.842179</td>
+<td>2.494254</td>
+<td>0.325738</td>
+<td>0.680446</td>
+<td>0.232121</td>
 <td>3</td>
 <td>7</td>
 <td>{'random_forest__max_features': 3, 'random_for...</td>
@@ -3447,10 +3444,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">12</td>
-<td>2.281664</td>
-<td>1.102930</td>
-<td>1.124602</td>
-<td>0.495456</td>
+<td>2.552622</td>
+<td>0.450059</td>
+<td>1.417742</td>
+<td>0.660070</td>
 <td>4</td>
 <td>5</td>
 <td>{'random_forest__max_features': 4, 'random_for...</td>
@@ -3470,10 +3467,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">2</td>
-<td>2.522271</td>
-<td>0.170422</td>
-<td>0.262786</td>
-<td>0.175612</td>
+<td>2.860322</td>
+<td>0.425312</td>
+<td>0.524709</td>
+<td>0.513863</td>
 <td>3</td>
 <td>12</td>
 <td>{'random_forest__max_features': 3, 'random_for...</td>
@@ -3493,10 +3490,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">5</td>
-<td>2.452072</td>
-<td>0.203254</td>
-<td>0.437179</td>
-<td>0.353489</td>
+<td>2.782511</td>
+<td>0.111234</td>
+<td>0.867350</td>
+<td>0.074516</td>
 <td>3</td>
 <td>13</td>
 <td>{'random_forest__max_features': 3, 'random_for...</td>
@@ -3516,10 +3513,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">18</td>
-<td>2.564342</td>
-<td>0.417392</td>
-<td>0.756977</td>
-<td>0.626594</td>
+<td>2.752450</td>
+<td>0.016127</td>
+<td>0.045253</td>
+<td>0.004255</td>
 <td>3</td>
 <td>2</td>
 <td>{'random_forest__max_features': 3, 'random_for...</td>
@@ -3539,10 +3536,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">9</td>
-<td>2.134173</td>
-<td>0.482112</td>
-<td>1.243001</td>
-<td>0.560469</td>
+<td>2.924708</td>
+<td>0.232591</td>
+<td>1.037291</td>
+<td>0.295442</td>
 <td>4</td>
 <td>21</td>
 <td>{'random_forest__max_features': 4, 'random_for...</td>
@@ -3562,10 +3559,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>2.400786</td>
-<td>0.340958</td>
-<td>0.413371</td>
-<td>0.314621</td>
+<td>1.728407</td>
+<td>0.626733</td>
+<td>0.889507</td>
+<td>0.770277</td>
 <td>3</td>
 <td>16</td>
 <td>{'random_forest__max_features': 3, 'random_for...</td>
@@ -3585,10 +3582,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">7</td>
-<td>2.472056</td>
-<td>0.456433</td>
-<td>0.947193</td>
-<td>0.379271</td>
+<td>2.378030</td>
+<td>0.490038</td>
+<td>1.040132</td>
+<td>0.878854</td>
 <td>3</td>
 <td>21</td>
 <td>{'random_forest__max_features': 3, 'random_for...</td>
@@ -3608,10 +3605,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>2.477612</td>
-<td>0.388524</td>
-<td>0.589036</td>
-<td>0.711530</td>
+<td>1.662010</td>
+<td>0.641785</td>
+<td>1.332974</td>
+<td>0.539676</td>
 <td>2</td>
 <td>9</td>
 <td>{'random_forest__max_features': 2, 'random_for...</td>
@@ -3631,10 +3628,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">17</td>
-<td>2.409014</td>
-<td>0.405385</td>
-<td>1.151528</td>
-<td>0.294392</td>
+<td>2.536959</td>
+<td>0.429857</td>
+<td>1.416912</td>
+<td>0.721058</td>
 <td>3</td>
 <td>23</td>
 <td>{'random_forest__max_features': 3, 'random_for...</td>
@@ -3654,10 +3651,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">8</td>
-<td>3.130359</td>
-<td>0.332464</td>
-<td>0.955488</td>
-<td>0.461096</td>
+<td>2.774621</td>
+<td>0.065559</td>
+<td>0.584304</td>
+<td>0.385274</td>
 <td>4</td>
 <td>38</td>
 <td>{'random_forest__max_features': 4, 'random_for...</td>
@@ -3677,10 +3674,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">13</td>
-<td>2.361675</td>
-<td>0.504069</td>
-<td>1.419460</td>
-<td>0.431499</td>
+<td>2.811752</td>
+<td>0.172598</td>
+<td>0.555148</td>
+<td>0.076621</td>
 <td>3</td>
 <td>31</td>
 <td>{'random_forest__max_features': 3, 'random_for...</td>
@@ -3700,10 +3697,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">4</td>
-<td>1.991734</td>
-<td>0.449810</td>
-<td>0.839060</td>
-<td>0.302713</td>
+<td>1.995232</td>
+<td>0.611049</td>
+<td>1.240123</td>
+<td>0.508979</td>
 <td>2</td>
 <td>17</td>
 <td>{'random_forest__max_features': 2, 'random_for...</td>
@@ -3723,10 +3720,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">19</td>
-<td>1.773489</td>
-<td>0.276200</td>
-<td>0.337050</td>
-<td>0.169386</td>
+<td>2.071894</td>
+<td>0.199070</td>
+<td>0.531492</td>
+<td>0.194110</td>
 <td>2</td>
 <td>18</td>
 <td>{'random_forest__max_features': 2, 'random_for...</td>
@@ -3746,10 +3743,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">15</td>
-<td>2.050895</td>
-<td>0.615549</td>
-<td>1.643562</td>
-<td>0.796791</td>
+<td>1.886749</td>
+<td>0.618147</td>
+<td>1.020464</td>
+<td>0.622107</td>
 <td>3</td>
 <td>42</td>
 <td>{'random_forest__max_features': 3, 'random_for...</td>
@@ -3769,10 +3766,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>1.303944</td>
-<td>0.674472</td>
-<td>1.649128</td>
-<td>0.714550</td>
+<td>1.399402</td>
+<td>0.526570</td>
+<td>1.443090</td>
+<td>0.433526</td>
 <td>3</td>
 <td>44</td>
 <td>{'random_forest__max_features': 3, 'random_for...</td>
@@ -3792,10 +3789,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">14</td>
-<td>2.760075</td>
-<td>0.326724</td>
-<td>1.176775</td>
-<td>0.458931</td>
+<td>2.269971</td>
+<td>0.158146</td>
+<td>0.990596</td>
+<td>0.704955</td>
 <td>2</td>
 <td>23</td>
 <td>{'random_forest__max_features': 2, 'random_for...</td>
@@ -3815,10 +3812,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">11</td>
-<td>1.859855</td>
-<td>0.451779</td>
-<td>0.800172</td>
-<td>0.397729</td>
+<td>1.572326</td>
+<td>0.162546</td>
+<td>0.818936</td>
+<td>0.650444</td>
 <td>2</td>
 <td>30</td>
 <td>{'random_forest__max_features': 2, 'random_for...</td>
@@ -3838,10 +3835,10 @@ dtype: float64</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">10</td>
-<td>1.839891</td>
-<td>0.451340</td>
-<td>0.832721</td>
-<td>0.431615</td>
+<td>1.893476</td>
+<td>0.539762</td>
+<td>1.233958</td>
+<td>0.707161</td>
 <td>2</td>
 <td>43</td>
 <td>{'random_forest__max_features': 2, 'random_for...</td>
@@ -3878,7 +3875,7 @@ dtype: float64</code></pre>
 <div class="fragment">
 <p><br></p>
 <p>Now only need to compute test error: final evaluation</p>
-<div id="79b62d21" class="cell" data-execution_count="32">
+<div id="a8bca330" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a></a>X_test, y_test <span class="op">=</span> test_set.drop(<span class="st">"MedHouseVal"</span>, axis<span class="op">=</span><span class="dv">1</span>), test_set[<span class="st">"MedHouseVal"</span>].copy()</span>
 <span id="cb33-2"><a></a>root_mean_squared_error(y_test, rnd_search_cv.best_estimator_.predict(X_test)).<span class="bu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="32">

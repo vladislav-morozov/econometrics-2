@@ -6,7 +6,7 @@ format:
   revealjs:
     include-in-header: 
       text: |
-        <meta name="description" content="Basics of regression in machine learning: model training and validation, bias-variance trade-off, cross-validation, using sikit-learn (lecture note slides)"/>
+        <meta name="description" content="Regression in machine learning: model training and validation, bias-variance trade-off, cross-validation, using scikit-learn (lecture note slides)"/>
     width: 1150
     slide-number: true
     sc-sb-title: true
@@ -29,7 +29,7 @@ filters:
 include-in-header: ../../themes/mathjax.html 
 highlight-style: tango
 open-graph:
-    description: "Basics of regression in machine learning: model training and validation, bias-variance trade-off, cross-validation, using sikit-learn (lecture note slides)" 
+    description: "Regression in machine learning: model training and validation, bias-variance trade-off, cross-validation, using scikit-learn (lecture note slides)" 
 ---
 
 

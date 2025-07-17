@@ -969,7 +969,7 @@ h(\bx) &amp; = \I\curl{  \Lambda( \bx'\bbeta  ) \geq 0.5  }, \\
 <h4>Example: Logit II</h4>
 <p><br></p>
 <p>ERM to learn best <span class="math inline">\(\bbeta\)</span> (with indicator/misclassification risk) <span class="math display">\[
-\hat{\bbeta}^{ERM} \in \argmin_{\bb} \dfrac{1}{N} \sum_{i=1}^N \I\curl{  Y_i\neq  \I\curl{  \Lambda( \bX_i'\bbeta  ) \geq 0.5  }   }
+\hat{\bbeta}^{ERM} \in \argmin_{\bbeta} \dfrac{1}{N} \sum_{i=1}^N \I\curl{  Y_i\neq  \I\curl{  \Lambda( \bX_i'\bbeta  ) \geq 0.5  }   }
 \]</span></p>
 <div class="fragment">
 <p><br></p>
@@ -979,7 +979,7 @@ h(\bx) &amp; = \I\curl{  \Lambda( \bx'\bbeta  ) \geq 0.5  }, \\
 <section id="example-logit-iii" class="slide level4">
 <h4>Example: Logit III</h4>
 <p>Instead of ERM can maximize the (quasi) log likelihood: <span class="math display">\[ \small
-\hat{\bbeta}^{QML} = \argmax_{\bb} \sum_{i=1}^N\left[Y_i  \log(\Lambda( \bX_i'\bbeta  )) + (1-Y_i) \log\left( 1 - \Lambda( \bX_i'\bbeta  ) \right)    \right]
+\hat{\bbeta}^{QML} = \argmax_{\bbeta} \sum_{i=1}^N\left[Y_i  \log(\Lambda( \bX_i'\bbeta  )) + (1-Y_i) \log\left( 1 - \Lambda( \bX_i'\bbeta  ) \right)    \right]
 \]</span></p>
 <div class="fragment">
 <p>Original justification — a very specific data generating process (see 17.1 in <span class="citation" data-cites="Wooldridge2020IntroductoryEconometricsModern">Wooldridge (<a href="#/references-1" role="doc-biblioref" onclick="">2020</a>)</span>).</p>
@@ -1002,7 +1002,7 @@ h(\bx) &amp; = \I\curl{  \Lambda( \bx'\bbeta  ) \geq 0.5  }, \\
 </li>
 <li class="fragment">Can write <span class="math inline">\(\hat{\bbeta}^{QML}\)</span> as <span class="math display">\[ \small
 \begin{aligned}
-\hat{\bbeta}^{QML} &amp; = \argmin_{\bb} \dfrac{1}{N}\sum_{i=1}^N l(Y_i, \bbeta), \\
+\hat{\bbeta}^{QML} &amp; = \argmin_{\bbeta} \dfrac{1}{N}\sum_{i=1}^N l(Y_i, \bbeta), \\
 l(Y_i, \bb) &amp; = - \left[Y_i  \log(\Lambda( \bX_i'\bbeta  )) + (1-Y_i) \log\left( 1 - \Lambda( \bX_i'\bbeta  ) \right)    \right]
 \end{aligned}
 \]</span> <span class="math inline">\(\hat{\bbeta}^{QML}\)</span> — ERM under <span class="highlight">negative likelihood loss</span></li>
