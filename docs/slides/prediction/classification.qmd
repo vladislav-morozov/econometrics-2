@@ -1,0 +1,1519 @@
+---
+title: "Classification"
+subtitle: "Basics of Binary and Multiclass Classification"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="Basics of binary and multiclass classification: evaluation metrics; logistic, support vector, and random forest classifiers (lecture note slides)"/>
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Classification"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+open-graph:
+    description: "Basics of binary and multiclass classification: evaluation metrics; logistic, support vector, and random forest classifiers (lecture note slides)" 
+---
+
+
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+In this lecture we take a look at classification
+
+<br>
+
+By the end, you should be able to
+
+1. Talk about binary and multiclass classification problems
+2. Describe and use several leading classification algorithms
+3. Evaluate classifiers with a variety of metrics
+
+#### References
+
+<br>
+
+::: {.nonincremental}
+
+- Chapters 4, 8-9 in @James2023IntroductionStatisticalLearning
+- [`scikit-learn` User Guide](https://scikit-learn.org/stable/user_guide.html): 1.1.11, 1.5, 1.10-1.11
+- Deeper: chapter 4, 9, 15 in @Hastie2009ElementsStatisticalLearning
+
+:::  
+
+#### Imports {.scrollable}
+
+```{python}
+#| echo: true 
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd 
+
+# Obtaining data from openML
+from sklearn.datasets import fetch_openml
+
+# Dummy classifier for benchmarking
+from sklearn.dummy import DummyClassifier
+
+# Classification random forest
+from sklearn.ensemble import RandomForestClassifier
+
+# Logistic regression and SVM classifiers
+from sklearn.linear_model import (
+  LogisticRegression,
+  SGDClassifier,
+)
+
+# Metrics for evaluating classifiers
+from sklearn.metrics import (
+  confusion_matrix,
+  ConfusionMatrixDisplay,
+  f1_score,
+  precision_recall_curve,
+  precision_score,
+  recall_score,
+  roc_auc_score,
+  roc_curve,
+)
+
+# Cross-validation computation of classifier properties
+from sklearn.model_selection import (
+  cross_val_predict,
+  cross_val_score, 
+)
+
+# Pipelines
+from sklearn.pipeline import Pipeline
+
+# Feature scaler
+from sklearn.preprocessing import StandardScaler
+```
+
+### Empirical Setup {background="#43464B" visibility="uncounted"}
+
+#### Motivation I
+ 
+Suppose that you
+
+- Want to send a postcard to a friend
+- Write the address by hand
+
+<br>
+
+. . .
+
+<div class="rounded-box">
+
+How do the post offices know where to send the postcard?
+
+</div>
+
+#### Motivation II
+
+- Almost all handwritten addresses are recognized automatically
+- Example of computer vision *classification problem*
+  - Features: pixels of scanned image
+  - Labels: letters and numbers
+  - Goal: recognize the letters and numbers as accurately as possible
+ 
+. . .
+
+<div class="rounded-box">
+
+Today: focus on recognized handwritten numbers with a nice standardized dataset
+
+</div>
+
+
+::: {.footer}
+
+:::
+
+#### Our Empirical Example
+
+Will use MNIST data --- *modified National Institute of Standards and Technology database*
+
+- Large dataset of handwritten digits
+- A fundamental dataset: one of the first datasets new methods are tried on
+ 
+. . .
+
+<br>
+
+Benchmark to remember: humans make around 1.5% mistakes on it [@Simard1992EfficientPatternRecognition]
+
+
+ 
+
+::: {.footer}
+
+
+:::
+
+#### Obtaining the Data
+
+<br>
+
+- Can obtain the full dataset from [openML](https://www.openml.org/)
+- `scikit-learn` even offers a `fetch_openml()` function for convenience 
+
+```{python}
+# Hidden: set data path
+from pathlib import Path
+data_path = Path() / "slides" / "prediction" / "data" / "mnist"
+```
+
+```{python}
+#| echo: true
+mnist = fetch_openml(
+    "mnist_784",
+    as_frame=False,          # Return NumPy arrays instead of pd.DataFrame
+    data_home=data_path, 
+)
+```
+
+#### Data Description {.scrollable}
+
+Remember to check your data and perform EDA! 
+
+```{python}
+#| echo: true
+print(mnist.DESCR)
+```
+
+
+::: {.footer}
+
+
+:::
+
+#### Splitting the Data
+
+Split the data manually into `X` and `y` arrays
+```{python}
+#| echo: true
+X, y = mnist.data, mnist.target 
+print(y[0:10])    # Labels of first ten observations
+```
+ 
+<br>
+
+Data already sorted into training and test split (see `DESCR`)
+
+```{python}
+#| echo: true
+X, y = mnist.data, mnist.target
+X_train, X_test, y_train, y_test = \
+    X[:60000], X[60000:], y[:60000], y[60000:]
+```
+
+- 10k training examples
+- There are extended datasets with bigger test sets
+
+ 
+
+#### Visualizing the Data
+
+:::: {.columns}
+
+::: {.column width=50%}
+
+
+```{python}
+def plot_digit(image_vector):
+    image = image_vector.reshape(28, 28)
+    plt.imshow(image, cmap = 'binary')
+    plt.axis('off')
+
+plt.figure(figsize=(7, 7))
+
+for idx, image_data in enumerate(X[:100]):
+    plt.subplot(10, 10, idx + 1)
+    plot_digit(image_data)
+
+plt.subplots_adjust(wspace=0, hspace=0) 
+plt.show()
+```
+
+:::
+
+::: {.column width=50%}
+
+- Image: selection of 100 observations in data
+- Those are $\bx$; $y$ are labels like `'1'` or `'7'`
+- Data reshaped; original form of data: 784-vectors (note: $784=28^2$)
+
+```{python}
+#| echo: true
+X[0, :].shape
+```
+
+:::
+
+
+::::  
+
+
+
+::: {.footer}
+
+
+
+:::
+ 
+
+#### Lecture Plan
+ 
+<div class="rounded-box">
+
+Will focus on
+
+- Basic learning algorithms for binary and multiclass classification
+- Evaluating classifiers
+
+</div>
+
+
+<br> 
+
+. . .
+
+We will not talk much about EDA, data preparation, etc. (see previous two lectures), but those are equally important for classification!
+
+
+
+## Classification {background="#00100F"}
+  
+
+#### Binary vs. Multiclass Classification
+
+Recall:
+
+
+<div class="rounded-box">
+
+- In <span class="highlight">binary</span> classification the label takes on 2 possible values
+-  In <span class="highlight">multiclass</span> classification the label takes on $k>2$ possible values
+
+
+</div>
+
+The labels can be <span class="highlight">ordered</span> (e.g. "big", "medium", "small") or <span class="highlight">unordered</span> (e.g. "cat", "dog")
+
+::: {.footer}
+
+Division between multiclass classification with ordered numerical labels and large $k$ and regression not always clear
+
+:::
+
+#### Single-Output vs. Multi-Output Classification
+
+Another axis of difference between problems: 
+
+<div class="rounded-box">
+
+
+- In <span class="highlight">single-output</span> problems the label $Y$ is one-dimensional
+- In <span class="highlight">multi-output</span> problems $Y$ can be multidimensional
+
+</div>
+
+. . . 
+
+<br>
+
+Example of multi-output problem: labeling photos by their contents. Many kinds of items can be present in photos <span class="highlight">at the same time</span>
+
+#### Indicator Risk
+
+Recall: should start the learning problem by choosing a suitable criterion — ideally a risk function
+
+. . . 
+
+<br>
+
+Already met the indicator risk:
+$$
+R(h) = \E\Big[\I\curl{Y\neq h(\bX)} \Big] = P\Big(Y\neq h(\bX)\Big) 
+$$
+
+$1-R(h)$ is known as <span class="highlight">accuracy</span> 
+ 
+#### Drawbacks of Accuracy
+ 
+- Treats all errors equally, which might not be the right thing in a context 
+- Problematic with unbalanced classes
+  - Example: 1 unit of class `0` per 999 units of class `1`
+  - A classifier that always predicts `1` has 99.9% accuracy, but is 0% right on class `0`
+
+- Often impossible to minimize ($\Rightarrow$ surrogate losses)
+
+::: {.footer}
+
+Accuracy has some more issues, see [here](https://stats.stackexchange.com/questions/312780/why-is-accuracy-not-the-best-measure-for-assessing-classification-models)
+
+:::
+
+#### Other Metrics
+
+$\Rightarrow$ very common to consider various metrics
+
+- Criteria expressable as risk functions (e.g. weighted losses with potentially different costs of different errors)
+- Ratio metrics such as precision, recall 
+ 
+. . .
+
+Classifiers may  be <span class="highlight">tuned</span>:
+
+- Usually first found based on some tractable objetive function (e.g. QML)
+- Then tuned to optimize specific aspects 
+
+## Binary Classification Algorithms {background="#00100F"}
+
+#### Setting: Labels in Binary Classification
+
+ Two equivalent ways of expressing classes:
+
+- Labels expressed as 0 and 1
+$$
+Y \in \curl{0, 1} 
+$$
+Common to logit and generalizations (including NNs)
+
+- Labels expressed as $-1$ and 1
+$$
+Y\in \curl{-1, 1}
+$$
+Often see with support vector machines
+
+::: {.footer}
+
+Does not matter in practice, but sometimes one or the other is more convenient in theory
+
+:::
+
+#### Empirical Example
+
+Our example based on MNIST data:
+
+<div class="rounded-box">
+
+Detect that a given collection of pixels represents a `'0'` or not
+
+</div>
+
+<br>
+
+Create the new binary labels:
+```{python}
+#| echo: true
+y_train_0 = (y_train == '0')
+y_test_0 = (y_test == '0')
+```
+
+#### Linear Classifiers
+
+Like with regression one can have linear and nonlinear classifiers
+
+<br>  
+
+Linear classifiers generally take form 
+$$
+\Hcal = \curl{h(\bx) = \I\curl{f\left(\varphi(\bx)'\bbeta\right) > \theta}: \bbeta\in \R^{\dim(\varphi(\bbeta))} }
+$$ {#eq-linear-classifier}
+
+- $f(\cdot)$ and $\varphi(\cdot)$ are known functions
+- $\theta$ is a tunable threshold
+
+#### Examples of Linear Classifiers: Logit
+
+
+Logistic regression (`0`, `1` labels)
+$$
+\begin{aligned}
+h(\bx) & = \I\curl{  \Lambda( \varphi(\bx)'\bbeta  ) \geq \theta  }, \\
+\Lambda(x) & = \dfrac{1}{1+\exp(-x)}
+\end{aligned}
+$$
+
+Here
+
+- $\bbeta$ learned using quasi maximum likelihood
+- Default value for $\theta$ is 0.5
+  
+
+#### Examples of Linear Classifiers: SVM
+
+Support vector machines (`-1`, `+1` labels)
+$$
+h(\bx)  = \mathrm{sign}\curl{  \varphi(\bx)'\bbeta - \theta  }
+$$
+More on SVMs later
+
+Here
+
+- $\bbeta$ chosen to maximize the separating *margin* between classes (with some tolerance of errors)
+- Default value of $\theta$ is 0
+
+ 
+
+#### Nonlinear Classifiers
+
+Many classifiers cannot be represented in form ([-@eq-linear-classifier])
+
+. . .
+
+<br>
+
+The most relevant examples:
+
+- Decision trees and their ensembles (random forests and gradient boosted machines)
+- Neural networks with nonlinear activation functions
+- Nearest neigbhors 
+
+### Logistic Regression {background="#43464B" visibility="uncounted"}
+ 
+
+#### Objective Function
+
+Classifier
+$$ \small
+h(\bx) = \I\curl{  \Lambda( \varphi(\bx)'\bbeta  ) \geq \theta  }
+$$
+
+
+
+$\bbeta$ chosen by maximizing (penalized) quasi-log likelihood:
+$$ \tiny
+\hat{\bbeta}^{QML} = \argmax_{\bb} \sum_{i=1}^N\left[Y_i  \log(\Lambda( \bX_i'\bbeta  )) + (1-Y_i) \log\left( 1 - \Lambda( \bX_i'\bbeta  ) \right)    \right] + \alpha \Pcal(\bbeta)
+$$
+Recall interpretation: model learning to predict probabilities of $Y=1$ with $\Lambda(\bX'\beta)$
+
+
+#### Logistic Regression in `scikit-learn`
+
+Two main ways:
+
+- `LogisticRegression`
+-  `SGDClassifier` with `loss=log_loss`
+  
+
+. . . 
+ 
+Main difference between the two — optimization method
+
+- `LogisticRegression` uses whole sample simultaneously (and also Hessian information)
+- `SGDClassifier` uses <span class="highlight">stochastic gradient descent</span> — updates parameter guess using gradient evaluated a single example at a time
+
+::: {.footer}
+
+Most ML books discuss SGD. For example, see ch. 14 in @Shalev-Shwartz2014UnderstandingMachineLearning
+
+:::
+
+
+#### Illustration: Logistic Regression
+
+
+For example: 
+```{python}
+#| echo: true
+logit = Pipeline(
+  [
+    ('scale', StandardScaler()),
+    ('logit', LogisticRegression(penalty=None))
+  ]
+)
+
+logit.fit(X_train, y_train_0)
+logit.predict([X_train[0, :]]) == y_train_0[0]
+```
+
+- Managed to predict the first training sample right
+- But how good is it overall?
+ 
+
+
+
+### Support Vector Machines {background="#43464B" visibility="uncounted"}
+
+
+
+#### Linear SVM: Classifier
+
+Consider first linear case:
+
+- Some feature $\bX$
+- Binary label $Y\in \curl{-1, 1}$ 
+
+. . . 
+
+Classifier takes form
+$$
+h(\bx) = \mathrm{sign}\curl{ \bx'\bbeta + c \geq 0  }
+$$
+Decision depends on which side of the hyperplane $\bx'\bbeta+c=0$ the new point falls
+
+
+#### Illustration: Separable Classes
+
+:::: {.columns}
+
+
+::: {.column width="65%"}
+
+![](/images/pred/svm-1.png)
+
+
+:::
+
+::: {.column width="35%"}
+ 
+- Suppose classes can be separated linearly
+- Then usually many possible separating hyperplanes (different $\bbeta$)
+ 
+:::
+
+::::
+
+. . .
+
+"Safest" classifier — one that separates classes with  <span class="highlight">maximum margin</span> (right plot)
+
+
+::: {.footer}
+
+Illustration: figure 5.1 in @Mohri2018FoundationsMachineLearning
+
+:::
+
+
+
+#### Nonseparable Case
+
+
+:::: {.columns}
+
+
+::: {.column width="60%"}
+
+![](/images/pred/svm-2.png)
+
+
+:::
+
+::: {.column width="40%"}
+ 
+If classes not separable
+
+
+- Accept that some errors will happen, try to minimize them
+- Try to maximize the margin between the separated points
+ 
+:::
+
+::::
+
+
+
+#### Linear SVM: Learning Problem
+ 
+$$
+\begin{aligned}
+& \min_{\bbeta, c, \bxi} \dfrac{1}{2} \norm{\bbeta}_2^2 + C\sum_{i=1}^m \xi_i^p, \\
+& \text{s.t.} \forall i: Y_i(\bbeta'\bX_i+ c) \geq 1-\xi_i, \quad \xi_i\geq 0.
+\end{aligned}
+$$ 
+
+Has to balance two things:
+
+- Maximizing margin (=minimizing norm of $\bbeta$)
+- Not making too many errors $\xi_i$
+- $C$ and $p$ are tuning parameters 
+
+::: {.footer}
+
+For full mathematical details, see chapter 5 in @Mohri2018FoundationsMachineLearning
+
+:::
+
+
+#### Linear SVM: Learning Problem Discussion
+ 
+- Typical values for $p$ are $p=1$ and $p=2$
+- There are other expressions for objective. E.g. with $p=1$ can express as penalized ERM  with <span class="highlight">hinge loss</span>
+$$ \small
+\begin{aligned}
+\argmin_{\bbeta, c} & \hspace{3mm} C' \norm{\bbeta}_2^2+\frac{1}{m}\sum_{i=1}^m l_h(1-Y_i(\bbeta'\bX_i-c))\\
+l_h(x) & = \max\curl{0, 1-x}
+\end{aligned}
+$$
+
+::: {.callout-note appearance="minimal"}
+
+The SVM name comes from the fact that solution is determined by only certain specific observations called <span class="highlight">support vectors </span> (on dashed lines in figure before)
+
+:::
+
+::: {.footer}
+
+
+:::
+
+#### Nonlinear SVMs
+
+
+:::: {.columns}
+
+
+::: {.column width="80%"}
+
+![](/images/pred/svm-3.png)
+
+
+:::
+
+::: {.column width="20%"}
+ 
+One can allow classifier to be nonlinear in $\bX$
+
+:::
+
+::::
+
+$$
+h(\bx) = \mathrm{sign}\curl{ \varphi(\bx)'\bbeta + c \geq 0  }
+$$
+
+  
+#### Kernel Trick
+
+<div class="rounded-box">
+
+SVMs allow easily working with very high-dimensional $\varphi(\bx)$
+
+</div>
+
+Key reason — property called the <span class="highlight">kernel trick</span>. Essentially:
+
+- You often don't need to explicitly compute each $\varphi(\bx)$ (may be slow if $\varphi$ has large dimension)
+- Sufficient to find a function called <span class="highlight">kernel</span> that implicitly represents the geometry of the new space
+  
+
+::: {.callout-note appearance="minimal"}
+
+Popular kernels include polynomials (finite-dimensional) and radial basis functions (infinite-dimensional)
+
+:::
+
+
+::: {.footer}
+
+See chapter 16 in @Shalev-Shwartz2014UnderstandingMachineLearning
+
+:::
+
+#### Advantages and Disadvantages of SVMs
+
+Advantages: 
+
+- Can work with potentially infinite-dimensional features 
+  - Theoretically because SVMs performance depends only on margin, but not dimension
+  - Practically thanks to the kernel trick
+- More resistant to overfitting
+- Very quick prediction
+
+
+. . .
+
+The main disadvantage: <span class="highlight">scale poorly</span> in terms of sample size (sweet spot seems to be $<100$k examples)
+
+::: {.footer}
+
+
+:::
+
+#### SVMs in `scikit-learn`
+
+Linear SVMs implemented in several classes in `scikit-learn`:
+
+- `SGDClassifier` with loss `loss='hinge'` (or `squared_hinge`, or `perceptron`)
+- `LinearSVC`: faster implementation only for linear SVMs
+- `SVC`: supports kernel trick and various standard kernels, but slower
+
+::: {.callout-note appearance="minimal"}
+
+"Linear SVM" means that if you want to use $\varphi(\bx)$, you have to explicitly compute those yourself as part of data preparation
+
+:::
+
+ 
+
+#### Fitting an SVM
+
+Fitting as easy as always: 
+
+```{python}
+#| echo: true
+svm = Pipeline(
+  [
+    ('scale', StandardScaler()),
+    ('svm', SGDClassifier(random_state=1))
+  ]
+)
+
+svm.fit(X_train, y_train_0)
+svm.predict([X_train[0, :]]) == y_train_0[0]
+``` 
+
+### Classification Trees and Forests {background="#43464B" visibility="uncounted"}
+
+#### Fitting a Classification Forest
+
+
+To complete the picture, can add a tree-based classifier — `RandomForestClassifier`. RF classifiers very similar to RF regressors (last lecture)
+
+
+```{python}
+#| echo: true
+rf = Pipeline(
+  [
+    ('scale', StandardScaler()),
+    ('forest', RandomForestClassifier(random_state=1, n_jobs=-1))
+  ]
+)
+
+rf.fit(X_train, y_train_0)
+rf.predict([X_train[0, :]]) == y_train_0[0]
+``` 
+
+
+## Evaluating Classifiers  {background="#00100F"}
+  
+  
+### Scalar Metrics {background="#43464B" visibility="uncounted"}
+
+
+#### Evaluating Binary Classifiers
+
+How does one evaluate a classifier? 
+
+
+Several metrics:
+
+- Accuracy 
+- Confusion matrix
+- Precision and recall, $F_{\beta}$ scores
+- The ROC curve and area under the curve (AUC)
+
+
+#### Accuracy  
+
+First metric — accuracy 
+
+- Accuracy — proportion of correctly classified new points
+- Can again evaluate with CV using `cross_val_score`
+```{python}
+#| echo: true
+logit_accuracy = cross_val_score(
+    logit, 
+    X_train, 
+    y_train_0,
+    cv=5,
+    n_jobs=-1,
+    scoring="accuracy"
+)
+logit_accuracy.mean().round(4)
+```
+
+
+#### Benchmark
+
+We have 98.65% accuracy. Is that good?
+
+<div class="rounded-box">
+
+Important to always have a basic benchmark
+
+</div>
+
+. . .
+
+- Can use `DummyClassifier` from `sklearn.dummy` as benchmark
+- Benchmark strategy: predicting the most popular class ("not 0")
+
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Accuracy of dummy classifier"
+dummy_clf = DummyClassifier()
+dummy_clf.fit(X_train, y_train_0)
+cross_val_score(dummy_clf, X_train, y_train_0, cv=5, scoring="accuracy").mean()
+```
+
+::: {.footer}
+
+
+:::
+
+#### Confusion Matrix: Intro
+
+- Accuracy combines all errors into one number
+- But maybe want to decompose more carefully 
+
+. . . 
+
+Some terminology: 
+
+1. Correct predictions: are true positive (TP) and true negative (TN)
+2. Incorrect predictions are false positive (FP, type I error) and false negative (FN, type II error)
+
+
+
+#### Confusion Matrix: Enumerating TP, TN, FP, FN
+ 
+
+- $(i, j)$th element — number of observations of class $i$ labeled as class $j$
+- Correct way to evaluate — using cross-validation (to get more accurate picture of classifier's performance)
+
+```{python}
+#| echo: true
+y_train_pred_logit = cross_val_predict(logit, X_train, y_train_0, cv=5, n_jobs=-1)
+
+# Compute the confusion matrix
+confusion_matrix(
+    y_train_0, 
+    y_train_pred_logit,  
+).round(4)
+```
+
+::: {.footer}
+
+Remember to keep track of what the classes are: class 0 is `not 0`, class 1 is `'0'`
+
+:::
+
+
+
+#### Confusion Matrix: Normalizing By Rows or Columns
+
+If we row-normalize confusion matrix, second row — <span class="highlight">proportions</span> of 0 identified as "not 0" and 0
+
+```{python}
+#| echo: true 
+
+# Compute the confusion matrix
+confusion_matrix(
+    y_train_0, 
+    y_train_pred_logit, 
+    normalize='true',
+).round(4)
+```
+
+Can see: logit very good at detecting not 0s, but marks around 5.1% percents of 0s as not 0s
+
+::: {.footer}
+
+:::
+
+#### Precision and Recall: Definitions
+
+Two important metrics related to confusion matrix
+$$ \small
+\begin{aligned}
+\text{Precision} & = \dfrac{TP}{TP+FP}, \\
+\text{Recall} & = \dfrac{TP}{TP+FN}
+\end{aligned}
+$$  
+
+- Precision: how often the `'0'` label is right
+- Recall: how many of the `'0'`s are detected
+
+#### Precision and Recall: Computing
+
+- Can compute precision and recall from normalized confusion matrix (by column and by row, respectively. Think how)
+- Or use special functions from `sklearn.metrics`:
+```{python}
+#| echo: true
+print(f"Precision: {np.round(precision_score(y_train_0, y_train_pred_logit), 3)}")
+print(f"Recall: {np.round(recall_score(y_train_0, y_train_pred_logit), 3)}")
+```
+Very close in terms of both
+
+#### $F$-Scores
+
+Precision and recall can be combined into a single metric using $F_{\beta}$ score
+
+Most famous — the $F_1$ score:
+$$
+F_1 = \dfrac{  2 }{ 
+    \frac{1}{\text{Recall}} + \frac{1}{\text{Precision}}
+   } 
+$$
+
+We can compute it using `f1_score()` from `sklearn.metrics`:
+
+```{python}
+#| echo: true
+print(f"F1: {np.round(f1_score(y_train_0, y_train_pred_logit), 3)}")
+```
+
+#### Comparing Different Classifiers
+
+- So now we can compare the different classifiers we trained on several metrics
+- Compare based on $F_1$:
+
+```{python} 
+y_train_pred_svm = cross_val_predict(svm, X_train, y_train_0, cv=5, n_jobs=-1)
+y_train_pred_rf = cross_val_predict(rf, X_train, y_train_0, cv=5, n_jobs=-1)
+
+print(f"Logit: {np.round(f1_score(y_train_0, y_train_pred_logit), 3)}")
+print(f"SVM: {np.round(f1_score(y_train_0, y_train_pred_svm), 3)}")
+print(f"RF: {np.round(f1_score(y_train_0, y_train_pred_rf), 3)}")
+```
+
+Random forests come out ahead! 
+
+
+  
+### Curves {background="#43464B" visibility="uncounted"}
+
+
+#### Regarding Decision Thresholds
+
+Go back to logit classifier:
+$$
+h(\bx) = \I\curl{  \Lambda( \varphi(\bx)'\bbeta  ) \geq \theta  }
+$$
+
+- By default $\theta = 0.5$ — label observation as 1 if predicted probability of 1 is higher than of 0
+- But can change $\theta$. E.g. lowering $\theta$:
+  - More true positives
+  - More false positives
+
+
+
+#### ROC Curve
+
+<div class="rounded-box">
+
+The <span class="highlight">ROC</span> (receiver operator characteristic) <span class="highlight">curve</span> shows the relationship true and false positives rates (TPR vs. FPR)
+
+</div>
+
+- Computed by changing $\theta$ (between 0 and 1 for logit)
+- In practice:
+  1. Compute the <span class="highlight">scores</span> $\Lambda(\bX_i'\hat{\bbeta})$ for each observation  
+  2. For each $\theta$, compute which observations labeled as positive or negative  by comparing  $\Lambda(\bX_i'\hat{\bbeta})$ and $\theta$
+
+#### ROC Curve in Practice
+
+In `scikit-learn` can use `cross_val_predict()` for scores and `roc_curve` for ROC curve
+```{python}
+#| echo: true 
+# Compute scores
+y_scores_logit = cross_val_predict(
+    logit, 
+    X_train, 
+    y_train_0,
+    cv=5, 
+    n_jobs=-1, 
+    method="predict_proba",  # Which method to call
+)  
+y_scores_logit = y_scores_logit[:, -1]
+# Compute the ROC curve
+fpr_logit, tpr_logit, thresholds = roc_curve(y_train_0, y_scores_logit)
+```
+
+
+ 
+#### ROC Curve for Logit
+
+```{python}
+#| code-fold: true
+#| code-summary: "Plotting the ROC curve"
+
+BG_COLOR = "whitesmoke"
+FONT_COLOR = "black"
+GEO_COLOR = "rgb(201, 201, 201)"
+OCEAN_COLOR = "rgb(136, 136, 136)"
+
+fig, ax = plt.subplots(figsize=(14, 6.5))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+ax.plot(fpr_logit, tpr_logit, label='Logit')
+ax.plot([0, 1], [0, 1], 'k:', label='Coin-flip classifier')
+
+ax.set_xlim([0, 1])
+ax.set_ylim([0, 1])
+ax.grid(visible='both')
+ax.legend()
+ax.set_xlabel('False Positive Rate')
+ax.set_ylabel('True Positive Rate (Recall)')
+ax.set_title('ROC Curves')
+
+plt.show()
+```
+
+
+#### ROC Curve: Discussion
+
+- Ideal classifier: FPR = 0, TPR = 1 (upper left corner)
+- Better classifiers: ROC curve close to the upper left corner
+- Can  compute for any classifier with tunable $\theta$
+  - Including random forest and SVM
+  - Not for a single decision tree 
+
+#### ROC Curves for All Classifiers
+
+```{python}
+#| code-fold: true
+#| code-summary: "Plotting the ROC curve"
+
+y_scores_svm = cross_val_predict(
+    svm, 
+    X_train, 
+    y_train_0,
+    cv=5, 
+    n_jobs=-1, 
+    method="decision_function",  # Which method to call
+)  
+y_scores_rf = cross_val_predict(
+    rf, 
+    X_train, 
+    y_train_0,
+    cv=5, 
+    n_jobs=-1, 
+    method="predict_proba",  # Which method to call
+)  
+y_scores_rf = y_scores_rf[:, -1]
+
+# Compute the ROC curve
+fpr_svm, tpr_svm, thresholds = roc_curve(y_train_0, y_scores_svm)
+fpr_rf, tpr_rf, thresholds = roc_curve(y_train_0, y_scores_rf)
+
+fig, ax = plt.subplots(figsize=(14, 6.5))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+ax.plot(fpr_logit, tpr_logit, label='Logit')
+ax.plot(fpr_svm, tpr_svm, label='SVM')
+ax.plot(fpr_rf, tpr_rf, label='RF')
+ax.plot([0, 1], [0, 1], 'k:', label='Coin-flip classifier')
+
+ax.set_xlim([0, 1])
+ax.set_ylim([0, 1])
+ax.grid(visible='both')
+ax.legend()
+ax.set_xlabel('False Positive Rate')
+ax.set_ylabel('True Positive Rate (Recall)')
+ax.set_title('ROC Curves')
+
+plt.show()
+``` 
+
+#### AUC
+
+<div class="rounded-box">
+
+<span class="highlight">Area under curve</span> (AUC) is the area under the ROC curve
+
+</div>
+
+- Bigger AUC is better
+- Ideal classifiers: AUC = 1
+- Compute with `roc_auc_score()`:
+```{python}
+#| echo: true
+print(f"Logit AUC: {roc_auc_score(y_train_0, y_scores_logit).round(3)}")
+print(f"SVM AUC: {roc_auc_score(y_train_0, y_scores_svm).round(3)}")
+print(f"RF AUC: {roc_auc_score(y_train_0, y_scores_rf).round(3)}")
+```
+
+
+#### Precision-Recall Curve
+
+- ROC curves compare FPR and TPR (recall)
+- Another trade-off — between recall/TPR and precision
+
+. . .
+
+<div class="rounded-box">
+
+The <span class="highlight">precision-recall</span> curves measure the trade-off between between precision and recall
+
+</div>
+
+<br>
+ 
+Compute with `precision_recall_curve()` from `sklearn.metrics`:
+```{python}
+#| echo: true
+precisions_logit, recalls_logit, thresholds = \
+  precision_recall_curve(y_train_0, y_scores_logit)
+```
+
+ 
+
+#### Precision-Recall Curve for Logit
+
+
+```{python}
+fig, axs = plt.subplots(ncols=2, figsize=(14, 6.5))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+
+# Left axes: precision-recall curves
+axs[0].plot(thresholds, precisions_logit[:-1], "b--", label="Precision", linewidth=2)
+axs[0].plot(thresholds, recalls_logit[:-1], "g-", label="Recall", linewidth=2) 
+
+axs[0].set_ylim([-0.02, 1.02])
+axs[0].grid(visible='both')
+axs[0].legend()
+axs[0].set_title("Precision-recall curves")
+axs[0].set_xlabel("$\\theta$: decision threshold")
+
+# Right: precision-recall frontier
+axs[1].plot(recalls_logit[:-1], precisions_logit[:-1], "r-", linewidth=2)
+axs[1].grid(visible='both')
+axs[1].set_xlabel('Recall')
+axs[1].set_ylabel('Precision')
+axs[1].set_ylim([0, 1])
+axs[1].set_xlim([0, 1])
+axs[1].set_title("Precision-recall frontier")
+
+plt.show()
+```
+
+#### Precison-Recall Curve: Discussion
+
+- Curve shows trade-off for most of $\theta$
+- For $\theta\uparrow 1$ both recall and precision eventually fall
+  - Reason: $\Lambda \in (0, 1)$ — eventually no observation gets positive label
+  - Precision becomes 0/0
+  - `scikit-learn` evaluates that as 0 precision
+
+
+
+
+#### Conclusion: Metrics
+
+Dicussed many metrics for binary classifiers
+
+- Which one matters depends on contexts
+- Sometimes want more recall or precision
+  - Recall: preventing crime (catching all criminals)
+  - Precision: detecting spam (want to be certain of spam labels)
+- Some classifiers can be tuned on decision threshold
+
+## Basics of Multiclass Classification {background="#00100F"}
+
+
+### Multiclass Classification Algorithms {background="#43464B" visibility="uncounted"}
+
+
+#### Setting and Example
+
+In a (single-output) multiclass setting $Y$ can belong to one of $k$ classes
+
+. . . 
+
+<br>
+
+Example based on MNIST data
+
+<div class="rounded-box">
+
+Detect which of `'0'`, `'1'`, ..., `'9'` a given collection of pixels represents
+
+</div>
+
+
+
+ 
+#### Classification Strategies
+
+- Use classifier that can handle multiple classes <span class="highlight">directly</span>
+- Use several binary clssifiers:
+  - <span class="highlight">One-versus-all</span>: for each class $j$, train classifier for the problem $Y=j$ vs. $Y\neq j$. Predict class $k$ with maximum "confidence" that $Y=k$
+  - <span class="highlight">One-versus-one</span>: train a binary classifier for each pair of classes. Predict based on majority rule
+
+::: {.footer}
+
+
+:::
+
+#### Multinomial Logit (Direct)
+
+Suppose that classes are labeled with $j=1, \dots, k$
+
+Multinomial logistic classifiers
+$$ 
+h(\bx) = \argmax_{j=1, \dots, k} \curl{ \dfrac{ \exp(\varphi(\bx)'\bbeta_j) }{ \sum_{l=1}^k \exp(\varphi(\bx)'\bbeta_l)  }  }
+$$
+
+- Predicts probability for each class
+- Selects class with highest predicted probability
+
+#### Multinomial Logit in `scikit-learn`
+
+`LogisticRegression` in `scikit-learn` automatically is multi-class by default. Trained the same way as before:
+```{python}
+#| echo: true
+logit = Pipeline(
+  [
+    ('scale', StandardScaler()),
+    ('logit', LogisticRegression(penalty=None, max_iter=1000))
+  ]
+)
+
+logit.fit(X_train, y_train)    # Use the full labels
+logit.predict([X_train[0, :]]) == y_train[0]
+```
+Predicts probabilities of each class:
+```{python}
+#| echo: true
+logit.predict_proba([X_train[0, :]]).round(3)
+```
+
+::: {.footer}
+
+:::
+
+#### Decision Trees and Random Forests
+
+Decision trees and everything based on them can also directly learn multiple labels
+
+```{python}
+#| echo: true
+rf = Pipeline(
+  [
+    ('scale', StandardScaler()),
+    ('forest', RandomForestClassifier(random_state=1, n_jobs=-1))
+  ]
+)
+
+rf.fit(X_train, y_train)
+rf.predict_proba([X[0, :]])
+```
+
+#### SVMs (Binary Collection)
+
+SVMs are binary-only: have to use OvO or OvA. `scikit-learn` handles that automatically
+
+```{python}
+#| echo: true
+svm = Pipeline(
+  [
+    ('scale', StandardScaler()),
+    ('svm', SGDClassifier(random_state=1, n_jobs=-1))
+  ]
+)
+
+svm.fit(X_train, y_train)
+print(svm.decision_function([X_train[0, :]]).round(2))
+print(svm.classes_)
+print(svm.predict([X_train[0, :]]))
+```
+
+::: {.footer}
+
+You can set the strategy directly using special `OneVsOneClassifier` and `OneVsRestClassifier` classes
+
+:::
+
+
+
+### Evaluating Multiclass Classifiers {background="#43464B" visibility="uncounted"}
+
+
+#### Evaluating Multiclass Classifiers
+
+Key basic metrics:
+
+- Accuracy
+- Confusion matrices
+
+. . .
+
+
+Can also use pairwise precisions, recalls, ROC curves etc. These can be averaged or not 
+  
+
+
+#### Accuracy {.scrollable}
+
+Accuracy: evaluate as before
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Computing accuracy of our classifiers"
+logit_acc =cross_val_score(
+    logit,
+    X_train,
+    y_train,
+    n_jobs=-1,
+    scoring="accuracy",
+).mean()
+rf_acc = cross_val_score(
+    rf,
+    X_train,
+    y_train,
+    n_jobs=-1,
+    scoring="accuracy",
+).mean() 
+
+print(f"Logit: {np.round(logit_acc, 3)}") 
+print(f"RF: {np.round(rf_acc, 3)}")
+```
+
+- Logit right about 90% of the time
+- RF right around 96.6% of the time
+- Both below the 98.5% human accuracy benchmark
+- That threshold hard to break with "shallow" methods [@An2020EnsembleSimpleConvolutional], but CNNs achieve >99% accuracy 
+
+
+::: {.footer}
+
+:::
+
+#### Confusion Matrix for Random Forest
+
+- Confusion matrices also computed as before
+- With $k$ classes confsion matrices are $k\times k$
+```{python}
+#| echo: true
+# Compute predictions
+y_train_pred = cross_val_predict(rf, X_train, y_train, cv=5, n_jobs=-1)
+# Build confusion matrix from predictions
+confusion_matrix(
+    y_train, 
+    y_train_pred,
+    normalize='true',
+).round(3)[0:4, 0:4]
+```
+
+#### Readable Matrices with `ConfusionMatrixDisplay`
+ 
+```{python}
+# Create figure
+fig, axs = plt.subplots(ncols=2, figsize=(14, 5.8))
+
+# Left subplot: confusion matrix
+ConfusionMatrixDisplay.from_predictions(
+    y_train, 
+    y_train_pred, 
+    normalize='true', 
+    values_format=".0%",
+    cmap='magma',
+    ax=axs[0],
+    colorbar=False,
+) 
+axs[0].set_title('Confusion matrix') 
+
+# Right subplot: error matrix
+error_weights = (y_train != y_train_pred)
+
+ConfusionMatrixDisplay.from_predictions(
+    y_train, 
+    y_train_pred, 
+    normalize='true', 
+    values_format=".0%",
+    cmap='magma',
+    ax=axs[1],
+    colorbar=False,
+    sample_weight=error_weights,
+) 
+axs[1].set_title('Error matrix')
+
+fig.tight_layout()
+plt.show()
+```
+
+::: {.footer}
+
+Error matrix: proportion of errors. Helps to see which digits mistaken for which ones
+
+:::
+
+
+## Recap and Conclusions {background="#00100F"}
+  
+ 
+
+### Lecture Recap {background="#43464B" visibility="uncounted"}
+
+ 
+
+#### Recap
+
+<br>
+
+In this lecture we
+
+1. Discussed basics of binary and multiclass classification
+2. Introduced several classification algorithms
+3. Talked about evaluating classifiers with a variety of metrics 
+
+### Block Conclusions {background="#43464B" visibility="uncounted"}
+
+#### Overal Concluding Thoughts
+
+A look at machine learning, particularly supervised:
+
+- Key pieces of formalizing problems (risk, hypothesis classes)
+- Motivation for acquiring specialized knowledge (no-free-lunch theorem)
+- Some algorithms for 
+  - Regression
+  - Classification
+- Validating and testing approaches
+
+ 
+#### The Many Paths Forward
+
+- Diving into theory (e.g. with @Mohri2018FoundationsMachineLearning)
+- Unsupervised learning (see @Hastie2009ElementsStatisticalLearning)
+- There are still more "shallow" learning algorithms, such as gradient boosting (see either of above books)
+- Deep learning (see @Bishop2024DeepLearningFoundations)
+- Field-specific applications (natural language processing, computer vision, recommenders, ...)
+
+::: {.footer}
+
+::: 
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
+
+::: footer
+
+:::
+
+ 
