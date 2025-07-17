@@ -574,7 +574,7 @@ $\Lambda$ — CDF of the <span class="highlight"> logistic </span> distribution
 
 ERM to learn best $\bbeta$ (with indicator/misclassification risk)
 $$
-\hat{\bbeta}^{ERM} \in \argmin_{\bb} \dfrac{1}{N} \sum_{i=1}^N \I\curl{  Y_i\neq  \I\curl{  \Lambda( \bX_i'\bbeta  ) \geq 0.5  }   }
+\hat{\bbeta}^{ERM} \in \argmin_{\bbeta} \dfrac{1}{N} \sum_{i=1}^N \I\curl{  Y_i\neq  \I\curl{  \Lambda( \bX_i'\bbeta  ) \geq 0.5  }   }
 $$
 
 . . .
@@ -587,7 +587,7 @@ Hard minimization — function is not even continuous in $\bbeta$
 
 Instead of ERM can maximize the (quasi) log likelihood:
 $$ \small
-\hat{\bbeta}^{QML} = \argmax_{\bb} \sum_{i=1}^N\left[Y_i  \log(\Lambda( \bX_i'\bbeta  )) + (1-Y_i) \log\left( 1 - \Lambda( \bX_i'\bbeta  ) \right)    \right]
+\hat{\bbeta}^{QML} = \argmax_{\bbeta} \sum_{i=1}^N\left[Y_i  \log(\Lambda( \bX_i'\bbeta  )) + (1-Y_i) \log\left( 1 - \Lambda( \bX_i'\bbeta  ) \right)    \right]
 $$
 
 . . .
@@ -611,7 +611,7 @@ In prediction, using maximum likelihood does not mean that you believe it — <s
 - Can write $\hat{\bbeta}^{QML}$ as 
 $$ \small
 \begin{aligned}
-\hat{\bbeta}^{QML} & = \argmin_{\bb} \dfrac{1}{N}\sum_{i=1}^N l(Y_i, \bbeta), \\
+\hat{\bbeta}^{QML} & = \argmin_{\bbeta} \dfrac{1}{N}\sum_{i=1}^N l(Y_i, \bbeta), \\
 l(Y_i, \bb) & = - \left[Y_i  \log(\Lambda( \bX_i'\bbeta  )) + (1-Y_i) \log\left( 1 - \Lambda( \bX_i'\bbeta  ) \right)    \right]
 \end{aligned}
 $$
