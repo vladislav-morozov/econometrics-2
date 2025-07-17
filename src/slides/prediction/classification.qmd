@@ -78,12 +78,13 @@ from sklearn.dummy import DummyClassifier
 # Classification random forest
 from sklearn.ensemble import RandomForestClassifier
 
-# 
+# Logistic regression and SVM classifiers
 from sklearn.linear_model import (
   LogisticRegression,
   SGDClassifier,
 )
 
+# Metrics for evaluating classifiers
 from sklearn.metrics import (
   confusion_matrix,
   ConfusionMatrixDisplay,
@@ -95,21 +96,18 @@ from sklearn.metrics import (
   roc_curve,
 )
 
+# Cross-validation computation of classifier properties
 from sklearn.model_selection import (
   cross_val_predict,
   cross_val_score, 
 
 )
 
-from sklearn.svm import (
-  LinearSVC,
-  SVC
-)
-
+# Pipelines
 from sklearn.pipeline import Pipeline
 
+# Feature scaler
 from sklearn.preprocessing import StandardScaler
-
 ```
 
 ### Empirical Setup {background="#43464B" visibility="uncounted"}
@@ -143,10 +141,14 @@ How do the post offices know where to send the postcard?
 
 <div class="rounded-box">
 
-Today: focus on recognized hadwritten numbers with a nice standardized dataset
+Today: focus on recognized handwritten numbers with a nice standardized dataset
 
 </div>
 
+
+::: {.footer}
+
+:::
 
 #### Our Empirical Example
 
@@ -297,14 +299,14 @@ Will focus on
 
 . . .
 
-We will not talk much about EDA, data preparation, etc (see previous two lectures), but those are equally important for classification!
+We will not talk much about EDA, data preparation, etc. (see previous two lectures), but those are equally important for classification!
 
 
 
 ## Classification {background="#00100F"}
   
 
-#### Binary vs. Multi-class Classification
+#### Binary vs. Multiclass Classification
 
 Recall:
 
@@ -312,7 +314,7 @@ Recall:
 <div class="rounded-box">
 
 - In <span class="highlight">binary</span> classification the label takes on 2 possible values
--  In <span class="highlight">multi-class</span> classification the label takes on $k>2$ possible values
+-  In <span class="highlight">multiclass</span> classification the label takes on $k>2$ possible values
 
 
 </div>
@@ -321,7 +323,7 @@ The labels can be <span class="highlight">ordered</span> (e.g. "big", "medium", 
 
 ::: {.footer}
 
-Division between multi-class classification with ordered numerical labels and large $k$ and regression not always clear
+Division between multiclass classification with ordered numerical labels and large $k$ and regression not always clear
 
 :::
 
@@ -353,15 +355,14 @@ Recall: should start the learning problem by choosing a suitable criterion — i
 
 Already met the indicator risk:
 $$
-R(h) = \E[\I\curl{Y\neq h(\bX)} ] = P(Y\neq h(\bX)) 
+R(h) = \E\Big[\I\curl{Y\neq h(\bX)} \Big] = P\Big(Y\neq h(\bX)\Big) 
 $$
 
 $1-R(h)$ is known as <span class="highlight">accuracy</span> 
  
 #### Drawbacks of Accuracy
  
-- Treats all errors equally, which might not be the right thing in a context
-- Provides a very reduced picture of the performance of the classifier
+- Treats all errors equally, which might not be the right thing in a context 
 - Problematic with unbalanced classes
   - Example: 1 unit of class `0` per 999 units of class `1`
   - A classifier that always predicts `1` has 99.9% accuracy, but is 0% right on class `0`
@@ -392,7 +393,7 @@ Classifiers may  be <span class="highlight">tuned</span>:
 
 #### Setting: Labels in Binary Classification
 
- Two equivalent ways of expressing classes
+ Two equivalent ways of expressing classes:
 
 - Labels expressed as 0 and 1
 $$
@@ -572,7 +573,7 @@ Classifier takes form
 $$
 h(\bx) = \mathrm{sign}\curl{ \bx'\bbeta + c \geq 0  }
 $$
-$h(\bx)$ — decision depends on which side of the hyperplane $\bx'\bbeta+c=0$ the new point falls
+Decision depends on which side of the hyperplane $\bx'\bbeta+c=0$ the new point falls
 
 
 #### Illustration: Separable Classes
@@ -671,7 +672,7 @@ $$
 
 ::: {.callout-note appearance="minimal"}
 
-The SVM name comes from the fact that solution is determined by only certain specific observations called <span class="highlight">support vectors </spam> (on dashed lines in figure before)
+The SVM name comes from the fact that solution is determined by only certain specific observations called <span class="highlight">support vectors </span> (on dashed lines in figure before)
 
 :::
 
@@ -746,7 +747,7 @@ Advantages:
 
 . . .
 
-The main disadvantage: <span class="highlight">scale poorly</span> in terms of sample size (sweet spot seems to be  $<$100k examples)
+The main disadvantage: <span class="highlight">scale poorly</span> in terms of sample size (sweet spot seems to be $<100$k examples)
 
 ::: {.footer}
 
@@ -885,8 +886,8 @@ cross_val_score(dummy_clf, X_train, y_train_0, cv=5, scoring="accuracy").mean()
 
 Some terminology: 
 
-1. Correct predictions: are True positive (TP) and True negative (TN)
-2. Incorrect predictions are False positive (FP, type I error) and False negative (FN, type II error)
+1. Correct predictions: are true positive (TP) and true negative (TN)
+2. Incorrect predictions are false positive (FP, type I error) and false negative (FN, type II error)
 
 
 
@@ -906,6 +907,12 @@ confusion_matrix(
     y_train_pred_logit,  
 ).round(4)
 ```
+
+::: {.footer}
+
+Remember to keep track of what the classes are: class 0 is `not 0`, class 1 is `'0'`
+
+:::
 
 
 
@@ -962,7 +969,7 @@ Most famous — the $F_1$ score:
 $$
 F_1 = \dfrac{  2 }{ 
     \frac{1}{\text{Recall}} + \frac{1}{\text{Precision}}
-   } .
+   } 
 $$
 
 We can compute it using `f1_score()` from `sklearn.metrics`:
@@ -1000,10 +1007,10 @@ $$
 h(\bx) = \I\curl{  \Lambda( \varphi(\bx)'\bbeta  ) \geq \theta  }
 $$
 
-- By default $\theta = 0.5$ — label observation as 1 if predicted probability $\Lambda( \varphi(\bX)'\hat{\bbeta}  )$
+- By default $\theta = 0.5$ — label observation as 1 if predicted probability of 1 is higher than of 0
 - But can change $\theta$. E.g. lowering $\theta$:
-  - Will predict positive class more often (more true positives)
-  - But will also have more false positives
+  - More true positives
+  - More false positives
 
 
 
@@ -1017,8 +1024,8 @@ The <span class="highlight">ROC</span> (receiver operator characteristic) <span 
 
 - Computed by changing $\theta$ (between 0 and 1 for logit)
 - In practice:
-  - First compute the <span class="highlight">scores</span> $\Lambda(\bX_i'\hat{\bbeta})$ for each observation  
-  - Then $\theta$, compute which observations labeled as positive or negative  by comparing  $\Lambda(\bX_i'\hat{\bbeta})$ and $\theta$
+  1. Compute the <span class="highlight">scores</span> $\Lambda(\bX_i'\hat{\bbeta})$ for each observation  
+  2. For each $\theta$, compute which observations labeled as positive or negative  by comparing  $\Lambda(\bX_i'\hat{\bbeta})$ and $\theta$
 
 #### ROC Curve in Practice
 
@@ -1138,9 +1145,11 @@ plt.show()
 - Bigger AUC is better
 - Ideal classifiers: AUC = 1
 - Compute with `roc_auc_score()`:
-```{python}
+``` python
 #| echo: true
 print(f"Logit AUC: {roc_auc_score(y_train_0, y_scores_logit).round(3)}")
+print(f"SVM AUC: {roc_auc_score(y_train_0, y_scores_svm).round(3)}")
+print(f"RF AUC: {roc_auc_score(y_train_0, y_scores_rf).round(3)}")
 ```
 
 
@@ -1202,7 +1211,7 @@ plt.show()
 #### Precison-Recall Curve: Discussion
 
 - Curve shows trade-off for most of $\theta$
-- For $\theta\uparrow 1$ both recall and precision fall
+- For $\theta\uparrow 1$ both recall and precision eventually fall
   - Reason: $\Lambda \in (0, 1)$ — eventually no observation gets positive label
   - Precision becomes 0/0
   - `scikit-learn` evaluates that as 0 precision
@@ -1221,15 +1230,94 @@ Dicussed many metrics for binary classifiers
 - Some classifiers can be tuned on decision threshold
 
 ## Basics of Multiclass Classification {background="#00100F"}
-  
-####
-
-OvA and OvR
-
-#### Evaluating
 
 
-### Lecture Info {background="#43464B" visibility="uncounted"}
+### Multiclass Classification Algorithms {background="#43464B" visibility="uncounted"}
+
+
+#### Setting and Example
+
+In a (single-output) multiclass setting $Y$ can belong to one of $k$ classes
+
+. . . 
+
+<br>
+
+Example based on MNIST data
+
+<div class="rounded-box">
+
+Detect which of `'0'`, `'1'`, ..., `'9'` a given collection of pixels represents
+
+</div>
+
+
+
+ 
+#### Classification Strategies
+
+- Use classifier that can handle multiple classes <span class="highlight">directly</span>
+- Use several binary clssifiers:
+  - <span class="highlight">One-versus-all</span>: for each class $j$, train classifier for the problem $Y=j$ vs. $Y\neq j$. Predict class $k$ with maximum "confidence" that $Y=k$
+  - <span class="highlight">One-versus-one</span>: train a binary classifier for each pair of classes. Predict based on majority rule
+
+::: {.footer}
+
+
+:::
+
+#### Multinomial Logit (Direct)
+
+Suppose that classes are labeled with $j=1, \dots, k$
+
+Multinomial logistic classifiers
+$$ 
+h(\bx) = \argmax_{j=1, \dots, k} \curl{ \dfrac{ \exp(\varphi(\bx)'\bbeta_j) }{ \sum_{l=1}^k \exp(\varphi(\bx)'\bbeta_l)  }  }
+$$
+
+- Predicts probability for each class
+- Selects class with highest predicted probability
+
+#### Multinomial Logit in `scikit-learn`
+
+`LogisticRegression` in `scikit-learn` automatically is multi-class by default. Trained example the same way
+```{python}
+#| echo: true
+logit = Pipeline(
+  [
+    ('scale', StandardScaler()),
+    ('logit', LogisticRegression(penalty=None, max_iter=1000))
+  ]
+)
+
+logit.fit(X_train, y_train)    # Use the full labels
+logit.predict([X_train[0, :]]) == y_train[0]
+```
+Predicts probabilities of each class:
+```{python}
+#| echo: true
+logit.predict_proba([X_train[0, :]]).round(3)
+```
+
+
+#### 
+
+#### SVMs (Binary Collection)
+
+
+### Evaluating Multiclass Classifiers {background="#43464B" visibility="uncounted"}
+
+
+#### Evaluating Multiclass Classifiers
+
+
+
+::: {.footer}
+
+Can also use pairwise precisions, recalls, ROC curves etc. 
+
+::: 
+
 
 
 ## Recap and Conclusions {background="#00100F"}
