@@ -672,7 +672,7 @@ plt.show()
 
 Let $\bX'\bX$ have rank $k$. Then $(\bX'\bX)^{-1}$ exists and the OLS estimator is given by
 $$
-\hat{\bbeta} = (\bX'\bX)^{-1}\bX\bY
+\hat{\bbeta} = (\bX'\bX)^{-1}\bX'\bY
 $$ 
 :::
 
