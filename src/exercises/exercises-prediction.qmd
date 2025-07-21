@@ -24,18 +24,4 @@ open-graph:
   
 ## Applied Exercises
  
-
-### Event Study: Brexit
-
-On June 23, 2016 the UK held the Brexit referendum. The results of the referendum were broadly unexpected, [leading to a strong negative movement](https://web.archive.org/web/20160703190302/http://bigstory.ap.org/article/d4930c2180b143d685213a75e916bee8/british-vote-leaving-eu-rocks-world-financial-markets) in stock prices on June 24. Conduct a financial event study to quantify the effect of the referendum on a selection of leading British companies (say, the companies in the FTSE 100 Index). Proceed as in the lecture to compute the abnormal returns. 
-
-### DiD: Police and Crime 
-
-Does police presence reduce crime? A famous article by @DiTella2004PoliceReduceCrime analyzes this using exogenous variation in police presence created by a terrorist attack in Buenos Aires. Read their article and replicate the results of their difference-in-differences estimation (table 3). You can download their data from the article's [page](https://www.aeaweb.org/articles?id=10.1257/000282804322970733) on the website of the American Economic Association.
-
-### FE and MG: Labor Markets and Pollution
-
-Consider again the paper by @Borgschulte2024AirPollutionLabor. In the lectures we have focused on the effect of pollution on earnings. However, @Borgschulte2024AirPollutionLabor also consider the effects on total employment and labor force participation. 
-
-1. Replicate their results for these two outcomes — columns (3) and (4) in their table 1. To do so, download their data from the [Harvard Dataverse](https://dataverse.harvard.edu/file.xhtml?fileId=6425134&version=1.0) and suitably modify the lecture code. 
-2. Estimate the average effect of pollution on total employment and labor force participation using the mean group estimator. Is there a significant effect? 
+ 
