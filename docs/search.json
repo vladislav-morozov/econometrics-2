@@ -1133,5 +1133,27 @@
       "Linear Regression II",
       "Linear Regression in Vector-Matrix Form"
     ]
+  },
+  {
+    "objectID": "slides/vector/ols-consistency.html#consistency-of-the-ols-estimator-model-free",
+    "href": "slides/vector/ols-consistency.html#consistency-of-the-ols-estimator-model-free",
+    "title": "Consistency of the OLS Estimator",
+    "section": "Consistency of the OLS Estimator: Model Free",
+    "text": "Consistency of the OLS Estimator: Model Free",
+    "crumbs": [
+      "Linear Regression II",
+      "Consistency of the OLS Estimator"
+    ]
+  },
+  {
+    "objectID": "slides/vector/ols-consistency.html#consistency-of-the-ols-estimator-causal-settings",
+    "href": "slides/vector/ols-consistency.html#consistency-of-the-ols-estimator-causal-settings",
+    "title": "Consistency of the OLS Estimator",
+    "section": "Consistency of the OLS Estimator: Causal Settings",
+    "text": "Consistency of the OLS Estimator: Causal Settings",
+    "crumbs": [
+      "Linear Regression II",
+      "Consistency of the OLS Estimator"
+    ]
   }
 ]
