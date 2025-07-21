@@ -13,12 +13,73 @@ open-graph:
 
 ## Theoretical Exercises 
 
-###  
+### OLS From a Predictive Perspective
+
+In this problem we revisit linear regression and OLS from a prediction perspective.
+
+Suppose we observe a sample ${(\bX_1, Y_1), \dots, (\bX_N, Y_N)}$, where each $\bX_i \in \mathbb{R}^p$ is a feature vector and $Y_i \in \mathbb{R}$ is a scalar label. Assume that $\E[\bX_i\bX_i']$ is invertible. Throughout, we consider the class of linear predictors:
+$$
+\Hcal = \curl{h(\bx)=\bx'\bbeta: \bb\in \R^{p}}
+$$
+Our goal is to predict $Y_i$ using $\bX_i$, and we measure predictive performance using mean squared error (MSE):
+$$
+MSE(h) = \E[(Y-h(\bX))^2].
+$$
+
+
+1. Show that the Bayes predictor in $\Hcal$ (i.e., the predictor that minimizes MSE over $\Hcal$) is given by:
+$$
+\begin{aligned}
+h(\bx) & = \bx'\bbeta, \\
+\bbeta & = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i]
+\end{aligned}
+$$ 
+
+2. Let $\hat{\bbeta}$ denote the OLS estimator obtained by regressing $Y_i$ on $\bX_i$ using the sample. Show that:
+$$
+\hat{\bbeta} \xrightarrow{p} \bbeta.
+$$
+That is, empirical risk minimization (ERM) in this case consistently estimates the best predictor in $\Hcal$ (the best linear predictor).
+
+3. Write down the [excess error decomposition](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/pac-nfl-tradeoff.html#/bias-complexity-trade-off-i-decomposition) for the learned predictor $\hat{h}(\bx) = \bx'\hat{\bbeta}$. Use [our results](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt1.html#/mse-optimal-predictor-bayes-predictor) on the Bayes predictor for MSE over the class of all hypotheses to explicitly evaluate the infima in the decomposition. 
+4. Suppose that the true regression function is linear: there exists $\bc \in \mathbb{R}^d$ such that $\E[Y | \bX = \bx] = \bx'\bc$ for all $\bx$. Show that in this case, the approximation error in the decomposition from the third subquestion is zero.
+
 
 <details>
   <summary>Click to see the solution</summary>
 
-*First subquestion*:
+*First subquestion*: the problem of minimizing MSE over $\Hcal$ can be represented as the problem of minimizing the MSE over $\bb$. Formally, we can write
+$$
+\begin{aligned}
+h^* & = \argmin_{h\in\Hcal} MSE(h)\\
+h^*(\bx) & = \bx'\bbeta^*
+\end{aligned}
+$$
+where
+$$
+\bbeta^* = \argmin_{\bb} \E[(Y_i - \bX_i'\bb)^2].
+$$
+We just need to show that $\bbeta^* = \bbeta$ for the $\bbeta$. 
+
+To do so, we expand the square in the MSE and take $\bb$ out of the expectations:
+$$
+\begin{aligned}
+\E[(Y_i - \bX_i'\bb)^2] & = \E[Y_i^2] - 2\bb'\E[\bX_iY_i] + \bb'\E[\bX_i\bX_i']\bb.
+\end{aligned}
+$$
+We can now differentiate with respect to $\bb$. By proceeding [as in the first lecture](https://vladislav-morozov.github.io/econometrics-2/slides/vector/vector-ols.html#/derivative-with-respect-to-b_j), we obtain that any minimizer $\bbeta^*$ must satisfy the first-order conditions:
+$$
+-2\E[\bX_iY_i] + 2\E[\bX_i\bX_i']\bbeta^* = 0.
+$$
+Moving $\E[\bX_iY_i]$ to the other side and premultiplying by $(\E[\bX_i\bX_i'])^{-1}$ shows that
+$$
+\bbeta^* = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i]\equiv \bbeta.
+$$
+We have shown that the MSE-best linear predictor has exactly the parameters $\bbeta$, as desired.
+
+
+
+*Second subquestion*
 
 </details>
   
