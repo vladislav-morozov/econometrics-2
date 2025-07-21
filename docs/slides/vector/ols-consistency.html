@@ -7,12 +7,12 @@
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-0de45b8b5f35a93596f1d788d60c4c11.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-05fe91a66cf75bbbb8c9664867fe5124.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/quarto-contrib/reveal-header-1.0.0/add_header.js" defer="true"></script>
 <link href="../../site_libs/quarto-contrib/reveal-header-1.0.0/add_header.css" rel="stylesheet">
 <script src="../../site_libs/quarto-contrib/sc-sb-title-1.0.0/sc_sb_title.js" defer="true"></script>
 <link href="../../site_libs/quarto-contrib/grid-no-htext-1.0.0/grid_no_htext.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.6.42">
+  <meta name="generator" content="quarto-1.6.39">
 
   <meta name="author" content="Vladislav Morozov">
   <title>Advanced Econometrics – Consistency of the OLS Estimator</title>
@@ -54,7 +54,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-cb5537517b990794adf0c72e32550bcc.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-2538c571f1d33c8ad1c443a75ee87468.css">
   <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -147,337 +147,171 @@
     }
   </style>
    
-
   <!-- This is what works with Quarto and MathJax 3+ -->
-
   <script>
-
     MathJax = {
-
       tex: {
-
         tags: 'ams',  // should be 'ams', 'none', or 'all'
-
         macros: {
-
           vect: ["\\mathbf{#1}", 1],
-
           mat: ["\\mathbf{#1}", 1], 
-
   
-
           bA: "\\boldsymbol{A}",
-
           bB: "\\boldsymbol{B}",
-
           bC: "\\boldsymbol{C}",
-
           bD: "\\boldsymbol{D}",
-
           bE: "\\boldsymbol{E}",
-
           bF: "\\boldsymbol{F}",
-
           bG: "\\boldsymbol{G}",
-
           bH: "\\boldsymbol{H}",
-
           bI: "\\boldsymbol{I}",
-
           bJ: "\\boldsymbol{J}",
-
           bK: "\\boldsymbol{K}",
-
           bL: "\\boldsymbol{L}",
-
           bM: "\\boldsymbol{M}",
-
           bN: "\\boldsymbol{N}",
-
           bP: "\\boldsymbol{P}",
-
           bQ: "\\boldsymbol{Q}",
-
           bR: "\\boldsymbol{R}",
-
           bS: "\\boldsymbol{S}",
-
           bT: "\\boldsymbol{T}",
-
           bU: "\\boldsymbol{U}",
-
           bV: "\\boldsymbol{V}",
-
           bW: "\\boldsymbol{W}",
-
           bX: "\\boldsymbol{X}",
-
           bY: "\\boldsymbol{Y}",
-
           bZ: "\\boldsymbol{Z}",
-
           ba: "\\boldsymbol{a}",
-
           bb: "\\boldsymbol{b}",
-
           bc: "\\boldsymbol{c}",
-
           bd: "\\boldsymbol{d}",
-
           be: "\\boldsymbol{e}",
-
           bg: "\\boldsymbol{g}",
-
           bh: "\\boldsymbol{h}",
-
           bi: "\\boldsymbol{\\imath}",
-
           bm: "\\boldsymbol{m}",
-
           bp: "\\boldsymbol{p}",
-
           bq: "\\boldsymbol{q}",
-
           br: "\\boldsymbol{r}",
-
           bs: "\\boldsymbol{s}",
-
           bt: "\\boldsymbol{t}",
-
           bu: "\\boldsymbol{u}",
-
           bv: "\\boldsymbol{v}",
-
           bw: "\\boldsymbol{w}",
-
           bx: "\\boldsymbol{x}",
-
           by: "\\boldsymbol{y}",
-
   
-
           Acal: "\\mathcal{A}",
-
           Bcal: "\\mathcal{B}",
-
           Ccal: "\\mathcal{C}",
-
           Dcal: "\\mathcal{D}",
-
           Ecal: "\\mathcal{E}",
-
           Fcal: "\\mathcal{F}",
-
           Gcal: "\\mathcal{G}",
-
           Hcal: "\\mathcal{H}",
-
           Ical: "\\mathcal{I}",
-
           Jcal: "\\mathcal{J}",
-
           Kcal: "\\mathcal{K}",
-
           Lcal: "\\mathcal{L}",
-
           Mcal: "\\mathcal{M}",
-
           Ncal: "\\mathcal{N}",
-
           Ocal: "\\mathcal{O}",
-
           Pcal: "\\mathcal{P}",
-
           Qcal: "\\mathcal{Q}",
-
           Rcal: "\\mathcal{R}",
-
           Scal: "\\mathcal{S}",
-
           Tcal: "\\mathcal{T}",
-
           Ucal: "\\mathcal{U}",
-
           Vcal: "\\mathcal{V}",
-
           Wcal: "\\mathcal{W}",
-
           Xcal: "\\mathcal{X}",
-
           Ycal: "\\mathcal{Y}",
-
           Zcal: "\\mathcal{Z}",
-
   
-
           A: "\\mathbb{A}",
-
           B: "\\mathbb{B}",
-
           C: "\\mathbb{C}",
-
           D: "\\mathbb{D}",
-
           E: "\\mathbb{E}",
-
           F: "\\mathbb{F}",
-
           G: "\\mathbb{G}",
-
           H: "\\mathbb{H}",
-
           I: "\\mathbb{I}",
-
           J: "\\mathbb{J}",
-
           K: "\\mathbb{K}",
-
           L: "\\mathbb{L}",
-
           M: "\\mathbb{M}",
-
           N: "\\mathbb{N}",
-
           O: "\\mathbb{O}",
-
           P: "\\mathbb{P}",
-
           Q: "\\mathbb{Q}",
-
           R: "\\mathbb{R}",
-
           S: "\\mathbb{S}",
-
           T: "\\mathbb{T}",
-
           U: "\\mathbb{U}",
-
           V: "\\mathbb{V}",
-
           W: "\\mathbb{W}",
-
           X: "\\mathbb{X}",
-
           Y: "\\mathbb{Y}",
-
           Z: "\\mathbb{Z}",
-
   
-
           bAlpha: "\\boldsymbol{\\Alpha}",
-
           bBeta: "\\boldsymbol{\\beta}",
-
           bDelta: "\\boldsymbol{\\delta}",
-
           bEta: "\\boldsymbol{\\eta}",
-
           bGamma: "\\boldsymbol{\\Gamma}",
-
           bLambda: "\\boldsymbol{\\Lambda}",
-
           bOmega: "\\boldsymbol{\\Omega}",
-
           bPhi: "\\boldsymbol{\\Phi}",
-
           bPi: "\\boldsymbol{\\Pi}",
-
           bPsi: "\\boldsymbol{\\Psi}",
-
           bSigma: "\\boldsymbol{\\Sigma}",
-
           bTau: "\\boldsymbol{\\tau}",
-
           bXi: "\\boldsymbol{\\Xi}",
-
           bbeta: "\\boldsymbol{\\beta}",
-
           bdelta: "\\boldsymbol{\\delta}",
-
           blambda: "\\boldsymbol{\\lambda}",
-
           bmu: "\\boldsymbol{\\mu}",
-
           bphi: "\\boldsymbol{\\phi}",
-
           bpi: "\\boldsymbol{\\pi}",
-
           bpsi: "\\boldsymbol{\\psi}",
-
           brho: "\\boldsymbol{\\rho}",
-
           balpha: "\\boldsymbol{\\alpha}",
-
           bsigma: "\\boldsymbol{\\sigma}",
-
           btau: "\\boldsymbol{\\tau}",
-
           bxi: "\\boldsymbol{\\xi}",
-
           bEta: "\\boldsymbol{\\eta}",
-
           bPhi: "\\boldsymbol{\\Phi}",
-
           bPi: "\\boldsymbol{\\Pi}",
-
           bPsi: "\\boldsymbol{\\Psi}",
-
           bXi: "\\boldsymbol{\\Xi}",
-
           blambda: "\\boldsymbol{\\lambda}",
-
           bmu: "\\boldsymbol{\\mu}",
-
           bphi: "\\boldsymbol{\\phi}",
-
           bpi: "\\boldsymbol{\\pi}",
-
           bpsi: "\\boldsymbol{\\psi}",
-
           brho: "\\boldsymbol{\\rho}",
-
           bsigma: "\\boldsymbol{\\sigma}",
-
           btheta: "\\boldsymbol{\\theta}",
-
           bgamma: "\\boldsymbol{\\gamma}",  
-
           
-
           curl: ["\\left\\lbrace#1\\right\\rbrace", 1],
-
           floor: ["\\left\\lfloor#1\\right\\rfloor", 1],
-
           ceil: ["\\left\\lceil#1\\right\\rceil", 1],
-
           abs: ["\\left\\lvert#1\\right\\rvert", 1],
-
           norm: ["\\left\\lVert#1\\right\\rVert", 1],
-
   
-
           avar: "\\mathrm{avar}",
-
           var: "\\mathrm{var}",
-
           cov: "\\mathrm{cov}",
-
   
-
           argmin: "\\operatorname*{argmin}",
-
           argmax: "\\operatorname*{argmax}",
-
           argsup: "\\operatorname*{argsup}",
-
           arginf: "\\operatorname*{arginf}",
-
         }
-
       }
-
     };
-
   </script>
   <meta name="description" content="Learn about the consistency of the OLS estimator: definitions, intuition, proof of consistency in model-free and causal frameworks (lecture notes slides).">
 <meta property="og:title" content="Consistency of the OLS Estimator – Advanced Econometrics">
@@ -506,7 +340,8 @@ Vladislav Morozov
 <ul>
 <li class="fragment"><a href="#/introduction" id="/toc-introduction">Introduction</a></li>
 <li class="fragment"><a href="#/probability-background" id="/toc-probability-background">Probability Background</a></li>
-<li class="fragment"><a href="#/consistency-of-the-ols-estimator" id="/toc-consistency-of-the-ols-estimator">Consistency of the OLS Estimator</a></li>
+<li class="fragment"><a href="#/consistency-of-the-ols-estimator-model-free" id="/toc-consistency-of-the-ols-estimator-model-free">Consistency of the OLS Estimator: Model Free</a></li>
+<li class="fragment"><a href="#/consistency-of-the-ols-estimator-causal-settings" id="/toc-consistency-of-the-ols-estimator-causal-settings">Consistency of the OLS Estimator: Causal Settings</a></li>
 <li class="fragment"><a href="#/recap-and-conclusions" id="/toc-recap-and-conclusions">Recap and Conclusions</a></li>
 </ul>
 </nav>
@@ -727,8 +562,8 @@ f(\bX_N) \xrightarrow{p} f(\bX)
 </section>
 </section>
 <section>
-<section id="consistency-of-the-ols-estimator" class="title-slide slide level2 center" data-background="#00100F">
-<h2>Consistency of the OLS Estimator</h2>
+<section id="consistency-of-the-ols-estimator-model-free" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Consistency of the OLS Estimator: Model Free</h2>
 
 </section>
 <section id="returning-to-the-ols-estimator" class="slide level4">
@@ -742,6 +577,15 @@ f(\bX_N) \xrightarrow{p} f(\bX)
 <p><br></p>
 <p>Consistent for what?</p>
 </div>
+</section>
+<section id="key-scenarios" class="slide level4">
+<h4>Key Scenarios</h4>
+<p>We will consider three main scenarios:</p>
+<ol type="1">
+<li class="fragment">“Model-free”: no causal model assumed, behavior of <span class="math inline">\(\hat{\bbeta}\)</span> in terms of some moments of <span class="math inline">\(\bX\)</span> and <span class="math inline">\(\bY\)</span></li>
+<li class="fragment">Causal model with <span class="highlight">homogeneous</span> effects: there a true effect <span class="math inline">\(\bbeta\)</span>, same for everyone</li>
+<li class="fragment">Causal model with <span class="highlight">heterogeneous</span> effects: each unit <span class="math inline">\(i\)</span> has their own true effect <span class="math inline">\(\bbeta_i\)</span> (but we still run only one OLS procedure)</li>
+</ol>
 </section>
 <section id="convergence-without-a-causal-model" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
 <h3>Convergence Without a Causal Model</h3>
@@ -857,7 +701,12 @@ P(\hat{\bbeta}= \bc) \to 0
 <p>See <a href="https://en.wikipedia.org/wiki/Inner_product_space#Random_variables">Wikipedia</a> on inner products of random variables</p>
 </div>
 </section>
+</section>
+<section>
+<section id="consistency-of-the-ols-estimator-causal-settings" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Consistency of the OLS Estimator: Causal Settings</h2>
 
+</section>
 <section id="convergence-under-causal-model-with-exogeneity-and-homogeneous-effects" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
 <h3>Convergence under Causal Model with Exogeneity and Homogeneous Effects</h3>
 
@@ -889,7 +738,7 @@ Y_i = \bX_i'\bbeta + U_i
 \end{aligned}
 \]</span> Last line — <span class="highlight">sampling error form</span></p>
 </section>
-<section id="consistency-of-the-ols-estimator-1" class="slide level4">
+<section id="consistency-of-the-ols-estimator" class="slide level4">
 <h4>Consistency of the OLS Estimator</h4>
 <div class="rounded-box">
 <div id="prp-vector-consistency-ols-model-causal-homogeneous" class="theorem proposition">
