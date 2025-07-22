@@ -34,7 +34,7 @@ website:
         href: https://www.linkedin.com/in/vladislavvmorozov/
     contents: 
       - section: "Course Info"
-        contents:
+        contents: 
         - slides/organizational/intro.qmd  
         - exercises/mock-exam.qmd
       - section: "Linear Regression II"
