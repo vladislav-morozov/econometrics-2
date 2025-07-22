@@ -3,9 +3,9 @@ title: "Exercises: Prediction"
 format:
   html:
     toc: true
-description: "Theoretical and applied exercises on  "
+description: "Theoretical and applied exercises on basics of statistical and machine learning: optimal predictors, bias-variance trade-off, practical aspects"
 open-graph:
-    description: "Theoretical and applied exercises on  " 
+    description: "Theoretical and applied exercises on basics of statistical and machine learning: optimal predictors, bias-variance trade-off, practical aspects" 
 ---
 
 
