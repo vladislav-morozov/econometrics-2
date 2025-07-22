@@ -149,7 +149,7 @@ The desired result now follows.
 
 </details>
   
-## The Bias-Variance Decomposition and Trade-Off
+### The Bias-Variance Decomposition and Trade-Off
  
 
 As [noted](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt2.html#/bias-variance-decomposition-interpretation) in the second lecture on predictive regression, one can establish a fairly explicit decomposition for the expected mean squared error (MSE) of a hypothesis picked on a random sample. 
@@ -269,7 +269,119 @@ The desired result now follows.
 
 </details>
   
+### Bayes Classifier in Binary Classification
+
+As we discussed, many popular classification methods, such as logistic regression, operate by predicting the probabilities of an observation belonging to each possible class. The predicted class is then determined as the one with the highest predicted probability. This problem demonstrates that this classification rule is justified from the perspective of minimizing indicator risk.
+
+Suppose that the label $Y$ can take two values: 0 or 1. Let $\bX$ be some vector of features. Recall that the indicator (missclassification) risk of $h(\cdot)$ is given by:
+$$
+R(h) = \E[\I\curl{Y\neq h(\bX)}
+] = P(Y\neq h(\bX)).
+$$
+
+Consider the following classifier:
+$$
+h^*(\bx) = \begin{cases}
+1, & \eta(\bx) > \dfrac{1}{2},\\
+0, & \eta(\bx) \leq \dfrac{1}{2},
+\end{cases}
+$$
+where 
+$$
+\eta(\bx) = P(Y=1|\bX=\bx).
+$$
+
+1. Show that $h^*$ is the Bayes predictor for the indicator risk.
+2. Show that the Bayes risk is given by
+$$
+R(h^*) = \E[\min\curl{ \eta(
+  \bX
+), 1-\eta(\bX) }].
+$$
+
+To interpret this result, note that $\eta(\bx)$  and $(1-\eta(\bx))$ are the probabilities that an observation belongs to class 1 or 0, respectively. The Bayes classifier labels an observation with the class that is more likely. 
+
+<details>
+  <summary>Click to see the solution</summary>
+  
+
+
+*First subquestion*: let $h$ be any binary classifier. Like in the previous problem, we can connect the risk to an integral of a *conditional* probability of missclassification
+$$
+\begin{aligned}
+R(h) & = \E_{Y, \bX}[\I\curl{Y\neq h(\bX)}] \\
+&  = \E_{\bX} \left[\E_{Y|\bX}\left[ \I\curl{Y\neq h(\bX)}|\bX\right] \right] \\
+& = \int  \E_{Y|\bX} \left[ \I\curl{Y\neq h(\bX)}|\bX=\bx \right] f_{\bX}(\bx)d\bx\\
+& = \int P\left(h(\bX
+)\neq Y|\bX=\bx \right) f_{\bX}(\bx)d\bx,
+\end{aligned}
+$$
+where $f_{\bX}$ is the density of $\bX$.
+
+We focus on the conditional probability of missclasification:
+$$
+\begin{aligned}
+& P\left(h(\bX)\neq Y|\bX=\bx \right) \\
+& = 1- P(h(\bX)=1, Y=1| \bX=\bx) - P(h(\bX)=0, Y=0|\bX=\bx)\\
+& = 1- \I\curl{h(\bx)=1}P(Y=1|\bX=\bx)- \I\curl{h(\bx)=0}P(Y=0|\bX=\bx)\\
+& = 1- \I\curl{h(\bx)=1}\eta(\bx) - \I\curl{h(\bx)=0}(1-\eta(\bx)).
+\end{aligned}
+$$
+Note that the second equality holds because $h(\bX)$ is not random conditional on $\curl{\bX=\bx}$.
+
+Constrast such conditional misclassification probabilities of $h^*$ and any $h$:
+$$
+\begin{aligned}
+& \quad	P(h(\bX)\neq Y|\bX=\bx) - P(h^*(\bX)\neq Y|\bX=\bx)   \\  & =  \eta(
+  \bx)\left(\mathbb{I}_{h^*(\bx)=1}- \I\curl{h(\bx)=1} \right) \\
+& \quad + (1-\eta(\bx))\left(  \I\curl{h^*(\bx)=0} - \mathbb{I}_{h(\bx)=0}\right)
+\\ & = (2\eta(\bx)-1)\left(\mathbb{I}\curl{h^*(\bx)=1} - \mathbb{I}\curl{h(\bx)=1} \right)\\
+& \geq 0
+\end{aligned}
+$$
+where we used that $\mathbb{I}\curl{h^*(\bx)=0}=  1-\mathbb{I}\curl{h^*(\bx)=1}$ in the second equality. In the last line  we substitute $h^*$ to see that the second parentheses always have the same sign as the first ones.
+ 
+Integrating over $\bx$ now, we conclude that 
+$$
+R(h^*)\leq R(h).
+$$
+The risk of any $h$ must be greater or equal to the risk of $h^*$. In other words, $h^*$ is the Bayes classifier.
+
+<br>
+
+*Second subquestion*: To obtain the Bayes risk, directly evaluate the conditional missclassification probability: if $\eta(\bx)> 1/2$, then $P(h(\bX)\neq Y|\bX=\bx) = 1-\eta(\bx)$ (which is no greater than $\eta(\bx))$. If $\eta(\bx)\leq 1/2$, then $P(h(\bX)\neq Y|\bX=\bx) = \eta(\bx)$ (which is no greater than $1-\eta(\bx)$). Accordingly,
+$$
+P\left(h(\bX)\neq Y|\bX=\bx \right)  = \min\curl{ \eta(\bx), 1-\eta(\bx) }.
+$$
+
+</details>
 
 ## Applied Exercises
  
- 
+### Regression
+
+Consider again the context of predicting house prices using the California housing dataset discussed in the lectures.
+
+- Fit a ridge regressor and fine-tune its penalty parameter using cross-validation. Compare to the results obtained by a random forest regressor.
+- Experiment with including geographical features based on the coordinates of each block. Does including raw longitude and latitude improve performance? What if you compute new features based on distance of the block to the major urban areas in the state? 
+
+Throughout, we have used *model-based* methods, which fit some model to the data and then use the model for predictions. *Instance-based* learning provides an alternative approach, in which the algorithm memorizes the training examples and uses them to make predictions based on similarities. A leading example is given by $k$-nearest neighbors ($k$-NN) regressors and classifiers. 
+
+- Fit a $k$-NN regressor.
+- Tune the number of neighbors to  consider using cross-validation.
+
+If you are not familiar with $k$-NN methods, see chapters 2 and 4 in @James2023IntroductionStatisticalLearning.
+
+### Classification
+
+Consider again the problem of recognizing handwritten digits based on the MNIST dataset discussed in the lectures.
+
+- Use cross-validation to choose the tuning parameters of the various methods discussed in the lectures. 
+- Fit and tune a $k$-NN classifier.
+
+Throughout, we have used all 784 pixels as features. However, we suspect that many of those are not useful. For example, the edge pixels are generally white and do not contribute much to prediction. Accordingly, one may wish to try a dimensionality reduction technique to potentially extract a smaller number of more useful features.
+
+- Reduce the dimensionality of the feature vector by adding a principal components transformer (`PCA`) to the pipeline before the classifiers. 
+- Choose the number of principal components fed to the classifier using cross-validation.
+  
+See chapter 12 of @James2023IntroductionStatisticalLearning regarding dimensionality reduction and PCA.
