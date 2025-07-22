@@ -30,16 +30,16 @@ $$
 1. Show that the Bayes predictor in $\Hcal$ (i.e., the predictor that minimizes MSE over $\Hcal$) is given by:
 $$
 \begin{aligned}
-h(\bx) & = \bx'\bbeta, \\
-\bbeta & = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i]
+h^*(\bx) & = \bx'\bbeta^*, \\
+\bbeta^* & = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i]
 \end{aligned}
 $$ 
 
 2. Let $\hat{\bbeta}$ denote the OLS estimator obtained by regressing $Y_i$ on $\bX_i$ using the sample. Show that:
 $$
-\hat{\bbeta} \xrightarrow{p} \bbeta.
+\hat{\bbeta} \xrightarrow{p} \bbeta^*.
 $$
-That is, empirical risk minimization (ERM) in this case consistently estimates the best predictor in $\Hcal$ (the best linear predictor).
+That is, empirical risk minimization (ERM; here OLS) in this case consistently estimates the best predictor in $\Hcal$ (the best linear predictor).
 
 3. Write down the [excess error decomposition](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/pac-nfl-tradeoff.html#/bias-complexity-trade-off-i-decomposition) for the learned predictor $\hat{h}(\bx) = \bx'\hat{\bbeta}$. Use [our results](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt1.html#/mse-optimal-predictor-bayes-predictor) on the Bayes predictor for MSE over the class of all hypotheses to explicitly evaluate the infima in the decomposition. 
 4. Suppose that the true regression function is linear: there exists $\bc \in \mathbb{R}^d$ such that $\E[Y | \bX = \bx] = \bx'\bc$ for all $\bx$. Show that in this case, the approximation error in the decomposition from the third subquestion is zero.
@@ -48,38 +48,104 @@ That is, empirical risk minimization (ERM) in this case consistently estimates t
 <details>
   <summary>Click to see the solution</summary>
 
-*First subquestion*: the problem of minimizing MSE over $\Hcal$ can be represented as the problem of minimizing the MSE over $\bb$. Formally, we can write
+*First subquestion*: the problem of minimizing MSE over $\Hcal$ can be represented as the problem of minimizing the MSE over $\bb$. Formally, if 
+$$
+h^*  = \argmin_{h\in\Hcal} MSE(h),
+$$
+then we can write
 $$
 \begin{aligned}
-h^* & = \argmin_{h\in\Hcal} MSE(h)\\
-h^*(\bx) & = \bx'\bbeta^*
+h^*(\bx) & = \bx'\bbeta^*, \\
+\bbeta^*  & = \argmin_{\bb} \E[(Y_i - \bX_i'\bb)^2].
 \end{aligned}
-$$
-where
-$$
-\bbeta^* = \argmin_{\bb} \E[(Y_i - \bX_i'\bb)^2].
-$$
-We just need to show that $\bbeta^* = \bbeta$ for the $\bbeta$. 
+$$ 
 
-To do so, we expand the square in the MSE and take $\bb$ out of the expectations:
+We just need to show that $\bbeta^*$ actually is equal to $\left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i]$. To do so, we expand the square in the MSE and take $\bb$ out of the expectations:
 $$
 \begin{aligned}
 \E[(Y_i - \bX_i'\bb)^2] & = \E[Y_i^2] - 2\bb'\E[\bX_iY_i] + \bb'\E[\bX_i\bX_i']\bb.
 \end{aligned}
 $$
-We can now differentiate with respect to $\bb$. By proceeding [as in the first lecture](https://vladislav-morozov.github.io/econometrics-2/slides/vector/vector-ols.html#/derivative-with-respect-to-b_j), we obtain that any minimizer $\bbeta^*$ must satisfy the first-order conditions:
+We can now differentiate with respect to $\bb$. By proceeding [as in the first lecture](https://vladislav-morozov.github.io/econometrics-2/slides/vector/vector-ols.html#/derivative-with-respect-to-b_j), we obtain that any MSE minimizer $\bbeta^*$ must satisfy the first-order conditions:
 $$
 -2\E[\bX_iY_i] + 2\E[\bX_i\bX_i']\bbeta^* = 0.
 $$
 Moving $\E[\bX_iY_i]$ to the other side and premultiplying by $(\E[\bX_i\bX_i'])^{-1}$ shows that
 $$
-\bbeta^* = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i]\equiv \bbeta.
+\bbeta^* = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i].
 $$
-We have shown that the MSE-best linear predictor has exactly the parameters $\bbeta$, as desired.
+We have shown that the MSE-best linear predictor has exactly the parameters $\bbeta^*$, as desired.
 
 
+<br>
 
-*Second subquestion*
+*Second subquestion*: the OLS estimator is given by
+$$
+\hat{\bbeta} = (\bX'\bX)^{-1}\bX'\bY.
+$$ 
+[Proposition 5](https://vladislav-morozov.github.io/econometrics-2/slides/vector/ols-consistency.html#/combining-together) in the consistency slides now shows the desired result.
+
+
+<br>
+
+
+*Third subquestion*: Recall that the excess error of $\hat{h}$ is the difference between the risk of $\hat{h}$ and the infimum of risk over all hypotheses. By [proposition 1 in the regression slides](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt1.html#/mse-optimal-predictor-bayes-predictor) we know that the best achievable risk is associated with $\dot{h}(\bx)=\E[Y_j|\bX=\bx]$. Accordingly, we can write the excess error as
+$$
+\begin{aligned}
+ & MSE(\hat{h}) - MSE(\dot{h})\\
+ & = \underbrace{\left( MSE(\hat{h})- MSE(h^*)  \right)}_{\text{Estimation error}} + \underbrace{\left(MSE(h^*) - MSE(\dot{h}) \right)}_{\text{Approximation error}},
+\end{aligned}
+$$
+where we have inserted the risk of the best hypothesis in $\Hcal$.
+
+We can actually make the above expression more explicit. By opening up the squares, for any pair of hypotheses $h, g$, we can write 
+$$
+\begin{aligned}
+& MSE(h)- MSE(g) \\
+&  = -2\E[Y_j(h(\bX_j)-g(\bX_j))] + \E[(h(\bX_j)-g(\bX_j))(h(\bX_j)+g(\bX_j))].
+\end{aligned}
+$$
+As always, note that here $(Y_j, \bX_j)$ is a new point that is independent from the sample. 
+
+It follows that the excess error may be represented as 
+$$
+\begin{aligned}
+ & MSE(\hat{h}) - MSE(\dot{h})\\
+ & = \Big(-2\E[Y_j\bX_j'(\hat{\bbeta}-\bbeta)] + \E[(\hat{\bbeta}-\bbeta)'\bX_j\bX_j'(\hat{\bbeta}+\bbeta)  ]  \Big)\\
+ &   \quad +\Big(-2\E[Y_j(\bX_j'\bbeta - \E[Y_j|\bX_j])]\\
+ & \quad \quad \quad + \E[(\bX_j'\bbeta - \E[Y_j|\bX_j])(\bX_j'\bbeta + \E[Y_j|\bX_j]) ]  \Big)
+\end{aligned}
+$$ {#eq-ols-pred-decomp}
+
+
+- The expression in the second line above is the estimation error. Notice how it depends on the difference between $\hat{\bbeta}$ and its probability limit $\bbeta$.
+- The expression in the last two lines is the approximation error. 
+
+::: {.callout-note appearance="minimal"}
+
+There is some mild abuse of notation above regarding the conditional expectation. By $\E[Y_j|\bX_j]$ we understand $\dot{h}(\bX_j)$.
+
+:::
+
+
+<br>
+
+*Fourth subquestion*: consider the approximaion error term in @eq-ols-pred-decomp. It is sufficient to shows that 
+$$
+\bX_j'\bbeta - \E[Y_j|\bX_j] = 0.
+$$
+By substituting the assumption, we obtain that $\bX_j'\bbeta - \E[Y_j|\bX_j] = \bX_j'\bbeta-\bX_j'\bc$. Accordingly, it is sufficient to show $\bc$ must be equal to $\bbeta$. This equality is easy to show using the law of iterated expectations and the definition of $\bbeta$:
+$$
+\begin{aligned}
+\bbeta & = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i]\\
+& = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\E[\bX_iY_i|\bX_i]]\\
+& = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_i\E[Y_i|\bX_i]]\\
+& = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_i\bX_i'\bc]\\
+& = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_i\bX_i']\bc\\
+& = \bc.
+\end{aligned}
+$$
+The desired result now follows. 
 
 </details>
   
