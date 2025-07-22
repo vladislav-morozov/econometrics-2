@@ -65,6 +65,7 @@ website:
         - slides/prediction/regression-pt1.qmd
         - slides/prediction/regression-pt2.qmd
         - slides/prediction/classification.qmd
+        - exercises/exercises-prediction.qmd
 
 execute:
   freeze: auto  # re-render only when source changes
