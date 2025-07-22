@@ -149,6 +149,127 @@ The desired result now follows.
 
 </details>
   
+## The Bias-Variance Decomposition and Trade-Off
+ 
+
+As [noted](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt2.html#/bias-variance-decomposition-ii) in the second lecture on predictive regression, one can establish a fairly explicit decomposition for the expected mean squared error (MSE) of a hypotheses picked on a random sample. 
+
+
+
+In this problem, you are asked to prove this bias-variance decomposition  (equation (1) in the [slides](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt2.html#/bias-variance-decomposition-ii)). Define the following objects:
+
+- $\sigma^2 = \var(Y-\E_{Y|\bX}[Y|\bX])$, representing the irreducible error variance inherent in the data. 
+- $S= \curl{(\bX_1, Y_1), \dots, (\bX_N, Y_N)}$ — the sample.
+- $(\bX, Y)$ — a new pair of observations, independent from $S$.
+- $\hat{h}_S$ — some hypothesis selected by our algorithm after seeing $S$.
+
+
+::: {.callout-note appearance="minimal"}
+
+The expressions in this problem involve several different expectations. For clarity the problem makes explicit with respect to which distribution each expectation is taken. 
+
+:::
+
+
+Show that for any hypothesis $h$ it holds that 
+$$
+\begin{aligned}
+\hspace{-1cm} \E_S\left[MSE(\hat{h}_S)\right]  & =  \sigma^2  + \E_{\bX}\left[\var_S(\hat{h}_S(\bX))\right] \\
+& \quad + \E_X\left[\E_S\left[ (\E_{Y|\bX}[Y|\bX]- \hat{h}_S(\bX))^2 \right]\right] + 
+\end{aligned}
+$$  
+
+<details>
+  <summary>Click to see the solution</summary>
+  
+
+
+ 
+
+
+To begin, we obtain a more convenient representation for the object of interest. We use the law of iterated expectations and the fact that expectations are integrals to write
+$$
+\begin{aligned}
+& \E_S\left[MSE(\hat{h}_S) \right]\\
+& = \E_{S}\left[ \E_{Y, \bX}\left[(Y-\hat{h}_S(\bX))^2 \right] \right] \\
+& = \E_{S}\left[ \E_{\bX}\left[\E_{Y|\bX}[ (Y-\hat{h}_S(\bX))^2|\bX ] \right] \right]  \\
+& = \E_{\bX}\left[ \E_{\bS}\left[\E_{Y|\bX}[ (Y-\hat{h}_S(\bX))^2|\bX ] \right] \right] \\
+& = \int \E_{\bS} \left[\E_{Y|\bX}[ (Y-\hat{h}_S(\bX))^2|\bX=\bx] \right]f_{\bX}(\bx)d\bx,
+\end{aligned}
+$$ {#eq-bv-1}
+where $f_{\bX}$ is the marginal density of $\bX$ (the argument works with discrete $\bX$ as well).
+
+We can now study the expectation under the integral. To do so, first define
+$$
+U = Y- \E_{Y|\bX}[Y|\bX].
+$$
+Observe that 
+$$
+\begin{aligned}
+\E_{Y|\bX}[U|\bX] & = \E_{Y|\bX}[Y|\bX] - \E_{Y|\bX}[\E_{Y|\bX}[Y|\bX]|\bX]  \\
+& = \E_{Y|\bX}[Y|\bX]- \E_{Y|\bX}[Y|\bX] =0.
+\end{aligned}
+$$ {#eq-u-y}
+
+We substitute $Y=\E_{Y|\bX}[Y|\bX] + U$ into the expectation under the integral and obtain
+$$
+\begin{aligned}
+ & \E_{S}\left[\E_{Y|\bX}\left[ (Y-\hat{h}_S(\bX))^2|\bX=\bx\right]\right] \\
+& = \E_{S}\left[\E_{Y|\bX}\left[( U + \E_{Y|\bX}[Y|\bX] -\hat{h}_S(\bX))^2|\bX=\bx\right]\right]\\
+& =  \E_{S}\left[\E_{Y|\bX}\left[U^2|\bX=\bx\right]\right] \\
+& \quad   - 2 \E_{S}\left[\E_{Y|\bX}\left[U(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))|\bX=\bx\right] \right] \\
+& \quad + \E_{S}\left[\E_{Y|\bX}\left[(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))^2 |\bX=\bx \right] \right] .
+\end{aligned}
+$$ {#eq-bv-2}
+
+We further expand the last term by adding and subtracting $\E_S[\hat{h}_S(\bx)]$.
+$$
+\begin{aligned}
+& \E_{S}\left[\E_{Y|\bX}\left[(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))^2 |\bX=\bx \right] \right] \\
+& = \E_{S}\left[\E_{Y|\bX}\left[(\E_{Y|\bX}[Y|\bX=\bx] - \hat{h}_S(\bx))^2 |\bX=\bx \right] \right] \\
+& = \E_{S}\left[(\E_{Y|\bX}[Y|\bX=\bx] - \hat{h}_S(\bX))^2  \right] \\
+& = \E_S\left[ \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)^2 \right]    +  \E_S\left[  \left( \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx) \right)^2 \right]\\
+& \quad + \E_S\left[ \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)\left( \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx) \right)    \right] .
+\end{aligned}
+$$
+Note that we get rid of the $\E_{Y|\bX}$ expectation in the third line because nothing depends on $(Y, \bX)$ anymore after using the condition $\curl{\bX=\bx}$
+
+
+As for the last expectation, we note that $\left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)$ is a deterministic expression. It can thus be taken out of the expectation as 
+$$
+\begin{aligned}
+& \E_S\left[ \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)\left( \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx) \right)    \right] \\
+& = \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)\E_S\left[   \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx)    \right]\\
+& = 0.
+\end{aligned}
+$$ {#eq-bv-3}
+
+
+Combining equations ([-@eq-bv-1])-([-@eq-bv-3]) and the law of iterated expectations, we obtain that 
+$$
+\begin{aligned}
+& \E_S\left[MSE(\hat{h}_S) \right] \\
+& = \E_S\left[ \E_{Y, \bX}[U^2]\right] -2 \E_{S}\left[\E_{Y, \bX}\left[U(\E[Y|\bX] - \hat{h}_S(\bX))\right] \right] \\
+& \quad + \E_{\bX}\left[ \E_S\left[ \left(\E_{Y|\bX}[Y|\bX] - \E_S[\hat{h}_S(\bX)] \right)^2 \right] \right]    \\
+& \quad +  \E_{\bX}\left[  \E_S\left[  \left( \E_S[\hat{h}(\bX)] - \hat{h}_S(\bX) \right)^2 \right] \right]
+\end{aligned}
+$$
+
+As a finishing touch, we handle the expressions involving $U$. First, $\E_S\left[ \E_{Y, \bX}[U^2]\right] = \E_S[\sigma^2]=\sigma^2$. Second, we  use @eq-u-y to show that the second term in the preceding equation is 0:
+$$
+\begin{aligned}
+& \E_{S}\left[\E_{Y, \bX}\left[U(\E[Y|\bX] - \hat{h}_S(\bX))\right] \right]\\
+& = \E_{S}\left[\E_{\bX}\left[   (\E[Y|\bX] - \hat{h}_S(\bX))
+  \E_{Y|\bX}\left[U|\bX\right]
+  \right] \right]\\
+  & = 0.
+\end{aligned}
+$$
+The desired result now follows. 
+
+</details>
+  
+
 ## Applied Exercises
  
  
