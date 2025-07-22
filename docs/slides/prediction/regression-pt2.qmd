@@ -229,72 +229,81 @@ So far have
 Now need to pick hypothesis class $\Hcal$
 
 - Guided by bias-complexity trade-off
-- Can specialize it a bit more for MSE — the <span class="highlight">bias-variance</span> trade-off
+- Special related decomposition for MSE — the <span class="highlight">bias-variance</span> trade-off
 
-#### Bias-Variance Decomposition I
+#### Bias-Variance Decomposition: Irreducible Error
 
 Define $U = Y- \E[Y|\bX]$ and let $\var(U) = \sigma^2$
 
 <br>
 
 
-Then (why?) 
+- Then (why?) 
 $$
 \E[U|\bX] =0 
 $$
+- $\sigma^2$ is sometimes called the *irreducible* error: the risk of the best predictor $\E[Y|\bX]$ (Bayes risk)
 
-. . . 
 
-Can write
+
+#### Bias-Variance Decomposition: Statement
+
+Let 
+
+- $S$ be some sample
+- $\hat{h}_S$ be the hypothesis picked by some algorithm 
+- $\bX$ be a new point independent of $S$
+
+Then 
 $$
 \begin{aligned}
-MSE(h)  & = \E[(Y-h(\bX))^2] \\ 
-& = \sigma^2  + \E\left[ (\E[Y|\bX]- h(\bX))^2 \right] + \var(h(\bX))
+\hspace{-1cm} \E_S\left[MSE(\hat{h}_S)\right]  & =  \sigma^2  + \E_{\bX}\left[\var_S(\hat{h}_S(\bX))\right] \\
+& \quad + \E_{\bS}\left[\E_{\bX}\left[ (\E[Y|\bX]- \hat{h}_S(\bX))^2 \right]\right] 
 \end{aligned}
-$$
+$$  
  
 ::: {.footer}
 
-To show the decomposition, proceed with MSE as before. Wikipedia offers [a full derivation](https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff#Derivation)
+To show the decomposition, proceed with MSE as before. See the problem set
 
 :::
+ 
 
-#### Bias-Variance Decomposition II
+#### Bias-Variance Decomposition: Interpretation
 
 
  
 
 $$
 \begin{aligned}
-\hspace{-1cm} MSE(h)  & =   \sigma^2  + \E\left[ (\E[Y|\bX]- h(\bX))^2 \right] + \var(h(\bX))
+\hspace{-1cm} \E_S\left[MSE(\hat{h}_S)\right]  & =  \sigma^2  + \E_{\bX}\left[\var_S(\hat{h}_S(\bX))\right] \\
+& \quad + \E_S\left[\E_{\bX}\left[ (\E[Y|\bX]- \hat{h}_S(\bX))^2 \right]\right] 
 \end{aligned}
 $$ {#eq-mse-decomp}
 
 MSE is sum of 
 
 - <span class="highlight">Irreducible</span> error $\sigma^2$
-- <span class="highlight">Squared bias</span> of $h(\bX)$ for Bayes predictor $\E[Y|\bX]$
-- <span class="highlight">Variance</span> of $h(\bX)$
+- <span class="highlight">Variance</span> of $\hat{h}_S(\bX)$
+- <span class="highlight">Squared bias</span> of $\hat{h}_S(\bX)$ for Bayes predictor $\E[Y|\bX]$
 
+ 
+#### Bias-Variance Decomposition: Discussion 
 
-::: {.footer}
+- Note: two layers of expectations
+  - With respect to sample $S$: randomness in $\hat{h}_S$ due to sampling
+  - With respect to $\bX$: the new independent point (definition of risk)
+  
+. . .
 
-The bias interpretation comes from writing $\E\left[ (\E[Y|\bX]- h(\bX))^2 \right]=  \E\left[ \E\left[  (\E[Y|\bX]- h(\bX))^2 |\bX \right]\right]$. Inside the conditional the terms are like fixed parameters
-
-:::
-
+Have already seen such expression: exactly the kind of construction in PAC-learning — properties of risk of $\hat{h}_S$, integrated over sample $S$
 
 #### Bias-Variance Trade-Off
 
-Decomposition ([-@eq-mse-decomp]) highlights <span class="highlight">bias-variance</span> trade-off:
+<span class="highlight">Bias-variance</span> trade-off:
 
-- Trade-off:
-  - More complicated $h(\cdot)$ can approximate $\E[Y|\bX]$ better
-  - But complicated $h(\bX)$ likely has higher $\var(h(\bX))$
-
-
-. . . 
-
+- More complicated $h(\bx)$ can approximate $\E[Y|\bX=\bx]$ better
+- But complicated $h(\cdot)$ likely has higher $\var_S(h(\bx))$: equal changes in $S$ may lead to larger changes in $\hat{h}_S(\bx)$
 
 
 ::: {.callout-note appearance="minimal"}

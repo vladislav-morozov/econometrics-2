@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -21,7 +21,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -37,12 +57,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b53751a350365c71b6c909e95f209ed1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-77299a5712b8eeaf0e44a019822dcbc0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-afd7be9fee6acec2c74028c2e38cdef0.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-b1f45ae4a132db6dfc08ad19f9a2d34c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-b4434866c09ead725b5c0ae22b4ec6c7.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -71,171 +91,337 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
  
+
 <!-- This is what works with Quarto and MathJax 3+ -->
+
 <script>
+
   MathJax = {
+
     tex: {
+
       tags: 'ams',  // should be 'ams', 'none', or 'all'
+
       macros: {
+
         vect: ["\\mathbf{#1}", 1],
+
         mat: ["\\mathbf{#1}", 1], 
 
+
+
         bA: "\\boldsymbol{A}",
+
         bB: "\\boldsymbol{B}",
+
         bC: "\\boldsymbol{C}",
+
         bD: "\\boldsymbol{D}",
+
         bE: "\\boldsymbol{E}",
+
         bF: "\\boldsymbol{F}",
+
         bG: "\\boldsymbol{G}",
+
         bH: "\\boldsymbol{H}",
+
         bI: "\\boldsymbol{I}",
+
         bJ: "\\boldsymbol{J}",
+
         bK: "\\boldsymbol{K}",
+
         bL: "\\boldsymbol{L}",
+
         bM: "\\boldsymbol{M}",
+
         bN: "\\boldsymbol{N}",
+
         bP: "\\boldsymbol{P}",
+
         bQ: "\\boldsymbol{Q}",
+
         bR: "\\boldsymbol{R}",
+
         bS: "\\boldsymbol{S}",
+
         bT: "\\boldsymbol{T}",
+
         bU: "\\boldsymbol{U}",
+
         bV: "\\boldsymbol{V}",
+
         bW: "\\boldsymbol{W}",
+
         bX: "\\boldsymbol{X}",
+
         bY: "\\boldsymbol{Y}",
+
         bZ: "\\boldsymbol{Z}",
+
         ba: "\\boldsymbol{a}",
+
         bb: "\\boldsymbol{b}",
+
         bc: "\\boldsymbol{c}",
+
         bd: "\\boldsymbol{d}",
+
         be: "\\boldsymbol{e}",
+
         bg: "\\boldsymbol{g}",
+
         bh: "\\boldsymbol{h}",
+
         bi: "\\boldsymbol{\\imath}",
+
         bm: "\\boldsymbol{m}",
+
         bp: "\\boldsymbol{p}",
+
         bq: "\\boldsymbol{q}",
+
         br: "\\boldsymbol{r}",
+
         bs: "\\boldsymbol{s}",
+
         bt: "\\boldsymbol{t}",
+
         bu: "\\boldsymbol{u}",
+
         bv: "\\boldsymbol{v}",
+
         bw: "\\boldsymbol{w}",
+
         bx: "\\boldsymbol{x}",
+
         by: "\\boldsymbol{y}",
 
+
+
         Acal: "\\mathcal{A}",
+
         Bcal: "\\mathcal{B}",
+
         Ccal: "\\mathcal{C}",
+
         Dcal: "\\mathcal{D}",
+
         Ecal: "\\mathcal{E}",
+
         Fcal: "\\mathcal{F}",
+
         Gcal: "\\mathcal{G}",
+
         Hcal: "\\mathcal{H}",
+
         Ical: "\\mathcal{I}",
+
         Jcal: "\\mathcal{J}",
+
         Kcal: "\\mathcal{K}",
+
         Lcal: "\\mathcal{L}",
+
         Mcal: "\\mathcal{M}",
+
         Ncal: "\\mathcal{N}",
+
         Ocal: "\\mathcal{O}",
+
         Pcal: "\\mathcal{P}",
+
         Qcal: "\\mathcal{Q}",
+
         Rcal: "\\mathcal{R}",
+
         Scal: "\\mathcal{S}",
+
         Tcal: "\\mathcal{T}",
+
         Ucal: "\\mathcal{U}",
+
         Vcal: "\\mathcal{V}",
+
         Wcal: "\\mathcal{W}",
+
         Xcal: "\\mathcal{X}",
+
         Ycal: "\\mathcal{Y}",
+
         Zcal: "\\mathcal{Z}",
 
+
+
         A: "\\mathbb{A}",
+
         B: "\\mathbb{B}",
+
         C: "\\mathbb{C}",
+
         D: "\\mathbb{D}",
+
         E: "\\mathbb{E}",
+
         F: "\\mathbb{F}",
+
         G: "\\mathbb{G}",
+
         H: "\\mathbb{H}",
+
         I: "\\mathbb{I}",
+
         J: "\\mathbb{J}",
+
         K: "\\mathbb{K}",
+
         L: "\\mathbb{L}",
+
         M: "\\mathbb{M}",
+
         N: "\\mathbb{N}",
+
         O: "\\mathbb{O}",
+
         P: "\\mathbb{P}",
+
         Q: "\\mathbb{Q}",
+
         R: "\\mathbb{R}",
+
         S: "\\mathbb{S}",
+
         T: "\\mathbb{T}",
+
         U: "\\mathbb{U}",
+
         V: "\\mathbb{V}",
+
         W: "\\mathbb{W}",
+
         X: "\\mathbb{X}",
+
         Y: "\\mathbb{Y}",
+
         Z: "\\mathbb{Z}",
 
+
+
         bAlpha: "\\boldsymbol{\\Alpha}",
+
         bBeta: "\\boldsymbol{\\beta}",
+
         bDelta: "\\boldsymbol{\\delta}",
+
         bEta: "\\boldsymbol{\\eta}",
+
         bGamma: "\\boldsymbol{\\Gamma}",
+
         bLambda: "\\boldsymbol{\\Lambda}",
+
         bOmega: "\\boldsymbol{\\Omega}",
+
         bPhi: "\\boldsymbol{\\Phi}",
+
         bPi: "\\boldsymbol{\\Pi}",
+
         bPsi: "\\boldsymbol{\\Psi}",
+
         bSigma: "\\boldsymbol{\\Sigma}",
+
         bTau: "\\boldsymbol{\\tau}",
+
         bXi: "\\boldsymbol{\\Xi}",
+
         bbeta: "\\boldsymbol{\\beta}",
+
         bdelta: "\\boldsymbol{\\delta}",
+
         blambda: "\\boldsymbol{\\lambda}",
+
         bmu: "\\boldsymbol{\\mu}",
+
         bphi: "\\boldsymbol{\\phi}",
+
         bpi: "\\boldsymbol{\\pi}",
+
         bpsi: "\\boldsymbol{\\psi}",
+
         brho: "\\boldsymbol{\\rho}",
+
         balpha: "\\boldsymbol{\\alpha}",
+
         bsigma: "\\boldsymbol{\\sigma}",
+
         btau: "\\boldsymbol{\\tau}",
+
         bxi: "\\boldsymbol{\\xi}",
+
         bEta: "\\boldsymbol{\\eta}",
+
         bPhi: "\\boldsymbol{\\Phi}",
+
         bPi: "\\boldsymbol{\\Pi}",
+
         bPsi: "\\boldsymbol{\\Psi}",
+
         bXi: "\\boldsymbol{\\Xi}",
+
         blambda: "\\boldsymbol{\\lambda}",
+
         bmu: "\\boldsymbol{\\mu}",
+
         bphi: "\\boldsymbol{\\phi}",
+
         bpi: "\\boldsymbol{\\pi}",
+
         bpsi: "\\boldsymbol{\\psi}",
+
         brho: "\\boldsymbol{\\rho}",
+
         bsigma: "\\boldsymbol{\\sigma}",
+
         btheta: "\\boldsymbol{\\theta}",
+
         bgamma: "\\boldsymbol{\\gamma}",  
+
         
+
         curl: ["\\left\\lbrace#1\\right\\rbrace", 1],
+
         floor: ["\\left\\lfloor#1\\right\\rfloor", 1],
+
         ceil: ["\\left\\lceil#1\\right\\rceil", 1],
+
         abs: ["\\left\\lvert#1\\right\\rvert", 1],
+
         norm: ["\\left\\lVert#1\\right\\rVert", 1],
 
+
+
         avar: "\\mathrm{avar}",
+
         var: "\\mathrm{var}",
+
         cov: "\\mathrm{cov}",
 
+
+
         argmin: "\\operatorname*{argmin}",
+
         argmax: "\\operatorname*{argmax}",
+
         argsup: "\\operatorname*{argsup}",
+
         arginf: "\\operatorname*{arginf}",
+
       }
+
     }
+
   };
+
 </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
@@ -519,8 +705,14 @@ window.Quarto = {
   <li><a href="#theoretical-exercises" id="toc-theoretical-exercises" class="nav-link active" data-scroll-target="#theoretical-exercises">Theoretical Exercises</a>
   <ul class="collapse">
   <li><a href="#ols-from-a-predictive-perspective" id="toc-ols-from-a-predictive-perspective" class="nav-link" data-scroll-target="#ols-from-a-predictive-perspective">OLS From a Predictive Perspective</a></li>
+  <li><a href="#the-bias-variance-decomposition-and-trade-off" id="toc-the-bias-variance-decomposition-and-trade-off" class="nav-link" data-scroll-target="#the-bias-variance-decomposition-and-trade-off">The Bias-Variance Decomposition and Trade-Off</a></li>
+  <li><a href="#bayes-classifier-in-binary-classification" id="toc-bayes-classifier-in-binary-classification" class="nav-link" data-scroll-target="#bayes-classifier-in-binary-classification">Bayes Classifier in Binary Classification</a></li>
   </ul></li>
-  <li><a href="#applied-exercises" id="toc-applied-exercises" class="nav-link" data-scroll-target="#applied-exercises">Applied Exercises</a></li>
+  <li><a href="#applied-exercises" id="toc-applied-exercises" class="nav-link" data-scroll-target="#applied-exercises">Applied Exercises</a>
+  <ul class="collapse">
+  <li><a href="#regression" id="toc-regression" class="nav-link" data-scroll-target="#regression">Regression</a></li>
+  <li><a href="#classification" id="toc-classification" class="nav-link" data-scroll-target="#classification">Classification</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/vladislav-morozov/econometrics-2/edit/main/src/exercises/exercises-prediction.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/vladislav-morozov/econometrics-2/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -555,54 +747,295 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="theoretical-exercises">Theoretical Exercises</h2>
 <section id="ols-from-a-predictive-perspective" class="level3">
 <h3 class="anchored" data-anchor-id="ols-from-a-predictive-perspective">OLS From a Predictive Perspective</h3>
-<p>In this problem we revisit linear regression and OLS from a prediction perspective. Suppose that we have a sample <span class="math inline">\({(\bX_1, Y_1), \dots, (\bX_N, Y_N)}\)</span>. Suppose that <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is invertible. Throughout, we consider the class of linear predictors. <span class="math display">\[
-\Hcal = \curl{h(\bx)=\bx'\bbeta: \bb\in \R^{\dim(\bx)}}
-\]</span> The goal is to optimally predict <span class="math inline">\(Y_i\)</span> using <span class="math inline">\(\bX_i\)</span>. Optimality is measured in terms of the mean squared error (MSE).</p>
-<ul>
-<li>Show that the Bayes predictor in <span class="math inline">\(\Hcal\)</span> is given by <span class="math display">\[
+<p>In this problem we revisit linear regression and OLS from a prediction perspective.</p>
+<p>Suppose we observe a sample <span class="math inline">\({(\bX_1, Y_1), \dots, (\bX_N, Y_N)}\)</span>, where each <span class="math inline">\(\bX_i \in \mathbb{R}^p\)</span> is a feature vector and <span class="math inline">\(Y_i \in \mathbb{R}\)</span> is a scalar label. Assume that <span class="math inline">\(\E[\bX_i\bX_i']\)</span> is invertible. Throughout, we consider the class of linear predictors: <span class="math display">\[
+\Hcal = \curl{h(\bx)=\bx'\bbeta: \bb\in \R^{p}}
+\]</span> Our goal is to predict <span class="math inline">\(Y_i\)</span> using <span class="math inline">\(\bX_i\)</span>, and we measure predictive performance using mean squared error (MSE): <span class="math display">\[
+MSE(h) = \E[(Y-h(\bX))^2].
+\]</span></p>
+<ol type="1">
+<li><p>Show that the Bayes predictor in <span class="math inline">\(\Hcal\)</span> (i.e., the predictor that minimizes MSE over <span class="math inline">\(\Hcal\)</span>) is given by: <span class="math display">\[
 \begin{aligned}
-h(\bx) &amp; = \bx'\bbeta, \\
-\bbeta &amp; = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i]
+h^*(\bx) &amp; = \bx'\bbeta^*, \\
+\bbeta^* &amp; = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i]
 \end{aligned}
-\]</span> In other words, show that this <span class="math inline">\(h(\cdot)\)</span> minimizes the MSE over <span class="math inline">\(\Hcal\)</span>.</li>
-<li>Conclude that the OLS estimator <span class="math inline">\(\hat{\bbeta}\)</span> in the regression of <span class="math inline">\(Y_i\)</span> on <span class="math inline">\(\bX\)</span> satisfies <span class="math display">\[
-\hat{\bbeta} \xrightarrow{p} \bbeta.
-\]</span> In other words, in this case the ERM procedure is consistently estimating the best possible predictor in <span class="math inline">\(\Hcal\)</span>.</li>
-<li>Write down the <a href="https://vladislav-morozov.github.io/econometrics-2/slides/prediction/pac-nfl-tradeoff.html#/bias-complexity-trade-off-i-decomposition">excess error decomposition</a> of</li>
-<li>Suppose that there exists some <span class="math inline">\(\bc\)</span> such that for all <span class="math inline">\(\bx\)</span> it holds that <span class="math inline">\(\E[Y|\bX=\bx] = \bx'\bc\)</span> (linear model). Show that the approximation error in the excess error decomposition is zero.</li>
-</ul>
+\]</span></p></li>
+<li><p>Let <span class="math inline">\(\hat{\bbeta}\)</span> denote the OLS estimator obtained by regressing <span class="math inline">\(Y_i\)</span> on <span class="math inline">\(\bX_i\)</span> using the sample. Show that: <span class="math display">\[
+\hat{\bbeta} \xrightarrow{p} \bbeta^*.
+\]</span> That is, empirical risk minimization (ERM; here OLS) in this case consistently estimates the best predictor in <span class="math inline">\(\Hcal\)</span> (the best linear predictor).</p></li>
+<li><p>Write down the <a href="https://vladislav-morozov.github.io/econometrics-2/slides/prediction/pac-nfl-tradeoff.html#/bias-complexity-trade-off-i-decomposition">excess error decomposition</a> for the learned predictor <span class="math inline">\(\hat{h}(\bx) = \bx'\hat{\bbeta}\)</span>. Use <a href="https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt1.html#/mse-optimal-predictor-bayes-predictor">our results</a> on the Bayes predictor for MSE over the class of all hypotheses to explicitly evaluate the infima in the decomposition.</p></li>
+<li><p>Suppose that the true regression function is linear: there exists <span class="math inline">\(\bc \in \mathbb{R}^d\)</span> such that <span class="math inline">\(\E[Y | \bX = \bx] = \bx'\bc\)</span> for all <span class="math inline">\(\bx\)</span>. Show that in this case, the approximation error in the decomposition from the third subquestion is zero.</p></li>
+</ol>
 <details>
 <summary>
 Click to see the solution
 </summary>
-<p><em>First subquestion</em>: the problem of minimizing MSE over <span class="math inline">\(\Hcal\)</span> can be represented as the problem of minimizing the MSE over <span class="math inline">\(\bb\)</span>. Formally, we can write <span class="math display">\[
+<p><em>First subquestion</em>: the problem of minimizing MSE over <span class="math inline">\(\Hcal\)</span> can be represented as the problem of minimizing the MSE over <span class="math inline">\(\bb\)</span>. Formally, if <span class="math display">\[
+h^*  = \argmin_{h\in\Hcal} MSE(h),
+\]</span> then we can write <span class="math display">\[
 \begin{aligned}
-h^* &amp; = \argmin_{h\in\Hcal} MSE(h)\\
-h^*(\bx) &amp; = \bx'\bbeta^*
+h^*(\bx) &amp; = \bx'\bbeta^*, \\
+\bbeta^*  &amp; = \argmin_{\bb} \E[(Y_i - \bX_i'\bb)^2].
 \end{aligned}
-\]</span> where <span class="math display">\[
-\bbeta^* = \argmin_{\bb} \E[(Y_i - \bX_i'\bb)^2].
-\]</span> We just need to show that <span class="math inline">\(\bbeta^* = \bbeta\)</span> for the <span class="math inline">\(\bbeta\)</span>.</p>
-<p>To do so, we expand the square in the MSE and take <span class="math inline">\(\bb\)</span> out of the expectations: <span class="math display">\[
+\]</span></p>
+<p>We just need to show that <span class="math inline">\(\bbeta^*\)</span> actually is equal to <span class="math inline">\(\left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i]\)</span>. To do so, we expand the square in the MSE and take <span class="math inline">\(\bb\)</span> out of the expectations: <span class="math display">\[
 \begin{aligned}
 \E[(Y_i - \bX_i'\bb)^2] &amp; = \E[Y_i^2] - 2\bb'\E[\bX_iY_i] + \bb'\E[\bX_i\bX_i']\bb.
 \end{aligned}
-\]</span> We can now differentiate with respect to <span class="math inline">\(\bb\)</span>. By proceeding <a href="https://vladislav-morozov.github.io/econometrics-2/slides/vector/vector-ols.html#/derivative-with-respect-to-b_j">as in the first lecture</a>, we obtain that any minimizer <span class="math inline">\(\bbeta^*\)</span> must satisfy the first-order conditions: <span class="math display">\[
+\]</span> We can now differentiate with respect to <span class="math inline">\(\bb\)</span>. By proceeding <a href="https://vladislav-morozov.github.io/econometrics-2/slides/vector/vector-ols.html#/derivative-with-respect-to-b_j">as in the first lecture</a>, we obtain that any MSE minimizer <span class="math inline">\(\bbeta^*\)</span> must satisfy the first-order conditions: <span class="math display">\[
 -2\E[\bX_iY_i] + 2\E[\bX_i\bX_i']\bbeta^* = 0.
 \]</span> Moving <span class="math inline">\(\E[\bX_iY_i]\)</span> to the other side and premultiplying by <span class="math inline">\((\E[\bX_i\bX_i'])^{-1}\)</span> shows that <span class="math display">\[
-\bbeta^* = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i]\equiv \bbeta.
-\]</span> We have shown that the MSE-best linear predictor has exactly the parameters <span class="math inline">\(\bbeta\)</span>, as desired.</p>
-<p><em>Second subquestion</em></p>
+\bbeta^* = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i].
+\]</span> We have shown that the MSE-best linear predictor has exactly the parameters <span class="math inline">\(\bbeta^*\)</span>, as desired.</p>
+<p><br></p>
+<p><em>Second subquestion</em>: the OLS estimator is given by <span class="math display">\[
+\hat{\bbeta} = (\bX'\bX)^{-1}\bX'\bY.
+\]</span> <a href="https://vladislav-morozov.github.io/econometrics-2/slides/vector/ols-consistency.html#/combining-together">Proposition 5</a> in the consistency slides now shows the desired result.</p>
+<p><br></p>
+<p><em>Third subquestion</em>: Recall that the excess error of <span class="math inline">\(\hat{h}\)</span> is the difference between the risk of <span class="math inline">\(\hat{h}\)</span> and the infimum of risk over all hypotheses. By <a href="https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt1.html#/mse-optimal-predictor-bayes-predictor">proposition 1 in the regression slides</a> we know that the best achievable risk is associated with <span class="math inline">\(\dot{h}(\bx)=\E[Y_j|\bX=\bx]\)</span>. Accordingly, we can write the excess error as <span class="math display">\[
+\begin{aligned}
+&amp; MSE(\hat{h}) - MSE(\dot{h})\\
+&amp; = \underbrace{\left( MSE(\hat{h})- MSE(h^*)  \right)}_{\text{Estimation error}} + \underbrace{\left(MSE(h^*) - MSE(\dot{h}) \right)}_{\text{Approximation error}},
+\end{aligned}
+\]</span> where we have inserted the risk of the best hypothesis in <span class="math inline">\(\Hcal\)</span>.</p>
+<p>We can actually make the above expression more explicit. By opening up the squares, for any pair of hypotheses <span class="math inline">\(h, g\)</span>, we can write <span class="math display">\[
+\begin{aligned}
+&amp; MSE(h)- MSE(g) \\
+&amp;  = -2\E[Y_j(h(\bX_j)-g(\bX_j))] + \E[(h(\bX_j)-g(\bX_j))(h(\bX_j)+g(\bX_j))].
+\end{aligned}
+\]</span> As always, note that here <span class="math inline">\((Y_j, \bX_j)\)</span> is a new point that is independent from the sample.</p>
+<p>It follows that the excess error may be represented as <span id="eq-ols-pred-decomp"><span class="math display">\[
+\begin{aligned}
+&amp; MSE(\hat{h}) - MSE(\dot{h})\\
+&amp; = \Big(-2\E[Y_j\bX_j'(\hat{\bbeta}-\bbeta)] + \E[(\hat{\bbeta}-\bbeta)'\bX_j\bX_j'(\hat{\bbeta}+\bbeta)  ]  \Big)\\
+&amp;   \quad +\Big(-2\E[Y_j(\bX_j'\bbeta - \E[Y_j|\bX_j])]\\
+&amp; \quad \quad \quad + \E[(\bX_j'\bbeta - \E[Y_j|\bX_j])(\bX_j'\bbeta + \E[Y_j|\bX_j]) ]  \Big)
+\end{aligned}
+\tag{1}\]</span></span></p>
+<ul>
+<li>The expression in the second line above is the estimation error. Notice how it depends on the difference between <span class="math inline">\(\hat{\bbeta}\)</span> and its probability limit <span class="math inline">\(\bbeta\)</span>.</li>
+<li>The expression in the last two lines is the approximation error.</li>
+</ul>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>There is some mild abuse of notation above regarding the conditional expectation. By <span class="math inline">\(\E[Y_j|\bX_j]\)</span> we understand <span class="math inline">\(\dot{h}(\bX_j)\)</span>.</p>
+</div>
+</div>
+</div>
+<p><br></p>
+<p><em>Fourth subquestion</em>: consider the approximaion error term in <a href="#eq-ols-pred-decomp" class="quarto-xref">Equation&nbsp;1</a>. It is sufficient to shows that <span class="math display">\[
+\bX_j'\bbeta - \E[Y_j|\bX_j] = 0.
+\]</span> By substituting the assumption, we obtain that <span class="math inline">\(\bX_j'\bbeta - \E[Y_j|\bX_j] = \bX_j'\bbeta-\bX_j'\bc\)</span>. Accordingly, it is sufficient to show <span class="math inline">\(\bc\)</span> must be equal to <span class="math inline">\(\bbeta\)</span>. This equality is easy to show using the law of iterated expectations and the definition of <span class="math inline">\(\bbeta\)</span>: <span class="math display">\[
+\begin{aligned}
+\bbeta &amp; = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i]\\
+&amp; = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\E[\bX_iY_i|\bX_i]]\\
+&amp; = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_i\E[Y_i|\bX_i]]\\
+&amp; = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_i\bX_i'\bc]\\
+&amp; = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_i\bX_i']\bc\\
+&amp; = \bc.
+\end{aligned}
+\]</span> The desired result now follows.</p>
+</details>
+</section>
+<section id="the-bias-variance-decomposition-and-trade-off" class="level3">
+<h3 class="anchored" data-anchor-id="the-bias-variance-decomposition-and-trade-off">The Bias-Variance Decomposition and Trade-Off</h3>
+<p>As <a href="https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt2.html#/bias-variance-decomposition-interpretation">noted</a> in the second lecture on predictive regression, one can establish a fairly explicit decomposition for the expected mean squared error (MSE) of a hypothesis picked on a random sample.</p>
+<p>In this problem, you are asked to prove this bias-variance decomposition (equation (1) in the <a href="https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt2.html#/bias-variance-decomposition-interpretation">slides</a>). Define the following objects:</p>
+<ul>
+<li><span class="math inline">\(\sigma^2 = \var(Y-\E_{Y|\bX}[Y|\bX])\)</span>, representing the irreducible error variance inherent in the data.</li>
+<li><span class="math inline">\(S= \curl{(\bX_1, Y_1), \dots, (\bX_N, Y_N)}\)</span> — the sample.</li>
+<li><span class="math inline">\((\bX, Y)\)</span> — a new pair of observations, independent from <span class="math inline">\(S\)</span>.</li>
+<li><span class="math inline">\(\hat{h}_S\)</span> — some hypothesis selected by our algorithm after seeing <span class="math inline">\(S\)</span>.</li>
+</ul>
+<div class="callout callout-style-simple callout-note no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>The expressions in this problem involve several different expectations. For clarity the problem makes explicit with respect to which distribution each expectation is taken.</p>
+</div>
+</div>
+</div>
+<p>Show that for any hypothesis <span class="math inline">\(h\)</span> it holds that <span class="math display">\[
+\begin{aligned}
+\hspace{-1cm} \E_S\left[MSE(\hat{h}_S)\right]  &amp; =  \sigma^2  + \E_{\bX}\left[\var_S(\hat{h}_S(\bX))\right] \\
+&amp; \quad + \E_X\left[\E_S\left[ (\E_{Y|\bX}[Y|\bX]- \hat{h}_S(\bX))^2 \right]\right]  
+\end{aligned}
+\]</span></p>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p>To begin, we obtain a more convenient representation for the object of interest. We use the law of iterated expectations and the fact that expectations are integrals to write <span id="eq-bv-1"><span class="math display">\[
+\begin{aligned}
+&amp; \E_S\left[MSE(\hat{h}_S) \right]\\
+&amp; = \E_{S}\left[ \E_{Y, \bX}\left[(Y-\hat{h}_S(\bX))^2 \right] \right] \\
+&amp; = \E_{S}\left[ \E_{\bX}\left[\E_{Y|\bX}[ (Y-\hat{h}_S(\bX))^2|\bX ] \right] \right]  \\
+&amp; = \E_{\bX}\left[ \E_{\bS}\left[\E_{Y|\bX}[ (Y-\hat{h}_S(\bX))^2|\bX ] \right] \right] \\
+&amp; = \int \E_{\bS} \left[\E_{Y|\bX}[ (Y-\hat{h}_S(\bX))^2|\bX=\bx] \right]f_{\bX}(\bx)d\bx,
+\end{aligned}
+\tag{2}\]</span></span> where <span class="math inline">\(f_{\bX}\)</span> is the marginal density of <span class="math inline">\(\bX\)</span> (the argument works with discrete <span class="math inline">\(\bX\)</span> as well).</p>
+<p>We can now study the expectation under the integral. To do so, first define <span class="math display">\[
+U = Y- \E_{Y|\bX}[Y|\bX].
+\]</span> Observe that <span id="eq-u-y"><span class="math display">\[
+\begin{aligned}
+\E_{Y|\bX}[U|\bX] &amp; = \E_{Y|\bX}[Y|\bX] - \E_{Y|\bX}[\E_{Y|\bX}[Y|\bX]|\bX]  \\
+&amp; = \E_{Y|\bX}[Y|\bX]- \E_{Y|\bX}[Y|\bX] =0.
+\end{aligned}
+\tag{3}\]</span></span></p>
+<p>We substitute <span class="math inline">\(Y=\E_{Y|\bX}[Y|\bX] + U\)</span> into the expectation under the integral and obtain <span id="eq-bv-2"><span class="math display">\[
+\begin{aligned}
+&amp; \E_{S}\left[\E_{Y|\bX}\left[ (Y-\hat{h}_S(\bX))^2|\bX=\bx\right]\right] \\
+&amp; = \E_{S}\left[\E_{Y|\bX}\left[( U + \E_{Y|\bX}[Y|\bX] -\hat{h}_S(\bX))^2|\bX=\bx\right]\right]\\
+&amp; =  \E_{S}\left[\E_{Y|\bX}\left[U^2|\bX=\bx\right]\right] \\
+&amp; \quad   - 2 \E_{S}\left[\E_{Y|\bX}\left[U(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))|\bX=\bx\right] \right] \\
+&amp; \quad + \E_{S}\left[\E_{Y|\bX}\left[(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))^2 |\bX=\bx \right] \right] .
+\end{aligned}
+\tag{4}\]</span></span></p>
+<p>We further expand the last term by adding and subtracting <span class="math inline">\(\E_S[\hat{h}_S(\bx)]\)</span>. <span class="math display">\[
+\begin{aligned}
+&amp; \E_{S}\left[\E_{Y|\bX}\left[(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))^2 |\bX=\bx \right] \right] \\
+&amp; = \E_{S}\left[\E_{Y|\bX}\left[(\E_{Y|\bX}[Y|\bX=\bx] - \hat{h}_S(\bx))^2 |\bX=\bx \right] \right] \\
+&amp; = \E_{S}\left[(\E_{Y|\bX}[Y|\bX=\bx] - \hat{h}_S(\bX))^2  \right] \\
+&amp; = \E_S\left[ \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)^2 \right]    +  \E_S\left[  \left( \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx) \right)^2 \right]\\
+&amp; \quad + \E_S\left[ \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)\left( \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx) \right)    \right] .
+\end{aligned}
+\]</span> Note that we get rid of the <span class="math inline">\(\E_{Y|\bX}\)</span> expectation in the third line because nothing depends on <span class="math inline">\((Y, \bX)\)</span> anymore after using the condition <span class="math inline">\(\curl{\bX=\bx}\)</span></p>
+<p>As for the last expectation, we note that <span class="math inline">\(\left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)\)</span> is a deterministic expression. It can thus be taken out of the expectation as <span id="eq-bv-3"><span class="math display">\[
+\begin{aligned}
+&amp; \E_S\left[ \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)\left( \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx) \right)    \right] \\
+&amp; = \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)\E_S\left[   \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx)    \right]\\
+&amp; = 0.
+\end{aligned}
+\tag{5}\]</span></span></p>
+<p>Combining equations (<a href="#eq-bv-1" class="quarto-xref">2</a>)-(<a href="#eq-bv-3" class="quarto-xref">5</a>) and the law of iterated expectations, we obtain that <span class="math display">\[
+\begin{aligned}
+&amp; \E_S\left[MSE(\hat{h}_S) \right] \\
+&amp; = \E_S\left[ \E_{Y, \bX}[U^2]\right] -2 \E_{S}\left[\E_{Y, \bX}\left[U(\E[Y|\bX] - \hat{h}_S(\bX))\right] \right] \\
+&amp; \quad + \E_{\bX}\left[ \E_S\left[ \left(\E_{Y|\bX}[Y|\bX] - \E_S[\hat{h}_S(\bX)] \right)^2 \right] \right]    \\
+&amp; \quad +  \E_{\bX}\left[  \E_S\left[  \left( \E_S[\hat{h}(\bX)] - \hat{h}_S(\bX) \right)^2 \right] \right]
+\end{aligned}
+\]</span></p>
+<p>As a finishing touch, we handle the expressions involving <span class="math inline">\(U\)</span>. First, <span class="math inline">\(\E_S\left[ \E_{Y, \bX}[U^2]\right] = \E_S[\sigma^2]=\sigma^2\)</span>. Second, we use <a href="#eq-u-y" class="quarto-xref">Equation&nbsp;3</a> to show that the second term in the preceding equation is 0: <span class="math display">\[
+\begin{aligned}
+&amp; \E_{S}\left[\E_{Y, \bX}\left[U(\E[Y|\bX] - \hat{h}_S(\bX))\right] \right]\\
+&amp; = \E_{S}\left[\E_{\bX}\left[   (\E[Y|\bX] - \hat{h}_S(\bX))
+  \E_{Y|\bX}\left[U|\bX\right]
+  \right] \right]\\
+  &amp; = 0.
+\end{aligned}
+\]</span> The desired result now follows.</p>
+</details>
+</section>
+<section id="bayes-classifier-in-binary-classification" class="level3">
+<h3 class="anchored" data-anchor-id="bayes-classifier-in-binary-classification">Bayes Classifier in Binary Classification</h3>
+<p>As we discussed, many popular classification methods, such as logistic regression, operate by predicting the probabilities of an observation belonging to each possible class. The predicted class is then determined as the one with the highest predicted probability. This problem demonstrates that this classification rule is justified from the perspective of minimizing indicator risk.</p>
+<p>Suppose that the label <span class="math inline">\(Y\)</span> can take two values: 0 or 1. Let <span class="math inline">\(\bX\)</span> be some vector of features. Recall that the indicator (missclassification) risk of <span class="math inline">\(h(\cdot)\)</span> is given by: <span class="math display">\[
+R(h) = \E[\I\curl{Y\neq h(\bX)}
+] = P(Y\neq h(\bX)).
+\]</span></p>
+<p>Consider the following classifier: <span class="math display">\[
+h^*(\bx) = \begin{cases}
+1, &amp; \eta(\bx) &gt; \dfrac{1}{2},\\
+0, &amp; \eta(\bx) \leq \dfrac{1}{2},
+\end{cases}
+\]</span> where <span class="math display">\[
+\eta(\bx) = P(Y=1|\bX=\bx).
+\]</span></p>
+<ol type="1">
+<li>Show that <span class="math inline">\(h^*\)</span> is the Bayes predictor for the indicator risk.</li>
+<li>Show that the Bayes risk is given by <span class="math display">\[
+R(h^*) = \E[\min\curl{ \eta(
+  \bX
+), 1-\eta(\bX) }].
+\]</span></li>
+</ol>
+<p>To interpret this result, note that <span class="math inline">\(\eta(\bx)\)</span> and <span class="math inline">\((1-\eta(\bx))\)</span> are the probabilities that an observation belongs to class 1 or 0, respectively. The Bayes classifier labels an observation with the class that is more likely.</p>
+<details>
+<summary>
+Click to see the solution
+</summary>
+<p><em>First subquestion</em>: let <span class="math inline">\(h\)</span> be any binary classifier. Like in the previous problem, we can connect the risk to an integral of a <em>conditional</em> probability of missclassification <span class="math display">\[
+\begin{aligned}
+R(h) &amp; = \E_{Y, \bX}[\I\curl{Y\neq h(\bX)}] \\
+&amp;  = \E_{\bX} \left[\E_{Y|\bX}\left[ \I\curl{Y\neq h(\bX)}|\bX\right] \right] \\
+&amp; = \int  \E_{Y|\bX} \left[ \I\curl{Y\neq h(\bX)}|\bX=\bx \right] f_{\bX}(\bx)d\bx\\
+&amp; = \int P\left(h(\bX
+)\neq Y|\bX=\bx \right) f_{\bX}(\bx)d\bx,
+\end{aligned}
+\]</span> where <span class="math inline">\(f_{\bX}\)</span> is the density of <span class="math inline">\(\bX\)</span>.</p>
+<p>We focus on the conditional probability of missclasification: <span class="math display">\[
+\begin{aligned}
+&amp; P\left(h(\bX)\neq Y|\bX=\bx \right) \\
+&amp; = 1- P(h(\bX)=1, Y=1| \bX=\bx) - P(h(\bX)=0, Y=0|\bX=\bx)\\
+&amp; = 1- \I\curl{h(\bx)=1}P(Y=1|\bX=\bx)- \I\curl{h(\bx)=0}P(Y=0|\bX=\bx)\\
+&amp; = 1- \I\curl{h(\bx)=1}\eta(\bx) - \I\curl{h(\bx)=0}(1-\eta(\bx)).
+\end{aligned}
+\]</span> Note that the second equality holds because <span class="math inline">\(h(\bX)\)</span> is not random conditional on <span class="math inline">\(\curl{\bX=\bx}\)</span>.</p>
+<p>Constrast such conditional misclassification probabilities of <span class="math inline">\(h^*\)</span> and any <span class="math inline">\(h\)</span>: <span class="math display">\[
+\begin{aligned}
+&amp; \quad P(h(\bX)\neq Y|\bX=\bx) - P(h^*(\bX)\neq Y|\bX=\bx)   \\  &amp; =  \eta(
+  \bx)\left(\mathbb{I}_{h^*(\bx)=1}- \I\curl{h(\bx)=1} \right) \\
+&amp; \quad + (1-\eta(\bx))\left(  \I\curl{h^*(\bx)=0} - \mathbb{I}_{h(\bx)=0}\right)
+\\ &amp; = (2\eta(\bx)-1)\left(\mathbb{I}\curl{h^*(\bx)=1} - \mathbb{I}\curl{h(\bx)=1} \right)\\
+&amp; \geq 0
+\end{aligned}
+\]</span> where we used that <span class="math inline">\(\mathbb{I}\curl{h^*(\bx)=0}=  1-\mathbb{I}\curl{h^*(\bx)=1}\)</span> in the second equality. In the last line we substitute <span class="math inline">\(h^*\)</span> to see that the second parentheses always have the same sign as the first ones.</p>
+<p>Integrating over <span class="math inline">\(\bx\)</span> now, we conclude that <span class="math display">\[
+R(h^*)\leq R(h).
+\]</span> The risk of any <span class="math inline">\(h\)</span> must be greater or equal to the risk of <span class="math inline">\(h^*\)</span>. In other words, <span class="math inline">\(h^*\)</span> is the Bayes classifier.</p>
+<p><br></p>
+<p><em>Second subquestion</em>: To obtain the Bayes risk, directly evaluate the conditional missclassification probability: if <span class="math inline">\(\eta(\bx)&gt; 1/2\)</span>, then <span class="math inline">\(P(h(\bX)\neq Y|\bX=\bx) = 1-\eta(\bx)\)</span> (which is no greater than <span class="math inline">\(\eta(\bx))\)</span>. If <span class="math inline">\(\eta(\bx)\leq 1/2\)</span>, then <span class="math inline">\(P(h(\bX)\neq Y|\bX=\bx) = \eta(\bx)\)</span> (which is no greater than <span class="math inline">\(1-\eta(\bx)\)</span>). Accordingly, <span class="math display">\[
+P\left(h(\bX)\neq Y|\bX=\bx \right)  = \min\curl{ \eta(\bx), 1-\eta(\bx) }.
+\]</span></p>
 </details>
 </section>
 </section>
 <section id="applied-exercises" class="level2">
 <h2 class="anchored" data-anchor-id="applied-exercises">Applied Exercises</h2>
+<section id="regression" class="level3">
+<h3 class="anchored" data-anchor-id="regression">Regression</h3>
+<p>Consider again the context of predicting house prices using the California housing dataset discussed in the lectures.</p>
+<ul>
+<li>Fit a ridge regressor and fine-tune its penalty parameter using cross-validation. Compare to the results obtained by a random forest regressor.</li>
+<li>Experiment with including geographical features based on the coordinates of each block. Does including raw longitude and latitude improve performance? What if you compute new features based on distance of the block to the major urban areas in the state?</li>
+</ul>
+<p>Throughout, we have used <em>model-based</em> methods, which fit some model to the data and then use the model for predictions. <em>Instance-based</em> learning provides an alternative approach, in which the algorithm memorizes the training examples and uses them to make predictions based on similarities. A leading example is given by <span class="math inline">\(k\)</span>-nearest neighbors (<span class="math inline">\(k\)</span>-NN) regressors and classifiers.</p>
+<ul>
+<li>Fit a <span class="math inline">\(k\)</span>-NN regressor.</li>
+<li>Tune the number of neighbors to consider using cross-validation.</li>
+</ul>
+<p>If you are not familiar with <span class="math inline">\(k\)</span>-NN methods, see chapters 2 and 4 in <span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#ref-James2023IntroductionStatisticalLearning" role="doc-biblioref">2023</a>)</span>.</p>
+</section>
+<section id="classification" class="level3">
+<h3 class="anchored" data-anchor-id="classification">Classification</h3>
+<p>Consider again the problem of recognizing handwritten digits based on the MNIST dataset discussed in the lectures.</p>
+<ul>
+<li>Use cross-validation to choose the tuning parameters of the various methods discussed in the lectures.</li>
+<li>Fit and tune a <span class="math inline">\(k\)</span>-NN classifier.</li>
+</ul>
+<p>Throughout, we have used all 784 pixels as features. However, we suspect that many of those are not useful. For example, the edge pixels are generally white and do not contribute much to prediction. Accordingly, one may wish to try a dimensionality reduction technique to potentially extract a smaller number of more useful features.</p>
+<ul>
+<li>Reduce the dimensionality of the feature vector by adding a principal components transformer (<code>PCA</code>) to the pipeline before the classifiers.</li>
+<li>Choose the number of principal components fed to the classifier using cross-validation.</li>
+</ul>
+<p>See chapter 12 of <span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#ref-James2023IntroductionStatisticalLearning" role="doc-biblioref">2023</a>)</span> regarding dimensionality reduction and PCA.</p>
+
 
 
 </section>
+</section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-James2023IntroductionStatisticalLearning" class="csl-entry" role="listitem">
+James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, and Jonathan E. Taylor. 2023. <em>An <span>Introduction</span> to <span>Statistical Learning</span>: <span>With Applications</span> in <span>Python</span></em>. Springer Texts in Statistics. Cham: Springer.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
