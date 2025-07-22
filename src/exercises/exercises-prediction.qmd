@@ -152,11 +152,11 @@ The desired result now follows.
 ## The Bias-Variance Decomposition and Trade-Off
  
 
-As [noted](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt2.html#/bias-variance-decomposition-ii) in the second lecture on predictive regression, one can establish a fairly explicit decomposition for the expected mean squared error (MSE) of a hypotheses picked on a random sample. 
+As [noted](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt2.html#/bias-variance-decomposition-interpretation) in the second lecture on predictive regression, one can establish a fairly explicit decomposition for the expected mean squared error (MSE) of a hypothesis picked on a random sample. 
 
 
 
-In this problem, you are asked to prove this bias-variance decomposition  (equation (1) in the [slides](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt2.html#/bias-variance-decomposition-ii)). Define the following objects:
+In this problem, you are asked to prove this bias-variance decomposition  (equation (1) in the [slides](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt2.html#/bias-variance-decomposition-interpretation)). Define the following objects:
 
 - $\sigma^2 = \var(Y-\E_{Y|\bX}[Y|\bX])$, representing the irreducible error variance inherent in the data. 
 - $S= \curl{(\bX_1, Y_1), \dots, (\bX_N, Y_N)}$ — the sample.
@@ -175,7 +175,7 @@ Show that for any hypothesis $h$ it holds that
 $$
 \begin{aligned}
 \hspace{-1cm} \E_S\left[MSE(\hat{h}_S)\right]  & =  \sigma^2  + \E_{\bX}\left[\var_S(\hat{h}_S(\bX))\right] \\
-& \quad + \E_X\left[\E_S\left[ (\E_{Y|\bX}[Y|\bX]- \hat{h}_S(\bX))^2 \right]\right] + 
+& \quad + \E_X\left[\E_S\left[ (\E_{Y|\bX}[Y|\bX]- \hat{h}_S(\bX))^2 \right]\right]  
 \end{aligned}
 $$  
 
