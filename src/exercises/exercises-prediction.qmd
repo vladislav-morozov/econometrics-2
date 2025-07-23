@@ -89,7 +89,7 @@ $$
 <br>
 
 
-*Third subquestion*: Recall that the excess error of $\hat{h}$ is the difference between the risk of $\hat{h}$ and the infimum of risk over all hypotheses. By [proposition 1 in the regression slides](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt1.html#/mse-optimal-predictor-bayes-predictor) we know that the best achievable risk is associated with $\dot{h}(\bx)=\E[Y_j|\bX=\bx]$. Accordingly, we can write the excess error as
+*Third subquestion*: Recall that the excess error of $\hat{h}$ is the difference between the risk of $\hat{h}$ and the infimum of risk over all hypotheses. By [proposition 1 in the regression slides](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt1.html#/mse-optimal-predictor-bayes-predictor) we know that the best achievable risk is associated with $\dot{h}(\bx)=\E[Y_j|\bX_j=\bx]$. Accordingly, we can write the excess error as
 $$
 \begin{aligned}
  & MSE(\hat{h}) - MSE(\dot{h})\\
@@ -105,7 +105,7 @@ $$
 &  = -2\E[Y_j(h(\bX_j)-g(\bX_j))] + \E[(h(\bX_j)-g(\bX_j))(h(\bX_j)+g(\bX_j))].
 \end{aligned}
 $$
-As always, note that here $(Y_j, \bX_j)$ is a new point that is independent from the sample. 
+As always, $(Y_j, \bX_j)$ is a new point that is independent from the sample. 
 
 It follows that the excess error may be represented as 
 $$
@@ -120,6 +120,8 @@ $$ {#eq-ols-pred-decomp}
 
 - The expression in the second line above is the estimation error. Notice how it depends on the difference between $\hat{\bbeta}$ and its probability limit $\bbeta$.
 - The expression in the last two lines is the approximation error. 
+
+The expectations above are with respect to $(\bX_j, Y_j)$. Accordingly, the overall expression is still random through its dependence on the sample through $\hat{\bbeta}$.
 
 ::: {.callout-note appearance="minimal"}
 
@@ -227,9 +229,9 @@ $$
 \begin{aligned}
 & \E_{S}\left[\E_{Y|\bX}\left[(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))^2 |\bX=\bx \right] \right] \\
 & = \E_{S}\left[\E_{Y|\bX}\left[(\E_{Y|\bX}[Y|\bX=\bx] - \hat{h}_S(\bx))^2 |\bX=\bx \right] \right] \\
-& = \E_{S}\left[(\E_{Y|\bX}[Y|\bX=\bx] - \hat{h}_S(\bX))^2  \right] \\
+& = \E_{S}\left[(\E_{Y|\bX}[Y|\bX=\bx] - \hat{h}_S(\bx))^2  \right] \\
 & = \E_S\left[ \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)^2 \right]    +  \E_S\left[  \left( \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx) \right)^2 \right]\\
-& \quad + \E_S\left[ \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)\left( \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx) \right)    \right] .
+& \quad +2 \E_S\left[ \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)\left( \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx) \right)    \right] .
 \end{aligned}
 $$
 Note that we get rid of the $\E_{Y|\bX}$ expectation in the third line because nothing depends on $(Y, \bX)$ anymore after using the condition $\curl{\bX=\bx}$
@@ -249,7 +251,7 @@ Combining equations ([-@eq-bv-1])-([-@eq-bv-3]) and the law of iterated expectat
 $$
 \begin{aligned}
 & \E_S\left[MSE(\hat{h}_S) \right] \\
-& = \E_S\left[ \E_{Y, \bX}[U^2]\right] -2 \E_{S}\left[\E_{Y, \bX}\left[U(\E[Y|\bX] - \hat{h}_S(\bX))\right] \right] \\
+& = \E_S\left[ \E_{Y, \bX}[U^2]\right] -2 \E_{S}\left[\E_{Y, \bX}\left[U(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))\right] \right] \\
 & \quad + \E_{\bX}\left[ \E_S\left[ \left(\E_{Y|\bX}[Y|\bX] - \E_S[\hat{h}_S(\bX)] \right)^2 \right] \right]    \\
 & \quad +  \E_{\bX}\left[  \E_S\left[  \left( \E_S[\hat{h}(\bX)] - \hat{h}_S(\bX) \right)^2 \right] \right]
 \end{aligned}
@@ -258,8 +260,8 @@ $$
 As a finishing touch, we handle the expressions involving $U$. First, $\E_S\left[ \E_{Y, \bX}[U^2]\right] = \E_S[\sigma^2]=\sigma^2$. Second, we  use @eq-u-y to show that the second term in the preceding equation is 0:
 $$
 \begin{aligned}
-& \E_{S}\left[\E_{Y, \bX}\left[U(\E[Y|\bX] - \hat{h}_S(\bX))\right] \right]\\
-& = \E_{S}\left[\E_{\bX}\left[   (\E[Y|\bX] - \hat{h}_S(\bX))
+& \E_{S}\left[\E_{Y, \bX}\left[U(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))\right] \right]\\
+& = \E_{S}\left[\E_{\bX}\left[   (\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))
   \E_{Y|\bX}\left[U|\bX\right]
   \right] \right]\\
   & = 0.
@@ -368,7 +370,7 @@ Consider again the context of predicting house prices using the California housi
 Throughout, we have used *model-based* methods, which fit some model to the data and then use the model for predictions. *Instance-based* learning provides an alternative approach, in which the algorithm memorizes the training examples and uses them to make predictions based on similarities. A leading example is given by $k$-nearest neighbors ($k$-NN) regressors and classifiers. 
 
 - Fit a $k$-NN regressor.
-- Tune the number of neighbors to  consider using cross-validation.
+- Tune the number of neighbors to  consider using cross-validation. Compare the performance of $k$-NN to our model-based regressors.
 
 If you are not familiar with $k$-NN methods, see chapters 2 and 4 in @James2023IntroductionStatisticalLearning.
 
