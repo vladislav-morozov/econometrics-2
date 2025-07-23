@@ -510,12 +510,6 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Advanced Econometrics (Econometrics II)</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../slides/organizational/intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course Introduction</span></a>
   </div>
@@ -798,7 +792,7 @@ h^*(\bx) &amp; = \bx'\bbeta^*, \\
 \hat{\bbeta} = (\bX'\bX)^{-1}\bX'\bY.
 \]</span> <a href="https://vladislav-morozov.github.io/econometrics-2/slides/vector/ols-consistency.html#/combining-together">Proposition 5</a> in the consistency slides now shows the desired result.</p>
 <p><br></p>
-<p><em>Third subquestion</em>: Recall that the excess error of <span class="math inline">\(\hat{h}\)</span> is the difference between the risk of <span class="math inline">\(\hat{h}\)</span> and the infimum of risk over all hypotheses. By <a href="https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt1.html#/mse-optimal-predictor-bayes-predictor">proposition 1 in the regression slides</a> we know that the best achievable risk is associated with <span class="math inline">\(\dot{h}(\bx)=\E[Y_j|\bX=\bx]\)</span>. Accordingly, we can write the excess error as <span class="math display">\[
+<p><em>Third subquestion</em>: Recall that the excess error of <span class="math inline">\(\hat{h}\)</span> is the difference between the risk of <span class="math inline">\(\hat{h}\)</span> and the infimum of risk over all hypotheses. By <a href="https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt1.html#/mse-optimal-predictor-bayes-predictor">proposition 1 in the regression slides</a> we know that the best achievable risk is associated with <span class="math inline">\(\dot{h}(\bx)=\E[Y_j|\bX_j=\bx]\)</span>. Accordingly, we can write the excess error as <span class="math display">\[
 \begin{aligned}
 &amp; MSE(\hat{h}) - MSE(\dot{h})\\
 &amp; = \underbrace{\left( MSE(\hat{h})- MSE(h^*)  \right)}_{\text{Estimation error}} + \underbrace{\left(MSE(h^*) - MSE(\dot{h}) \right)}_{\text{Approximation error}},
@@ -809,7 +803,7 @@ h^*(\bx) &amp; = \bx'\bbeta^*, \\
 &amp; MSE(h)- MSE(g) \\
 &amp;  = -2\E[Y_j(h(\bX_j)-g(\bX_j))] + \E[(h(\bX_j)-g(\bX_j))(h(\bX_j)+g(\bX_j))].
 \end{aligned}
-\]</span> As always, note that here <span class="math inline">\((Y_j, \bX_j)\)</span> is a new point that is independent from the sample.</p>
+\]</span> As always, <span class="math inline">\((Y_j, \bX_j)\)</span> is a new point that is independent from the sample.</p>
 <p>It follows that the excess error may be represented as <span id="eq-ols-pred-decomp"><span class="math display">\[
 \begin{aligned}
 &amp; MSE(\hat{h}) - MSE(\dot{h})\\
@@ -822,6 +816,7 @@ h^*(\bx) &amp; = \bx'\bbeta^*, \\
 <li>The expression in the second line above is the estimation error. Notice how it depends on the difference between <span class="math inline">\(\hat{\bbeta}\)</span> and its probability limit <span class="math inline">\(\bbeta\)</span>.</li>
 <li>The expression in the last two lines is the approximation error.</li>
 </ul>
+<p>The expectations above are with respect to <span class="math inline">\((\bX_j, Y_j)\)</span>. Accordingly, the overall expression is still random through its dependence on the sample through <span class="math inline">\(\hat{\bbeta}\)</span>.</p>
 <div class="callout callout-style-simple callout-note no-icon">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -907,9 +902,9 @@ U = Y- \E_{Y|\bX}[Y|\bX].
 \begin{aligned}
 &amp; \E_{S}\left[\E_{Y|\bX}\left[(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))^2 |\bX=\bx \right] \right] \\
 &amp; = \E_{S}\left[\E_{Y|\bX}\left[(\E_{Y|\bX}[Y|\bX=\bx] - \hat{h}_S(\bx))^2 |\bX=\bx \right] \right] \\
-&amp; = \E_{S}\left[(\E_{Y|\bX}[Y|\bX=\bx] - \hat{h}_S(\bX))^2  \right] \\
+&amp; = \E_{S}\left[(\E_{Y|\bX}[Y|\bX=\bx] - \hat{h}_S(\bx))^2  \right] \\
 &amp; = \E_S\left[ \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)^2 \right]    +  \E_S\left[  \left( \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx) \right)^2 \right]\\
-&amp; \quad + \E_S\left[ \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)\left( \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx) \right)    \right] .
+&amp; \quad +2 \E_S\left[ \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)\left( \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx) \right)    \right] .
 \end{aligned}
 \]</span> Note that we get rid of the <span class="math inline">\(\E_{Y|\bX}\)</span> expectation in the third line because nothing depends on <span class="math inline">\((Y, \bX)\)</span> anymore after using the condition <span class="math inline">\(\curl{\bX=\bx}\)</span></p>
 <p>As for the last expectation, we note that <span class="math inline">\(\left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)\)</span> is a deterministic expression. It can thus be taken out of the expectation as <span id="eq-bv-3"><span class="math display">\[
@@ -922,15 +917,15 @@ U = Y- \E_{Y|\bX}[Y|\bX].
 <p>Combining equations (<a href="#eq-bv-1" class="quarto-xref">2</a>)-(<a href="#eq-bv-3" class="quarto-xref">5</a>) and the law of iterated expectations, we obtain that <span class="math display">\[
 \begin{aligned}
 &amp; \E_S\left[MSE(\hat{h}_S) \right] \\
-&amp; = \E_S\left[ \E_{Y, \bX}[U^2]\right] -2 \E_{S}\left[\E_{Y, \bX}\left[U(\E[Y|\bX] - \hat{h}_S(\bX))\right] \right] \\
+&amp; = \E_S\left[ \E_{Y, \bX}[U^2]\right] -2 \E_{S}\left[\E_{Y, \bX}\left[U(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))\right] \right] \\
 &amp; \quad + \E_{\bX}\left[ \E_S\left[ \left(\E_{Y|\bX}[Y|\bX] - \E_S[\hat{h}_S(\bX)] \right)^2 \right] \right]    \\
 &amp; \quad +  \E_{\bX}\left[  \E_S\left[  \left( \E_S[\hat{h}(\bX)] - \hat{h}_S(\bX) \right)^2 \right] \right]
 \end{aligned}
 \]</span></p>
 <p>As a finishing touch, we handle the expressions involving <span class="math inline">\(U\)</span>. First, <span class="math inline">\(\E_S\left[ \E_{Y, \bX}[U^2]\right] = \E_S[\sigma^2]=\sigma^2\)</span>. Second, we use <a href="#eq-u-y" class="quarto-xref">Equation&nbsp;3</a> to show that the second term in the preceding equation is 0: <span class="math display">\[
 \begin{aligned}
-&amp; \E_{S}\left[\E_{Y, \bX}\left[U(\E[Y|\bX] - \hat{h}_S(\bX))\right] \right]\\
-&amp; = \E_{S}\left[\E_{\bX}\left[   (\E[Y|\bX] - \hat{h}_S(\bX))
+&amp; \E_{S}\left[\E_{Y, \bX}\left[U(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))\right] \right]\\
+&amp; = \E_{S}\left[\E_{\bX}\left[   (\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))
   \E_{Y|\bX}\left[U|\bX\right]
   \right] \right]\\
   &amp; = 0.
@@ -1014,7 +1009,7 @@ P\left(h(\bX)\neq Y|\bX=\bx \right)  = \min\curl{ \eta(\bx), 1-\eta(\bx) }.
 <p>Throughout, we have used <em>model-based</em> methods, which fit some model to the data and then use the model for predictions. <em>Instance-based</em> learning provides an alternative approach, in which the algorithm memorizes the training examples and uses them to make predictions based on similarities. A leading example is given by <span class="math inline">\(k\)</span>-nearest neighbors (<span class="math inline">\(k\)</span>-NN) regressors and classifiers.</p>
 <ul>
 <li>Fit a <span class="math inline">\(k\)</span>-NN regressor.</li>
-<li>Tune the number of neighbors to consider using cross-validation.</li>
+<li>Tune the number of neighbors to consider using cross-validation. Compare the performance of <span class="math inline">\(k\)</span>-NN to our model-based regressors.</li>
 </ul>
 <p>If you are not familiar with <span class="math inline">\(k\)</span>-NN methods, see chapters 2 and 4 in <span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#ref-James2023IntroductionStatisticalLearning" role="doc-biblioref">2023</a>)</span>.</p>
 </section>
