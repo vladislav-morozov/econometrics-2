@@ -26,12 +26,14 @@ The course is designed for students with prior exposure to basic statistics and 
 **Level:** Undergraduate
 
 **Prerequisites:** Prior coursework in statistics and econometrics
+ 
 
-**Current course status**: In progress, these materials get updated regularly
+**Applications in:** [![Python](https://img.shields.io/badge/python-ffdd54?style=flat&logo=python&logoColor=3776AB)](https://www.python.org/)
 
 
 
-The course is structured around the following major components (subject to change):
+
+The course is structured as follows: 
 
 1. A deeper look at linear regression:
    - A vector-matrix form approach to linear regression.
@@ -47,30 +49,13 @@ The course is structured around the following major components (subject to chang
    - Differences-in-differences.
    - Two-way fixed effect approaches with multivalued treatment.
    - Mean group estimation.
-4. Introduction to forecasting:
-   - Causal inference vs. forecasting I.
-   - Notions of forecast optimality.
-   - Forecasting in cross-sections.
-5. Parametric nonlinear models:
-   - Beyond linearity: nonlinear regression and nonlinear least squares.
-   - Discrete outcomes in causal settings. 
-   - Elements of asymptotic theory for nonlinear models.
-   - Classification as forecasting with discrete outcomes.
-
-If time allows, we will further discuss:
-
-6. Generalized method of moments.
-   - Linear generalized method of moments (GMM).
-   - IV estimation of dynamic panel data models.
-   - Fundamentals of nonlinear GMM.
-7.  Time series:
-    - Time series as probabilistic objects and their properties.
-    - Univariate models: ARIMA(X).
-    - Multivariate time series: VARIMA(X).
-    - Elements of causal inference with time series. 
-    - Forecasting with time series vs. forecasting with panel data
-
-Even further topics such as quantile regression, experimentation under interference, and high-dimensional data may be introduced as time allows.
+4. Introduction to statistical and machine learning:
+   - Causal inference vs. forecasting. 
+   - Components of a machine learning problem.
+   - PAC learnability.
+   - The no-free-lunch theorem.
+   - Regression and classification problems in practice.
+ 
 
 ## Course Materials
 
@@ -90,7 +75,7 @@ Final evaluation is based on a 90-minute written, closed-book exam. The course o
 
 ## About This Repository
 
-This repository serves as the central source for lecture slides and problem sets for the course. Overall, the course is deployed as a Quarto website. 
+This repository serves as the central source for lecture slides and problem sets for the course. The materials are made with ![Quarto](https://img.shields.io/badge/Quarto-39729E?style=flat&logo=quarto&logoColor=white).
 
 Contributions, typo reports, and suggestions for clarity are welcome. Please open an issue or contact me directly!
 

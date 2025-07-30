@@ -1,0 +1,589 @@
+---
+title: "Learning Framework, Limits and Trade-Offs"
+subtitle: "PAC Learning, Bias-Complexity Trade-Off, and the No Free Lunch Theorem"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="Learning framework for machine learning: PAC learning, no free lunch theorems, and the bias-complexity trade-off (lecture notes slides)."/>
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Learning Framework, Limits and Trade-Offs"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+open-graph:
+    description: "Learning framework for machine learning: PAC learning, no free lunch theorems, and the bias-complexity trade-off (lecture notes slides)."
+---
+
+
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture gives a framework for thinking about learning algorithms and hypothesis classes
+
+<br>
+
+By the end, you should be able to
+
+- Discuss the bias-complexity trade-off of selecting the hypothesis class
+- Define the PAC learning framework and relate PAC learning to complexity
+- Intuitively state the no free lunch theorem of learning
+
+#### References
+
+<br>
+
+::: {.nonincremental}
+
+- Chapter 1-2 in @James2023IntroductionStatisticalLearning
+- Deep reading with details:
+    - PAC learning: chapter 3 @Shalev-Shwartz2014UnderstandingMachineLearning or chapter 2 in @Mohri2018FoundationsMachineLearning
+    - No-Free-Lunch theorem: chapter 5 in @Shalev-Shwartz2014UnderstandingMachineLearning
+
+:::  
+
+### This Lecture {background="#43464B" visibility="uncounted"}
+
+
+
+
+#### Learning Algorithms
+ 
+Think in terms of learning algorithms:
+
+1. Algorithm $\Acal$ sees sample $S=\curl{(Y_1, \bX_1), \dots, (Y_N, \bX_N)}$ and hypothesis class $\Hcal$
+2. Algorithm returns some $\hat{h}_{S}^{\Acal}(\cdot)\in\Hcal$
+
+. . . 
+
+Example of learning algorithm: ERM
+ 
+#### This Lecture
+
+<div class="rounded-box">
+
+Want $\Hcal$ and algorithms that "<span class="highlight">tend to</span>" return $\hat{h}_S(\cdot)\in \Hcal$ with "<span class="highlight">low</span>" $R(\hat{h}_S)$
+
+</div>
+
+This lecture: how to think about this matter
+
+- Inherent trade-off in terms of complexity of $\Hcal$
+- Thinking about $\Acal$ choosing from $\Acal$
+- Is there a universally valid $\Acal$?
+ 
+
+## Bias-Complexity Tradeoff {background="#00100F"}
+  
+
+ 
+
+### Bayes Risk {background="#43464B" visibility="uncounted"}
+
+
+#### Bayes Risk
+
+Special name for <span class="highlight">lowest</span> possible risk:
+
+<div class="rounded-box">
+
+
+::: {#def-pac-bayes-risk}
+
+The <span class="highlight">Bayes risk</span> is defined as
+$$
+R^* = \inf R(h)
+$$
+across <span class="highlight">all</span> $h(\cdot)$ such that $R(h)$ makes sense.
+
+If $h$ is such that $R(h)=R^*$, this $h$ is known as the <span class="highlight">Bayes predictor</span>
+
+:::
+
+</div> 
+
+Note: $R^*$ depends on the distribution of the data
+
+::: {.footer}
+
+Infimum instead of minimum to make sure the definition always works
+
+::: 
+
+#### Bayes Risk Example: Independent Coin
+
+Let $Y=$ Heads or Tails of 50/50 coin
+
+- $\bX$ --- some variables that do not depend on $Y$
+- Risk --- indicator risk 
+
+. . .
+
+
+<br>
+
+
+Here $R^*=0.5$, $\bX$ — useless for predicting
+
+- $h(\bX)=Tails$ and $h(\bX) = Heads$ both have $R(h)=0.5$
+
+
+#### Bayes Risk Example: Linear Model
+
+True model:
+$$
+Y = \bX'\bbeta + U
+$$
+$U$ — independent of $\bX$ with $\E[U]=0, \var(U) =\sigma^2$ 
+
+. . .
+
+- Risk: MSE
+- Best you can do --- know actual $\beta$ (next lecture and exercise)
+- $\Rightarrow$ $R^* = R(\bbeta) = \sigma^2$
+
+#### Excess Error
+
+
+<br> 
+
+
+<div class="rounded-box">
+::: {#def-pac-excess}
+
+The <span class="highlight">excess error</span> of a hypothesis $h$ is defined as
+$$
+R(h) - R^*
+$$
+
+
+:::
+
+</div>
+
+Intuition: how good we are doing with $h$ vs. how good we can do at best
+
+
+### Bias-Complexity Trade-Off {background="#43464B" visibility="uncounted"}
+
+
+#### Bias-Complexity Trade-Off I: Decomposition
+
+Useful to decompose
+$$
+\begin{aligned}
+R(h) - R^* = \underbrace{\left(R(h) - \inf_{h\in\Hcal} R(h) \right)}_{\text{Estimation error}} + \underbrace{\left(\inf_{h\in\Hcal} R(h)- R^* \right)}_{\text{Approximation error}}
+\end{aligned}
+$$
+
+- Inserted $\inf_{h\in\Hcal} R(h)$ — <span class="highlight"> best</span> you can do with <span class="highlight">$\Hcal$</span>
+- Expresses key trade-off — <span class="highlight">bias-complexity</span> trade-off 
+
+#### Approximation Error I
+
+$$
+\text{Approximation error} =  \inf_{h\in\Hcal} R(h)- R^*  
+$$
+
+<div class="rounded-box">
+
+Shows how good $\Hcal$ can do in terms of risk
+
+</div>
+
+
+- Not a statistical question, studied by approximation theory
+- Increasing size/richness of hypothesis class may lower approximation error (but not raise it)
+
+
+#### Approximation Error II
+
+
+
+:::: {.columns}
+
+
+::: {.column width="40%"}
+
+- Example: $\Hcal_1 \subseteq \Hcal_2$ $\subseteq \dots$ $\subseteq \Hcal_{\gamma} \subseteq \dots$
+- Increasing $\gamma$ — more complex class (e.g. allowing higher powers of polynomials)
+
+
+:::
+
+
+::: {.column width="60%"}
+
+
+![](/images/pred/app-error.png)
+
+:::
+
+
+
+::::
+
+
+. . .
+
+Can generally get closer to Bayes risk (e.g. by getting closer to Bayes predictor $h_{Bayes}$)
+
+::: {.footer}
+
+Image: figure 4.2 in @Mohri2018FoundationsMachineLearning
+
+:::
+
+
+#### Estimation Error I
+
+
+$$
+\text{Estimation error} =  R(h) - \inf_{h\in\Hcal} R(h) 
+$$
+
+
+<div class="rounded-box">
+
+Called estimation error because usually care about $R(\hat{h}) - \inf_{h\in\Hcal} R(h)$ where $\hat{h}$ is <span class="highlight">selected based on data</span>
+
+</div>
+
+
+Controlled by 
+
+- Learning algorithm: how is $\hat{h}$ chosen
+- Complexity of $\Hcal$
+- Amount of data available for learning
+
+::: {.footer}
+
+:::
+
+#### Estimation Error and Overfitting
+
+How does estimation error depend on complexity of $\Hcal$?
+
+- In general: more <span class="highlight">difficult</span> to control with <span class="highlight">larger</span> $\Hcal$
+- Intuitively: 
+  - Sample is finite: only limited information
+  - Harder to choose well with more options
+- Related to overfitting: choosing a too complex $\hat{h}$: low risk on training sample, poor generalization
+
+
+::: {.footer}
+
+Remember: estimation error is about choosing the best *available* option
+
+:::
+
+
+#### Bias-Complexity Trade-Off II: Visually
+
+
+
+:::: {.columns}
+
+
+::: {.column width="40%"}
+ 
+- Increasing complexity:  approximation error $\Downarrow$, estimation error $\Uparrow$ (more or less)
+- Creates a trade-off 
+- Finding optimal point — art. Depends on the specific problem (more on that later)
+
+:::
+
+
+::: {.column width="60%"}
+
+
+![](/images/pred/bias-compl.png)
+
+:::
+
+
+
+::::
+  
+::: {.footer}
+
+Trade-off: less bias (approximation error) means more complexity is needed
+
+:::
+
+#### Underfitting
+
+If approximation error dominates
+
+- $\Hcal$ not complex enough 
+- Called <span class="highlight">underfitting</span>
+
+. . . 
+
+<br>
+
+Solution: use a richer $\Hcal$
+
+#### Overfitting
+
+Estimation error dominates if  $\hat{h}$ chosen poorly
+
+- Usual source: overfitting
+- Also maybe due to optimization issues
+
+. . .
+
+Solutions: 
+
+- Use a less complex $\Hcal$
+- Add penalty to empirical risk/objective to punish more complex models (e.g. $L^1$ or $L^2$ penalties from last time)
+
+## PAC Learning {background="#00100F"}
+
+#### Motivation
+ 
+Mentioned before: approximation error studied by approximation theory, not a statistical question
+
+<br>
+
+. . . 
+
+<div class="rounded-box">
+
+How is estimation error studied? 
+
+</div>
+
+- Part of "core" statistical learning theory
+- Basic framework for thinking — <span class="highlight">probably approximately correct </span> (PAC) learning 
+- Introduce it now and talk more about generalization
+
+#### Reminder: Notation
+
+Pieces of learning:
+
+- Algorithm $\Acal$
+- Sample $S=\curl{(Y_1, \bX_1), \dots, (Y_N, \bX_N)}$ 
+- Hypothesis class $\Hcal$
+
+. . . 
+
+<br> 
+
+$\Acal$ selects some $\hat{h}_S^{\Acal}$ from $\Hcal$ after seeing $S$
+
+#### Randomness in Generalization and Estimation Errors
+
+Generalization error (risk) of $\hat{h}^{\Acal}_S$:
+$$
+R(\hat{h}^{\Acal}_S) =  \E_{(Y, \bX)}\left[ l(Y, \hat{h}_S(\bX))  \right]
+$$
+
+- Expectation over <span class="highlight">new independent</span> point $(Y, \bX)$, not over the sample ($\hat{h}^{\Acal}_S$ fixed for the expectation)!
+- $\Rightarrow R(\hat{h}^{\Acal}_S)$ is random because it depends on sample $S$
+- $\Rightarrow$ estimation error $R(\hat{h}^{\Acal}_S) - \inf_{h\in\Hcal}R(h)$ also random
+
+#### PAC: Intuitive Form
+ 
+- Want to have $R(\hat{h}^{\Acal}_S) - \inf_{h\in\Hcal}R(h)$ small — less than some $\varepsilon$ (to be <span class="highlight">approximately correct</span>)
+- Want this to happen for most samples, at least share $1-\delta$ of possible samples of size $m$ (for it to happen <span class="highlight">probably</span>)
+- Want it to hold <span class="highlight">regardless</span> of the distribution of data
+
+. . .
+
+<br>
+
+PAC learning [@Valiant1984TheoryLearnable] combines these requirements
+
+
+#### PAC: Simplified Definition
+
+
+<div class="rounded-box">
+
+::: {#def-pred-pac-agnostic-pac}
+ 
+$\Acal$ is a  PAC learning algorithm if for any $\varepsilon>0, \delta>0$ there exists a sample size $m$ such that for all distributions of data $\Dcal$ and all samples of size $m$ from $\Dcal$ it holds that
+$$
+ P_{S}\left(R(\hat{h}^{\Acal}_S) - \min_{h\in\Hcal} R(h) \leq \varepsilon \right) \geq 1-\delta,
+$$ 
+where $\hat{h}_S$ is the hypothesis selected by $\Acal$ from $\Hcal$
+:::
+
+</div>
+
+::: {.footer}
+
+Simplified because the full definition also requires that the sample size $m$ depend on $(1/\varepsilon, 1/\delta)$ *polynomially*
+
+:::
+
+
+#### PAC: Discussion
+ 
+- PAC learning algorithms are good because they control estimation error
+- Complexity and PAC:
+  - If $\Hcal$ is more complex, then $m$ is larger — need larger samples to achieve same $\varepsilon$ and $1-\delta$
+  - Formal justification for why more complex $\Hcal$ are harder to learn 
+- "Bad" PAC results do not mean bad performance in practice (e.g. deep neural networks)
+
+
+::: {.footer}
+
+For theory, check out @Shalev-Shwartz2014UnderstandingMachineLearning or @Mohri2018FoundationsMachineLearning
+
+::: 
+
+
+## No Free Lunch Theorem {background="#00100F"}
+
+#### Motivation
+
+So far: talking on the level of a single algorithm $\Acal$
+
+- Trade-offs you face in terms of bias vs. complexity
+- How to express the ability to control estimation error (PAC)
+
+. . .
+
+<br> 
+
+Do we even need to study and use different algorithms?
+
+<div class="rounded-box">
+
+Given a risk function $R$, is there a universal learning algorithm?
+
+</div>
+
+::: {.footer}
+
+Universal = always capable of returning low risk regardless of $\Dcal$
+
+::: 
+
+#### No Free Lunch: Intuitive Form
+ 
+
+
+<div class="rounded-box">
+
+<span class="highlight">No free lunch</span> theorems: <span class="highlight">no such algorithm exists</span>
+
+</div>
+
+. . .
+
+NFL theorems [@Wolpert1996LackPrioriDistinctions] look like this: 
+
+- Fix risk $R(\cdot)$ and <span class="highlight">any</span> algorithm $\Acal$ that returns $\hat{h}_S^{\Acal}$ after seeing a sample $S$
+- There exist a data distribution such that 
+  - $R(\hat{h}_S^{\Acal})$ is "big"
+  - There exists another $h$ such that $R(h)=0$
+
+
+#### No Free Lunch: Simple Example
+ 
+
+<div class="rounded-box">
+
+::: {#prp-pred-no-free-lunch}
+
+ 
+Let $\Acal$ be any learning algorithm for binary classification under indicator loss with $X\in \R$. Let $m$ be any sample size. There exists some distribution $\Dcal$ of data such that 
+
+- There exists a hypothesis $h$ such that $R(h^*)=0$
+- With probability of at least $1/7$ over samples $S$ of size $m$
+$$ \small
+	R(\hat{h}^{\Acal}_S) \geq 1/8.
+$$ 
+
+:::
+
+</div>
+
+::: {.footer}
+
+Here all risks are evaluated under the "bad" distribution $\Dcal$!
+
+:::
+
+#### No Free Lunch: Discussion
+
+- What NFL theorems show: every algorithm fails somewhere
+- What NFL theorems do not show:
+  - NFL is not about some problems being harder (with worse risk)
+  - Specifically constructs a failure of $\Acal$ where another algorithm succeeds 
+ 
+#### No Free Lunch: Implications
+
+<div class="rounded-box">
+
+You always need some prior (domain) knowledge for successful learning
+
+</div>
+
+Prior knowledge expressed in terms of selecting $\Hcal$, $\Acal$, imposing penalties, choosing predictors, network architecture, etc.
+
+- Also: NFL — no universal automatic way to select $\Hcal$  
+- $\Rightarrow$ no automatic way of finding the optimal bias-complexity trade-off
+
+## Recap and Conclusions {background="#00100F"}
+  
+#### Recap
+
+<br>
+
+In this lecture we
+
+1. Discussed the bias-complexity trade-off
+2. Introduced PAC-learning
+3. Discussed limitations of learning in form of the no free lunch theorems
+
+#### Next Questions
+
+<br>
+
+With the theoretical foundations of the last three sections, can now deep dive into both theoretical and practical aspects:
+
+- How does a practical learning problem look like?  
+- How do you estimate the risk of the chosen hypothesis?
+- Which algorithms are appropriate in which case? 
+- How to select $\Hcal$?
+
+Etc.
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
+
+::: footer
+
+:::
+
+ 

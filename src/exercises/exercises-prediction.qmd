@@ -1,0 +1,389 @@
+---
+title: "Exercises: Prediction"
+format:
+  html:
+    toc: true
+description: "Theoretical and applied exercises on basics of statistical and machine learning: optimal predictors, bias-variance trade-off, practical aspects"
+open-graph:
+    description: "Theoretical and applied exercises on basics of statistical and machine learning: optimal predictors, bias-variance trade-off, practical aspects" 
+---
+
+
+
+
+## Theoretical Exercises 
+
+### OLS From a Predictive Perspective
+
+In this problem we revisit linear regression and OLS from a prediction perspective.
+
+Suppose we observe a sample ${(\bX_1, Y_1), \dots, (\bX_N, Y_N)}$, where each $\bX_i \in \mathbb{R}^p$ is a feature vector and $Y_i \in \mathbb{R}$ is a scalar label. Assume that $\E[\bX_i\bX_i']$ is invertible. Throughout, we consider the class of linear predictors:
+$$
+\Hcal = \curl{h(\bx)=\bx'\bbeta: \bb\in \R^{p}}
+$$
+Our goal is to predict $Y_i$ using $\bX_i$, and we measure predictive performance using mean squared error (MSE):
+$$
+MSE(h) = \E[(Y-h(\bX))^2].
+$$
+
+
+1. Show that the Bayes predictor in $\Hcal$ (i.e., the predictor that minimizes MSE over $\Hcal$) is given by:
+$$
+\begin{aligned}
+h^*(\bx) & = \bx'\bbeta^*, \\
+\bbeta^* & = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i]
+\end{aligned}
+$$ 
+
+2. Let $\hat{\bbeta}$ denote the OLS estimator obtained by regressing $Y_i$ on $\bX_i$ using the sample. Show that:
+$$
+\hat{\bbeta} \xrightarrow{p} \bbeta^*.
+$$
+That is, empirical risk minimization (ERM; here OLS) in this case consistently estimates the best predictor in $\Hcal$ (the best linear predictor).
+
+3. Write down the [excess error decomposition](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/pac-nfl-tradeoff.html#/bias-complexity-trade-off-i-decomposition) for the learned predictor $\hat{h}(\bx) = \bx'\hat{\bbeta}$. Use [our results](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt1.html#/mse-optimal-predictor-bayes-predictor) on the Bayes predictor for MSE over the class of all hypotheses to explicitly evaluate the infima in the decomposition. 
+4. Suppose that the true regression function is linear: there exists $\bc \in \mathbb{R}^d$ such that $\E[Y | \bX = \bx] = \bx'\bc$ for all $\bx$. Show that in this case, the approximation error in the decomposition from the third subquestion is zero.
+
+
+<details>
+  <summary>Click to see the solution</summary>
+
+*First subquestion*: the problem of minimizing MSE over $\Hcal$ can be represented as the problem of minimizing the MSE over $\bb$. Formally, if 
+$$
+h^*  = \argmin_{h\in\Hcal} MSE(h),
+$$
+then we can write
+$$
+\begin{aligned}
+h^*(\bx) & = \bx'\bbeta^*, \\
+\bbeta^*  & = \argmin_{\bb} \E[(Y_i - \bX_i'\bb)^2].
+\end{aligned}
+$$ 
+
+We just need to show that $\bbeta^*$ actually is equal to $\left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i]$. To do so, we expand the square in the MSE and take $\bb$ out of the expectations:
+$$
+\begin{aligned}
+\E[(Y_i - \bX_i'\bb)^2] & = \E[Y_i^2] - 2\bb'\E[\bX_iY_i] + \bb'\E[\bX_i\bX_i']\bb.
+\end{aligned}
+$$
+We can now differentiate with respect to $\bb$. By proceeding [as in the first lecture](https://vladislav-morozov.github.io/econometrics-2/slides/vector/vector-ols.html#/derivative-with-respect-to-b_j), we obtain that any MSE minimizer $\bbeta^*$ must satisfy the first-order conditions:
+$$
+-2\E[\bX_iY_i] + 2\E[\bX_i\bX_i']\bbeta^* = 0.
+$$
+Moving $\E[\bX_iY_i]$ to the other side and premultiplying by $(\E[\bX_i\bX_i'])^{-1}$ shows that
+$$
+\bbeta^* = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i].
+$$
+We have shown that the MSE-best linear predictor has exactly the parameters $\bbeta^*$, as desired.
+
+
+<br>
+
+*Second subquestion*: the OLS estimator is given by
+$$
+\hat{\bbeta} = (\bX'\bX)^{-1}\bX'\bY.
+$$ 
+[Proposition 5](https://vladislav-morozov.github.io/econometrics-2/slides/vector/ols-consistency.html#/combining-together) in the consistency slides now shows the desired result.
+
+
+<br>
+
+
+*Third subquestion*: Recall that the excess error of $\hat{h}$ is the difference between the risk of $\hat{h}$ and the infimum of risk over all hypotheses. By [proposition 1 in the regression slides](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt1.html#/mse-optimal-predictor-bayes-predictor) we know that the best achievable risk is associated with $\dot{h}(\bx)=\E[Y_j|\bX_j=\bx]$. Accordingly, we can write the excess error as
+$$
+\begin{aligned}
+ & MSE(\hat{h}) - MSE(\dot{h})\\
+ & = \underbrace{\left( MSE(\hat{h})- MSE(h^*)  \right)}_{\text{Estimation error}} + \underbrace{\left(MSE(h^*) - MSE(\dot{h}) \right)}_{\text{Approximation error}},
+\end{aligned}
+$$
+where we have inserted the risk of the best hypothesis in $\Hcal$.
+
+We can actually make the above expression more explicit. By opening up the squares, for any pair of hypotheses $h, g$, we can write 
+$$
+\begin{aligned}
+& MSE(h)- MSE(g) \\
+&  = -2\E[Y_j(h(\bX_j)-g(\bX_j))] + \E[(h(\bX_j)-g(\bX_j))(h(\bX_j)+g(\bX_j))].
+\end{aligned}
+$$
+As always, $(Y_j, \bX_j)$ is a new point that is independent from the sample. 
+
+It follows that the excess error may be represented as 
+$$
+\begin{aligned}
+ & MSE(\hat{h}) - MSE(\dot{h})\\
+ & = \Big(-2\E[Y_j\bX_j'(\hat{\bbeta}-\bbeta)] + \E[(\hat{\bbeta}-\bbeta)'\bX_j\bX_j'(\hat{\bbeta}+\bbeta)  ]  \Big)\\
+ &   \quad +\Big(-2\E[Y_j(\bX_j'\bbeta - \E[Y_j|\bX_j])]\\
+ & \quad \quad \quad + \E[(\bX_j'\bbeta - \E[Y_j|\bX_j])(\bX_j'\bbeta + \E[Y_j|\bX_j]) ]  \Big)
+\end{aligned}
+$$ {#eq-ols-pred-decomp}
+
+
+- The expression in the second line above is the estimation error. Notice how it depends on the difference between $\hat{\bbeta}$ and its probability limit $\bbeta$.
+- The expression in the last two lines is the approximation error. 
+
+The expectations above are with respect to $(\bX_j, Y_j)$. Accordingly, the overall expression is still random through its dependence on the sample through $\hat{\bbeta}$.
+
+::: {.callout-note appearance="minimal"}
+
+There is some mild abuse of notation above regarding the conditional expectation. By $\E[Y_j|\bX_j]$ we understand $\dot{h}(\bX_j)$.
+
+:::
+
+
+<br>
+
+*Fourth subquestion*: consider the approximaion error term in @eq-ols-pred-decomp. It is sufficient to shows that 
+$$
+\bX_j'\bbeta - \E[Y_j|\bX_j] = 0.
+$$
+By substituting the assumption, we obtain that $\bX_j'\bbeta - \E[Y_j|\bX_j] = \bX_j'\bbeta-\bX_j'\bc$. Accordingly, it is sufficient to show $\bc$ must be equal to $\bbeta$. This equality is easy to show using the law of iterated expectations and the definition of $\bbeta$:
+$$
+\begin{aligned}
+\bbeta & = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_iY_i]\\
+& = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\E[\bX_iY_i|\bX_i]]\\
+& = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_i\E[Y_i|\bX_i]]\\
+& = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_i\bX_i'\bc]\\
+& = \left(\E[\bX_i\bX_i'] \right)^{-1}\E[\bX_i\bX_i']\bc\\
+& = \bc.
+\end{aligned}
+$$
+The desired result now follows. 
+
+</details>
+  
+### The Bias-Variance Decomposition and Trade-Off
+ 
+
+As [noted](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt2.html#/bias-variance-decomposition-interpretation) in the second lecture on predictive regression, one can establish a fairly explicit decomposition for the expected mean squared error (MSE) of a hypothesis picked on a random sample. 
+
+
+
+In this problem, you are asked to prove this bias-variance decomposition  (equation (1) in the [slides](https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt2.html#/bias-variance-decomposition-interpretation)). Define the following objects:
+
+- $\sigma^2 = \var(Y-\E_{Y|\bX}[Y|\bX])$, representing the irreducible error variance inherent in the data. 
+- $S= \curl{(\bX_1, Y_1), \dots, (\bX_N, Y_N)}$ — the sample.
+- $(\bX, Y)$ — a new pair of observations, independent from $S$.
+- $\hat{h}_S$ — some hypothesis selected by our algorithm after seeing $S$.
+
+
+::: {.callout-note appearance="minimal"}
+
+The expressions in this problem involve several different expectations. For clarity the problem makes explicit with respect to which distribution each expectation is taken. 
+
+:::
+
+
+Show that for any hypothesis $h$ it holds that 
+$$
+\begin{aligned}
+\hspace{-1cm} \E_S\left[MSE(\hat{h}_S)\right]  & =  \sigma^2  + \E_{\bX}\left[\var_S(\hat{h}_S(\bX))\right] \\
+& \quad + \E_X\left[\E_S\left[ (\E_{Y|\bX}[Y|\bX]- \hat{h}_S(\bX))^2 \right]\right]  
+\end{aligned}
+$$  
+
+<details>
+  <summary>Click to see the solution</summary>
+  
+
+
+ 
+
+
+To begin, we obtain a more convenient representation for the object of interest. We use the law of iterated expectations and the fact that expectations are integrals to write
+$$
+\begin{aligned}
+& \E_S\left[MSE(\hat{h}_S) \right]\\
+& = \E_{S}\left[ \E_{Y, \bX}\left[(Y-\hat{h}_S(\bX))^2 \right] \right] \\
+& = \E_{S}\left[ \E_{\bX}\left[\E_{Y|\bX}[ (Y-\hat{h}_S(\bX))^2|\bX ] \right] \right]  \\
+& = \E_{\bX}\left[ \E_{\bS}\left[\E_{Y|\bX}[ (Y-\hat{h}_S(\bX))^2|\bX ] \right] \right] \\
+& = \int \E_{\bS} \left[\E_{Y|\bX}[ (Y-\hat{h}_S(\bX))^2|\bX=\bx] \right]f_{\bX}(\bx)d\bx,
+\end{aligned}
+$$ {#eq-bv-1}
+where $f_{\bX}$ is the marginal density of $\bX$ (the argument works with discrete $\bX$ as well).
+
+We can now study the expectation under the integral. To do so, first define
+$$
+U = Y- \E_{Y|\bX}[Y|\bX].
+$$
+Observe that 
+$$
+\begin{aligned}
+\E_{Y|\bX}[U|\bX] & = \E_{Y|\bX}[Y|\bX] - \E_{Y|\bX}[\E_{Y|\bX}[Y|\bX]|\bX]  \\
+& = \E_{Y|\bX}[Y|\bX]- \E_{Y|\bX}[Y|\bX] =0.
+\end{aligned}
+$$ {#eq-u-y}
+
+We substitute $Y=\E_{Y|\bX}[Y|\bX] + U$ into the expectation under the integral and obtain
+$$
+\begin{aligned}
+ & \E_{S}\left[\E_{Y|\bX}\left[ (Y-\hat{h}_S(\bX))^2|\bX=\bx\right]\right] \\
+& = \E_{S}\left[\E_{Y|\bX}\left[( U + \E_{Y|\bX}[Y|\bX] -\hat{h}_S(\bX))^2|\bX=\bx\right]\right]\\
+& =  \E_{S}\left[\E_{Y|\bX}\left[U^2|\bX=\bx\right]\right] \\
+& \quad   - 2 \E_{S}\left[\E_{Y|\bX}\left[U(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))|\bX=\bx\right] \right] \\
+& \quad + \E_{S}\left[\E_{Y|\bX}\left[(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))^2 |\bX=\bx \right] \right] .
+\end{aligned}
+$$ {#eq-bv-2}
+
+We further expand the last term by adding and subtracting $\E_S[\hat{h}_S(\bx)]$.
+$$
+\begin{aligned}
+& \E_{S}\left[\E_{Y|\bX}\left[(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))^2 |\bX=\bx \right] \right] \\
+& = \E_{S}\left[\E_{Y|\bX}\left[(\E_{Y|\bX}[Y|\bX=\bx] - \hat{h}_S(\bx))^2 |\bX=\bx \right] \right] \\
+& = \E_{S}\left[(\E_{Y|\bX}[Y|\bX=\bx] - \hat{h}_S(\bx))^2  \right] \\
+& = \E_S\left[ \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)^2 \right]    +  \E_S\left[  \left( \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx) \right)^2 \right]\\
+& \quad +2 \E_S\left[ \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)\left( \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx) \right)    \right] .
+\end{aligned}
+$$
+Note that we get rid of the $\E_{Y|\bX}$ expectation in the third line because nothing depends on $(Y, \bX)$ anymore after using the condition $\curl{\bX=\bx}$
+
+
+As for the last expectation, we note that $\left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)$ is a deterministic expression. It can thus be taken out of the expectation as 
+$$
+\begin{aligned}
+& \E_S\left[ \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)\left( \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx) \right)    \right] \\
+& = \left(\E_{Y|\bX}[Y|\bX=\bx] - \E_S[\hat{h}_S(\bx)] \right)\E_S\left[   \E_S[\hat{h}_S(\bx)] - \hat{h}_S(\bx)    \right]\\
+& = 0.
+\end{aligned}
+$$ {#eq-bv-3}
+
+
+Combining equations ([-@eq-bv-1])-([-@eq-bv-3]) and the law of iterated expectations, we obtain that 
+$$
+\begin{aligned}
+& \E_S\left[MSE(\hat{h}_S) \right] \\
+& = \E_S\left[ \E_{Y, \bX}[U^2]\right] -2 \E_{S}\left[\E_{Y, \bX}\left[U(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))\right] \right] \\
+& \quad + \E_{\bX}\left[ \E_S\left[ \left(\E_{Y|\bX}[Y|\bX] - \E_S[\hat{h}_S(\bX)] \right)^2 \right] \right]    \\
+& \quad +  \E_{\bX}\left[  \E_S\left[  \left( \E_S[\hat{h}(\bX)] - \hat{h}_S(\bX) \right)^2 \right] \right]
+\end{aligned}
+$$
+
+As a finishing touch, we handle the expressions involving $U$. First, $\E_S\left[ \E_{Y, \bX}[U^2]\right] = \E_S[\sigma^2]=\sigma^2$. Second, we  use @eq-u-y to show that the second term in the preceding equation is 0:
+$$
+\begin{aligned}
+& \E_{S}\left[\E_{Y, \bX}\left[U(\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))\right] \right]\\
+& = \E_{S}\left[\E_{\bX}\left[   (\E_{Y|\bX}[Y|\bX] - \hat{h}_S(\bX))
+  \E_{Y|\bX}\left[U|\bX\right]
+  \right] \right]\\
+  & = 0.
+\end{aligned}
+$$
+The desired result now follows. 
+
+</details>
+  
+### Bayes Classifier in Binary Classification
+
+As we discussed, many popular classification methods, such as logistic regression, operate by predicting the probabilities of an observation belonging to each possible class. The predicted class is then determined as the one with the highest predicted probability. This problem demonstrates that this classification rule is justified from the perspective of minimizing indicator risk.
+
+Suppose that the label $Y$ can take two values: 0 or 1. Let $\bX$ be some vector of features. Recall that the indicator (missclassification) risk of $h(\cdot)$ is given by:
+$$
+R(h) = \E[\I\curl{Y\neq h(\bX)}
+] = P(Y\neq h(\bX)).
+$$
+
+Consider the following classifier:
+$$
+h^*(\bx) = \begin{cases}
+1, & \eta(\bx) > \dfrac{1}{2},\\
+0, & \eta(\bx) \leq \dfrac{1}{2},
+\end{cases}
+$$
+where 
+$$
+\eta(\bx) = P(Y=1|\bX=\bx).
+$$
+
+1. Show that $h^*$ is the Bayes predictor for the indicator risk.
+2. Show that the Bayes risk is given by
+$$
+R(h^*) = \E[\min\curl{ \eta(
+  \bX
+), 1-\eta(\bX) }].
+$$
+
+To interpret this result, note that $\eta(\bx)$  and $(1-\eta(\bx))$ are the probabilities that an observation belongs to class 1 or 0, respectively. The Bayes classifier labels an observation with the class that is more likely. 
+
+<details>
+  <summary>Click to see the solution</summary>
+  
+
+
+*First subquestion*: let $h$ be any binary classifier. Like in the previous problem, we can connect the risk to an integral of a *conditional* probability of missclassification
+$$
+\begin{aligned}
+R(h) & = \E_{Y, \bX}[\I\curl{Y\neq h(\bX)}] \\
+&  = \E_{\bX} \left[\E_{Y|\bX}\left[ \I\curl{Y\neq h(\bX)}|\bX\right] \right] \\
+& = \int  \E_{Y|\bX} \left[ \I\curl{Y\neq h(\bX)}|\bX=\bx \right] f_{\bX}(\bx)d\bx\\
+& = \int P\left(h(\bX
+)\neq Y|\bX=\bx \right) f_{\bX}(\bx)d\bx,
+\end{aligned}
+$$
+where $f_{\bX}$ is the density of $\bX$.
+
+We focus on the conditional probability of missclasification:
+$$
+\begin{aligned}
+& P\left(h(\bX)\neq Y|\bX=\bx \right) \\
+& = 1- P(h(\bX)=1, Y=1| \bX=\bx) - P(h(\bX)=0, Y=0|\bX=\bx)\\
+& = 1- \I\curl{h(\bx)=1}P(Y=1|\bX=\bx)- \I\curl{h(\bx)=0}P(Y=0|\bX=\bx)\\
+& = 1- \I\curl{h(\bx)=1}\eta(\bx) - \I\curl{h(\bx)=0}(1-\eta(\bx)).
+\end{aligned}
+$$
+Note that the second equality holds because $h(\bX)$ is not random conditional on $\curl{\bX=\bx}$.
+
+Constrast such conditional misclassification probabilities of $h^*$ and any $h$:
+$$
+\begin{aligned}
+& \quad	P(h(\bX)\neq Y|\bX=\bx) - P(h^*(\bX)\neq Y|\bX=\bx)   \\  & =  \eta(
+  \bx)\left(\mathbb{I}_{h^*(\bx)=1}- \I\curl{h(\bx)=1} \right) \\
+& \quad + (1-\eta(\bx))\left(  \I\curl{h^*(\bx)=0} - \mathbb{I}_{h(\bx)=0}\right)
+\\ & = (2\eta(\bx)-1)\left(\mathbb{I}\curl{h^*(\bx)=1} - \mathbb{I}\curl{h(\bx)=1} \right)\\
+& \geq 0
+\end{aligned}
+$$
+where we used that $\mathbb{I}\curl{h^*(\bx)=0}=  1-\mathbb{I}\curl{h^*(\bx)=1}$ in the second equality. In the last line  we substitute $h^*$ to see that the second parentheses always have the same sign as the first ones.
+ 
+Integrating over $\bx$ now, we conclude that 
+$$
+R(h^*)\leq R(h).
+$$
+The risk of any $h$ must be greater or equal to the risk of $h^*$. In other words, $h^*$ is the Bayes classifier.
+
+<br>
+
+*Second subquestion*: To obtain the Bayes risk, directly evaluate the conditional missclassification probability: if $\eta(\bx)> 1/2$, then $P(h(\bX)\neq Y|\bX=\bx) = 1-\eta(\bx)$ (which is no greater than $\eta(\bx))$. If $\eta(\bx)\leq 1/2$, then $P(h(\bX)\neq Y|\bX=\bx) = \eta(\bx)$ (which is no greater than $1-\eta(\bx)$). Accordingly,
+$$
+P\left(h(\bX)\neq Y|\bX=\bx \right)  = \min\curl{ \eta(\bx), 1-\eta(\bx) }.
+$$
+
+</details>
+
+## Applied Exercises
+ 
+### Regression
+
+Consider again the context of predicting house prices using the California housing dataset discussed in the lectures.
+
+- Fit a ridge regressor and fine-tune its penalty parameter using cross-validation. Compare to the results obtained by a random forest regressor.
+- Experiment with including geographical features based on the coordinates of each block. Does including raw longitude and latitude improve performance? What if you compute new features based on distance of the block to the major urban areas in the state? 
+
+Throughout, we have used *model-based* methods, which fit some model to the data and then use the model for predictions. *Instance-based* learning provides an alternative approach, in which the algorithm memorizes the training examples and uses them to make predictions based on similarities. A leading example is given by $k$-nearest neighbors ($k$-NN) regressors and classifiers. 
+
+- Fit a $k$-NN regressor.
+- Tune the number of neighbors to  consider using cross-validation. Compare the performance of $k$-NN to our model-based regressors.
+
+If you are not familiar with $k$-NN methods, see chapters 2 and 4 in @James2023IntroductionStatisticalLearning.
+
+### Classification
+
+Consider again the problem of recognizing handwritten digits based on the MNIST dataset discussed in the lectures.
+
+- Use cross-validation to choose the tuning parameters of the various methods discussed in the lectures. 
+- Fit and tune a $k$-NN classifier.
+
+Throughout, we have used all 784 pixels as features. However, we suspect that many of those are not useful. For example, the edge pixels are generally white and do not contribute much to prediction. Accordingly, one may wish to try a dimensionality reduction technique to potentially extract a smaller number of more useful features.
+
+- Reduce the dimensionality of the feature vector by adding a principal components transformer (`PCA`) to the pipeline before the classifiers. 
+- Choose the number of principal components fed to the classifier using cross-validation.
+  
+See chapter 12 of @James2023IntroductionStatisticalLearning regarding dimensionality reduction and PCA.

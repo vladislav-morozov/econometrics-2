@@ -1,0 +1,487 @@
+---
+title: "Statistical and Machine Learning"
+subtitle: "Introduction to Prediction. Learning Scenarios"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="Introduction to prediction: definition of statistical and machine learning, comparison with causal inference, learning scenarios (lecture notes slides)"/>
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Prediction: Introduction"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+open-graph:
+    description: "Introduction to prediction: definition of statistical and machine learning, comparison with causal inference, learning scenarios (lecture notes slides)"
+---
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture is an introduction to prediction
+
+<br>
+
+By the end, you should be able to
+
+- Define statistical and machine learning
+- Contrast SL/ML with causal inference
+- Describe and classify learning scenarios in prediction
+
+#### References
+
+<br>
+
+::: {.nonincremental}
+
+- Chapter 1-2 in @James2023IntroductionStatisticalLearning
+- Or chapter 1 in @Mohri2018FoundationsMachineLearning (more examples, shorter)
+- Or chapter 1 in @Geron2023HandsonMachineLearning (more examples, longer)
+
+:::  
+
+
+
+
+## Statistical and Machine Learning {background="#00100F"}
+  
+
+### Definitions {background="#43464B" visibility="uncounted"}
+
+#### The Two Faces of Statistics
+
+<br> 
+
+Can split statistics into two blocks based on <span class="highlight">overall goal</span>:
+
+
+
+1. <span class="highlight">Causal inference</span>: answering counterfactual question regarding causal effects of interventions
+2. <span class="highlight">Predictions</span>: finding predictive functions of data without explaining mechanisms
+
+
+
+
+#### Statistical and Machine Learning
+
+Prediction studied by *statistical* and *machine learning*. 
+
+. . . 
+
+Personal definition:
+
+<div class="rounded-box">
+
+::: {#def-pred-learning}
+
+
+- <span class="highlight">Statistical learning</span> is a branch of statistics studying prediction problems. 
+- <span class="highlight">Machine learning</span> is cross-disciplinary subfield of statistics and computer science studying prediction problems. 
+ 
+:::
+
+</div> 
+
+::: {.footer}
+
+Both  develop algorithms that can learn from data and generalize to unseen data
+
+:::
+
+
+#### Goals in Prediction
+
+
+<div class="rounded-box">
+
+Key goal of prediction --- predicting <span class="highlight">well</span>
+
+</div> 
+
+Other goals:
+
+- Computational efficiency: better to have a cheaper and quicker way to produce a new prediction
+- Interpretability: why does the algorithm predict what it does?
+- Scalability: can it handle increasing loads, run in  distributed manner, etc
+
+
+### Statistical/Machine Learning vs. Causal Inference {background="#43464B" visibility="uncounted"}
+ 
+
+
+#### SL vs. Causal Inference I
+
+
+<div class="rounded-box">
+
+Key goal in causal inference --- <span class="highlight">correct identification</span>
+
+</div> 
+
+. . . 
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+Causal settings: there is some true <span class="highlight">causal model</span>. Trying to learn some of its features with identification arguments
+
+:::
+
+::: {.column width="25%"}
+
+
+::: 
+
+::: {.column width="35%"}
+
+SL/ML: only weak reference to the underlying "true" model. Generally no identification work
+
+:::
+
+:::: 
+
+#### SL vs. Causal Inference II
+ 
+For SL/ML the key metric is how well you predict with <span class="highlight">unseen data</span> — generalization or risk (next lecture)
+ 
+<br>
+
+- Want prediction to work well under many possible data-generating distributions
+- Terminology of <span class="highlight">algorithms</span>, not models
+- Roughly: not trying to model 
+
+#### SL vs. Causal Inference III
+
+Are the two fields totally disjoint? 
+
+. . . 
+
+<br> 
+
+<span class="highlight">No</span>:
+
+- Causal use case: need to pre-estimate some complicated object before being able to estimate object of interest
+- Most important — more precise pre-estimates — exactly the typical goal of SL/ML
+  
+See @Chernozhukov2024AppliedCausalInference 
+ 
+
+## References on SL/ML {background="#00100F"}
+ 
+
+#### Books: SL Theory
+
+ 
+:::: {.columns}
+
+::: {.column width="33%"}
+
+<img src="/images/book_covers/hastie-2008.jpeg" alt="drawing" width="260"/>
+ 
+ 
+@Hastie2009ElementsStatisticalLearning
+
+:::
+
+::: {.column width="33%"}
+
+<img src="/images/book_covers/ss-bd-2014.jpg" alt="drawing" width="270"/>
+ 
+
+
+@Shalev-Shwartz2014UnderstandingMachineLearning
+
+:::
+
+::: {.column width="33%"}
+
+<img src="/images/book_covers/mohri-2018.jpeg" alt="drawing" width="270"/>
+  
+
+@Mohri2018FoundationsMachineLearning
+
+:::
+
+::::
+
+::: {.footer}
+
+:::
+
+
+#### Books: Practice of "Classic" ML
+
+
+:::: {.columns}
+
+
+::: {.column width="33%"}
+
+
+Books on "core" machine learning methods in practice, mainly with `scikit-learn`
+
+:::
+
+::: {.column width="30%"}
+
+![](/images/book_covers/geron-2023.jpg)
+
+ 
+@Geron2023HandsonMachineLearning
+
+:::
+
+::: {.column width="28%"}
+
+![](/images/book_covers/james-2023.jpg)
+
+@James2023IntroductionStatisticalLearning
+
+:::
+
+
+
+::::
+
+
+
+::: {.footer}
+
+Possibly skip TensorFlow in @Geron2023HandsonMachineLearning in favor of PyTorch
+
+:::
+
+
+
+#### Books on Deep Learning
+
+
+
+:::: {.columns}
+
+
+::: {.column width="33%"}
+
+Deep learning much better covered in newer and more specialized books. Not that much statistical theory — many recent advances empirical
+
+:::
+
+::: {.column width="33%"}
+
+<img src="/images/book_covers/bishop-2024.jpg" alt="drawing" width="280" height="400"/>
+  
+
+ 
+ 
+@Bishop2024DeepLearningFoundations
+
+:::
+
+::: {.column width="33%"}
+
+
+<img src="/images/book_covers/antiga-2021.jpg" alt="drawing" width="280" height="400"/>
+  
+
+  
+
+@Antiga2020DeepLearningPyTorch
+
+:::
+
+
+
+::::
+
+
+#### Books On SL/ML For Causal Settings
+
+
+:::: {.columns}
+
+
+::: {.column width="33%"}
+
+A couple of references on ML techniques specifically in causal settings
+
+:::
+
+::: {.column width="33%"}
+
+![](/images/book_covers/chernozhukov-2024.png)
+
+ 
+@Chernozhukov2024AppliedCausalInference
+
+:::
+
+::: {.column width="29%"}
+
+![](/images/book_covers/gaillac-2025.jpg)
+
+
+@Gaillac2025MachineLearningEconometrics
+
+:::
+
+
+
+::::
+
+
+
+## Learning Scenarios {background="#00100F"}
+ 
+
+#### Introduction to Learning Scenarios
+
+SL/ML not monolithic: there are different learning scenarios based on
+
+- Domain of application: what problem are you solving?
+- Nature and form of training data
+    - Do you have a $Y$ at all? (supervised, unsupervised, semi-supervised learning, ...)
+    - What does $Y$ look like? (continuous --- regression, discrete --- classification, ranked list --- ranking, ...)
+- How the data arrives
+
+
+#### Classification: By Domain {.scrollable}
+
+What kind of problems can you solve? 
+
+| Domain of Application      | Examples                                                                                                         |
+|---------------------------|------------------------------------------------------------------------------------------------------------------|
+| Forecasting | Estimating the GDP in the current quarter |
+| Causal inference | Preestimating "first stage"/nuisance parameters |
+| Text or document classification | Assigning topics, determining whether contents are inappropriate, spam detection                           |
+| NLP                       | Part-of-speech tagging, named-entity recognition, context-free parsing, text summarization, chatbots              |
+| Speech processing         | Speech recognition, speech synthesis, speaker verification and identification                                 |
+| Computer vision           | Object recognition and identification, face detection, content-based image retrieval, optical character recognition, image segmentation |
+| Anomaly detection         | Detecting credit card fraud                                                                                       |
+| Clustering                | Segmenting clients into blocks and offering different marketing strategies                                        |
+| Data visualization        | Using dimensionality reduction                                                                                    |
+| Recommender systems       | Suggesting next product to buy given purchase history                                                             |
+
+All these things also done with people with econ backgrounds
+
+::: {.footer}
+
+:::
+
+
+#### Classification: By Type of Output Variable I {.scrollable}
+
+*Supervised settings*: some observed output $Y$: 
+
+<br> 
+
+| Task | Type of Variable | Examples |
+| --- | --- | --- |
+| Classification | Categorical | Document classification |
+| Regression | Continuous | Nowcasting the GDP |
+| Ranking | Ordinal | Selecting the order of results in a search | 
+
+::: {.footer}
+
+
+::: 
+
+
+
+#### Classification: By Type of Output Variable II {.scrollable}
+
+*Unsupervised settings*: no obvious observed  $Y$: 
+
+| Task | Type of Variable | Examples |
+| --- | --- | --- | 
+| Clustering | Categorical | Identifying communities in a large social network |
+| Dimensionality reduction/manifold learning | Continuous | Preprocessing digital images in computer vision tasks |
+
+::: {.footer}
+
+
+::: 
+
+
+#### Classification: By Supervision
+
+<br> 
+
+- Supervised: all observations ("examples") have $Y$ available ("labels")
+- Unsupervised: no examples have labels 
+- Semi-supervised: some examples have labels
+
+. . .
+
+More concepts: self-supervised, active learning, reinforcement learning, etc.
+
+#### Online vs. Batch Learning
+
+Another axis: if new observations arrive, how to update model? 
+
+<br>
+
+- Retrain from scratch on bigger dataset --- batch learning
+- Update existing model parameters only with new observations --- online learning
+
+ 
+
+
+
+## Recap and Conclusions {background="#00100F"}
+  
+#### Recap
+
+<br>
+
+In this lecture we:
+
+1. Talked about causal inference vs. prediction
+2. Defined statistical and machine learning
+3. Described various learning scenarios
+
+#### Next Questions
+
+<br>
+
+- What are the key components of a learning problem for predictions? 
+- How does one evaluate predictions? 
+- Is there a universally valid way to predict?
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
+
+::: footer
+
+:::
+
+ 
+
+ 

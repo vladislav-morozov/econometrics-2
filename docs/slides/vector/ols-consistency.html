@@ -464,13 +464,13 @@
 
   
 
-          argmin: "\\operatorname*{arg\\,min}",
+          argmin: "\\operatorname*{argmin}",
 
-          argmax: "\\operatorname*{arg\\,max}",
+          argmax: "\\operatorname*{argmax}",
 
-          argsup: "\\operatorname*{arg\\,sup}",
+          argsup: "\\operatorname*{argsup}",
 
-          arginf: "\\operatorname*{arg\\,inf}",
+          arginf: "\\operatorname*{arginf}",
 
         }
 
@@ -506,7 +506,8 @@ Vladislav Morozov
 <ul>
 <li class="fragment"><a href="#/introduction" id="/toc-introduction">Introduction</a></li>
 <li class="fragment"><a href="#/probability-background" id="/toc-probability-background">Probability Background</a></li>
-<li class="fragment"><a href="#/consistency-of-the-ols-estimator" id="/toc-consistency-of-the-ols-estimator">Consistency of the OLS Estimator</a></li>
+<li class="fragment"><a href="#/consistency-of-the-ols-estimator-model-free" id="/toc-consistency-of-the-ols-estimator-model-free">Consistency of the OLS Estimator: Model Free</a></li>
+<li class="fragment"><a href="#/consistency-of-the-ols-estimator-causal-settings" id="/toc-consistency-of-the-ols-estimator-causal-settings">Consistency of the OLS Estimator: Causal Settings</a></li>
 <li class="fragment"><a href="#/recap-and-conclusions" id="/toc-recap-and-conclusions">Recap and Conclusions</a></li>
 </ul>
 </nav>
@@ -727,8 +728,8 @@ f(\bX_N) \xrightarrow{p} f(\bX)
 </section>
 </section>
 <section>
-<section id="consistency-of-the-ols-estimator" class="title-slide slide level2 center" data-background="#00100F">
-<h2>Consistency of the OLS Estimator</h2>
+<section id="consistency-of-the-ols-estimator-model-free" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Consistency of the OLS Estimator: Model Free</h2>
 
 </section>
 <section id="returning-to-the-ols-estimator" class="slide level4">
@@ -742,6 +743,15 @@ f(\bX_N) \xrightarrow{p} f(\bX)
 <p><br></p>
 <p>Consistent for what?</p>
 </div>
+</section>
+<section id="key-scenarios" class="slide level4">
+<h4>Key Scenarios</h4>
+<p>We will consider three main scenarios:</p>
+<ol type="1">
+<li class="fragment">“Model-free”: no causal model assumed, behavior of <span class="math inline">\(\hat{\bbeta}\)</span> in terms of some moments of <span class="math inline">\(\bX\)</span> and <span class="math inline">\(\bY\)</span></li>
+<li class="fragment">Causal model with <span class="highlight">homogeneous</span> effects: there a true effect <span class="math inline">\(\bbeta\)</span>, same for everyone</li>
+<li class="fragment">Causal model with <span class="highlight">heterogeneous</span> effects: each unit <span class="math inline">\(i\)</span> has their own true effect <span class="math inline">\(\bbeta_i\)</span> (but we still run only one OLS procedure)</li>
+</ol>
 </section>
 <section id="convergence-without-a-causal-model" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
 <h3>Convergence Without a Causal Model</h3>
@@ -857,7 +867,12 @@ P(\hat{\bbeta}= \bc) \to 0
 <p>See <a href="https://en.wikipedia.org/wiki/Inner_product_space#Random_variables">Wikipedia</a> on inner products of random variables</p>
 </div>
 </section>
+</section>
+<section>
+<section id="consistency-of-the-ols-estimator-causal-settings" class="title-slide slide level2 center" data-background="#00100F">
+<h2>Consistency of the OLS Estimator: Causal Settings</h2>
 
+</section>
 <section id="convergence-under-causal-model-with-exogeneity-and-homogeneous-effects" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
 <h3>Convergence under Causal Model with Exogeneity and Homogeneous Effects</h3>
 
@@ -889,7 +904,7 @@ Y_i = \bX_i'\bbeta + U_i
 \end{aligned}
 \]</span> Last line — <span class="highlight">sampling error form</span></p>
 </section>
-<section id="consistency-of-the-ols-estimator-1" class="slide level4">
+<section id="consistency-of-the-ols-estimator" class="slide level4">
 <h4>Consistency of the OLS Estimator</h4>
 <div class="rounded-box">
 <div id="prp-vector-consistency-ols-model-causal-homogeneous" class="theorem proposition">

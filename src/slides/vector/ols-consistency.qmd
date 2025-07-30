@@ -399,7 +399,7 @@ plt.close()
 </video> 
  
 
-## Consistency of the OLS Estimator {background="#00100F"}
+## Consistency of the OLS Estimator: Model Free {background="#00100F"}
    
 
 #### Returning to the OLS Estimator
@@ -419,6 +419,14 @@ Is the OLS estimator consistent?
 <br>
 
 Consistent for what?
+
+#### Key Scenarios
+
+We will consider three main scenarios:
+
+1. "Model-free": no causal model assumed, behavior of $\hat{\bbeta}$ in terms of some moments of $\bX$ and $\bY$
+2. Causal model with <span class="highlight">homogeneous</span> effects: there a true effect $\bbeta$, same for everyone
+3. Causal model with <span class="highlight">heterogeneous</span> effects: each unit $i$ has their own true effect $\bbeta_i$ (but we still run only one OLS procedure)
 
 
 ### Convergence Without a Causal Model {background="#43464B" visibility="uncounted"}
@@ -698,6 +706,9 @@ plt.close()
 See [Wikipedia](https://en.wikipedia.org/wiki/Inner_product_space#Random_variables) on inner products of random variables
 
 :::
+
+## Consistency of the OLS Estimator: Causal Settings {background="#00100F"}
+   
 
 ### Convergence under Causal Model with Exogeneity and Homogeneous Effects  {background="#43464B" visibility="uncounted"}
 

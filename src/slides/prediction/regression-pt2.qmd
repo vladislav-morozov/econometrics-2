@@ -1,0 +1,1262 @@
+---
+title: "Regression II: Model Training and Validation"
+subtitle: "Bias-variance trade-off, training models, cross-validation"
+author: Vladislav Morozov  
+format:
+  revealjs:
+    include-in-header: 
+      text: |
+        <meta name="description" content="Regression in machine learning: model training and validation, bias-variance trade-off, cross-validation, using scikit-learn (lecture note slides)"/>
+    width: 1150
+    slide-number: true
+    sc-sb-title: true
+    incremental: true   
+    logo: ../../themes/favicon.ico
+    footer: "Regression II: Model Training and Evaluation"
+    footer-logo-link: "https://vladislav-morozov.github.io/econometrics-2/"
+    theme: ../../themes/slides_theme.scss
+    toc: TRUE
+    toc-depth: 2
+    toc-title: Contents
+    transition: convex
+    transition-speed: fast
+slide-level: 4
+title-slide-attributes:
+    data-background-color: "#045D5D"
+    data-footer: " "
+filters:
+  - reveal-header  
+include-in-header: ../../themes/mathjax.html 
+highlight-style: tango
+open-graph:
+    description: "Regression in machine learning: model training and validation, bias-variance trade-off, cross-validation, using scikit-learn (lecture note slides)" 
+---
+
+
+
+
+
+## Introduction {background="#00100F"}
+  
+### Lecture Info {background="#43464B" visibility="uncounted"}
+
+
+#### Learning Outcomes
+
+This lecture — second part of our illustrated regression example 
+
+<br>
+
+By the end, you should be able to
+
+- Discuss bias-variance trade-off
+- Explain how to use cross-validation for model validation (generalization performance, model comparison, tuning parameter choice)
+- Use regressor predictors in `scikit-learn`
+
+#### References
+
+<br>
+
+::: {.nonincremental}
+
+- Chapters 3, 5.1, 6-9 in @James2023IntroductionStatisticalLearning
+- [`scikit-learn` User Guide](https://scikit-learn.org/stable/user_guide.html): 1.1, 1.10-1.11
+- Deeper: chapter 3, 9, 15 in @Hastie2009ElementsStatisticalLearning
+
+:::  
+
+### Empirical Setup {background="#43464B" visibility="uncounted"}
+
+#### Reminder: Empirical Problem
+
+<div class="rounded-box">
+
+Overall empirical goal: (R)MSE-optimal prediction of median house prices in California on the level of reasonably small blocks
+
+</div>
+
+Last time
+
+- Load the data
+- Some EDA
+- Preparation
+
+#### Imports {.scrollable}
+
+```{python}
+#| echo: true 
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import plotly.express as px
+
+from scipy.stats import randint, uniform
+
+# Deeply copying objects
+from sklearn.base import clone
+
+# For composing transformations
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+
+# Data source
+from sklearn.datasets import fetch_california_housing
+
+# Regression random forest
+from sklearn.ensemble import RandomForestRegressor
+
+# Linear models 
+from sklearn.linear_model import (
+  Lasso,
+  LinearRegression,
+)
+
+# Evaluating predictor quality
+from sklearn.metrics import root_mean_squared_error
+
+# For splitting dataset
+from sklearn.model_selection import (
+  cross_val_score,
+  GridSearchCV,
+  RandomizedSearchCV,
+  train_test_split
+)
+
+# For preprocessing data
+from sklearn.preprocessing import(
+  FunctionTransformer, 
+  PolynomialFeatures,
+  StandardScaler
+)
+ 
+# Regression trees
+from sklearn.tree import DecisionTreeRegressor
+```
+
+```{python}
+# Hidden: set data path
+from pathlib import Path
+data_path = Path() / "slides" / "prediction" / "data"
+```
+
+::: {.footer}
+
+
+
+:::
+
+#### Reminder on Data Preparation {.scrollable}
+
+Continue with empirical setup from last time: 
+
+- California housing data set 
+- Split 80%/20% into training/test data
+- Training set further split into `X_train` and `y_train`
+
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Loading data"
+# Load data
+data = fetch_california_housing(data_home=data_path, as_frame=True)
+data_df = data.frame.copy()    
+# Split off test test             
+train_set, test_set = train_test_split(data_df, test_size = 0.2, random_state= 1)
+# Separate the Xs and the labels
+X_train = train_set.drop("MedHouseVal", axis=1)
+y_train = train_set["MedHouseVal"].copy()
+```
+
+::: {.footer}
+
+
+:::
+ 
+
+#### Reminder: Geographical Representation of Data
+
+
+```{python} 
+BG_COLOR = "whitesmoke"
+FONT_COLOR = "black"
+GEO_COLOR = "rgb(201, 201, 201)"
+OCEAN_COLOR = "rgb(136, 136, 136)"
+
+fig, ax = plt.subplots(figsize=(14, 6.5))
+fig.patch.set_facecolor(BG_COLOR)
+fig.patch.set_edgecolor("teal")
+fig.patch.set_linewidth(5)
+scatter = train_set.plot(
+    kind="scatter",
+    x="Longitude",
+    y="Latitude",
+    grid=True,
+    s=train_set["Population"] / 100,
+    label="Population",
+    c="MedHouseVal",
+    cmap="BuPu",
+    colorbar=False,
+    legend=False,
+    sharex=False,
+    ax=ax
+)
+
+# Set the main title
+ax.set_title("Geographical distribution of points, scaled by population, color by median house value", loc="left")
+# Add colorbar and set its title
+cbar = plt.colorbar(scatter.get_children()[0], ax=ax)
+cbar.set_label("Median House Value")
+
+plt.show()
+```
+
+
+## Bias-Variance Trade-Off {background="#00100F"}
+ 
+
+
+#### Current Goal: Picking $\Hcal$
+
+So far have
+
+- Risk
+- Basic idea of the data
+
+. . . 
+
+<br>
+
+Now need to pick hypothesis class $\Hcal$
+
+- Guided by bias-complexity trade-off
+- Special related decomposition for MSE — the <span class="highlight">bias-variance</span> trade-off
+
+#### Bias-Variance Decomposition: Irreducible Error
+
+Define $U = Y- \E[Y|\bX]$ and let $\var(U) = \sigma^2$
+
+<br>
+
+
+- Then (why?) 
+$$
+\E[U|\bX] =0 
+$$
+- $\sigma^2$ is sometimes called the *irreducible* error: the risk of the best predictor $\E[Y|\bX]$ (Bayes risk)
+
+
+
+#### Bias-Variance Decomposition: Statement
+
+Let 
+
+- $S$ be some sample
+- $\hat{h}_S$ be the hypothesis picked by some algorithm 
+- $\bX$ be a new point independent of $S$
+
+Then 
+$$
+\begin{aligned}
+\hspace{-1cm} \E_S\left[MSE(\hat{h}_S)\right]  & =  \sigma^2  + \E_{\bX}\left[\var_S(\hat{h}_S(\bX))\right] \\
+& \quad + \E_{\bS}\left[\E_{\bX}\left[ (\E[Y|\bX]- \hat{h}_S(\bX))^2 \right]\right] 
+\end{aligned}
+$$  
+ 
+::: {.footer}
+
+To show the decomposition, proceed with MSE as before. See the problem set
+
+:::
+ 
+
+#### Bias-Variance Decomposition: Interpretation
+
+
+ 
+
+$$
+\begin{aligned}
+\hspace{-1cm} \E_S\left[MSE(\hat{h}_S)\right]  & =  \sigma^2  + \E_{\bX}\left[\var_S(\hat{h}_S(\bX))\right] \\
+& \quad + \E_S\left[\E_{\bX}\left[ (\E[Y|\bX]- \hat{h}_S(\bX))^2 \right]\right] 
+\end{aligned}
+$$ {#eq-mse-decomp}
+
+MSE is sum of 
+
+- <span class="highlight">Irreducible</span> error $\sigma^2$
+- <span class="highlight">Variance</span> of $\hat{h}_S(\bX)$
+- <span class="highlight">Squared bias</span> of $\hat{h}_S(\bX)$ for Bayes predictor $\E[Y|\bX]$
+
+ 
+#### Bias-Variance Decomposition: Discussion 
+
+- Note: two layers of expectations
+  - With respect to sample $S$: randomness in $\hat{h}_S$ due to sampling
+  - With respect to $\bX$: the new independent point (definition of risk)
+  
+. . .
+
+Have already seen such expression: exactly the kind of construction in PAC-learning — properties of risk of $\hat{h}_S$, integrated over sample $S$
+
+#### Bias-Variance Trade-Off
+
+<span class="highlight">Bias-variance</span> trade-off:
+
+- More complicated $h(\bx)$ can approximate $\E[Y|\bX=\bx]$ better
+- But complicated $h(\cdot)$ likely has higher $\var_S(h(\bx))$: equal changes in $S$ may lead to larger changes in $\hat{h}_S(\bx)$
+
+
+::: {.callout-note appearance="minimal"}
+
+Bias-complexity trade-off also sometime called bias-variance trade-off by synecdoche. But, strictly speaking, only MSE can be written as $(Bias)^2 + Variance$.  Other risks — different components (e.g. MAE involves absolute value of bias and mean absolute deviation)
+
+
+::: 
+
+## Linear Regression {background="#00100F"}
+  
+ 
+
+### Polynomial Hypotheses {background="#43464B" visibility="uncounted"}
+
+
+
+
+#### Polynomial Hypotheses
+
+Start with familiar linear hypothesis class
+$$
+\Hcal = \curl{h(\bx): \varphi(\bx)'\bbeta: \bbeta\in \R^{\dim(\varphi(\bb))} }
+$$
+where
+
+- $\bbeta$ coefficients
+- $\bx$ — original features
+- $\varphi(\bx)$ — polynomials of <span class="highlight">some</span> of the original $\bx$ up to given degree $k$
+
+
+#### Implementation Approach
+
+
+<br>
+
+Simple to do conveniently and reproducibly with `scikit-learn`
+
+1. Create `Pipeline` that take $\bx$ and returns $\varphi(\bx)$ (did that last time)
+2. Attach a learning algorithm that takes $\varphi(\bx)$ and returns $\hat{y}$ to the end of the pipeline
+ 
+
+#### Reminder: Preprocessing Pipeline I  {.scrollable}
+
+Recall what we did:
+
+- Dropped geography
+- Create new *bedroom share* feature
+- Created polynomials, including interactions
+- Standardized the variables
+
+<br>
+
+
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Creating the pipeline"
+# Define the ratio transformers
+def column_ratio(X):
+    return X[:, [0]] / X[:, [1]]
+def ratio_name(function_transformer, feature_names_in):
+    return ["ratio"]
+divider_transformer = FunctionTransformer(
+  column_ratio, 
+  validate=True, 
+  feature_names_out = ratio_name)
+
+# Extracting and dropping features
+feat_extr_pipe = ColumnTransformer(
+  [
+    ('bedroom_ratio', divider_transformer, ['AveBedrms', 'AveRooms']),
+    (
+      'passthrough', 
+      'passthrough', 
+      [
+        'MedInc', 
+        'HouseAge', 
+        'AveRooms', 
+        'AveBedrms', 
+        'Population', 
+        'AveOccup',
+      ]
+    ),
+    ('drop', 'drop', ['Longitude', 'Latitude'])
+  ]
+) 
+
+# Creating polynomials and standardizing
+preprocessing = Pipeline(
+  [
+    ('extraction', feat_extr_pipe),
+    ('poly', PolynomialFeatures(include_bias=False)),
+    ('scale', StandardScaler()),
+  ]
+)
+```
+
+::: {.footer}
+
+
+:::
+ 
+
+#### Reminder: Preprocessing Pipeline II {.scrollable}
+
+
+```{python}
+preprocessing
+```
+
+
+::: {.footer}
+
+:::
+
+### OLS {background="#43464B" visibility="uncounted"}
+
+
+#### OLS: `LinearRegression`
+
+- Simplest learning algorithm — OLS
+- Implemented as `LinearRegression()` in `sklearn.linear_model`  
+- Plan
+  - First talk about predictors in isolation
+  - Then attach to our pipeline
+
+#### Predictors in `scikit-learn`
+
+`scikit-learn` also has very standardized interface for predictors:
+
+- Hyperparameters specified when creating instance
+- Predictors have `fit()` methods which takes `X, y` (supervised) or only `X` (unsupervised)
+- Unlike transformers: predictors have `predict()` instead of `transform()`
+- Some predictors other methods (decision functions, predicted probabilities, etc.)
+
+#### `LinearRegression` In Action
+
+`scikit-learn` predictors generally very easy to use!
+
+Example with original features: 
+```{python}
+#| echo: true
+ols_mod = LinearRegression()          # Create instance
+ols_mod.fit(X_train, y_train)         # Fit (run OLS)
+ols_mod.predict(X_train.iloc[:5, :])  # Predict for first 5 training obs
+```
+ 
+. . .
+
+<br>
+
+::: {.callout-note appearance="minimal"}
+
+Can see big difference with `statsmodels`: `scikit-learn` really designed for predictive work: makes it very easy to predict and evaluate predictions, but does not have tools for inference (in the sense of testing, etc).
+
+
+:::
+
+#### Attaching `LinearRegression` to Pipeline
+
+- Want our predictors to received preprocessed data
+- Simply make an extended `Pipeline` by adding `LinearRegression()` on top of `preprocessing`:
+
+```{python}
+#| echo: true
+ols_sq_model = Pipeline(
+  [
+    ("preprocessing", preprocessing),
+    ("ols", LinearRegression())
+  ]
+)
+```
+
+#### Extended Pipeline {.scrollable}
+
+```{python}
+ols_sq_model
+```
+
+::: {.footer}
+
+
+:::
+
+#### Fitting the Model
+
+The whole pipeline can be fitted as before
+```{python}
+#| echo: true
+ols_sq_model.fit(X_train, y_train);
+```
+
+. . .
+
+<br>
+
+Now questions:
+
+- Are we happy with polynomial degree? (defaulted to 2)
+- Is this model "good"?
+
+#### Evaluating Training Loss
+
+Let's start with evaluation
+
+- `scikit-learn` implements many metrics of model quality in `sklearn.metrics`
+- We want `root_mean_squared_error()` for RMSE
+
+. . . 
+ 
+
+Very easy to compute training set RMSE:
+```{python}
+#| echo: true
+root_mean_squared_error(y_train, ols_sq_model.predict(X_train))
+```
+- Interpretation — around $71k error
+- This is training loss (=bad)! How to evaluate accurately?
+
+### Penalized Approaches {background="#43464B" visibility="uncounted"}
+
+#### Beyond OLS: Penalized Least Squares
+
+Before evaluation, let's think if we want OLS
+
+- Maybe want to <span class="highlight">regularize</span> the model
+- Still have linear hypotheses $\curl{\varphi(\bx)'\bbeta}$, but learn $\bbeta$ differently
+- Met some other algorithms of the form
+$$
+\hat{\bbeta} = \argmin_{\bb} \dfrac{1}{N_{S_{Tr}}}\sum_{i=1}^{N_{S_{Tr}}} (Y_i - \varphi(\bX_i)'\bb) + \alpha \Pcal(\bb)
+$$
+
+#### Reminder: Ridge, LASSO, ElasticNet
+
+Popular algorithms in `scikit-learn`:
+
+- `Ridge` ($L^2$): $\norm{\bbeta}_2^2 = \sum_{k} \beta_k^2$
+- `Lasso` ($L^1$): $\norm{\bbeta}_1 = \sum_{k} \abs{\beta}_k$
+- `ElasticNet`: $\norm{\beta}_1 + \kappa \norm{\beta}_2^2$. Here $\kappa$ — relative strength of $L^1$ and $L^2$
+
+
+
+::: {.callout-note appearance="minimal"}
+
+The intercept (the "bias" term) is usually <span class="highlight">not penalized</span> — not part of the $\bbeta$ in the above notation, but treated separately.
+
+Reason: otherwise model depends "unnaturally" on the origin chosen for $Y_i$
+
+::: 
+
+
+#### Creating a LASSO Predictor
+
+Very easy to create a pipeline with LASSO: 
+```{python}
+#| echo: true
+lasso_model = Pipeline(
+  [
+    ("preprocessing", clone(preprocessing)),
+    ("lasso", Lasso())
+  ]
+)
+```
+
+<br>
+
+- For now using the default penalty parameter $\alpha=1$ 
+- Is that a good choice?
+
+::: {.footer}
+
+Note that we are cloning the preprocessing pipeline, otherwise it will be the *same* one as in the first model
+
+:::
+
+#### Fitting and Training Loss of LASSO
+ 
+Fitting and evaluating training loss exactly as before: 
+```{python}
+#| echo: true
+# Fit model
+lasso_model.fit(X_train, y_train)
+# Evaluate on training sample
+root_mean_squared_error(y_train, lasso_model.predict(X_train))
+```
+
+. . .
+
+<br> 
+
+- LASSO doing worse <span class="highlight">in the training sample</span> that just OLS
+- Doesn't say anything about <span class="highlight">generalization</span>
+
+## (Cross-)Validation {background="#00100F"}
+  
+
+
+#### Problem: Evaluating and Selecting Models?
+
+Accumulated questions: 
+
+- Are our <span class="highlight">tuning parameters</span> (=hyperparameters) specified the best way possible? 
+  - Maximum degree of polynomial
+  - Size of penalty $\alpha$
+- Does adding a penalty help?
+
+#### Validation
+
+<div class="rounded-box">
+
+These <span class="highlight">model selection questions</span> answered by <span class="highlight">model validation</span>
+
+</div>
+
+Simple validation approach: 
+
+1. Split training set into training set and validation set
+2. Train all the competing models on the new training set
+3. Compute risk on validation set for each model
+4. Choose model with best performance
+
+#### Dividing Multiple Times: $k$-Fold Cross-Validation
+
+<div class="rounded-box">
+
+ 
+
+1. Split training data into $k$ <span class="highlight">folds</span>: equal-sized nonoverlapping sets $S_j$
+2. For $j=1, \dots, k$
+   - Train algorithm $\Acal$ on $\scriptsize S_{-j}= \curl{S_1, \dots, S_{j-1}, S_{j+1}, \dots, S_k}$
+   - Estimate risk of algorithm $\Acal$ on $S_j$ with $\scriptsize \hat{R}_{S_j}(\hat{h}_{S_{-j}}^{\Acal})$
+3. Estimate overall risk of $\Acal$ with
+$$\scriptsize 
+\hat{R}(\Acal) = \dfrac{1}{k} \sum_{j=1}^k \hat{R}_{S_j}(\hat{h}_{S_{-j}}^{\Acal})
+$$
+
+</div>  
+
+::: {.footer}
+
+
+:::
+
+#### Visual Example: 5-fold CV
+ 
+:::: {.columns}
+
+
+::: {.column width="69%"}
+ 
+![](/images/pred/cv.png)
+
+:::
+
+::: {.column width="31%"}
+ 
+- On step $j$,   $j$th fold (orange) excluded from training
+- Model trained on blue set, risk estimated on orange
+
+:::
+
+::::
+
+
+
+::: {.footer}
+
+Image from figure 5.5 in @James2023IntroductionStatisticalLearning
+
+:::
+
+#### Cross-Validation: Discussion
+
+- Here talk about <span class="highlight">algorithms</span> (e.g. LASSO with particular $\alpha$):
+  - $\Acal$ might pick different $h$ on different $S_{-j}$
+  - Interest in risk properties of <span class="highlight">algorithms</span> 
+- Number $k$ of folds — trade-off between computational ease and estimation quality for risk (more on that later)
+- CV — generic approach for  comparing different algorithms (=choosing approaches, tuning hyperparameters)
+
+
+
+#### CV in `scikit-learn`
+
+
+`scikit-learn` supports CV in many forms:
+
+- Evaluating a specific algorithm: e.g. `cross_val_score()`  
+- Tuning parameter choice: e.g. `GridSearchCV`, `RandomizedSearchCV`
+- Splitters for custom computations: e.g. `KFold` and `StratifiedKFold`
+
+
+All in the `sklearn.model_selection` module
+
+#### Checking Generalization Performance with CV
+
+How good is our OLS approach with squares of features? 
+
+. . .
+ 
+Use `cross_val_score`
+
+```{python}
+#| echo: true
+ols_rmse = -cross_val_score(
+    ols_sq_model,                           # algorithm
+    X_train,
+    y_train,
+    scoring="neg_root_mean_squared_error",  # which score to compute
+    cv=10,                                  # how many folds
+)
+
+```
+
+- Trains 10 times
+- Scoring: negative RMSE
+- Returns array of values: negative RMSE for each fold
+
+#### Generalization Performance
+
+```{python}
+#| echo: true
+pd.Series(ols_rmse).describe().iloc[:3]
+```
+
+- Recall: training loss around $71k
+- Much higher validation loss: $161k
+- But also high variance: a lot of variation between folds:
+```{python}
+ols_rmse
+```
+ 
+
+#### Tuning Hyperparameters with CV
+
+- Can use CV to select tuning parameter $\alpha$ and degree of polynomial
+- `scikit-learn` makes it easy: 
+  - Special classes like `GridSearchCV` and  `RandomizedSearchCV` for searching parameter values
+  - Just need to tell it what parameter to tune and which values to check 
+
+#### Tuning Penalty Parameters with CV
+
+Example: tuning `alpha` in LASSO
+
+- Want to check 10 values between 0 and 1
+- Create a grid of values with dictionary
+  - Keys: parameter name (convention: `<name_in_pipeline>__<param_name>`)
+  - Values: an array of values to check
+  
+```{python}
+#| echo: true
+param_grid_alpha = { 
+    "lasso__alpha": np.linspace(0, 1, 11),
+}
+```
+
+::: {.footer}
+
+`LaasoCV` and `RidgeCV` automatically select their penalty parameters by cross-validation — sometimes quicker
+
+:::
+
+
+#### Running CV for Parameter Choice
+
+Very similar approach to working with predictors and transformers: 
+
+- Create instance
+- Fit
+
+```{python}
+#| echo: true
+grid_search_alpha = GridSearchCV(
+    lasso_model,                           # which predictor/pipeline
+    param_grid_alpha,                      # parameter grids
+    cv=10,                                 # number of folds
+    n_jobs = -1,                           # number of parallel jobs
+    scoring="neg_root_mean_squared_error", # which score
+)
+grid_search_alpha.fit(X_train, y_train);
+```
+
+::: {.footer}
+
+Computation: estimates 10 times for each value of $\alpha$ (110 times in total)
+
+:::
+
+#### Viewing the Results {.scrollable}
+
+- The `results_` attribute has detailed info on models fitted
+- Best approach: $\alpha\approx 0.1$. Worst: $\alpha=0$ (OLS)
+
+```{python}
+#| echo: true
+cv_res_alpha = pd.DataFrame(grid_search_alpha.cv_results_)
+cv_res_alpha.sort_values(by='rank_test_score')
+# Can also flip the score sign to turn into RMSE
+```
+
+
+::: {.footer}
+
+
+::: 
+
+
+#### Tuning Multiple Parameters {.scrollable}
+
+
+- Can tune any number of parameters we want
+- Including parameters in other parts of pipeline
+- E.g. degree of polynomial features:
+```{python}
+#| echo: true
+param_grid = { 
+    "preprocessing__poly__degree": [1, 2, 3],
+    "lasso__alpha": np.linspace(0, 1, 11),
+}
+```
+- `GridSearchCV` called the same way
+- Computes for <span class="highlight">each combo</span> in `param_grid` (330 fits total)
+
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: Calling `GridSearchCV`
+grid_search = GridSearchCV(
+    lasso_model,
+    param_grid,
+    cv=10,
+    n_jobs = -1,
+    scoring="neg_root_mean_squared_error",
+)
+
+grid_search.fit(X_train, y_train);
+```
+
+::: {.footer}
+
+:::
+
+#### Results: Tuning Linear Model
+
+Extracting top 3 models: 
+```{python}
+cv_res = pd.DataFrame(grid_search.cv_results_)
+cv_res.sort_values(by='rank_test_score').head(3).loc[:, 
+["param_lasso__alpha", "param_preprocessing__poly__degree",
+  'mean_test_score', 'std_test_score',
+       'rank_test_score']] 
+```
+
+- Best model: OLS with no polynomials
+- Close second and third: $\alpha=0.1$ and polynomials of degrees 2 and 3 
+
+
+
+#### About Bias in Cross-Validation
+
+<div class="rounded-box">
+Cross-validation is <span class="highlight">inherently biased</span>
+
+</div>
+
+- Final selected model — trained on full training sample of size $N_{Tr}$
+- But each fold fits only with $(k-1)N_{Tr}/k$ examples
+  - Not the same risk performance as full sample
+  - Best option: take $k=N$ (leave-one-out CV = LOOCV) — as close as possible
+- Can't do better if want to use all $N_{Tr}$ examples
+  
+
+ 
+
+
+## Model Development II: Trees and Forests  {background="#00100F"}
+  
+  
+### Regression Trees {background="#43464B" visibility="uncounted"}
+  
+  
+
+#### Towards Trees
+
+- Story so far unclear whether we want nonlinearities in $\bX$
+- Can try a <span class="highlight">nonparametric</span> method
+
+. . . 
+
+New flexible hypothesis class:
+$$
+\Hcal = \curl{\text{regression trees}}
+$$
+
+#### Reminder: Decision Trees
+
+:::: {.columns}
+
+
+::: {.column width="30%"}
+
+- Split the predictor space one variable at a time
+- Return same value on each rectangle $R_k$
+
+:::
+
+
+::: {.column width="70%"}
+
+
+![](/images/pred/reg-tree.png)
+
+:::
+
+
+
+::::
+
+Regression trees: values can belong to $\R$
+
+#### About Trees
+
+Trees have a few nice features
+
+- Interpretable decision rules 
+- No need to standardize features
+
+. . . 
+
+Recreate preprocessing pipeline without standardization and polynomial degree = 1 (with option to tune)
+```{python} 
+#| echo: true
+#| code-fold: true
+#| code-summary: "Recreating preprocessing pipeline"
+preprocessing = Pipeline(
+  [
+    ('extraction', feat_extr_pipe),
+    ('poly', PolynomialFeatures(degree = 1, include_bias=False)), 
+  ]
+)
+```
+
+#### Trees in `scikit-learn`
+
+- `scikit-learn` implements trees in `sklearn.tree`
+- Use `DecisionTreeRegressor()` on top of `preprocessing`  
+```{python}
+#| echo: true
+tree = Pipeline(
+    [
+        ("preprocessing", preprocessing),
+        ("tree", DecisionTreeRegressor(random_state=1)),
+    ],
+)
+```
+
+::: {.footer}
+
+`scikit-learn` trains trees using the CART algorithm; see 8.1 in @James2023IntroductionStatisticalLearning
+
+:::
+
+#### Visualizing New Pipeline {.scrollable}
+
+```{python}
+tree
+```
+
+#### Training a Tree and Training Performance
+
+Training and computing training loss exactly as before:
+```{python}
+#| echo: true
+tree.fit(X_train, y_train)
+root_mean_squared_error(y_train, tree.predict(X_train)).round(4)
+```
+
+- We <span class="highlight">interpolated</span> the training sample — perfect prediction
+- Generalization performance with CV:
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "Measuring generalization performance with CV"
+tree_rmse = -cross_val_score(
+    tree,
+    X_train,
+    y_train,
+    scoring="neg_root_mean_squared_error",
+    cv=10,
+)
+pd.Series(tree_rmse).describe().iloc[:3]
+```
+Worse than linear methods! Overfitting problem
+ 
+::: {.footer}
+
+
+:::
+
+
+#### Why Do Tree Overfit? 
+
+- By default, CART will grow <span class="highlight">deep trees</span>:
+  - Split space until each $R_k$ contains only one observation
+  - Each $R_k$ predicts value of that observation $\Rightarrow$ perfect fit
+- Trees have low bias, but very high variance
+- Changing data a bit may dramatically change tree structure
+
+::: {.footer}
+
+
+More correctly: sometimes may have examples with same $\bX$ but different labels. Can't split perfectly in this case
+
+:::
+
+### Random Forests {background="#43464B" visibility="uncounted"}
+  
+#### Ensemble Methods
+
+<div class="rounded-box">
+
+An <span class="highlight">ensemble method</span> is a predictor that combines several weaker predictors into a single (ideally) stronger one
+
+
+</div>
+
+
+
+Can combine in different ways:
+
+- In parallel: e.g. simple averages, as in <span class="highlight">random forest</span> regressors
+- Sequentially: e.g. by training next predictor on errors of the previous ones, as in <span class="highlight">gradient boosting</span>
+
+. . .
+
+Trees often play role of weaker predictors to be aggregated
+
+#### Random Forests
+
+<div class="rounded-box">
+
+A random forest is a predictor that aggregates many tree predictors
+
+
+<br> 
+
+Individual trees made more <span class="highlight">distinct</span> (decorrelated) in two ways:
+
+- Trained on randomized sets of data with *bagging*
+- Consider only a subset of variables at each split point
+
+</div>
+
+
+#### Bagging: Description
+
+
+Consider the following approach:
+
+- Draw $B$ bootstrap samples of size $N_{Tr}$ (sample with replacement from training set)
+- On $b$th set train algorithm: select $\hat{h}_{S_b}$
+- Aggregate: in regression means averaging: 
+$$
+\hat{h}^{Bagging}(\bx) = \dfrac{1}{B} \sum_{b=1}^B \hat{h}_{S_b}(\bx)
+$$
+
+::: {.footer}
+
+In classification, may instead aggregate decisions by *majority voting* or by averaging predicted class probabilities
+
+:::
+
+#### Bagging: Discussion
+
+
+<div class="rounded-box">
+
+**B**ootstrap **agg**regation (<span class="highlight">bagging</span>) reduces variance of a learning method by averaging many predictors trained on bootstrap samples
+
+</div>
+
+- Idea: bootstrap datasets will be somewhat different from each other
+- $\Rightarrow$ Each predictor will be a bit different
+- Averaging reduces variance
+
+#### Random Forests
+
+*Random forests*:
+
+- Do bagging
+- Make trees consider only a random subset of variables at each split
+  - Idea: if you let trees use all variables, maybe will make same decisions anyway
+  - Helps create even more variety
+
+
+. . . 
+
+Can use `RandomForestRegressor` and `RandomForestClassifier` from `sklearn.ensemble`
+
+#### Using `RandomForestRegressor`
+
+<br>
+
+Can attach a random forest to our pipeline
+
+```{python}
+#| echo: true
+forest_reg = Pipeline(
+    [
+        ("preprocessing", preprocessing),
+        ("random_forest", RandomForestRegressor(n_jobs=-1, random_state=1)),
+    ]
+)
+```
+
+From this can work as before
+
+
+#### Evaluating RF with Default Tuning Parameters
+
+Evaluating generalization performance of RF: 
+```{python}
+#| echo: true
+forest_rmse = -cross_val_score(
+    forest_reg,
+    X_train,
+    y_train,
+    scoring="neg_root_mean_squared_error",
+    cv=10,
+)
+pd.Series(forest_rmse).describe().iloc[:3]
+```
+
+This looks a lot more cheerful: validation RMSE of $64.5k — improves on linear methods
+
+
+#### RF Tuning Parameters
+
+Random forests have a few tuning parameters of their own. E.g: 
+
+- How many features to consider for splitting
+- Minimum number of observations per $R_k$
+
+
+Can also tune with cross-validation
+ 
+::: {.footer}
+
+Randomized CV useful when there are many potential parameters combinations and can't check them all
+
+:::
+
+#### `RandomizedSearchCV`
+
+Will use *randomized* CV: trying random combinations of tuning parameters according to specified distribution
+ 
+
+```{python}
+#| echo: true
+param_distribs = { 
+    "random_forest__max_features": randint(low=2, high=5),
+    "random_forest__min_samples_leaf": randint(low=1, high=50)
+}
+
+rnd_search_cv = RandomizedSearchCV( 
+    forest_reg,
+    param_distribs, 
+    n_jobs=-1,
+    n_iter=20,
+    cv=10,
+    scoring='neg_root_mean_squared_error',
+    random_state=1,
+)
+```
+Otherwise exactly same as `GridSearchCV`
+
+#### Viewing the Results {.scrollable}
+
+Maybe some mild regularization with `min_samples_leaf` helped a bit:
+```{python}
+#| echo: true
+#| code-fold: true
+#| code-summary: "CV results"
+rnd_search_cv.fit(X_train, y_train)
+cv_res = pd.DataFrame(rnd_search_cv.cv_results_)
+cv_res.sort_values(by='rank_test_score')
+```
+
+
+::: {.footer}
+
+
+:::
+
+#### Testing the Selected Model
+
+- Let's select the best random forest as estimator
+- `scikit-learn` CV objects automatically refit the best estimator, store it in `best_estimator_` attribute
+
+. . .
+
+<br>
+
+Now only need to compute test error: final evaluation
+```{python}
+#| echo: true
+X_test, y_test = test_set.drop("MedHouseVal", axis=1), test_set["MedHouseVal"].copy()
+root_mean_squared_error(y_test, rnd_search_cv.best_estimator_.predict(X_test)).round(4)
+```
+ 
+
+
+
+
+
+
+## Recap and Conclusions {background="#00100F"}
+  
+ 
+
+
+ 
+
+#### Recap
+
+<br>
+
+In this lecture we
+
+1. Discussed the bias-variance trade-off
+2. Introduced cross-validation for measuring model performance and choosing tuning parameters
+3. Saw several regressors in action with `scikit-learn`
+   1. Polynomial regression and penalized approaches 
+   2. Regression trees and random forests
+
+#### Next Questions
+
+<br>
+
+Many topics open up:  
+
+- How does a classification problem look like? How are classification models evaluated? 
+- What other learning algorithms are there? When is each one appropriate? 
+- How does one deal with non-numerical features? 
+- How does one deal with missing data?
+
+#### References {.allowframebreaks visibility="uncounted"}
+
+::: {#refs}
+:::
+
+::: footer
+
+:::
+
+ 
