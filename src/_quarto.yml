@@ -6,6 +6,7 @@ html-math-method: mathjax
 
 filters:
   - diagram  
+  - embedio
   - reveal-header
 diagram:
   engine:
