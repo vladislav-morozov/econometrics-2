@@ -18,7 +18,7 @@ diagram:
 website:
   title: "Advanced Econometrics"
   favicon: themes/favicon.ico
-  site-url: https://vladislav-morozov.github.io/econometrics-2/
+  site-url: https://vladislav-morozov.eu/econometrics-2/
   repo-url: https://github.com/vladislav-morozov/econometrics-2/
   repo-subdir: "src" 
   repo-actions: [edit, issue]
@@ -27,7 +27,7 @@ website:
     search: true 
     tools:
       - icon: person-arms-up
-        href: https://vladislav-morozov.github.io/
+        href: https://vladislav-morozov.eu/
       - icon: github
         href: https://github.com/vladislav-morozov/
       - icon: linkedin
