@@ -1,103 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/syllabus.html</loc>
-    <lastmod>2025-05-07T14:49:06.705Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/syllabus.html</loc>
+    <lastmod>2026-07-25T18:12:06.112Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/vector/ols-limit-distribution.html</loc>
-    <lastmod>2025-05-20T19:55:11.547Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/exercises/exercises-prediction.html</loc>
+    <lastmod>2026-07-25T18:12:06.089Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/vector/ols-delta-method.html</loc>
-    <lastmod>2025-06-17T19:21:30.363Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/exercises/mock-exam.html</loc>
+    <lastmod>2026-07-25T18:12:06.089Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/vector/identification-inference.html</loc>
-    <lastmod>2025-05-20T19:55:11.546Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/vector/vector-ols.html</loc>
+    <lastmod>2026-07-25T18:12:06.112Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt1.html</loc>
-    <lastmod>2025-07-08T14:27:03.862Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/vector/identification-inference.html</loc>
+    <lastmod>2026-07-25T18:12:06.109Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/prediction/learning-elements.html</loc>
-    <lastmod>2025-07-17T15:37:35.225Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/vector/ols-limit-distribution.html</loc>
+    <lastmod>2026-07-25T18:12:06.112Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/prediction/classification.html</loc>
-    <lastmod>2025-07-17T15:10:30.294Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/prediction/regression-pt2.html</loc>
+    <lastmod>2026-07-25T18:39:48.822Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/fe.html</loc>
-    <lastmod>2025-06-17T19:21:30.362Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/prediction/intro-sl.html</loc>
+    <lastmod>2026-07-25T18:12:06.109Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/did.html</loc>
-    <lastmod>2025-06-17T19:21:30.361Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/prediction/pac-nfl-tradeoff.html</loc>
+    <lastmod>2026-07-25T18:12:06.109Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/organizational/intro.html</loc>
-    <lastmod>2025-05-20T19:55:11.544Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/panel/event-studies.html</loc>
+    <lastmod>2026-07-25T18:12:06.108Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/exercises/mock-exam.html</loc>
-    <lastmod>2025-06-29T18:13:25.939Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/panel/data-types.html</loc>
+    <lastmod>2026-07-25T18:12:06.104Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/exercises/exercises-panel.html</loc>
-    <lastmod>2025-06-17T19:21:30.358Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/panel/did.html</loc>
+    <lastmod>2026-07-25T18:12:06.108Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/exercises/exercises-linear-asymptotic.html</loc>
-    <lastmod>2025-05-20T19:55:11.543Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/index.html</loc>
+    <lastmod>2026-07-25T18:12:06.103Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/exercises/exercises-linear-inference.html</loc>
-    <lastmod>2025-06-17T19:21:30.358Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/organizational/intro.html</loc>
+    <lastmod>2026-07-25T18:12:06.103Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/exercises/exercises-prediction.html</loc>
-    <lastmod>2025-07-23T10:27:35.218Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/panel/fe.html</loc>
+    <lastmod>2026-07-25T18:12:06.108Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/index.html</loc>
-    <lastmod>2025-07-22T18:43:18.104Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/panel/mean-group.html</loc>
+    <lastmod>2026-07-25T18:12:06.108Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/data-types.html</loc>
-    <lastmod>2025-06-17T19:21:30.360Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/prediction/classification.html</loc>
+    <lastmod>2026-07-25T18:12:06.109Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/event-studies.html</loc>
-    <lastmod>2025-06-17T19:21:30.361Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/prediction/learning-elements.html</loc>
+    <lastmod>2026-07-25T18:12:06.109Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/panel/mean-group.html</loc>
-    <lastmod>2025-06-25T14:47:33.308Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/prediction/regression-pt1.html</loc>
+    <lastmod>2026-07-25T18:12:06.109Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/prediction/intro-sl.html</loc>
-    <lastmod>2025-06-28T19:24:34.897Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/vector/ols-inference.html</loc>
+    <lastmod>2026-07-25T18:12:06.112Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/prediction/pac-nfl-tradeoff.html</loc>
-    <lastmod>2025-06-29T16:16:42.410Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/vector/ols-delta-method.html</loc>
+    <lastmod>2026-07-25T18:12:06.112Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/prediction/regression-pt2.html</loc>
-    <lastmod>2025-07-22T18:38:45.104Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/slides/vector/ols-consistency.html</loc>
+    <lastmod>2026-07-25T18:12:06.112Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/vector/ols-consistency.html</loc>
-    <lastmod>2025-07-22T13:11:29.329Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/exercises/exercises-linear-asymptotic.html</loc>
+    <lastmod>2026-07-25T18:12:06.089Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/vector/ols-inference.html</loc>
-    <lastmod>2025-05-20T19:55:11.547Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/exercises/exercises-panel.html</loc>
+    <lastmod>2026-07-25T18:12:06.089Z</lastmod>
   </url>
   <url>
-    <loc>https://vladislav-morozov.github.io/econometrics-2/slides/vector/vector-ols.html</loc>
-    <lastmod>2025-07-22T13:11:29.330Z</lastmod>
+    <loc>https://vladislav-morozov.eu/econometrics-2/exercises/exercises-linear-inference.html</loc>
+    <lastmod>2026-07-25T18:12:06.089Z</lastmod>
   </url>
 </urlset>
