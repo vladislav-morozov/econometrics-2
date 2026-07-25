@@ -1150,9 +1150,9 @@ plt.show()
 - Compute with `roc_auc_score()`:
 ```{python}
 #| echo: true
-print(f"Logit AUC: {roc_auc_score(y_train_0, y_scores_logit).round(3)}")
-print(f"SVM AUC: {roc_auc_score(y_train_0, y_scores_svm).round(3)}")
-print(f"RF AUC: {roc_auc_score(y_train_0, y_scores_rf).round(3)}")
+print(f"Logit AUC: {round(roc_auc_score(y_train_0, y_scores_logit), 3)}")
+print(f"SVM AUC: {round(roc_auc_score(y_train_0, y_scores_svm), 3)}")
+print(f"RF AUC: {round(roc_auc_score(y_train_0, y_scores_rf), 3)}")
 ```
 
 
