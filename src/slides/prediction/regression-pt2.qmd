@@ -796,7 +796,7 @@ Computation: estimates 10 times for each value of $\alpha$ (110 times in total)
 #### Viewing the Results {.scrollable}
 
 - The `results_` attribute has detailed info on models fitted
-- Best approach: $\alpha\approx 0.1$. Worst: $\alpha=0$ (OLS)
+- Best approach: $\alpha\approx 0.1$. Worst: $\alpha\approx 0$ (~OLS)
 
 ```{python}
 #| echo: true
@@ -858,7 +858,7 @@ cv_res.sort_values(by='rank_test_score').head(3).loc[:,
        'rank_test_score']] 
 ```
 
-- Best model: OLS with no polynomials
+- Best model: ~OLS with no polynomials
 - Close second and third: $\alpha=0.1$ and polynomials of degrees 2 and 3 
 
 
@@ -1241,8 +1241,6 @@ In this lecture we
    2. Regression trees and random forests
 
 #### Next Questions
-
-<br>
 
 Many topics open up:  
 
