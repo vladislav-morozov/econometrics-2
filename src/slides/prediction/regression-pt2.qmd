@@ -822,7 +822,7 @@ cv_res_alpha.sort_values(by='rank_test_score')
 #| echo: true
 param_grid = { 
     "preprocessing__poly__degree": [1, 2, 3],
-    "lasso__alpha": np.linspace(0.0001, 1, 11),
+    "lasso__alpha": np.linspace(0.001, 1, 11),
 }
 ```
 - `GridSearchCV` called the same way
