@@ -123,19 +123,16 @@ tickers = [
     "ASB",   # Associated Banc-Corp
     "AUB",   # Atlantic Union Bankshares Corporation
     "AX",    # Axos Financial Inc.
-    "BANC",  # Banc of California Inc.
-    "BK",    # Bank of New York Mellon Corporation
+    "BANC",  # Banc of California Inc. 
+    "BNY",    # Bank of New York Mellon Corporation
     "BAC",   # Bank of America Corporation
     "BOH",   # Bank of Hawaii Corporation
     "BKU",   # BankUnited Inc.
-    "BHB",   # Bar Harbor Bankshares Inc.
-    "BHLB",  # Berkshire Hills Bancorp Inc.
-    "BRBS",  # Blue Ridge Bankshares Inc.
-    "CADE",  # Cadence Bank
+    "BHB",   # Bar Harbor Bankshares Inc. 
+    "BRBS",  # Blue Ridge Bankshares Inc. 
     "COF",   # Capital One Financial Corporation
     "C",     # Citigroup Inc.
     "CFG",   # Citizens Financial Group Inc.
-    "CMA",   # Comerica Incorporated
     "CFR",   # Cullen/Frost Bankers Inc. 
     "FNB",   # F.N.B. Corporation
     "FBK",   # FB Financial Corporation
@@ -150,8 +147,7 @@ tickers = [
     "USB",   # U.S. Bancorp
     "WFC",   # Wells Fargo & Company
     "SCHW",  # Charles Schwab Corporation
-    "AXP",   # American Express Company
-    "DFS",   # Discover Financial Services
+    "AXP",   # American Express Company 
     "NTB",   # Bank of N.T. Butterfield & Son Limited
     "EWBC",  # East West Bancorp Inc.
     "WAL",   # Western Alliance Bancorporation
