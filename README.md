@@ -93,7 +93,7 @@ To build the website and all the slides, execute the following steps.
     && quarto add coatless-quarto/embedio \
     && quarto add shafayetShafee/reveal-header
     ```
-- Build the website and slides with `quarto render`.
+- Activate the environment and build the website and slides with `quarto render`.
 
 This project uses the following Quarto extensions:
 
