@@ -1,0 +1,20 @@
+[project]
+name = "advanced-econometrics-bonn"
+version = "1.0.0"
+description = "Advanced Econometrics (Econometrics 2) at Uni Bonn Econ — Course Materials (Lectures slides, codes, problem sets. Undergraduate)"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "geopandas>=1.1.4",
+    "jupyter>=1.1.1",
+    "linearmodels>=7.0",
+    "matplotlib>=3.11.1",
+    "numpy>=2.5.1",
+    "pandas>=3.0.5",
+    "plotly>=6.9.0",
+    "pycountry>=26.2.16",
+    "pyfixest>=0.60.0",
+    "scikit-learn==1.7.1",
+    "statsmodels>=0.14.6",
+    "yfinance>=1.5.2",
+]
