@@ -564,7 +564,7 @@ Very easy to create a pipeline with LASSO:
 lasso_model = Pipeline(
   [
     ("preprocessing", clone(preprocessing)),
-    ("lasso", Lasso())
+    ("lasso", Lasso(max_iter=20000))
   ]
 )
 ```
@@ -756,8 +756,9 @@ Example: tuning `alpha` in LASSO
 ```{python}
 #| echo: true
 param_grid_alpha = { 
-    "lasso__alpha": np.linspace(0, 1, 11),
+    "lasso__alpha": np.linspace(0.0001, 1, 11),
 }
+# Minimum value of alpha is 0.0001 for purely numerical reasons
 ```
 
 ::: {.footer}
@@ -821,7 +822,7 @@ cv_res_alpha.sort_values(by='rank_test_score')
 #| echo: true
 param_grid = { 
     "preprocessing__poly__degree": [1, 2, 3],
-    "lasso__alpha": np.linspace(0, 1, 11),
+    "lasso__alpha": np.linspace(0.0001, 1, 11),
 }
 ```
 - `GridSearchCV` called the same way
@@ -978,7 +979,7 @@ Training and computing training loss exactly as before:
 ```{python}
 #| echo: true
 tree.fit(X_train, y_train)
-root_mean_squared_error(y_train, tree.predict(X_train)).round(4)
+round(root_mean_squared_error(y_train, tree.predict(X_train)), 4)
 ```
 
 - We <span class="highlight">interpolated</span> the training sample — perfect prediction
@@ -1211,7 +1212,7 @@ Now only need to compute test error: final evaluation
 ```{python}
 #| echo: true
 X_test, y_test = test_set.drop("MedHouseVal", axis=1), test_set["MedHouseVal"].copy()
-root_mean_squared_error(y_test, rnd_search_cv.best_estimator_.predict(X_test)).round(4)
+round(root_mean_squared_error(y_test, rnd_search_cv.best_estimator_.predict(X_test)), 4)
 ```
  
 
