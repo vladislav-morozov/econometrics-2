@@ -7,12 +7,12 @@
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-0de45b8b5f35a93596f1d788d60c4c11.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-970e1319a44caca7fdca442365140be6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/quarto-contrib/reveal-header-1.0.0/add_header.js" defer="true"></script>
 <link href="../../site_libs/quarto-contrib/reveal-header-1.0.0/add_header.css" rel="stylesheet">
 <script src="../../site_libs/quarto-contrib/sc-sb-title-1.0.0/sc_sb_title.js" defer="true"></script>
 <link href="../../site_libs/quarto-contrib/grid-no-htext-1.0.0/grid_no_htext.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.6.42">
+  <meta name="generator" content="quarto-1.10.11">
 
   <meta name="author" content="Vladislav Morozov">
   <title>Advanced Econometrics – Learning Framework, Limits and Trade-Offs</title>
@@ -22,6 +22,9 @@
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -37,7 +40,6 @@
     div.csl-bib-body { }
     div.csl-entry {
       clear: both;
-      margin-bottom: 0em;
     }
     .hanging-indent div.csl-entry {
       margin-left:2em;
@@ -54,7 +56,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-cb5537517b990794adf0c72e32550bcc.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-5c47cd0283464c38db03b45d02a9bfdb.css">
   <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -147,337 +149,171 @@
     }
   </style>
    
-
   <!-- This is what works with Quarto and MathJax 3+ -->
-
   <script>
-
     MathJax = {
-
       tex: {
-
         tags: 'ams',  // should be 'ams', 'none', or 'all'
-
         macros: {
-
           vect: ["\\mathbf{#1}", 1],
-
           mat: ["\\mathbf{#1}", 1], 
-
   
-
           bA: "\\boldsymbol{A}",
-
           bB: "\\boldsymbol{B}",
-
           bC: "\\boldsymbol{C}",
-
           bD: "\\boldsymbol{D}",
-
           bE: "\\boldsymbol{E}",
-
           bF: "\\boldsymbol{F}",
-
           bG: "\\boldsymbol{G}",
-
           bH: "\\boldsymbol{H}",
-
           bI: "\\boldsymbol{I}",
-
           bJ: "\\boldsymbol{J}",
-
           bK: "\\boldsymbol{K}",
-
           bL: "\\boldsymbol{L}",
-
           bM: "\\boldsymbol{M}",
-
           bN: "\\boldsymbol{N}",
-
           bP: "\\boldsymbol{P}",
-
           bQ: "\\boldsymbol{Q}",
-
           bR: "\\boldsymbol{R}",
-
           bS: "\\boldsymbol{S}",
-
           bT: "\\boldsymbol{T}",
-
           bU: "\\boldsymbol{U}",
-
           bV: "\\boldsymbol{V}",
-
           bW: "\\boldsymbol{W}",
-
           bX: "\\boldsymbol{X}",
-
           bY: "\\boldsymbol{Y}",
-
           bZ: "\\boldsymbol{Z}",
-
           ba: "\\boldsymbol{a}",
-
           bb: "\\boldsymbol{b}",
-
           bc: "\\boldsymbol{c}",
-
           bd: "\\boldsymbol{d}",
-
           be: "\\boldsymbol{e}",
-
           bg: "\\boldsymbol{g}",
-
           bh: "\\boldsymbol{h}",
-
           bi: "\\boldsymbol{\\imath}",
-
           bm: "\\boldsymbol{m}",
-
           bp: "\\boldsymbol{p}",
-
           bq: "\\boldsymbol{q}",
-
           br: "\\boldsymbol{r}",
-
           bs: "\\boldsymbol{s}",
-
           bt: "\\boldsymbol{t}",
-
           bu: "\\boldsymbol{u}",
-
           bv: "\\boldsymbol{v}",
-
           bw: "\\boldsymbol{w}",
-
           bx: "\\boldsymbol{x}",
-
           by: "\\boldsymbol{y}",
-
   
-
           Acal: "\\mathcal{A}",
-
           Bcal: "\\mathcal{B}",
-
           Ccal: "\\mathcal{C}",
-
           Dcal: "\\mathcal{D}",
-
           Ecal: "\\mathcal{E}",
-
           Fcal: "\\mathcal{F}",
-
           Gcal: "\\mathcal{G}",
-
           Hcal: "\\mathcal{H}",
-
           Ical: "\\mathcal{I}",
-
           Jcal: "\\mathcal{J}",
-
           Kcal: "\\mathcal{K}",
-
           Lcal: "\\mathcal{L}",
-
           Mcal: "\\mathcal{M}",
-
           Ncal: "\\mathcal{N}",
-
           Ocal: "\\mathcal{O}",
-
           Pcal: "\\mathcal{P}",
-
           Qcal: "\\mathcal{Q}",
-
           Rcal: "\\mathcal{R}",
-
           Scal: "\\mathcal{S}",
-
           Tcal: "\\mathcal{T}",
-
           Ucal: "\\mathcal{U}",
-
           Vcal: "\\mathcal{V}",
-
           Wcal: "\\mathcal{W}",
-
           Xcal: "\\mathcal{X}",
-
           Ycal: "\\mathcal{Y}",
-
           Zcal: "\\mathcal{Z}",
-
   
-
           A: "\\mathbb{A}",
-
           B: "\\mathbb{B}",
-
           C: "\\mathbb{C}",
-
           D: "\\mathbb{D}",
-
           E: "\\mathbb{E}",
-
           F: "\\mathbb{F}",
-
           G: "\\mathbb{G}",
-
           H: "\\mathbb{H}",
-
           I: "\\mathbb{I}",
-
           J: "\\mathbb{J}",
-
           K: "\\mathbb{K}",
-
           L: "\\mathbb{L}",
-
           M: "\\mathbb{M}",
-
           N: "\\mathbb{N}",
-
           O: "\\mathbb{O}",
-
           P: "\\mathbb{P}",
-
           Q: "\\mathbb{Q}",
-
           R: "\\mathbb{R}",
-
           S: "\\mathbb{S}",
-
           T: "\\mathbb{T}",
-
           U: "\\mathbb{U}",
-
           V: "\\mathbb{V}",
-
           W: "\\mathbb{W}",
-
           X: "\\mathbb{X}",
-
           Y: "\\mathbb{Y}",
-
           Z: "\\mathbb{Z}",
-
   
-
           bAlpha: "\\boldsymbol{\\Alpha}",
-
           bBeta: "\\boldsymbol{\\beta}",
-
           bDelta: "\\boldsymbol{\\delta}",
-
           bEta: "\\boldsymbol{\\eta}",
-
           bGamma: "\\boldsymbol{\\Gamma}",
-
           bLambda: "\\boldsymbol{\\Lambda}",
-
           bOmega: "\\boldsymbol{\\Omega}",
-
           bPhi: "\\boldsymbol{\\Phi}",
-
           bPi: "\\boldsymbol{\\Pi}",
-
           bPsi: "\\boldsymbol{\\Psi}",
-
           bSigma: "\\boldsymbol{\\Sigma}",
-
           bTau: "\\boldsymbol{\\tau}",
-
           bXi: "\\boldsymbol{\\Xi}",
-
           bbeta: "\\boldsymbol{\\beta}",
-
           bdelta: "\\boldsymbol{\\delta}",
-
           blambda: "\\boldsymbol{\\lambda}",
-
           bmu: "\\boldsymbol{\\mu}",
-
           bphi: "\\boldsymbol{\\phi}",
-
           bpi: "\\boldsymbol{\\pi}",
-
           bpsi: "\\boldsymbol{\\psi}",
-
           brho: "\\boldsymbol{\\rho}",
-
           balpha: "\\boldsymbol{\\alpha}",
-
           bsigma: "\\boldsymbol{\\sigma}",
-
           btau: "\\boldsymbol{\\tau}",
-
           bxi: "\\boldsymbol{\\xi}",
-
           bEta: "\\boldsymbol{\\eta}",
-
           bPhi: "\\boldsymbol{\\Phi}",
-
           bPi: "\\boldsymbol{\\Pi}",
-
           bPsi: "\\boldsymbol{\\Psi}",
-
           bXi: "\\boldsymbol{\\Xi}",
-
           blambda: "\\boldsymbol{\\lambda}",
-
           bmu: "\\boldsymbol{\\mu}",
-
           bphi: "\\boldsymbol{\\phi}",
-
           bpi: "\\boldsymbol{\\pi}",
-
           bpsi: "\\boldsymbol{\\psi}",
-
           brho: "\\boldsymbol{\\rho}",
-
           bsigma: "\\boldsymbol{\\sigma}",
-
           btheta: "\\boldsymbol{\\theta}",
-
           bgamma: "\\boldsymbol{\\gamma}",  
-
           
-
           curl: ["\\left\\lbrace#1\\right\\rbrace", 1],
-
           floor: ["\\left\\lfloor#1\\right\\rfloor", 1],
-
           ceil: ["\\left\\lceil#1\\right\\rceil", 1],
-
           abs: ["\\left\\lvert#1\\right\\rvert", 1],
-
           norm: ["\\left\\lVert#1\\right\\rVert", 1],
-
   
-
           avar: "\\mathrm{avar}",
-
           var: "\\mathrm{var}",
-
           cov: "\\mathrm{cov}",
-
   
-
           argmin: "\\operatorname*{argmin}",
-
           argmax: "\\operatorname*{argmax}",
-
           argsup: "\\operatorname*{argsup}",
-
           arginf: "\\operatorname*{arginf}",
-
         }
-
       }
-
     };
-
   </script>
   <meta name="description" content="Learning framework for machine learning: PAC learning, no free lunch theorems, and the bias-complexity trade-off (lecture notes slides).">
 <meta property="og:title" content="Learning Framework, Limits and Trade-Offs – Advanced Econometrics">
@@ -495,7 +331,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Vladislav Morozov 
+Vladislav Morozov
 </div>
 </div>
 </div>
@@ -535,16 +371,14 @@ Vladislav Morozov
 <section id="references" class="slide level4">
 <h4>References</h4>
 <p><br></p>
-<div>
 <ul>
 <li>Chapter 1-2 in <span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2023</a>)</span></li>
 <li>Deep reading with details:
 <ul>
-<li>PAC learning: chapter 3 <span class="citation" data-cites="Shalev-Shwartz2014UnderstandingMachineLearning">Shalev-Shwartz and Ben-David (<a href="#/references-1" role="doc-biblioref" onclick="">2014</a>)</span> or chapter 2 in <span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri, Rostamizadeh, and Talwalkar (<a href="#/references-1" role="doc-biblioref" onclick="">2018</a>)</span></li>
+<li>PAC learning: chapter 3 <span class="citation" data-cites="Shalev-Shwartz2014UnderstandingMachineLearning">Shalev-Shwartz and Ben-David (<a href="#/references-1" role="doc-biblioref" onclick="">2014</a>)</span> or chapter 2 in <span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2018</a>)</span></li>
 <li>No-Free-Lunch theorem: chapter 5 in <span class="citation" data-cites="Shalev-Shwartz2014UnderstandingMachineLearning">Shalev-Shwartz and Ben-David (<a href="#/references-1" role="doc-biblioref" onclick="">2014</a>)</span></li>
 </ul></li>
 </ul>
-</div>
 </section>
 
 <section id="this-lecture" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
@@ -679,12 +513,12 @@ R(h) - R^* = \underbrace{\left(R(h) - \inf_{h\in\Hcal} R(h) \right)}_{\text{Esti
 <li class="fragment">Increasing <span class="math inline">\(\gamma\)</span> — more complex class (e.g.&nbsp;allowing higher powers of polynomials)</li>
 </ul>
 </div><div class="column" style="width:60%;">
-<p><img data-src="../..\images/pred/app-error.png"></p>
+<p><img data-src="../../images/pred/app-error.png"></p>
 </div></div>
 <div class="fragment">
 <p>Can generally get closer to Bayes risk (e.g.&nbsp;by getting closer to Bayes predictor <span class="math inline">\(h_{Bayes}\)</span>)</p>
 <div class="footer">
-<p>Image: figure 4.2 in <span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri, Rostamizadeh, and Talwalkar (<a href="#/references-1" role="doc-biblioref" onclick="">2018</a>)</span></p>
+<p>Image: figure 4.2 in <span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2018</a>)</span></p>
 </div>
 </div>
 </section>
@@ -732,7 +566,7 @@ R(h) - R^* = \underbrace{\left(R(h) - \inf_{h\in\Hcal} R(h) \right)}_{\text{Esti
 <li class="fragment">Finding optimal point — art. Depends on the specific problem (more on that later)</li>
 </ul>
 </div><div class="column" style="width:60%;">
-<p><img data-src="../..\images/pred/bias-compl.png"></p>
+<p><img data-src="../../images/pred/bias-compl.png"></p>
 </div></div>
 <div class="footer">
 <p>Trade-off: less bias (approximation error) means more complexity is needed</p>
@@ -847,7 +681,7 @@ P_{S}\left(R(\hat{h}^{\Acal}_S) - \min_{h\in\Hcal} R(h) \leq \varepsilon \right)
 <li class="fragment">“Bad” PAC results do not mean bad performance in practice (e.g.&nbsp;deep neural networks)</li>
 </ul>
 <div class="footer">
-<p>For theory, check out <span class="citation" data-cites="Shalev-Shwartz2014UnderstandingMachineLearning">Shalev-Shwartz and Ben-David (<a href="#/references-1" role="doc-biblioref" onclick="">2014</a>)</span> or <span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri, Rostamizadeh, and Talwalkar (<a href="#/references-1" role="doc-biblioref" onclick="">2018</a>)</span></p>
+<p>For theory, check out <span class="citation" data-cites="Shalev-Shwartz2014UnderstandingMachineLearning">Shalev-Shwartz and Ben-David (<a href="#/references-1" role="doc-biblioref" onclick="">2014</a>)</span> or <span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2018</a>)</span></p>
 </div>
 </section></section>
 <section>
@@ -960,15 +794,15 @@ P_{S}\left(R(\hat{h}^{\Acal}_S) - \min_{h\in\Hcal} R(h) \leq \varepsilon \right)
 </section>
 <section id="references-1" class="slide level4 allowframebreaks smaller scrollable" data-visibility="uncounted">
 <h4>References</h4>
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-James2023IntroductionStatisticalLearning" class="csl-entry" role="listitem">
-James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, and Jonathan E. Taylor. 2023. <em>An <span>Introduction</span> to <span>Statistical Learning</span>: <span>With Applications</span> in <span>Python</span></em>. Springer Texts in Statistics. Cham: Springer.
+James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, and Jonathan E. Taylor. 2023. <em>An <span>Introduction</span> to <span>Statistical Learning</span>: <span>With Applications</span> in <span>Python</span></em>. Springer Texts in Statistics. Springer.
 </div>
 <div id="ref-Mohri2018FoundationsMachineLearning" class="csl-entry" role="listitem">
 Mohri, Mehryar, Afshin Rostamizadeh, and Ameet Talwalkar. 2018. <em>Foundations of <span>Machine Learning</span></em>. The MIT Press. <a href="https://doi.org/10.5555/3360093">https://doi.org/10.5555/3360093</a>.
 </div>
 <div id="ref-Shalev-Shwartz2014UnderstandingMachineLearning" class="csl-entry" role="listitem">
-Shalev-Shwartz, Shai, and Shai Ben-David. 2014. <em>Understanding <span>Machine Learning</span></em>. 1st ed. West Nyack: Cambridge University Press.
+Shalev-Shwartz, Shai, and Shai Ben-David. 2014. <em>Understanding <span>Machine Learning</span></em>. 1st ed. Cambridge University Press.
 </div>
 <div id="ref-Valiant1984TheoryLearnable" class="csl-entry" role="listitem">
 Valiant, Leslie G. 1984. <span>“A <span>Theory</span> of the <span>Learnable</span>.”</span> <em>Communications of the ACM</em> 27 (11): 1134–42. <a href="https://doi.org/10.1145/1968.1972">https://doi.org/10.1145/1968.1972</a>.
@@ -1214,190 +1048,173 @@ Wolpert, David H. 1996. <span>“The <span>Lack</span> of <span>A Priori Distinc
       });
     </script>
     <script id="quarto-html-after-body" type="application/javascript">
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-      const toggleBodyColorMode = (bsSheetEl) => {
-        const mode = bsSheetEl.getAttribute("data-mode");
-        const bodyEl = window.document.querySelector("body");
-        if (mode === "dark") {
-          bodyEl.classList.add("quarto-dark");
-          bodyEl.classList.remove("quarto-light");
-        } else {
-          bodyEl.classList.add("quarto-light");
-          bodyEl.classList.remove("quarto-dark");
-        }
-      }
-      const toggleBodyColorPrimary = () => {
-        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-        if (bsSheetEl) {
-          toggleBodyColorMode(bsSheetEl);
-        }
-      }
-      toggleBodyColorPrimary();  
-      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
-      tabsets.forEach(function(tabset) {
-        const tabby = new Tabby('#' + tabset.id);
-      });
-      const isCodeAnnotation = (el) => {
-        for (const clz of el.classList) {
-          if (clz.startsWith('code-annotation-')) {                     
-            return true;
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
           }
+          return false;
         }
-        return false;
-      }
-      const onCopySuccess = function(e) {
-        // button target
-        const button = e.trigger;
-        // don't keep focus
-        button.blur();
-        // flash "checked"
-        button.classList.add('code-copy-button-checked');
-        var currentTitle = button.getAttribute("title");
-        button.setAttribute("title", "Copied!");
-        let tooltip;
-        if (window.bootstrap) {
-          button.setAttribute("data-bs-toggle", "tooltip");
-          button.setAttribute("data-bs-placement", "left");
-          button.setAttribute("data-bs-title", "Copied!");
-          tooltip = new bootstrap.Tooltip(button, 
-            { trigger: "manual", 
-              customClass: "code-copy-button-tooltip",
-              offset: [0, -8]});
-          tooltip.show();    
-        }
-        setTimeout(function() {
-          if (tooltip) {
-            tooltip.hide();
-            button.removeAttribute("data-bs-title");
-            button.removeAttribute("data-bs-toggle");
-            button.removeAttribute("data-bs-placement");
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
           }
-          button.setAttribute("title", currentTitle);
-          button.classList.remove('code-copy-button-checked');
-        }, 1000);
-        // clear code selection
-        e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
           for (const childEl of codeEl.children) {
             if (isCodeAnnotation(childEl)) {
               childEl.remove();
             }
           }
           return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
-      });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
-        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-        var mailtoRegex = new RegExp(/^mailto:/);
-          var filterRegex = new RegExp("https:\/\/vladislav-morozov\.github\.io\/econometrics-2\/");
-        var isInternal = (href) => {
-            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
-        // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-        for (var i=0; i<links.length; i++) {
-          const link = links[i];
-          if (!isInternal(link.href)) {
-            // undo the damage that might have been done by quarto-nav.js in the case of
-            // links that we want to consider external
-            if (link.dataset.originalHref !== undefined) {
-              link.href = link.dataset.originalHref;
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/vladislav-morozov\.eu\/econometrics-2\/");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
             }
           }
-        }
-      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-        const config = {
-          allowHTML: true,
-          maxWidth: 500,
-          delay: 100,
-          arrow: false,
-          appendTo: function(el) {
-              return el.closest('section.slide') || el.parentElement;
-          },
-          interactive: true,
-          interactiveBorder: 10,
-          theme: 'light-border',
-          placement: 'bottom-start',
-        };
-        if (contentFn) {
-          config.content = contentFn;
-        }
-        if (onTriggerFn) {
-          config.onTrigger = onTriggerFn;
-        }
-        if (onUntriggerFn) {
-          config.onUntrigger = onUntriggerFn;
-        }
-          config['offset'] = [0,0];
-          config['maxWidth'] = 700;
-        window.tippy(el, config); 
-      }
-      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-      for (var i=0; i<noterefs.length; i++) {
-        const ref = noterefs[i];
-        tippyHover(ref, function() {
-          // use id or data attribute instead here
-          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-          try { href = new URL(href).hash; } catch {}
-          const id = href.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note) {
-            return note.innerHTML;
-          } else {
-            return "";
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
           }
-        });
-      }
-      const findCites = (el) => {
-        const parentEl = el.parentElement;
-        if (parentEl) {
-          const cites = parentEl.dataset.cites;
-          if (cites) {
-            return {
-              el,
-              cites: cites.split(' ')
-            };
-          } else {
-            return findCites(el.parentElement)
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
           }
-        } else {
-          return undefined;
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
         }
-      };
-      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-      for (var i=0; i<bibliorefs.length; i++) {
-        const ref = bibliorefs[i];
-        const citeInfo = findCites(ref);
-        if (citeInfo) {
-          tippyHover(citeInfo.el, function() {
-            var popup = window.document.createElement('div');
-            citeInfo.cites.forEach(function(cite) {
-              var citeDiv = window.document.createElement('div');
-              citeDiv.classList.add('hanging-indent');
-              citeDiv.classList.add('csl-entry');
-              var biblioDiv = window.document.getElementById('ref-' + cite);
-              if (biblioDiv) {
-                citeDiv.innerHTML = biblioDiv.innerHTML;
-              }
-              popup.appendChild(citeDiv);
-            });
-            return popup.innerHTML;
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
           });
         }
-      }
-    });
-    </script>
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
     
 
 </body></html>

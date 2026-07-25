@@ -79,6 +79,28 @@ This repository serves as the central source for lecture slides and problem sets
 
 Contributions, typo reports, and suggestions for clarity are welcome. Please open an issue or contact me directly!
 
+## Building the Presentations
+
+To build the website and all the slides, execute the following steps.
+
+- Repo preparation:
+    - Clone the repository.
+    - Download the large excluded `country-quarter.tab` dataset from the [Harvard Dataverse](https://dataverse.harvard.edu/file.xhtml?fileId=6425134&version=1.0) and place it under `src/slides/panel/data`. 
+- Install Quarto from [https://quarto.org/docs/get-started/](https://quarto.org/docs/get-started/).
+- Change to `src`, set up the virtual environment with `uv sync`, and install the required Quarto extensions:
+    ```bash
+    quarto add pandoc-ext/diagram \
+    && quarto add coatless-quarto/embedio \
+    && quarto add shafayetShafee/reveal-header
+    ```
+- Activate the environment and build the website and slides with `quarto render`.
+
+This project uses the following Quarto extensions:
+
+- [diagram](https://github.com/pandoc-ext/diagram)
+- [embedio](https://github.com/coatless-quarto/embedio)
+- [reveal-header](https://github.com/shafayetShafee/reveal-header)
+
 ## License
 
 Course materials provided here are for educational use only and are licensed under the MIT license. 

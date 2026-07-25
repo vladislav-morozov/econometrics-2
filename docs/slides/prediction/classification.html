@@ -7,12 +7,12 @@
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-0de45b8b5f35a93596f1d788d60c4c11.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-970e1319a44caca7fdca442365140be6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/quarto-contrib/reveal-header-1.0.0/add_header.js" defer="true"></script>
 <link href="../../site_libs/quarto-contrib/reveal-header-1.0.0/add_header.css" rel="stylesheet">
 <script src="../../site_libs/quarto-contrib/sc-sb-title-1.0.0/sc_sb_title.js" defer="true"></script>
 <link href="../../site_libs/quarto-contrib/grid-no-htext-1.0.0/grid_no_htext.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.6.42">
+  <meta name="generator" content="quarto-1.10.11">
 
   <meta name="author" content="Vladislav Morozov">
   <title>Advanced Econometrics – Classification</title>
@@ -22,6 +22,9 @@
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -34,8 +37,9 @@
       vertical-align: middle;
     }
     /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -46,7 +50,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -100,7 +104,6 @@
     div.csl-bib-body { }
     div.csl-entry {
       clear: both;
-      margin-bottom: 0em;
     }
     .hanging-indent div.csl-entry {
       margin-left:2em;
@@ -117,7 +120,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-cb5537517b990794adf0c72e32550bcc.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-5c47cd0283464c38db03b45d02a9bfdb.css">
   <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -210,337 +213,171 @@
     }
   </style>
    
-
   <!-- This is what works with Quarto and MathJax 3+ -->
-
   <script>
-
     MathJax = {
-
       tex: {
-
         tags: 'ams',  // should be 'ams', 'none', or 'all'
-
         macros: {
-
           vect: ["\\mathbf{#1}", 1],
-
           mat: ["\\mathbf{#1}", 1], 
-
   
-
           bA: "\\boldsymbol{A}",
-
           bB: "\\boldsymbol{B}",
-
           bC: "\\boldsymbol{C}",
-
           bD: "\\boldsymbol{D}",
-
           bE: "\\boldsymbol{E}",
-
           bF: "\\boldsymbol{F}",
-
           bG: "\\boldsymbol{G}",
-
           bH: "\\boldsymbol{H}",
-
           bI: "\\boldsymbol{I}",
-
           bJ: "\\boldsymbol{J}",
-
           bK: "\\boldsymbol{K}",
-
           bL: "\\boldsymbol{L}",
-
           bM: "\\boldsymbol{M}",
-
           bN: "\\boldsymbol{N}",
-
           bP: "\\boldsymbol{P}",
-
           bQ: "\\boldsymbol{Q}",
-
           bR: "\\boldsymbol{R}",
-
           bS: "\\boldsymbol{S}",
-
           bT: "\\boldsymbol{T}",
-
           bU: "\\boldsymbol{U}",
-
           bV: "\\boldsymbol{V}",
-
           bW: "\\boldsymbol{W}",
-
           bX: "\\boldsymbol{X}",
-
           bY: "\\boldsymbol{Y}",
-
           bZ: "\\boldsymbol{Z}",
-
           ba: "\\boldsymbol{a}",
-
           bb: "\\boldsymbol{b}",
-
           bc: "\\boldsymbol{c}",
-
           bd: "\\boldsymbol{d}",
-
           be: "\\boldsymbol{e}",
-
           bg: "\\boldsymbol{g}",
-
           bh: "\\boldsymbol{h}",
-
           bi: "\\boldsymbol{\\imath}",
-
           bm: "\\boldsymbol{m}",
-
           bp: "\\boldsymbol{p}",
-
           bq: "\\boldsymbol{q}",
-
           br: "\\boldsymbol{r}",
-
           bs: "\\boldsymbol{s}",
-
           bt: "\\boldsymbol{t}",
-
           bu: "\\boldsymbol{u}",
-
           bv: "\\boldsymbol{v}",
-
           bw: "\\boldsymbol{w}",
-
           bx: "\\boldsymbol{x}",
-
           by: "\\boldsymbol{y}",
-
   
-
           Acal: "\\mathcal{A}",
-
           Bcal: "\\mathcal{B}",
-
           Ccal: "\\mathcal{C}",
-
           Dcal: "\\mathcal{D}",
-
           Ecal: "\\mathcal{E}",
-
           Fcal: "\\mathcal{F}",
-
           Gcal: "\\mathcal{G}",
-
           Hcal: "\\mathcal{H}",
-
           Ical: "\\mathcal{I}",
-
           Jcal: "\\mathcal{J}",
-
           Kcal: "\\mathcal{K}",
-
           Lcal: "\\mathcal{L}",
-
           Mcal: "\\mathcal{M}",
-
           Ncal: "\\mathcal{N}",
-
           Ocal: "\\mathcal{O}",
-
           Pcal: "\\mathcal{P}",
-
           Qcal: "\\mathcal{Q}",
-
           Rcal: "\\mathcal{R}",
-
           Scal: "\\mathcal{S}",
-
           Tcal: "\\mathcal{T}",
-
           Ucal: "\\mathcal{U}",
-
           Vcal: "\\mathcal{V}",
-
           Wcal: "\\mathcal{W}",
-
           Xcal: "\\mathcal{X}",
-
           Ycal: "\\mathcal{Y}",
-
           Zcal: "\\mathcal{Z}",
-
   
-
           A: "\\mathbb{A}",
-
           B: "\\mathbb{B}",
-
           C: "\\mathbb{C}",
-
           D: "\\mathbb{D}",
-
           E: "\\mathbb{E}",
-
           F: "\\mathbb{F}",
-
           G: "\\mathbb{G}",
-
           H: "\\mathbb{H}",
-
           I: "\\mathbb{I}",
-
           J: "\\mathbb{J}",
-
           K: "\\mathbb{K}",
-
           L: "\\mathbb{L}",
-
           M: "\\mathbb{M}",
-
           N: "\\mathbb{N}",
-
           O: "\\mathbb{O}",
-
           P: "\\mathbb{P}",
-
           Q: "\\mathbb{Q}",
-
           R: "\\mathbb{R}",
-
           S: "\\mathbb{S}",
-
           T: "\\mathbb{T}",
-
           U: "\\mathbb{U}",
-
           V: "\\mathbb{V}",
-
           W: "\\mathbb{W}",
-
           X: "\\mathbb{X}",
-
           Y: "\\mathbb{Y}",
-
           Z: "\\mathbb{Z}",
-
   
-
           bAlpha: "\\boldsymbol{\\Alpha}",
-
           bBeta: "\\boldsymbol{\\beta}",
-
           bDelta: "\\boldsymbol{\\delta}",
-
           bEta: "\\boldsymbol{\\eta}",
-
           bGamma: "\\boldsymbol{\\Gamma}",
-
           bLambda: "\\boldsymbol{\\Lambda}",
-
           bOmega: "\\boldsymbol{\\Omega}",
-
           bPhi: "\\boldsymbol{\\Phi}",
-
           bPi: "\\boldsymbol{\\Pi}",
-
           bPsi: "\\boldsymbol{\\Psi}",
-
           bSigma: "\\boldsymbol{\\Sigma}",
-
           bTau: "\\boldsymbol{\\tau}",
-
           bXi: "\\boldsymbol{\\Xi}",
-
           bbeta: "\\boldsymbol{\\beta}",
-
           bdelta: "\\boldsymbol{\\delta}",
-
           blambda: "\\boldsymbol{\\lambda}",
-
           bmu: "\\boldsymbol{\\mu}",
-
           bphi: "\\boldsymbol{\\phi}",
-
           bpi: "\\boldsymbol{\\pi}",
-
           bpsi: "\\boldsymbol{\\psi}",
-
           brho: "\\boldsymbol{\\rho}",
-
           balpha: "\\boldsymbol{\\alpha}",
-
           bsigma: "\\boldsymbol{\\sigma}",
-
           btau: "\\boldsymbol{\\tau}",
-
           bxi: "\\boldsymbol{\\xi}",
-
           bEta: "\\boldsymbol{\\eta}",
-
           bPhi: "\\boldsymbol{\\Phi}",
-
           bPi: "\\boldsymbol{\\Pi}",
-
           bPsi: "\\boldsymbol{\\Psi}",
-
           bXi: "\\boldsymbol{\\Xi}",
-
           blambda: "\\boldsymbol{\\lambda}",
-
           bmu: "\\boldsymbol{\\mu}",
-
           bphi: "\\boldsymbol{\\phi}",
-
           bpi: "\\boldsymbol{\\pi}",
-
           bpsi: "\\boldsymbol{\\psi}",
-
           brho: "\\boldsymbol{\\rho}",
-
           bsigma: "\\boldsymbol{\\sigma}",
-
           btheta: "\\boldsymbol{\\theta}",
-
           bgamma: "\\boldsymbol{\\gamma}",  
-
           
-
           curl: ["\\left\\lbrace#1\\right\\rbrace", 1],
-
           floor: ["\\left\\lfloor#1\\right\\rfloor", 1],
-
           ceil: ["\\left\\lceil#1\\right\\rceil", 1],
-
           abs: ["\\left\\lvert#1\\right\\rvert", 1],
-
           norm: ["\\left\\lVert#1\\right\\rVert", 1],
-
   
-
           avar: "\\mathrm{avar}",
-
           var: "\\mathrm{var}",
-
           cov: "\\mathrm{cov}",
-
   
-
           argmin: "\\operatorname*{argmin}",
-
           argmax: "\\operatorname*{argmax}",
-
           argsup: "\\operatorname*{argsup}",
-
           arginf: "\\operatorname*{arginf}",
-
         }
-
       }
-
     };
-
   </script>
   <meta name="description" content="Basics of binary and multiclass classification: evaluation metrics; logistic, support vector, and random forest classifiers (lecture note slides)">
 <meta property="og:title" content="Classification – Advanced Econometrics">
@@ -558,7 +395,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Vladislav Morozov 
+Vladislav Morozov
 </div>
 </div>
 </div>
@@ -599,18 +436,16 @@ Vladislav Morozov
 <section id="references" class="slide level4">
 <h4>References</h4>
 <p><br></p>
-<div>
 <ul>
 <li>Chapters 4, 8-9 in <span class="citation" data-cites="James2023IntroductionStatisticalLearning">James et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2023</a>)</span></li>
 <li><a href="https://scikit-learn.org/stable/user_guide.html"><code>scikit-learn</code> User Guide</a>: 1.1.11, 1.5, 1.10-1.11</li>
-<li>Deeper: chapter 4, 9, 15 in <span class="citation" data-cites="Hastie2009ElementsStatisticalLearning">Hastie, Tibshirani, and Friedman (<a href="#/references-1" role="doc-biblioref" onclick="">2009</a>)</span></li>
+<li>Deeper: chapter 4, 9, 15 in <span class="citation" data-cites="Hastie2009ElementsStatisticalLearning">Hastie et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2009</a>)</span></li>
 </ul>
-</div>
 </section>
 <section id="imports" class="slide level4 scrollable">
 <h4>Imports</h4>
-<div id="63d167be" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<div id="0b297506" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-2"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd </span>
 <span id="cb1-4"><a></a></span>
@@ -651,7 +486,7 @@ Vladislav Morozov
 <span id="cb1-39"><a></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
 <span id="cb1-40"><a></a></span>
 <span id="cb1-41"><a></a><span class="co"># Feature scaler</span></span>
-<span id="cb1-42"><a></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-42"><a></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 
@@ -702,7 +537,7 @@ Vladislav Morozov
 </ul>
 <div class="fragment">
 <p><br></p>
-<p>Benchmark to remember: humans make around 1.5% mistakes on it <span class="citation" data-cites="Simard1992EfficientPatternRecognition">(<a href="#/references-1" role="doc-biblioref" onclick="">Simard, Le Cun, and Denker 1992</a>)</span></p>
+<p>Benchmark to remember: humans make around 1.5% mistakes on it <span class="citation" data-cites="Simard1992EfficientPatternRecognition">(<a href="#/references-1" role="doc-biblioref" onclick="">Simard et al. 1992</a>)</span></p>
 <div class="footer">
 
 </div>
@@ -715,19 +550,19 @@ Vladislav Morozov
 <li class="fragment">Can obtain the full dataset from <a href="https://www.openml.org/">openML</a></li>
 <li class="fragment"><code>scikit-learn</code> even offers a <code>fetch_openml()</code> function for convenience</li>
 </ul>
-<div id="41fc8969" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>mnist <span class="op">=</span> fetch_openml(</span>
+<div id="dc03f218" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>mnist <span class="op">=</span> fetch_openml(</span>
 <span id="cb2-2"><a></a>    <span class="st">"mnist_784"</span>,</span>
 <span id="cb2-3"><a></a>    as_frame<span class="op">=</span><span class="va">False</span>,          <span class="co"># Return NumPy arrays instead of pd.DataFrame</span></span>
 <span id="cb2-4"><a></a>    data_home<span class="op">=</span>data_path, </span>
-<span id="cb2-5"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="data-description" class="slide level4 scrollable">
 <h4>Data Description</h4>
 <p>Remember to check your data and perform EDA!</p>
-<div id="4e4e413c" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="bu">print</span>(mnist.DESCR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3f33d47c" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="bu">print</span>(mnist.DESCR)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>**Author**: Yann LeCun, Corinna Cortes, Christopher J.C. Burges  
 **Source**: [MNIST Website](http://yann.lecun.com/exdb/mnist/) - Date unknown  
@@ -751,19 +586,19 @@ Downloaded from openml.org.</code></pre>
 <section id="splitting-the-data" class="slide level4">
 <h4>Splitting the Data</h4>
 <p>Split the data manually into <code>X</code> and <code>y</code> arrays</p>
-<div id="ad7e72eb" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a>X, y <span class="op">=</span> mnist.data, mnist.target </span>
-<span id="cb5-2"><a></a><span class="bu">print</span>(y[<span class="dv">0</span>:<span class="dv">10</span>])    <span class="co"># Labels of first ten observations</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="2edf4dc8" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a>X, y <span class="op">=</span> mnist.data, mnist.target </span>
+<span id="cb5-2"><a></a><span class="bu">print</span>(y[<span class="dv">0</span>:<span class="dv">10</span>])    <span class="co"># Labels of first ten observations</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['5' '0' '4' '1' '9' '2' '1' '3' '1' '4']</code></pre>
 </div>
 </div>
 <p><br></p>
 <p>Data already sorted into training and test split (see <code>DESCR</code>)</p>
-<div id="c69af83c" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>X, y <span class="op">=</span> mnist.data, mnist.target</span>
+<div id="92031a45" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>X, y <span class="op">=</span> mnist.data, mnist.target</span>
 <span id="cb7-2"><a></a>X_train, X_test, y_train, y_test <span class="op">=</span> <span class="op">\</span></span>
-<span id="cb7-3"><a></a>    X[:<span class="dv">60000</span>], X[<span class="dv">60000</span>:], y[:<span class="dv">60000</span>], y[<span class="dv">60000</span>:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a></a>    X[:<span class="dv">60000</span>], X[<span class="dv">60000</span>:], y[:<span class="dv">60000</span>], y[<span class="dv">60000</span>:]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li class="fragment">10k training examples</li>
@@ -774,7 +609,7 @@ Downloaded from openml.org.</code></pre>
 <h4>Visualizing the Data</h4>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div id="f3ad4177" class="cell" data-execution_count="7">
+<div id="67636714" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -789,8 +624,8 @@ Downloaded from openml.org.</code></pre>
 <li class="fragment">Those are <span class="math inline">\(\bx\)</span>; <span class="math inline">\(y\)</span> are labels like <code>'1'</code> or <code>'7'</code></li>
 <li class="fragment">Data reshaped; original form of data: 784-vectors (note: <span class="math inline">\(784=28^2\)</span>)</li>
 </ul>
-<div id="ee0ed5fb" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>X[<span class="dv">0</span>, :].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cd23c51f" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a>X[<span class="dv">0</span>, :].shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>(784,)</code></pre>
 </div>
@@ -917,9 +752,9 @@ Y\in \curl{-1, 1}
 </div>
 <p><br></p>
 <p>Create the new binary labels:</p>
-<div id="c7eb86dc" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>y_train_0 <span class="op">=</span> (y_train <span class="op">==</span> <span class="st">'0'</span>)</span>
-<span id="cb10-2"><a></a>y_test_0 <span class="op">=</span> (y_test <span class="op">==</span> <span class="st">'0'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="87f78a28" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>y_train_0 <span class="op">=</span> (y_train <span class="op">==</span> <span class="st">'0'</span>)</span>
+<span id="cb10-2"><a></a>y_test_0 <span class="op">=</span> (y_test <span class="op">==</span> <span class="st">'0'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="linear-classifiers" class="slide level4">
@@ -1006,8 +841,8 @@ h(\bx) = \I\curl{  \Lambda( \varphi(\bx)'\bbeta  ) \geq \theta  }
 <section id="illustration-logistic-regression" class="slide level4">
 <h4>Illustration: Logistic Regression</h4>
 <p>For example:</p>
-<div id="c7dd0375" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>logit <span class="op">=</span> Pipeline(</span>
+<div id="800ed184" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>logit <span class="op">=</span> Pipeline(</span>
 <span id="cb11-2"><a></a>  [</span>
 <span id="cb11-3"><a></a>    (<span class="st">'scale'</span>, StandardScaler()),</span>
 <span id="cb11-4"><a></a>    (<span class="st">'logit'</span>, LogisticRegression(penalty<span class="op">=</span><span class="va">None</span>))</span>
@@ -1015,7 +850,7 @@ h(\bx) = \I\curl{  \Lambda( \varphi(\bx)'\bbeta  ) \geq \theta  }
 <span id="cb11-6"><a></a>)</span>
 <span id="cb11-7"><a></a></span>
 <span id="cb11-8"><a></a>logit.fit(X_train, y_train_0)</span>
-<span id="cb11-9"><a></a>logit.predict([X_train[<span class="dv">0</span>, :]]) <span class="op">==</span> y_train_0[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-9"><a></a>logit.predict([X_train[<span class="dv">0</span>, :]]) <span class="op">==</span> y_train_0[<span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>array([ True])</code></pre>
 </div>
@@ -1047,7 +882,7 @@ h(\bx) = \mathrm{sign}\curl{ \bx'\bbeta + c \geq 0  }
 <h4>Illustration: Separable Classes</h4>
 <div class="columns">
 <div class="column" style="width:65%;">
-<p><img data-src="../..\images/pred/svm-1.png"></p>
+<p><img data-src="../../images/pred/svm-1.png"></p>
 </div><div class="column" style="width:35%;">
 <ul>
 <li class="fragment">Suppose classes can be separated linearly</li>
@@ -1057,7 +892,7 @@ h(\bx) = \mathrm{sign}\curl{ \bx'\bbeta + c \geq 0  }
 <div class="fragment">
 <p>“Safest” classifier — one that separates classes with <span class="highlight">maximum margin</span> (right plot)</p>
 <div class="footer">
-<p>Illustration: figure 5.1 in <span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri, Rostamizadeh, and Talwalkar (<a href="#/references-1" role="doc-biblioref" onclick="">2018</a>)</span></p>
+<p>Illustration: figure 5.1 in <span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2018</a>)</span></p>
 </div>
 </div>
 </section>
@@ -1065,7 +900,7 @@ h(\bx) = \mathrm{sign}\curl{ \bx'\bbeta + c \geq 0  }
 <h4>Nonseparable Case</h4>
 <div class="columns">
 <div class="column" style="width:60%;">
-<p><img data-src="../..\images/pred/svm-2.png"></p>
+<p><img data-src="../../images/pred/svm-2.png"></p>
 </div><div class="column" style="width:40%;">
 <p>If classes not separable</p>
 <ul>
@@ -1089,7 +924,7 @@ h(\bx) = \mathrm{sign}\curl{ \bx'\bbeta + c \geq 0  }
 <li class="fragment"><span class="math inline">\(C\)</span> and <span class="math inline">\(p\)</span> are tuning parameters</li>
 </ul>
 <div class="footer">
-<p>For full mathematical details, see chapter 5 in <span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri, Rostamizadeh, and Talwalkar (<a href="#/references-1" role="doc-biblioref" onclick="">2018</a>)</span></p>
+<p>For full mathematical details, see chapter 5 in <span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2018</a>)</span></p>
 </div>
 </section>
 <section id="linear-svm-learning-problem-discussion" class="slide level4">
@@ -1118,7 +953,7 @@ l_h(x) &amp; = \max\curl{0, 1-x}
 <h4>Nonlinear SVMs</h4>
 <div class="columns">
 <div class="column" style="width:80%;">
-<p><img data-src="../..\images/pred/svm-3.png"></p>
+<p><img data-src="../../images/pred/svm-3.png"></p>
 </div><div class="column" style="width:20%;">
 <p>One can allow classifier to be nonlinear in <span class="math inline">\(\bX\)</span></p>
 </div></div>
@@ -1185,8 +1020,8 @@ h(\bx) = \mathrm{sign}\curl{ \varphi(\bx)'\bbeta + c \geq 0  }
 <section id="fitting-an-svm" class="slide level4">
 <h4>Fitting an SVM</h4>
 <p>Fitting as easy as always:</p>
-<div id="c124ff0a" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a>svm <span class="op">=</span> Pipeline(</span>
+<div id="0a3ee9d8" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a>svm <span class="op">=</span> Pipeline(</span>
 <span id="cb13-2"><a></a>  [</span>
 <span id="cb13-3"><a></a>    (<span class="st">'scale'</span>, StandardScaler()),</span>
 <span id="cb13-4"><a></a>    (<span class="st">'svm'</span>, SGDClassifier(random_state<span class="op">=</span><span class="dv">1</span>))</span>
@@ -1194,7 +1029,7 @@ h(\bx) = \mathrm{sign}\curl{ \varphi(\bx)'\bbeta + c \geq 0  }
 <span id="cb13-6"><a></a>)</span>
 <span id="cb13-7"><a></a></span>
 <span id="cb13-8"><a></a>svm.fit(X_train, y_train_0)</span>
-<span id="cb13-9"><a></a>svm.predict([X_train[<span class="dv">0</span>, :]]) <span class="op">==</span> y_train_0[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-9"><a></a>svm.predict([X_train[<span class="dv">0</span>, :]]) <span class="op">==</span> y_train_0[<span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>array([ True])</code></pre>
 </div>
@@ -1208,8 +1043,8 @@ h(\bx) = \mathrm{sign}\curl{ \varphi(\bx)'\bbeta + c \geq 0  }
 <section id="fitting-a-classification-forest" class="slide level4">
 <h4>Fitting a Classification Forest</h4>
 <p>To complete the picture, can add a tree-based classifier — <code>RandomForestClassifier</code>. RF classifiers very similar to RF regressors (last lecture)</p>
-<div id="cb6702ee" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a>rf <span class="op">=</span> Pipeline(</span>
+<div id="390c25eb" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a>rf <span class="op">=</span> Pipeline(</span>
 <span id="cb15-2"><a></a>  [</span>
 <span id="cb15-3"><a></a>    (<span class="st">'scale'</span>, StandardScaler()),</span>
 <span id="cb15-4"><a></a>    (<span class="st">'forest'</span>, RandomForestClassifier(random_state<span class="op">=</span><span class="dv">1</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>))</span>
@@ -1217,7 +1052,7 @@ h(\bx) = \mathrm{sign}\curl{ \varphi(\bx)'\bbeta + c \geq 0  }
 <span id="cb15-6"><a></a>)</span>
 <span id="cb15-7"><a></a></span>
 <span id="cb15-8"><a></a>rf.fit(X_train, y_train_0)</span>
-<span id="cb15-9"><a></a>rf.predict([X_train[<span class="dv">0</span>, :]]) <span class="op">==</span> y_train_0[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-9"><a></a>rf.predict([X_train[<span class="dv">0</span>, :]]) <span class="op">==</span> y_train_0[<span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>array([ True])</code></pre>
 </div>
@@ -1251,8 +1086,8 @@ h(\bx) = \mathrm{sign}\curl{ \varphi(\bx)'\bbeta + c \geq 0  }
 <li class="fragment">Accuracy — proportion of correctly classified new points</li>
 <li class="fragment">Can again evaluate with CV using <code>cross_val_score</code></li>
 </ul>
-<div id="ae450a4c" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a>logit_accuracy <span class="op">=</span> cross_val_score(</span>
+<div id="cb3e755d" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a>logit_accuracy <span class="op">=</span> cross_val_score(</span>
 <span id="cb17-2"><a></a>    logit, </span>
 <span id="cb17-3"><a></a>    X_train, </span>
 <span id="cb17-4"><a></a>    y_train_0,</span>
@@ -1260,7 +1095,7 @@ h(\bx) = \mathrm{sign}\curl{ \varphi(\bx)'\bbeta + c \geq 0  }
 <span id="cb17-6"><a></a>    n_jobs<span class="op">=-</span><span class="dv">1</span>,</span>
 <span id="cb17-7"><a></a>    scoring<span class="op">=</span><span class="st">"accuracy"</span></span>
 <span id="cb17-8"><a></a>)</span>
-<span id="cb17-9"><a></a>logit_accuracy.mean().<span class="bu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-9"><a></a>logit_accuracy.mean().<span class="bu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>np.float64(0.9896)</code></pre>
 </div>
@@ -1277,12 +1112,12 @@ h(\bx) = \mathrm{sign}\curl{ \varphi(\bx)'\bbeta + c \geq 0  }
 <li class="fragment">Can use <code>DummyClassifier</code> from <code>sklearn.dummy</code> as benchmark</li>
 <li class="fragment">Benchmark strategy: predicting the most popular class (“not 0”)</li>
 </ul>
-<div id="e8b7058f" class="cell" data-execution_count="14">
+<div id="404bc45d" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Accuracy of dummy classifier</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a>dummy_clf <span class="op">=</span> DummyClassifier()</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a>dummy_clf <span class="op">=</span> DummyClassifier()</span>
 <span id="cb19-2"><a></a>dummy_clf.fit(X_train, y_train_0)</span>
-<span id="cb19-3"><a></a>cross_val_score(dummy_clf, X_train, y_train_0, cv<span class="op">=</span><span class="dv">5</span>, scoring<span class="op">=</span><span class="st">"accuracy"</span>).mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-3"><a></a>cross_val_score(dummy_clf, X_train, y_train_0, cv<span class="op">=</span><span class="dv">5</span>, scoring<span class="op">=</span><span class="st">"accuracy"</span>).mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>np.float64(0.9012833333333333)</code></pre>
@@ -1313,14 +1148,14 @@ h(\bx) = \mathrm{sign}\curl{ \varphi(\bx)'\bbeta + c \geq 0  }
 <li class="fragment"><span class="math inline">\((i, j)\)</span>th element — number of observations of class <span class="math inline">\(i\)</span> labeled as class <span class="math inline">\(j\)</span></li>
 <li class="fragment">Correct way to evaluate — using cross-validation (to get more accurate picture of classifier’s performance)</li>
 </ul>
-<div id="c9b8bb19" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a>y_train_pred_logit <span class="op">=</span> cross_val_predict(logit, X_train, y_train_0, cv<span class="op">=</span><span class="dv">5</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>)</span>
+<div id="b8d08f61" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a>y_train_pred_logit <span class="op">=</span> cross_val_predict(logit, X_train, y_train_0, cv<span class="op">=</span><span class="dv">5</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>)</span>
 <span id="cb21-2"><a></a></span>
 <span id="cb21-3"><a></a><span class="co"># Compute the confusion matrix</span></span>
 <span id="cb21-4"><a></a>confusion_matrix(</span>
 <span id="cb21-5"><a></a>    y_train_0, </span>
 <span id="cb21-6"><a></a>    y_train_pred_logit,  </span>
-<span id="cb21-7"><a></a>).<span class="bu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-7"><a></a>).<span class="bu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>array([[53763,   314],
        [  307,  5616]])</code></pre>
@@ -1333,13 +1168,13 @@ h(\bx) = \mathrm{sign}\curl{ \varphi(\bx)'\bbeta + c \geq 0  }
 <section id="confusion-matrix-normalizing-by-rows-or-columns" class="slide level4">
 <h4>Confusion Matrix: Normalizing By Rows or Columns</h4>
 <p>If we row-normalize confusion matrix, second row — <span class="highlight">proportions</span> of 0 identified as “not 0” and 0</p>
-<div id="f9df777a" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a><span class="co"># Compute the confusion matrix</span></span>
+<div id="fadba104" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a><span class="co"># Compute the confusion matrix</span></span>
 <span id="cb23-2"><a></a>confusion_matrix(</span>
 <span id="cb23-3"><a></a>    y_train_0, </span>
 <span id="cb23-4"><a></a>    y_train_pred_logit, </span>
 <span id="cb23-5"><a></a>    normalize<span class="op">=</span><span class="st">'true'</span>,</span>
-<span id="cb23-6"><a></a>).<span class="bu">round</span>(<span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-6"><a></a>).<span class="bu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>array([[0.9942, 0.0058],
        [0.0518, 0.9482]])</code></pre>
@@ -1369,9 +1204,9 @@ h(\bx) = \mathrm{sign}\curl{ \varphi(\bx)'\bbeta + c \geq 0  }
 <li class="fragment">Can compute precision and recall from normalized confusion matrix (by column and by row, respectively. Think how)</li>
 <li class="fragment">Or use special functions from <code>sklearn.metrics</code>:</li>
 </ul>
-<div id="95d99d47" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a><span class="bu">print</span>(<span class="ss">f"Precision: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(precision_score(y_train_0, y_train_pred_logit), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb25-2"><a></a><span class="bu">print</span>(<span class="ss">f"Recall: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(recall_score(y_train_0, y_train_pred_logit), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8f394d6b" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a><span class="bu">print</span>(<span class="ss">f"Precision: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(precision_score(y_train_0, y_train_pred_logit), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb25-2"><a></a><span class="bu">print</span>(<span class="ss">f"Recall: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(recall_score(y_train_0, y_train_pred_logit), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Precision: 0.947
 Recall: 0.948</code></pre>
@@ -1388,8 +1223,8 @@ F_1 = \dfrac{  2 }{
    }
 \]</span></p>
 <p>We can compute it using <code>f1_score()</code> from <code>sklearn.metrics</code>:</p>
-<div id="f36e261a" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a><span class="bu">print</span>(<span class="ss">f"F1: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(f1_score(y_train_0, y_train_pred_logit), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="16d91967" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a><span class="bu">print</span>(<span class="ss">f"F1: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(f1_score(y_train_0, y_train_pred_logit), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>F1: 0.948</code></pre>
 </div>
@@ -1401,11 +1236,11 @@ F_1 = \dfrac{  2 }{
 <li class="fragment">So now we can compare the different classifiers we trained on several metrics</li>
 <li class="fragment">Compare based on <span class="math inline">\(F_1\)</span>:</li>
 </ul>
-<div id="68e58144" class="cell" data-execution_count="19">
+<div id="6f22c1e0" class="cell" data-execution_count="19">
 <div class="cell-output cell-output-stdout">
 <pre><code>Logit: 0.948
 SVM: 0.944
-RF: 0.971</code></pre>
+RF: 0.972</code></pre>
 </div>
 </div>
 <p>Random forests come out ahead!</p>
@@ -1447,8 +1282,8 @@ h(\bx) = \I\curl{  \Lambda( \varphi(\bx)'\bbeta  ) \geq \theta  }
 <section id="roc-curve-in-practice" class="slide level4">
 <h4>ROC Curve in Practice</h4>
 <p>In <code>scikit-learn</code> can use <code>cross_val_predict()</code> for scores and <code>roc_curve</code> for ROC curve</p>
-<div id="fdecdda7" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a></a><span class="co"># Compute scores</span></span>
+<div id="e36352a3" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a></a><span class="co"># Compute scores</span></span>
 <span id="cb30-2"><a></a>y_scores_logit <span class="op">=</span> cross_val_predict(</span>
 <span id="cb30-3"><a></a>    logit, </span>
 <span id="cb30-4"><a></a>    X_train, </span>
@@ -1459,16 +1294,16 @@ h(\bx) = \I\curl{  \Lambda( \varphi(\bx)'\bbeta  ) \geq \theta  }
 <span id="cb30-9"><a></a>)  </span>
 <span id="cb30-10"><a></a>y_scores_logit <span class="op">=</span> y_scores_logit[:, <span class="op">-</span><span class="dv">1</span>]</span>
 <span id="cb30-11"><a></a><span class="co"># Compute the ROC curve</span></span>
-<span id="cb30-12"><a></a>fpr_logit, tpr_logit, thresholds <span class="op">=</span> roc_curve(y_train_0, y_scores_logit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-12"><a></a>fpr_logit, tpr_logit, thresholds <span class="op">=</span> roc_curve(y_train_0, y_scores_logit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="roc-curve-for-logit" class="slide level4">
 <h4>ROC Curve for Logit</h4>
-<div id="0f357d60" class="cell" data-execution_count="21">
+<div id="b59c65d9" class="cell" data-execution_count="21">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="classification_files/figure-revealjs/cell-22-output-1.png" width="1120" height="560"></p>
+<p><img data-src="classification_files/figure-revealjs/cell-22-output-1.png" width="1121" height="562"></p>
 </figure>
 </div>
 </div>
@@ -1488,11 +1323,11 @@ h(\bx) = \I\curl{  \Lambda( \varphi(\bx)'\bbeta  ) \geq \theta  }
 </section>
 <section id="roc-curves-for-all-classifiers" class="slide level4">
 <h4>ROC Curves for All Classifiers</h4>
-<div id="33693586" class="cell" data-execution_count="22">
+<div id="778d8458" class="cell" data-execution_count="22">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="classification_files/figure-revealjs/cell-23-output-1.png" width="1120" height="560"></p>
+<p><img data-src="classification_files/figure-revealjs/cell-23-output-1.png" width="1121" height="562"></p>
 </figure>
 </div>
 </div>
@@ -1508,10 +1343,10 @@ h(\bx) = \I\curl{  \Lambda( \varphi(\bx)'\bbeta  ) \geq \theta  }
 <li class="fragment">Ideal classifiers: AUC = 1</li>
 <li class="fragment">Compute with <code>roc_auc_score()</code>:</li>
 </ul>
-<div id="dad79ffc" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a></a><span class="bu">print</span>(<span class="ss">f"Logit AUC: </span><span class="sc">{</span>roc_auc_score(y_train_0, y_scores_logit)<span class="sc">.</span><span class="bu">round</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb31-2"><a></a><span class="bu">print</span>(<span class="ss">f"SVM AUC: </span><span class="sc">{</span>roc_auc_score(y_train_0, y_scores_svm)<span class="sc">.</span><span class="bu">round</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb31-3"><a></a><span class="bu">print</span>(<span class="ss">f"RF AUC: </span><span class="sc">{</span>roc_auc_score(y_train_0, y_scores_rf)<span class="sc">.</span><span class="bu">round</span>(<span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="4996d813" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a></a><span class="bu">print</span>(<span class="ss">f"Logit AUC: </span><span class="sc">{</span><span class="bu">round</span>(roc_auc_score(y_train_0, y_scores_logit), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb31-2"><a></a><span class="bu">print</span>(<span class="ss">f"SVM AUC: </span><span class="sc">{</span><span class="bu">round</span>(roc_auc_score(y_train_0, y_scores_svm), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb31-3"><a></a><span class="bu">print</span>(<span class="ss">f"RF AUC: </span><span class="sc">{</span><span class="bu">round</span>(roc_auc_score(y_train_0, y_scores_rf), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Logit AUC: 0.996
 SVM AUC: 0.997
@@ -1531,19 +1366,19 @@ RF AUC: 0.999</code></pre>
 </div>
 <p><br></p>
 <p>Compute with <code>precision_recall_curve()</code> from <code>sklearn.metrics</code>:</p>
-<div id="7cdd21d8" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a></a>precisions_logit, recalls_logit, thresholds <span class="op">=</span> <span class="op">\</span></span>
-<span id="cb33-2"><a></a>  precision_recall_curve(y_train_0, y_scores_logit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="2d08996b" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a></a>precisions_logit, recalls_logit, thresholds <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb33-2"><a></a>  precision_recall_curve(y_train_0, y_scores_logit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
 <section id="precision-recall-curve-for-logit" class="slide level4">
 <h4>Precision-Recall Curve for Logit</h4>
-<div id="29fe4c24" class="cell" data-execution_count="25">
+<div id="871965d4" class="cell" data-execution_count="25">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="classification_files/figure-revealjs/cell-26-output-1.png" width="1102" height="560"></p>
+<p><img data-src="classification_files/figure-revealjs/cell-26-output-1.png" width="1102" height="562"></p>
 </figure>
 </div>
 </div>
@@ -1623,8 +1458,8 @@ h(\bx) = \argmax_{j=1, \dots, k} \curl{ \dfrac{ \exp(\varphi(\bx)'\bbeta_j) }{ \
 <section id="multinomial-logit-in-scikit-learn" class="slide level4">
 <h4>Multinomial Logit in <code>scikit-learn</code></h4>
 <p><code>LogisticRegression</code> in <code>scikit-learn</code> automatically is multi-class by default. Trained the same way as before:</p>
-<div id="8b589949" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a></a>logit <span class="op">=</span> Pipeline(</span>
+<div id="1c000023" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a></a>logit <span class="op">=</span> Pipeline(</span>
 <span id="cb34-2"><a></a>  [</span>
 <span id="cb34-3"><a></a>    (<span class="st">'scale'</span>, StandardScaler()),</span>
 <span id="cb34-4"><a></a>    (<span class="st">'logit'</span>, LogisticRegression(penalty<span class="op">=</span><span class="va">None</span>, max_iter<span class="op">=</span><span class="dv">1000</span>))</span>
@@ -1632,16 +1467,16 @@ h(\bx) = \argmax_{j=1, \dots, k} \curl{ \dfrac{ \exp(\varphi(\bx)'\bbeta_j) }{ \
 <span id="cb34-6"><a></a>)</span>
 <span id="cb34-7"><a></a></span>
 <span id="cb34-8"><a></a>logit.fit(X_train, y_train)    <span class="co"># Use the full labels</span></span>
-<span id="cb34-9"><a></a>logit.predict([X_train[<span class="dv">0</span>, :]]) <span class="op">==</span> y_train[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-9"><a></a>logit.predict([X_train[<span class="dv">0</span>, :]]) <span class="op">==</span> y_train[<span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
 <pre><code>array([ True])</code></pre>
 </div>
 </div>
 <p>Predicts probabilities of each class:</p>
-<div id="2cb53309" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a></a>logit.predict_proba([X_train[<span class="dv">0</span>, :]]).<span class="bu">round</span>(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ca2fac75" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a></a>logit.predict_proba([X_train[<span class="dv">0</span>, :]]).<span class="bu">round</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="27">
-<pre><code>array([[0.004, 0.   , 0.   , 0.188, 0.   , 0.808, 0.   , 0.   , 0.   ,
+<pre><code>array([[0.004, 0.   , 0.   , 0.166, 0.   , 0.83 , 0.   , 0.   , 0.   ,
         0.   ]])</code></pre>
 </div>
 </div>
@@ -1652,8 +1487,8 @@ h(\bx) = \argmax_{j=1, \dots, k} \curl{ \dfrac{ \exp(\varphi(\bx)'\bbeta_j) }{ \
 <section id="decision-trees-and-random-forests" class="slide level4">
 <h4>Decision Trees and Random Forests</h4>
 <p>Decision trees and everything based on them can also directly learn multiple labels</p>
-<div id="f5339c89" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a></a>rf <span class="op">=</span> Pipeline(</span>
+<div id="44a653ac" class="cell" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a></a>rf <span class="op">=</span> Pipeline(</span>
 <span id="cb38-2"><a></a>  [</span>
 <span id="cb38-3"><a></a>    (<span class="st">'scale'</span>, StandardScaler()),</span>
 <span id="cb38-4"><a></a>    (<span class="st">'forest'</span>, RandomForestClassifier(random_state<span class="op">=</span><span class="dv">1</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>))</span>
@@ -1661,17 +1496,17 @@ h(\bx) = \argmax_{j=1, \dots, k} \curl{ \dfrac{ \exp(\varphi(\bx)'\bbeta_j) }{ \
 <span id="cb38-6"><a></a>)</span>
 <span id="cb38-7"><a></a></span>
 <span id="cb38-8"><a></a>rf.fit(X_train, y_train)</span>
-<span id="cb38-9"><a></a>rf.predict_proba([X[<span class="dv">0</span>, :]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-9"><a></a>rf.predict_proba([X[<span class="dv">0</span>, :]])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
-<pre><code>array([[0.  , 0.  , 0.01, 0.09, 0.  , 0.83, 0.  , 0.02, 0.02, 0.03]])</code></pre>
+<pre><code>array([[0.  , 0.  , 0.  , 0.07, 0.01, 0.83, 0.  , 0.01, 0.04, 0.04]])</code></pre>
 </div>
 </div>
 </section>
 <section id="svms-binary-collection" class="slide level4">
 <h4>SVMs (Binary Collection)</h4>
 <p>SVMs are binary-only: have to use OvO or OvA. <code>scikit-learn</code> handles that automatically</p>
-<div id="17ed62a4" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a></a>svm <span class="op">=</span> Pipeline(</span>
+<div id="77c68380" class="cell" data-execution_count="29">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a></a>svm <span class="op">=</span> Pipeline(</span>
 <span id="cb40-2"><a></a>  [</span>
 <span id="cb40-3"><a></a>    (<span class="st">'scale'</span>, StandardScaler()),</span>
 <span id="cb40-4"><a></a>    (<span class="st">'svm'</span>, SGDClassifier(random_state<span class="op">=</span><span class="dv">1</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>))</span>
@@ -1681,7 +1516,7 @@ h(\bx) = \argmax_{j=1, \dots, k} \curl{ \dfrac{ \exp(\varphi(\bx)'\bbeta_j) }{ \
 <span id="cb40-8"><a></a>svm.fit(X_train, y_train)</span>
 <span id="cb40-9"><a></a><span class="bu">print</span>(svm.decision_function([X_train[<span class="dv">0</span>, :]]).<span class="bu">round</span>(<span class="dv">2</span>))</span>
 <span id="cb40-10"><a></a><span class="bu">print</span>(svm.classes_)</span>
-<span id="cb40-11"><a></a><span class="bu">print</span>(svm.predict([X_train[<span class="dv">0</span>, :]]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb40-11"><a></a><span class="bu">print</span>(svm.predict([X_train[<span class="dv">0</span>, :]]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[-1078.89 -1077.14  -438.67   -14.08 -1669.25    -9.65 -1726.31  -668.26
    -102.42  -639.22]]
@@ -1712,10 +1547,10 @@ h(\bx) = \argmax_{j=1, \dots, k} \curl{ \dfrac{ \exp(\varphi(\bx)'\bbeta_j) }{ \
 <section id="accuracy-1" class="slide level4 scrollable">
 <h4>Accuracy</h4>
 <p>Accuracy: evaluate as before</p>
-<div id="2034b760" class="cell" data-execution_count="30">
+<div id="30a1cb07" class="cell" data-execution_count="30">
 <details class="code-fold">
 <summary>Computing accuracy of our classifiers</summary>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a></a>logit_acc <span class="op">=</span>cross_val_score(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a></a>logit_acc <span class="op">=</span>cross_val_score(</span>
 <span id="cb42-2"><a></a>    logit,</span>
 <span id="cb42-3"><a></a>    X_train,</span>
 <span id="cb42-4"><a></a>    y_train,</span>
@@ -1731,7 +1566,7 @@ h(\bx) = \argmax_{j=1, \dots, k} \curl{ \dfrac{ \exp(\varphi(\bx)'\bbeta_j) }{ \
 <span id="cb42-14"><a></a>).mean() </span>
 <span id="cb42-15"><a></a></span>
 <span id="cb42-16"><a></a><span class="bu">print</span>(<span class="ss">f"Logit: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(logit_acc, <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>) </span>
-<span id="cb42-17"><a></a><span class="bu">print</span>(<span class="ss">f"RF: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(rf_acc, <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb42-17"><a></a><span class="bu">print</span>(<span class="ss">f"RF: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(rf_acc, <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Logit: 0.908
@@ -1754,30 +1589,30 @@ RF: 0.966</code></pre>
 <li class="fragment">Confusion matrices also computed as before</li>
 <li class="fragment">With <span class="math inline">\(k\)</span> classes confsion matrices are <span class="math inline">\(k\times k\)</span></li>
 </ul>
-<div id="07c9f5e1" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a></a><span class="co"># Compute predictions</span></span>
+<div id="359f4282" class="cell" data-execution_count="31">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a></a><span class="co"># Compute predictions</span></span>
 <span id="cb44-2"><a></a>y_train_pred <span class="op">=</span> cross_val_predict(rf, X_train, y_train, cv<span class="op">=</span><span class="dv">5</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>)</span>
 <span id="cb44-3"><a></a><span class="co"># Build confusion matrix from predictions</span></span>
 <span id="cb44-4"><a></a>confusion_matrix(</span>
 <span id="cb44-5"><a></a>    y_train, </span>
 <span id="cb44-6"><a></a>    y_train_pred,</span>
 <span id="cb44-7"><a></a>    normalize<span class="op">=</span><span class="st">'true'</span>,</span>
-<span id="cb44-8"><a></a>).<span class="bu">round</span>(<span class="dv">3</span>)[<span class="dv">0</span>:<span class="dv">4</span>, <span class="dv">0</span>:<span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb44-8"><a></a>).<span class="bu">round</span>(<span class="dv">3</span>)[<span class="dv">0</span>:<span class="dv">4</span>, <span class="dv">0</span>:<span class="dv">4</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="31">
-<pre><code>array([[0.987, 0.   , 0.002, 0.   ],
-       [0.   , 0.986, 0.006, 0.001],
-       [0.005, 0.002, 0.967, 0.004],
-       [0.001, 0.001, 0.014, 0.947]])</code></pre>
+<pre><code>array([[0.987, 0.   , 0.001, 0.001],
+       [0.   , 0.985, 0.005, 0.002],
+       [0.003, 0.002, 0.967, 0.005],
+       [0.001, 0.002, 0.014, 0.95 ]])</code></pre>
 </div>
 </div>
 </section>
 <section id="readable-matrices-with-confusionmatrixdisplay" class="slide level4">
 <h4>Readable Matrices with <code>ConfusionMatrixDisplay</code></h4>
-<div id="37738076" class="cell" data-execution_count="32">
+<div id="fa73debc" class="cell" data-execution_count="32">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="classification_files/figure-revealjs/cell-33-output-1.png" width="1176" height="547"></p>
+<p><img data-src="classification_files/figure-revealjs/cell-33-output-1.png" width="1175" height="547"></p>
 </figure>
 </div>
 </div>
@@ -1828,8 +1663,8 @@ RF: 0.966</code></pre>
 <section id="the-many-paths-forward" class="slide level4">
 <h4>The Many Paths Forward</h4>
 <ul>
-<li class="fragment">Diving into theory (e.g.&nbsp;with <span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri, Rostamizadeh, and Talwalkar (<a href="#/references-1" role="doc-biblioref" onclick="">2018</a>)</span>)</li>
-<li class="fragment">Unsupervised learning (see <span class="citation" data-cites="Hastie2009ElementsStatisticalLearning">Hastie, Tibshirani, and Friedman (<a href="#/references-1" role="doc-biblioref" onclick="">2009</a>)</span>)</li>
+<li class="fragment">Diving into theory (e.g.&nbsp;with <span class="citation" data-cites="Mohri2018FoundationsMachineLearning">Mohri et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2018</a>)</span>)</li>
+<li class="fragment">Unsupervised learning (see <span class="citation" data-cites="Hastie2009ElementsStatisticalLearning">Hastie et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2009</a>)</span>)</li>
 <li class="fragment">There are still more “shallow” learning algorithms, such as gradient boosting (see either of above books)</li>
 <li class="fragment">Deep learning (see <span class="citation" data-cites="Bishop2024DeepLearningFoundations">Bishop and Bishop (<a href="#/references-1" role="doc-biblioref" onclick="">2024</a>)</span>)</li>
 <li class="fragment">Field-specific applications (natural language processing, computer vision, recommenders, …)</li>
@@ -1840,27 +1675,27 @@ RF: 0.966</code></pre>
 </section>
 <section id="references-1" class="slide level4 allowframebreaks smaller scrollable" data-visibility="uncounted">
 <h4>References</h4>
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-An2020EnsembleSimpleConvolutional" class="csl-entry" role="listitem">
-An, Sanghyeon, Minjun Lee, Sanglee Park, Heerin Yang, and Jungmin So. 2020. <span>“An <span>Ensemble</span> of <span>Simple Convolutional Neural Network Models</span> for <span>MNIST Digit Recognition</span>.”</span> arXiv. <a href="https://doi.org/10.48550/arXiv.2008.10400">https://doi.org/10.48550/arXiv.2008.10400</a>.
+An, Sanghyeon, Minjun Lee, Sanglee Park, Heerin Yang, and Jungmin So. 2020. <em>An <span>Ensemble</span> of <span>Simple Convolutional Neural Network Models</span> for <span>MNIST Digit Recognition</span></em>. arXiv:2008.10400. arXiv. <a href="https://doi.org/10.48550/arXiv.2008.10400">https://doi.org/10.48550/arXiv.2008.10400</a>.
 </div>
 <div id="ref-Bishop2024DeepLearningFoundations" class="csl-entry" role="listitem">
-Bishop, Christopher M., and Hugh Bishop. 2024. <em>Deep <span>Learning</span>: <span>Foundations</span> and <span>Concepts</span></em>. Cham: Springer International Publishing. <a href="https://doi.org/10.1007/978-3-031-45468-4">https://doi.org/10.1007/978-3-031-45468-4</a>.
+Bishop, Christopher M., and Hugh Bishop. 2024. <em>Deep <span>Learning</span>: <span>Foundations</span> and <span>Concepts</span></em>. Springer International Publishing. <a href="https://doi.org/10.1007/978-3-031-45468-4">https://doi.org/10.1007/978-3-031-45468-4</a>.
 </div>
 <div id="ref-Hastie2009ElementsStatisticalLearning" class="csl-entry" role="listitem">
-Hastie, Trevor, Robert Tibshirani, and J. H. Friedman. 2009. <em>The <span>Elements</span> of <span>Statistical Learning</span>: <span>Data Mining</span>, <span>Inference</span>, and <span>Prediction</span></em>. 2nd ed. Springer <span>Series</span> in <span>Statistics</span>. New York, NY: Springer.
+Hastie, Trevor, Robert Tibshirani, and J. H. Friedman. 2009. <em>The <span>Elements</span> of <span>Statistical Learning</span>: <span>Data Mining</span>, <span>Inference</span>, and <span>Prediction</span></em>. 2nd ed. Springer <span>Series</span> in <span>Statistics</span>. Springer.
 </div>
 <div id="ref-James2023IntroductionStatisticalLearning" class="csl-entry" role="listitem">
-James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, and Jonathan E. Taylor. 2023. <em>An <span>Introduction</span> to <span>Statistical Learning</span>: <span>With Applications</span> in <span>Python</span></em>. Springer Texts in Statistics. Cham: Springer.
+James, Gareth, Daniela Witten, Trevor Hastie, Robert Tibshirani, and Jonathan E. Taylor. 2023. <em>An <span>Introduction</span> to <span>Statistical Learning</span>: <span>With Applications</span> in <span>Python</span></em>. Springer Texts in Statistics. Springer.
 </div>
 <div id="ref-Mohri2018FoundationsMachineLearning" class="csl-entry" role="listitem">
 Mohri, Mehryar, Afshin Rostamizadeh, and Ameet Talwalkar. 2018. <em>Foundations of <span>Machine Learning</span></em>. The MIT Press. <a href="https://doi.org/10.5555/3360093">https://doi.org/10.5555/3360093</a>.
 </div>
 <div id="ref-Shalev-Shwartz2014UnderstandingMachineLearning" class="csl-entry" role="listitem">
-Shalev-Shwartz, Shai, and Shai Ben-David. 2014. <em>Understanding <span>Machine Learning</span></em>. 1st ed. West Nyack: Cambridge University Press.
+Shalev-Shwartz, Shai, and Shai Ben-David. 2014. <em>Understanding <span>Machine Learning</span></em>. 1st ed. Cambridge University Press.
 </div>
 <div id="ref-Simard1992EfficientPatternRecognition" class="csl-entry" role="listitem">
-Simard, Patrice, Yann Le Cun, and John Denker. 1992. <span>“Efficient <span>Pattern Recognition Using</span> a <span>New Transformation Distance</span>.”</span> In <em>Proceedings of the 6th <span>International Conference</span> on <span>Neural Information Processing Systems</span></em>, 50–58. <span>NIPS</span>’92. San Francisco, CA, USA: Morgan Kaufmann Publishers Inc.
+Simard, Patrice, Yann Le Cun, and John Denker. 1992. <span>“Efficient <span>Pattern Recognition Using</span> a <span>New Transformation Distance</span>.”</span> <em>Proceedings of the 6th <span>International Conference</span> on <span>Neural Information Processing Systems</span></em> (San Francisco, CA, USA), <span>NIPS</span>’92, November, 50–58.
 </div>
 </div>
 <div class="footer">
@@ -2101,190 +1936,173 @@ Simard, Patrice, Yann Le Cun, and John Denker. 1992. <span>“Efficient <span>Pa
       });
     </script>
     <script id="quarto-html-after-body" type="application/javascript">
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-      const toggleBodyColorMode = (bsSheetEl) => {
-        const mode = bsSheetEl.getAttribute("data-mode");
-        const bodyEl = window.document.querySelector("body");
-        if (mode === "dark") {
-          bodyEl.classList.add("quarto-dark");
-          bodyEl.classList.remove("quarto-light");
-        } else {
-          bodyEl.classList.add("quarto-light");
-          bodyEl.classList.remove("quarto-dark");
-        }
-      }
-      const toggleBodyColorPrimary = () => {
-        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-        if (bsSheetEl) {
-          toggleBodyColorMode(bsSheetEl);
-        }
-      }
-      toggleBodyColorPrimary();  
-      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
-      tabsets.forEach(function(tabset) {
-        const tabby = new Tabby('#' + tabset.id);
-      });
-      const isCodeAnnotation = (el) => {
-        for (const clz of el.classList) {
-          if (clz.startsWith('code-annotation-')) {                     
-            return true;
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
           }
+          return false;
         }
-        return false;
-      }
-      const onCopySuccess = function(e) {
-        // button target
-        const button = e.trigger;
-        // don't keep focus
-        button.blur();
-        // flash "checked"
-        button.classList.add('code-copy-button-checked');
-        var currentTitle = button.getAttribute("title");
-        button.setAttribute("title", "Copied!");
-        let tooltip;
-        if (window.bootstrap) {
-          button.setAttribute("data-bs-toggle", "tooltip");
-          button.setAttribute("data-bs-placement", "left");
-          button.setAttribute("data-bs-title", "Copied!");
-          tooltip = new bootstrap.Tooltip(button, 
-            { trigger: "manual", 
-              customClass: "code-copy-button-tooltip",
-              offset: [0, -8]});
-          tooltip.show();    
-        }
-        setTimeout(function() {
-          if (tooltip) {
-            tooltip.hide();
-            button.removeAttribute("data-bs-title");
-            button.removeAttribute("data-bs-toggle");
-            button.removeAttribute("data-bs-placement");
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
           }
-          button.setAttribute("title", currentTitle);
-          button.classList.remove('code-copy-button-checked');
-        }, 1000);
-        // clear code selection
-        e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
           for (const childEl of codeEl.children) {
             if (isCodeAnnotation(childEl)) {
               childEl.remove();
             }
           }
           return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
-      });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
-        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-        var mailtoRegex = new RegExp(/^mailto:/);
-          var filterRegex = new RegExp("https:\/\/vladislav-morozov\.github\.io\/econometrics-2\/");
-        var isInternal = (href) => {
-            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
-        // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-        for (var i=0; i<links.length; i++) {
-          const link = links[i];
-          if (!isInternal(link.href)) {
-            // undo the damage that might have been done by quarto-nav.js in the case of
-            // links that we want to consider external
-            if (link.dataset.originalHref !== undefined) {
-              link.href = link.dataset.originalHref;
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/vladislav-morozov\.eu\/econometrics-2\/");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
             }
           }
-        }
-      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-        const config = {
-          allowHTML: true,
-          maxWidth: 500,
-          delay: 100,
-          arrow: false,
-          appendTo: function(el) {
-              return el.closest('section.slide') || el.parentElement;
-          },
-          interactive: true,
-          interactiveBorder: 10,
-          theme: 'light-border',
-          placement: 'bottom-start',
-        };
-        if (contentFn) {
-          config.content = contentFn;
-        }
-        if (onTriggerFn) {
-          config.onTrigger = onTriggerFn;
-        }
-        if (onUntriggerFn) {
-          config.onUntrigger = onUntriggerFn;
-        }
-          config['offset'] = [0,0];
-          config['maxWidth'] = 700;
-        window.tippy(el, config); 
-      }
-      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-      for (var i=0; i<noterefs.length; i++) {
-        const ref = noterefs[i];
-        tippyHover(ref, function() {
-          // use id or data attribute instead here
-          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-          try { href = new URL(href).hash; } catch {}
-          const id = href.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note) {
-            return note.innerHTML;
-          } else {
-            return "";
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
           }
-        });
-      }
-      const findCites = (el) => {
-        const parentEl = el.parentElement;
-        if (parentEl) {
-          const cites = parentEl.dataset.cites;
-          if (cites) {
-            return {
-              el,
-              cites: cites.split(' ')
-            };
-          } else {
-            return findCites(el.parentElement)
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
           }
-        } else {
-          return undefined;
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
         }
-      };
-      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-      for (var i=0; i<bibliorefs.length; i++) {
-        const ref = bibliorefs[i];
-        const citeInfo = findCites(ref);
-        if (citeInfo) {
-          tippyHover(citeInfo.el, function() {
-            var popup = window.document.createElement('div');
-            citeInfo.cites.forEach(function(cite) {
-              var citeDiv = window.document.createElement('div');
-              citeDiv.classList.add('hanging-indent');
-              citeDiv.classList.add('csl-entry');
-              var biblioDiv = window.document.getElementById('ref-' + cite);
-              if (biblioDiv) {
-                citeDiv.innerHTML = biblioDiv.innerHTML;
-              }
-              popup.appendChild(citeDiv);
-            });
-            return popup.innerHTML;
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
           });
         }
-      }
-    });
-    </script>
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
     
 
 </body></html>

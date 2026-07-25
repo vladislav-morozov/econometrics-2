@@ -123,19 +123,16 @@ tickers = [
     "ASB",   # Associated Banc-Corp
     "AUB",   # Atlantic Union Bankshares Corporation
     "AX",    # Axos Financial Inc.
-    "BANC",  # Banc of California Inc.
-    "BK",    # Bank of New York Mellon Corporation
+    "BANC",  # Banc of California Inc. 
+    "BNY",    # Bank of New York Mellon Corporation
     "BAC",   # Bank of America Corporation
     "BOH",   # Bank of Hawaii Corporation
     "BKU",   # BankUnited Inc.
-    "BHB",   # Bar Harbor Bankshares Inc.
-    "BHLB",  # Berkshire Hills Bancorp Inc.
-    "BRBS",  # Blue Ridge Bankshares Inc.
-    "CADE",  # Cadence Bank
+    "BHB",   # Bar Harbor Bankshares Inc. 
+    "BRBS",  # Blue Ridge Bankshares Inc. 
     "COF",   # Capital One Financial Corporation
     "C",     # Citigroup Inc.
     "CFG",   # Citizens Financial Group Inc.
-    "CMA",   # Comerica Incorporated
     "CFR",   # Cullen/Frost Bankers Inc. 
     "FNB",   # F.N.B. Corporation
     "FBK",   # FB Financial Corporation
@@ -150,8 +147,7 @@ tickers = [
     "USB",   # U.S. Bancorp
     "WFC",   # Wells Fargo & Company
     "SCHW",  # Charles Schwab Corporation
-    "AXP",   # American Express Company
-    "DFS",   # Discover Financial Services
+    "AXP",   # American Express Company 
     "NTB",   # Bank of N.T. Butterfield & Son Limited
     "EWBC",  # East West Bancorp Inc.
     "WAL",   # Western Alliance Bancorporation
@@ -923,17 +919,27 @@ Can obtain ticker data from Yahoo Finance directly with  `yfinance` package (abb
 #| code-fold: true
 #| code-summary: "Expand for data call and data preparation"
 
-# Download the tickers and rename columns to only retain ticker names
-stock_data = yf.download(
-    tickers, 
-    start=start_date, 
-    end=event_date + 4*event_window,
-    progress=False,
+# To download the tickers and rename columns to only retain ticker names run the following:
+# stock_data = yf.download(
+#     tickers, 
+#     start=start_date, 
+#     end=event_date + 4*event_window,
+#     progress=False,
+# )
+# stock_data = stock_data.iloc[:, 0:len(tickers)]
+# stock_data.columns = (
+#     stock_data.columns.map(lambda col: re.sub(r"[()\s']", "", col[1]))
+# )
+
+# We load in the data from a CSV file to avoid repeated downloads
+# to ensure reproducibility and avoid hitting API limits
+stock_data_path = Path() / 'data' / 'banks_tickers.csv'
+stock_data = pd.read_csv(stock_data_path)
+stock_data["Date"] = pd.to_datetime(
+    stock_data["Date"], 
+    format="%Y-%m-%d", 
 )
-stock_data = stock_data.iloc[:, 0:len(tickers)]
-stock_data.columns = (
-    stock_data.columns.map(lambda col: re.sub(r"[()\s']", "", col[1]))
-)
+stock_data = stock_data.set_index("Date")
 
 # Calculate daily returns
 returns = stock_data.pct_change().dropna()*100
@@ -951,7 +957,8 @@ fama_french_data = fama_french_data.set_index("Date")
 # Merge returns and FF data, drop unnecessary data
 merged_data = pd.concat(
     [returns, fama_french_data], 
-    axis=1
+    axis=1,
+    sort=True,
 ).dropna(axis=0)
 ```
 

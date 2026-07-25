@@ -4,3 +4,4 @@
 *.quarto_ipynb
 _freeze/*
 *.pkz
+**/*.quarto_ipynb

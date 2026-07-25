@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <link href="../../themes/favicon.ico" rel="icon">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-0de45b8b5f35a93596f1d788d60c4c11.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-970e1319a44caca7fdca442365140be6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/quarto-contrib/reveal-header-1.0.0/add_header.js" defer="true"></script>
 <link href="../../site_libs/quarto-contrib/reveal-header-1.0.0/add_header.css" rel="stylesheet">
 <script src="../../site_libs/quarto-contrib/sc-sb-title-1.0.0/sc_sb_title.js" defer="true"></script>
 <link href="../../site_libs/quarto-contrib/grid-no-htext-1.0.0/grid_no_htext.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.6.42">
+  <meta name="generator" content="quarto-1.10.11">
 
   <meta name="author" content="Vladislav Morozov">
   <title>Advanced Econometrics – Inference II: Nonlinear Hypotheses</title>
@@ -22,6 +22,9 @@
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -34,8 +37,9 @@
       vertical-align: middle;
     }
     /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -46,7 +50,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -100,7 +104,6 @@
     div.csl-bib-body { }
     div.csl-entry {
       clear: both;
-      margin-bottom: 0em;
     }
     .hanging-indent div.csl-entry {
       margin-left:2em;
@@ -117,7 +120,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-cb5537517b990794adf0c72e32550bcc.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-5c47cd0283464c38db03b45d02a9bfdb.css">
   <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -210,344 +213,175 @@
     }
   </style>
    
-
   <!-- This is what works with Quarto and MathJax 3+ -->
-
   <script>
-
     MathJax = {
-
       tex: {
-
         tags: 'ams',  // should be 'ams', 'none', or 'all'
-
         macros: {
-
           vect: ["\\mathbf{#1}", 1],
-
           mat: ["\\mathbf{#1}", 1], 
-
   
-
           bA: "\\boldsymbol{A}",
-
           bB: "\\boldsymbol{B}",
-
           bC: "\\boldsymbol{C}",
-
           bD: "\\boldsymbol{D}",
-
           bE: "\\boldsymbol{E}",
-
           bF: "\\boldsymbol{F}",
-
           bG: "\\boldsymbol{G}",
-
           bH: "\\boldsymbol{H}",
-
           bI: "\\boldsymbol{I}",
-
           bJ: "\\boldsymbol{J}",
-
           bK: "\\boldsymbol{K}",
-
           bL: "\\boldsymbol{L}",
-
           bM: "\\boldsymbol{M}",
-
           bN: "\\boldsymbol{N}",
-
           bP: "\\boldsymbol{P}",
-
           bQ: "\\boldsymbol{Q}",
-
           bR: "\\boldsymbol{R}",
-
           bS: "\\boldsymbol{S}",
-
           bT: "\\boldsymbol{T}",
-
           bU: "\\boldsymbol{U}",
-
           bV: "\\boldsymbol{V}",
-
           bW: "\\boldsymbol{W}",
-
           bX: "\\boldsymbol{X}",
-
           bY: "\\boldsymbol{Y}",
-
           bZ: "\\boldsymbol{Z}",
-
           ba: "\\boldsymbol{a}",
-
           bb: "\\boldsymbol{b}",
-
           bc: "\\boldsymbol{c}",
-
           bd: "\\boldsymbol{d}",
-
           be: "\\boldsymbol{e}",
-
           bg: "\\boldsymbol{g}",
-
           bh: "\\boldsymbol{h}",
-
           bi: "\\boldsymbol{\\imath}",
-
           bm: "\\boldsymbol{m}",
-
           bp: "\\boldsymbol{p}",
-
           bq: "\\boldsymbol{q}",
-
           br: "\\boldsymbol{r}",
-
           bs: "\\boldsymbol{s}",
-
           bt: "\\boldsymbol{t}",
-
           bu: "\\boldsymbol{u}",
-
           bv: "\\boldsymbol{v}",
-
           bw: "\\boldsymbol{w}",
-
           bx: "\\boldsymbol{x}",
-
           by: "\\boldsymbol{y}",
-
   
-
           Acal: "\\mathcal{A}",
-
           Bcal: "\\mathcal{B}",
-
           Ccal: "\\mathcal{C}",
-
           Dcal: "\\mathcal{D}",
-
           Ecal: "\\mathcal{E}",
-
           Fcal: "\\mathcal{F}",
-
           Gcal: "\\mathcal{G}",
-
           Hcal: "\\mathcal{H}",
-
           Ical: "\\mathcal{I}",
-
           Jcal: "\\mathcal{J}",
-
           Kcal: "\\mathcal{K}",
-
           Lcal: "\\mathcal{L}",
-
           Mcal: "\\mathcal{M}",
-
           Ncal: "\\mathcal{N}",
-
           Ocal: "\\mathcal{O}",
-
           Pcal: "\\mathcal{P}",
-
           Qcal: "\\mathcal{Q}",
-
           Rcal: "\\mathcal{R}",
-
           Scal: "\\mathcal{S}",
-
           Tcal: "\\mathcal{T}",
-
           Ucal: "\\mathcal{U}",
-
           Vcal: "\\mathcal{V}",
-
           Wcal: "\\mathcal{W}",
-
           Xcal: "\\mathcal{X}",
-
           Ycal: "\\mathcal{Y}",
-
           Zcal: "\\mathcal{Z}",
-
   
-
           A: "\\mathbb{A}",
-
           B: "\\mathbb{B}",
-
           C: "\\mathbb{C}",
-
           D: "\\mathbb{D}",
-
           E: "\\mathbb{E}",
-
           F: "\\mathbb{F}",
-
           G: "\\mathbb{G}",
-
           H: "\\mathbb{H}",
-
           I: "\\mathbb{I}",
-
           J: "\\mathbb{J}",
-
           K: "\\mathbb{K}",
-
           L: "\\mathbb{L}",
-
           M: "\\mathbb{M}",
-
           N: "\\mathbb{N}",
-
           O: "\\mathbb{O}",
-
           P: "\\mathbb{P}",
-
           Q: "\\mathbb{Q}",
-
           R: "\\mathbb{R}",
-
           S: "\\mathbb{S}",
-
           T: "\\mathbb{T}",
-
           U: "\\mathbb{U}",
-
           V: "\\mathbb{V}",
-
           W: "\\mathbb{W}",
-
           X: "\\mathbb{X}",
-
           Y: "\\mathbb{Y}",
-
           Z: "\\mathbb{Z}",
-
   
-
           bAlpha: "\\boldsymbol{\\Alpha}",
-
           bBeta: "\\boldsymbol{\\beta}",
-
           bDelta: "\\boldsymbol{\\delta}",
-
           bEta: "\\boldsymbol{\\eta}",
-
           bGamma: "\\boldsymbol{\\Gamma}",
-
           bLambda: "\\boldsymbol{\\Lambda}",
-
           bOmega: "\\boldsymbol{\\Omega}",
-
           bPhi: "\\boldsymbol{\\Phi}",
-
           bPi: "\\boldsymbol{\\Pi}",
-
           bPsi: "\\boldsymbol{\\Psi}",
-
           bSigma: "\\boldsymbol{\\Sigma}",
-
           bTau: "\\boldsymbol{\\tau}",
-
           bXi: "\\boldsymbol{\\Xi}",
-
           bbeta: "\\boldsymbol{\\beta}",
-
           bdelta: "\\boldsymbol{\\delta}",
-
           blambda: "\\boldsymbol{\\lambda}",
-
           bmu: "\\boldsymbol{\\mu}",
-
           bphi: "\\boldsymbol{\\phi}",
-
           bpi: "\\boldsymbol{\\pi}",
-
           bpsi: "\\boldsymbol{\\psi}",
-
           brho: "\\boldsymbol{\\rho}",
-
           balpha: "\\boldsymbol{\\alpha}",
-
           bsigma: "\\boldsymbol{\\sigma}",
-
           btau: "\\boldsymbol{\\tau}",
-
           bxi: "\\boldsymbol{\\xi}",
-
           bEta: "\\boldsymbol{\\eta}",
-
           bPhi: "\\boldsymbol{\\Phi}",
-
           bPi: "\\boldsymbol{\\Pi}",
-
           bPsi: "\\boldsymbol{\\Psi}",
-
           bXi: "\\boldsymbol{\\Xi}",
-
           blambda: "\\boldsymbol{\\lambda}",
-
           bmu: "\\boldsymbol{\\mu}",
-
           bphi: "\\boldsymbol{\\phi}",
-
           bpi: "\\boldsymbol{\\pi}",
-
           bpsi: "\\boldsymbol{\\psi}",
-
           brho: "\\boldsymbol{\\rho}",
-
           bsigma: "\\boldsymbol{\\sigma}",
-
           btheta: "\\boldsymbol{\\theta}",
-
           bgamma: "\\boldsymbol{\\gamma}",  
-
           
-
           curl: ["\\left\\lbrace#1\\right\\rbrace", 1],
-
           floor: ["\\left\\lfloor#1\\right\\rfloor", 1],
-
           ceil: ["\\left\\lceil#1\\right\\rceil", 1],
-
           abs: ["\\left\\lvert#1\\right\\rvert", 1],
-
           norm: ["\\left\\lVert#1\\right\\rVert", 1],
-
   
-
           avar: "\\mathrm{avar}",
-
           var: "\\mathrm{var}",
-
           cov: "\\mathrm{cov}",
-
   
-
           argmin: "\\operatorname*{argmin}",
-
           argmax: "\\operatorname*{argmax}",
-
           argsup: "\\operatorname*{argsup}",
-
           arginf: "\\operatorname*{arginf}",
-
         }
-
       }
-
     };
-
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
   
-
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-
   <meta name="description" content="Explore the delta method for nonlinear functions of parameters: asymptotic distribution, confidence intervals, hypothesis testing (lecture notes slides).">
 <meta property="og:title" content="Inference II: Nonlinear Hypotheses – Advanced Econometrics">
 <meta property="og:description" content="Explore the delta method for nonlinear functions of parameters: asymptotic distribution, confidence intervals, hypothesis testing (lecture notes slides).">
@@ -564,7 +398,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Vladislav Morozov 
+Vladislav Morozov
 </div>
 </div>
 </div>
@@ -606,12 +440,10 @@ Vladislav Morozov
 <section id="references" class="slide level4">
 <h4>References</h4>
 <p><br></p>
-<div>
 <ul>
 <li>Corresponding <a href="https://en.wikipedia.org/wiki/Delta_method">section</a> on Wikipedia (Up to the “Example” section)</li>
 <li><em>Or</em> 6.5, 7.10 in <span class="citation" data-cites="Hansen2022Econometrics">Hansen (<a href="#/references-1" role="doc-biblioref" onclick="">2022</a>)</span></li>
 </ul>
-</div>
 </section>
 
 <section id="reminder-on-the-empirical-example" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
@@ -630,17 +462,17 @@ Vladislav Morozov
 </section>
 <section id="reminder-estimation-results" class="slide level4">
 <h4>Reminder: Estimation Results</h4>
-<div class="sourceCode" id="cb1" data-code-line-numbers="0-1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a>results <span class="op">=</span> OLS(endog, exog).fit(cov_type<span class="op">=</span><span class="st">'HC0'</span>) <span class="co"># Robust covariance matrix estimator</span></span>
-<span id="cb1-2"><a></a><span class="bu">print</span>(results.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="adb7e0b3" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-code-line-numbers="0-1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a>results <span class="op">=</span> OLS(endog, exog).fit(cov_type<span class="op">=</span><span class="st">'HC0'</span>) <span class="co"># Robust covariance matrix estimator</span></span>
+<span id="cb1-2"><a></a><span class="bu">print</span>(results.summary())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="f6b01788" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
 Dep. Variable:               log_wage   R-squared:                       0.226
 Model:                            OLS   Adj. R-squared:                  0.226
 Method:                 Least Squares   F-statistic:                     862.5
-Date:                Tue, 20 May 2025   Prob (F-statistic):               0.00
-Time:                        21:48:33   Log-Likelihood:                -8152.9
+Date:                Sat, 25 Jul 2026   Prob (F-statistic):               0.00
+Time:                        20:47:10   Log-Likelihood:                -8152.9
 No. Observations:               10402   AIC:                         1.631e+04
 Df Residuals:                   10398   BIC:                         1.634e+04
 Df Model:                           3                                         
@@ -923,9 +755,9 @@ S = \left[ \dfrac{\hat{\beta}_1}{\hat{\beta_2}} - z_{1-\alpha/2} \sqrt{\dfrac{\w
 <section id="documentation-of-nonlineardeltacov" class="slide level4 scrollable">
 <h4>Documentation of <code>NonlinearDeltaCov</code></h4>
 <p>Functionality not documented, but <a href="https://github.com/statsmodels/statsmodels/blob/main/statsmodels/stats/_delta_method.py">in code</a> with good docstrings</p>
-<div id="4e78868f" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="im">from</span> statsmodels.stats._delta_method <span class="im">import</span> NonlinearDeltaCov</span>
-<span id="cb3-2"><a></a><span class="bu">help</span>(NonlinearDeltaCov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="af4b0929" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="im">from</span> statsmodels.stats._delta_method <span class="im">import</span> NonlinearDeltaCov</span>
+<span id="cb3-2"><a></a><span class="bu">help</span>(NonlinearDeltaCov)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Help on class NonlinearDeltaCov in module statsmodels.stats._delta_method:
 
@@ -973,7 +805,15 @@ class NonlinearDeltaCov(builtins.object)
  |  __init__(self, func, params, cov_params, deriv=None, func_args=None)
  |      Initialize self.  See help(type(self)) for accurate signature.
  |
- |  conf_int(self, alpha=0.05, use_t=False, df=None, var_extra=None, predicted=None, se=None)
+ |  conf_int(
+ |      self,
+ |      alpha=0.05,
+ |      use_t=False,
+ |      df=None,
+ |      var_extra=None,
+ |      predicted=None,
+ |      se=None
+ |  )
  |      Confidence interval for predicted based on delta method.
  |
  |      Parameters
@@ -1114,45 +954,45 @@ class NonlinearDeltaCov(builtins.object)
 <section id="creating-an-instance-of-nonlineardeltacov" class="slide level4">
 <h4>Creating an Instance of <code>NonlinearDeltaCov</code></h4>
 <p>In our example, define the function <span class="math inline">\(a(\cdot)\)</span>:</p>
-<div id="866c3b3d" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="kw">def</span> max_earn(beta: pd.Series):</span>
-<span id="cb5-2"><a></a>    <span class="cf">return</span> np.array([<span class="op">-</span><span class="dv">50</span><span class="op">*</span>beta.loc[<span class="st">"experience"</span>]<span class="op">/</span>beta.loc[<span class="st">"experience_sq_div"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="351b4b35" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="kw">def</span> max_earn(beta: pd.Series):</span>
+<span id="cb5-2"><a></a>    <span class="cf">return</span> np.array([<span class="op">-</span><span class="dv">50</span><span class="op">*</span>beta.loc[<span class="st">"experience"</span>]<span class="op">/</span>beta.loc[<span class="st">"experience_sq_div"</span>]])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="fragment">
 <p><br></p>
 <p>Then we supply <span class="math inline">\(a(\cdot)\)</span> together with parameters and standard errors:</p>
-<div id="1fcd2582" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a>delta_ratio <span class="op">=</span> NonlinearDeltaCov(max_earn, results.params, results.cov_params())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="643740fd" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a>delta_ratio <span class="op">=</span> NonlinearDeltaCov(max_earn, results.params, results.cov_params())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
 <section id="constructing-cis-with-nonlineardeltacov" class="slide level4">
 <h4>Constructing CIs with <code>NonlinearDeltaCov</code></h4>
 <p>Can construct a 95% confidence interval with the <code>conf_int()</code> method</p>
-<div id="eb2ca415" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>delta_ratio.conf_int(alpha<span class="op">=</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6c663309" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>delta_ratio.conf_int(alpha<span class="op">=</span><span class="fl">0.05</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>array([[30.36791181, 35.41407441]])</code></pre>
 </div>
 </div>
 <p>or the <code>summary()</code> method</p>
-<div id="cd4d0469" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>delta_ratio.summary(alpha<span class="op">=</span><span class="fl">0.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="de710a61" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>delta_ratio.summary(alpha<span class="op">=</span><span class="fl">0.1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
-<table class="simpletable caption-top" data-quarto-postprocess="true">
+<table class="simpletable caption-top">
 <caption>Test for Constraints</caption>
 <tbody>
 <tr class="odd">
 <td></td>
-<td data-quarto-table-cell-role="th">coef</td>
-<td data-quarto-table-cell-role="th">std err</td>
-<td data-quarto-table-cell-role="th">z</td>
-<td data-quarto-table-cell-role="th">P&gt;|z|</td>
-<td data-quarto-table-cell-role="th">[0.05</td>
-<td data-quarto-table-cell-role="th">0.95]</td>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">std err</th>
+<th data-quarto-table-cell-role="th">z</th>
+<th data-quarto-table-cell-role="th">P&gt;|z|</th>
+<th data-quarto-table-cell-role="th">[0.05</th>
+<th data-quarto-table-cell-role="th">0.95]</th>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">c0</td>
+<th data-quarto-table-cell-role="th">c0</th>
 <td>32.8910</td>
 <td>1.287</td>
 <td>25.550</td>
@@ -1241,10 +1081,10 @@ W = N\ba(\hat{\bbeta})'\left( \bA(\hat{\bbeta})\widehat{\avar}(\hat{\bbeta})\bA(
 <section id="illustration-nonlinear-wald-test-with-statsmodels" class="slide level4">
 <h4>Illustration: Nonlinear Wald Test with <code>statsmodels</code></h4>
 <p>Can do the Wald test with the <code>wald_test</code> method of <code>NonlinearDeltaCov</code>:</p>
-<div id="3c584970" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>delta_ratio.wald_test(np.array([<span class="dv">15</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="eb9a7b53" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>delta_ratio.wald_test(np.array([<span class="dv">15</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>(np.float64(193.1535027123987), np.float64(6.516561763470986e-44))</code></pre>
+<pre><code>(np.float64(193.1535027123959), np.float64(6.516561763480153e-44))</code></pre>
 </div>
 </div>
 <div class="fragment">
@@ -1323,7 +1163,7 @@ W = N\ba(\hat{\bbeta})'\left( \bA(\hat{\bbeta})\widehat{\avar}(\hat{\bbeta})\bA(
 </section>
 <section id="references-1" class="slide level4 allowframebreaks smaller scrollable" data-visibility="uncounted">
 <h4>References</h4>
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-Hansen2022Econometrics" class="csl-entry" role="listitem">
 Hansen, Bruce. 2022. <em>Econometrics</em>. Princeton_University_Press.
 </div>
@@ -1563,190 +1403,173 @@ Hansen, Bruce. 2022. <em>Econometrics</em>. Princeton_University_Press.
       });
     </script>
     <script id="quarto-html-after-body" type="application/javascript">
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-      const toggleBodyColorMode = (bsSheetEl) => {
-        const mode = bsSheetEl.getAttribute("data-mode");
-        const bodyEl = window.document.querySelector("body");
-        if (mode === "dark") {
-          bodyEl.classList.add("quarto-dark");
-          bodyEl.classList.remove("quarto-light");
-        } else {
-          bodyEl.classList.add("quarto-light");
-          bodyEl.classList.remove("quarto-dark");
-        }
-      }
-      const toggleBodyColorPrimary = () => {
-        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-        if (bsSheetEl) {
-          toggleBodyColorMode(bsSheetEl);
-        }
-      }
-      toggleBodyColorPrimary();  
-      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
-      tabsets.forEach(function(tabset) {
-        const tabby = new Tabby('#' + tabset.id);
-      });
-      const isCodeAnnotation = (el) => {
-        for (const clz of el.classList) {
-          if (clz.startsWith('code-annotation-')) {                     
-            return true;
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
           }
+          return false;
         }
-        return false;
-      }
-      const onCopySuccess = function(e) {
-        // button target
-        const button = e.trigger;
-        // don't keep focus
-        button.blur();
-        // flash "checked"
-        button.classList.add('code-copy-button-checked');
-        var currentTitle = button.getAttribute("title");
-        button.setAttribute("title", "Copied!");
-        let tooltip;
-        if (window.bootstrap) {
-          button.setAttribute("data-bs-toggle", "tooltip");
-          button.setAttribute("data-bs-placement", "left");
-          button.setAttribute("data-bs-title", "Copied!");
-          tooltip = new bootstrap.Tooltip(button, 
-            { trigger: "manual", 
-              customClass: "code-copy-button-tooltip",
-              offset: [0, -8]});
-          tooltip.show();    
-        }
-        setTimeout(function() {
-          if (tooltip) {
-            tooltip.hide();
-            button.removeAttribute("data-bs-title");
-            button.removeAttribute("data-bs-toggle");
-            button.removeAttribute("data-bs-placement");
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
           }
-          button.setAttribute("title", currentTitle);
-          button.classList.remove('code-copy-button-checked');
-        }, 1000);
-        // clear code selection
-        e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
           for (const childEl of codeEl.children) {
             if (isCodeAnnotation(childEl)) {
               childEl.remove();
             }
           }
           return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
-      });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
-        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-        var mailtoRegex = new RegExp(/^mailto:/);
-          var filterRegex = new RegExp("https:\/\/vladislav-morozov\.github\.io\/econometrics-2\/");
-        var isInternal = (href) => {
-            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
-        // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-        for (var i=0; i<links.length; i++) {
-          const link = links[i];
-          if (!isInternal(link.href)) {
-            // undo the damage that might have been done by quarto-nav.js in the case of
-            // links that we want to consider external
-            if (link.dataset.originalHref !== undefined) {
-              link.href = link.dataset.originalHref;
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/vladislav-morozov\.eu\/econometrics-2\/");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
             }
           }
-        }
-      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-        const config = {
-          allowHTML: true,
-          maxWidth: 500,
-          delay: 100,
-          arrow: false,
-          appendTo: function(el) {
-              return el.closest('section.slide') || el.parentElement;
-          },
-          interactive: true,
-          interactiveBorder: 10,
-          theme: 'light-border',
-          placement: 'bottom-start',
-        };
-        if (contentFn) {
-          config.content = contentFn;
-        }
-        if (onTriggerFn) {
-          config.onTrigger = onTriggerFn;
-        }
-        if (onUntriggerFn) {
-          config.onUntrigger = onUntriggerFn;
-        }
-          config['offset'] = [0,0];
-          config['maxWidth'] = 700;
-        window.tippy(el, config); 
-      }
-      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-      for (var i=0; i<noterefs.length; i++) {
-        const ref = noterefs[i];
-        tippyHover(ref, function() {
-          // use id or data attribute instead here
-          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-          try { href = new URL(href).hash; } catch {}
-          const id = href.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note) {
-            return note.innerHTML;
-          } else {
-            return "";
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
           }
-        });
-      }
-      const findCites = (el) => {
-        const parentEl = el.parentElement;
-        if (parentEl) {
-          const cites = parentEl.dataset.cites;
-          if (cites) {
-            return {
-              el,
-              cites: cites.split(' ')
-            };
-          } else {
-            return findCites(el.parentElement)
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
           }
-        } else {
-          return undefined;
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
         }
-      };
-      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-      for (var i=0; i<bibliorefs.length; i++) {
-        const ref = bibliorefs[i];
-        const citeInfo = findCites(ref);
-        if (citeInfo) {
-          tippyHover(citeInfo.el, function() {
-            var popup = window.document.createElement('div');
-            citeInfo.cites.forEach(function(cite) {
-              var citeDiv = window.document.createElement('div');
-              citeDiv.classList.add('hanging-indent');
-              citeDiv.classList.add('csl-entry');
-              var biblioDiv = window.document.getElementById('ref-' + cite);
-              if (biblioDiv) {
-                citeDiv.innerHTML = biblioDiv.innerHTML;
-              }
-              popup.appendChild(citeDiv);
-            });
-            return popup.innerHTML;
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
           });
         }
-      }
-    });
-    </script>
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
     
 
 </body></html>

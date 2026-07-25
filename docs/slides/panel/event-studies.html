@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <link href="../../themes/favicon.ico" rel="icon">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-html/tabby.min.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-0de45b8b5f35a93596f1d788d60c4c11.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-970e1319a44caca7fdca442365140be6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/quarto-contrib/reveal-header-1.0.0/add_header.js" defer="true"></script>
 <link href="../../site_libs/quarto-contrib/reveal-header-1.0.0/add_header.css" rel="stylesheet">
 <script src="../../site_libs/quarto-contrib/sc-sb-title-1.0.0/sc_sb_title.js" defer="true"></script>
 <link href="../../site_libs/quarto-contrib/grid-no-htext-1.0.0/grid_no_htext.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.6.42">
+  <meta name="generator" content="quarto-1.10.11">
 
   <meta name="author" content="Vladislav Morozov">
   <title>Advanced Econometrics – Event Studies</title>
@@ -22,6 +22,9 @@
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -34,8 +37,9 @@
       vertical-align: middle;
     }
     /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -46,7 +50,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -100,7 +104,6 @@
     div.csl-bib-body { }
     div.csl-entry {
       clear: both;
-      margin-bottom: 0em;
     }
     .hanging-indent div.csl-entry {
       margin-left:2em;
@@ -117,7 +120,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-cb5537517b990794adf0c72e32550bcc.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-5c47cd0283464c38db03b45d02a9bfdb.css">
   <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -210,344 +213,175 @@
     }
   </style>
    
-
   <!-- This is what works with Quarto and MathJax 3+ -->
-
   <script>
-
     MathJax = {
-
       tex: {
-
         tags: 'ams',  // should be 'ams', 'none', or 'all'
-
         macros: {
-
           vect: ["\\mathbf{#1}", 1],
-
           mat: ["\\mathbf{#1}", 1], 
-
   
-
           bA: "\\boldsymbol{A}",
-
           bB: "\\boldsymbol{B}",
-
           bC: "\\boldsymbol{C}",
-
           bD: "\\boldsymbol{D}",
-
           bE: "\\boldsymbol{E}",
-
           bF: "\\boldsymbol{F}",
-
           bG: "\\boldsymbol{G}",
-
           bH: "\\boldsymbol{H}",
-
           bI: "\\boldsymbol{I}",
-
           bJ: "\\boldsymbol{J}",
-
           bK: "\\boldsymbol{K}",
-
           bL: "\\boldsymbol{L}",
-
           bM: "\\boldsymbol{M}",
-
           bN: "\\boldsymbol{N}",
-
           bP: "\\boldsymbol{P}",
-
           bQ: "\\boldsymbol{Q}",
-
           bR: "\\boldsymbol{R}",
-
           bS: "\\boldsymbol{S}",
-
           bT: "\\boldsymbol{T}",
-
           bU: "\\boldsymbol{U}",
-
           bV: "\\boldsymbol{V}",
-
           bW: "\\boldsymbol{W}",
-
           bX: "\\boldsymbol{X}",
-
           bY: "\\boldsymbol{Y}",
-
           bZ: "\\boldsymbol{Z}",
-
           ba: "\\boldsymbol{a}",
-
           bb: "\\boldsymbol{b}",
-
           bc: "\\boldsymbol{c}",
-
           bd: "\\boldsymbol{d}",
-
           be: "\\boldsymbol{e}",
-
           bg: "\\boldsymbol{g}",
-
           bh: "\\boldsymbol{h}",
-
           bi: "\\boldsymbol{\\imath}",
-
           bm: "\\boldsymbol{m}",
-
           bp: "\\boldsymbol{p}",
-
           bq: "\\boldsymbol{q}",
-
           br: "\\boldsymbol{r}",
-
           bs: "\\boldsymbol{s}",
-
           bt: "\\boldsymbol{t}",
-
           bu: "\\boldsymbol{u}",
-
           bv: "\\boldsymbol{v}",
-
           bw: "\\boldsymbol{w}",
-
           bx: "\\boldsymbol{x}",
-
           by: "\\boldsymbol{y}",
-
   
-
           Acal: "\\mathcal{A}",
-
           Bcal: "\\mathcal{B}",
-
           Ccal: "\\mathcal{C}",
-
           Dcal: "\\mathcal{D}",
-
           Ecal: "\\mathcal{E}",
-
           Fcal: "\\mathcal{F}",
-
           Gcal: "\\mathcal{G}",
-
           Hcal: "\\mathcal{H}",
-
           Ical: "\\mathcal{I}",
-
           Jcal: "\\mathcal{J}",
-
           Kcal: "\\mathcal{K}",
-
           Lcal: "\\mathcal{L}",
-
           Mcal: "\\mathcal{M}",
-
           Ncal: "\\mathcal{N}",
-
           Ocal: "\\mathcal{O}",
-
           Pcal: "\\mathcal{P}",
-
           Qcal: "\\mathcal{Q}",
-
           Rcal: "\\mathcal{R}",
-
           Scal: "\\mathcal{S}",
-
           Tcal: "\\mathcal{T}",
-
           Ucal: "\\mathcal{U}",
-
           Vcal: "\\mathcal{V}",
-
           Wcal: "\\mathcal{W}",
-
           Xcal: "\\mathcal{X}",
-
           Ycal: "\\mathcal{Y}",
-
           Zcal: "\\mathcal{Z}",
-
   
-
           A: "\\mathbb{A}",
-
           B: "\\mathbb{B}",
-
           C: "\\mathbb{C}",
-
           D: "\\mathbb{D}",
-
           E: "\\mathbb{E}",
-
           F: "\\mathbb{F}",
-
           G: "\\mathbb{G}",
-
           H: "\\mathbb{H}",
-
           I: "\\mathbb{I}",
-
           J: "\\mathbb{J}",
-
           K: "\\mathbb{K}",
-
           L: "\\mathbb{L}",
-
           M: "\\mathbb{M}",
-
           N: "\\mathbb{N}",
-
           O: "\\mathbb{O}",
-
           P: "\\mathbb{P}",
-
           Q: "\\mathbb{Q}",
-
           R: "\\mathbb{R}",
-
           S: "\\mathbb{S}",
-
           T: "\\mathbb{T}",
-
           U: "\\mathbb{U}",
-
           V: "\\mathbb{V}",
-
           W: "\\mathbb{W}",
-
           X: "\\mathbb{X}",
-
           Y: "\\mathbb{Y}",
-
           Z: "\\mathbb{Z}",
-
   
-
           bAlpha: "\\boldsymbol{\\Alpha}",
-
           bBeta: "\\boldsymbol{\\beta}",
-
           bDelta: "\\boldsymbol{\\delta}",
-
           bEta: "\\boldsymbol{\\eta}",
-
           bGamma: "\\boldsymbol{\\Gamma}",
-
           bLambda: "\\boldsymbol{\\Lambda}",
-
           bOmega: "\\boldsymbol{\\Omega}",
-
           bPhi: "\\boldsymbol{\\Phi}",
-
           bPi: "\\boldsymbol{\\Pi}",
-
           bPsi: "\\boldsymbol{\\Psi}",
-
           bSigma: "\\boldsymbol{\\Sigma}",
-
           bTau: "\\boldsymbol{\\tau}",
-
           bXi: "\\boldsymbol{\\Xi}",
-
           bbeta: "\\boldsymbol{\\beta}",
-
           bdelta: "\\boldsymbol{\\delta}",
-
           blambda: "\\boldsymbol{\\lambda}",
-
           bmu: "\\boldsymbol{\\mu}",
-
           bphi: "\\boldsymbol{\\phi}",
-
           bpi: "\\boldsymbol{\\pi}",
-
           bpsi: "\\boldsymbol{\\psi}",
-
           brho: "\\boldsymbol{\\rho}",
-
           balpha: "\\boldsymbol{\\alpha}",
-
           bsigma: "\\boldsymbol{\\sigma}",
-
           btau: "\\boldsymbol{\\tau}",
-
           bxi: "\\boldsymbol{\\xi}",
-
           bEta: "\\boldsymbol{\\eta}",
-
           bPhi: "\\boldsymbol{\\Phi}",
-
           bPi: "\\boldsymbol{\\Pi}",
-
           bPsi: "\\boldsymbol{\\Psi}",
-
           bXi: "\\boldsymbol{\\Xi}",
-
           blambda: "\\boldsymbol{\\lambda}",
-
           bmu: "\\boldsymbol{\\mu}",
-
           bphi: "\\boldsymbol{\\phi}",
-
           bpi: "\\boldsymbol{\\pi}",
-
           bpsi: "\\boldsymbol{\\psi}",
-
           brho: "\\boldsymbol{\\rho}",
-
           bsigma: "\\boldsymbol{\\sigma}",
-
           btheta: "\\boldsymbol{\\theta}",
-
           bgamma: "\\boldsymbol{\\gamma}",  
-
           
-
           curl: ["\\left\\lbrace#1\\right\\rbrace", 1],
-
           floor: ["\\left\\lfloor#1\\right\\rfloor", 1],
-
           ceil: ["\\left\\lceil#1\\right\\rceil", 1],
-
           abs: ["\\left\\lvert#1\\right\\rvert", 1],
-
           norm: ["\\left\\lVert#1\\right\\rVert", 1],
-
   
-
           avar: "\\mathrm{avar}",
-
           var: "\\mathrm{var}",
-
           cov: "\\mathrm{cov}",
-
   
-
           argmin: "\\operatorname*{argmin}",
-
           argmax: "\\operatorname*{argmax}",
-
           argsup: "\\operatorname*{argsup}",
-
           arginf: "\\operatorname*{arginf}",
-
         }
-
       }
-
     };
-
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
   
-
   <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-
   <meta name="description" content="Panel data event studies: causal analysis, regression interpretation, and applications to Silicon Valley Bank collapse (lecture notes slides).">
 <meta property="og:title" content="Event Studies – Advanced Econometrics">
 <meta property="og:description" content="Panel data event studies: causal analysis, regression interpretation, and applications to Silicon Valley Bank collapse (lecture notes slides).">
@@ -564,7 +398,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Vladislav Morozov 
+Vladislav Morozov
 </div>
 </div>
 </div>
@@ -603,13 +437,11 @@ Vladislav Morozov
 </section>
 <section id="references" class="slide level4">
 <h4>References</h4>
-<div>
 <ul>
 <li>Chapter 17 in <span class="citation" data-cites="Huntington-Klein2025EffectIntroductionResearch">Huntington-Klein (<a href="#/references-1" role="doc-biblioref" onclick="">2025</a>)</span>: <a href="https://www.theeffectbook.net/ch-EventStudies.html" class="uri">https://www.theeffectbook.net/ch-EventStudies.html</a></li>
 <li><span class="citation" data-cites="MacKinlay1997EventStudiesEconomics">MacKinlay (<a href="#/references-1" role="doc-biblioref" onclick="">1997</a>)</span>, <span class="citation" data-cites="Freyaldenhoven2021VisualizationIdentificationEstimation">Freyaldenhoven et al. (<a href="#/references-1" role="doc-biblioref" onclick="">2021</a>)</span>, <span class="citation" data-cites="Miller2023IntroductoryGuideEvent">Miller (<a href="#/references-1" role="doc-biblioref" onclick="">2023</a>)</span></li>
 <li>NBER 2023 Methods Lectures on Linear Panel Event Studies: <a href="https://www.nber.org/conferences/si-2023-methods-lectures-linear-panel-event-studies" class="uri">https://www.nber.org/conferences/si-2023-methods-lectures-linear-panel-event-studies</a></li>
 </ul>
-</div>
 </section>
 
 <section id="empirical-motivation" class="title-slide slide level3 center" data-background="#43464B" data-visibility="uncounted">
@@ -636,76 +468,72 @@ Vladislav Morozov
 <li class="fragment">Causal question: comparing prices after collapse with prices without collapse</li>
 <li class="fragment">How to do this comparison? What assumptions do we need?</li>
 </ul>
-<div id="14a13adc" class="cell" data-execution_count="2">
+<div id="0b3edbaf" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Expand for list of institutions of interest</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a>tickers <span class="op">=</span> [</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a>tickers <span class="op">=</span> [</span>
 <span id="cb1-2"><a></a>    <span class="st">"ALLY"</span>,  <span class="co"># Ally Financial Inc.</span></span>
 <span id="cb1-3"><a></a>    <span class="st">"AMTB"</span>,  <span class="co"># Amerant Bancorp Inc.</span></span>
 <span id="cb1-4"><a></a>    <span class="st">"ABCB"</span>,  <span class="co"># Ameris Bancorp</span></span>
 <span id="cb1-5"><a></a>    <span class="st">"ASB"</span>,   <span class="co"># Associated Banc-Corp</span></span>
 <span id="cb1-6"><a></a>    <span class="st">"AUB"</span>,   <span class="co"># Atlantic Union Bankshares Corporation</span></span>
 <span id="cb1-7"><a></a>    <span class="st">"AX"</span>,    <span class="co"># Axos Financial Inc.</span></span>
-<span id="cb1-8"><a></a>    <span class="st">"BANC"</span>,  <span class="co"># Banc of California Inc.</span></span>
-<span id="cb1-9"><a></a>    <span class="st">"BK"</span>,    <span class="co"># Bank of New York Mellon Corporation</span></span>
+<span id="cb1-8"><a></a>    <span class="st">"BANC"</span>,  <span class="co"># Banc of California Inc. </span></span>
+<span id="cb1-9"><a></a>    <span class="st">"BNY"</span>,    <span class="co"># Bank of New York Mellon Corporation</span></span>
 <span id="cb1-10"><a></a>    <span class="st">"BAC"</span>,   <span class="co"># Bank of America Corporation</span></span>
 <span id="cb1-11"><a></a>    <span class="st">"BOH"</span>,   <span class="co"># Bank of Hawaii Corporation</span></span>
 <span id="cb1-12"><a></a>    <span class="st">"BKU"</span>,   <span class="co"># BankUnited Inc.</span></span>
-<span id="cb1-13"><a></a>    <span class="st">"BHB"</span>,   <span class="co"># Bar Harbor Bankshares Inc.</span></span>
-<span id="cb1-14"><a></a>    <span class="st">"BHLB"</span>,  <span class="co"># Berkshire Hills Bancorp Inc.</span></span>
-<span id="cb1-15"><a></a>    <span class="st">"BRBS"</span>,  <span class="co"># Blue Ridge Bankshares Inc.</span></span>
-<span id="cb1-16"><a></a>    <span class="st">"CADE"</span>,  <span class="co"># Cadence Bank</span></span>
-<span id="cb1-17"><a></a>    <span class="st">"COF"</span>,   <span class="co"># Capital One Financial Corporation</span></span>
-<span id="cb1-18"><a></a>    <span class="st">"C"</span>,     <span class="co"># Citigroup Inc.</span></span>
-<span id="cb1-19"><a></a>    <span class="st">"CFG"</span>,   <span class="co"># Citizens Financial Group Inc.</span></span>
-<span id="cb1-20"><a></a>    <span class="st">"CMA"</span>,   <span class="co"># Comerica Incorporated</span></span>
-<span id="cb1-21"><a></a>    <span class="st">"CFR"</span>,   <span class="co"># Cullen/Frost Bankers Inc. </span></span>
-<span id="cb1-22"><a></a>    <span class="st">"FNB"</span>,   <span class="co"># F.N.B. Corporation</span></span>
-<span id="cb1-23"><a></a>    <span class="st">"FBK"</span>,   <span class="co"># FB Financial Corporation</span></span>
-<span id="cb1-24"><a></a>    <span class="st">"FITB"</span>,  <span class="co"># Fifth Third Bancorp</span></span>
-<span id="cb1-25"><a></a>    <span class="st">"HBAN"</span>,  <span class="co"># Huntington Bancshares Incorporated</span></span>
-<span id="cb1-26"><a></a>    <span class="st">"KEY"</span>,   <span class="co"># KeyCorp</span></span>
-<span id="cb1-27"><a></a>    <span class="st">"MTB"</span>,   <span class="co"># M&amp;T Bank Corporation</span></span>
-<span id="cb1-28"><a></a>    <span class="st">"PNC"</span>,   <span class="co"># PNC Financial Services Group Inc.</span></span>
-<span id="cb1-29"><a></a>    <span class="st">"RF"</span>,    <span class="co"># Regions Financial Corporation</span></span>
-<span id="cb1-30"><a></a>    <span class="st">"STT"</span>,   <span class="co"># State Street Corporation</span></span>
-<span id="cb1-31"><a></a>    <span class="st">"SYF"</span>,   <span class="co"># Synchrony Financial</span></span>
-<span id="cb1-32"><a></a>    <span class="st">"USB"</span>,   <span class="co"># U.S. Bancorp</span></span>
-<span id="cb1-33"><a></a>    <span class="st">"WFC"</span>,   <span class="co"># Wells Fargo &amp; Company</span></span>
-<span id="cb1-34"><a></a>    <span class="st">"SCHW"</span>,  <span class="co"># Charles Schwab Corporation</span></span>
-<span id="cb1-35"><a></a>    <span class="st">"AXP"</span>,   <span class="co"># American Express Company</span></span>
-<span id="cb1-36"><a></a>    <span class="st">"DFS"</span>,   <span class="co"># Discover Financial Services</span></span>
-<span id="cb1-37"><a></a>    <span class="st">"NTB"</span>,   <span class="co"># Bank of N.T. Butterfield &amp; Son Limited</span></span>
-<span id="cb1-38"><a></a>    <span class="st">"EWBC"</span>,  <span class="co"># East West Bancorp Inc.</span></span>
-<span id="cb1-39"><a></a>    <span class="st">"WAL"</span>,   <span class="co"># Western Alliance Bancorporation</span></span>
-<span id="cb1-40"><a></a>    <span class="st">"SSB"</span>,   <span class="co"># SouthState Corporation</span></span>
-<span id="cb1-41"><a></a>    <span class="st">"WBS"</span>,   <span class="co"># Webster Financial Corporation</span></span>
-<span id="cb1-42"><a></a>    <span class="st">"FHN"</span>,   <span class="co"># First Horizon Corporation</span></span>
-<span id="cb1-43"><a></a>    <span class="st">"PNFP"</span>,  <span class="co"># Pinnacle Financial Partners Inc.</span></span>
-<span id="cb1-44"><a></a>    <span class="st">"HOMB"</span>,  <span class="co"># Home BancShares Inc.</span></span>
-<span id="cb1-45"><a></a>    <span class="st">"HTH"</span>,   <span class="co"># Hilltop Holdings Inc.</span></span>
-<span id="cb1-46"><a></a>    <span class="st">"GBCI"</span>,  <span class="co"># Glacier Bancorp Inc.</span></span>
-<span id="cb1-47"><a></a>    <span class="st">"BOKF"</span>,  <span class="co"># BOK Financial Corporation</span></span>
-<span id="cb1-48"><a></a>    <span class="st">"ZION"</span>,  <span class="co"># Zions Bancorporation</span></span>
-<span id="cb1-49"><a></a>    <span class="st">"TCBI"</span>,  <span class="co"># Texas Capital Bancshares Inc.</span></span>
-<span id="cb1-50"><a></a>    <span class="st">"CIVB"</span>,  <span class="co"># Civista Bancshares Inc.</span></span>
-<span id="cb1-51"><a></a>    <span class="st">"CFFI"</span>,  <span class="co"># C&amp;F Financial Corporation</span></span>
-<span id="cb1-52"><a></a>    <span class="st">"BANF"</span>,  <span class="co"># BancFirst Corporation</span></span>
-<span id="cb1-53"><a></a>    <span class="st">"FULT"</span>,  <span class="co"># Fulton Financial Corporation</span></span>
-<span id="cb1-54"><a></a>    <span class="st">"ONB"</span>,   <span class="co"># Old National Bancorp</span></span>
-<span id="cb1-55"><a></a>    <span class="st">"PB"</span>,    <span class="co"># Prosperity Bancshares Inc.</span></span>
-<span id="cb1-56"><a></a>    <span class="st">"UBSI"</span>,  <span class="co"># United Bankshares Inc.</span></span>
-<span id="cb1-57"><a></a>    <span class="st">"VLY"</span>,   <span class="co"># Valley National Bancorp</span></span>
-<span id="cb1-58"><a></a>    <span class="st">"TRMK"</span>,  <span class="co"># Trustmark Corporation </span></span>
-<span id="cb1-59"><a></a>    <span class="st">"CASH"</span>,  <span class="co"># Meta Financial Group Inc.</span></span>
-<span id="cb1-60"><a></a>    <span class="st">"CUBI"</span>,  <span class="co"># Customers Bancorp Inc.</span></span>
-<span id="cb1-61"><a></a>    <span class="st">"CFFN"</span>,  <span class="co"># Capitol Federal Financial Inc.</span></span>
-<span id="cb1-62"><a></a>    <span class="st">"FFIN"</span>,  <span class="co"># First Financial Bankshares Inc. </span></span>
-<span id="cb1-63"><a></a>    <span class="st">"SFBS"</span>,  <span class="co"># ServisFirst Bancshares Inc.</span></span>
-<span id="cb1-64"><a></a>    <span class="st">"TBBK"</span>,  <span class="co"># The Bancorp Inc. </span></span>
-<span id="cb1-65"><a></a>    <span class="st">"WSBC"</span>,  <span class="co"># WesBanco Inc.</span></span>
-<span id="cb1-66"><a></a>    <span class="st">"WTFC"</span>,  <span class="co"># Wintrust Financial Corporation</span></span>
-<span id="cb1-67"><a></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-13"><a></a>    <span class="st">"BHB"</span>,   <span class="co"># Bar Harbor Bankshares Inc. </span></span>
+<span id="cb1-14"><a></a>    <span class="st">"BRBS"</span>,  <span class="co"># Blue Ridge Bankshares Inc. </span></span>
+<span id="cb1-15"><a></a>    <span class="st">"COF"</span>,   <span class="co"># Capital One Financial Corporation</span></span>
+<span id="cb1-16"><a></a>    <span class="st">"C"</span>,     <span class="co"># Citigroup Inc.</span></span>
+<span id="cb1-17"><a></a>    <span class="st">"CFG"</span>,   <span class="co"># Citizens Financial Group Inc.</span></span>
+<span id="cb1-18"><a></a>    <span class="st">"CFR"</span>,   <span class="co"># Cullen/Frost Bankers Inc. </span></span>
+<span id="cb1-19"><a></a>    <span class="st">"FNB"</span>,   <span class="co"># F.N.B. Corporation</span></span>
+<span id="cb1-20"><a></a>    <span class="st">"FBK"</span>,   <span class="co"># FB Financial Corporation</span></span>
+<span id="cb1-21"><a></a>    <span class="st">"FITB"</span>,  <span class="co"># Fifth Third Bancorp</span></span>
+<span id="cb1-22"><a></a>    <span class="st">"HBAN"</span>,  <span class="co"># Huntington Bancshares Incorporated</span></span>
+<span id="cb1-23"><a></a>    <span class="st">"KEY"</span>,   <span class="co"># KeyCorp</span></span>
+<span id="cb1-24"><a></a>    <span class="st">"MTB"</span>,   <span class="co"># M&amp;T Bank Corporation</span></span>
+<span id="cb1-25"><a></a>    <span class="st">"PNC"</span>,   <span class="co"># PNC Financial Services Group Inc.</span></span>
+<span id="cb1-26"><a></a>    <span class="st">"RF"</span>,    <span class="co"># Regions Financial Corporation</span></span>
+<span id="cb1-27"><a></a>    <span class="st">"STT"</span>,   <span class="co"># State Street Corporation</span></span>
+<span id="cb1-28"><a></a>    <span class="st">"SYF"</span>,   <span class="co"># Synchrony Financial</span></span>
+<span id="cb1-29"><a></a>    <span class="st">"USB"</span>,   <span class="co"># U.S. Bancorp</span></span>
+<span id="cb1-30"><a></a>    <span class="st">"WFC"</span>,   <span class="co"># Wells Fargo &amp; Company</span></span>
+<span id="cb1-31"><a></a>    <span class="st">"SCHW"</span>,  <span class="co"># Charles Schwab Corporation</span></span>
+<span id="cb1-32"><a></a>    <span class="st">"AXP"</span>,   <span class="co"># American Express Company </span></span>
+<span id="cb1-33"><a></a>    <span class="st">"NTB"</span>,   <span class="co"># Bank of N.T. Butterfield &amp; Son Limited</span></span>
+<span id="cb1-34"><a></a>    <span class="st">"EWBC"</span>,  <span class="co"># East West Bancorp Inc.</span></span>
+<span id="cb1-35"><a></a>    <span class="st">"WAL"</span>,   <span class="co"># Western Alliance Bancorporation</span></span>
+<span id="cb1-36"><a></a>    <span class="st">"SSB"</span>,   <span class="co"># SouthState Corporation</span></span>
+<span id="cb1-37"><a></a>    <span class="st">"WBS"</span>,   <span class="co"># Webster Financial Corporation</span></span>
+<span id="cb1-38"><a></a>    <span class="st">"FHN"</span>,   <span class="co"># First Horizon Corporation</span></span>
+<span id="cb1-39"><a></a>    <span class="st">"PNFP"</span>,  <span class="co"># Pinnacle Financial Partners Inc.</span></span>
+<span id="cb1-40"><a></a>    <span class="st">"HOMB"</span>,  <span class="co"># Home BancShares Inc.</span></span>
+<span id="cb1-41"><a></a>    <span class="st">"HTH"</span>,   <span class="co"># Hilltop Holdings Inc.</span></span>
+<span id="cb1-42"><a></a>    <span class="st">"GBCI"</span>,  <span class="co"># Glacier Bancorp Inc.</span></span>
+<span id="cb1-43"><a></a>    <span class="st">"BOKF"</span>,  <span class="co"># BOK Financial Corporation</span></span>
+<span id="cb1-44"><a></a>    <span class="st">"ZION"</span>,  <span class="co"># Zions Bancorporation</span></span>
+<span id="cb1-45"><a></a>    <span class="st">"TCBI"</span>,  <span class="co"># Texas Capital Bancshares Inc.</span></span>
+<span id="cb1-46"><a></a>    <span class="st">"CIVB"</span>,  <span class="co"># Civista Bancshares Inc.</span></span>
+<span id="cb1-47"><a></a>    <span class="st">"CFFI"</span>,  <span class="co"># C&amp;F Financial Corporation</span></span>
+<span id="cb1-48"><a></a>    <span class="st">"BANF"</span>,  <span class="co"># BancFirst Corporation</span></span>
+<span id="cb1-49"><a></a>    <span class="st">"FULT"</span>,  <span class="co"># Fulton Financial Corporation</span></span>
+<span id="cb1-50"><a></a>    <span class="st">"ONB"</span>,   <span class="co"># Old National Bancorp</span></span>
+<span id="cb1-51"><a></a>    <span class="st">"PB"</span>,    <span class="co"># Prosperity Bancshares Inc.</span></span>
+<span id="cb1-52"><a></a>    <span class="st">"UBSI"</span>,  <span class="co"># United Bankshares Inc.</span></span>
+<span id="cb1-53"><a></a>    <span class="st">"VLY"</span>,   <span class="co"># Valley National Bancorp</span></span>
+<span id="cb1-54"><a></a>    <span class="st">"TRMK"</span>,  <span class="co"># Trustmark Corporation </span></span>
+<span id="cb1-55"><a></a>    <span class="st">"CASH"</span>,  <span class="co"># Meta Financial Group Inc.</span></span>
+<span id="cb1-56"><a></a>    <span class="st">"CUBI"</span>,  <span class="co"># Customers Bancorp Inc.</span></span>
+<span id="cb1-57"><a></a>    <span class="st">"CFFN"</span>,  <span class="co"># Capitol Federal Financial Inc.</span></span>
+<span id="cb1-58"><a></a>    <span class="st">"FFIN"</span>,  <span class="co"># First Financial Bankshares Inc. </span></span>
+<span id="cb1-59"><a></a>    <span class="st">"SFBS"</span>,  <span class="co"># ServisFirst Bancshares Inc.</span></span>
+<span id="cb1-60"><a></a>    <span class="st">"TBBK"</span>,  <span class="co"># The Bancorp Inc. </span></span>
+<span id="cb1-61"><a></a>    <span class="st">"WSBC"</span>,  <span class="co"># WesBanco Inc.</span></span>
+<span id="cb1-62"><a></a>    <span class="st">"WTFC"</span>,  <span class="co"># Wintrust Financial Corporation</span></span>
+<span id="cb1-63"><a></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="footer">
@@ -765,12 +593,10 @@ Vladislav Morozov
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 <div id="prp-event-study-limit" class="theorem proposition">
 <p><span class="theorem-title"><strong>Proposition 1 (Asymptotics for <span class="math inline">\(\widehat{AE}_{ES}\)</span>)</strong></span> Let</p>
-<div>
 <ul>
 <li><em>(Cross-sectional random sampling)</em>: <span class="math inline">\((Y_{i1}, Y_{i2})\)</span> be independent and identically distributed (IID)</li>
 <li><em>Finite first moments</em>: <span class="math inline">\(\E[\abs{Y_{it}}]&lt;\infty\)</span></li>
 </ul>
-</div>
 <p>Then <span class="math display">\[
 \widehat{AE}_{ES} \xrightarrow{p} \E[Y_{i2} - Y_{i1}].
 \]</span></p>
@@ -871,12 +697,10 @@ Y_{i2}^d= Y_{i1}^d, \quad d=0, 1
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 <div id="prp-event-study-no-trends" class="theorem proposition">
 <p><span class="theorem-title"><strong>Proposition 2 (Causal asymptotics for <span class="math inline">\(\widehat{AE}_{ES}\)</span>)</strong></span> Let</p>
-<div>
 <ul>
 <li>Assumptions of <a href="#/prp-event-study-limit" class="quarto-xref">Proposition&nbsp;1</a> hold</li>
 <li>Assumption of no trends holds</li>
 </ul>
-</div>
 <p>Then <span class="math inline">\(\widehat{AE}_{ES}\)</span> consistent for causal parameters: <span class="math display">\[
 \widehat{AE}_{ES} \xrightarrow{p} \E[Y_{i1}^1- Y_{i1}^0]  =  \E[Y_{i2}^1- Y_{i2}^0]
 \]</span></p>
@@ -1057,12 +881,10 @@ Y_{it} = \beta_0 +  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + U_{it}
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 <div id="prp-event-study-no-trends-multivariate" class="theorem proposition">
 <p><span class="theorem-title"><strong>Proposition 4</strong></span> Let</p>
-<div>
 <ul>
 <li>Assumptions of <a href="#/prp-event-study-limit" class="quarto-xref">Proposition&nbsp;1</a> hold</li>
 <li>No trends in the baseline assumption hold</li>
 </ul>
-</div>
 <p>Then <span class="math inline">\(\hat{\beta}_{\tau}\)</span> consistently estimates the average treatment effect in period <span class="math inline">\(\tau\)</span> given by <span class="math inline">\(\E[Y_{i \tau}^1 - Y_{i\tau}^0]\)</span>.</p>
 </div>
 </div>
@@ -1082,13 +904,11 @@ Y_{it} = \beta_0 +  \sum_{\tau = t_0}^{T} \beta_\tau D_{it, \tau} + U_{it}
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 <div id="prp-event-study-no-trends-multivariate-distribution" class="theorem proposition">
 <p><span class="theorem-title"><strong>Proposition 5</strong></span> Let</p>
-<div>
 <ul>
 <li>No trends in the baseline assumption hold</li>
 <li><span class="math inline">\((Y_{i1}, Y_{i2}, \dots, Y_{iT})\)</span> be IID (over <span class="math inline">\(i\)</span>)</li>
 <li><em>Finite second moments</em>: <span class="math inline">\(\E[Y_{it}^2]&lt;\infty\)</span></li>
 </ul>
-</div>
 <p>Then there exists some variance <span class="math inline">\(V\)</span> such that <span class="math display">\[
 \sqrt{N}\left( \hat{\beta}_{\tau} - \E[Y_{i \tau}^1 - Y_{i\tau}^0] \right) \Rightarrow N(0, V)
 \]</span></p>
@@ -1163,12 +983,10 @@ H_0: \beta_{\tau} = 0, \quad \tau = t_0, \dots, T
 <div style="border: 2px solid #ccc; padding: 9px; border-radius: 15px; margin-bottom: 10px;">
 <div id="prp-event-study-joint-limit-distribution" class="theorem proposition">
 <p><span class="theorem-title"><strong>Proposition 6 (Joint Asymptotics for Estimated Effects)</strong></span> Let</p>
-<div>
 <ul>
 <li>Assumption of no trends in the baseline hold</li>
 <li><span class="math inline">\((Y_{i1}, Y_{i2}, \dots, Y_{iT})\)</span> be IID (over <span class="math inline">\(i\)</span>) with finite second moments</li>
 </ul>
-</div>
 <p>Then<br>
 <span class="math display">\[ \small
 \sqrt{N}(\hat{\bbeta} -\bbeta) \Rightarrow N(0, \avar(\hat{\bbeta}))
@@ -1309,17 +1127,17 @@ R_{it} = \bbeta_i'\bx_t + AR_{it}^0, \quad \E[AR_{it}^0\bx_t] =0
 <li class="fragment">Look for 10 days around (<span class="math inline">\(T=20\)</span>)</li>
 </ul>
 <div class="fragment">
-<div id="2b82b33c" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>event_date <span class="op">=</span> pd.Timestamp(<span class="st">"2023-03-08"</span>)</span>
-<span id="cb2-2"><a></a>event_window <span class="op">=</span> pd.Timedelta(days<span class="op">=</span><span class="dv">10</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="abd0b51c" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a></a>event_date <span class="op">=</span> pd.Timestamp(<span class="st">"2023-03-08"</span>)</span>
+<span id="cb2-2"><a></a>event_window <span class="op">=</span> pd.Timedelta(days<span class="op">=</span><span class="dv">10</span>)  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><br></p>
 </div>
 <div class="fragment">
 <p>For estimation, use long window before SVB collapse:</p>
-<div id="7b97f618" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>estimation_window <span class="op">=</span> pd.Timedelta(days<span class="op">=</span><span class="dv">500</span>) </span>
-<span id="cb3-2"><a></a>start_date <span class="op">=</span> event_date <span class="op">-</span> event_window <span class="op">-</span> estimation_window </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="eb075f2e" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a>estimation_window <span class="op">=</span> pd.Timedelta(days<span class="op">=</span><span class="dv">500</span>) </span>
+<span id="cb3-2"><a></a>start_date <span class="op">=</span> event_date <span class="op">-</span> event_window <span class="op">-</span> estimation_window </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -1332,39 +1150,50 @@ R_{it} = \bbeta_i'\bx_t + AR_{it}^0, \quad \E[AR_{it}^0\bx_t] =0
 </ul>
 <div class="fragment">
 <p>Can obtain ticker data from Yahoo Finance directly with <code>yfinance</code> package (abbreviated as <code>yf</code>)</p>
-<div id="fdf7f589" class="cell" data-execution_count="5">
+<div id="0bc23237" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Expand for data call and data preparation</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="co"># Download the tickers and rename columns to only retain ticker names</span></span>
-<span id="cb4-2"><a></a>stock_data <span class="op">=</span> yf.download(</span>
-<span id="cb4-3"><a></a>    tickers, </span>
-<span id="cb4-4"><a></a>    start<span class="op">=</span>start_date, </span>
-<span id="cb4-5"><a></a>    end<span class="op">=</span>event_date <span class="op">+</span> <span class="dv">4</span><span class="op">*</span>event_window,</span>
-<span id="cb4-6"><a></a>    progress<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb4-7"><a></a>)</span>
-<span id="cb4-8"><a></a>stock_data <span class="op">=</span> stock_data.iloc[:, <span class="dv">0</span>:<span class="bu">len</span>(tickers)]</span>
-<span id="cb4-9"><a></a>stock_data.columns <span class="op">=</span> (</span>
-<span id="cb4-10"><a></a>    stock_data.columns.<span class="bu">map</span>(<span class="kw">lambda</span> col: re.sub(<span class="vs">r"[()\s']"</span>, <span class="st">""</span>, col[<span class="dv">1</span>]))</span>
-<span id="cb4-11"><a></a>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="co"># To download the tickers and rename columns to only retain ticker names run the following:</span></span>
+<span id="cb4-2"><a></a><span class="co"># stock_data = yf.download(</span></span>
+<span id="cb4-3"><a></a><span class="co">#     tickers, </span></span>
+<span id="cb4-4"><a></a><span class="co">#     start=start_date, </span></span>
+<span id="cb4-5"><a></a><span class="co">#     end=event_date + 4*event_window,</span></span>
+<span id="cb4-6"><a></a><span class="co">#     progress=False,</span></span>
+<span id="cb4-7"><a></a><span class="co"># )</span></span>
+<span id="cb4-8"><a></a><span class="co"># stock_data = stock_data.iloc[:, 0:len(tickers)]</span></span>
+<span id="cb4-9"><a></a><span class="co"># stock_data.columns = (</span></span>
+<span id="cb4-10"><a></a><span class="co">#     stock_data.columns.map(lambda col: re.sub(r"[()\s']", "", col[1]))</span></span>
+<span id="cb4-11"><a></a><span class="co"># )</span></span>
 <span id="cb4-12"><a></a></span>
-<span id="cb4-13"><a></a><span class="co"># Calculate daily returns</span></span>
-<span id="cb4-14"><a></a>returns <span class="op">=</span> stock_data.pct_change().dropna()<span class="op">*</span><span class="dv">100</span></span>
-<span id="cb4-15"><a></a></span>
-<span id="cb4-16"><a></a><span class="co"># Read in FF 3 factor daily data</span></span>
-<span id="cb4-17"><a></a>ff_path <span class="op">=</span> Path() <span class="op">/</span> <span class="st">'data'</span> <span class="op">/</span> <span class="st">'fama-french-3.csv'</span></span>
-<span id="cb4-18"><a></a>fama_french_data <span class="op">=</span> pd.read_csv(ff_path).iloc[:, :<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb4-19"><a></a><span class="co"># Read the Date column as a date and set it as the index</span></span>
-<span id="cb4-20"><a></a>fama_french_data[<span class="st">"Date"</span>] <span class="op">=</span> pd.to_datetime(</span>
-<span id="cb4-21"><a></a>    fama_french_data[<span class="st">"Date"</span>], </span>
-<span id="cb4-22"><a></a>    <span class="bu">format</span><span class="op">=</span><span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>, </span>
-<span id="cb4-23"><a></a>)</span>
-<span id="cb4-24"><a></a>fama_french_data <span class="op">=</span> fama_french_data.set_index(<span class="st">"Date"</span>)</span>
+<span id="cb4-13"><a></a><span class="co"># We load in the data from a CSV file to avoid repeated downloads</span></span>
+<span id="cb4-14"><a></a><span class="co"># to ensure reproducibility and avoid hitting API limits</span></span>
+<span id="cb4-15"><a></a>stock_data_path <span class="op">=</span> Path() <span class="op">/</span> <span class="st">'data'</span> <span class="op">/</span> <span class="st">'banks_tickers.csv'</span></span>
+<span id="cb4-16"><a></a>stock_data <span class="op">=</span> pd.read_csv(stock_data_path)</span>
+<span id="cb4-17"><a></a>stock_data[<span class="st">"Date"</span>] <span class="op">=</span> pd.to_datetime(</span>
+<span id="cb4-18"><a></a>    stock_data[<span class="st">"Date"</span>], </span>
+<span id="cb4-19"><a></a>    <span class="bu">format</span><span class="op">=</span><span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>, </span>
+<span id="cb4-20"><a></a>)</span>
+<span id="cb4-21"><a></a>stock_data <span class="op">=</span> stock_data.set_index(<span class="st">"Date"</span>)</span>
+<span id="cb4-22"><a></a></span>
+<span id="cb4-23"><a></a><span class="co"># Calculate daily returns</span></span>
+<span id="cb4-24"><a></a>returns <span class="op">=</span> stock_data.pct_change().dropna()<span class="op">*</span><span class="dv">100</span></span>
 <span id="cb4-25"><a></a></span>
-<span id="cb4-26"><a></a><span class="co"># Merge returns and FF data, drop unnecessary data</span></span>
-<span id="cb4-27"><a></a>merged_data <span class="op">=</span> pd.concat(</span>
-<span id="cb4-28"><a></a>    [returns, fama_french_data], </span>
-<span id="cb4-29"><a></a>    axis<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb4-30"><a></a>).dropna(axis<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-26"><a></a><span class="co"># Read in FF 3 factor daily data</span></span>
+<span id="cb4-27"><a></a>ff_path <span class="op">=</span> Path() <span class="op">/</span> <span class="st">'data'</span> <span class="op">/</span> <span class="st">'fama-french-3.csv'</span></span>
+<span id="cb4-28"><a></a>fama_french_data <span class="op">=</span> pd.read_csv(ff_path).iloc[:, :<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb4-29"><a></a><span class="co"># Read the Date column as a date and set it as the index</span></span>
+<span id="cb4-30"><a></a>fama_french_data[<span class="st">"Date"</span>] <span class="op">=</span> pd.to_datetime(</span>
+<span id="cb4-31"><a></a>    fama_french_data[<span class="st">"Date"</span>], </span>
+<span id="cb4-32"><a></a>    <span class="bu">format</span><span class="op">=</span><span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">"</span>, </span>
+<span id="cb4-33"><a></a>)</span>
+<span id="cb4-34"><a></a>fama_french_data <span class="op">=</span> fama_french_data.set_index(<span class="st">"Date"</span>)</span>
+<span id="cb4-35"><a></a></span>
+<span id="cb4-36"><a></a><span class="co"># Merge returns and FF data, drop unnecessary data</span></span>
+<span id="cb4-37"><a></a>merged_data <span class="op">=</span> pd.concat(</span>
+<span id="cb4-38"><a></a>    [returns, fama_french_data], </span>
+<span id="cb4-39"><a></a>    axis<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb4-40"><a></a>    sort<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb4-41"><a></a>).dropna(axis<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="footer">
@@ -1381,10 +1210,10 @@ R_{it} = \bbeta_i'\bx_t + AR_{it}^0, \quad \E[AR_{it}^0\bx_t] =0
 <li class="fragment">Compute <span class="math inline">\(\widehat{AR}_{it}\)</span>} and store</li>
 </ul>
 <p>For contrast, also estimate mean model</p>
-<div id="a73586ec" class="cell" data-execution_count="6">
+<div id="9d198ce9" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Expand for estimation of abnormal returns</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="co"># Create arrays to hold abnormal returns   </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="co"># Create arrays to hold abnormal returns   </span></span>
 <span id="cb5-2"><a></a>abnormal_returns_factor <span class="op">=</span> pd.DataFrame()</span>
 <span id="cb5-3"><a></a>abnormal_returns_mean <span class="op">=</span> pd.DataFrame()    </span>
 <span id="cb5-4"><a></a></span>
@@ -1424,7 +1253,7 @@ R_{it} = \bbeta_i'\bx_t + AR_{it}^0, \quad \E[AR_{it}^0\bx_t] =0
 <span id="cb5-38"><a></a></span>
 <span id="cb5-39"><a></a>    <span class="co"># Abnormal returns are residuals</span></span>
 <span id="cb5-40"><a></a>    abnormal_returns_factor[ticker] <span class="op">=</span> event_data <span class="op">-</span> expected_returns</span>
-<span id="cb5-41"><a></a>    abnormal_returns_mean[ticker] <span class="op">=</span> event_data <span class="op">-</span> y.mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-41"><a></a>    abnormal_returns_mean[ticker] <span class="op">=</span> event_data <span class="op">-</span> y.mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="footer">
@@ -1438,7 +1267,7 @@ R_{it} = \bbeta_i'\bx_t + AR_{it}^0, \quad \E[AR_{it}^0\bx_t] =0
 <div id="fig-causal-es-avg-abnormal-return" class="quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-fig">
 <div aria-describedby="fig-causal-es-avg-abnormal-return-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img data-src="event-studies_files/figure-revealjs/fig-causal-es-avg-abnormal-return-output-1.png" width="1093" height="491">
+<img data-src="event-studies_files/figure-revealjs/fig-causal-es-avg-abnormal-return-output-1.png" width="1093" height="493">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-causal-es-avg-abnormal-return-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence intervals
@@ -1482,10 +1311,10 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
 </section>
 <section id="generate-event-study-data" class="slide level4 scrollable">
 <h4>Generate Event Study Data</h4>
-<div id="60600528" class="cell" data-execution_count="8">
+<div id="03fab7bf" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Expand for construction of data matrices</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="co"># Create an array for day dummies</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="co"># Create an array for day dummies</span></span>
 <span id="cb6-2"><a></a>dummy_df <span class="op">=</span> (</span>
 <span id="cb6-3"><a></a>    pd.get_dummies(</span>
 <span id="cb6-4"><a></a>        np.maximum(</span>
@@ -1519,7 +1348,7 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
 <span id="cb6-32"><a></a>endog <span class="op">=</span> ar_factor_days.loc[:, <span class="st">"value"</span>]</span>
 <span id="cb6-33"><a></a></span>
 <span id="cb6-34"><a></a><span class="co"># View</span></span>
-<span id="cb6-35"><a></a>ar_factor_days.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-35"><a></a>ar_factor_days.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <div>
@@ -1537,7 +1366,7 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
     }
 </style>
 
-<table class="dataframe caption-top" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top" data-border="1">
 <thead>
 <tr class="header" style="text-align: right;">
 <th data-quarto-table-cell-role="th"></th>
@@ -1556,10 +1385,10 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
+<th data-quarto-table-cell-role="th">0</th>
 <td>2023-02-27</td>
 <td>ALLY</td>
-<td>-2.330213</td>
+<td>-2.330214</td>
 <td>False</td>
 <td>False</td>
 <td>False</td>
@@ -1570,10 +1399,10 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
 <td>False</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
+<th data-quarto-table-cell-role="th">1</th>
 <td>2023-02-28</td>
 <td>ALLY</td>
-<td>2.108647</td>
+<td>2.108662</td>
 <td>False</td>
 <td>False</td>
 <td>False</td>
@@ -1584,10 +1413,10 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
 <td>False</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
+<th data-quarto-table-cell-role="th">2</th>
 <td>2023-03-01</td>
 <td>ALLY</td>
-<td>0.247488</td>
+<td>0.247482</td>
 <td>False</td>
 <td>False</td>
 <td>False</td>
@@ -1598,10 +1427,10 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
 <td>False</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
+<th data-quarto-table-cell-role="th">3</th>
 <td>2023-03-02</td>
 <td>ALLY</td>
-<td>-0.029403</td>
+<td>-0.029412</td>
 <td>False</td>
 <td>False</td>
 <td>False</td>
@@ -1612,10 +1441,10 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
 <td>False</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
+<th data-quarto-table-cell-role="th">4</th>
 <td>2023-03-03</td>
 <td>ALLY</td>
-<td>-1.057670</td>
+<td>-1.057680</td>
 <td>False</td>
 <td>False</td>
 <td>False</td>
@@ -1638,38 +1467,38 @@ Figure&nbsp;1: Averages of abnormal returns with 95% pointwise confidence interv
 <section id="event-study-ols" class="slide level4 scrollable">
 <h4>Event Study OLS</h4>
 <p>Can now apply the event study estimator</p>
-<div id="240e1ef0" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>factor_model <span class="op">=</span> sm.OLS(endog, exog).fit(cov_type<span class="op">=</span><span class="st">"HC0"</span>)</span>
-<span id="cb7-2"><a></a><span class="bu">print</span>(factor_model.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d7a77a81" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a>factor_model <span class="op">=</span> sm.OLS(endog, exog).fit(cov_type<span class="op">=</span><span class="st">"HC0"</span>)</span>
+<span id="cb7-2"><a></a><span class="bu">print</span>(factor_model.summary())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
-Dep. Variable:                  value   R-squared:                       0.253
-Model:                            OLS   Adj. R-squared:                  0.247
-Method:                 Least Squares   F-statistic:                     25.25
-Date:                Tue, 03 Jun 2025   Prob (F-statistic):           1.50e-35
-Time:                        21:43:26   Log-Likelihood:                -2430.0
-No. Observations:                 975   AIC:                             4878.
-Df Residuals:                     966   BIC:                             4922.
+Dep. Variable:                  value   R-squared:                       0.248
+Model:                            OLS   Adj. R-squared:                  0.242
+Method:                 Least Squares   F-statistic:                     23.25
+Date:                Sat, 25 Jul 2026   Prob (F-statistic):           1.48e-32
+Time:                        20:21:06   Log-Likelihood:                -2280.3
+No. Observations:                 915   AIC:                             4579.
+Df Residuals:                     906   BIC:                             4622.
 Df Model:                           8                                         
 Covariance Type:                  HC0                                         
 ==============================================================================
                  coef    std err          z      P&gt;|z|      [0.025      0.975]
 ------------------------------------------------------------------------------
-const         -0.3726      0.063     -5.946      0.000      -0.495      -0.250
-day_1          0.1577      0.130      1.212      0.225      -0.097       0.413
-day_2         -2.2013      0.255     -8.617      0.000      -2.702      -1.701
-day_3         -0.3894      0.417     -0.933      0.351      -1.208       0.429
-day_6         -5.3649      0.966     -5.551      0.000      -7.259      -3.471
-day_7          1.7937      0.510      3.516      0.000       0.794       2.794
-day_8          1.5680      0.420      3.734      0.000       0.745       2.391
-day_9          1.6477      0.349      4.715      0.000       0.963       2.333
-day_10        -1.5878      0.254     -6.240      0.000      -2.087      -1.089
+const         -0.3707      0.065     -5.676      0.000      -0.499      -0.243
+day_1          0.0952      0.131      0.724      0.469      -0.162       0.353
+day_2         -2.2037      0.269     -8.203      0.000      -2.730      -1.677
+day_3         -0.4179      0.441     -0.948      0.343      -1.282       0.446
+day_6         -5.2472      0.982     -5.343      0.000      -7.172      -3.322
+day_7          1.8283      0.540      3.388      0.001       0.771       2.886
+day_8          1.5295      0.436      3.508      0.000       0.675       2.384
+day_9          1.6865      0.362      4.661      0.000       0.977       2.396
+day_10        -1.6012      0.262     -6.118      0.000      -2.114      -1.088
 ==============================================================================
-Omnibus:                      714.350   Durbin-Watson:                   1.914
-Prob(Omnibus):                  0.000   Jarque-Bera (JB):            46544.044
-Skew:                          -2.701   Prob(JB):                         0.00
-Kurtosis:                      36.414   Cond. No.                         5.88
+Omnibus:                      677.317   Durbin-Watson:                   1.920
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):            47267.035
+Skew:                          -2.709   Prob(JB):                         0.00
+Kurtosis:                      37.791   Cond. No.                         5.88
 ==============================================================================
 
 Notes:
@@ -1691,10 +1520,10 @@ Notes:
 </section>
 <section id="computing-cumulative-effects" class="slide level4 scrollable">
 <h4>Computing Cumulative Effects</h4>
-<div id="cd5e9c7e" class="cell" data-execution_count="10">
+<div id="f69476a0" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Expand to see computation of cumulative effects</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a><span class="co"># Extract coefs and SEs of daily indicators</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a><span class="co"># Extract coefs and SEs of daily indicators</span></span>
 <span id="cb9-2"><a></a>dummy_coefficients <span class="op">=</span> factor_model.params.iloc[<span class="dv">1</span>:]  </span>
 <span id="cb9-3"><a></a>dummy_cov_matrix <span class="op">=</span> factor_model.cov_params().iloc[<span class="dv">1</span>:, <span class="dv">1</span>:]  </span>
 <span id="cb9-4"><a></a></span>
@@ -1742,20 +1571,20 @@ Notes:
 <span id="cb9-46"><a></a>results.index <span class="op">=</span> abnormal_returns_mean.index[<span class="dv">6</span>:]</span>
 <span id="cb9-47"><a></a></span>
 <span id="cb9-48"><a></a><span class="co"># Print the results</span></span>
-<span id="cb9-49"><a></a><span class="bu">print</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-49"><a></a><span class="bu">print</span>(results)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>           Day  Cumulative Effect        SE  ci_upper  ci_lower
-Date                                                           
-2023-03-07   0           0.000000  0.000000  0.000000  0.000000
-2023-03-08   1           0.157667  0.130041  0.412547 -0.097214
-2023-03-09   2          -2.043600  0.300032 -1.455537 -2.631663
-2023-03-10   3          -2.433043  0.529120 -1.395969 -3.470118
-2023-03-13   6          -7.797965  1.112404 -5.617653 -9.978276
-2023-03-14   7          -6.004275  1.236561 -3.580615 -8.427934
-2023-03-15   8          -4.436275  1.320873 -1.847363 -7.025187
-2023-03-16   9          -2.788575  1.383458 -0.076997 -5.500153
-2023-03-17  10          -4.376384  1.426063 -1.581301 -7.171467</code></pre>
+<pre><code>           Day  Cumulative Effect        SE  ci_upper   ci_lower
+Date                                                            
+2023-03-07   0           0.000000  0.000000  0.000000   0.000000
+2023-03-08   1           0.095154  0.131351  0.352602  -0.162293
+2023-03-09   2          -2.108530  0.312971 -1.495105  -2.721954
+2023-03-10   3          -2.526404  0.556182 -1.436288  -3.616520
+2023-03-13   6          -7.773584  1.139856 -5.539467 -10.007701
+2023-03-14   7          -5.945266  1.274581 -3.447086  -8.443445
+2023-03-15   8          -4.415774  1.362821 -1.744646  -7.086902
+2023-03-16   9          -2.729295  1.428072  0.069726  -5.528316
+2023-03-17  10          -4.330466  1.472276 -1.444804  -7.216127</code></pre>
 </div>
 </div>
 <div class="footer">
@@ -1764,11 +1593,11 @@ Date
 </section>
 <section id="visualizing-cumulative-effects" class="slide level4">
 <h4>Visualizing Cumulative Effects</h4>
-<div id="815c1ca3" class="cell" data-execution_count="11">
+<div id="8c2a36bd" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="event-studies_files/figure-revealjs/cell-12-output-1.png" width="1110" height="457"></p>
+<p><img data-src="event-studies_files/figure-revealjs/cell-12-output-1.png" width="1111" height="459"></p>
 </figure>
 </div>
 </div>
@@ -1780,12 +1609,12 @@ Date
 <p><br></p>
 <div class="fragment">
 <p>Use Wald test:</p>
-<div id="d766f082" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>R <span class="op">=</span> np.concatenate( (np.zeros((<span class="dv">8</span>, <span class="dv">1</span>)), np.eye(<span class="bu">len</span>(factor_model.params)<span class="op">-</span><span class="dv">1</span>)), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<div id="5ff6c871" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>R <span class="op">=</span> np.concatenate( (np.zeros((<span class="dv">8</span>, <span class="dv">1</span>)), np.eye(<span class="bu">len</span>(factor_model.params)<span class="op">-</span><span class="dv">1</span>)), axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb11-2"><a></a>wald_results <span class="op">=</span> factor_model.wald_test(R,  scalar<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb11-3"><a></a><span class="bu">print</span>(wald_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-3"><a></a><span class="bu">print</span>(wald_results)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;Wald test (chi2): statistic=201.9941090663214, p-value=2.428142693838067e-39, df_denom=8&gt;</code></pre>
+<pre><code>&lt;Wald test (chi2): statistic=185.9943515563997, p-value=5.664758148485538e-36, df_denom=8&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -1824,15 +1653,15 @@ Date
 </section>
 <section id="references-1" class="slide level4 allowframebreaks smaller scrollable" data-visibility="uncounted">
 <h4>References</h4>
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-Fama2014TwoPillarsAsset" class="csl-entry" role="listitem">
 Fama, Eugene F. 2014. <span>“Two <span>Pillars</span> of <span>Asset Pricing</span>.”</span> <em>American Economic Review</em> 104 (6): 1467–85. <a href="https://doi.org/10.1257/aer.104.6.1467">https://doi.org/10.1257/aer.104.6.1467</a>.
 </div>
 <div id="ref-Freyaldenhoven2021VisualizationIdentificationEstimation" class="csl-entry" role="listitem">
-Freyaldenhoven, Simon, Christian Hansen, Jorge Pérez Pérez, and Jesse Shapiro. 2021. <span>“Visualization, <span>Identification</span>, and <span>Estimation</span> in the <span>Linear Panel Event-Study Design</span>.”</span> w29170. Cambridge, MA: National Bureau of Economic Research. <a href="https://doi.org/10.3386/w29170">https://doi.org/10.3386/w29170</a>.
+Freyaldenhoven, Simon, Christian Hansen, Jorge Pérez Pérez, and Jesse Shapiro. 2021. <em>Visualization, <span>Identification</span>, and <span>Estimation</span> in the <span>Linear Panel Event-Study Design</span></em>. No. w29170. National Bureau of Economic Research. <a href="https://doi.org/10.3386/w29170">https://doi.org/10.3386/w29170</a>.
 </div>
 <div id="ref-Huntington-Klein2025EffectIntroductionResearch" class="csl-entry" role="listitem">
-Huntington-Klein, Nick. 2025. <em>The <span>Effect</span>: <span>An Introduction</span> to <span>Research Design</span> and <span>Causality</span></em>. S.l.: <span>Chapman and Hall/CRC</span>.
+Huntington-Klein, Nick. 2025. <em>The <span>Effect</span>: <span>An Introduction</span> to <span>Research Design</span> and <span>Causality</span></em>. <span>Chapman and Hall/CRC</span>.
 </div>
 <div id="ref-MacKinlay1997EventStudiesEconomics" class="csl-entry" role="listitem">
 MacKinlay, A. Craig. 1997. <span>“Event <span>Studies</span> in <span>Economics</span> and <span>Finance</span>.”</span> <em>Journal of Economic Literature</em> 35 (1): 13–39.
@@ -2075,190 +1904,173 @@ Miller, Douglas L. 2023. <span>“An <span>Introductory Guide</span> to <span>Ev
       });
     </script>
     <script id="quarto-html-after-body" type="application/javascript">
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-      const toggleBodyColorMode = (bsSheetEl) => {
-        const mode = bsSheetEl.getAttribute("data-mode");
-        const bodyEl = window.document.querySelector("body");
-        if (mode === "dark") {
-          bodyEl.classList.add("quarto-dark");
-          bodyEl.classList.remove("quarto-light");
-        } else {
-          bodyEl.classList.add("quarto-light");
-          bodyEl.classList.remove("quarto-dark");
-        }
-      }
-      const toggleBodyColorPrimary = () => {
-        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-        if (bsSheetEl) {
-          toggleBodyColorMode(bsSheetEl);
-        }
-      }
-      toggleBodyColorPrimary();  
-      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
-      tabsets.forEach(function(tabset) {
-        const tabby = new Tabby('#' + tabset.id);
-      });
-      const isCodeAnnotation = (el) => {
-        for (const clz of el.classList) {
-          if (clz.startsWith('code-annotation-')) {                     
-            return true;
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
           }
+          return false;
         }
-        return false;
-      }
-      const onCopySuccess = function(e) {
-        // button target
-        const button = e.trigger;
-        // don't keep focus
-        button.blur();
-        // flash "checked"
-        button.classList.add('code-copy-button-checked');
-        var currentTitle = button.getAttribute("title");
-        button.setAttribute("title", "Copied!");
-        let tooltip;
-        if (window.bootstrap) {
-          button.setAttribute("data-bs-toggle", "tooltip");
-          button.setAttribute("data-bs-placement", "left");
-          button.setAttribute("data-bs-title", "Copied!");
-          tooltip = new bootstrap.Tooltip(button, 
-            { trigger: "manual", 
-              customClass: "code-copy-button-tooltip",
-              offset: [0, -8]});
-          tooltip.show();    
-        }
-        setTimeout(function() {
-          if (tooltip) {
-            tooltip.hide();
-            button.removeAttribute("data-bs-title");
-            button.removeAttribute("data-bs-toggle");
-            button.removeAttribute("data-bs-placement");
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
           }
-          button.setAttribute("title", currentTitle);
-          button.classList.remove('code-copy-button-checked');
-        }, 1000);
-        // clear code selection
-        e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
           for (const childEl of codeEl.children) {
             if (isCodeAnnotation(childEl)) {
               childEl.remove();
             }
           }
           return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
-      });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
-        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-        var mailtoRegex = new RegExp(/^mailto:/);
-          var filterRegex = new RegExp("https:\/\/vladislav-morozov\.github\.io\/econometrics-2\/");
-        var isInternal = (href) => {
-            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
-        // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-        for (var i=0; i<links.length; i++) {
-          const link = links[i];
-          if (!isInternal(link.href)) {
-            // undo the damage that might have been done by quarto-nav.js in the case of
-            // links that we want to consider external
-            if (link.dataset.originalHref !== undefined) {
-              link.href = link.dataset.originalHref;
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/vladislav-morozov\.eu\/econometrics-2\/");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
             }
           }
-        }
-      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-        const config = {
-          allowHTML: true,
-          maxWidth: 500,
-          delay: 100,
-          arrow: false,
-          appendTo: function(el) {
-              return el.closest('section.slide') || el.parentElement;
-          },
-          interactive: true,
-          interactiveBorder: 10,
-          theme: 'light-border',
-          placement: 'bottom-start',
-        };
-        if (contentFn) {
-          config.content = contentFn;
-        }
-        if (onTriggerFn) {
-          config.onTrigger = onTriggerFn;
-        }
-        if (onUntriggerFn) {
-          config.onUntrigger = onUntriggerFn;
-        }
-          config['offset'] = [0,0];
-          config['maxWidth'] = 700;
-        window.tippy(el, config); 
-      }
-      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-      for (var i=0; i<noterefs.length; i++) {
-        const ref = noterefs[i];
-        tippyHover(ref, function() {
-          // use id or data attribute instead here
-          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-          try { href = new URL(href).hash; } catch {}
-          const id = href.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note) {
-            return note.innerHTML;
-          } else {
-            return "";
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
           }
-        });
-      }
-      const findCites = (el) => {
-        const parentEl = el.parentElement;
-        if (parentEl) {
-          const cites = parentEl.dataset.cites;
-          if (cites) {
-            return {
-              el,
-              cites: cites.split(' ')
-            };
-          } else {
-            return findCites(el.parentElement)
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
           }
-        } else {
-          return undefined;
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
         }
-      };
-      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-      for (var i=0; i<bibliorefs.length; i++) {
-        const ref = bibliorefs[i];
-        const citeInfo = findCites(ref);
-        if (citeInfo) {
-          tippyHover(citeInfo.el, function() {
-            var popup = window.document.createElement('div');
-            citeInfo.cites.forEach(function(cite) {
-              var citeDiv = window.document.createElement('div');
-              citeDiv.classList.add('hanging-indent');
-              citeDiv.classList.add('csl-entry');
-              var biblioDiv = window.document.getElementById('ref-' + cite);
-              if (biblioDiv) {
-                citeDiv.innerHTML = biblioDiv.innerHTML;
-              }
-              popup.appendChild(citeDiv);
-            });
-            return popup.innerHTML;
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
           });
         }
-      }
-    });
-    </script>
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
     
 
 </body></html>

@@ -35,149 +35,178 @@
   --quarto-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
+/* syntax highlight based on Pandoc's rules */
+/* Alert */
 code span.al {
   color: #ef2929;
   font-style: inherit;
 }
 
+/* Annotation */
 code span.an {
   color: #8f5902;
   font-weight: bold;
   font-style: italic;
 }
 
+/* Attribute */
 code span.at {
   color: #204a87;
   font-style: inherit;
 }
 
+/* BaseN */
 code span.bn {
   color: #0000cf;
   font-style: inherit;
 }
 
-code span.ch {
-  color: #4e9a06;
-  font-style: inherit;
-}
-
-code span.co {
-  color: #8f5902;
-  font-style: italic;
-}
-
-code span.cv {
-  color: #8f5902;
-  font-weight: bold;
-  font-style: italic;
-}
-
-code span.cn {
-  color: #8f5902;
-  font-style: inherit;
-}
-
+/* ControlFlow */
 code span.cf {
   color: #204a87;
   font-weight: bold;
   font-style: inherit;
 }
 
-code span.dt {
-  color: #204a87;
+/* Char */
+code span.ch {
+  color: #4e9a06;
   font-style: inherit;
 }
 
-code span.dv {
-  color: #0000cf;
+/* Constant */
+code span.cn {
+  color: #8f5902;
   font-style: inherit;
 }
 
+/* Comment */
+code span.co {
+  color: #8f5902;
+  font-style: italic;
+}
+
+/* CommentVar */
+code span.cv {
+  color: #8f5902;
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* Documentation */
 code span.do {
   color: #8f5902;
   font-weight: bold;
   font-style: italic;
 }
 
+/* DataType */
+code span.dt {
+  color: #204a87;
+  font-style: inherit;
+}
+
+/* DecVal */
+code span.dv {
+  color: #0000cf;
+  font-style: inherit;
+}
+
+/* Error */
 code span.er {
   color: #a40000;
   font-weight: bold;
   font-style: inherit;
 }
 
+/* Extension */
 code span.ex {
   font-style: inherit;
 }
 
+/* Float */
 code span.fl {
   color: #0000cf;
   font-style: inherit;
 }
 
+/* Function */
 code span.fu {
   color: #204a87;
   font-weight: bold;
   font-style: inherit;
 }
 
+/* Import */
 code span.im {
   font-style: inherit;
 }
 
+/* Information */
 code span.in {
   color: #8f5902;
   font-weight: bold;
   font-style: italic;
 }
 
+/* Keyword */
 code span.kw {
   color: #204a87;
   font-weight: bold;
   font-style: inherit;
 }
 
+/* Operator */
 code span.op {
   color: #ce5c00;
   font-weight: bold;
   font-style: inherit;
 }
 
+/* Other */
 code span.ot {
   color: #8f5902;
   font-style: inherit;
 }
 
+/* Preprocessor */
 code span.pp {
   color: #8f5902;
   font-style: italic;
 }
 
+/* SpecialChar */
 code span.sc {
   color: #ce5c00;
   font-weight: bold;
   font-style: inherit;
 }
 
+/* SpecialString */
 code span.ss {
   color: #4e9a06;
   font-style: inherit;
 }
 
+/* String */
 code span.st {
   color: #4e9a06;
   font-style: inherit;
 }
 
+/* Variable */
 code span.va {
   color: #000000;
   font-style: inherit;
 }
 
+/* VerbatimString */
 code span.vs {
   color: #4e9a06;
   font-style: inherit;
 }
 
+/* Warning */
 code span.wa {
   color: #8f5902;
   font-weight: bold;
@@ -188,4 +217,4 @@ code span.wa {
   content: "</";
 }
 
-/*# sourceMappingURL=bb3e0bc0a6cb02fb117f6cc193cb3537.css.map */
+/*# sourceMappingURL=13b88718146bf2aaf0c045591317ce62.css.map */
